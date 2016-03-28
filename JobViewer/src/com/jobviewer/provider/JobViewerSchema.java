@@ -1,5 +1,6 @@
 package com.jobviewer.provider;
 
+import com.jobviewer.provider.JobViewerProviderContract.BackLogTable;
 import com.jobviewer.provider.JobViewerProviderContract.CheckOutRemember;
 import com.jobviewer.provider.JobViewerProviderContract.Image;
 import com.jobviewer.provider.JobViewerProviderContract.QuestionSetTable;
@@ -16,6 +17,7 @@ public interface JobViewerSchema {
 	public static final String TABLE_IMAGE = "Images";
 	public static final String TABLE_CHECK_OUT_REMEMBER = "CheckOutRemember";
 	public static final String TABLE_QUESTION_SET = "QuestionSetTable";
+	public static final String TABLE_BACK_LOG = "BackLogTable";
 
 	public static final String CREATE_TABLE_USER = "create table " + TABLE_USER
 			+ "(" + User._ID + " integer primary key autoincrement,"
@@ -71,8 +73,17 @@ public interface JobViewerSchema {
 			+ " text,"
 			+ CheckOutRemember.CLOCKIN_CHECKOUT_SELECTED_TEXT + " text);";
 
-	public static final String CREATE_TABLE_QUESTION_SET = "create table " + TABLE_QUESTION_SET
-			+ "(" + QuestionSetTable._ID + " integer primary key autoincrement,"
-			+ QuestionSetTable.WORK_TYPE + " text," + QuestionSetTable.QUESTION_SET + " text,"
+	public static final String CREATE_TABLE_QUESTION_SET = "create table "
+			+ TABLE_QUESTION_SET + "(" + QuestionSetTable._ID
+			+ " integer primary key autoincrement,"
+			+ QuestionSetTable.WORK_TYPE + " text,"
+			+ QuestionSetTable.QUESTION_SET + " text,"
 			+ QuestionSetTable.BACK_STACK + " text);";
+
+	public static final String CREATE_TABLE_BACK_LOG = "create table "
+			+ TABLE_BACK_LOG + "(" + QuestionSetTable._ID
+			+ " integer primary key autoincrement," + BackLogTable.REQUEST_TYPE
+			+ " text," + BackLogTable.REQUEST_JSON + " text,"
+			+ BackLogTable.REQUEST_API + " text,"
+			+ BackLogTable.REQUEST_CLASS_NAME + " text);";
 }

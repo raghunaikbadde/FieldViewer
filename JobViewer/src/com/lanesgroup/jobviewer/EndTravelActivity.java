@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
@@ -24,6 +25,7 @@ import com.jobviewer.util.Utils;
 import com.jobviewer.util.showTimeDialog;
 import com.jobviewer.util.showTimeDialog.DialogCallback;
 import com.jobviwer.request.object.TimeSheetRequest;
+import com.raghu.TimeSheetServiceRequests;
 import com.vehicle.communicator.HttpConnection;
 
 public class EndTravelActivity extends BaseActivity implements
@@ -108,6 +110,8 @@ public class EndTravelActivity extends BaseActivity implements
 							CommsConstant.END_TRAVEL_API);
 					executeEndTravelService();
 				} else {
+					Utils.saveTimeSheetInBackLogTable(EndTravelActivity.this,Utils.endTimeRequest,CommsConstant.END_TRAVEL_API,Utils.REQUEST_TYPE_WORK);
+					//savePaidEndTravelinBackLogDb();
 					JobViewerDBHandler.saveTimeSheet(this,
 							Utils.endTimeRequest, CommsConstant.HOST
 									+ CommsConstant.END_TRAVEL_API);
@@ -125,8 +129,11 @@ public class EndTravelActivity extends BaseActivity implements
 				JobViewerDBHandler.saveTimeSheet(this, Utils.timeSheetRequest,
 						CommsConstant.HOST + CommsConstant.END_BREAK_API);
 				JobViewerDBHandler.getAllTimeSheet(mContext);
+				
+				Utils.saveTimeSheetInBackLogTable(EndTravelActivity.this,Utils.timeSheetRequest,CommsConstant.END_BREAK_API,Utils.REQUEST_TYPE_WORK);
+				
 				Intent intent = new Intent(this, ActivityPageActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);				
 				startActivity(intent);
 			} else {
 				executeEndBreakService();
@@ -215,6 +222,8 @@ public class EndTravelActivity extends BaseActivity implements
 				checkOutRemember.setIsTravelEnd("true");
 				JobViewerDBHandler.saveCheckOutRemember(mContext,
 						checkOutRemember);
+				Utils.saveTimeSheetInBackLogTable(EndTravelActivity.this,Utils.endTimeRequest,CommsConstant.END_TRAVEL_API,Utils.REQUEST_TYPE_WORK);
+				//savePaidEndTravelinBackLogDb();
 				Intent intent = new Intent(this, NewWorkActivity.class);
 				startActivity(intent);
 			}
@@ -244,6 +253,7 @@ public class EndTravelActivity extends BaseActivity implements
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
 					ExceptionHandler.showException(mContext, exception, "Info");
+					Utils.saveTimeSheetInBackLogTable(EndTravelActivity.this,Utils.endTimeRequest,CommsConstant.END_TRAVEL_API,Utils.REQUEST_TYPE_WORK);
 					break;
 				default:
 					break;
@@ -284,4 +294,5 @@ public class EndTravelActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 
 	}
+
 }

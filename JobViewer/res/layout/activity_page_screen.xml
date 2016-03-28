@@ -143,12 +143,12 @@
                 android:layout_marginTop="@dimen/dialog_edit_top_margin35" >
 
                 <Button
-                    android:id="@+id/start_break"
+                    android:id="@+id/start_travel"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/start_break_button_height168"
                     android:layout_weight="20"
                     android:background="@drawable/imagebutton"
-                    android:text="@string/start_break"
+                    android:text="@string/start_travel"
                     android:textAllCaps="false" />
 
                 <Button

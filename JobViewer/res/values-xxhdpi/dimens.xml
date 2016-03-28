@@ -107,6 +107,7 @@
     
     <dimen name="template_spacing15">5dp</dimen>
     <dimen name="email_top_margin21">7dp</dimen>
+    <dimen name="template_spacing27">9dp</dimen>
     <dimen name="shift_complete_spacing12">4dp</dimen>
     <dimen name="dialog_text_width510">170dp</dimen>
     <dimen name="button_top_margin345">115dp</dimen>

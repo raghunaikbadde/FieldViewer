@@ -18,12 +18,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BackLogRequest;
+import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.provider.JobViewerProviderContract.CheckOutRemember;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
+import com.raghu.VehicleCheckInOut;
 import com.vehicle.communicator.HttpConnection;
 
 public class CheckoutVehicleActivity extends BaseActivity implements
@@ -120,7 +124,7 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 	}
 
 	private void enableNextAction() {
-		mNext.setBackground(ResourcesCompat.getDrawable(getResources(),
+		mNext.setBackgroundDrawable(ResourcesCompat.getDrawable(getResources(),
 				R.drawable.red_background, null));
 		mNext.setOnClickListener(this);
 	}
@@ -130,7 +134,20 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 		if (view == mBack) {
 			finish();
 		} else if (view == mNext) {
-			excuteCheckOutVehicle();
+			if(Utils.isInternetAvailable(view.getContext())){
+				excuteCheckOutVehicle();
+			} else {
+				saveVechicleCheckOutInDB();
+				JobViewerDBHandler.saveCheckOutRemember(CheckoutVehicleActivity.this,
+						Utils.checkOutObject);
+				Intent intent = new Intent(CheckoutVehicleActivity.this,
+						ClockInConfirmationActivity.class);
+				intent.putExtra(Utils.CALLING_ACTIVITY,
+						CheckoutVehicleActivity.this.getClass()
+								.getSimpleName());
+				startActivity(intent);
+				//finish();
+			}
 			/*
 			 * Intent intent = new Intent(CheckoutVehicleActivity.this,
 			 * ClockInConfirmationActivity.class);
@@ -175,6 +192,7 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
 					ExceptionHandler.showException(context, exception, "Info");
+					saveVechicleCheckOutInDB();
 					break;
 
 				default:
@@ -183,5 +201,21 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 			}
 		};
 		return handler;
+	}
+	public void saveVechicleCheckOutInDB(){
+		User userProfile = JobViewerDBHandler
+				.getUserProfile(CheckoutVehicleActivity.this);
+		VehicleCheckInOut vehicleCheckInOut = new VehicleCheckInOut();
+		vehicleCheckInOut.setStarted_at(Utils.getCurrentDateAndTime());
+		vehicleCheckInOut.setRecord_for(userProfile.getEmail());
+		vehicleCheckInOut.setRegistration(mRegistration.getText().toString());
+		vehicleCheckInOut.setMileage(mMileage.getText().toString());
+		vehicleCheckInOut.setUser_id(userProfile.getEmail());
+		BackLogRequest backLogRequest = new BackLogRequest();
+		backLogRequest.setRequestApi(CommsConstant.HOST+CommsConstant.CHECKOUT_VEHICLE);
+		backLogRequest.setRequestClassName("VehicleCheckInOut");
+		backLogRequest.setRequestJson(vehicleCheckInOut.toString());
+		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
+		JobViewerDBHandler.saveBackLog(getApplicationContext(), backLogRequest);
 	}
 }

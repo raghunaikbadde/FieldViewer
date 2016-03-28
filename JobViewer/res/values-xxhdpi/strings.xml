@@ -253,5 +253,8 @@
         <item>11</item>
         <item>12</item>
     </string-array>
-
+	<!--Raghu Strings -->
+    <string name="your_travel_start_time">Your travel start time will be logged as:</string>
+    <string name="your_travel_end_time">Your travel end time will be logged as:</string>
+    <string name="capture_calling_Card">Capture Image Of an Calling Card</string>
 </resources>

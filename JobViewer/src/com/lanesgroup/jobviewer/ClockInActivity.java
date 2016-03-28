@@ -92,7 +92,7 @@ public class ClockInActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void enableNextClick() {
-		mNext.setBackground(ResourcesCompat.getDrawable(getResources(),
+		mNext.setBackgroundDrawable(ResourcesCompat.getDrawable(getResources(),
 				R.drawable.red_background, null));
 		mNext.setOnClickListener(this);
 	}

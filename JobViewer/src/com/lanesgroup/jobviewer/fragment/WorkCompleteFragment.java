@@ -16,6 +16,7 @@ import com.jobviewer.util.Constants;
 import com.lanesgroup.jobviewer.CaptureVistecActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.RiskAssessmentActivity;
+import com.lanesgroup.jobviewer.WorkSuccessActivity;
 
 public class WorkCompleteFragment extends Fragment implements OnClickListener{
 	
@@ -34,8 +35,14 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener{
 				Bundle savedInstanceState) {
 			mRootView = inflater.inflate(R.layout.work_complete_screen, container,
 					false); 
-			//initUI();
+			
 			return mRootView;
+		}
+		@Override
+		public void onActivityCreated(Bundle savedInstanceState) {
+			// TODO Auto-generated method stub=
+			super.onActivityCreated(savedInstanceState);
+			initUI();
 		}
 		private void initUI() {
 			mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
@@ -43,8 +50,8 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener{
 			mAddInfo = (ImageButton) mRootView.findViewById(R.id.detail_imageButton);
 			mStop = (ImageButton) mRootView.findViewById(R.id.video_imageButton);
 			mUser = (ImageButton) mRootView.findViewById(R.id.user_imageButton);
-			mClickPhoto = (ImageButton) mRootView.findViewById(R.id.capture_imageButton);
-			mClickPhoto.setOnClickListener(this);
+			//mClickPhoto = (ImageButton) mRootView.findViewById(R.id.capture_imageButton);
+			//mClickPhoto.setOnClickListener(this);
 			mSave = (Button) mRootView.findViewById(R.id.button1);
 			mLeaveSite = (Button) mRootView.findViewById(R.id.button2);
 			mLeaveSite.setOnClickListener(this);
@@ -54,7 +61,10 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener{
 			if(view == mSave){
 				
 			}else if(view == mLeaveSite){
-				
+				//Upload Photos here// if calling card available
+				Intent workSuccessIntent = new Intent(getActivity(),WorkSuccessActivity.class);
+				workSuccessIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(workSuccessIntent);				
 			}else if(view == mClickPhoto){
 				Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);
 				startActivityForResult(intent, Constants.RESULT_CODE);

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width920"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/dialog_info"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_header_height242"
+        android:background="@drawable/dialog_header_background"
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingLeft="@dimen/black_lato_regular_small55"
+        android:paddingRight="@dimen/black_lato_regular_small55"
+        android:text="@string/break_start"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dialog_detail_top_margin80" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dialog_detail_bottom_margin95"
+            android:layout_marginTop="@dimen/dialog_detail_top_margin80" >
+
+            <ImageView
+                android:id="@+id/info_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                android:layout_marginRight="@dimen/white_lato_regular_small40"
+                android:gravity="center_vertical"
+                android:src="@drawable/info_image" />
+
+            <TextView
+                android:id="@+id/your_break_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/white_lato_regular_small40"
+                android:gravity="center_vertical"
+                android:text="@string/your_travel_start_time"
+                android:textColor="@color/black"
+                android:textSize="@dimen/black_lato_regular_small55" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/white_lato_regular_small40"
+            android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/tmp_date_time"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dialog_clock_icon_left_right_margin40" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/screen_border_margin80"
+            android:layout_marginTop="@dimen/dialog_detail_bottom_margin95" >
+
+            <CheckBox
+                android:id="@+id/checkBox1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                android:layout_marginRight="@dimen/white_lato_regular_small40" 
+                android:text="@string/check_here_if_you_need"
+                android:textColor="@color/black"
+                android:button="@drawable/checkbox_selector"
+                android:paddingLeft="@dimen/template_spacing15"
+                android:textSize="@dimen/white_lato_regular_small40"/>
+
+            <!-- <TextView
+                android:id="@+id/check_here_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/check_here_if_you_need"
+                android:textColor="@color/black"
+                android:textSize="@dimen/white_lato_regular_small40" /> -->
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_button_height152"
+        android:layout_below="@id/dialog_info" >
+
+        <Button
+            android:id="@+id/dialog_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_grey_button"
+            android:text="@string/cancel"
+            android:textColor="@color/lighter_grey"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+        <Button
+            android:id="@+id/dialog_ok"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_red_button"
+            android:text="@string/confirm"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+    </LinearLayout>
+
+</LinearLayout>

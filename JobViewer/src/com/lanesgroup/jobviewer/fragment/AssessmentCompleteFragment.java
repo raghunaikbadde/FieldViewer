@@ -3,6 +3,7 @@ package com.lanesgroup.jobviewer.fragment;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.util.ActivityConstants;
+import com.lanesgroup.jobviewer.AddPhotosActivity;
 import com.lanesgroup.jobviewer.PollutionActivity;
 import com.lanesgroup.jobviewer.R;
 
@@ -54,6 +55,10 @@ public class AssessmentCompleteFragment extends Fragment implements
 				.getIsPollutionSelected())) {
 			Intent pollutionIntent = new Intent(getActivity(),
 					PollutionActivity.class);
+			startActivity(pollutionIntent);
+		} else {
+			Intent pollutionIntent = new Intent(getActivity(),
+					AddPhotosActivity.class);
 			startActivity(pollutionIntent);
 		}
 

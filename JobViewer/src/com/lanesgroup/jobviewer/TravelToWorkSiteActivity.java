@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
@@ -23,6 +24,7 @@ import com.jobviewer.util.Utils;
 import com.jobviewer.util.showTimeDialog;
 import com.jobviewer.util.showTimeDialog.DialogCallback;
 import com.jobviwer.request.object.TimeSheetRequest;
+import com.raghu.TimeSheetServiceRequests;
 import com.vehicle.communicator.HttpConnection;
 
 public class TravelToWorkSiteActivity extends BaseActivity implements
@@ -116,9 +118,12 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 				&& resultCode == RESULT_OK) {
 
 			if (!Utils.isInternetAvailable(this)) {
-				JobViewerDBHandler.saveTimeSheet(this, Utils.timeSheetRequest,
+				JobViewerDBHandler.saveTimeSheet(this, Utils.startTravelTimeRequest,
 						CommsConstant.START_TRAVEL_API);
 				JobViewerDBHandler.getAllTimeSheet(mContext);
+				Utils.saveTimeSheetInBackLogTable(TravelToWorkSiteActivity.this,Utils.startTravelTimeRequest,CommsConstant.START_TRAVEL_API,Utils.REQUEST_TYPE_WORK);
+				//saveStartTravelInBackLogDb();
+				
 				startEndActvity();
 			} else {
 				executeStartTravelService();
@@ -166,6 +171,8 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
 					ExceptionHandler.showException(mContext, exception, "Info");
+					Utils.saveTimeSheetInBackLogTable(TravelToWorkSiteActivity.this,Utils.startTravelTimeRequest,CommsConstant.START_TRAVEL_API,Utils.REQUEST_TYPE_WORK);
+					//saveStartTravelInBackLogDb();
 					break;
 				default:
 					break;
@@ -189,4 +196,5 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 		startActivity(intent);
 
 	}
+	
 }

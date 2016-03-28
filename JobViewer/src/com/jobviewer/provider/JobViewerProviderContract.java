@@ -93,15 +93,15 @@ public class JobViewerProviderContract {
 		public static final String REMEMBER_MY_SELECTION = "rememberMySelection";
 		public static final String JOB_STARTED_TIME = "jobStartedTime";
 		public static final String ASSESSMENT_SELECTED = "assessmentSelected";
-		public static final String ASSESSMENT_REMEMBER_SELECTED="isAssessmentRemember";
+		public static final String ASSESSMENT_REMEMBER_SELECTED = "isAssessmentRemember";
 		public static final String IS_TRAVEL_STARTED = "isStartedTravel";
 		public static final String IS_TRAVEL_END = "isTravelEnd";
 		public static final String IS_POLLUTION_SELECTED = "isPollutionSelected";
 		public static final String VISTEC_ID = "vistecId";
-		public static final String VISTEC_IMAGE_ID="vistecImageId";
-		public static final String IS_ASSESSMENT_COMPLETED="isAssessmentCompleted";
+		public static final String VISTEC_IMAGE_ID = "vistecImageId";
+		public static final String IS_ASSESSMENT_COMPLETED = "isAssessmentCompleted";
 	}
-	
+
 	public static final class QuestionSetTable implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(
 				JobViewerProviderContract.CONTENT_URI, "QuestionSetTable");
@@ -112,9 +112,25 @@ public class JobViewerProviderContract {
 		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
 				+ "/vnd.jobviewer.questionSetTable";
 
-		public static final String WORK_TYPE ="wokType";
-		public static final String QUESTION_SET="questionJson";
-		public static final String BACK_STACK="backStack";
+		public static final String WORK_TYPE = "wokType";
+		public static final String QUESTION_SET = "questionJson";
+		public static final String BACK_STACK = "backStack";
+	}
+
+	public static final class BackLogTable implements BaseColumns {
+		public static final Uri CONTENT_URI = Uri.withAppendedPath(
+				JobViewerProviderContract.CONTENT_URI, "BackLogTable");
+		public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
+				+ "/vnd.jobviewer";
+		public static final String CONTENT_WALLET_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+				+ "/vnd.jobviewer";
+		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+				+ "/vnd.jobviewer.backLogTable";
+
+		public static final String REQUEST_TYPE = "requestType";
+		public static final String REQUEST_JSON = "requestJson";
+		public static final String REQUEST_API = "requestApi";
+		public static final String REQUEST_CLASS_NAME = "requestClassName";
 	}
 
 }

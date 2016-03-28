@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 
 import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.QuestionMaster;
 import com.jobviewer.survey.object.Screen;
@@ -32,22 +33,29 @@ public class QuestionsActivity extends Activity implements
 		setContentView(R.layout.questions_flow_screen);
 		Utils.startService(this);
 		mFragmentManager = getFragmentManager();
-		CheckOutObject checkOutRemember = JobViewerDBHandler
-				.getCheckOutRemember(this);
-		if (checkOutRemember.getAssessmentSelected().equalsIgnoreCase(
-				ActivityConstants.EXCAVATION)) {
-			loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-					"excavation_risk_assessment_survey1.json");
-		} else {
-			loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-					"excavation_risk_assessment_survey1.json");
-		}
-
 		manager = QuestionManager.getInstance();
-		manager.setQuestionMaster(loadJsonFromAssets);
-		Screen firstScreen = manager.getFirstScreen();
-		int questionType = SurveyUtil.getQuestionType(firstScreen.get_type());
-		loadFragment(SurveyUtil.getFragment(questionType));
+		SurveyJson questionSet = JobViewerDBHandler.getQuestionSet(this);
+		if (questionSet != null
+				&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
+			manager.reloadAssessment(questionSet);
+		} else {
+			CheckOutObject checkOutRemember = JobViewerDBHandler
+					.getCheckOutRemember(this);
+			if (checkOutRemember.getAssessmentSelected().equalsIgnoreCase(
+					ActivityConstants.EXCAVATION)) {
+				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
+						"excavation_risk_assessment_survey1.json");
+			} else {
+				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
+						"excavation_risk_assessment_survey1.json");
+			}
+
+			manager.setQuestionMaster(loadJsonFromAssets);
+			Screen firstScreen = manager.getFirstScreen();
+			int questionType = SurveyUtil.getQuestionType(firstScreen
+					.get_type());
+			loadFragment(SurveyUtil.getFragment(questionType));
+		}
 	}
 
 	@Override

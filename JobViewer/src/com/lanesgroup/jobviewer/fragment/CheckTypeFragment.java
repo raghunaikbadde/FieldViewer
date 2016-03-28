@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ProgressBar;
@@ -27,7 +28,7 @@ public class CheckTypeFragment extends Fragment implements OnClickListener {
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep, questionTitle, question, screenTitle;
-	RadioButton radio_yes;
+	CheckBox radio_yes;
 	private Button mCancel, mNext;
 	private View mRootView;
 	Screen currentScreen;
@@ -124,7 +125,7 @@ public class CheckTypeFragment extends Fragment implements OnClickListener {
 		mCancel.setOnClickListener(this);
 		questionTitle = (TextView) mRootView.findViewById(R.id.questionTitle);
 		question = (TextView) mRootView.findViewById(R.id.question);
-		radio_yes = (RadioButton) mRootView.findViewById(R.id.radio_yes);
+		radio_yes = (CheckBox) mRootView.findViewById(R.id.radio_yes);
 		screenTitle = (TextView) mRootView.findViewById(R.id.screenTitle);
 	}
 

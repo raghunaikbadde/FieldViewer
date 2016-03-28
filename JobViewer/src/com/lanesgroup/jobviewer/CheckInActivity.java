@@ -1,6 +1,7 @@
 package com.lanesgroup.jobviewer;
 
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
@@ -8,6 +9,7 @@ import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
+import com.raghu.VehicleCheckInOut;
 import com.vehicle.communicator.HttpConnection;
 
 import android.content.ContentValues;
@@ -76,6 +78,8 @@ public class CheckInActivity extends BaseActivity implements
 
 			}
 		});
+		
+		next_button.setOnClickListener(this);
 	}
 
 	public void enableNextButton(boolean isEnable) {
@@ -98,6 +102,7 @@ public class CheckInActivity extends BaseActivity implements
 			if (Utils.isInternetAvailable(v.getContext())) {
 				executeCheckInService();
 			} else {
+				saveCheckInVehicleInBackLogDB();
 				loadHomeActivity();
 			}
 			break;
@@ -123,11 +128,14 @@ public class CheckInActivity extends BaseActivity implements
 
 	private void loadHomeActivity() {
 		checkOutRemember.setMilage("");
+		
 		JobViewerDBHandler.saveCheckOutRemember(CheckInActivity.this,
 				checkOutRemember);
+		
 		Intent intent = new Intent(CheckInActivity.this,
 				ActivityPageActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		Utils.checkOutObject.setMilage("");
 		startActivity(intent);
 	}
 
@@ -145,6 +153,7 @@ public class CheckInActivity extends BaseActivity implements
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
 					ExceptionHandler.showException(context, exception, "Info");
+					saveCheckInVehicleInBackLogDB();
 					break;
 				default:
 					break;
@@ -152,5 +161,22 @@ public class CheckInActivity extends BaseActivity implements
 			}
 		};
 		return handler;
+	}
+	
+	public void saveCheckInVehicleInBackLogDB(){
+		User userProfile = JobViewerDBHandler
+				.getUserProfile(CheckInActivity.this);		
+		VehicleCheckInOut vehicleCheckInOut = new VehicleCheckInOut();
+		vehicleCheckInOut.setStarted_at(Utils.getCurrentDateAndTime());
+		vehicleCheckInOut.setRecord_for(userProfile.getEmail());
+		vehicleCheckInOut.setRegistration(checkOutRemember.getVehicleRegistration());
+		vehicleCheckInOut.setMileage(checkOutRemember.getMilage());
+		vehicleCheckInOut.setUser_id(userProfile.getEmail());
+		BackLogRequest backLogRequest = new BackLogRequest();
+		backLogRequest.setRequestApi(CommsConstant.HOST+CommsConstant.CHECKIN_VEHICLE);
+		backLogRequest.setRequestClassName("VehicleCheckInOut");
+		backLogRequest.setRequestJson(vehicleCheckInOut.toString());
+		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
+		JobViewerDBHandler.saveBackLog(getApplicationContext(), backLogRequest);
 	}
 }

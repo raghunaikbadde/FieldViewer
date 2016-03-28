@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.db.objects.SurveyJson;
@@ -376,6 +377,49 @@ public class JobViewerDBHandler {
 		}
 		cursor.close();
 		return surveyJson;
+	}
+
+	public static void saveBackLog(Context context, BackLogRequest request) {
+		ContentValues values = new ContentValues();
+		values.put(JobViewerProviderContract.BackLogTable.REQUEST_TYPE,
+				request.getRequestType());
+		values.put(JobViewerProviderContract.BackLogTable.REQUEST_JSON,
+				request.getRequestJson());
+		values.put(JobViewerProviderContract.BackLogTable.REQUEST_API,
+				request.getRequestApi());
+		values.put(JobViewerProviderContract.BackLogTable.REQUEST_CLASS_NAME,
+				request.getRequestClassName());
+		context.getContentResolver().insert(
+				JobViewerProviderContract.BackLogTable.CONTENT_URI, values);
+	}
+
+	public static void deleteBackLog(Context context) {
+		context.getContentResolver().delete(
+				JobViewerProviderContract.BackLogTable.CONTENT_URI, null, null);
+	}
+
+	public static List<BackLogRequest> getAllBackLog(Context context) {
+		Cursor cursor = context.getContentResolver().query(
+				JobViewerProviderContract.BackLogTable.CONTENT_URI, null, null,
+				null, null);
+		List<BackLogRequest> allBackLogRequest = new ArrayList<BackLogRequest>();
+		if (cursor != null && cursor.moveToFirst()) {
+			do {
+				BackLogRequest request = new BackLogRequest();
+				request.setRequestType(cursor.getString(cursor
+						.getColumnIndex(JobViewerProviderContract.BackLogTable.REQUEST_TYPE)));
+				request.setRequestJson(cursor.getString(cursor
+						.getColumnIndex(JobViewerProviderContract.BackLogTable.REQUEST_JSON)));
+				request.setRequestApi(cursor.getString(cursor
+						.getColumnIndex(JobViewerProviderContract.BackLogTable.REQUEST_API)));
+				request.setRequestClassName(cursor.getString(cursor
+						.getColumnIndex(JobViewerProviderContract.BackLogTable.REQUEST_CLASS_NAME)));
+				allBackLogRequest.add(request);
+			} while (cursor.moveToNext());
+
+		}
+		cursor.close();
+		return allBackLogRequest;
 	}
 
 }

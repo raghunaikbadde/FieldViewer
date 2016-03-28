@@ -1,3 +1,4 @@
+
 package com.lanesgroup.jobviewer;
 
 import java.text.SimpleDateFormat;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.exception.ExceptionHandler;
@@ -33,6 +35,7 @@ import com.jobviewer.util.showTimeDialog.DialogCallback;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
+import com.raghu.TimeSheetServiceRequests;
 import com.vehicle.communicator.HttpConnection;
 
 public class ActivityPageActivity extends Activity implements
@@ -40,7 +43,7 @@ public class ActivityPageActivity extends Activity implements
 	TextView user_email_text, date_time_text, vehicleRegistrationNumber;
 	LinearLayout checked_out_layout;
 
-	private Button mStart, mCheckOutVehicle, mStartBreak, mEndOnCall;
+	private Button mStart, mCheckOutVehicle, mStartTravel, mEndOnCall;
 	Context mContext;
 
 	@Override
@@ -92,11 +95,11 @@ public class ActivityPageActivity extends Activity implements
 		checked_out_layout = (LinearLayout) findViewById(R.id.checked_out_layout);
 		mStart = (Button) findViewById(R.id.start);
 		mCheckOutVehicle = (Button) findViewById(R.id.check_out_vehicle);
-		mStartBreak = (Button) findViewById(R.id.start_break);
+		mStartTravel = (Button) findViewById(R.id.start_travel);
 		mEndOnCall = (Button) findViewById(R.id.end_on_call);
 		mStart.setOnClickListener(this);
 		mCheckOutVehicle.setOnClickListener(this);
-		mStartBreak.setOnClickListener(this);
+		mStartTravel.setOnClickListener(this);
 		if (Utils.isNullOrEmpty(Utils.checkOutObject.getMilage())) {
 			checked_out_layout.setVisibility(View.GONE);
 			mCheckOutVehicle.setVisibility(View.VISIBLE);
@@ -144,19 +147,19 @@ public class ActivityPageActivity extends Activity implements
 		} else if (view == mCheckOutVehicle) {
 			intent.setClass(this, CheckoutVehicleActivity.class);
 			startActivity(intent);
-		} else if (view == mStartBreak) {
-			Utils.timeSheetRequest = new TimeSheetRequest();
-			new showTimeDialog(this, this, "start").show();
+		} else if (view == mStartTravel) {
+			Utils.startTravelTimeRequest = new TimeSheetRequest();
+			new showTimeDialog(this, this, "travel").show();
 		} else if (view == mEndOnCall) {
-
+			
 		}
 	}
 
 	@Override
 	public void onContinue() {
 		if (!Utils.isInternetAvailable(mContext)) {
-			JobViewerDBHandler.saveTimeSheet(this, Utils.timeSheetRequest,
-					CommsConstant.START_BREAK_API);
+			JobViewerDBHandler.saveTimeSheet(this, Utils.startTravelTimeRequest,
+					CommsConstant.START_TRAVEL_API);
 			String time = new SimpleDateFormat("HH:mm:ss dd MMM yyyy")
 					.format(Calendar.getInstance().getTime());
 
@@ -191,6 +194,8 @@ public class ActivityPageActivity extends Activity implements
 				JobViewerDBHandler.saveTimeSheet(this, Utils.timeSheetRequest,
 						CommsConstant.START_BREAK_API);
 				JobViewerDBHandler.getAllTimeSheet(mContext);
+				Utils.saveTimeSheetInBackLogTable(ActivityPageActivity.this, Utils.timeSheetRequest, CommsConstant.START_BREAK_API, Utils.REQUEST_TYPE_WORK);
+				//saveStartBreakinToBackLogDb();
 				startEndActvity(Utils.timeSheetRequest.getOverride_timestamp());
 			} else {
 				executeStartBreakService();
@@ -200,7 +205,7 @@ public class ActivityPageActivity extends Activity implements
 
 	private void startEndActvity(String time) {
 		Intent intent = new Intent(this, EndTravelActivity.class);
-		intent.putExtra(Constants.STARTED, Constants.BREAK_STARTED);
+		intent.putExtra(Constants.STARTED, Constants.TRAVEL_STARTED);
 		intent.putExtra(Constants.TIME, time);
 		startActivity(intent);
 	}
@@ -246,6 +251,8 @@ public class ActivityPageActivity extends Activity implements
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
 					ExceptionHandler.showException(mContext, exception, "Info");
+					Utils.saveTimeSheetInBackLogTable(ActivityPageActivity.this, Utils.timeSheetRequest, CommsConstant.START_BREAK_API, Utils.REQUEST_TYPE_WORK);
+					//saveStartBreakinToBackLogDb();
 					break;
 				default:
 					break;
@@ -254,4 +261,5 @@ public class ActivityPageActivity extends Activity implements
 		};
 		return handler;
 	}
+	
 }

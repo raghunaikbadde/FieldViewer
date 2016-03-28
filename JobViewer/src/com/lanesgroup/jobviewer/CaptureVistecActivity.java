@@ -3,12 +3,15 @@ package com.lanesgroup.jobviewer;
 import java.io.File;
 import java.io.IOException;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -17,12 +20,19 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
+import com.jobviewer.exception.ExceptionHandler;
+import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
+import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
+import com.raghu.WorkPhotoUpload;
+import com.vehicle.communicator.HttpConnection;
 
 public class CaptureVistecActivity extends BaseActivity implements
 		OnClickListener {
@@ -31,7 +41,8 @@ public class CaptureVistecActivity extends BaseActivity implements
 	private TextView mProgressStep, number_text;
 	private Button mSave, mNext, mCaptureVistec;
 	static File file;
-
+	private String mImage_exif_string = "";
+	private String mImageBase64 = "data:image/jpeg;base64,";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -77,7 +88,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 		if (view == mSave) {
 			finish();
 		} else if (view == mNext) {
-
+				
 		} else if (view == mCaptureVistec) {
 			file = new File(Environment.getExternalStorageDirectory()
 					+ File.separator + "image.jpg");
@@ -114,6 +125,9 @@ public class CaptureVistecActivity extends BaseActivity implements
 
 				Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
 				Log.i("Android", "geoLocation   :" + geoLocation);
+				mImage_exif_string = formatDate + ";"+geoLocation;
+				mImageBase64 += Utils.bitmapToBase64String(rotateBitmap);
+						
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -126,10 +140,50 @@ public class CaptureVistecActivity extends BaseActivity implements
 					.getCheckOutRemember(this);
 			checkOutRemember.setVistectImageId(generateUniqueID);
 			// TODO: Add server communicator for sending vistec image
-			Intent intent = new Intent(CaptureVistecActivity.this,
-					RiskAssessmentActivity.class);
-			startActivity(intent);
+			if(Utils.isInternetAvailable(CaptureVistecActivity.this)){
+				sendVistecImageToServer();
+			} else {
+				Utils.saveWorkImageInBackLogDb(CaptureVistecActivity.this, mImageBase64, mImage_exif_string);
+				Intent intent = new Intent(CaptureVistecActivity.this,
+						RiskAssessmentActivity.class);
+				startActivity(intent);
+			}
+			
 		}
 	}
+	private void sendVistecImageToServer(){
+		ContentValues data = new ContentValues();
+		data.put("image", mImageBase64);
+		data.put("image_exif", mImage_exif_string);
 
+		Utils.SendHTTPRequest(this, CommsConstant.HOST
+				+ CommsConstant.WORK_PHOTO_UPLOAD, data, getSendVisecImageHandler());
+	}
+	private Handler getSendVisecImageHandler(){
+		Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case HttpConnection.DID_SUCCEED:
+					Intent intent = new Intent(CaptureVistecActivity.this,
+							RiskAssessmentActivity.class);
+					startActivity(intent);
+					break;
+				case HttpConnection.DID_ERROR:
+					String error = (String) msg.obj;
+					VehicleException exception = GsonConverter
+							.getInstance()
+							.decodeFromJsonString(error, VehicleException.class);
+					ExceptionHandler.showException(CaptureVistecActivity.this, exception, "Info");
+					Utils.saveWorkImageInBackLogDb(CaptureVistecActivity.this, mImageBase64, mImage_exif_string);
+	//				saveVistecImageInBackLogDb();
+					break;
+				default:
+					break;
+				}
+			}
+		};
+		return handler;
+	}
+	
 }
