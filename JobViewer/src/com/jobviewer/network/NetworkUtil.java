@@ -26,7 +26,7 @@ public class NetworkUtil {
 
 	public static boolean getConnectivityStatusString(Context context) {
 		int conn = NetworkUtil.getConnectivityStatus(context);
-		String status = null;
+		//String status = null;
 		if (conn == NetworkUtil.TYPE_WIFI) {
 			return true;
 		} else if (conn == NetworkUtil.TYPE_MOBILE) {
