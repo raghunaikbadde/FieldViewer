@@ -44,7 +44,7 @@ public class StopFragment extends Fragment implements OnClickListener{
 			//Popup dialog to report to field manager
 			startEndMethod(); 
 		} else if(v.getId() == mResumeButton.getId()){
-			//QuestionManager.getInstance().loadPreviousFragmentFromStopFragment();
+			QuestionManager.getInstance().loadPreviousFragmentOnResume();
 			
 		}
 	}

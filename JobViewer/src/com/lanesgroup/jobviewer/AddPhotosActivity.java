@@ -21,8 +21,11 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
@@ -50,7 +53,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	private ListView mListView;
 	private View mRootView;
 	private ArrayList<HashMap<String, Object>> mPhotoList;
-	private SimpleAdapter mAdapter;
+	private AddPhotosAdapter mAdapter;
 	private Context mContext;
 	static File file;
 	private ArrayList<WorkPhotoUpload> arrayListOfWokImagesUpload = new ArrayList<WorkPhotoUpload>();
@@ -64,10 +67,12 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	private void initUI() {
 		mContext = this;
 		mPhotoList = new ArrayList<HashMap<String, Object>>();
-		mAdapter = new SimpleAdapter(this, mPhotoList, R.layout.add_photo_list,
+		/*mAdapter = new SimpleAdapter(this, mPhotoList, R.layout.add_photo_list,
 				new String[] { "picture", "time" }, new int[] {
-						R.id.captured_image1, R.id.date_time_text1 });
-		mAdapter.setViewBinder(new ViewBinder() {
+						R.id.captured_image1, R.id.date_time_text1 });*/
+		
+		mAdapter = new AddPhotosAdapter(mContext, mPhotoList);
+		/*mAdapter.setViewBinder(new ViewBinder() {
 			public boolean setViewValue(View view, Object data,
 					String textRepresentation) {
 				if (data == null) {
@@ -77,7 +82,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 				view.setVisibility(View.VISIBLE);
 				return false;
 			}
-		});
+		});*/
 
 		mListView = (ListView) findViewById(R.id.listview);
 		mListView.setAdapter(mAdapter);
@@ -224,5 +229,51 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			}
 		};
 		return handler;
+	}
+	private class AddPhotosAdapter extends BaseAdapter{
+		Context mContext;
+		ArrayList<HashMap<String, Object>> hashMapOfCapturedIamges;
+		public AddPhotosAdapter(Context mContext,ArrayList<HashMap<String, Object>> hashMapOfCapturedIamges) {
+			this.mContext = mContext;
+			this.hashMapOfCapturedIamges = hashMapOfCapturedIamges;
+		}
+		@Override
+		public int getCount() {
+			return hashMapOfCapturedIamges.size();
+		}
+		@Override
+		public Object getItem(int position) {
+			return hashMapOfCapturedIamges.get(position);
+		}
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			if(convertView==null){
+				convertView = getLayoutInflater().inflate(R.layout.add_photo_list, null);
+				ViewHolder vh = new ViewHolder(convertView);
+				vh.dateTime.setText(hashMapOfCapturedIamges.get(position).get("time").toString());
+				vh.imageView.setImageBitmap((Bitmap)hashMapOfCapturedIamges.get(position).get("photo"));
+				convertView.setTag(vh);
+			} else {
+				ViewHolder vh = (ViewHolder)convertView.getTag();
+				vh.dateTime.setText(hashMapOfCapturedIamges.get(position).get("time").toString());
+				vh.imageView.setImageBitmap((Bitmap)hashMapOfCapturedIamges.get(position).get("photo"));
+				convertView.setTag(vh);
+			}
+			
+			return convertView;
+		}
+		
+		private class ViewHolder {
+			public TextView dateTime;
+			public ImageView imageView;
+			public ViewHolder(View converView) {
+				dateTime = (TextView)converView.findViewById(R.id.date_time_text1);
+				imageView = (ImageView)converView.findViewById(R.id.captured_image1);
+			}
+		}
 	}
 }
