@@ -64,7 +64,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.lanesgroup.jobviewer.AddPhotosActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
             android:name="com.jobviewer.util.SelectActivityDialog"
             android:screenOrientation="portrait"
@@ -94,6 +95,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".RiskAssessmentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UpdateRiskAssessmentActivity"
             android:screenOrientation="portrait" />
 
         <receiver

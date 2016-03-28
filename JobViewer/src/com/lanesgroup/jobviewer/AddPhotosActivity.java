@@ -48,7 +48,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep;
-	private ImageButton mAddInfo, mStop, mUser, mClickPhoto,mCaptureCallingCard;
+	private ImageButton mAddInfo, mStop, mUser, mClickPhoto,mCaptureCallingCard,mUpdateRiskActivity;
 	private Button mSave, mLeaveSite;
 	private ListView mListView;
 	private View mRootView;
@@ -87,7 +87,8 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mListView = (ListView) findViewById(R.id.listview);
 		mListView.setAdapter(mAdapter);
 		mCaptureCallingCard = (ImageButton)findViewById(R.id.detail_imageButton);
-
+		mUpdateRiskActivity = (ImageButton)findViewById(R.id.video_imageButton);
+		mUpdateRiskActivity.setOnClickListener(this);
 		mProgress = (ProgressBar) findViewById(R.id.progressBar);
 		mProgressStep = (TextView) findViewById(R.id.progress_step_text);
 		mAddInfo = (ImageButton) findViewById(R.id.detail_imageButton);
@@ -106,6 +107,9 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View view) {
 		if (view == mSave) {
 
+		} else if(view == mUpdateRiskActivity){
+			Intent intent = new Intent(view.getContext(), UpdateRiskAssessmentActivity.class);
+			startActivity(intent);
 		} else if (view == mLeaveSite) {
 			for(WorkPhotoUpload workPhotoToUpload : arrayListOfWokImagesUpload){
 				sendDetailsOrSaveCapturedImageInBacklogDb(workPhotoToUpload.getImage(),workPhotoToUpload.getImage_exit());
