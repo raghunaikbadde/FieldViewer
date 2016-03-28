@@ -1,8 +1,10 @@
 package com.lanesgroup.jobviewer.fragment;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -111,6 +113,9 @@ public class YesNoTypeFragment extends Fragment implements OnClickListener {
 							.getOption()[i].getActions().getClick()
 							.getVibrate())) {
 						Utils.shakeAnimation(getActivity(), errorView);
+						Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+						 // Vibrate for 500 milliseconds
+						 v.vibrate(500);
 					}
 				} else {
 					errorView.setVisibility(View.GONE);
