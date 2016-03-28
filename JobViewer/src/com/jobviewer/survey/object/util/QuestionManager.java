@@ -45,7 +45,30 @@ public class QuestionManager {
 	}
 
 	public void addToBackStack(String id) {
-		backStack.add(id);
+		boolean isIdAdded = checkIfIdAlreadyAdded(id);
+		if (!isIdAdded) {
+			backStack.add(id);
+		}
+	}
+
+	private boolean checkIfIdAlreadyAdded(String id) {
+		boolean isAdded = false;
+		int location = 0;
+		for (int i = 0; i < backStack.size(); i++) {
+			if (id.equalsIgnoreCase(backStack.get(i))) {
+				location = i;
+				isAdded = true;
+				break;
+			}
+		}
+
+		if (isAdded) {
+			for (int i = backStack.size() - 1; i > location; i--) {
+				backStack.remove(i);
+
+			}
+		}
+		return isAdded;
 	}
 
 	public void updateScreenOnQuestionMaster(Screen resultScreen) {
@@ -67,6 +90,10 @@ public class QuestionManager {
 
 	public void setQuestionMaster(QuestionMaster master) {
 		questionMaster = master;
+	}
+
+	public QuestionMaster getQuestionMaster() {
+		return questionMaster;
 	}
 
 	public Screen getCurrentScreen() {
@@ -136,6 +163,9 @@ public class QuestionManager {
 				surveyJson.getQuestionJson(), QuestionMaster.class);
 		setWorkType(surveyJson.getWorkType());
 		setBackStack(surveyJson.getBackStack());
+		isBackPressed = true;
+		loadNextFragment(backStack.get(backStack.size() - 1));
+
 	}
 
 	public void setBackStack(String stack) {
@@ -157,6 +187,22 @@ public class QuestionManager {
 	public void loadPreviousFragment() {
 		if (backStack != null && backStack.size() > 1) {
 			String screenId = backStack.get(backStack.size() - 2);
+			backStack.remove(backStack.size() - 1);
+			isBackPressed = true;
+			loadNextFragment(screenId);
+		} else {
+			Toast.makeText(
+					BaseActivity.context,
+					BaseActivity.context.getResources().getString(
+							R.string.noPreviousQuestionMessage),
+					Toast.LENGTH_SHORT).show();
+		}
+
+	}
+
+	public void loadPreviousFragmentOnResume() {
+		if (backStack != null && backStack.size() > 1) {
+			String screenId = backStack.get(backStack.size() - 1);
 			backStack.remove(backStack.size() - 1);
 			isBackPressed = true;
 			loadNextFragment(screenId);
