@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.jobviewer.provider.JobViewerProviderContract.BackLogTable;
 import com.jobviewer.provider.JobViewerProviderContract.Image;
 import com.jobviewer.provider.JobViewerProviderContract.QuestionSetTable;
 import com.jobviewer.provider.JobViewerProviderContract.TimeSheet;
@@ -27,6 +28,7 @@ public class JobViewerProvider extends ContentProvider {
 	private static final int TABLE_IMAGES = 4;
 	private static final int TABLE_CHECK_OUT_REMEMBER = 5;
 	private static final int TABLE_QUESTION_SET = 6;
+	private static final int TABLE_BACK_LOG = 7;
 
 	// prepare the UriMatcher
 	private static final UriMatcher URI_MATCHER;
@@ -44,6 +46,8 @@ public class JobViewerProvider extends ContentProvider {
 				"CheckOutRemember", TABLE_CHECK_OUT_REMEMBER);
 		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY,
 				"QuestionSetTable", TABLE_QUESTION_SET);
+		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "BackLogTable",
+				TABLE_BACK_LOG);
 	}
 
 	// system calls onCreate() when it starts up the provider.
@@ -70,6 +74,8 @@ public class JobViewerProvider extends ContentProvider {
 			return Image.CONTENT_TYPE;
 		case TABLE_QUESTION_SET:
 			return QuestionSetTable.CONTENT_TYPE;
+		case TABLE_BACK_LOG:
+			return BackLogTable.CONTENT_TYPE;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -104,6 +110,9 @@ public class JobViewerProvider extends ContentProvider {
 			return getUriForId(id, uri);
 		case TABLE_QUESTION_SET:
 			id = db.insert(JobViewerSchema.TABLE_QUESTION_SET, null, values);
+			return getUriForId(id, uri);
+		case TABLE_BACK_LOG:
+			id = db.insert(JobViewerSchema.TABLE_BACK_LOG, null, values);
 			return getUriForId(id, uri);
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -160,6 +169,9 @@ public class JobViewerProvider extends ContentProvider {
 		case TABLE_QUESTION_SET:
 			queryBuilder.setTables(JobViewerSchema.TABLE_QUESTION_SET);
 			break;
+		case TABLE_BACK_LOG:
+			queryBuilder.setTables(JobViewerSchema.TABLE_BACK_LOG);
+			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -205,6 +217,10 @@ public class JobViewerProvider extends ContentProvider {
 		case TABLE_QUESTION_SET:
 			deleteCount = db.delete(JobViewerSchema.TABLE_QUESTION_SET,
 					selection, selectionArgs);
+			break;
+		case TABLE_BACK_LOG:
+			deleteCount = db.delete(JobViewerSchema.TABLE_BACK_LOG, selection,
+					selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -252,6 +268,10 @@ public class JobViewerProvider extends ContentProvider {
 			break;
 		case TABLE_QUESTION_SET:
 			updateCount = db.update(JobViewerSchema.TABLE_QUESTION_SET, values,
+					selection, selectionArgs);
+			break;
+		case TABLE_BACK_LOG:
+			updateCount = db.update(JobViewerSchema.TABLE_BACK_LOG, values,
 					selection, selectionArgs);
 			break;
 		default:
