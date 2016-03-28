@@ -432,6 +432,7 @@ public class Utils {
 
 	public static Location locationOfUser = null;
 
+	@SuppressWarnings("static-access")
 	public static Location getCurrentLocation(Context context) {
 
 		LocationManager locationManager = (LocationManager) context
@@ -467,7 +468,7 @@ public class Utils {
 		return locationOfUser;
 	}
 
-	public static void senImagesToserver(Context context) {
+	public static void sendImagesToserver(Context context) {
 		SendImagesOnBackground sendImagesOnBackground = new SendImagesOnBackground();
 		sendImagesOnBackground.getAndSendImagesToServer(context);
 	}

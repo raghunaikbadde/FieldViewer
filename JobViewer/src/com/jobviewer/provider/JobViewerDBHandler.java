@@ -230,6 +230,12 @@ public class JobViewerDBHandler {
 				imageObject
 						.setImage_url(cursor.getString(cursor
 								.getColumnIndex(JobViewerProviderContract.Image.IMAGE_URL)));
+				imageObject
+						.setCategory(cursor.getString(cursor
+								.getColumnIndex(JobViewerProviderContract.Image.IMAGE_CATEGORY)));
+				imageObject
+						.setImage_exif(cursor.getString(cursor
+								.getColumnIndex(JobViewerProviderContract.Image.IMAGE_EXIF)));
 				imageList.add(imageObject);
 			} while (cursor.moveToNext());
 		}

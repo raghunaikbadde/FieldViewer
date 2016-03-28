@@ -30,8 +30,6 @@ import android.widget.Toast;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
-import com.jobviewer.exception.ExceptionHandler;
-import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.Images;
 import com.jobviewer.survey.object.Screen;
@@ -40,10 +38,9 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Utils;
+import com.jobviwer.response.object.ImageUploadResponse;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
-import com.lanesgroup.jobviewer.CaptureVistecActivity;
 import com.lanesgroup.jobviewer.R;
-import com.lanesgroup.jobviewer.RiskAssessmentActivity;
 import com.vehicle.communicator.HttpConnection;
 
 public class MediaTextTypeFragment extends Fragment implements OnClickListener {
@@ -160,7 +157,8 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 			if ("save".equalsIgnoreCase(mSave.getText().toString())) {
 				QuestionManager.getInstance().saveAssessment(
 						checkOutRemember.getAssessmentSelected());
-				Intent intent=new Intent(view.getContext(),ActivityPageActivity.class);
+				Intent intent = new Intent(view.getContext(),
+						ActivityPageActivity.class);
 				intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intent);
 			}
@@ -176,13 +174,15 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 				imageObject.setImageId(generateUniqueID);
 				imageObject.setImage_string(currentScreen.getImages()[i]
 						.getImage_string());
-				currentScreen.getImages()[i].setImage_string(generateUniqueID);				
-				JobViewerDBHandler.saveImage(view.getContext(), imageObject);
-				sendDetailsOrSaveCapturedImageInBacklogDb(currentScreen.getImages()[i].getImage_string(),currentScreen.getImages()[i].getImage_exif());
+				imageObject.setCategory("surveys");
+				imageObject.setImage_exif(currentScreen.getImages()[i]
+						.getImage_exif());
+				currentScreen.getImages()[i].setImage_string(generateUniqueID);
+				sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 			}
 
 			QuestionManager.getInstance().updateScreenOnQuestionMaster(
-					currentScreen);			
+					currentScreen);
 			loadNextFragement();
 		} else if (view == mLinearLayout) {
 			addPicObjectInScreenIfRequired();
@@ -194,6 +194,54 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 			startActivityForResult(intent,
 					com.jobviewer.util.Constants.RESULT_CODE);
 		}
+	}
+
+	private void sendDetailsOrSaveCapturedImageInBacklogDb(
+			ImageObject imageObject) {
+		if (Utils.isInternetAvailable(getActivity())) {
+			sendWorkImageToServer(imageObject);
+		} else {
+			JobViewerDBHandler.saveImage(getActivity(), imageObject);
+			// loadNextFragement();
+		}
+
+	}
+
+	private synchronized void sendWorkImageToServer(ImageObject imageObject) {
+		ContentValues values = new ContentValues();
+		values.put("temp_id", imageObject.getImageId());
+		values.put("category", imageObject.getCategory());
+		values.put("image_string", imageObject.getImage_string());
+		values.put("image_exif", imageObject.getImage_exif());
+		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
+				+ CommsConstant.IMAGE_UPLOAD, values,
+				getSaveImageHandler(imageObject));
+
+	}
+
+	private Handler getSaveImageHandler(final ImageObject imageObject) {
+		Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case HttpConnection.DID_SUCCEED:
+					String result = (String) msg.obj;
+					ImageUploadResponse decodeFromJsonString = GsonConverter
+							.getInstance().decodeFromJsonString(result,
+									ImageUploadResponse.class);
+					JobViewerDBHandler.deleteImageById(getActivity(),
+							decodeFromJsonString.getTemp_id());
+
+					break;
+				case HttpConnection.DID_ERROR:
+					JobViewerDBHandler.saveImage(getActivity(), imageObject);
+					break;
+				default:
+					break;
+				}
+			}
+		};
+		return handler;
 	}
 
 	private void loadNextFragement() {
@@ -260,13 +308,12 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 				if (Utils.isNullOrEmpty(currentScreen.getImages()[i]
 						.getImage_string())) {
-					String image_exif=formatDate + ","
-							+ geoLocation;
+					String image_exif = formatDate + "," + geoLocation;
 					currentScreen.getImages()[i].setImage_exif(image_exif);
-					String image_base_64=Utils
-					.bitmapToBase64String(rotateBitmap);
+					String image_base_64 = Utils
+							.bitmapToBase64String(rotateBitmap);
 					currentScreen.getImages()[i].setImage_string(image_base_64);
-					//sendDetailsOrSaveCapturedImageInBacklogDb(image_base_64,image_exif);
+					// sendDetailsOrSaveCapturedImageInBacklogDb(image_base_64,image_exif);
 					break;
 				}
 			}
@@ -282,49 +329,5 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 			checkAndEnableNextButton();
 
 		}
-	}
-	private void sendDetailsOrSaveCapturedImageInBacklogDb(String mImageBase64,String mImage_exif_string){
-		if(Utils.isInternetAvailable(getActivity())){
-			sendWorkImageToServer(mImageBase64,mImage_exif_string);
-		} else {
-			Utils.saveWorkImageInBackLogDb(getActivity(), mImageBase64, mImage_exif_string);
-			//loadNextFragement();
-		}
-	}
-	
-	private synchronized void sendWorkImageToServer(String mImageBase64,String mImage_exif_string){
-		ContentValues data = new ContentValues();
-		data.put("image", mImageBase64);
-		data.put("image_exif", mImage_exif_string);
-
-		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-				+ CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id, data, getSendWorkImageHandler(mImageBase64,mImage_exif_string));
-		
-		
-	}
-	private Handler getSendWorkImageHandler(final String mImageBase64,final String mImage_exif_string){
-		Handler handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case HttpConnection.DID_SUCCEED:
-					Intent intent = new Intent(getActivity(),
-							RiskAssessmentActivity.class);
-					startActivity(intent);
-					break;
-				case HttpConnection.DID_ERROR:
-					String error = (String) msg.obj;
-					VehicleException exception = GsonConverter
-							.getInstance()
-							.decodeFromJsonString(error, VehicleException.class);
-					ExceptionHandler.showException(getActivity(), exception, "Info");
-					Utils.saveWorkImageInBackLogDb(getActivity(), mImageBase64, mImage_exif_string);
-					break;
-				default:
-					break;
-				}
-			}
-		};
-		return handler;
 	}
 }

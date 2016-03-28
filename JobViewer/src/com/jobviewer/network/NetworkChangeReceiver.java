@@ -13,7 +13,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
 		boolean isConnected = NetworkUtil.getConnectivityStatusString(context);
 
 		if (isConnected) {
-			Utils.senImagesToserver(context);
+			Utils.sendImagesToserver(context);
 		}
 
 	}
