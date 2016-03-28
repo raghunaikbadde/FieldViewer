@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.jobviewer.survey.object.Screen;
+import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.Constants;
 import com.lanesgroup.jobviewer.CaptureVistecActivity;
 import com.lanesgroup.jobviewer.R;
@@ -30,7 +32,6 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener{
 	private Button mSave, mLeaveSite;
 	private LinearLayout mCaptureCallingCard;
 	private View mRootView;
-	
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
@@ -55,6 +56,9 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener{
 			mAddInfo = (ImageButton) mRootView.findViewById(R.id.detail_imageButton);
 			mStop = (ImageButton) mRootView.findViewById(R.id.video_imageButton);
 			mUser = (ImageButton) mRootView.findViewById(R.id.user_imageButton);
+			mProgress.setMax(6);
+			mProgress.setProgress(5);
+			mProgressStep.setText("Step 5 of 6");
 			mCaptureCallingCard = (LinearLayout) mRootView.findViewById(R.id.customer_calling_layout);
 			mCaptureCallingCard.setClickable(true);
 			mCaptureCallingCard.setOnClickListener(this);

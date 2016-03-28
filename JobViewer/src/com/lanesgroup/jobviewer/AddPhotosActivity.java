@@ -11,6 +11,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,12 +36,17 @@ import android.widget.SimpleAdapter.ViewBinder;
 import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
+import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
+import com.lanesgroup.jobviewer.fragment.MediaTextTypeFragment;
+import com.lanesgroup.jobviewer.fragment.MediaTypeFragment;
 import com.lanesgroup.jobviewer.fragment.WorkCompleteFragment;
 import com.raghu.WorkPhotoUpload;
 import com.vehicle.communicator.HttpConnection;
@@ -47,7 +54,7 @@ import com.vehicle.communicator.HttpConnection;
 public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
 	private ProgressBar mProgress;
-	private TextView mProgressStep;
+	private TextView mProgressStep,mVistecNumber;
 	private ImageButton mAddInfo, mStop, mUser, mClickPhoto,mCaptureCallingCard,mUpdateRiskActivity;
 	private Button mSave, mLeaveSite;
 	private ListView mListView;
@@ -70,6 +77,22 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		/*mAdapter = new SimpleAdapter(this, mPhotoList, R.layout.add_photo_list,
 				new String[] { "picture", "time" }, new int[] {
 						R.id.captured_image1, R.id.date_time_text1 });*/
+		HashMap<String, Object> hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
+		int count=0;
+		for(ImageObject imageObject : MediaTypeFragment.addPhotoActivityimageObject ){
+			byte[] decodedString = Base64.decode(imageObject.getImage_string(), Base64.DEFAULT);
+			Bitmap bitmapOfSafeZone = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+			hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
+			hashMapOfSafeZoneBitmap.put("photo", bitmapOfSafeZone);
+			hashMapOfSafeZoneBitmap.put("time",MediaTypeFragment.timeCapturedForAddPhotosActivity.get(count));
+			mPhotoList.add(hashMapOfSafeZoneBitmap);
+			count++;
+		}
+		
+		
+		//hashMapOfSafeZoneBitmap.put(MediaTypeFragment.addPhotoActivityimageObject.getImage_exif(), bitmapOfSafeZone);
+		
+		
 		
 		mAdapter = new AddPhotosAdapter(mContext, mPhotoList);
 		/*mAdapter.setViewBinder(new ViewBinder() {
@@ -87,6 +110,11 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mListView = (ListView) findViewById(R.id.listview);
 		mListView.setAdapter(mAdapter);
 		mCaptureCallingCard = (ImageButton)findViewById(R.id.detail_imageButton);
+		mVistecNumber = (TextView)findViewById(R.id.vistec_number_text);
+		CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(AddPhotosActivity.this);
+		String visTecId = checkOutObject.getVistecId();
+		mVistecNumber.setText(visTecId);
+		
 		mUpdateRiskActivity = (ImageButton)findViewById(R.id.video_imageButton);
 		mUpdateRiskActivity.setOnClickListener(this);
 		mProgress = (ProgressBar) findViewById(R.id.progressBar);
@@ -100,7 +128,12 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mLeaveSite = (Button) findViewById(R.id.button2);
 		mLeaveSite.setOnClickListener(this);
 		mCaptureCallingCard.setOnClickListener(this);
-		enableLeaveSiteButton(false);
+		
+		if(mPhotoList.size()>=4){
+			enableLeaveSiteButton(true);
+		} else{
+			enableLeaveSiteButton(false);
+		}
 	}
 
 	@Override
@@ -233,6 +266,12 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			}
 		};
 		return handler;
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		MediaTypeFragment.addPhotoActivityimageObject = null;
+		MediaTypeFragment.timeCapturedForAddPhotosActivity = null;
 	}
 	private class AddPhotosAdapter extends BaseAdapter{
 		Context mContext;

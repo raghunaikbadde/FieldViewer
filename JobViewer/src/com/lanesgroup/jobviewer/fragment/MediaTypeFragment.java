@@ -2,6 +2,7 @@ package com.lanesgroup.jobviewer.fragment;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import android.app.Fragment;
 import android.content.ContentValues;
@@ -14,6 +15,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v7.widget.ListPopupWindow.ForwardingListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +59,9 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 	static File file;
 	Screen currentScreen;
 	CheckOutObject checkOutRemember;
-	
+	private boolean formwardIamgeToAddPhotosActivity=false;
+	public static ArrayList<ImageObject> addPhotoActivityimageObject;
+	public static ArrayList<String> timeCapturedForAddPhotosActivity = new ArrayList<String>();
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,6 +93,9 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());
 		question.setText(currentScreen.getText());
+		if(currentScreen.getText().toString().equalsIgnoreCase(getResources().getString(R.string.capture_safe_zone))){
+			formwardIamgeToAddPhotosActivity = true;
+		}
 		checkAndEnableNextButton();
 		com.jobviewer.survey.object.Button[] buttons = currentScreen
 				.getButtons().getButton();
@@ -161,16 +168,20 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				startActivity(intent);
 			}
 		} else if (view == mNext) {
-
+			addPhotoActivityimageObject = new ArrayList<ImageObject>();
+			
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 				ImageObject imageObject = new ImageObject();
 				String generateUniqueID = Utils.generateUniqueID(getActivity());
 				imageObject.setImageId(generateUniqueID);
 				imageObject.setImage_string(currentScreen.getImages()[i]
 						.getImage_string());
-				currentScreen.getImages()[i].setImage_string(generateUniqueID);
-				JobViewerDBHandler.saveImage(view.getContext(), imageObject);
 				
+				//currentScreen.getImages()[i].setImage_string(generateUniqueID);
+				JobViewerDBHandler.saveImage(view.getContext(), imageObject);
+				if(formwardIamgeToAddPhotosActivity){
+					addPhotoActivityimageObject.add(imageObject);
+				}
 				sendDetailsOrSaveCapturedImageInBacklogDb(currentScreen.getImages()[i].getImage_string(),currentScreen.getImages()[i].getImage_exif());
 			}
 
@@ -241,6 +252,8 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				geoLocation = geoLocationCamera.toString();
 
 				Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
+				if(formwardIamgeToAddPhotosActivity)
+					timeCapturedForAddPhotosActivity.add(formatDate);
 				Log.i("Android", "geoLocation   :" + geoLocation);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

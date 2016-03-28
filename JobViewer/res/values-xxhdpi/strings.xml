@@ -76,11 +76,18 @@
     <string name="blockage">Blockage</string>
     <string name="cctv">CCTV</string>
     <string name="line_clean">Line Clean</string>
-    <string name="pumo_down">Pumo Down</string>
+    <string name="pump_down">Pump Down</string>
     <string name="sfoc">SFOC</string>
     <string name="clean_up">Clean Up</string>
     <string name="sropr">SROPR</string>
     <string name="enable">Enable</string>
+    <string name="private_str">Private</string>
+    <string name="cover">Cover</string>
+    <string name="dig_down">Dig Down</string>
+    <string name="make_safe">Make Safe</string>
+    <string name="lining">Lining</string>
+    <string name="wet_well_clean">wet Well Clean</string>
+    
     <string name="tmp_user_email_str">demonstration2</string>
     <string name="would_you_like_to_str">Would you like to check-out a vehicle at the start of your shift?</string>
     <string name="tmp_user_group_str">lanesgroup.com</string>
@@ -257,4 +264,5 @@
     <string name="your_travel_start_time">Your travel start time will be logged as:</string>
     <string name="your_travel_end_time">Your travel end time will be logged as:</string>
     <string name="capture_calling_Card">Capture Image Of an Calling Card</string>
+    <string name="capture_safe_zone">Capture the safe zone</string>
 </resources>
