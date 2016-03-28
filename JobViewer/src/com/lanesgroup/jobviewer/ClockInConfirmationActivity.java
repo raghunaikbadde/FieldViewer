@@ -112,28 +112,75 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		} else if (view == mClockIn) {
 			JobViewerDBHandler.saveCheckOutRemember(this, Utils.checkOutObject);
 			BackLogRequest backLogRequest = new BackLogRequest();
-			if(!Utils.isInternetAvailable(ClockInConfirmationActivity.this)){
-				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity"))
-					Utils.saveTimeSheetInBackLogTable(ClockInConfirmationActivity.this, Utils.callStartTimeRequest, CommsConstant.START_ON_CALL_API, Utils.REQUEST_TYPE_TIMESHEET);
-				else if(mCallingActivity.equalsIgnoreCase("ClockInActivity"))
-					Utils.saveTimeSheetInBackLogTable(ClockInConfirmationActivity.this, Utils.startShiftTimeRequest, CommsConstant.START_SHIFT_API, Utils.REQUEST_TYPE_TIMESHEET);
+			User userProfile = JobViewerDBHandler.getUserProfile(view
+					.getContext());
+			if (!Utils.isInternetAvailable(ClockInConfirmationActivity.this)) {
+				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity")) {
+					Utils.callStartTimeRequest.setUser_id(userProfile
+							.getEmail());
+					Utils.callStartTimeRequest.setRecord_for(userProfile
+							.getEmail());
+					Utils.callStartTimeRequest.setStarted_at(Utils
+							.getCurrentDateAndTime());
+					Utils.saveTimeSheetInBackLogTable(
+							ClockInConfirmationActivity.this,
+							Utils.callStartTimeRequest,
+							CommsConstant.START_ON_CALL_API,
+							Utils.REQUEST_TYPE_TIMESHEET);
+				} else if (mCallingActivity.equalsIgnoreCase("ClockInActivity")) {
+					Utils.startShiftTimeRequest.setUser_id(userProfile
+							.getEmail());
+					Utils.startShiftTimeRequest.setRecord_for(userProfile
+							.getEmail());
+					Utils.startShiftTimeRequest.setStarted_at(Utils
+							.getCurrentDateAndTime());
+					Utils.saveTimeSheetInBackLogTable(
+							ClockInConfirmationActivity.this,
+							Utils.startShiftTimeRequest,
+							CommsConstant.START_SHIFT_API,
+							Utils.REQUEST_TYPE_TIMESHEET);
+				} else if (mCallingActivity
+						.equalsIgnoreCase("CheckoutVehicleActivity")) {
+					Utils.startShiftTimeRequest.setUser_id(userProfile
+							.getEmail());
+					Utils.startShiftTimeRequest.setRecord_for(userProfile
+							.getEmail());
+					Utils.startShiftTimeRequest.setStarted_at(Utils
+							.getCurrentDateAndTime());
+					Utils.saveTimeSheetInBackLogTable(
+							ClockInConfirmationActivity.this,
+							Utils.startShiftTimeRequest,
+							CommsConstant.START_SHIFT_API,
+							Utils.REQUEST_TYPE_TIMESHEET);
+				}
 				Intent intent = new Intent(ClockInConfirmationActivity.this,
 						ActivityPageActivity.class);
 				startActivity(intent);
-			}
-			else{
-				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity"))
+			} else {
+				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity")) {
 					executeOnCallStartService();
-				else if(mCallingActivity.equalsIgnoreCase("ClockInActivity"))
+				} else if (mCallingActivity.equalsIgnoreCase("ClockInActivity")) {
 					executeStartShiftService();
+				} else if (mCallingActivity
+						.equalsIgnoreCase("CheckoutVehicleActivity")) {
+					executeStartShiftService();
+				}
 			}
-				
-			//JobViewerDBHandler.saveBackLog(ClockInConfirmationActivity.this, request);
-			
+
+			// JobViewerDBHandler.saveBackLog(ClockInConfirmationActivity.this,
+			// request);
+
 		}
 	}
 
 	private void executeStartShiftService() {
+		User userProfile = JobViewerDBHandler
+				.getUserProfile(ClockInConfirmationActivity.this);
+		Utils.startShiftTimeRequest.setUser_id(userProfile.getEmail());
+		Utils.startShiftTimeRequest.setRecord_for(userProfile
+				.getEmail());
+		Utils.startShiftTimeRequest
+				.setStarted_at(Utils.getCurrentDateAndTime());
 		ContentValues data = new ContentValues();
 		data.put("started_at", Utils.startShiftTimeRequest.getStarted_at());
 		data.put("record_for", Utils.startShiftTimeRequest.getRecord_for());
@@ -161,6 +208,12 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 	}
 
 	private void executeOnCallStartService() {
+		User userProfile = JobViewerDBHandler
+				.getUserProfile(ClockInConfirmationActivity.this);
+		Utils.callStartTimeRequest.setUser_id(userProfile.getEmail());
+		Utils.callStartTimeRequest.setRecord_for(userProfile
+				.getEmail());
+		Utils.callStartTimeRequest.setStarted_at(Utils.getCurrentDateAndTime());
 		ContentValues data = new ContentValues();
 		data.put("started_at", Utils.callStartTimeRequest.getStarted_at());
 		data.put("record_for", Utils.callStartTimeRequest.getRecord_for());
