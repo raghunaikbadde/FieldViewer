@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/checkbox_detail_height325"
+    android:layout_marginBottom="@dimen/white_lato_regular_small40"
+    android:layout_marginTop="@dimen/white_lato_regular_small40"
+    android:background="@color/grey"
+    android:orientation="vertical"
+    android:padding="@dimen/spinner_bottom_margin30" >
+
+    <RadioButton
+        android:id="@+id/radioButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:button="@drawable/checkbox_selector"
+        android:paddingLeft="@dimen/template_spacing15"
+        android:text="@string/current_present"
+        android:textColor="@color/black"
+        android:textSize="@dimen/black_lato_regular_medium45" />
+
+    <TextView
+        android:id="@+id/answeredText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/tmp_yes"
+        android:textColor="@color/red"
+        android:textSize="@dimen/black_lato_regular_medium45" />
+
+</RelativeLayout>
