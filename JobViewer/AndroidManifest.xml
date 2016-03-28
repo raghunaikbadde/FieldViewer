@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lanesgroup.jobviewer"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="23" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.lanesgroup.jobviewer.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.lanesgroup.jobviewer.LauncherActicity"
+            android:noHistory="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.lanesgroup.jobviewer.WelcomeActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.lanesgroup.jobviewer.ClockInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lanesgroup.jobviewer.ClockInConfirmationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lanesgroup.jobviewer.CheckoutVehicleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lanesgroup.jobviewer.CheckInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lanesgroup.jobviewer.ActivityPageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lanesgroup.jobviewer.PollutionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lanesgroup.jobviewer.AddPhotosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.jobviewer.util.SelectActivityDialog"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.jobviewer.util.ChangeTimeDialog"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.jobviewer.util.OverrideReasoneDialog"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".NewWorkActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EndTravelActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.lanesgroup.jobviewer.fragment.QuestionsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CaptureVistecActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TravelToWorkSiteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RiskAssessmentActivity"
+            android:screenOrientation="portrait" />
+
+        <receiver
+            android:name="com.jobviewer.network.NetworkChangeReceiver"
+            android:label="NetworkChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name="com.jobviewer.provider.JobViewerProvider"
+            android:authorities="com.jobviewer.contentprovider"
+            android:exported="true"
+            android:multiprocess="true" />
+
+        <service
+            android:name="com.jobviwer.service.AppKillService"
+            android:stopWithTask="false" />
+    </application>
+
+</manifest>

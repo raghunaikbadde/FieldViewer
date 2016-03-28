@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/capture_image_layout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/capture_imageButton"
+    android:layout_marginBottom="@dimen/spinner_top_margin25"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/captured_image1"
+        android:layout_width="@dimen/captured_image_widtht420"
+        android:layout_height="@dimen/captured_image_height300"
+        android:src="@drawable/ic_launcher" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/white_lato_bold_small50"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/capture_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progress_layout"
+            android:layout_marginBottom="@dimen/spinner_top_margin25"
+            android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+            android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+            android:text="@string/captured_str"
+            android:textColor="@color/black"
+            android:textSize="@dimen/black_lato_regular_medium45" />
+
+        <TextView
+            android:id="@+id/date_time_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progress_layout"
+            android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+            android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+            android:text="@string/tmp_date_time"
+            android:textColor="@color/black"
+            android:textSize="@dimen/black_lato_regular_medium45" />
+    </LinearLayout>
+
+</LinearLayout>

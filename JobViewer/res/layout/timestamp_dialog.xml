@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width920"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/dialog_info"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_header_height242"
+        android:background="@drawable/dialog_header_background"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/select_new_timestamp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dialog_detail_top_margin80" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_width920"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
+                    android:layout_marginTop="@dimen/actionbar_bottom_margin85" >
+
+                    <ImageView
+                        android:id="@+id/info_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                        android:layout_marginRight="@dimen/white_lato_regular_small40"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/big_error_icon" />
+
+                    <TextView
+                        android:id="@+id/info_message_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/white_lato_regular_small40"
+                        android:text="@string/you_should_only"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/black_lato_regular_medium45" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/info_message2_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                    android:layout_marginRight="@dimen/white_lato_regular_small40"
+                    android:gravity="center_horizontal"
+                    android:text="@string/you_do_not_need"
+                    android:textColor="@color/lighter_grey"
+                    android:textSize="@dimen/dialog_clock_icon_left_right_margin40" />
+
+                <TextView
+                    android:id="@+id/new_date_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/grey_lato_regular_small35"
+                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                    android:layout_marginRight="@dimen/white_lato_regular_small40"
+                    android:layout_marginTop="@dimen/white_lato_regular_small40"
+                    android:gravity="center_horizontal"
+                    android:text="@string/new_date"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/black_lato_regular_medium45" />
+
+                <DatePicker
+                    android:id="@+id/datePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:calendarViewShown="false"/>
+
+                <TextView
+                    android:id="@+id/new_time_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/grey_lato_regular_small35"
+                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                    android:layout_marginRight="@dimen/white_lato_regular_small40"
+                    android:layout_marginTop="@dimen/white_lato_regular_small40"
+                    android:gravity="center_horizontal"
+                    android:text="@string/new_time"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/black_lato_regular_medium45" />
+
+                <TimePicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_button_height152"
+        android:layout_below="@id/dialog_info" >
+
+        <Button
+            android:id="@+id/dialog_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_grey_button"
+            android:text="@string/cancel"
+            android:textColor="@color/lighter_grey"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+        <Button
+            android:id="@+id/dialog_ok"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_red_button"
+            android:text="@string/confirm"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+    </LinearLayout>
+
+</LinearLayout>

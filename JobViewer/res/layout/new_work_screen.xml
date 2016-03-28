@@ -1,0 +1,244 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.jobviewer.MainActivity" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:id="@+id/check_out_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/progressbar_top_margin58"
+                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:text="@string/new_work_str"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/title_text_size70" />
+
+                <LinearLayout
+                    android:id="@+id/progress_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/check_out_text"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/progress_step_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/progress_step"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/white_lato_bold_small50"
+                        android:textStyle="bold" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dialog_button_top_margin70"
+                        android:layout_marginLeft="@dimen/edit_error_stroke10"
+                        android:progress="70"
+                        android:progressDrawable="@drawable/progressbar" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/enter_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/progress_layout"
+                    android:layout_marginBottom="@dimen/text_label_vertical_spacing100"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginTop="@dimen/red_lato_bold_big90"
+                    android:text="@string/enter_the_vistec_str"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/black_lato_regular_small55" />
+
+                <TextView
+                    android:id="@+id/district_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/enter_details_text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/spinner_top_margin25"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:text="@string/district_str"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/white_lato_bold_small50" />
+
+                <LinearLayout
+                    android:id="@+id/district_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/district_text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/edit_text_bottom_margin87"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/distric1_edittext"
+                        android:layout_width="@dimen/edit_text_width270"
+                        android:layout_height="@dimen/edit_text_height130"
+                        android:layout_below="@+id/district_text"
+                        android:background="@drawable/grey_background"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:hint="@string/tmp_number"
+                        android:maxLength="2"
+                        android:focusable="false"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/black_lato_regular_big66" >
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/distric2_edittext"
+                        android:layout_width="@dimen/edit_text_width270"
+                        android:layout_height="@dimen/edit_text_height130"
+                        android:layout_below="@+id/district_text"
+                        android:layout_marginLeft="@dimen/spinner_bottom_margin30"
+                        android:background="@drawable/grey_background"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:hint="@string/tmp_number"
+                        android:maxLength="2"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/black_lato_regular_big66" >
+                        
+                    </EditText>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/task_number_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/district_layout"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/spinner_top_margin25"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:text="@string/task_number_str"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/white_lato_bold_small50" />
+
+                <LinearLayout
+                    android:id="@+id/district2_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/task_number_text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/edit_text_checkbox_spacing106"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/distric3_edittext"
+                        android:layout_width="@dimen/edit_text_width270"
+                        android:layout_height="@dimen/edit_text_height130"
+                        android:layout_below="@+id/district_text"
+                        android:background="@drawable/grey_background"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:hint="@string/tmp_number"
+                        android:maxLength="2"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/black_lato_regular_big66" >
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/distric4_edittext"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/edit_text_height130"
+                        android:layout_below="@+id/district_text"
+                        android:layout_marginLeft="@dimen/spinner_bottom_margin30"
+                        android:background="@drawable/grey_background"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:hint="@string/tmp_number"
+                        android:maxLength="4" android:textAllCaps="true" 
+                        android:inputType="textCapCharacters"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/black_lato_regular_big66" >
+                    </EditText>
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/pollutionCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/district2_layout"
+                    android:layout_marginLeft="@dimen/checkbox_left_margin145"
+                    android:layout_marginRight="@dimen/checkout_checkbox_left_margin158"
+                    android:text="@string/is_this_pollution_str"
+                    android:textColor="@color/black"
+                    android:button="@drawable/checkbox_selector"
+                    android:paddingLeft="@dimen/template_spacing15"
+                    android:textSize="@dimen/white_lato_bold_small50" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pollutionCheckBox"
+                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
+                    android:layout_marginRight="@dimen/white_lato_regular_big79"
+                    android:layout_marginBottom="@dimen/white_lato_regular_big79"
+                    android:layout_marginTop="@dimen/button_top_margin345" >
+
+                    <Button
+                        android:id="@+id/button1"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/button_height150"
+                        android:layout_weight="20"
+                        android:background="@drawable/grey_background"
+                        android:text="@string/cancel"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+                    <Button
+                        android:id="@+id/space"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/button2"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/button_height150"
+                        android:layout_weight="20"
+                        android:background="@drawable/dark_grey_background"
+                        android:text="@string/next"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dialog_black_lato_regular_small60" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

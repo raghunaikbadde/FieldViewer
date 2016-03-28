@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="2dp"/>
+            <stroke 
+                android:width="@dimen/dialog_list_divider4"
+                android:color="@color/grey"/>
+            <gradient
+                android:angle="270"
+                android:centerY="0.5"
+                android:endColor="@color/white"
+                android:startColor="@color/white" />
+        </shape>
+    </item>
+</layer-list>

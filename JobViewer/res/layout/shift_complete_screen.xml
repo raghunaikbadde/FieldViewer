@@ -1,0 +1,232 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.jobviewer.MainActivity" >
+
+    <include layout="@layout/job_viewer_title_template" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/shift_complete_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/spinner_bottom_margin30"
+                android:layout_marginTop="@dimen/title_number_spacing65"
+                android:text="@string/shift_complete"
+                android:textColor="@color/black"
+                android:textSize="@dimen/title_text_size70" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/shout_logo_right_margin388"
+                android:layout_marginLeft="@dimen/white_lato_regular_big79"
+                android:layout_marginRight="@dimen/white_lato_regular_big79"
+                android:background="@drawable/grey_background"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/shift_summary_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/email_top_margin21"
+                    android:text="@string/shift_summary"
+                    android:textColor="@color/dark_grey" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/grey_lato_regular_small26"
+                    android:layout_marginRight="@dimen/grey_lato_regular_small26"
+                    android:layout_marginTop="@dimen/shift_complete_spacing12" >
+
+                    <TextView
+                        android:id="@+id/shift_hour_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:text="@string/shift_hours"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/black_lato_regular_medium45" />
+
+                    <TextView
+                        android:id="@+id/shift_hour_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="@string/tmp_shift_time"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/black_lato_regular_medium45" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/grey_lato_regular_small26"
+                    android:layout_marginRight="@dimen/grey_lato_regular_small26"
+                    android:layout_marginTop="@dimen/shift_complete_spacing12" >
+
+                    <TextView
+                        android:id="@+id/break_taken_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:text="@string/break_taken"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/black_lato_regular_medium45" />
+
+                    <TextView
+                        android:id="@+id/break_taken_numbers"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="@string/tmp_break_taken"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/black_lato_regular_medium45" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/grey_lato_regular_small26"
+                    android:layout_marginRight="@dimen/grey_lato_regular_small26"
+                    android:layout_marginTop="@dimen/shift_complete_spacing12" >
+
+                    <TextView
+                        android:id="@+id/hours_worked"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:text="@string/hours_worked"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/black_lato_regular_medium45" />
+
+                    <TextView
+                        android:id="@+id/hours_worked_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="@string/tmp_shift_time"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/black_lato_regular_medium45" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/grey_lato_regular_small26"
+                    android:layout_marginRight="@dimen/grey_lato_regular_small26"
+                    android:layout_marginTop="@dimen/shift_complete_spacing12" >
+
+                    <TextView
+                        android:id="@+id/work_completed"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:text="@string/work_completed"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/black_lato_regular_medium45" />
+
+                    <TextView
+                        android:id="@+id/work_completed_numbers"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="@string/tmp_break_taken"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/black_lato_regular_medium45" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/info_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/title_number_spacing65"
+                android:layout_marginLeft="@dimen/white_lato_regular_big79"
+                android:layout_marginRight="@dimen/white_lato_regular_big79"
+                android:layout_marginTop="@dimen/spinner_bottom_margin30"
+                android:gravity="center_horizontal"
+                android:text="@string/please_leave_your_phone"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/grey_lato_regular_small35" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/spinner_bottom_margin30"
+                android:layout_marginLeft="@dimen/white_lato_regular_big79"
+                android:layout_marginRight="@dimen/white_lato_regular_big79" >
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/start_break_button_height168"
+                    android:layout_weight="20"
+                    android:background="@drawable/dark_grey_background"
+                    android:text="@string/close_app" />
+
+                <Button
+                    android:id="@+id/space"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/start_break_button_height168"
+                    android:layout_weight="20"
+                    android:background="@drawable/red_background"
+                    android:text="@string/go_on_call" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/capture_button_height220"
+                android:layout_marginBottom="@dimen/dialog_clock_icon_left_right_margin40"
+                android:layout_marginLeft="@dimen/white_lato_regular_big79"
+                android:layout_marginRight="@dimen/white_lato_regular_big79"
+                android:background="@drawable/grey_background" >
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/lanes_logo_bottom_margin23"
+                    android:src="@drawable/correct_sign_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/shift_complete_thank_you"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/dialog_black_lato_regular_small60" />
+            </LinearLayout>
+
+            <include layout="@layout/copyright_bottom_template" 
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/white_lato_regular_small40"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

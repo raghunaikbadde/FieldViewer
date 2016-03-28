@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/progres"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/whiteColor"
+    android:gravity="center"
+    android:orientation="horizontal" android:layout_marginLeft="50dp" android:layout_marginRight="50dp">
+
+    <ProgressBar
+        android:id="@+id/progressCircle"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-10dp"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/custom_progress_background" />
+
+    <TextView
+        android:id="@+id/progressMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="-10dp"
+        android:text="Processing..."
+        android:textColor="@color/blackColor"
+        android:textSize="18dp" />
+
+</LinearLayout>

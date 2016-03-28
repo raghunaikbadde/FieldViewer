@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width920"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/dialog_info"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_header_height242"
+        android:background="@drawable/dialog_header_background"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/black_lato_regular_small55"
+        android:paddingRight="@dimen/black_lato_regular_small55"
+        android:text="@string/select_how_you_will"
+        android:textColor="@color/white"
+        android:textSize="@dimen/white_lato_bold_small50" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_list_height200"
+        android:background="@color/white" >
+
+        <ImageView
+            android:id="@+id/clock_image"
+            android:layout_width="@dimen/dialog_icon_full_space163"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/white_lato_regular_small40"
+            android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:gravity="center_vertical"
+            android:src="@drawable/shift_clock_icon" />
+
+        <TextView
+            android:id="@+id/shift_text"
+            android:layout_width="@dimen/dialog_text_width510"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/shift"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+        <CheckBox
+            android:id="@+id/checkBox1"
+            style="@style/SampleTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginLeft="@dimen/white_lato_regular_small40"
+            android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:button="@drawable/checkbox_selector" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dialog_list_divider4"
+        android:background="@color/grey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_list_height200"
+        android:background="@color/white" >
+
+        <ImageView
+            android:id="@+id/oncall_image"
+            android:layout_width="@dimen/dialog_icon_full_space163"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/white_lato_regular_small40"
+            android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:gravity="center_vertical"
+            android:src="@drawable/oncall_phone_icon" />
+
+        <TextView
+            android:id="@+id/oncall_text"
+            android:layout_width="@dimen/dialog_text_width510"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/oncall"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            style="@style/SampleTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginLeft="@dimen/white_lato_regular_small40"
+            android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:button="@drawable/checkbox_selector" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_button_height152"
+        android:layout_below="@id/dialog_info" >
+
+        <Button
+            android:id="@+id/dialog_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_grey_button"
+            android:text="@string/back"
+            android:textAllCaps="false"
+            android:textColor="@color/lighter_grey"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+        <Button
+            android:id="@+id/dialog_ok"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_red_button"
+            android:clickable="false"
+            android:text="@string/start"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,34 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/headerBackColor</item>
+        <item name="android:colorPrimary">@color/headerBackColor</item>
+        <!-- Override the color of UI controls -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:colorAccent">@color/headerBackColor</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorAccent">@color/headerBackColor</item>
+        <item name="alertDialogTheme">@style/AppCompatDialogStyle</item>
+    </style>
+
+    <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/headerBackColor</item>
+        <item name="android:textColorPrimary">@color/blackColor</item>
+        <item name="android:background">@color/whiteColor</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+</resources>

@@ -1,0 +1,1114 @@
+{
+    "type": "Excavation Risk Assessment",
+    "screens": {
+        "screen": [
+            {
+                "_number": "1",
+                "_progress": "2",
+                "_type": "check",
+                "title": "Set-up on Arrival",
+                "text": "Set up your basic cones and signs at the front and rear of the vehicle as required",
+                "answer": "",
+                "checkbox": {
+                    "label": "Set-up complete",
+                    "required": true
+                },
+                "buttons": {
+                    "cancel": {
+                        "display": false
+                    },
+                    "save": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "SAVE"
+                            }
+                        }
+                    },
+                    "next": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "MOVE",
+                                "screen": "2"
+                            }
+                        }
+                    },
+                    "resume": {
+                        "display": false
+                    }
+                }
+            },
+            {
+                "_number": "2",
+                "_progress": "5",
+                "_type": "media",
+                "title": "Set-up on Arrival",
+                "text": "Capture the set-up in front of, and behind, the vehicle. At least two photos are required.",
+                "answer": "",
+                "required_images": "2",
+                "images": [
+                    {
+                        "image_string": "",
+                        "image_exif": ""
+                    },
+                    {
+                        "image_string": "",
+                        "image_exif": ""
+                    }
+                ],
+                "buttons": {
+                    "cancel": {
+                        "display": false
+                    },
+                    "save": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "SAVE"
+                            }
+                        }
+                    },
+                    "next": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "MOVE",
+                                "screen": "3"
+                            }
+                        }
+                    },
+                    "resume": {
+                        "display": false
+                    }
+                }
+            },
+            {
+                "_number": "3",
+                "_progress": "8",
+                "_type": "yesno",
+                "title": "Customer",
+                "text": "Is the customer present?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "6"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "click": {
+                            },
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "4"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "4",
+                "_progress": "11",
+                "_type": "yesno",
+                "title": "Customer",
+                "text": "Is it possible to continue working?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "next": ""
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "next": 5
+                        }
+                    }
+                },
+                "buttons": {
+                    "show_save": "yes",
+                    "show_next": "yes"
+                },
+                "buttons_screen": {
+                    "on_save": "2",
+                    "on_next": "3",
+                    "on_yes": "4",
+                    "on_no": "5"
+                }
+            },
+            {
+                "_number": "5",
+                "_progress": "14",
+                "_type": "media",
+                "title": "Calling Card",
+                "text": "Capture the completed calling card",
+                "answer": "",
+                "required_images": "1",
+                "images": [
+                    {
+                        "image_string": "",
+                        "image_exif": ""
+                    }
+                ],
+                "buttons": {
+                    "cancel": {
+                        "display": false
+                    },
+                    "save": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "SAVE",
+                                "screen": "5"
+                            }
+                        }
+                    },
+                    "next": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN_CUSTOMER_NOT_PRESENT__"
+                            }
+                        }
+                    },
+                    "resume": {
+                        "display": false
+                    }
+                }
+            },
+            {
+                "_number": "6",
+                "_progress": "17",
+                "_type": "yesno",
+                "title": "Overhead Cables",
+                "text": "Are there any overhead cables at this location that present a risk?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "click": {
+                                "type": "ALERT",
+                                "text": "Ensure that your vehicle is a safe height to continue. If in doubt contact your Field Manager.",
+                                "vibrate": true
+                            },
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "7"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "7"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "7",
+                "_progress": "20",
+                "_type": "yesno",
+                "title": "Safe System of Work",
+                "text": "Do you have the 'Safe System of Work' pack that covers this job type?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "8"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN__"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "8",
+                "_progress": "23",
+                "_type": "yesno",
+                "title": "Weather",
+                "text": "Is the weather suitable to commence work?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "9"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN__"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "9",
+                "_progress": "26",
+                "_type": "yesno",
+                "title": "Other Contractors",
+                "text": "Are there any other contractors working in the vicinity?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "click": {
+                                "type": "ALERT",
+                                "text": "Make contact and discuss work co-ordination",
+                                "vibrate": true
+                            },
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "10"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "11"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "10",
+                "_progress": "29",
+                "_type": "yesno",
+                "title": "Other Contractors",
+                "text": "Following discussion with contractors, is it safe to continue work?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "11"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN__"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "11",
+                "_progress": "32",
+                "_type": "yesno",
+                "title": "Suitable Training",
+                "text": "Are you and your fellow team members suitably trained and competent to complete the work required?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "12"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN__"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "12",
+                "_progress": "35",
+                "_type": "yesno",
+                "title": "PPE",
+                "text": "Do you have correct and suitable PPE to carry out this work?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "13"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN__"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "13",
+                "_progress": "38",
+                "_type": "yesno",
+                "title": "Equipment",
+                "text": "Do you the have correct equipment to carry out the works?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "14"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN__"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "14",
+                "_progress": "41",
+                "_type": "yesno",
+                "title": "First Aid Kit",
+                "text": "Do you have a full and in-date first aid kit and eye wash?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "15"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "click": {
+                                "type": "ALERT",
+                                "text": "Contact your Field Manager and arrange to collect what you need ASAP.",
+                                "vibrate": true
+                            },
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN__"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "15",
+                "_progress": "44",
+                "_type": "yesno",
+                "title": "Equipment",
+                "text": "Have you completed your daily equipment checks?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "17"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "click": {
+                                "type": "ALERT",
+                                "text": "Complete your equipment checks - It could save your life!",
+                                "vibrate": true
+                            },
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "16"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "16",
+                "_progress": "47",
+                "_type": "yesno",
+                "title": "Equipment",
+                "text": "Having completed your equipment checks, is it safe to continue?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "17"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN__"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "17",
+                "_progress": "50",
+                "_type": "yesno",
+                "title": "Footpaths",
+                "text": "Will your work involve using or obstructing the footpath?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "18"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "19"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "18",
+                "_progress": "52",
+                "_type": "media",
+                "title": "Footpaths",
+                "text": "Capture the protection measures in place on/around footpaths",
+                "answer": "",
+                "required_images": "1",
+                "images": [
+                    {
+                        "image_string": "",
+                        "image_exif": ""
+                    }
+                ],
+                "buttons": {
+                    "cancel": {
+                        "display": false
+                    },
+                    "save": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "SAVE"
+                            }
+                        }
+                    },
+                    "next": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "MOVE",
+                                "screen": "19"
+                            }
+                        }
+                    },
+                    "resume": {
+                        "display": false
+                    }
+                }
+            },
+            {
+                "_number": "19",
+                "_progress": "55",
+                "_type": "yesno",
+                "title": "Noise",
+                "text": "Will your equipment create a noise hazard?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "20"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "21"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "20",
+                "_progress": "58",
+                "_type": "yesno",
+                "title": "Noise",
+                "text": "Can you safely control the risk to yourself and others?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "21"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN__"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "21",
+                "_progress": "61",
+                "_type": "yesno",
+                "title": "Spillage Procedure",
+                "text": "Do you have a spill kit and knowledge of the spillage procedure?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "22"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "click": {
+                                "type": "ALERT",
+                                "text": "Contact your Field Manager and arrange to collect what you need ASAP.",
+                                "vibrate": true
+                            },
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN__"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "22",
+                "_progress": "64",
+                "_type": "yesno",
+                "title": "Fuels & Substances",
+                "text": "Are all fuels and substances on your vehicle correctly labelled and do you have COSHH data sheets for all substances?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "23"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN__"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "23",
+                "_progress": "67",
+                "_type": "yesno",
+                "title": "Aeration Equipment",
+                "text": "Do you require aeration equipment for this job?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "click": {
+                                "type": "ALERT",
+                                "text": "Caution - lifejacket required. Do not start work without one.",
+                                "vibrate": true
+                            },
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "24"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "24"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "24",
+                "_progress": "70",
+                "_type": "yesno",
+                "title": "Standpipe",
+                "text": "Do you have a suitable and working standpipe?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "26"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "25"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "25",
+                "_progress": "73",
+                "_type": "yesno",
+                "title": "Standpipe",
+                "text": "Can you continue working safely?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "26"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN__"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "26",
+                "_progress": "76",
+                "_type": "media",
+                "title": "Standpipe",
+                "text": "Optional: Capture an image of the standpipe if required",
+                "answer": "",
+                "required_images": "0",
+                "images": [
+                    {
+                        "image_string": "",
+                        "image_exif": ""
+                    }
+                ],
+                "buttons": {
+                    "cancel": {
+                        "display": false
+                    },
+                    "save": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "SAVE"
+                            }
+                        }
+                    },
+                    "next": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "MOVE",
+                                "screen": "27"
+                            }
+                        }
+                    },
+                    "resume": {
+                        "display": false
+                    }
+                }
+            },
+            {
+                "_number": "27",
+                "_progress": "79",
+                "_type": "yesno",
+                "title": "Location Awareness",
+                "text": "Is there anything at this location which may harm you or another person?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "28"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "30"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "28",
+                "_progress": "82",
+                "_type": "yesno",
+                "title": "Location Awareness",
+                "text": "Can you suitably control the risk at this location?",
+                "answer": "",
+                "options": 
+                {
+                    "yes": {
+                        "display": true,
+                        "label": "Yes",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "29"
+                            }
+                        }
+                    },
+                    "no": {
+                        "display": true,
+                        "label": "No",
+                        "actions": {
+                            "submit": {
+                                "type": "MOVE",
+                                "screen": "__STOPSCREEN__"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_number": "29",
+                "_progress": "85",
+                "_type": "media_with_input",
+                "title": "Location Awareness",
+                "text": "Capture an image or add a description of how you will control the risk at this location?",
+                "answer": "",
+                "input": "",
+                "required_images": "0",
+                "images": [
+                    {
+                        "image_string": "",
+                        "image_exif": ""
+                    }
+                ],
+                "buttons": {
+                    "cancel": {
+                        "display": false
+                    },
+                    "save": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "SAVE"
+                            }
+                        }
+                    },
+                    "next": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "MOVE",
+                                "screen": "19"
+                            }
+                        }
+                    },
+                    "resume": {
+                        "display": false
+                    }
+                }
+            },
+            {
+                "_number": "30",
+                "_progress": "88",
+                "_type": "check",
+                "title": "Confirmation",
+                "text": "I confirm that the hazards at this location can be suitably controlled and it is safe to continue work. If anything at this location changes I will stop work and re-assess.",
+                "answer": "",
+                "checkbox": {
+                    "label": "I confirm",
+                    "required": true
+                },
+                "buttons": {
+                    "cancel": {
+                        "display": false
+                    },
+                    "save": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "SAVE"
+                            }
+                        }
+                    },
+                    "next": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "MOVE",
+                                "screen": "31"
+                            }
+                        }
+                    },
+                    "resume": {
+                        "display": false
+                    }
+                }
+            },
+            {
+                "_number": "31",
+                "_progress": "91",
+                "_type": "information",
+                "title": "",
+                "text": "Start Work - remember safe manual handling. 'Use the big engines!'",
+                "information": "Tap Next to continue",
+                "answer": "",
+                "checkbox": {
+                    "label": "I confirm",
+                    "required": true
+                },
+                "buttons": {
+                    "cancel": {
+                        "display": false
+                    },
+                    "save": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "SAVE"
+                            }
+                        }
+                    },
+                    "next": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "MOVE",
+                                "screen": "32"
+                            }
+                        }
+                    },
+                    "resume": {
+                        "display": false
+                    }
+                }
+            },
+            {
+                "_number": "32",
+                "_progress": "94",
+                "_type": "media",
+                "title": "Safe Zone",
+                "text": "Capture the safe zone",
+                "answer": "",
+                "required_images": "1",
+                "images": [
+                    {
+                        "image_string": "",
+                        "image_exif": ""
+                    }
+                ],
+                "buttons": {
+                    "cancel": {
+                        "display": false
+                    },
+                    "save": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "SAVE"
+                            }
+                        }
+                    },
+                    "next": {
+                        "display": true,
+                        "actions": {
+                            "click": {
+                                "type": "MOVE",
+                                "screen": "COMPLETE"
+                            }
+                        }
+                    },
+                    "resume": {
+                        "display": false
+                    }
+                }
+            },
+        ]
+    }
+}

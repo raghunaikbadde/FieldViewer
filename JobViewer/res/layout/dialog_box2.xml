@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width920"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog_info"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_header_height242"
+        android:paddingLeft="@dimen/black_lato_regular_small55"
+        android:paddingRight="@dimen/black_lato_regular_small55"
+        android:textColor="@color/white"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/white_lato_bold_small50"
+        android:background="@drawable/dialog_header_background"
+        android:text="@string/select_the_activity"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_list_height200"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/camera_image"
+            android:layout_width="@dimen/dialog_icon_full_space163"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/white_lato_regular_small40"
+            android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:src="@drawable/work_camera_icon" />
+
+        <TextView
+            android:id="@+id/shift_text"
+            android:layout_width="@dimen/dialog_text_width510"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/dialog_black_lato_regular_small60"
+            android:text="@string/work" />
+
+        <CheckBox
+            android:id="@+id/checkBox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spinner_top_margin25"
+            android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:button="@drawable/checkbox_selector"
+            android:layout_gravity="right|center_vertical"/>
+    </LinearLayout>
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dialog_list_divider4"
+        android:background="@color/grey"/>
+    
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_list_height200"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/picture_image"
+            android:layout_width="@dimen/dialog_icon_full_space163"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/white_lato_regular_small40"
+            android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:src="@drawable/work_nophotos_user_icon" />
+
+        <TextView
+            android:id="@+id/work_no_photos_text"
+            android:layout_width="@dimen/dialog_text_width510"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/dialog_black_lato_regular_small60"
+            android:text="@string/work_no_photos" />
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spinner_top_margin25"
+            android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:button="@drawable/checkbox_selector"
+            android:layout_gravity="right|center_vertical"/>
+    </LinearLayout>
+    
+        <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dialog_list_divider4"
+        android:background="@color/grey"/>
+    
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_list_height200"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/book_image"
+            android:layout_width="@dimen/dialog_icon_full_space163"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/white_lato_regular_small40"
+            android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:src="@drawable/training_book_icon" />
+
+        <TextView
+            android:id="@+id/training_text"
+            android:layout_width="@dimen/dialog_text_width510"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/dialog_black_lato_regular_small60"
+            android:text="@string/training" />
+
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spinner_top_margin25"
+            android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:button="@drawable/checkbox_selector"
+            android:layout_gravity="right|center_vertical"/>
+    </LinearLayout>
+    
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_button_height152"
+        android:layout_below="@id/dialog_info">
+
+        <Button
+            android:id="@+id/dialog_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_grey_button"
+            android:textColor="@color/lighter_grey"
+            android:textSize="@dimen/dialog_black_lato_regular_small60"
+            android:text="@string/back"/>
+
+        <Button
+            android:id="@+id/dialog_ok"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_red_button"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dialog_black_lato_regular_small60"
+            android:text="@string/start"/>
+    </LinearLayout>
+</LinearLayout>

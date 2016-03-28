@@ -1,0 +1,180 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.jobviewer.MainActivity" >
+
+    <RelativeLayout 
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        
+    <LinearLayout 
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_above="@+id/bottom_buttons"
+            android:orientation="vertical">
+        
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/white_lato_regular_big79"
+        android:layout_marginRight="@dimen/white_lato_regular_big79">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/update_previous_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/white_lato_regular_big79"
+                android:layout_marginTop="@dimen/white_lato_bold_small50"
+                android:text="@string/update_previous"
+                android:textColor="@color/black"
+                android:textSize="@dimen/title_text_size70" />
+
+            <TextView
+                android:id="@+id/review_your_risk_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
+                android:text="@string/review_your_risk"
+                android:textColor="@color/black"
+                android:textSize="@dimen/black_lato_regular_small55" />
+            
+            <RelativeLayout 
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/checkbox_detail_height325"
+                android:background="@color/grey"
+                android:padding="@dimen/spinner_bottom_margin30"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/setup_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/black_lato_regular_medium45"
+                    android:button="@drawable/checkbox_selector"
+                    android:paddingLeft="@dimen/template_spacing15"
+                    android:text="@string/set_up_your" />
+                
+                <TextView
+	                android:id="@+id/cones_signs"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentBottom="true"
+	                android:layout_alignParentRight="true"
+	                android:text="@string/cones_signs"
+	                android:textColor="@color/red"
+	                android:textSize="@dimen/black_lato_regular_medium45" />
+            </RelativeLayout>
+            
+            <RelativeLayout 
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/checkbox_detail_height325"
+                android:background="@color/grey"
+                android:layout_marginTop="@dimen/white_lato_regular_small40"
+                android:padding="@dimen/spinner_bottom_margin30"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/capture_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/black_lato_regular_medium45"
+                    android:button="@drawable/checkbox_selector"
+                    android:paddingLeft="@dimen/template_spacing15"
+                    android:text="@string/capture_the_setup" />
+                
+                <TextView
+	                android:id="@+id/yes_no1"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentBottom="true"
+	                android:layout_alignParentRight="true"
+	                android:text="@string/tmp_no"
+	                android:textColor="@color/red"
+	                android:textSize="@dimen/black_lato_regular_medium45" />
+            </RelativeLayout>
+            
+             <RelativeLayout 
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/checkbox_detail_height325"
+                android:background="@color/grey"
+                android:layout_marginTop="@dimen/white_lato_regular_small40"
+                android:layout_marginBottom="@dimen/white_lato_regular_small40"
+                android:padding="@dimen/spinner_bottom_margin30"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/current_customer_checkBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                	android:textColor="@color/black"
+                	android:layout_centerVertical="true"
+                    android:textSize="@dimen/black_lato_regular_medium45"
+                    android:button="@drawable/checkbox_selector"
+                    android:paddingLeft="@dimen/template_spacing15"
+                    android:text="@string/current_present" />
+                
+                <TextView
+	                android:id="@+id/yes_no2"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentBottom="true"
+	                android:layout_alignParentRight="true"
+	                android:text="@string/tmp_yes"
+	                android:textColor="@color/red"
+	                android:textSize="@dimen/black_lato_regular_medium45" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/bottom_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/white_lato_regular_big79"
+        android:layout_marginRight="@dimen/white_lato_regular_big79"
+        android:paddingBottom="@dimen/dialog_clock_icon_left_right_margin40">
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height150"
+            android:layout_weight="20"
+            android:background="@drawable/grey_background"
+            android:textColor="@color/dark_grey"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/space"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height150"
+            android:layout_weight="20"
+            android:background="@drawable/dark_grey_background"
+            android:textColor="@color/white"
+            android:text="@string/next" />
+    </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
