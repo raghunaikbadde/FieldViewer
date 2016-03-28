@@ -12,7 +12,6 @@ import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.support.v4.app.TaskStackBuilder;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +31,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
@@ -42,11 +42,10 @@ import android.widget.LinearLayout;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.network.SendImagesOnBackground;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.service.AppKillService;
-import com.lanesgroup.jobviewer.CaptureVistecActivity;
-import com.lanesgroup.jobviewer.EndTravelActivity;
 import com.lanesgroup.jobviewer.LauncherActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.WelcomeActivity;
@@ -61,28 +60,28 @@ public class Utils {
 	public static final String PROGRESS_2_TO_2 = "Step 2 of 2";
 	public static final String PROGRESS_1_TO_1 = "Step 1 of 1";
 	public static final String CALLING_ACTIVITY = "callingActivity";
-	
+
 	public static final String REQUEST_TYPE_WORK = "WORK";
 	public static final String REQUEST_TYPE_UPLOAD = "UPLOAD";
 	public static final String REQUEST_TYPE_TIMESHEET = "TIMESHEET";
-	
+
 	public static boolean work_completed_at = false;
 	public static String work_engineer_id = "123322";
 	public static String work_status = "New";
 	public static String work_flooding_status = null;
 	public static String work_DA_call_out = "No Call Made";
 	public static boolean work_is_redline_captured = false;
-	
+
 	public static String work_id = "22345";
 	static Dialog progressDialog;
 	public static CheckOutObject checkOutObject;
 	public static TimeSheetRequest timeSheetRequest = null;
 	public static TimeSheetRequest endTimeRequest = null;
 	public static TimeSheetRequest startTravelTimeRequest = null;
-	public static TimeSheetRequest endTravelTimeRequest = null;	
+	public static TimeSheetRequest endTravelTimeRequest = null;
 	public static TimeSheetRequest startShiftTimeRequest = null;
 	public static TimeSheetRequest endShiftRequest = null;
-	
+
 	public static TimeSheetRequest callStartTimeRequest = null;
 	public static TimeSheetRequest callEndTimeRequest = null;
 	static int notificationId = 1000;
@@ -389,70 +388,87 @@ public class Utils {
 		Intent intent = new Intent(context, AppKillService.class);
 		context.stopService(intent);
 	}
-	
-	public static void saveTimeSheetInBackLogTable(Context mContext,TimeSheetRequest timeSheetRequest,String api,String requestType){
+
+	public static void saveTimeSheetInBackLogTable(Context mContext,
+			TimeSheetRequest timeSheetRequest, String api, String requestType) {
 		TimeSheetServiceRequests startOrEndPaidTravel = new TimeSheetServiceRequests();
 		startOrEndPaidTravel.setStarted_at(timeSheetRequest.getStarted_at());
 		startOrEndPaidTravel.setRecord_for(timeSheetRequest.getRecord_for());
 		startOrEndPaidTravel.setIs_inactive(timeSheetRequest.getIs_inactive());
-		startOrEndPaidTravel.setIs_overriden(timeSheetRequest.getIs_overriden());
-		startOrEndPaidTravel.setOverride_reason(timeSheetRequest.getOverride_reason());
-		startOrEndPaidTravel.setOverride_comment(timeSheetRequest.getOverride_comment());
-		startOrEndPaidTravel.setOverride_timestamp(timeSheetRequest.getOverride_timestamp());
-		startOrEndPaidTravel.setReference_id(timeSheetRequest.getReference_id());
+		startOrEndPaidTravel
+				.setIs_overriden(timeSheetRequest.getIs_overriden());
+		startOrEndPaidTravel.setOverride_reason(timeSheetRequest
+				.getOverride_reason());
+		startOrEndPaidTravel.setOverride_comment(timeSheetRequest
+				.getOverride_comment());
+		startOrEndPaidTravel.setOverride_timestamp(timeSheetRequest
+				.getOverride_timestamp());
+		startOrEndPaidTravel
+				.setReference_id(timeSheetRequest.getReference_id());
 		startOrEndPaidTravel.setUser_id(timeSheetRequest.getUser_id());
-		
+
 		BackLogRequest backLogRequest = new BackLogRequest();
-		backLogRequest.setRequestApi(CommsConstant.HOST+api);
+		backLogRequest.setRequestApi(CommsConstant.HOST + api);
 		backLogRequest.setRequestClassName("TimeSheetServiceRequests");
 		backLogRequest.setRequestJson(startOrEndPaidTravel.toString());
 		backLogRequest.setRequestType(requestType);
-		
+
 		JobViewerDBHandler.saveBackLog(mContext, backLogRequest);
 	}
-	
-	public static void saveWorkImageInBackLogDb(Context mContext, String mImageBase64,String mImage_exif_string){
-		WorkPhotoUpload workPhotoUpload= new WorkPhotoUpload();
+
+	public static void saveWorkImageInBackLogDb(Context mContext,
+			String mImageBase64, String mImage_exif_string) {
+		WorkPhotoUpload workPhotoUpload = new WorkPhotoUpload();
 		workPhotoUpload.setImage(mImageBase64);
 		workPhotoUpload.setImage_exit(mImage_exif_string);
 		BackLogRequest backLogRequest = new BackLogRequest();
-		backLogRequest.setRequestApi(CommsConstant.HOST+CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id);
+		backLogRequest.setRequestApi(CommsConstant.HOST
+				+ CommsConstant.WORK_PHOTO_UPLOAD + "/" + Utils.work_id);
 		backLogRequest.setRequestClassName("WorkPhotoUpload");
 		backLogRequest.setRequestJson(workPhotoUpload.toString());
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_UPLOAD);
 		JobViewerDBHandler.saveBackLog(mContext, backLogRequest);
 	}
+
 	public static Location locationOfUser = null;
-	public static Location getCurrentLocation(Context context){
-		
-		LocationManager locationManager = (LocationManager)context.getSystemService(context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(locationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
-			
-			@Override
-			public void onStatusChanged(String provider, int status, Bundle extras) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onProviderEnabled(String provider) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onProviderDisabled(String provider) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onLocationChanged(Location location) {
-				// TODO Auto-generated method stub
-				locationOfUser = location;
-			}
-		});
+
+	public static Location getCurrentLocation(Context context) {
+
+		LocationManager locationManager = (LocationManager) context
+				.getSystemService(context.LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(
+				locationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
+
+					@Override
+					public void onStatusChanged(String provider, int status,
+							Bundle extras) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onProviderEnabled(String provider) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onProviderDisabled(String provider) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onLocationChanged(Location location) {
+						// TODO Auto-generated method stub
+						locationOfUser = location;
+					}
+				});
 		return locationOfUser;
 	}
 
+	public static void senImagesToserver(Context context) {
+		SendImagesOnBackground sendImagesOnBackground = new SendImagesOnBackground();
+		sendImagesOnBackground.getAndSendImagesToServer(context);
+	}
 }

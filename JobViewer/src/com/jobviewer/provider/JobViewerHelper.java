@@ -18,7 +18,6 @@ public class JobViewerHelper extends SQLiteOpenHelper {
 		db.execSQL(JobViewerSchema.CREATE_TABLE_IMAGES);
 		db.execSQL(JobViewerSchema.CREATE_TABLE_CHECK_OUT_REMEMBER);
 		db.execSQL(JobViewerSchema.CREATE_TABLE_QUESTION_SET);
-		db.execSQL(JobViewerSchema.CREATE_TABLE_BACK_LOG);
 	}
 
 	@Override

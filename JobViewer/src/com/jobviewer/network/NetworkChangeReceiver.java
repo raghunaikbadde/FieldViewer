@@ -1,18 +1,21 @@
 package com.jobviewer.network;
 
+import com.jobviewer.util.Utils;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
-public class NetworkChangeReceiver extends BroadcastReceiver{
+public class NetworkChangeReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		String status = NetworkUtil.getConnectivityStatusString(context);
-		 
-        Toast.makeText(context, status, Toast.LENGTH_LONG).show();
-		
+		boolean isConnected = NetworkUtil.getConnectivityStatusString(context);
+
+		if (isConnected) {
+			Utils.senImagesToserver(context);
+		}
+
 	}
 
 }

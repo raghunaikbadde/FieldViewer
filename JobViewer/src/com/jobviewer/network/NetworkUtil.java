@@ -12,7 +12,7 @@ public class NetworkUtil {
 	public static int getConnectivityStatus(Context context) {
 		ConnectivityManager cm = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		//Raghu
+		// Raghu
 		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 		if (null != activeNetwork) {
 			if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI)
@@ -24,16 +24,16 @@ public class NetworkUtil {
 		return TYPE_NOT_CONNECTED;
 	}
 
-	public static String getConnectivityStatusString(Context context) {
+	public static boolean getConnectivityStatusString(Context context) {
 		int conn = NetworkUtil.getConnectivityStatus(context);
 		String status = null;
 		if (conn == NetworkUtil.TYPE_WIFI) {
-			status = "Wifi enabled";
+			return true;
 		} else if (conn == NetworkUtil.TYPE_MOBILE) {
-			status = "Mobile data enabled";
+			return true;
 		} else if (conn == NetworkUtil.TYPE_NOT_CONNECTED) {
-			status = "Not connected to Internet";
+			return false;
 		}
-		return status;
+		return false;
 	}
 }

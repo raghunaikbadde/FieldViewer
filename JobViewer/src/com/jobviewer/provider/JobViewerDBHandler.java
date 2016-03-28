@@ -168,6 +168,10 @@ public class JobViewerDBHandler {
 				image.getImage_string());
 		values.put(JobViewerProviderContract.Image.IMAGE_URL,
 				image.getImage_url());
+		values.put(JobViewerProviderContract.Image.IMAGE_CATEGORY,
+				image.getCategory());
+		values.put(JobViewerProviderContract.Image.IMAGE_EXIF,
+				image.getImage_exif());
 		context.getContentResolver().insert(
 				JobViewerProviderContract.Image.CONTENT_URI, values);
 	}
@@ -197,6 +201,12 @@ public class JobViewerDBHandler {
 			imageObject
 					.setImage_url(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.Image.IMAGE_URL)));
+			imageObject
+					.setCategory(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.Image.IMAGE_CATEGORY)));
+			imageObject
+					.setImage_exif(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.Image.IMAGE_EXIF)));
 		}
 		cursor.close();
 		return imageObject;
@@ -421,5 +431,4 @@ public class JobViewerDBHandler {
 		cursor.close();
 		return allBackLogRequest;
 	}
-
 }
