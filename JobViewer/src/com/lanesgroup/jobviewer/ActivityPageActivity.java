@@ -14,6 +14,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,7 +41,9 @@ public class ActivityPageActivity extends Activity implements
 		View.OnClickListener, DialogCallback {
 	TextView user_email_text, date_time_text, vehicleRegistrationNumber;
 	LinearLayout checked_out_layout;
-
+	
+	private ImageView mShoutAbout;
+	
 	private Button mStart, mCheckOutVehicle, mStartTravel, mEndOnCall;
 	Context mContext;
 
@@ -55,6 +58,10 @@ public class ActivityPageActivity extends Activity implements
 	}
 
 	private void updateDetailsOnUI() {
+		
+		mShoutAbout = (ImageView) findViewById(R.id.shout_about_image);
+		mShoutAbout.setOnClickListener(this);
+		
 		User userProfile = JobViewerDBHandler.getUserProfile(this);
 		if (Utils.isNullOrEmpty(userProfile.getFirstname())) {
 			user_email_text.setText(userProfile.getEmail());
@@ -150,6 +157,9 @@ public class ActivityPageActivity extends Activity implements
 			new showTimeDialog(this, this, "travel").show();
 		} else if (view == mEndOnCall) {
 			
+		} else if (view == mShoutAbout){
+			intent.setClass(ActivityPageActivity.this, ShoutOptionsActivity.class);
+			startActivity(intent);
 		}
 	}
 

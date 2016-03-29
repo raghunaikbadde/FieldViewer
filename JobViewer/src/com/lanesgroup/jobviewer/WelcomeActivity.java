@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
@@ -35,6 +36,7 @@ public class WelcomeActivity extends BaseActivity {
 	Button cancel, start;
 	OnCheckedChangeListener checkChangedListner;
 	Context context;
+	ImageView mShout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,17 @@ public class WelcomeActivity extends BaseActivity {
 		setContentView(R.layout.welcome_screen);
 		Utils.checkOutObject=new CheckOutObject();
 		context = this;
+		
+		mShout = (ImageView) findViewById(R.id.shout_about_image);
+		mShout.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(WelcomeActivity.this, ShoutOptionsActivity.class);
+				startActivity(intent);
+			}
+		});
 		Button clockIn = (Button) findViewById(R.id.clock_in);
 		clockIn.setOnClickListener(new OnClickListener() {
 
