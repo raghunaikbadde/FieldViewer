@@ -70,6 +70,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 		mTaskNumber1 = (EditText) findViewById(R.id.distric3_edittext);
 		mTaskNumber2 = (EditText) findViewById(R.id.distric4_edittext);
 		mCancel = (Button) findViewById(R.id.button1);
+		mCancel.setOnClickListener(this);
 		mNext = (Button) findViewById(R.id.button2);
 		mNext.setOnClickListener(this);
 		mDistrict2.requestFocus();
@@ -131,7 +132,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View view) {
 		if (view == mCancel) {
-
+			finish();
 		} else if (view == mNext) {
 			boolean isValidUserInput = isValidUserInput();
 			if (isValidUserInput) {

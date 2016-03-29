@@ -84,7 +84,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 	@Override
 	public void onClick(View view) {
 		if (view == mSave) {
-			finish();
+			//finish();
 		} else if (view == mNext) {
 				
 		} else if (view == mCaptureVistec) {

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -287,6 +288,12 @@ public class EndTravelActivity extends BaseActivity implements
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.END_TRAVEL_API, data, getEndTravelHandler());
 
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		exitApplication();
+		return true;
 	}
 
 	@Override

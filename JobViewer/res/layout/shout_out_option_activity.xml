@@ -186,7 +186,7 @@
             android:layout_height="@dimen/button_height150"
             android:layout_weight="20"
             android:background="@drawable/grey_background"
-            android:text="@string/save"
+            android:text="@string/cancel"
             android:textColor="@color/black"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
 

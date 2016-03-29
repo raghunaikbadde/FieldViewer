@@ -108,9 +108,9 @@ public class SelectActivityDialog extends Activity {
 					startActivity(intent);
 
 				} else if (selected.equalsIgnoreCase(WORK_NO_PHOTOS)) {
-					intent = new Intent(SelectActivityDialog.this,
+					/*intent = new Intent(SelectActivityDialog.this,
 							MainActivity.class);
-					startActivity(intent);
+					startActivity(intent);*/
 				} else {
 					// intent = new Intent(ActivityPageActivity.this,
 					// ClockInConfirmationActivity.class);

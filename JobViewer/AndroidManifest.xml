@@ -101,7 +101,7 @@
             android:screenOrientation="portrait" />
             
         <activity
-            android:name=".ShoutOptionsActivity"
+            android:name="com.lanesgroup.jobviewer.ShoutOptionsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.lanesgroup.jobviewer.fragment.ShoutOutActivity"

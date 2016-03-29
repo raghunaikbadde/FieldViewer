@@ -19,6 +19,7 @@ public class ShoutOptionsActivity extends BaseActivity implements OnCheckedChang
 	private RadioButton mHazard, mIdea, mSafety;
 	private Context mContext;
 	private String mOption;
+	private boolean mRadioChecked;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ public class ShoutOptionsActivity extends BaseActivity implements OnCheckedChang
 		mOption = (String) buttonView.getTag();
 		mNext.setOnClickListener(this);
 		mNext.setBackgroundResource(R.drawable.red_background);
+		mSave.setText(getResources().getString(R.string.save));
+		mRadioChecked = true;
 	}
 	
 
@@ -54,6 +57,11 @@ public class ShoutOptionsActivity extends BaseActivity implements OnCheckedChang
 	public void onClick(View view) {
 		Intent intent = new Intent();
 		if(view == mSave){
+			if(mRadioChecked){
+				
+			}else {
+				finish();
+			}
 			
 		}else if (view == mNext){
 			intent.putExtra("ShoutOption", mOption);
