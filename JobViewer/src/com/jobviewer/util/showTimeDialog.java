@@ -79,7 +79,7 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 			} else {
 				Utils.endTimeRequest.setUser_id(userProfile.getEmail());
 				if (!Utils.isNullOrEmpty(checkOutRemember.getVistecId())) {
-					Utils.timeSheetRequest.setReference_id(checkOutRemember
+					Utils.endTimeRequest.setReference_id(checkOutRemember
 							.getVistecId());
 				}
 				Utils.endTimeRequest.setRecord_for(userProfile.getEmail());

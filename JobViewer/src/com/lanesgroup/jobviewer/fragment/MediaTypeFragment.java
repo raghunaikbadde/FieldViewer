@@ -15,7 +15,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.v7.widget.ListPopupWindow.ForwardingListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,19 +30,15 @@ import android.widget.Toast;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
-import com.jobviewer.exception.ExceptionHandler;
-import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.Images;
 import com.jobviewer.survey.object.Screen;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
-import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
-import com.lanesgroup.jobviewer.RiskAssessmentActivity;
 import com.vehicle.communicator.HttpConnection;
 
 public class MediaTypeFragment extends Fragment implements OnClickListener {
@@ -310,16 +305,16 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-					Intent intent = new Intent(getActivity(),
+					/*Intent intent = new Intent(getActivity(),
 							RiskAssessmentActivity.class);
-					startActivity(intent);
+					startActivity(intent);*/
 					break;
 				case HttpConnection.DID_ERROR:
-					String error = (String) msg.obj;
+					/*String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
-					ExceptionHandler.showException(getActivity(), exception, "Info");
+					ExceptionHandler.showException(getActivity(), exception, "Info");*/
 					Utils.saveWorkImageInBackLogDb(getActivity(), imageObject);
 					break;
 				default:

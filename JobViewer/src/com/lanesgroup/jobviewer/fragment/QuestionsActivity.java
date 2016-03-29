@@ -47,7 +47,7 @@ public class QuestionsActivity extends Activity implements
 						"excavation_risk_assessment_survey1.json");
 			} else {
 				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-						"excavation_risk_assessment_survey1.json");
+						"non_excavation_risk_assessment_survey.json");
 			}
 
 			manager.setQuestionMaster(loadJsonFromAssets);

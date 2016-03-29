@@ -633,7 +633,7 @@
               "display": true,
               "actions": {
                 "click": {
-                  "type": "SAVE",
+                  "type": "SAVE"
                   
                 }
               }
@@ -914,7 +914,7 @@
               "display": true,
               "actions": {
                 "click": {
-                  "type": "SAVE",
+                  "type": "SAVE"
                   
                 }
               }
@@ -1026,7 +1026,7 @@
               "display": true,
               "actions": {
                 "click": {
-                  "type": "SAVE",
+                  "type": "SAVE"
                   
                 }
               }
