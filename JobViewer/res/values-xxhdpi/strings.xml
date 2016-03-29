@@ -133,7 +133,7 @@
     <string name="is_this_pollution_str">Is this a pollution?</string>
     <string name="non_excavation_risk_str">Non-Excavation Risk Assessment</string>
     <string name="excavation_risk_str">Excavation Risk Assessment</string>
-    <string name="tmp_progress_step">5%</string>
+    <string name="tmp_progress_step">20%</string>
     <string name="set_up_on_arrival_str">Set-up on Arrival</string>
     <string name="capture_the_setup_str">Capture the set-up in front of, and behind, the vehicle. At least two photos are required.</string>
     <string name="capture_image_str">Capture Image</string>
@@ -193,7 +193,13 @@
     <string name="waterPollutants">Water pollutants</string>
     <string name="noPreviousQuestionMessage">There are no previous questions. Tap Save or to cancel, press the phone menu button and tap cancel.</string>
     <string name="returnVehicleMsg">Enter details for the vehicle you are returning</string>
-
+    <string name="i_want_to_str">I want to...</string>
+    <string name="report_hazard">Report a hazard or near miss</string>
+    <string name="suggest_idea">Suggest an idea</string>
+    <string name="about_safety">Shout about good safety</string>
+    <string name="shout_about_safety">Shout About Safety</string>
+    
+    
     <string-array name="override_reason_comment">
         <item>Forgot to clock in/out on time</item>
         <item>Busy with customer</item>
