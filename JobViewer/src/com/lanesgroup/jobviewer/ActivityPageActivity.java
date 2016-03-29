@@ -3,13 +3,13 @@ package com.lanesgroup.jobviewer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -37,13 +37,13 @@ import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
 import com.vehicle.communicator.HttpConnection;
 
-public class ActivityPageActivity extends Activity implements
+public class ActivityPageActivity extends BaseActivity implements
 		View.OnClickListener, DialogCallback {
 	TextView user_email_text, date_time_text, vehicleRegistrationNumber;
 	LinearLayout checked_out_layout;
-	
+
 	private ImageView mShoutAbout;
-	
+
 	private Button mStart, mCheckOutVehicle, mStartTravel, mEndOnCall;
 	Context mContext;
 	Bundle bundle;
@@ -61,10 +61,10 @@ public class ActivityPageActivity extends Activity implements
 	}
 
 	private void updateDetailsOnUI() {
-		
+
 		mShoutAbout = (ImageView) findViewById(R.id.shout_about_image);
 		mShoutAbout.setOnClickListener(this);
-		
+
 		User userProfile = JobViewerDBHandler.getUserProfile(this);
 		if (Utils.isNullOrEmpty(userProfile.getFirstname())) {
 			user_email_text.setText(userProfile.getEmail());
@@ -153,12 +153,16 @@ public class ActivityPageActivity extends Activity implements
 				SurveyJson questionSet = JobViewerDBHandler
 						.getQuestionSet(mContext);
 				if (bundle != null
-						&& bundle
-								.containsKey(Utils.CALLING_ACTIVITY) && bundle.getString(Utils.CALLING_ACTIVITY).equalsIgnoreCase(ActivityConstants.ADD_PHOTOS_ACTIVITY)) {					
+						&& bundle.containsKey(Utils.CALLING_ACTIVITY)
+						&& bundle.getString(Utils.CALLING_ACTIVITY)
+								.equalsIgnoreCase(
+										ActivityConstants.ADD_PHOTOS_ACTIVITY)) {
 					Intent addPhotoScreenIntent = new Intent(mContext,
 							AddPhotosActivity.class);
 					Bundle addPhotoScreenIntentBundle = new Bundle();
-					addPhotoScreenIntentBundle.putString(Utils.CALLING_ACTIVITY, ActivityConstants.ACTIVITY_PAGE_ACTIVITY);
+					addPhotoScreenIntentBundle.putString(
+							Utils.CALLING_ACTIVITY,
+							ActivityConstants.ACTIVITY_PAGE_ACTIVITY);
 					startActivity(addPhotoScreenIntent);
 				} else if (questionSet != null
 						&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
@@ -170,7 +174,7 @@ public class ActivityPageActivity extends Activity implements
 					Intent riskAssIntent = new Intent(mContext,
 							RiskAssessmentActivity.class);
 					startActivity(riskAssIntent);
-				} 
+				}
 			} else {
 				intent.setClass(this, SelectActivityDialog.class);
 				startActivity(intent);
@@ -183,8 +187,9 @@ public class ActivityPageActivity extends Activity implements
 			new showTimeDialog(this, this, "travel").show();
 		} else if (view == mEndOnCall) {
 
-		} else if (view == mShoutAbout){
-			intent.setClass(ActivityPageActivity.this, ShoutOptionsActivity.class);
+		} else if (view == mShoutAbout) {
+			intent.setClass(ActivityPageActivity.this,
+					ShoutOptionsActivity.class);
 			startActivity(intent);
 		}
 	}
@@ -305,4 +310,12 @@ public class ActivityPageActivity extends Activity implements
 		return handler;
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			exitApplication();
+			return true;
+		} else
+			return super.onKeyDown(keyCode, event);
+	}
 }
