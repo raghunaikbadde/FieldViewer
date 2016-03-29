@@ -29,7 +29,7 @@ public class JobViewerProvider extends ContentProvider {
 	private static final int TABLE_CHECK_OUT_REMEMBER = 5;
 	private static final int TABLE_QUESTION_SET = 6;
 	private static final int TABLE_BACK_LOG = 7;
-
+	private static final int TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = 8;
 	// prepare the UriMatcher
 	private static final UriMatcher URI_MATCHER;
 	static {
@@ -48,6 +48,9 @@ public class JobViewerProvider extends ContentProvider {
 				"QuestionSetTable", TABLE_QUESTION_SET);
 		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "BackLogTable",
 				TABLE_BACK_LOG);
+		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "AddPhotosScreenSavedImages",
+				TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES);
+		
 	}
 
 	// system calls onCreate() when it starts up the provider.
@@ -75,6 +78,8 @@ public class JobViewerProvider extends ContentProvider {
 		case TABLE_QUESTION_SET:
 			return QuestionSetTable.CONTENT_TYPE;
 		case TABLE_BACK_LOG:
+			return BackLogTable.CONTENT_TYPE;
+		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
 			return BackLogTable.CONTENT_TYPE;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -113,6 +118,9 @@ public class JobViewerProvider extends ContentProvider {
 			return getUriForId(id, uri);
 		case TABLE_BACK_LOG:
 			id = db.insert(JobViewerSchema.TABLE_BACK_LOG, null, values);
+			return getUriForId(id, uri);
+		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
+			id = db.insert(JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES, null, values);
 			return getUriForId(id, uri);
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -172,6 +180,9 @@ public class JobViewerProvider extends ContentProvider {
 		case TABLE_BACK_LOG:
 			queryBuilder.setTables(JobViewerSchema.TABLE_BACK_LOG);
 			break;
+		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
+			queryBuilder.setTables(JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES);
+			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -220,6 +231,10 @@ public class JobViewerProvider extends ContentProvider {
 			break;
 		case TABLE_BACK_LOG:
 			deleteCount = db.delete(JobViewerSchema.TABLE_BACK_LOG, selection,
+					selectionArgs);
+			break;
+		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
+			deleteCount = db.delete(JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES, selection,
 					selectionArgs);
 			break;
 		default:
@@ -272,6 +287,10 @@ public class JobViewerProvider extends ContentProvider {
 			break;
 		case TABLE_BACK_LOG:
 			updateCount = db.update(JobViewerSchema.TABLE_BACK_LOG, values,
+					selection, selectionArgs);
+			break;
+		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
+			updateCount = db.update(JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES, values,
 					selection, selectionArgs);
 			break;
 		default:

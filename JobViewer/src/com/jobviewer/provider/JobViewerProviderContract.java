@@ -134,5 +134,22 @@ public class JobViewerProviderContract {
 		public static final String QUESTION_SET="questionJson";
 		public static final String BACK_STACK="backStack";
 	}
+	
+	public static final class AddPhotosScreenSavedImages implements BaseColumns {
+		public static final Uri CONTENT_URI = Uri.withAppendedPath(
+				JobViewerProviderContract.CONTENT_URI, "AddPhotosScreenSavedImages");
+		public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
+				+ "/vnd.jobviewer";
+		public static final String CONTENT_WALLET_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+				+ "/vnd.jobviewer";
+		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+				+ "/vnd.jobviewer.addPhotosScreenSavedImages";
+
+		public static final String IMAGE_ID ="imageId";
+		public static final String IMAGE_STRING="image_string";
+		public static final String IMAGE_URL="image_url";
+		public static final String IMAGE_CATEGORY="category";
+		public static final String IMAGE_EXIF="image_exif";
+	}
 
 }

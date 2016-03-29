@@ -1,4 +1,3 @@
-
 package com.lanesgroup.jobviewer;
 
 import java.text.SimpleDateFormat;
@@ -47,6 +46,7 @@ public class ActivityPageActivity extends Activity implements
 	
 	private Button mStart, mCheckOutVehicle, mStartTravel, mEndOnCall;
 	Context mContext;
+	Bundle bundle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,10 @@ public class ActivityPageActivity extends Activity implements
 		} else {
 			user_email_text.setText(userProfile.getFirstname());
 		}
-
+		if (Utils.checkOutObject != null) {
+			Utils.checkOutObject = JobViewerDBHandler
+					.getCheckOutRemember(mContext);
+		}
 		String dateText = "Shift Started: "
 				+ Utils.checkOutObject.getJobStartedTime()
 				+ "  .  Breaks: None taken";
@@ -85,9 +88,20 @@ public class ActivityPageActivity extends Activity implements
 			mEndOnCall.setText("End Call");
 		}
 
+		bundle = getIntent().getExtras();
+		boolean shouldShowWorkInProgress = false;
+		if (bundle != null
+				&& bundle.containsKey(Utils.SHOULD_SHOW_WORK_IN_PROGRESS)) {
+			shouldShowWorkInProgress = bundle
+					.getBoolean(Utils.SHOULD_SHOW_WORK_IN_PROGRESS);
+		}
+
 		SurveyJson questionSet = JobViewerDBHandler.getQuestionSet(mContext);
 		if (questionSet != null
 				&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
+			mStart.setText("Continue Work In Progress");
+			mStart.setTag("Continue Work In Progress");
+		} else if (shouldShowWorkInProgress) {
 			mStart.setText("Continue Work In Progress");
 			mStart.setTag("Continue Work In Progress");
 		} else {
@@ -108,7 +122,8 @@ public class ActivityPageActivity extends Activity implements
 		mStart.setOnClickListener(this);
 		mCheckOutVehicle.setOnClickListener(this);
 		mStartTravel.setOnClickListener(this);
-		if (Utils.isNullOrEmpty(Utils.checkOutObject.getMilage())) {
+		if (Utils.checkOutObject == null
+				|| Utils.isNullOrEmpty(Utils.checkOutObject.getMilage())) {
 			checked_out_layout.setVisibility(View.GONE);
 			mCheckOutVehicle.setVisibility(View.VISIBLE);
 		} else {
@@ -137,7 +152,15 @@ public class ActivityPageActivity extends Activity implements
 						.getCheckOutRemember(mContext);
 				SurveyJson questionSet = JobViewerDBHandler
 						.getQuestionSet(mContext);
-				if (questionSet != null
+				if (bundle != null
+						&& bundle
+								.containsKey(Utils.CALLING_ACTIVITY) && bundle.getString(Utils.CALLING_ACTIVITY).equalsIgnoreCase(ActivityConstants.ADD_PHOTOS_ACTIVITY)) {					
+					Intent addPhotoScreenIntent = new Intent(mContext,
+							AddPhotosActivity.class);
+					Bundle addPhotoScreenIntentBundle = new Bundle();
+					addPhotoScreenIntentBundle.putString(Utils.CALLING_ACTIVITY, ActivityConstants.ACTIVITY_PAGE_ACTIVITY);
+					startActivity(addPhotoScreenIntent);
+				} else if (questionSet != null
 						&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
 					Intent riskAssIntent = new Intent(mContext,
 							QuestionsActivity.class);
@@ -147,7 +170,7 @@ public class ActivityPageActivity extends Activity implements
 					Intent riskAssIntent = new Intent(mContext,
 							RiskAssessmentActivity.class);
 					startActivity(riskAssIntent);
-				}
+				} 
 			} else {
 				intent.setClass(this, SelectActivityDialog.class);
 				startActivity(intent);
@@ -159,7 +182,7 @@ public class ActivityPageActivity extends Activity implements
 			Utils.startTravelTimeRequest = new TimeSheetRequest();
 			new showTimeDialog(this, this, "travel").show();
 		} else if (view == mEndOnCall) {
-			
+
 		} else if (view == mShoutAbout){
 			intent.setClass(ActivityPageActivity.this, ShoutOptionsActivity.class);
 			startActivity(intent);
@@ -169,7 +192,8 @@ public class ActivityPageActivity extends Activity implements
 	@Override
 	public void onContinue() {
 		if (!Utils.isInternetAvailable(mContext)) {
-			JobViewerDBHandler.saveTimeSheet(this, Utils.startTravelTimeRequest,
+			JobViewerDBHandler.saveTimeSheet(this,
+					Utils.startTravelTimeRequest,
 					CommsConstant.START_TRAVEL_API);
 			String time = new SimpleDateFormat("HH:mm:ss dd MMM yyyy")
 					.format(Calendar.getInstance().getTime());
@@ -205,8 +229,10 @@ public class ActivityPageActivity extends Activity implements
 				JobViewerDBHandler.saveTimeSheet(this, Utils.timeSheetRequest,
 						CommsConstant.START_BREAK_API);
 				JobViewerDBHandler.getAllTimeSheet(mContext);
-				Utils.saveTimeSheetInBackLogTable(ActivityPageActivity.this, Utils.timeSheetRequest, CommsConstant.START_BREAK_API, Utils.REQUEST_TYPE_WORK);
-				//saveStartBreakinToBackLogDb();
+				Utils.saveTimeSheetInBackLogTable(ActivityPageActivity.this,
+						Utils.timeSheetRequest, CommsConstant.START_BREAK_API,
+						Utils.REQUEST_TYPE_WORK);
+				// saveStartBreakinToBackLogDb();
 				startEndActvity(Utils.timeSheetRequest.getOverride_timestamp());
 			} else {
 				Utils.startProgress(ActivityPageActivity.this);
@@ -265,8 +291,11 @@ public class ActivityPageActivity extends Activity implements
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
 					ExceptionHandler.showException(mContext, exception, "Info");
-					Utils.saveTimeSheetInBackLogTable(ActivityPageActivity.this, Utils.timeSheetRequest, CommsConstant.START_BREAK_API, Utils.REQUEST_TYPE_WORK);
-					//saveStartBreakinToBackLogDb();
+					Utils.saveTimeSheetInBackLogTable(
+							ActivityPageActivity.this, Utils.timeSheetRequest,
+							CommsConstant.START_BREAK_API,
+							Utils.REQUEST_TYPE_WORK);
+					// saveStartBreakinToBackLogDb();
 					break;
 				default:
 					break;
@@ -275,5 +304,5 @@ public class ActivityPageActivity extends Activity implements
 		};
 		return handler;
 	}
-	
+
 }

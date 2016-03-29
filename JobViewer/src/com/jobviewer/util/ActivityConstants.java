@@ -14,4 +14,6 @@ public class ActivityConstants {
 	public static final String ASSESSMENT_COMPLETE="COMPLETE";
 	public static final String START_BREAK="Start Break";
 	public static final String END_BREAK="End Break";
+	public static final String ADD_PHOTOS_ACTIVITY="AddPhotosActitivy";
+	public static final String ACTIVITY_PAGE_ACTIVITY="ActivityPageActivity";
 }

@@ -61,6 +61,7 @@ public class Utils {
 	public static final String PROGRESS_2_TO_2 = "Step 2 of 2";
 	public static final String PROGRESS_1_TO_1 = "Step 1 of 1";
 	public static final String CALLING_ACTIVITY = "callingActivity";
+	public static final String SHOULD_SHOW_WORK_IN_PROGRESS="souldShowWorkInProgress";
 
 	public static final String REQUEST_TYPE_WORK = "WORK";
 	public static final String REQUEST_TYPE_UPLOAD = "UPLOAD";

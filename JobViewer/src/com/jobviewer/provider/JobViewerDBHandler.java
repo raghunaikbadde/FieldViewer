@@ -437,4 +437,50 @@ public class JobViewerDBHandler {
 		cursor.close();
 		return allBackLogRequest;
 	}
+	
+	public static void saveAddPhotoImage(Context context, ImageObject image) {
+		ContentValues values = new ContentValues();
+		values.put(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_ID, image.getImageId());
+		values.put(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_STRING,
+				image.getImage_string());
+		values.put(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_URL,
+				image.getImage_url());
+		values.put(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_CATEGORY,
+				image.getCategory());
+		values.put(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_EXIF,
+				image.getImage_exif());
+		context.getContentResolver().insert(
+				JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI, values);
+	}
+	
+	public static List<ImageObject> getAllAddCardSavedImages(Context context) {
+		List<ImageObject> imageList = new ArrayList<ImageObject>();
+
+		Cursor cursor = context.getContentResolver().query(
+				JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI, null, null, null,
+				null);
+		if (cursor != null && cursor.moveToFirst()) {
+			do {
+				ImageObject imageObject = new ImageObject();
+				imageObject
+						.setImageId(cursor.getString(cursor
+								.getColumnIndex(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_ID)));
+				imageObject
+						.setImage_string(cursor.getString(cursor
+								.getColumnIndex(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_STRING)));
+				imageObject
+						.setImage_url(cursor.getString(cursor
+								.getColumnIndex(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_URL)));
+				imageObject
+						.setCategory(cursor.getString(cursor
+								.getColumnIndex(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_CATEGORY)));
+				imageObject
+						.setImage_exif(cursor.getString(cursor
+								.getColumnIndex(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_EXIF)));
+				imageList.add(imageObject);
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		return imageList;
+	}
 }

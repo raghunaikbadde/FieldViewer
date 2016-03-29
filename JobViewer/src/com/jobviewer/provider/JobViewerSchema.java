@@ -1,5 +1,6 @@
 package com.jobviewer.provider;
 
+import com.jobviewer.provider.JobViewerProviderContract.AddPhotosScreenSavedImages;
 import com.jobviewer.provider.JobViewerProviderContract.BackLogTable;
 import com.jobviewer.provider.JobViewerProviderContract.CheckOutRemember;
 import com.jobviewer.provider.JobViewerProviderContract.Image;
@@ -18,6 +19,8 @@ public interface JobViewerSchema {
 	public static final String TABLE_CHECK_OUT_REMEMBER = "CheckOutRemember";
 	public static final String TABLE_QUESTION_SET = "QuestionSetTable";
 	public static final String TABLE_BACK_LOG = "BackLogTable";
+	public static final String TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = "AddPhotosScreenSavedImages";
+	
 
 	public static final String CREATE_TABLE_USER = "create table " + TABLE_USER
 			+ "(" + User._ID + " integer primary key autoincrement,"
@@ -87,4 +90,12 @@ public interface JobViewerSchema {
 			+ " text," + BackLogTable.REQUEST_JSON + " text,"
 			+ BackLogTable.REQUEST_API + " text,"
 			+ BackLogTable.REQUEST_CLASS_NAME + " text);";
+	
+	public static final String CREATE_TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = "create table "
+			+ TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES + "(" + QuestionSetTable._ID
+			+ " integer primary key autoincrement," + AddPhotosScreenSavedImages.IMAGE_ID
+			+ " text," + AddPhotosScreenSavedImages.IMAGE_STRING + " text,"
+			+ AddPhotosScreenSavedImages.IMAGE_URL + " text,"
+			+ AddPhotosScreenSavedImages.IMAGE_CATEGORY + " text,"
+			+ AddPhotosScreenSavedImages.IMAGE_EXIF + " text);";
 }

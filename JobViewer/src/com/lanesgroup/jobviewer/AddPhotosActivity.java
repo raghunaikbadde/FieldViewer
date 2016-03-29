@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -43,6 +44,7 @@ import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.fragment.MediaTextTypeFragment;
@@ -54,16 +56,19 @@ import com.vehicle.communicator.HttpConnection;
 public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
 	private ProgressBar mProgress;
-	private TextView mProgressStep,mVistecNumber;
-	private ImageButton mAddInfo, mStop, mUser, mClickPhoto,mCaptureCallingCard,mUpdateRiskActivity;
+	private TextView mProgressStep, mVistecNumber;
+	private ImageButton mAddInfo, mStop, mUser, mClickPhoto,
+			mCaptureCallingCard, mUpdateRiskActivity;
 	private Button mSave, mLeaveSite;
 	private ListView mListView;
 	private View mRootView;
 	private ArrayList<HashMap<String, Object>> mPhotoList;
+	private ArrayList<ImageObject> imageObjects;
 	private AddPhotosAdapter mAdapter;
 	private Context mContext;
 	static File file;
 	private ArrayList<WorkPhotoUpload> arrayListOfWokImagesUpload = new ArrayList<WorkPhotoUpload>();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,48 +79,50 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	private void initUI() {
 		mContext = this;
 		mPhotoList = new ArrayList<HashMap<String, Object>>();
-		/*mAdapter = new SimpleAdapter(this, mPhotoList, R.layout.add_photo_list,
-				new String[] { "picture", "time" }, new int[] {
-						R.id.captured_image1, R.id.date_time_text1 });*/
-/*		HashMap<String, Object> hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
-		int count=0;
-		for(ImageObject imageObject : MediaTypeFragment.addPhotoActivityimageObject ){
-			byte[] decodedString = Base64.decode(imageObject.getImage_string(), Base64.DEFAULT);
-			Bitmap bitmapOfSafeZone = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+		imageObjects = new ArrayList<ImageObject>();
+		/*
+		 * mAdapter = new SimpleAdapter(this, mPhotoList,
+		 * R.layout.add_photo_list, new String[] { "picture", "time" }, new
+		 * int[] { R.id.captured_image1, R.id.date_time_text1 });
+		 */
+		HashMap<String, Object> hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
+		int count = 0;
+		if(MediaTypeFragment.addPhotoActivityimageObject == null)
+			MediaTypeFragment.addPhotoActivityimageObject = new ArrayList<ImageObject>();
+		for (ImageObject imageObject : MediaTypeFragment.addPhotoActivityimageObject) {
+			byte[] decodedString = Base64.decode(imageObject.getImage_string(),
+					Base64.DEFAULT);
+			Bitmap bitmapOfSafeZone = BitmapFactory.decodeByteArray(
+					decodedString, 0, decodedString.length);
 			hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
 			hashMapOfSafeZoneBitmap.put("photo", bitmapOfSafeZone);
-			hashMapOfSafeZoneBitmap.put("time",MediaTypeFragment.timeCapturedForAddPhotosActivity.get(count));
+			hashMapOfSafeZoneBitmap.put("time",
+					MediaTypeFragment.timeCapturedForAddPhotosActivity
+							.get(count));
 			mPhotoList.add(hashMapOfSafeZoneBitmap);
 			count++;
-		}*/
-		
-		
-		//hashMapOfSafeZoneBitmap.put(MediaTypeFragment.addPhotoActivityimageObject.getImage_exif(), bitmapOfSafeZone);
-		
-		
-		
-		mAdapter = new AddPhotosAdapter(mContext, mPhotoList);
-		/*mAdapter.setViewBinder(new ViewBinder() {
-			public boolean setViewValue(View view, Object data,
-					String textRepresentation) {
-				if (data == null) {
-					view.setVisibility(View.GONE);
-					return true;
-				}
-				view.setVisibility(View.VISIBLE);
-				return false;
-			}
-		});*/
+		}
+
+		// hashMapOfSafeZoneBitmap.put(MediaTypeFragment.addPhotoActivityimageObject.getImage_exif(),
+		// bitmapOfSafeZone);
+
+		/*
+		 * mAdapter.setViewBinder(new ViewBinder() { public boolean
+		 * setViewValue(View view, Object data, String textRepresentation) { if
+		 * (data == null) { view.setVisibility(View.GONE); return true; }
+		 * view.setVisibility(View.VISIBLE); return false; } });
+		 */
 
 		mListView = (ListView) findViewById(R.id.listview);
-		mListView.setAdapter(mAdapter);
-		mCaptureCallingCard = (ImageButton)findViewById(R.id.detail_imageButton);
-		mVistecNumber = (TextView)findViewById(R.id.vistec_number_text);
-		CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(AddPhotosActivity.this);
+
+		mCaptureCallingCard = (ImageButton) findViewById(R.id.detail_imageButton);
+		mVistecNumber = (TextView) findViewById(R.id.vistec_number_text);
+		CheckOutObject checkOutObject = JobViewerDBHandler
+				.getCheckOutRemember(AddPhotosActivity.this);
 		String visTecId = checkOutObject.getVistecId();
 		mVistecNumber.setText(visTecId);
-		
-		mUpdateRiskActivity = (ImageButton)findViewById(R.id.video_imageButton);
+
+		mUpdateRiskActivity = (ImageButton) findViewById(R.id.video_imageButton);
 		mUpdateRiskActivity.setOnClickListener(this);
 		mProgress = (ProgressBar) findViewById(R.id.progressBar);
 		mProgressStep = (TextView) findViewById(R.id.progress_step_text);
@@ -127,30 +134,64 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mSave = (Button) findViewById(R.id.button1);
 		mLeaveSite = (Button) findViewById(R.id.button2);
 		mLeaveSite.setOnClickListener(this);
+		mSave.setOnClickListener(this);
 		mCaptureCallingCard.setOnClickListener(this);
-		
-		if(mPhotoList.size()>=4){
+
+		if (mPhotoList.size() >= 4) {
 			enableLeaveSiteButton(true);
-		} else{
+		} else {
 			enableLeaveSiteButton(false);
 		}
+		List<ImageObject> imageObjects = JobViewerDBHandler
+				.getAllAddCardSavedImages(mContext);
+		for (ImageObject imageObject : imageObjects) {
+			byte[] decodedString = Base64.decode(imageObject.getImage_string(),
+					Base64.DEFAULT);
+			Bitmap bitmapOfSafeZone = BitmapFactory.decodeByteArray(
+					decodedString, 0, decodedString.length);
+			hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
+			hashMapOfSafeZoneBitmap.put("photo", bitmapOfSafeZone);
+			hashMapOfSafeZoneBitmap.put("time",
+					imageObject.getImage_exif());
+			mPhotoList.add(hashMapOfSafeZoneBitmap);
+			count++;
+		}
+
+		mAdapter = new AddPhotosAdapter(mContext, mPhotoList);
+		mListView.setAdapter(mAdapter);
 	}
 
 	@Override
 	public void onClick(View view) {
 		if (view == mSave) {
+			for (ImageObject imageObjectToSave : imageObjects) {
+				JobViewerDBHandler.saveAddPhotoImage(mContext,
+						imageObjectToSave);
+			}
+			Utils.StopProgress();
 
-		} else if(view == mUpdateRiskActivity){
-			Intent intent = new Intent(view.getContext(), UpdateRiskAssessmentActivity.class);
+			Intent intent = new Intent(this, ActivityPageActivity.class);
+			intent.putExtra(Utils.SHOULD_SHOW_WORK_IN_PROGRESS, true);
+			intent.putExtra(Utils.CALLING_ACTIVITY,
+					ActivityConstants.ADD_PHOTOS_ACTIVITY);
+			startActivity(intent);
+
+		} else if (view == mUpdateRiskActivity) {
+			Intent intent = new Intent(view.getContext(),
+					UpdateRiskAssessmentActivity.class);
 			startActivity(intent);
 		} else if (view == mLeaveSite) {
-			for(WorkPhotoUpload workPhotoToUpload : arrayListOfWokImagesUpload){
-				//sendDetailsOrSaveCapturedImageInBacklogDb(workPhotoToUpload.getImage(),workPhotoToUpload.getImage_exit());
+			for (WorkPhotoUpload workPhotoToUpload : arrayListOfWokImagesUpload) {
+				// sendDetailsOrSaveCapturedImageInBacklogDb(workPhotoToUpload.getImage(),workPhotoToUpload.getImage_exit());
 			}
 			showWorkCompleteFragemnt();
 		} else if (view == mClickPhoto || view == mCaptureCallingCard) {
-			if(view==mCaptureCallingCard){
-				Toast.makeText(view.getContext(), view.getContext().getResources().getString(R.string.capture_calling_Card), Toast.LENGTH_SHORT).show();
+			if (view == mCaptureCallingCard) {
+				Toast.makeText(
+						view.getContext(),
+						view.getContext().getResources()
+								.getString(R.string.capture_calling_Card),
+						Toast.LENGTH_SHORT).show();
 			}
 			file = new File(Environment.getExternalStorageDirectory()
 					+ File.separator + "image.jpg");
@@ -159,15 +200,14 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
 			startActivityForResult(intent,
 					com.jobviewer.util.Constants.RESULT_CODE);
-			//Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);
-			//startActivityForResult(intent, Constants.RESULT_CODE);
+			// Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);
+			// startActivityForResult(intent, Constants.RESULT_CODE);
 		}
 	}
 
 	private void showWorkCompleteFragemnt() {
 		getFragmentManager().beginTransaction()
-				.add(android.R.id.content, new WorkCompleteFragment())
-				.commit();
+				.add(android.R.id.content, new WorkCompleteFragment()).commit();
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -200,17 +240,27 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			}
 			HashMap<String, Object> hashMap = new HashMap<String, Object>();
 			hashMap.put("photo", rotateBitmap);
-			hashMap.put("time",formatDate);
+			hashMap.put("time", formatDate);
 			mPhotoList.add(hashMap);
 			mAdapter.notifyDataSetChanged();
-			if(mPhotoList.size()>=4){
+			if (mPhotoList.size() >= 4) {
 				enableLeaveSiteButton(true);
 			}
+
+			String base64 = Utils.bitmapToBase64String(rotateBitmap);
+
+			ImageObject imageObject = new ImageObject();
+			String generateUniqueID = Utils.generateUniqueID(this);
+			imageObject.setImageId(generateUniqueID);
+			imageObject.setCategory("work");
+			imageObject.setImage_exif(formatDate + "," + geoLocation);
+			imageObject.setImage_string(base64);
+			imageObjects.add(imageObject);
 			WorkPhotoUpload workPhotoUpload = new WorkPhotoUpload();
-			workPhotoUpload.setImage(Utils.bitmapToBase64String(rotateBitmap));
-			//workPhotoUpload.setImage_exit(formatDate);
+			workPhotoUpload.setImage(base64);
+			// workPhotoUpload.setImage_exit(formatDate);
 			arrayListOfWokImagesUpload.add(workPhotoUpload);
-			
+
 		}
 	}
 
@@ -224,29 +274,34 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		}
 
 	}
-	
-	private void sendDetailsOrSaveCapturedImageInBacklogDb(String mImageBase64,String mImage_exif_string){
+
+	private void sendDetailsOrSaveCapturedImageInBacklogDb(String mImageBase64,
+			String mImage_exif_string) {
 		Utils.startProgress(mContext);
-		if(Utils.isInternetAvailable(this)){
-			sendWorkImageToServer(mImageBase64,mImage_exif_string);
+		if (Utils.isInternetAvailable(this)) {
+			sendWorkImageToServer(mImageBase64, mImage_exif_string);
 		} else {
 			Utils.StopProgress();
-			//Utils.saveWorkImageInBackLogDb(this, mImageBase64, mImage_exif_string);
-			
+			// Utils.saveWorkImageInBackLogDb(this, mImageBase64,
+			// mImage_exif_string);
+
 		}
 	}
-	
-	private synchronized void sendWorkImageToServer(String mImageBase64,String mImage_exif_string){
+
+	private synchronized void sendWorkImageToServer(String mImageBase64,
+			String mImage_exif_string) {
 		ContentValues data = new ContentValues();
 		data.put("image", mImageBase64);
 		data.put("image_exif", mImage_exif_string);
 
 		Utils.SendHTTPRequest(AddPhotosActivity.this, CommsConstant.HOST
-				+ CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id, data, getSendWorkImageHandler(mImageBase64,mImage_exif_string));
-		
-		
+				+ CommsConstant.WORK_PHOTO_UPLOAD + "/" + Utils.work_id, data,
+				getSendWorkImageHandler(mImageBase64, mImage_exif_string));
+
 	}
-	private Handler getSendWorkImageHandler(final String mImageBase64,final String mImage_exif_string){
+
+	private Handler getSendWorkImageHandler(final String mImageBase64,
+			final String mImage_exif_string) {
 		Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
@@ -261,8 +316,10 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 					VehicleException exception = GsonConverter
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
-					ExceptionHandler.showException(AddPhotosActivity.this, exception, "Info");
-					//Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this, mImageBase64, mImage_exif_string);
+					ExceptionHandler.showException(AddPhotosActivity.this,
+							exception, "Info");
+					// Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this,
+					// mImageBase64, mImage_exif_string);
 					break;
 				default:
 					break;
@@ -271,55 +328,72 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		};
 		return handler;
 	}
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		MediaTypeFragment.addPhotoActivityimageObject = null;
 		MediaTypeFragment.timeCapturedForAddPhotosActivity = null;
 	}
-	private class AddPhotosAdapter extends BaseAdapter{
+
+	private class AddPhotosAdapter extends BaseAdapter {
 		Context mContext;
 		ArrayList<HashMap<String, Object>> hashMapOfCapturedIamges;
-		public AddPhotosAdapter(Context mContext,ArrayList<HashMap<String, Object>> hashMapOfCapturedIamges) {
+
+		public AddPhotosAdapter(Context mContext,
+				ArrayList<HashMap<String, Object>> hashMapOfCapturedIamges) {
 			this.mContext = mContext;
 			this.hashMapOfCapturedIamges = hashMapOfCapturedIamges;
 		}
+
 		@Override
 		public int getCount() {
+			mSave.setText("SAVE(" + hashMapOfCapturedIamges.size() + ")");
 			return hashMapOfCapturedIamges.size();
 		}
+
 		@Override
 		public Object getItem(int position) {
 			return hashMapOfCapturedIamges.get(position);
 		}
+
 		@Override
 		public long getItemId(int position) {
 			return 0;
 		}
+
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			if(convertView==null){
-				convertView = getLayoutInflater().inflate(R.layout.add_photo_list, null);
+			if (convertView == null) {
+				convertView = getLayoutInflater().inflate(
+						R.layout.add_photo_list, null);
 				ViewHolder vh = new ViewHolder(convertView);
-				vh.dateTime.setText(hashMapOfCapturedIamges.get(position).get("time").toString());
-				vh.imageView.setImageBitmap((Bitmap)hashMapOfCapturedIamges.get(position).get("photo"));
+				vh.dateTime.setText(hashMapOfCapturedIamges.get(position)
+						.get("time").toString());
+				vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
+						.get(position).get("photo"));
 				convertView.setTag(vh);
 			} else {
-				ViewHolder vh = (ViewHolder)convertView.getTag();
-				vh.dateTime.setText(hashMapOfCapturedIamges.get(position).get("time").toString());
-				vh.imageView.setImageBitmap((Bitmap)hashMapOfCapturedIamges.get(position).get("photo"));
+				ViewHolder vh = (ViewHolder) convertView.getTag();
+				vh.dateTime.setText(hashMapOfCapturedIamges.get(position)
+						.get("time").toString());
+				vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
+						.get(position).get("photo"));
 				convertView.setTag(vh);
 			}
-			
+
 			return convertView;
 		}
-		
+
 		private class ViewHolder {
 			public TextView dateTime;
 			public ImageView imageView;
+
 			public ViewHolder(View converView) {
-				dateTime = (TextView)converView.findViewById(R.id.date_time_text1);
-				imageView = (ImageView)converView.findViewById(R.id.captured_image1);
+				dateTime = (TextView) converView
+						.findViewById(R.id.date_time_text1);
+				imageView = (ImageView) converView
+						.findViewById(R.id.captured_image1);
 			}
 		}
 	}
