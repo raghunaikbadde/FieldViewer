@@ -279,6 +279,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 				.getUserProfile(NewWorkActivity.this);
 		WorkRequest workRequest = new WorkRequest();
 		workRequest.setStarted_at(Utils.getCurrentDateAndTime());
+		Utils.lastest_work_started_at = Utils.getCurrentDateAndTime();
 		if (checkOutRemember.getVistecId() != null) {
 			workRequest.setReference_id(checkOutRemember.getVistecId());
 		} else {

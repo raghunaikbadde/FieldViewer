@@ -35,9 +35,15 @@ import android.support.v4.app.TaskStackBuilder;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
@@ -61,7 +67,7 @@ public class Utils {
 	public static final String PROGRESS_2_TO_2 = "Step 2 of 2";
 	public static final String PROGRESS_1_TO_1 = "Step 1 of 1";
 	public static final String CALLING_ACTIVITY = "callingActivity";
-	public static final String SHOULD_SHOW_WORK_IN_PROGRESS="souldShowWorkInProgress";
+	public static final String SHOULD_SHOW_WORK_IN_PROGRESS = "souldShowWorkInProgress";
 
 	public static final String REQUEST_TYPE_WORK = "WORK";
 	public static final String REQUEST_TYPE_UPLOAD = "UPLOAD";
@@ -75,6 +81,8 @@ public class Utils {
 	public static boolean work_is_redline_captured = false;
 
 	public static String work_id = "22345";
+	public static String UPDATE_RISK_ASSESSMENT_ACTIVITY = "UPDATE_RISK_ASSESSMENT_ACTIVITY";
+	
 	static Dialog progressDialog;
 	public static CheckOutObject checkOutObject;
 	public static TimeSheetRequest timeSheetRequest = null;
@@ -83,7 +91,11 @@ public class Utils {
 	public static TimeSheetRequest endTravelTimeRequest = null;
 	public static TimeSheetRequest startShiftTimeRequest = null;
 	public static TimeSheetRequest endShiftRequest = null;
-
+	
+	public static TimeSheetRequest workEndTimeSheetRequest = null;
+	public static String lastest_work_started_at = null;
+	public static String[] mActivityList = { "Blockage", "CCTV", "Line Clean",
+			"Pumo Down", "SFOC", "Clean Up", "SROPR", "Enable" };
 	public static TimeSheetRequest callStartTimeRequest = null;
 	public static TimeSheetRequest callEndTimeRequest = null;
 	static int notificationId = 1000;
@@ -467,11 +479,41 @@ public class Utils {
 						locationOfUser = location;
 					}
 				});
-		return locationOfUser;
-	}
+			return locationOfUser;
+		}
 
-	public static void sendImagesToserver(Context context) {
-		SendImagesOnBackground sendImagesOnBackground = new SendImagesOnBackground();
-		sendImagesOnBackground.getAndSendImagesToServer(context);
-	}
+		public static void sendImagesToserver(Context context) {
+			SendImagesOnBackground sendImagesOnBackground = new SendImagesOnBackground();
+			sendImagesOnBackground.getAndSendImagesToServer(context);
+		}
+
+		public static void dailogboxSelector(final Activity activity,
+				final String[] list, int resorce, final TextView seleTextView,
+				String header) {
+
+			View view = activity.getLayoutInflater().inflate(resorce, null);
+			CustomDialogAdapter mAgeAndLocationAdapter = new CustomDialogAdapter(
+					activity, list, seleTextView.getText().toString().trim());
+
+			ListView listView = (ListView) view.findViewById(R.id.list);
+			TextView headerTxt = (TextView) view.findViewById(R.id.dialog_info);
+			headerTxt.setText(header);
+			listView.setAdapter(mAgeAndLocationAdapter);
+
+			final Dialog dialog = new Dialog(activity);
+			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			dialog.setContentView(view);
+			dialog.show();
+			dialog.setCancelable(false);
+
+			listView.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int position, long arg3) {
+					seleTextView.setText(list[position]);
+					dialog.dismiss();
+					// ((ICustomSpinnerItemClick)activity).onQuestionsSpinnerItemClick(position);
+				}
+			});
+		}
 }

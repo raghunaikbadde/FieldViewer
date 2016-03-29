@@ -35,6 +35,15 @@ public class QuestionsActivity extends Activity implements
 		mFragmentManager = getFragmentManager();
 		manager = QuestionManager.getInstance();
 		SurveyJson questionSet = JobViewerDBHandler.getQuestionSet(this);
+		Bundle bundle = getIntent().getExtras();
+		
+		if(bundle != null && bundle.containsKey(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY) ){
+			updateFragmentsFromRiskAssessment(questionSet,bundle.getString(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY));
+		}
+		updateFragments(questionSet);
+	}
+
+	private void updateFragments(SurveyJson questionSet) {
 		if (questionSet != null
 				&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
 			manager.reloadAssessment(questionSet);
@@ -58,6 +67,28 @@ public class QuestionsActivity extends Activity implements
 		}
 	}
 
+	private void updateFragmentsFromRiskAssessment(SurveyJson questionSet,String screenId) {
+		if (questionSet != null
+				&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
+			manager.reloadAssessment(questionSet);
+		} else {
+			CheckOutObject checkOutRemember = JobViewerDBHandler
+					.getCheckOutRemember(this);
+			if (checkOutRemember.getAssessmentSelected().equalsIgnoreCase(
+					ActivityConstants.EXCAVATION)) {
+				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
+						"excavation_risk_assessment_survey1.json");
+			} else {
+				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
+						"non_excavation_risk_assessment_survey.json");
+			}
+
+			manager.setQuestionMaster(loadJsonFromAssets);
+			Screen screenToShow = manager.getScreenById(screenId);
+			int questionType = SurveyUtil.getQuestionType(screenToShow.get_type());
+			loadFragment(SurveyUtil.getFragment(questionType));
+		}
+	}
 	@Override
 	public void onNextClick() {
 

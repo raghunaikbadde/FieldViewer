@@ -292,7 +292,7 @@ public class EndTravelActivity extends BaseActivity implements
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		exitApplication();
+		exitApplication();	
 		return true;
 	}
 

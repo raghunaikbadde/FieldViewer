@@ -47,7 +47,7 @@ public class AssessmentCompleteFragment extends Fragment implements
 
 	@Override
 	public void onClick(View v) {
-		QuestionManager.getInstance().saveAssessment("work");
+		/*QuestionManager.getInstance().saveAssessment("work");*/
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getActivity());
 		checkOutRemember.setIsAssessmentCompleted("true");

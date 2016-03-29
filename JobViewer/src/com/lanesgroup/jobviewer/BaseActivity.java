@@ -17,7 +17,6 @@ public class BaseActivity extends AppCompatActivity {
 		context = this;
 		getSupportActionBar().hide();
 	}
-
 	public static void exitApplication() {
 		Intent j = new Intent(Intent.ACTION_MAIN);
 		j.addCategory(Intent.CATEGORY_HOME);

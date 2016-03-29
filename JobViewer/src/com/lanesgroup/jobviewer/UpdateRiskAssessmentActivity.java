@@ -6,15 +6,21 @@ import java.util.HashMap;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.QuestionMaster;
+import com.jobviewer.survey.object.Screen;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
+import com.jobviewer.util.Utils;
+import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -24,9 +30,13 @@ import android.widget.TextView;
 public class UpdateRiskAssessmentActivity extends BaseActivity implements
 		OnClickListener {
 
-	private Button mCancel, mSubmit;
+	private Button mCancel, mNext;
 	private boolean mCancelButtonClicked = false;
 	ListView listView;
+	private String QuestionTAG = "question";
+	private String AnswerTag = "answer";
+	private String ScreenId = "ScreenId";
+	private String selectedScreenId = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,27 +48,50 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 
 	private void updateData() {
 		SurveyJson questionSet = JobViewerDBHandler.getQuestionSet(this);
-		QuestionMaster questionMaster = GsonConverter.getInstance().decodeFromJsonString(questionSet.getQuestionJson(), QuestionMaster.class);
+		QuestionMaster questionMaster = GsonConverter.getInstance()
+				.decodeFromJsonString(questionSet.getQuestionJson(),
+						QuestionMaster.class);
 		QuestionManager.getInstance().setQuestionMaster(questionMaster);
-		
+		Screen[] screens = questionMaster.getScreens().getScreen();
+		ArrayList<HashMap<String, String>> questionsAndAnswers = new ArrayList<HashMap<String, String>>();
+		Log.d("JV", "number of screens" + screens.length);
+		for (Screen screen : screens) {
+			try {
+				String type = screen.get_type();
+				String question = screen.getText();
+				String screenId = screen.get_number();
+				if (type.equalsIgnoreCase("yesno")) {
+					HashMap<String, String> hashMap = new HashMap<String, String>();
+					hashMap.put(QuestionTAG, question);
+					String answer = screen.getAnswer();
+					hashMap.put(AnswerTag, answer);
+					hashMap.put(ScreenId, screenId);
+					questionsAndAnswers.add(hashMap);
+				} else {
+					HashMap<String, String> hashMap = new HashMap<String, String>();
+					hashMap.put(QuestionTAG, question);
+					hashMap.put(AnswerTag, "N/A");
+					hashMap.put(ScreenId, screenId);
+					questionsAndAnswers.add(hashMap);
+				}
+				Log.d("JV", "type " + type + " question " + question);
+			} catch (Exception e) {
+
+			}
+
+		}
+
+		QuestionSetAdapter questionSetAdapter = new QuestionSetAdapter(this,
+				questionsAndAnswers);
+		listView.setAdapter(questionSetAdapter);
 	}
 
 	private void initUI() {
 		mCancel = (Button) findViewById(R.id.button1);
-		mSubmit = (Button) findViewById(R.id.button2);
+		mNext = (Button) findViewById(R.id.button2);
 		listView = (ListView) findViewById(R.id.listView);
-		ArrayList<HashMap<String, String>> questionsAndAnswers = new ArrayList<HashMap<String, String>>();
-		HashMap<String, String> hashMap = new HashMap<String, String>();
-		hashMap.put("question1", "answer1");
-		questionsAndAnswers.add(hashMap);
-		HashMap<String, String> hashMap2 = new HashMap<String, String>();
-		hashMap2.put("question2", "answer2");
-		questionsAndAnswers.add(hashMap2);
-		QuestionSetAdapter questionSetAdapter = new QuestionSetAdapter(this,
-				questionsAndAnswers);
-		listView.setAdapter(questionSetAdapter);
 		mCancel.setOnClickListener(this);
-		mSubmit.setOnClickListener(this);
+		mNext.setOnClickListener(this);
 	}
 
 	@Override
@@ -74,8 +107,11 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 		if (v == mCancel) {
 			mCancelButtonClicked = true;
 			onBackPressed();
-		} else if (v == mSubmit) {
-
+		} else if (v == mNext) {
+			Intent intent = new Intent(v.getContext(), QuestionsActivity.class);
+			intent.putExtra(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY,
+					selectedScreenId);
+			startActivity(intent);
 		}
 	}
 
@@ -110,6 +146,7 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder viewHolder;
+
 			if (convertView == null) {
 				convertView = getLayoutInflater().inflate(
 						R.layout.update_work_assessment_questions_list, null);
@@ -117,21 +154,30 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 			} else {
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
-			viewHolder.radioButton.setText("question fafafasf shfa jhffasfhah safha khyafafkj ksfdasfh" + position);
-			viewHolder.answerText.setText("answer" + position);
-			viewHolder.radioButton.setTag("question fafafasf shfa jhffasfhah safha khyafafkj ksfdasfh" + position);
-	
+
+			HashMap<String, String> hashMap = questionsAndAnswers.get(position);
+			viewHolder.radioButton.setText(hashMap.get(QuestionTAG));
+			viewHolder.answerText.setText(hashMap.get(AnswerTag));
+			viewHolder.screenId = hashMap.get(ScreenId);
+
+			viewHolder.radioButton.setTag(hashMap);
+
 			viewHolder.radioButton.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					selectedRadioText = v.getTag().toString();
+					HashMap<String, String> hashMap = (HashMap<String, String>) v
+							.getTag();
+					selectedRadioText = hashMap.get(QuestionTAG);
 					notifyDataSetChanged();
-					Log.d("JV","selectedRadioText "+selectedRadioText);
+					enableNextButton(true);
+					selectedScreenId = hashMap.get(ScreenId);
+					Log.d("JV", "selectedRadioText " + selectedRadioText);
 				}
 			});
-			
-			if (viewHolder.radioButton.getText().toString().equalsIgnoreCase(selectedRadioText)) {
+
+			if (viewHolder.radioButton.getText().toString()
+					.equalsIgnoreCase(selectedRadioText)) {
 				viewHolder.radioButton.setChecked(true);
 			} else {
 				viewHolder.radioButton.setChecked(false);
@@ -144,6 +190,7 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 		private class ViewHolder {
 			public RadioButton radioButton;
 			public TextView answerText;
+			public String screenId = "";
 
 			public ViewHolder(View convertView) {
 				radioButton = (RadioButton) convertView
@@ -152,5 +199,16 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 						.findViewById(R.id.answeredText);
 			}
 		}
+	}
+
+	public void enableNextButton(boolean isEnable) {
+		if (isEnable) {
+			mNext.setEnabled(true);
+			mNext.setBackgroundResource(R.drawable.red_background);
+		} else {
+			mNext.setEnabled(false);
+			mNext.setBackgroundResource(R.drawable.dark_grey_background);
+		}
+
 	}
 }
