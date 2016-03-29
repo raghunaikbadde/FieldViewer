@@ -14,11 +14,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.jobviewer.survey.object.Screen;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.Constants;
+import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.CaptureVistecActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.RiskAssessmentActivity;
@@ -27,11 +30,13 @@ import com.lanesgroup.jobviewer.WorkSuccessActivity;
 public class WorkCompleteFragment extends Fragment implements OnClickListener{
 	
 	private ProgressBar mProgress;
-	private TextView mProgressStep;
+	private TextView mProgressStep,mVistecNumber;
 	private ImageButton mAddInfo, mStop, mUser, mClickPhoto;
 	private Button mSave, mLeaveSite;
 	private LinearLayout mCaptureCallingCard;
 	private View mRootView;
+	private Spinner mSpinner,mSpinnerFlooding;
+	private RelativeLayout mSpinnerLayout,mSpinnerLayoutFlooding;
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
@@ -53,9 +58,19 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener{
 		private void initUI() {
 			mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
 			mProgressStep = (TextView) mRootView.findViewById(R.id.progress_step_text);
+			mVistecNumber = (TextView) mRootView.findViewById(R.id.vistec_number_text);
+			//mVistecNumber.setText(Utils.checkOutObject.getVistecId());
 			mAddInfo = (ImageButton) mRootView.findViewById(R.id.detail_imageButton);
 			mStop = (ImageButton) mRootView.findViewById(R.id.video_imageButton);
 			mUser = (ImageButton) mRootView.findViewById(R.id.user_imageButton);
+			mSpinner = (Spinner) mRootView.findViewById(R.id.spinner1);
+			mSpinnerFlooding = (Spinner) mRootView.findViewById(R.id.spinner_flood);
+			mSpinnerLayout = (RelativeLayout) mRootView.findViewById(R.id.spinnerLayout);
+			mSpinnerLayoutFlooding = (RelativeLayout) mRootView.findViewById(R.id.spinnerLayout_flood);
+			mSpinnerLayout.setClickable(true);
+			mSpinnerLayout.setOnClickListener(this);
+			mSpinnerLayoutFlooding.setClickable(true);
+			mSpinnerLayoutFlooding.setOnClickListener(this);
 			mProgress.setMax(6);
 			mProgress.setProgress(5);
 			mProgressStep.setText("Step 5 of 6");
@@ -78,6 +93,10 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener{
 			}else if(view == mCaptureCallingCard){
 				Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);
 				startActivityForResult(intent, Constants.RESULT_CODE);
+			} else if(view == mSpinnerLayout){
+				mSpinner.performClick();
+			} else if(view == mSpinnerLayoutFlooding){
+				mSpinnerFlooding.performClick();
 			}
 		}
 		

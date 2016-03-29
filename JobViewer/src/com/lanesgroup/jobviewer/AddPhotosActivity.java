@@ -77,7 +77,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		/*mAdapter = new SimpleAdapter(this, mPhotoList, R.layout.add_photo_list,
 				new String[] { "picture", "time" }, new int[] {
 						R.id.captured_image1, R.id.date_time_text1 });*/
-		HashMap<String, Object> hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
+/*		HashMap<String, Object> hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
 		int count=0;
 		for(ImageObject imageObject : MediaTypeFragment.addPhotoActivityimageObject ){
 			byte[] decodedString = Base64.decode(imageObject.getImage_string(), Base64.DEFAULT);
@@ -87,7 +87,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			hashMapOfSafeZoneBitmap.put("time",MediaTypeFragment.timeCapturedForAddPhotosActivity.get(count));
 			mPhotoList.add(hashMapOfSafeZoneBitmap);
 			count++;
-		}
+		}*/
 		
 		
 		//hashMapOfSafeZoneBitmap.put(MediaTypeFragment.addPhotoActivityimageObject.getImage_exif(), bitmapOfSafeZone);
