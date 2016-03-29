@@ -3,6 +3,12 @@ package com.lanesgroup.jobviewer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.jobviewer.db.objects.SurveyJson;
+import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.survey.object.QuestionMaster;
+import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.survey.object.util.QuestionManager;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +33,14 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.update_risk_assessment_screen);
 		initUI();
+		updateData();
+	}
+
+	private void updateData() {
+		SurveyJson questionSet = JobViewerDBHandler.getQuestionSet(this);
+		QuestionMaster questionMaster = GsonConverter.getInstance().decodeFromJsonString(questionSet.getQuestionJson(), QuestionMaster.class);
+		QuestionManager.getInstance().setQuestionMaster(questionMaster);
+		
 	}
 
 	private void initUI() {

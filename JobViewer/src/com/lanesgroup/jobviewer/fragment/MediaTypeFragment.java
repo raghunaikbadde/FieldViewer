@@ -174,6 +174,8 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				ImageObject imageObject = new ImageObject();
 				String generateUniqueID = Utils.generateUniqueID(getActivity());
 				imageObject.setImageId(generateUniqueID);
+				imageObject.setCategory("work");
+				imageObject.setImage_exif(currentScreen.getImages()[i].getImage_exif());
 				imageObject.setImage_string(currentScreen.getImages()[i]
 						.getImage_string());
 				
@@ -182,7 +184,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				if(formwardIamgeToAddPhotosActivity){
 					addPhotoActivityimageObject.add(imageObject);
 				}
-				sendDetailsOrSaveCapturedImageInBacklogDb(currentScreen.getImages()[i].getImage_string(),currentScreen.getImages()[i].getImage_exif());
+				sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 			}
 
 			QuestionManager.getInstance().updateScreenOnQuestionMaster(
@@ -284,26 +286,25 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 		}
 	}
 	
-	private void sendDetailsOrSaveCapturedImageInBacklogDb(String mImageBase64,String mImage_exif_string){
+	private void sendDetailsOrSaveCapturedImageInBacklogDb(ImageObject imageObject){
 		if(Utils.isInternetAvailable(getActivity())){
-			sendWorkImageToServer(mImageBase64,mImage_exif_string);
+			sendWorkImageToServer(imageObject);
 		} else {
-			Utils.saveWorkImageInBackLogDb(getActivity(), mImageBase64, mImage_exif_string);
+			Utils.saveWorkImageInBackLogDb(getActivity(), imageObject);
 		
 		}
 	}
 	
-	private synchronized void sendWorkImageToServer(String mImageBase64,String mImage_exif_string){
+	private synchronized void sendWorkImageToServer(ImageObject imageObject){
 		ContentValues data = new ContentValues();
-		data.put("image", mImageBase64);
-		data.put("image_exif", mImage_exif_string);
+		data.put("temp_id", imageObject.getImageId());
 
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-				+ CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id, data, getSendWorkImageHandler(mImageBase64,mImage_exif_string));
+				+ CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id, data, getSendWorkImageHandler(imageObject));
 		
 		
 	}
-	private Handler getSendWorkImageHandler(final String mImageBase64,final String mImage_exif_string){
+	private Handler getSendWorkImageHandler(final ImageObject imageObject){
 		Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
@@ -319,7 +320,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
 					ExceptionHandler.showException(getActivity(), exception, "Info");
-					Utils.saveWorkImageInBackLogDb(getActivity(), mImageBase64, mImage_exif_string);
+					Utils.saveWorkImageInBackLogDb(getActivity(), imageObject);
 					break;
 				default:
 					break;

@@ -145,7 +145,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			startActivity(intent);
 		} else if (view == mLeaveSite) {
 			for(WorkPhotoUpload workPhotoToUpload : arrayListOfWokImagesUpload){
-				sendDetailsOrSaveCapturedImageInBacklogDb(workPhotoToUpload.getImage(),workPhotoToUpload.getImage_exit());
+				//sendDetailsOrSaveCapturedImageInBacklogDb(workPhotoToUpload.getImage(),workPhotoToUpload.getImage_exit());
 			}
 			showWorkCompleteFragemnt();
 		} else if (view == mClickPhoto || view == mCaptureCallingCard) {
@@ -208,7 +208,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			}
 			WorkPhotoUpload workPhotoUpload = new WorkPhotoUpload();
 			workPhotoUpload.setImage(Utils.bitmapToBase64String(rotateBitmap));
-			workPhotoUpload.setImage_exit(formatDate);
+			//workPhotoUpload.setImage_exit(formatDate);
 			arrayListOfWokImagesUpload.add(workPhotoUpload);
 			
 		}
@@ -231,7 +231,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			sendWorkImageToServer(mImageBase64,mImage_exif_string);
 		} else {
 			Utils.StopProgress();
-			Utils.saveWorkImageInBackLogDb(this, mImageBase64, mImage_exif_string);
+			//Utils.saveWorkImageInBackLogDb(this, mImageBase64, mImage_exif_string);
 			
 		}
 	}
@@ -262,7 +262,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
 					ExceptionHandler.showException(AddPhotosActivity.this, exception, "Info");
-					Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this, mImageBase64, mImage_exif_string);
+					//Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this, mImageBase64, mImage_exif_string);
 					break;
 				default:
 					break;

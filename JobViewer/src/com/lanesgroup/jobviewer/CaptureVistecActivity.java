@@ -21,7 +21,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
-import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.exception.ExceptionHandler;
@@ -31,7 +30,6 @@ import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
-import com.raghu.WorkPhotoUpload;
 import com.vehicle.communicator.HttpConnection;
 
 public class CaptureVistecActivity extends BaseActivity implements
@@ -135,15 +133,18 @@ public class CaptureVistecActivity extends BaseActivity implements
 			ImageObject imageObject = new ImageObject();
 			String generateUniqueID = Utils.generateUniqueID(this);
 			imageObject.setImageId(generateUniqueID);
+			imageObject.setCategory("work");
+			imageObject.setImage_exif(mImage_exif_string);
+			imageObject.setImage_string(mImageBase64);
 			JobViewerDBHandler.saveImage(this, imageObject);
 			CheckOutObject checkOutRemember = JobViewerDBHandler
 					.getCheckOutRemember(this);
 			checkOutRemember.setVistectImageId(generateUniqueID);
 			// TODO: Add server communicator for sending vistec image
 			if(Utils.isInternetAvailable(CaptureVistecActivity.this)){
-				sendVistecImageToServer();
+				sendVistecImageToServer(imageObject);
 			} else {
-				Utils.saveWorkImageInBackLogDb(CaptureVistecActivity.this, mImageBase64, mImage_exif_string);
+				Utils.saveWorkImageInBackLogDb(CaptureVistecActivity.this, imageObject);
 				Intent intent = new Intent(CaptureVistecActivity.this,
 						RiskAssessmentActivity.class);
 				startActivity(intent);
@@ -151,16 +152,15 @@ public class CaptureVistecActivity extends BaseActivity implements
 			
 		}
 	}
-	private void sendVistecImageToServer(){
+	private void sendVistecImageToServer(ImageObject imageObject){
 		Utils.startProgress(CaptureVistecActivity.this);
 		ContentValues data = new ContentValues();
-		data.put("image", mImageBase64);
-		data.put("image_exif", mImage_exif_string);
+		data.put("temp_id", imageObject.getImageId());
 
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
-				+ CommsConstant.WORK_PHOTO_UPLOAD, data, getSendVisecImageHandler());
+				+ CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id, data, getSendVisecImageHandler(imageObject));
 	}
-	private Handler getSendVisecImageHandler(){
+	private Handler getSendVisecImageHandler(final ImageObject imageObject){
 		Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
@@ -178,7 +178,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
 					ExceptionHandler.showException(CaptureVistecActivity.this, exception, "Info");
-					Utils.saveWorkImageInBackLogDb(CaptureVistecActivity.this, mImageBase64, mImage_exif_string);
+					Utils.saveWorkImageInBackLogDb(CaptureVistecActivity.this, imageObject);
 	//				saveVistecImageInBackLogDb();
 					break;
 				default:

@@ -2,6 +2,7 @@ package com.lanesgroup.jobviewer.fragment;
 
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
 import com.lanesgroup.jobviewer.AddPhotosActivity;
 import com.lanesgroup.jobviewer.PollutionActivity;
@@ -46,6 +47,7 @@ public class AssessmentCompleteFragment extends Fragment implements
 
 	@Override
 	public void onClick(View v) {
+		QuestionManager.getInstance().saveAssessment("work");
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getActivity());
 		checkOutRemember.setIsAssessmentCompleted("true");

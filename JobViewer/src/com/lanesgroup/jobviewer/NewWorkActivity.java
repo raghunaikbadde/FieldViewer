@@ -31,6 +31,7 @@ import com.jobviewer.util.EditTextFocusListener;
 import com.jobviewer.util.EditTextWatcher;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
+import com.jobviwer.response.object.JVResponse;
 import com.jobviwer.response.object.User;
 import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
@@ -236,12 +237,14 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
-					// String result = (String) msg.obj;
+					String result = (String) msg.obj;
+					JVResponse decodeFromJsonString = GsonConverter.getInstance().decodeFromJsonString(result, JVResponse.class);
 					CheckOutObject checkOutRemember = JobViewerDBHandler
 							.getCheckOutRemember(context);
 					checkOutRemember.setIsStartedTravel("true");
 					JobViewerDBHandler.saveCheckOutRemember(context,
 							checkOutRemember);
+					Utils.work_id=decodeFromJsonString.getId();
 					startEndActvity();
 					break;
 				case HttpConnection.DID_ERROR:

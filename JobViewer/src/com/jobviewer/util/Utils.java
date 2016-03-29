@@ -42,6 +42,7 @@ import android.widget.LinearLayout;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.network.SendImagesOnBackground;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviwer.request.object.TimeSheetRequest;
@@ -417,10 +418,10 @@ public class Utils {
 	}
 
 	public static void saveWorkImageInBackLogDb(Context mContext,
-			String mImageBase64, String mImage_exif_string) {
+			ImageObject imageObject) {
 		WorkPhotoUpload workPhotoUpload = new WorkPhotoUpload();
-		workPhotoUpload.setImage(mImageBase64);
-		workPhotoUpload.setImage_exit(mImage_exif_string);
+		workPhotoUpload.setImage(imageObject.getImageId());
+
 		BackLogRequest backLogRequest = new BackLogRequest();
 		backLogRequest.setRequestApi(CommsConstant.HOST
 				+ CommsConstant.WORK_PHOTO_UPLOAD + "/" + Utils.work_id);
