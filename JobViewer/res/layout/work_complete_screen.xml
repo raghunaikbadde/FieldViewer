@@ -129,7 +129,7 @@
                         android:src="@drawable/down_arrow_image"/>
                 </RelativeLayout>
                 
-                <!-- <Spinner
+                <Spinner
                     android:id="@+id/spinner1"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/actionbar_height125"
@@ -138,13 +138,62 @@
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:background="@drawable/grey_background"
                     android:entries="@array/paymentcard_bank_info_month"
-                    android:prompt="@string/select_spinner_str" />
- -->                
+                    android:prompt="@string/activity_type_str" />
+				<TextView
+                    android:id="@+id/was_property_flooded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/imagebutton_spacing20"
+                    android:layout_marginBottom="@dimen/imagebutton_spacing20"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_below="@id/spinner1"
+                    android:text="@string/was_property_flooded"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/black_lato_regular_small55" />
+                <RelativeLayout
+                    android:id="@+id/spinnerLayout_flood"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/actionbar_height125"
+                    android:layout_below="@+id/was_property_flooded"
+                    android:background="@drawable/grey_background"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80">
+                    <TextView
+	                    android:id="@+id/spinner_selected_flood"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_centerVertical="true"
+	                    android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
+	                    android:text="@string/was_property_flooded"
+	                    android:textColor="@color/black"
+	                    android:textSize="@dimen/black_lato_regular_small55" />
+                    
+                    <ImageView 
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                        android:src="@drawable/down_arrow_image"/>
+                </RelativeLayout>
+                
+                <Spinner
+                    android:id="@+id/spinner_flood"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/actionbar_height125"
+                    android:layout_below="@+id/activity_type_text"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:background="@drawable/grey_background"
+                    android:entries="@array/property_flooding_array"
+                    android:prompt="@string/spinner_prompt_flood" />
+                
                 <EditText
 			        android:id="@+id/enter_pipe_edittext"
 			        android:layout_width="match_parent"
 			        android:layout_height="@dimen/call_customer_button_height180"
-			        android:layout_below="@+id/spinnerLayout"
+			        android:layout_below="@+id/spinnerLayout_flood"
 			        android:layout_marginTop="@dimen/spinner_bottom_margin30"
 			        android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"

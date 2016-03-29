@@ -243,26 +243,39 @@
         <item>Petrol/Diesel</item>
         <item>Unknown</item>
     </string-array>
-    
-    
+   
     <string-array name="paymentcard_bank_info_month">
         <item>- Select -</item>
-        <item>01</item>
-        <item>02</item>
-        <item>03</item>
-        <item>04</item>
-        <item>05</item>
-        <item>06</item>
-        <item>07</item>
-        <item>08</item>
-        <item>09</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
+        <item>Blockage</item>
+        <item>CCTV</item>
+        <item>Line Clean</item>
+        <item>Pump Down</item>
+        <item>SFOC</item>
+        <item>Clean Up</item>
+        <item>SROPR</item>
+        <item>Enable</item>
+        <item>Private</item>
+        <item>Cover</item>
+        <item>Dig Down</item>
+        <item>Make Safe</item>
+        <item>Lining</item>
+        <item>Well Clean</item>
     </string-array>
+     
+    
 	<!--Raghu Strings -->
     <string name="your_travel_start_time">Your travel start time will be logged as:</string>
     <string name="your_travel_end_time">Your travel end time will be logged as:</string>
     <string name="capture_calling_Card">Capture Image Of an Calling Card</string>
     <string name="capture_safe_zone">Capture the safe zone</string>
+    <string name="was_property_flooded">Was Property Flooded</string>
+    <string name="spinner_prompt_flood">Was Property Flooded?</string>
+    <string-array name="property_flooding_array">
+        <item>- Select -</item>
+        <item>No Flooding</item>
+        <item>Internal</item>
+        <item>External</item>
+        <item>Internal &amp; External</item>
+    </string-array>
+    
 </resources>
