@@ -23,6 +23,7 @@ import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
+import com.jobviewer.network.SendImageService;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
@@ -55,6 +56,8 @@ public class ActivityPageActivity extends Activity implements
 		initUI();
 		updateDetailsOnUI();
 		Utils.startNotification(mContext);
+		Intent pushIntent = new Intent(this, SendImageService.class);
+		startService(pushIntent);
 	}
 
 	private void updateDetailsOnUI() {

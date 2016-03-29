@@ -214,7 +214,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 		values.put("image_string", imageObject.getImage_string());
 		values.put("image_exif", imageObject.getImage_exif());
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-				+ CommsConstant.IMAGE_UPLOAD, values,
+				+ CommsConstant.SURVEY_PHOTO_UPLOAD, values,
 				getSaveImageHandler(imageObject));
 
 	}

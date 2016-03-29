@@ -169,7 +169,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				ImageObject imageObject = new ImageObject();
 				String generateUniqueID = Utils.generateUniqueID(getActivity());
 				imageObject.setImageId(generateUniqueID);
-				imageObject.setCategory("work");
+				imageObject.setCategory("surveys");
 				imageObject.setImage_exif(currentScreen.getImages()[i].getImage_exif());
 				imageObject.setImage_string(currentScreen.getImages()[i]
 						.getImage_string());
@@ -285,17 +285,19 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 		if(Utils.isInternetAvailable(getActivity())){
 			sendWorkImageToServer(imageObject);
 		} else {
-			Utils.saveWorkImageInBackLogDb(getActivity(), imageObject);
-		
+			JobViewerDBHandler.saveImage(getActivity(), imageObject);
 		}
 	}
 	
 	private synchronized void sendWorkImageToServer(ImageObject imageObject){
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageObject.getImageId());
+		data.put("category", "surveys");
+		data.put("image_string", imageObject.getImage_string());
+		data.put("image_exif", imageObject.getImage_exif());
 
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-				+ CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id, data, getSendWorkImageHandler(imageObject));
+				+ CommsConstant.SURVEY_PHOTO_UPLOAD, data, getSendWorkImageHandler(imageObject));
 		
 		
 	}

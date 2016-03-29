@@ -22,7 +22,7 @@ public class CommsConstant {
 	public static String CHECKOUT_VEHICLE="api/v1/vehicles/checkout";
 	
 	public static String WORK_PHOTO_UPLOAD="api/v1/works/upload";//{work_id};
-	public static String IMAGE_UPLOAD="api/v1/works/upload";//{work_id};
 	public static String WORK_CREATE_API = "api/v1/works/store";
+	public static String SURVEY_PHOTO_UPLOAD="api/v1/image/upload";
 
 }

@@ -13,6 +13,7 @@ import com.vehicle.communicator.HttpConnection;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -25,6 +26,7 @@ public class SendImagesOnBackground {
 	public void getAndSendImagesToServer(Context context) {
 		allSavedImages = JobViewerDBHandler.getAllSavedImages(context);
 		this.context = context;
+		Log.i("Android", ""+allSavedImages.size());
 		if (allSavedImages.size() != 0) {
 			sendImage(allSavedImages.get(0));
 		}
@@ -34,11 +36,13 @@ public class SendImagesOnBackground {
 	private void sendImage(ImageObject imageObject) {
 		ContentValues values = new ContentValues();
 		values.put("temp_id", imageObject.getImageId());
+		Log.i("Android", imageObject.getImageId());
 		values.put("category", imageObject.getCategory());
-		values.put("image_string", imageObject.getImage_string());
+		Log.i("Android", imageObject.getCategory());
+		values.put("image_string", "data:image/png;base64,"+imageObject.getImage_string());
 		values.put("image_exif", imageObject.getImage_exif());
 		Utils.SendHTTPRequest(context, CommsConstant.HOST
-				+ CommsConstant.IMAGE_UPLOAD, values, getSaveImageHandler());
+				+ CommsConstant.SURVEY_PHOTO_UPLOAD, values, getSaveImageHandler());
 	}
 
 	private Handler getSaveImageHandler() {
@@ -64,8 +68,10 @@ public class SendImagesOnBackground {
 							sendImage(allSavedImages.get(0));
 						}
 					}
+					Log.i("Android", ""+index);
 					break;
 				case HttpConnection.DID_ERROR:
+					context.stopService(new Intent(context,SendImageService.class));
 					Log.i("", "");
 					break;
 				default:

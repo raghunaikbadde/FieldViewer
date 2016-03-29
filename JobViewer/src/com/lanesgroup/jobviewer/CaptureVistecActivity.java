@@ -133,7 +133,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 			ImageObject imageObject = new ImageObject();
 			String generateUniqueID = Utils.generateUniqueID(this);
 			imageObject.setImageId(generateUniqueID);
-			imageObject.setCategory("work");
+			imageObject.setCategory("works");
 			imageObject.setImage_exif(mImage_exif_string);
 			imageObject.setImage_string(mImageBase64);
 			JobViewerDBHandler.saveImage(this, imageObject);
