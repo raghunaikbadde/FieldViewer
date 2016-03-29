@@ -174,6 +174,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 	}
 
 	private void executeStartShiftService() {
+		Utils.startProgress(ClockInConfirmationActivity.this);
 		User userProfile = JobViewerDBHandler
 				.getUserProfile(ClockInConfirmationActivity.this);
 		Utils.startShiftTimeRequest.setUser_id(userProfile.getEmail());
@@ -208,6 +209,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 	}
 
 	private void executeOnCallStartService() {
+		Utils.startProgress(ClockInConfirmationActivity.this);
 		User userProfile = JobViewerDBHandler
 				.getUserProfile(ClockInConfirmationActivity.this);
 		Utils.callStartTimeRequest.setUser_id(userProfile.getEmail());
@@ -246,6 +248,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
 					// String result = (String) msg.obj;
 					Intent intent = new Intent(
 							ClockInConfirmationActivity.this,
@@ -256,6 +259,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					startActivity(intent);
 					break;
 				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
 					String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()

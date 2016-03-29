@@ -219,7 +219,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 			data.put("location_latitude","");
 			data.put("location_longitude","");
 		}
-
+Utils.startProgress(this);
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.START_WORK_API, data, getWorkCreateHandler());
 
@@ -231,6 +231,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
 					// String result = (String) msg.obj;
 					CheckOutObject checkOutRemember = JobViewerDBHandler
 							.getCheckOutRemember(context);
@@ -240,6 +241,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 					startEndActvity();
 					break;
 				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
 					String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()

@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
-import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.exception.ExceptionHandler;
@@ -35,7 +34,6 @@ import com.jobviewer.util.showTimeDialog.DialogCallback;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
-import com.raghu.TimeSheetServiceRequests;
 import com.vehicle.communicator.HttpConnection;
 
 public class ActivityPageActivity extends Activity implements
@@ -198,6 +196,7 @@ public class ActivityPageActivity extends Activity implements
 				//saveStartBreakinToBackLogDb();
 				startEndActvity(Utils.timeSheetRequest.getOverride_timestamp());
 			} else {
+				Utils.startProgress(ActivityPageActivity.this);
 				executeStartBreakService();
 			}
 		}
@@ -242,10 +241,12 @@ public class ActivityPageActivity extends Activity implements
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
 					// String result = (String) msg.obj;
 					startEndActvity(time);
 					break;
 				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
 					String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()

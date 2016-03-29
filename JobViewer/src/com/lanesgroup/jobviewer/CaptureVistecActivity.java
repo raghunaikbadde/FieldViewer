@@ -152,6 +152,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 		}
 	}
 	private void sendVistecImageToServer(){
+		Utils.startProgress(CaptureVistecActivity.this);
 		ContentValues data = new ContentValues();
 		data.put("image", mImageBase64);
 		data.put("image_exif", mImage_exif_string);
@@ -165,11 +166,13 @@ public class CaptureVistecActivity extends BaseActivity implements
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
 					Intent intent = new Intent(CaptureVistecActivity.this,
 							RiskAssessmentActivity.class);
 					startActivity(intent);
 					break;
 				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
 					String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()

@@ -118,12 +118,16 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 				&& resultCode == RESULT_OK) {
 
 			if (!Utils.isInternetAvailable(this)) {
-				JobViewerDBHandler.saveTimeSheet(this, Utils.startTravelTimeRequest,
+				JobViewerDBHandler.saveTimeSheet(this,
+						Utils.startTravelTimeRequest,
 						CommsConstant.START_TRAVEL_API);
 				JobViewerDBHandler.getAllTimeSheet(mContext);
-				Utils.saveTimeSheetInBackLogTable(TravelToWorkSiteActivity.this,Utils.startTravelTimeRequest,CommsConstant.START_TRAVEL_API,Utils.REQUEST_TYPE_WORK);
-				//saveStartTravelInBackLogDb();
-				
+				Utils.saveTimeSheetInBackLogTable(
+						TravelToWorkSiteActivity.this,
+						Utils.startTravelTimeRequest,
+						CommsConstant.START_TRAVEL_API, Utils.REQUEST_TYPE_WORK);
+				// saveStartTravelInBackLogDb();
+
 				startEndActvity();
 			} else {
 				executeStartTravelService();
@@ -145,7 +149,7 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 				Utils.startTravelTimeRequest.getOverride_timestamp());
 		data.put("reference_id", Utils.startTravelTimeRequest.getReference_id());
 		data.put("user_id", Utils.startTravelTimeRequest.getUser_id());
-
+		Utils.startProgress(this);
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.START_TRAVEL_API, data, getStartTravelHandler());
 
@@ -157,6 +161,7 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
 					// String result = (String) msg.obj;
 					CheckOutObject checkOutRemember = JobViewerDBHandler
 							.getCheckOutRemember(mContext);
@@ -166,13 +171,18 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 					startEndActvity();
 					break;
 				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
 					String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
 					ExceptionHandler.showException(mContext, exception, "Info");
-					Utils.saveTimeSheetInBackLogTable(TravelToWorkSiteActivity.this,Utils.startTravelTimeRequest,CommsConstant.START_TRAVEL_API,Utils.REQUEST_TYPE_WORK);
-					//saveStartTravelInBackLogDb();
+					Utils.saveTimeSheetInBackLogTable(
+							TravelToWorkSiteActivity.this,
+							Utils.startTravelTimeRequest,
+							CommsConstant.START_TRAVEL_API,
+							Utils.REQUEST_TYPE_WORK);
+					// saveStartTravelInBackLogDb();
 					break;
 				default:
 					break;
@@ -196,5 +206,5 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 		startActivity(intent);
 
 	}
-	
+
 }

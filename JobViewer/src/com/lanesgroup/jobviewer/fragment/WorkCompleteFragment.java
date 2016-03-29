@@ -92,7 +92,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener{
 		public void onCreateContextMenu(ContextMenu menu, View v,
 		        ContextMenuInfo menuInfo) {
 
-		    getActivity().getMenuInflater().inflate(R.menu.activity_type_menu, menu);
+		    //getActivity().getMenuInflater().inflate(R.menu.activity_type_menu, menu);
 		}
 		
 		@Override

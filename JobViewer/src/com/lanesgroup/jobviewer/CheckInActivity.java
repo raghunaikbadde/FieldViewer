@@ -100,6 +100,7 @@ public class CheckInActivity extends BaseActivity implements
 			break;
 		case R.id.next_button:
 			if (Utils.isInternetAvailable(v.getContext())) {
+				Utils.startProgress(v.getContext());
 				executeCheckInService();
 			} else {
 				saveCheckInVehicleInBackLogDB();
@@ -145,9 +146,11 @@ public class CheckInActivity extends BaseActivity implements
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
 					loadHomeActivity();
 					break;
 				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
 					String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()

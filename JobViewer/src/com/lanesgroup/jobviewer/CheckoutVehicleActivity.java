@@ -135,6 +135,7 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 			finish();
 		} else if (view == mNext) {
 			if(Utils.isInternetAvailable(view.getContext())){
+				Utils.startProgress(view.getContext());
 				excuteCheckOutVehicle();
 			} else {
 				saveVechicleCheckOutInDB();
@@ -178,6 +179,7 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
 					// String result = (String) msg.obj;
 					Intent intent = new Intent(CheckoutVehicleActivity.this,
 							ClockInConfirmationActivity.class);
@@ -187,6 +189,7 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 					startActivity(intent);
 					break;
 				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
 					String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()

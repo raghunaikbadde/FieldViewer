@@ -136,6 +136,7 @@ public class EndTravelActivity extends BaseActivity implements
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);				
 				startActivity(intent);
 			} else {
+				Utils.startProgress(mContext);
 				executeEndBreakService();
 			}
 		}
@@ -172,6 +173,7 @@ public class EndTravelActivity extends BaseActivity implements
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
 					String result = (String) msg.obj;
 					CheckOutObject checkOutRemember = JobViewerDBHandler
 							.getCheckOutRemember(mContext);
@@ -184,6 +186,7 @@ public class EndTravelActivity extends BaseActivity implements
 					startActivity(intent);
 					break;
 				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
 					String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()
@@ -237,6 +240,7 @@ public class EndTravelActivity extends BaseActivity implements
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
 					// String result = (String) msg.obj;
 					CheckOutObject checkOutRemember = JobViewerDBHandler
 							.getCheckOutRemember(mContext);
@@ -248,6 +252,7 @@ public class EndTravelActivity extends BaseActivity implements
 					startActivity(intent);
 					break;
 				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
 					String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()
@@ -264,6 +269,7 @@ public class EndTravelActivity extends BaseActivity implements
 	}
 
 	private void executeEndTravelService() {
+		Utils.startProgress(mContext);
 		ContentValues data = new ContentValues();
 		data.put("started_at", Utils.endTimeRequest.getStarted_at());
 		data.put("record_for", Utils.endTimeRequest.getRecord_for());

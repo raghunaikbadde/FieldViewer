@@ -226,9 +226,11 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	}
 	
 	private void sendDetailsOrSaveCapturedImageInBacklogDb(String mImageBase64,String mImage_exif_string){
+		Utils.startProgress(mContext);
 		if(Utils.isInternetAvailable(this)){
 			sendWorkImageToServer(mImageBase64,mImage_exif_string);
 		} else {
+			Utils.StopProgress();
 			Utils.saveWorkImageInBackLogDb(this, mImageBase64, mImage_exif_string);
 			
 		}
@@ -250,9 +252,11 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
 					showWorkCompleteFragemnt();
 					break;
 				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
 					String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()

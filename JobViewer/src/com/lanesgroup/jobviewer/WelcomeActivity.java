@@ -66,6 +66,7 @@ public class WelcomeActivity extends BaseActivity {
 		ContentValues data = new ContentValues();
 		data.put("imei", Utils.getIMEI(context));
 		data.put("email", Utils.getMailId(context));
+		Utils.startProgress(WelcomeActivity.this);
 		Utils.SendHTTPRequest(WelcomeActivity.this, CommsConstant.HOST
 				+ CommsConstant.STARTUP_API, data, getHandler());
 	}
@@ -76,6 +77,7 @@ public class WelcomeActivity extends BaseActivity {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
 					String result = (String) msg.obj;
 					StartUpResponse decodeFromJsonString = GsonConverter
 							.getInstance().decodeFromJsonString(result,
@@ -84,6 +86,7 @@ public class WelcomeActivity extends BaseActivity {
 							decodeFromJsonString.getData().getUser());
 					break;
 				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
 					String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()
