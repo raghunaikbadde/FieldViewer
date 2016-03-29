@@ -29,7 +29,9 @@ import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.EditTextFocusListener;
 import com.jobviewer.util.EditTextWatcher;
+import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
+import com.jobviwer.response.object.User;
 import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 
@@ -47,6 +49,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 	static Context context;
 	static int progress = 100 / 5;
 	private Location mLocation;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -95,14 +98,14 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 											.getResources()
 											.getString(
 													R.string.progress_step_pollution));
-							progress=100/6;
+							progress = 100 / 6;
 							mProgress.setProgress(progress);
-							
+
 						} else {
 							mProgressStep.setText(buttonView.getContext()
 									.getResources()
 									.getString(R.string.progress_step));
-							progress=100/5;
+							progress = 100 / 5;
 							mProgress.setProgress(progress);
 						}
 
@@ -143,7 +146,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 				}
 				JobViewerDBHandler.saveCheckOutRemember(view.getContext(),
 						checkOutRemember);
-				if(Utils.isInternetAvailable(view.getContext())){
+				if (Utils.isInternetAvailable(view.getContext())) {
 					executeWorkCreateService();
 				} else {
 					saveCreatedWorkInBackLogDb();
@@ -191,41 +194,42 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 			break;
 		}
 	}
-	
-	private void executeWorkCreateService(){
+
+	private void executeWorkCreateService() {
 		ContentValues data = new ContentValues();
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getApplicationContext());
-		
-		data.put("started_at",Utils.getCurrentDateAndTime());
-		if(checkOutRemember.getVistecId()!=null){
-			data.put("reference_id",checkOutRemember.getVistecId());
+		User userProfile = JobViewerDBHandler
+				.getUserProfile(NewWorkActivity.this);
+
+		data.put("started_at", Utils.getCurrentDateAndTime());
+		if (checkOutRemember.getVistecId() != null) {
+			data.put("reference_id", checkOutRemember.getVistecId());
 		} else {
-			data.put("reference_id","");
+			data.put("reference_id", "");
 		}
-		data.put("engineer_id",Utils.work_engineer_id);
-		data.put("status",Utils.work_status);
-		data.put("completed_at",Utils.work_completed_at);
-		data.put("activity_type","");
-		data.put("flooding_status",Utils.work_flooding_status);
-		data.put("DA_call_out",Utils.work_DA_call_out);
-		data.put("is_redline_captured",false);
-		if(mLocation!=null){
-			String lat = String.valueOf(mLocation.getLatitude());
-			String lon = String.valueOf(mLocation.getLongitude());
-			data.put("location_latitude",lat);
-			data.put("location_longitude",lon);
-		} else{
-			data.put("location_latitude","");
-			data.put("location_longitude","");
-		}
-Utils.startProgress(this);
+		data.put("engineer_id", Utils.work_engineer_id);
+		data.put("status", Utils.work_status);
+		data.put("completed_at", Utils.work_completed_at);
+		data.put("activity_type", "");
+		if (Utils.isNullOrEmpty(Utils.work_flooding_status)) {
+			data.put("flooding_status", "");
+		} else
+			data.put("flooding_status", Utils.work_flooding_status);
+		data.put("DA_call_out", Utils.work_DA_call_out);
+		data.put("is_redline_captured", false);
+		GPSTracker tracker = new GPSTracker(NewWorkActivity.this);
+		data.put("location_latitude", tracker.getLatitude());
+		data.put("location_longitude", tracker.getLatitude());
+		data.put("created_by", userProfile.getEmail());
+		Utils.startProgress(this);
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
-				+ CommsConstant.START_WORK_API, data, getWorkCreateHandler());
+				+ CommsConstant.WORK_CREATE_API, data, getWorkCreateHandler());
 
 	}
-	private Handler getWorkCreateHandler(){
-		
+
+	private Handler getWorkCreateHandler() {
+
 		Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
@@ -262,15 +266,18 @@ Utils.startProgress(this);
 		Intent intent = new Intent(NewWorkActivity.this,
 				CaptureVistecActivity.class);
 		startActivity(intent);
-	}	
-	private void saveCreatedWorkInBackLogDb(){
+	}
+
+	private void saveCreatedWorkInBackLogDb() {
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getApplicationContext());
+		User userProfile = JobViewerDBHandler
+				.getUserProfile(NewWorkActivity.this);
 		WorkRequest workRequest = new WorkRequest();
 		workRequest.setStarted_at(Utils.getCurrentDateAndTime());
-		if(checkOutRemember.getVistecId()!=null){
+		if (checkOutRemember.getVistecId() != null) {
 			workRequest.setReference_id(checkOutRemember.getVistecId());
-		} else{
+		} else {
 			workRequest.setReference_id("");
 		}
 		workRequest.setEngineer_id(Utils.work_engineer_id);
@@ -280,19 +287,12 @@ Utils.startProgress(this);
 		workRequest.setFlooding_status(Utils.work_flooding_status);
 		workRequest.setDA_call_out(Utils.work_DA_call_out);
 		workRequest.setIs_redline_captured(Utils.work_is_redline_captured);
-		
-		if(mLocation!=null){
-			String lat =String.valueOf(mLocation.getLatitude());
-			String lon = String.valueOf(mLocation.getLongitude());
-			workRequest.setLocation_latitude(lat);
-			workRequest.setLocation_longitude(lon);
-		} else{
-			workRequest.setLocation_latitude(null);
-			workRequest.setLocation_longitude(null);
-		}
-		
+		GPSTracker tracker = new GPSTracker(NewWorkActivity.this);
+		workRequest.setLocation_latitude("" + tracker.getLatitude());
+		workRequest.setLocation_longitude("" + tracker.getLongitude());
+		workRequest.setCreated_by(userProfile.getEmail());
 		BackLogRequest backLogRequest = new BackLogRequest();
-		backLogRequest.setRequestApi(CommsConstant.START_WORK_API);
+		backLogRequest.setRequestApi(CommsConstant.WORK_CREATE_API);
 		backLogRequest.setRequestClassName("WorkRequest");
 		backLogRequest.setRequestJson(workRequest.toString());
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);

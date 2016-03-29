@@ -9,13 +9,14 @@ public class WorkRequest {
 	private String reference_id = "";
 	private String engineer_id = "";
 	private String status = "";
-	private boolean completed_at = false;
+	private String completed_at = "";
 	private String activity_type = "";
 	private String flooding_status = "";
 	private String DA_call_out = "";
 	private boolean is_redline_captured = false;
 	private String location_latitude = "";
 	private String location_longitude = "";
+	private String created_by="";
 
 	public String getStarted_at() {
 		return started_at;
@@ -49,15 +50,15 @@ public class WorkRequest {
 		this.status = status;
 	}
 
-	public boolean isCompleted_at() {
+	public String isCompleted_at() {
 		return completed_at;
 	}
 
-	public void setCompleted_at(boolean completed_at) {
+	public void setCompleted_at(String completed_at) {
 		this.completed_at = completed_at;
 	}
 	
-	public boolean getcompleted_at(){
+	public String getcompleted_at(){
 		return completed_at;
 	}
 	
@@ -134,5 +135,13 @@ public class WorkRequest {
 	 * "No Call Made", "is_redline_captured": true, "location_latitude":
 	 * "12.42323", "location_longitude": "32.234321"
 	 */
+
+	public String getCreated_by() {
+		return created_by;
+	}
+
+	public void setCreated_by(String created_by) {
+		this.created_by = created_by;
+	}
 
 }

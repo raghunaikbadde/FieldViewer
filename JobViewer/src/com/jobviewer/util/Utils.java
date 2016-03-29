@@ -65,7 +65,7 @@ public class Utils {
 	public static final String REQUEST_TYPE_UPLOAD = "UPLOAD";
 	public static final String REQUEST_TYPE_TIMESHEET = "TIMESHEET";
 
-	public static boolean work_completed_at = false;
+	public static String work_completed_at = "";
 	public static String work_engineer_id = "123322";
 	public static String work_status = "New";
 	public static String work_flooding_status = null;
