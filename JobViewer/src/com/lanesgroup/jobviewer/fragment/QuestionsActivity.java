@@ -12,6 +12,7 @@ import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.QuestionMaster;
 import com.jobviewer.survey.object.Screen;
+import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.survey.object.util.SurveyUtil;
 import com.jobviewer.util.ActivityConstants;
@@ -69,26 +70,13 @@ public class QuestionsActivity extends Activity implements
 	}
 
 	private void updateFragmentsFromRiskAssessment(SurveyJson questionSet,String screenId) {
-		if (questionSet != null
-				&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
-			manager.reloadAssessment(questionSet);
-		} else {
-			CheckOutObject checkOutRemember = JobViewerDBHandler
-					.getCheckOutRemember(this);
-			if (checkOutRemember.getAssessmentSelected().equalsIgnoreCase(
-					ActivityConstants.EXCAVATION)) {
-				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-						"excavation_risk_assessment_survey1.json");
-			} else {
-				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-						"non_excavation_risk_assessment_survey.json");
-			}
-
-			manager.setQuestionMaster(loadJsonFromAssets);
-			Screen screenToShow = manager.getScreenById(screenId);
-			int questionType = SurveyUtil.getQuestionType(screenToShow.get_type());
-			loadFragment(SurveyUtil.getFragment(questionType));
-		}
+		
+		manager.setQuestionMaster(GsonConverter.getInstance().decodeFromJsonString(questionSet.getQuestionJson(), QuestionMaster.class));
+		Screen screenToShow = manager.getScreenById(screenId);
+		manager.setCurrentScreen(screenToShow);
+		int questionType = SurveyUtil.getQuestionType(screenToShow.get_type());
+		loadFragment(SurveyUtil.getFragment(questionType));
+		
 	}
 	@Override
 	public void onNextClick() {
