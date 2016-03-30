@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
@@ -36,6 +37,7 @@ import com.jobviewer.util.showTimeDialog.DialogCallback;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
+import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
 import com.vehicle.communicator.HttpConnection;
 
 public class ActivityPageActivity extends BaseActivity implements
@@ -155,12 +157,16 @@ public class ActivityPageActivity extends BaseActivity implements
 				SurveyJson questionSet = JobViewerDBHandler
 						.getQuestionSet(mContext);
 				if (bundle != null
-						&& bundle
-								.containsKey(Utils.CALLING_ACTIVITY) && bundle.getString(Utils.CALLING_ACTIVITY).equalsIgnoreCase(ActivityConstants.ADD_PHOTOS_ACTIVITY)) {					
+						&& bundle.containsKey(Utils.CALLING_ACTIVITY)
+						&& bundle.getString(Utils.CALLING_ACTIVITY)
+								.equalsIgnoreCase(
+										ActivityConstants.ADD_PHOTOS_ACTIVITY)) {
 					Intent addPhotoScreenIntent = new Intent(mContext,
 							AddPhotosActivity.class);
 					Bundle addPhotoScreenIntentBundle = new Bundle();
-					addPhotoScreenIntentBundle.putString(Utils.CALLING_ACTIVITY, ActivityConstants.ACTIVITY_PAGE_ACTIVITY);
+					addPhotoScreenIntentBundle.putString(
+							Utils.CALLING_ACTIVITY,
+							ActivityConstants.ACTIVITY_PAGE_ACTIVITY);
 					startActivity(addPhotoScreenIntent);
 				} else if (questionSet != null
 						&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
@@ -189,9 +195,23 @@ public class ActivityPageActivity extends BaseActivity implements
 			}
 			
 		} else if (view == mShoutAbout){
-			intent.setClass(ActivityPageActivity.this, ShoutOptionsActivity.class);
+			ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
+					.getShoutAboutSafety(view.getContext());
+			if (shoutAboutSafety != null
+					&& !Utils.isNullOrEmpty(shoutAboutSafety.getQuestionSet())) {
+				intent.setClass(ActivityPageActivity.this,
+						ShoutOutActivity.class);
+				intent.putExtra(ActivityConstants.SHOUT_OPTION,
+						shoutAboutSafety.getOptionSelected());
+				intent.putExtra(ActivityConstants.IS_SHOUT_SAVED,
+						ActivityConstants.TRUE);
+				startActivity(intent);
+			} else {
+				intent.setClass(ActivityPageActivity.this,
+						ShoutOptionsActivity.class);
 			startActivity(intent);
 		}
+	}
 	}
 
 	private void endShiftOrCall() {
