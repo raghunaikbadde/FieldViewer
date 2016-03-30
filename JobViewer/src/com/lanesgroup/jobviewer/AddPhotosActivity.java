@@ -44,6 +44,7 @@ import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
@@ -161,11 +162,13 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mListView.setAdapter(mAdapter);
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public void onClick(View view) {
 		if (view == mSave) {
 			for (ImageObject imageObjectToSave : imageObjects) {
+				if(imageObjectToSave == null || Utils.isNullOrEmpty(imageObjectToSave.getImage_string())){
+					continue;
+				}
 				JobViewerDBHandler.saveAddPhotoImage(mContext,
 						imageObjectToSave);
 			}
@@ -175,10 +178,9 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			intent.putExtra(Utils.SHOULD_SHOW_WORK_IN_PROGRESS, true);
 			intent.putExtra(Utils.CALLING_ACTIVITY,
 					ActivityConstants.ADD_PHOTOS_ACTIVITY);
-			intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
 
-		} else if (view == mUpdateRiskActivity) {
+		} else if (view == mUpdateRiskActivity) {			
 			Intent intent = new Intent(view.getContext(),
 					UpdateRiskAssessmentActivity.class);
 			startActivity(intent);

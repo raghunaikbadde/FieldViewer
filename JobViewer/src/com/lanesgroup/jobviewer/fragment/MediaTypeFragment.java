@@ -156,8 +156,32 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 	public void onClick(View view) {
 		if (view == mSave) {
 			if ("save".equalsIgnoreCase(mSave.getText().toString())) {
+				
+				for (int i = 0; i < currentScreen.getImages().length; i++) {
+					ImageObject imageObject = new ImageObject();
+					String generateUniqueID = Utils.generateUniqueID(getActivity());
+					imageObject.setImageId(generateUniqueID);
+					imageObject.setCategory("surveys");
+					imageObject.setImage_exif(currentScreen.getImages()[i].getImage_exif());
+					imageObject.setImage_string(currentScreen.getImages()[i]
+							.getImage_string());
+					currentScreen.getImages()[i].setImage_string(generateUniqueID);
+					JobViewerDBHandler.saveImage(view.getContext(), imageObject);
+					if(formwardIamgeToAddPhotosActivity){
+						addPhotoActivityimageObject.add(imageObject);
+					}
+					sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
+				}
+				
+				
+				QuestionManager.getInstance().updateScreenOnQuestionMaster(
+						currentScreen);
+				
 				QuestionManager.getInstance().saveAssessment(
 						checkOutRemember.getAssessmentSelected());
+				
+				
+				
 				Intent intent=new Intent(view.getContext(),ActivityPageActivity.class);
 				intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intent);
@@ -174,7 +198,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				imageObject.setImage_string(currentScreen.getImages()[i]
 						.getImage_string());
 				
-				//currentScreen.getImages()[i].setImage_string(generateUniqueID);
+				currentScreen.getImages()[i].setImage_string(generateUniqueID);
 				JobViewerDBHandler.saveImage(view.getContext(), imageObject);
 				if(formwardIamgeToAddPhotosActivity){
 					addPhotoActivityimageObject.add(imageObject);
@@ -276,11 +300,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 			imageCount++;
 			Toast.makeText(getActivity(), "Number of images are " + imageCount,
 					3000).show();
-			try{
 			checkAndEnableNextButton();
-			}catch(Exception e){
-				
-			}
 
 		}
 	}

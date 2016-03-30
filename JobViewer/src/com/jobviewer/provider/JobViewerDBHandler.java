@@ -497,6 +497,12 @@ public class JobViewerDBHandler {
 		cursor.close();
 		return imageList;
 	}
+	
+	public static void deleteAllAddCardSavedImages(Context context) {
+		context.getContentResolver().delete(
+				JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI, null,
+				null);
+	}
 
 	public static void saveShoutAboutSafety(Context context,
 			ShoutAboutSafetyObject shoutAboutSafetyObject) {

@@ -25,7 +25,7 @@ public class AppKillService extends Service {
 	public void onTaskRemoved(Intent rootIntent) {
 		// TODO Auto-generated method stub
 		System.out.println("onTaskRemoved");
-		JobViewerDBHandler.deleteQuestionSet(getApplicationContext());
+		//JobViewerDBHandler.deleteQuestionSet(getApplicationContext());
 		super.onTaskRemoved(rootIntent);
 
 	}

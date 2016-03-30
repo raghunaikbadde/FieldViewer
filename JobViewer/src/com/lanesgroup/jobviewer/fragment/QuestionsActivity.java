@@ -39,8 +39,9 @@ public class QuestionsActivity extends Activity implements
 		
 		if(bundle != null && bundle.containsKey(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY) ){
 			updateFragmentsFromRiskAssessment(questionSet,bundle.getString(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY));
+		} else{
+			updateFragments(questionSet);
 		}
-		updateFragments(questionSet);
 	}
 
 	private void updateFragments(SurveyJson questionSet) {

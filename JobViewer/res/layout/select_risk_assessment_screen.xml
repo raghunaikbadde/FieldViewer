@@ -175,7 +175,7 @@
                             android:layout_width="0dp"
                             android:layout_height="@dimen/button_height150"
                             android:layout_weight="20"
-                            android:background="@drawable/dark_grey_background"
+                            android:background="@drawable/red_background"
                             android:text="@string/next"
                             android:textColor="@color/white"
                             android:textSize="@dimen/dialog_black_lato_regular_small60" />

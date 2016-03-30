@@ -28,6 +28,7 @@ public class WorkSuccessActivity extends BaseActivity implements OnClickListener
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(this);
 		mVistecText.setText(checkOutRemember.getVistecId());
+		JobViewerDBHandler.deleteAllAddCardSavedImages(WorkSuccessActivity.this);
 	}
 	
 	@Override

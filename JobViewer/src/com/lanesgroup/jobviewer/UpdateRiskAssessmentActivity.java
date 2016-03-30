@@ -47,7 +47,19 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 	}
 
 	private void updateData() {
-		SurveyJson questionSet = JobViewerDBHandler.getQuestionSet(this);
+		SurveyJson questionSet = null;
+		try{
+			questionSet = JobViewerDBHandler.getQuestionSet(this);
+		}catch(Exception e){
+			Log.d("JV","Question set cannot be accessed - "+e.toString());
+			e.printStackTrace();
+			return;
+		}
+		if(questionSet==null){
+			Log.d("JV","Question set is returned null");
+			return;
+		}
+		
 		QuestionMaster questionMaster = GsonConverter.getInstance()
 				.decodeFromJsonString(questionSet.getQuestionJson(),
 						QuestionMaster.class);

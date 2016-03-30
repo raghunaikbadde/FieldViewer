@@ -40,7 +40,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 	private Button mSave, mNext, mCaptureVistec;
 	static File file;
 	private String mImage_exif_string = "";
-	private String mImageBase64 = "data:image/jpeg;base64,";
+	private String mImageBase64 = "";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
