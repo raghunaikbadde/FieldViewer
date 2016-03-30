@@ -161,6 +161,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mListView.setAdapter(mAdapter);
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void onClick(View view) {
 		if (view == mSave) {
@@ -174,6 +175,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			intent.putExtra(Utils.SHOULD_SHOW_WORK_IN_PROGRESS, true);
 			intent.putExtra(Utils.CALLING_ACTIVITY,
 					ActivityConstants.ADD_PHOTOS_ACTIVITY);
+			intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
 
 		} else if (view == mUpdateRiskActivity) {

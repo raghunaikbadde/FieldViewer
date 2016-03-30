@@ -193,7 +193,8 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener{
 			Utils.workEndTimeSheetRequest.setOverride_timestamp(Utils.getCurrentDateAndTime());
 			Utils.workEndTimeSheetRequest.setReference_id(checkOutRemember.getVistecId());
 			Utils.workEndTimeSheetRequest.setUser_id(userProfile.getEmail());
-			
+			CheckOutObject checkOutRemember2 = JobViewerDBHandler.getCheckOutRemember(getActivity());
+			data.put("started_at", checkOutRemember2.getJobStartedTime());
 			data.put("record_for", userProfile.getEmail());
 			data.put("is_inactive", "false");
 			data.put("override_reason", "");
@@ -212,8 +213,8 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener{
 					.getCheckOutRemember(getActivity());
 			User userProfile = JobViewerDBHandler
 					.getUserProfile(getActivity());
-
-			data.put("started_at", Utils.lastest_work_started_at);
+			CheckOutObject checkOutRemember2 = JobViewerDBHandler.getCheckOutRemember(getActivity());
+			data.put("started_at",checkOutRemember2.getJobStartedTime());
 			if (checkOutRemember.getVistecId() != null) {
 				data.put("reference_id", checkOutRemember.getVistecId());
 			} else {
@@ -221,7 +222,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener{
 			}
 			data.put("engineer_id", Utils.work_engineer_id);
 			data.put("status", Utils.work_status);
-			data.put("completed_at", Utils.work_completed_at);
+			data.put("completed_at", Utils.getCurrentDateAndTime());
 			data.put("activity_type", "");
 			if (Utils.isNullOrEmpty(Utils.work_flooding_status)) {
 				data.put("flooding_status", "");

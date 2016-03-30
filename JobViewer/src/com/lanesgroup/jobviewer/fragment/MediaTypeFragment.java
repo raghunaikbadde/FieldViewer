@@ -276,7 +276,11 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 			imageCount++;
 			Toast.makeText(getActivity(), "Number of images are " + imageCount,
 					3000).show();
+			try{
 			checkAndEnableNextButton();
+			}catch(Exception e){
+				
+			}
 
 		}
 	}
