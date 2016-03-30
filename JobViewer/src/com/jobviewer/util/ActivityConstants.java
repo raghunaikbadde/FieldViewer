@@ -17,6 +17,7 @@ public class ActivityConstants {
 	public static final String ADD_PHOTOS_ACTIVITY="AddPhotosActitivy";
 	public static final String ACTIVITY_PAGE_ACTIVITY="ActivityPageActivity";
 	public static final String SHOUT_OPTION = "ShoutOption";
+	public static final String IS_SHOUT_SAVED = "isSaved";
 	public static final String HAZARD = "Hazard";
 	public static final String IDEA = "Idea";
 	public static final String SAFETY = "Safety";

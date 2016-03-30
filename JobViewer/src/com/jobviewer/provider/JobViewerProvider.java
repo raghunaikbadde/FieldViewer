@@ -52,7 +52,7 @@ public class JobViewerProvider extends ContentProvider {
 				TABLE_BACK_LOG);
 		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "AddPhotosScreenSavedImages",
 				TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES);
-		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "AddPhotosScreenSavedImages",
+		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "ShoutAboutSafetyTable",
 				TABLE_SHOUT_ABOUT_SAFETY);
 		
 	}

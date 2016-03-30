@@ -7,7 +7,10 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
+import com.jobviewer.db.objects.ShoutAboutSafetyObject;
+import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.QuestionMaster;
+import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.SurveyUtil;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Utils;
@@ -24,24 +27,31 @@ public class ShoutOutActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.questions_flow_screen);
-		Utils.startService(this);
+		if (ActivityConstants.TRUE.equalsIgnoreCase(getIntent()
+				.getExtras().get(ActivityConstants.IS_SHOUT_SAVED).toString())) {
+			ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
+					.getShoutAboutSafety(this);
+			setQuestionMaster(GsonConverter.getInstance().decodeFromJsonString(
+					shoutAboutSafety.getQuestionSet(), QuestionMaster.class));
+			option = shoutAboutSafety.getOptionSelected();
+			startedAt = shoutAboutSafety.getStartedAt();
+		} else {
 
-		option = getIntent().getExtras().get(ActivityConstants.SHOUT_OPTION)
-				.toString();
-		startedAt = Utils.getCurrentDateAndTime();
-
-		mFragmentManager = getFragmentManager();
-
-		if (option.equalsIgnoreCase(ActivityConstants.HAZARD)) {
-			setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
-					"shout_about_safety_hazard.json"));
-		} else if (option.equalsIgnoreCase(ActivityConstants.IDEA)) {
-			setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
-					"shout_about_safety_idea.json"));
-		} else if (option.equalsIgnoreCase(ActivityConstants.SAFETY)) {
-			setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
-					"shout_about_safety_good_safety.json"));
+			option = getIntent().getExtras()
+					.get(ActivityConstants.SHOUT_OPTION).toString();
+			startedAt = Utils.getCurrentDateAndTime();
+			if (option.equalsIgnoreCase(ActivityConstants.HAZARD)) {
+				setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
+						"shout_about_safety_hazard.json"));
+			} else if (option.equalsIgnoreCase(ActivityConstants.IDEA)) {
+				setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
+						"shout_about_safety_idea.json"));
+			} else if (option.equalsIgnoreCase(ActivityConstants.SAFETY)) {
+				setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
+						"shout_about_safety_good_safety.json"));
+			}
 		}
+		mFragmentManager = getFragmentManager();
 
 		loadFragment(new ShoutOutMediaTextTypeFragment());
 	}
@@ -101,6 +111,6 @@ public class ShoutOutActivity extends Activity {
 	}
 
 	public void setQuestionMaster(QuestionMaster questionMaster) {
-		this.questionMaster = questionMaster;
+		ShoutOutActivity.questionMaster = questionMaster;
 	}
 }

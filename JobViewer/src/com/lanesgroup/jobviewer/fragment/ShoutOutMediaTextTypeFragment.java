@@ -186,6 +186,20 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 					ShoutOutActivity.getQuestionMaster()));
 			obj.setOptionSelected(ShoutOutActivity.getOptionSelected());
 			JobViewerDBHandler.saveShoutAboutSafety(getActivity(), obj);
+
+			for (int i = 0; i < currentScreen.getImages().length; i++) {
+				ImageObject imageObject = new ImageObject();
+				String generateUniqueID = Utils.generateUniqueID(getActivity());
+				imageObject.setImageId(generateUniqueID);
+				imageObject.setImage_string(currentScreen.getImages()[i]
+						.getImage_string());
+				imageObject.setCategory("surveys");
+				imageObject.setImage_exif(currentScreen.getImages()[i]
+						.getImage_exif());
+				currentScreen.getImages()[i].setImage_string(generateUniqueID);
+				sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
+			}
+
 			Intent homeIntent = new Intent(getActivity(),
 					ActivityPageActivity.class);
 			homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -212,8 +226,37 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		}
 	}
 
+	private void sendDetailsOrSaveCapturedImageInBacklogDb(
+			ImageObject imageObject) {
+		if (Utils.isInternetAvailable(getActivity())) {
+			sendWorkImageToServer(imageObject);
+		} else {
+			JobViewerDBHandler.saveImage(getActivity(), imageObject);
+			// loadNextFragement();
+		}
+
+	}
+
 	private void executeShoutAboutSafetyService(ShoutAboutSafetyObject obj) {
 		Utils.startProgress(getActivity());
+
+		for (int i = 0; i < currentScreen.getImages().length; i++) {
+			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
+					.getImage_string())) {
+				ImageObject imageObject = new ImageObject();
+				String generateUniqueID = Utils.generateUniqueID(getActivity());
+				imageObject.setImageId(generateUniqueID);
+				imageObject.setImage_string(currentScreen.getImages()[i]
+						.getImage_string());
+				imageObject.setCategory("surveys");
+				imageObject.setImage_exif(currentScreen.getImages()[i]
+						.getImage_exif());
+				currentScreen.getImages()[i].setImage_string(generateUniqueID);
+				sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
+			}
+
+		}
+
 		if (Utils.isInternetAvailable(getActivity())) {
 			ContentValues values = new ContentValues();
 			CheckOutObject checkOutRemember2 = JobViewerDBHandler

@@ -8,7 +8,10 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+import com.jobviewer.db.objects.ShoutAboutSafetyObject;
+import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
 
 public class ShoutOptionsActivity extends BaseActivity implements
@@ -17,15 +20,15 @@ public class ShoutOptionsActivity extends BaseActivity implements
 	private Button mSave, mNext;
 	RadioGroup radioGroup1;
 	private String mOption;
-	
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.shout_out_option_activity);
-        initUI();
-        
-    }
-    
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.shout_out_option_activity);
+		initUI();
+
+	}
+
 	private void initUI() {
 		mSave = (Button) findViewById(R.id.button1);
 		mSave.setOnClickListener(this);
@@ -41,7 +44,19 @@ public class ShoutOptionsActivity extends BaseActivity implements
 		if (view == mSave) {
 
 		} else if (view == mNext) {
-			intent.putExtra(ActivityConstants.SHOUT_OPTION, mOption);
+			ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
+					.getShoutAboutSafety(view.getContext());
+			if (shoutAboutSafety != null
+					&& !Utils.isNullOrEmpty(shoutAboutSafety.getQuestionSet())) {
+				intent.putExtra(ActivityConstants.SHOUT_OPTION,
+						shoutAboutSafety.getOptionSelected());
+				intent.putExtra(ActivityConstants.IS_SHOUT_SAVED,
+						ActivityConstants.TRUE);
+			} else {
+				intent.putExtra(ActivityConstants.SHOUT_OPTION, mOption);
+				intent.putExtra(ActivityConstants.IS_SHOUT_SAVED,
+						ActivityConstants.FALSE);
+			}
 			intent.setClass(ShoutOptionsActivity.this, ShoutOutActivity.class);
 			startActivity(intent);
 		}
