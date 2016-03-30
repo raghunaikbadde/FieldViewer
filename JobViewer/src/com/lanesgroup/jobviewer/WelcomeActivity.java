@@ -42,6 +42,9 @@ public class WelcomeActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.welcome_screen);
+		if( getIntent().getBooleanExtra("Exit me", false)){
+		    finish();
+		}else{
 		Utils.checkOutObject=new CheckOutObject();
 		context = this;
 		
@@ -63,7 +66,7 @@ public class WelcomeActivity extends BaseActivity {
 				openDialog();
 			}
 		});
-		if (Utils.isInternetAvailable(context)) {
+		if (Utils.isInternetAvailable(context)&& !Utils.isExitApplication) {
 			executeStartUpApi();
 		} else {
 			User user = new User();
@@ -73,6 +76,7 @@ public class WelcomeActivity extends BaseActivity {
 		}
 
 		Utils.startNotification(this);
+		}
 	}
 
 	private void executeStartUpApi() {

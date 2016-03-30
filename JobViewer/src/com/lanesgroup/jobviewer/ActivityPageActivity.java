@@ -3,11 +3,9 @@ package com.lanesgroup.jobviewer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.media.ExifInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -353,8 +351,7 @@ public class ActivityPageActivity extends BaseActivity implements
 	
 	@Override
 	public void onBackPressed() {
-		
-		
+		exitApplication();
 	}
 
 }

@@ -108,6 +108,7 @@ public class Utils {
 	public static TimeSheetRequest callEndTimeRequest = null;
 	static int notificationId = 1000;
 	private static NotificationManager myNotificationManager;
+	public static boolean isExitApplication=false;
 
 	public static void SendHTTPRequest(Context context, String url,
 			ContentValues data, Handler handler) {

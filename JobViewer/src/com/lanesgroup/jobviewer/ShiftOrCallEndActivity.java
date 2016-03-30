@@ -1,23 +1,29 @@
 package com.lanesgroup.jobviewer;
 
+import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.util.Utils;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class ShiftOrCallEndActivity extends BaseActivity implements OnClickListener{
+public class ShiftOrCallEndActivity extends BaseActivity implements
+		OnClickListener {
 
-	Button mCloseButton,mGoOnCallButton;
+	Button mCloseButton, mGoOnCallButton;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.shift_complete_screen);
-		
+
 		initUI();
 	}
-	
-	private void initUI(){
+
+	private void initUI() {
 		mCloseButton = (Button) findViewById(R.id.button1);
 		mGoOnCallButton = (Button) findViewById(R.id.button2);
 		mCloseButton.setOnClickListener(this);
@@ -26,20 +32,37 @@ public class ShiftOrCallEndActivity extends BaseActivity implements OnClickListe
 
 	@Override
 	public void onClick(View v) {
-		if(v == mCloseButton){
-			Intent intent = new Intent(ShiftOrCallEndActivity.this,WelcomeActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
+		if (v == mCloseButton) {
+			CheckOutObject checkOutRemember = JobViewerDBHandler
+					.getCheckOutRemember(v.getContext());
+			checkOutRemember.setJobSelected("");
+			checkOutRemember.setIsStartedTravel("");
+			checkOutRemember.setIsTravelEnd("");
+			checkOutRemember.setIsAssessmentCompleted("");
+			JobViewerDBHandler.saveCheckOutRemember(v.getContext(),
+					checkOutRemember);
+			Intent intent = new Intent(this, WelcomeActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.putExtra("Exit me", true);
 			startActivity(intent);
-		} else if (v == mGoOnCallButton){
-			/*Intent intent = new Intent(ShiftOrCallEndActivity.this,ClockInConfirmationActivity.class);
-			startActivity(intent);*/
-			
+			finish();
+		} else if (v == mGoOnCallButton) {
+			/*
+			 * Intent intent = new
+			 * Intent(ShiftOrCallEndActivity.this,ClockInConfirmationActivity
+			 * .class); startActivity(intent);
+			 */
+
 		}
 	}
+
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent(ShiftOrCallEndActivity.this,WelcomeActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
+		Intent intent = new Intent(ShiftOrCallEndActivity.this,
+				WelcomeActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+				| Intent.FLAG_ACTIVITY_CLEAR_TASK
+				| Intent.FLAG_ACTIVITY_NO_HISTORY);
 		startActivity(intent);
 	}
 }
