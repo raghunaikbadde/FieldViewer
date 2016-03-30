@@ -19,7 +19,7 @@
     
     <TextView
         android:id="@+id/cofirmation_msg_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="@dimen/dialog_detail_top_margin80"
     	android:paddingBottom="@dimen/dialog_detail_bottom_margin95"

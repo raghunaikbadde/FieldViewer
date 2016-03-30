@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ShoutAboutSafetyObject;
+import com.jobviewer.db.objects.StartTrainingObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
@@ -26,6 +27,8 @@ import com.jobviewer.network.SendImageService;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.ConfirmDialog;
+import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallback;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.OverrideReasoneDialog;
 import com.jobviewer.util.SelectActivityDialog;
@@ -39,7 +42,7 @@ import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
 import com.vehicle.communicator.HttpConnection;
 
 public class ActivityPageActivity extends BaseActivity implements
-		View.OnClickListener, DialogCallback {
+		View.OnClickListener, DialogCallback, ConfirmDialogCallback  {
 	TextView user_email_text, date_time_text, vehicleRegistrationNumber;
 	LinearLayout checked_out_layout;
 	
@@ -67,11 +70,14 @@ public class ActivityPageActivity extends BaseActivity implements
 		mShoutAbout.setOnClickListener(this);
 		
 		User userProfile = JobViewerDBHandler.getUserProfile(this);
-		if (Utils.isNullOrEmpty(userProfile.getFirstname())) {
-			user_email_text.setText(userProfile.getEmail());
-		} else {
-			user_email_text.setText(userProfile.getFirstname());
+		if(userProfile!=null){
+			if (Utils.isNullOrEmpty(userProfile.getFirstname())) {
+				user_email_text.setText(userProfile.getEmail());
+			} else {
+				user_email_text.setText(userProfile.getFirstname());
+			}
 		}
+		
 		if (Utils.checkOutObject != null) {
 			Utils.checkOutObject = JobViewerDBHandler
 					.getCheckOutRemember(mContext);
@@ -88,7 +94,14 @@ public class ActivityPageActivity extends BaseActivity implements
 		} else {
 			mEndOnCall.setText("End Call");
 		}
-
+		
+		StartTrainingObject trainingToolBox = JobViewerDBHandler.getTrainingToolBox(this);
+		if(trainingToolBox!=null){
+			if(ActivityConstants.TRUE.equalsIgnoreCase(trainingToolBox.getIsTrainingStarted())){
+				mStart.setTag(Constants.END_TRAINING);
+				mStart.setText(Constants.END_TRAINING);
+			}
+		} else {			
 		bundle = getIntent().getExtras();
 		boolean shouldShowWorkInProgress = false;
 		if (bundle != null
@@ -108,6 +121,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		} else {
 			mStart.setText(getResources().getString(R.string.start_text));
 			mStart.setTag(getResources().getString(R.string.start_text));
+		}
 		}
 	}
 
@@ -177,9 +191,12 @@ public class ActivityPageActivity extends BaseActivity implements
 							RiskAssessmentActivity.class);
 					startActivity(riskAssIntent);
 				} 
-			} else {
+			} else if (Constants.END_TRAINING.equalsIgnoreCase(tag)){
+				executeEndTraining();
+				
+			}else {
 				intent.setClass(this, SelectActivityDialog.class);
-				startActivity(intent);
+				startActivityForResult(intent, Constants.RESULT_CODE_START_TRAINING);
 			}
 		} else if (view == mCheckOutVehicle) {
 			intent.setClass(this, CheckoutVehicleActivity.class);
@@ -233,6 +250,10 @@ public class ActivityPageActivity extends BaseActivity implements
 		}
 	}
 
+	private void executeEndTraining() {
+		new ConfirmDialog(mContext, ActivityPageActivity.this, Constants.END_TRAINING).show();
+	}
+
 	@Override
 	public void onContinue() {
 		if (!Utils.isInternetAvailable(mContext)) {
@@ -282,6 +303,9 @@ public class ActivityPageActivity extends BaseActivity implements
 				Utils.startProgress(ActivityPageActivity.this);
 				executeStartBreakService();
 			}
+		} else if(requestCode == Constants.RESULT_CODE_START_TRAINING && resultCode == RESULT_OK){
+			mStart.setText(Constants.END_TRAINING);
+			mStart.setTag(Constants.END_TRAINING);
 		}
 	}
 
@@ -352,6 +376,18 @@ public class ActivityPageActivity extends BaseActivity implements
 	@Override
 	public void onBackPressed() {
 		exitApplication();
+	}
+
+	@Override
+	public void onConfirmStartTraining() {
+		JobViewerDBHandler.deleteStartTraining(mContext);
+		mStart.setText("Start...");
+		mStart.setTag(Constants.START_TRAINING);
+	}
+
+	@Override
+	public void onConfirmDismiss() {
+		
 	}
 
 }

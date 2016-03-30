@@ -11,8 +11,10 @@ import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.db.objects.ShoutAboutSafetyObject;
+import com.jobviewer.db.objects.StartTrainingObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.db.objects.TimeSheet;
+import com.jobviewer.provider.JobViewerProviderContract.StartTrainingTable;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 
@@ -545,6 +547,45 @@ public class JobViewerDBHandler {
 		}
 		cursor.close();
 		return shoutAboutSafetyObject;
+	}
+	
+	public static void saveStartTraining(Context context, StartTrainingObject trainingStart) {
+		deleteUserProfile(context);
+		ContentValues values = new ContentValues();
+		values.put(JobViewerProviderContract.StartTrainingTable.IS_TRAINING_STARTED,
+				trainingStart.getIsTrainingStarted());
+		values.put(JobViewerProviderContract.StartTrainingTable.TRAINING_START_TIME,
+				trainingStart.getStartTime());
+		values.put(JobViewerProviderContract.StartTrainingTable.TRAINING_END_TIME,
+				trainingStart.getEndTime());
+		context.getContentResolver().insert(
+				JobViewerProviderContract.StartTrainingTable.CONTENT_URI, values);
+	}
+
+	public static void deleteStartTraining(Context context) {
+		context.getContentResolver().delete(
+				JobViewerProviderContract.StartTrainingTable.CONTENT_URI, null, null);
+	}
+	
+	public static StartTrainingObject getTrainingToolBox(Context context) {
+		Cursor cursor = context.getContentResolver().query(
+				JobViewerProviderContract.StartTrainingTable.CONTENT_URI,
+				null, null, null, null);
+		StartTrainingObject startTrainingObject = null;
+		if (cursor != null && cursor.moveToFirst()) {
+			startTrainingObject = new StartTrainingObject();
+			startTrainingObject
+					.setIsTrainingStarted(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.StartTrainingTable.IS_TRAINING_STARTED)));
+			startTrainingObject
+					.setStartTime(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.StartTrainingTable.TRAINING_START_TIME)));
+			startTrainingObject
+					.setEndTime(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.StartTrainingTable.TRAINING_END_TIME)));
+		}
+		cursor.close();
+		return startTrainingObject;
 	}
 
 }

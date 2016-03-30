@@ -7,6 +7,7 @@ import com.jobviewer.provider.JobViewerProviderContract.Image;
 import com.jobviewer.provider.JobViewerProviderContract.QuestionSetTable;
 import com.jobviewer.provider.JobViewerProviderContract.ShoutAboutSafetyTable;
 import com.jobviewer.provider.JobViewerProviderContract.TimeSheet;
+import com.jobviewer.provider.JobViewerProviderContract.StartTrainingTable;
 import com.jobviewer.provider.JobViewerProviderContract.User;
 
 public interface JobViewerSchema {
@@ -22,6 +23,7 @@ public interface JobViewerSchema {
 	public static final String TABLE_BACK_LOG = "BackLogTable";
 	public static final String TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = "AddPhotosScreenSavedImages";
 	public static final String TABLE_SHOUT_ABOUT_SAFETY = "ShoutAboutSafetyTable";
+	public static final String TABLE_START_TRAINING = "StartTrainingTable";
 
 	public static final String CREATE_TABLE_USER = "create table " + TABLE_USER
 			+ "(" + User._ID + " integer primary key autoincrement,"
@@ -119,4 +121,15 @@ public interface JobViewerSchema {
 			+ ShoutAboutSafetyTable.STARTEDAT
 			+ " text,"
 			+ ShoutAboutSafetyTable.QUESTION_SET + " text);";
+
+	public static final String CREATE_TABLE_START_TRAINING = "create table "
+		+ TABLE_START_TRAINING
+		+ "("
+		+ StartTrainingTable._ID
+		+ " integer primary key autoincrement,"
+		+ StartTrainingTable.IS_TRAINING_STARTED
+		+ " text,"
+		+ StartTrainingTable.TRAINING_START_TIME 
+		+ " text,"
+		+ StartTrainingTable.TRAINING_END_TIME + " text);";
 }
