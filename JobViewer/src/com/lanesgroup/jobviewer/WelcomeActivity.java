@@ -180,12 +180,14 @@ public class WelcomeActivity extends BaseActivity {
 					JobViewerDBHandler.saveTimeSheet(WelcomeActivity.this, Utils.startShiftTimeRequest, CommsConstant.START_SHIFT_API);
 					intent = new Intent(WelcomeActivity.this,
 							ClockInActivity.class);
+					intent.putExtra(Utils.SHIFT_START, Utils.SHIFT_START);
 				} else {
 					intent = new Intent(WelcomeActivity.this,
 							ClockInConfirmationActivity.class);
 					Utils.callStartTimeRequest = new TimeSheetRequest();
 					intent.putExtra(Utils.CALLING_ACTIVITY,
 							WelcomeActivity.this.getClass().getSimpleName());
+					intent.putExtra(Utils.CALL_START, Utils.CALL_START);
 				}
 				dialog.dismiss();
 				startActivity(intent);
@@ -204,5 +206,9 @@ public class WelcomeActivity extends BaseActivity {
 		backLogRequest.setRequestClassName("StartrUpRequest");
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(getApplicationContext(), backLogRequest);
+	}
+	@Override
+	public void onBackPressed() {
+		exitApplication();
 	}
 }

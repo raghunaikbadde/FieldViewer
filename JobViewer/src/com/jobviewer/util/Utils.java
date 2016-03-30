@@ -69,6 +69,11 @@ public class Utils {
 	public static final String CALLING_ACTIVITY = "callingActivity";
 	public static final String SHOULD_SHOW_WORK_IN_PROGRESS = "souldShowWorkInProgress";
 
+	public static final String SHIFT_START = "SHIFT_START";
+	public static final String CALL_START = "CALL_START";
+	public static final String SHIFT_END = "SHIFT_END";
+	public static final String END_CALL = "END_CALL";
+	
 	public static final String REQUEST_TYPE_WORK = "WORK";
 	public static final String REQUEST_TYPE_UPLOAD = "UPLOAD";
 	public static final String REQUEST_TYPE_TIMESHEET = "TIMESHEET";
@@ -93,7 +98,10 @@ public class Utils {
 	public static TimeSheetRequest endShiftRequest = null;
 	
 	public static TimeSheetRequest workEndTimeSheetRequest = null;
-	public static String lastest_work_started_at = null;
+	public static String lastest_work_started_at = "";
+	public static String lastest_call_started_at = "";
+	public static String lastest_shift_started_at = "";
+	
 	public static String[] mActivityList = { "Blockage", "CCTV", "Line Clean",
 			"Pumo Down", "SFOC", "Clean Up", "SROPR", "Enable" };
 	public static TimeSheetRequest callStartTimeRequest = null;

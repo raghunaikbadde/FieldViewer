@@ -110,6 +110,9 @@
         <activity
             android:name="com.lanesgroup.jobviewer.fragment.ShoutOutActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ShiftOrCallEndActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.jobviewer.network.NetworkChangeReceiver"

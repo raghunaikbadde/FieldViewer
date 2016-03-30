@@ -24,7 +24,7 @@ public class LauncherActicity extends BaseActivity {
 				&& !Utils.isNullOrEmpty(checkOutRemember
 						.getIsAssessmentCompleted())) {
 			Utils.checkOutObject = checkOutRemember;
-			launcherIntent = new Intent(this, PollutionActivity.class);
+			launcherIntent = new Intent(this, WelcomeActivity.class);
 		} else if (checkOutRemember != null
 				&& ActivityConstants.TRUE.equalsIgnoreCase(checkOutRemember
 						.getIsStartedTravel())) {

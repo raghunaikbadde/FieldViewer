@@ -38,7 +38,7 @@ import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
 import com.vehicle.communicator.HttpConnection;
 
-public class ActivityPageActivity extends Activity implements
+public class ActivityPageActivity extends BaseActivity implements
 		View.OnClickListener, DialogCallback {
 	TextView user_email_text, date_time_text, vehicleRegistrationNumber;
 	LinearLayout checked_out_layout;
@@ -123,6 +123,7 @@ public class ActivityPageActivity extends Activity implements
 		mStart.setOnClickListener(this);
 		mCheckOutVehicle.setOnClickListener(this);
 		mStartTravel.setOnClickListener(this);
+		mEndOnCall.setOnClickListener(this);
 		if (Utils.checkOutObject == null
 				|| Utils.isNullOrEmpty(Utils.checkOutObject.getMilage())) {
 			checked_out_layout.setVisibility(View.GONE);
@@ -183,9 +184,33 @@ public class ActivityPageActivity extends Activity implements
 			Utils.startTravelTimeRequest = new TimeSheetRequest();
 			new showTimeDialog(this, this, "travel").show();
 		} else if (view == mEndOnCall) {
-
+			if(!mStart.getTag().toString().equalsIgnoreCase("Continue Work In Progress")){
+				endShiftOrCall();	
+			}
+			
 		} else if (view == mShoutAbout){
 			intent.setClass(ActivityPageActivity.this, ShoutOptionsActivity.class);
+			startActivity(intent);
+		}
+	}
+
+	private void endShiftOrCall() {
+		Intent intent;
+		if(mEndOnCall.getText().toString().equals("End Call")){
+			intent = new Intent(ActivityPageActivity.this,
+					ClockInConfirmationActivity.class);
+			Utils.callEndTimeRequest = new TimeSheetRequest();
+			intent.putExtra(Utils.END_CALL,Utils.END_CALL);
+			intent.putExtra(Utils.CALLING_ACTIVITY,
+					ActivityPageActivity.this.getClass().getSimpleName());
+			startActivity(intent);
+		} else if(mEndOnCall.getText().toString().equals("End Shift")){
+			intent = new Intent(ActivityPageActivity.this,
+					ClockInConfirmationActivity.class);
+			Utils.endShiftRequest = new TimeSheetRequest();
+			intent.putExtra(Utils.SHIFT_END,Utils.SHIFT_END);
+			intent.putExtra(Utils.CALLING_ACTIVITY,
+					ActivityPageActivity.this.getClass().getSimpleName());
 			startActivity(intent);
 		}
 	}
