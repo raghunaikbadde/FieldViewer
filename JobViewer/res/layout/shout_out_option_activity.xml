@@ -48,8 +48,8 @@
                     <TextView
                         android:id="@+id/progress_step_text"
                         android:layout_width="wrap_content"
-                        android:text="@string/tmp_progress_step"
                         android:layout_height="wrap_content"
+                        android:text="@string/tmp_progress_step"
                         android:textColor="@color/black"
                         android:textSize="@dimen/white_lato_bold_small50"
                         android:textStyle="bold" />
@@ -65,28 +65,15 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/questionTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/progress_layout"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/red_lato_bold_big90"
-                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginTop="@dimen/red_lato_bold_big90"
-                    android:text="@string/set_up_on_arrival_str"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/title_text_size70" />
-
-                <TextView
                     android:id="@+id/question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/questionTitle"
                     android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/progress_layout"
                     android:layout_marginBottom="@dimen/actionbar_bottom_margin85"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginTop="@dimen/user_detail_icon_spacing215"
                     android:text="@string/i_want_to_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/white_lato_bold_small50" />
@@ -106,9 +93,9 @@
                         android:layout_marginLeft="@dimen/checkout_checkbox_left_margin158"
                         android:button="@drawable/checkbox_selector"
                         android:drawablePadding="@dimen/template_spacing15"
+                        android:tag="Hazard"
                         android:text="@string/report_hazard"
                         android:textColor="@color/black"
-                        android:tag="Hazard"
                         android:textSize="@dimen/progressbar_top_margin58" />
 
                     <RadioButton
@@ -120,11 +107,11 @@
                         android:layout_marginTop="@dimen/progressbar_top_margin58"
                         android:button="@drawable/checkbox_selector"
                         android:drawablePadding="@dimen/template_spacing15"
+                        android:tag="Idea"
                         android:text="@string/suggest_idea"
                         android:textColor="@color/black"
-                        android:tag="Idea"
                         android:textSize="@dimen/progressbar_top_margin58" />
-                    
+
                     <RadioButton
                         android:id="@+id/radio_safety"
                         android:layout_width="wrap_content"
@@ -134,9 +121,9 @@
                         android:layout_marginTop="@dimen/progressbar_top_margin58"
                         android:button="@drawable/checkbox_selector"
                         android:drawablePadding="@dimen/template_spacing15"
+                        android:tag="Safety"
                         android:text="@string/about_safety"
                         android:textColor="@color/black"
-                        android:tag="Safety"
                         android:textSize="@dimen/progressbar_top_margin58" />
                 </RadioGroup>
 

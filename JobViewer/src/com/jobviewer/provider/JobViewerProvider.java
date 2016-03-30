@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import com.jobviewer.provider.JobViewerProviderContract.BackLogTable;
 import com.jobviewer.provider.JobViewerProviderContract.Image;
 import com.jobviewer.provider.JobViewerProviderContract.QuestionSetTable;
+import com.jobviewer.provider.JobViewerProviderContract.ShoutAboutSafetyTable;
 import com.jobviewer.provider.JobViewerProviderContract.TimeSheet;
 import com.jobviewer.provider.JobViewerProviderContract.User;
 
@@ -30,6 +31,7 @@ public class JobViewerProvider extends ContentProvider {
 	private static final int TABLE_QUESTION_SET = 6;
 	private static final int TABLE_BACK_LOG = 7;
 	private static final int TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = 8;
+	private static final int TABLE_SHOUT_ABOUT_SAFETY = 9;
 	// prepare the UriMatcher
 	private static final UriMatcher URI_MATCHER;
 	static {
@@ -50,6 +52,8 @@ public class JobViewerProvider extends ContentProvider {
 				TABLE_BACK_LOG);
 		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "AddPhotosScreenSavedImages",
 				TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES);
+		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "AddPhotosScreenSavedImages",
+				TABLE_SHOUT_ABOUT_SAFETY);
 		
 	}
 
@@ -81,6 +85,8 @@ public class JobViewerProvider extends ContentProvider {
 			return BackLogTable.CONTENT_TYPE;
 		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
 			return BackLogTable.CONTENT_TYPE;
+		case TABLE_SHOUT_ABOUT_SAFETY:
+			return ShoutAboutSafetyTable.CONTENT_TYPE;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -121,6 +127,9 @@ public class JobViewerProvider extends ContentProvider {
 			return getUriForId(id, uri);
 		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
 			id = db.insert(JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES, null, values);
+			return getUriForId(id, uri);
+		case TABLE_SHOUT_ABOUT_SAFETY:
+			id = db.insert(JobViewerSchema.TABLE_SHOUT_ABOUT_SAFETY, null, values);
 			return getUriForId(id, uri);
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -183,6 +192,9 @@ public class JobViewerProvider extends ContentProvider {
 		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
 			queryBuilder.setTables(JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES);
 			break;
+		case TABLE_SHOUT_ABOUT_SAFETY:
+			queryBuilder.setTables(JobViewerSchema.TABLE_SHOUT_ABOUT_SAFETY);
+			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -235,6 +247,10 @@ public class JobViewerProvider extends ContentProvider {
 			break;
 		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
 			deleteCount = db.delete(JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES, selection,
+					selectionArgs);
+			break;
+		case TABLE_SHOUT_ABOUT_SAFETY:
+			deleteCount = db.delete(JobViewerSchema.TABLE_SHOUT_ABOUT_SAFETY, selection,
 					selectionArgs);
 			break;
 		default:
@@ -291,6 +307,10 @@ public class JobViewerProvider extends ContentProvider {
 			break;
 		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
 			updateCount = db.update(JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES, values,
+					selection, selectionArgs);
+			break;
+		case TABLE_SHOUT_ABOUT_SAFETY:
+			updateCount = db.update(JobViewerSchema.TABLE_SHOUT_ABOUT_SAFETY, values,
 					selection, selectionArgs);
 			break;
 		default:

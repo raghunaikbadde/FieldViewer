@@ -102,6 +102,7 @@ public class JobViewerProviderContract {
 		public static final String VISTEC_ID = "vistecId";
 		public static final String VISTEC_IMAGE_ID="vistecImageId";
 		public static final String IS_ASSESSMENT_COMPLETED="isAssessmentCompleted";
+		public static final String WORK_ID="workId";
 	}
 	
 	public static final class BackLogTable implements BaseColumns {
@@ -150,6 +151,21 @@ public class JobViewerProviderContract {
 		public static final String IMAGE_URL="image_url";
 		public static final String IMAGE_CATEGORY="category";
 		public static final String IMAGE_EXIF="image_exif";
+	}
+	
+	public static final class ShoutAboutSafetyTable implements BaseColumns {
+		public static final Uri CONTENT_URI = Uri.withAppendedPath(
+				JobViewerProviderContract.CONTENT_URI, "ShoutAboutSafetyTable");
+		public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
+				+ "/vnd.jobviewer";
+		public static final String CONTENT_WALLET_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+				+ "/vnd.jobviewer";
+		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+				+ "/vnd.jobviewer.ShoutAboutSafetyTable";
+
+		public static final String OPTION_SELECTED ="optionSelected";
+		public static final String QUESTION_SET="questionSet";
+		public static final String STARTEDAT="StartedAt";
 	}
 
 }

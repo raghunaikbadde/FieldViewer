@@ -10,6 +10,7 @@ import android.database.Cursor;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
+import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.db.objects.TimeSheet;
 import com.jobviwer.request.object.TimeSheetRequest;
@@ -286,6 +287,8 @@ public class JobViewerDBHandler {
 		values.put(
 				JobViewerProviderContract.CheckOutRemember.IS_ASSESSMENT_COMPLETED,
 				checkOutObject.getIsAssessmentCompleted());
+		values.put(JobViewerProviderContract.CheckOutRemember.WORK_ID,
+				checkOutObject.getWorkId());
 		context.getContentResolver().insert(
 				JobViewerProviderContract.CheckOutRemember.CONTENT_URI, values);
 	}
@@ -349,6 +352,9 @@ public class JobViewerDBHandler {
 			checkOutObject
 					.setIsAssessmentCompleted(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.CheckOutRemember.IS_ASSESSMENT_COMPLETED)));
+			checkOutObject
+					.setWorkId(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.CheckOutRemember.WORK_ID)));
 		}
 		cursor.close();
 		return checkOutObject;
@@ -437,28 +443,36 @@ public class JobViewerDBHandler {
 		cursor.close();
 		return allBackLogRequest;
 	}
-	
+
 	public static void saveAddPhotoImage(Context context, ImageObject image) {
 		ContentValues values = new ContentValues();
-		values.put(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_ID, image.getImageId());
-		values.put(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_STRING,
+		values.put(
+				JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_ID,
+				image.getImageId());
+		values.put(
+				JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_STRING,
 				image.getImage_string());
-		values.put(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_URL,
+		values.put(
+				JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_URL,
 				image.getImage_url());
-		values.put(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_CATEGORY,
+		values.put(
+				JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_CATEGORY,
 				image.getCategory());
-		values.put(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_EXIF,
+		values.put(
+				JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_EXIF,
 				image.getImage_exif());
-		context.getContentResolver().insert(
-				JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI, values);
+		context.getContentResolver()
+				.insert(JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI,
+						values);
 	}
-	
+
 	public static List<ImageObject> getAllAddCardSavedImages(Context context) {
 		List<ImageObject> imageList = new ArrayList<ImageObject>();
 
-		Cursor cursor = context.getContentResolver().query(
-				JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI, null, null, null,
-				null);
+		Cursor cursor = context
+				.getContentResolver()
+				.query(JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI,
+						null, null, null, null);
 		if (cursor != null && cursor.moveToFirst()) {
 			do {
 				ImageObject imageObject = new ImageObject();
@@ -483,4 +497,48 @@ public class JobViewerDBHandler {
 		cursor.close();
 		return imageList;
 	}
+
+	public static void saveShoutAboutSafety(Context context,
+			ShoutAboutSafetyObject shoutAboutSafetyObject) {
+		ContentValues values = new ContentValues();
+		values.put(
+				JobViewerProviderContract.ShoutAboutSafetyTable.OPTION_SELECTED,
+				shoutAboutSafetyObject.getOptionSelected());
+		values.put(
+				JobViewerProviderContract.ShoutAboutSafetyTable.QUESTION_SET,
+				shoutAboutSafetyObject.getQuestionSet());
+		values.put(JobViewerProviderContract.ShoutAboutSafetyTable.STARTEDAT,
+				shoutAboutSafetyObject.getStartedAt());
+		context.getContentResolver().insert(
+				JobViewerProviderContract.ShoutAboutSafetyTable.CONTENT_URI,
+				values);
+	}
+
+	public static void deleteShoutAboutSafety(Context context) {
+		context.getContentResolver().delete(
+				JobViewerProviderContract.ShoutAboutSafetyTable.CONTENT_URI,
+				null, null);
+	}
+
+	public static ShoutAboutSafetyObject getShoutAboutSafety(Context context) {
+		Cursor cursor = context.getContentResolver().query(
+				JobViewerProviderContract.ShoutAboutSafetyTable.CONTENT_URI,
+				null, null, null, null);
+		ShoutAboutSafetyObject shoutAboutSafetyObject = null;
+		if (cursor != null && cursor.moveToFirst()) {
+			shoutAboutSafetyObject = new ShoutAboutSafetyObject();
+			shoutAboutSafetyObject
+					.setOptionSelected(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.ShoutAboutSafetyTable.OPTION_SELECTED)));
+			shoutAboutSafetyObject
+					.setQuestionSet(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.ShoutAboutSafetyTable.QUESTION_SET)));
+			shoutAboutSafetyObject
+					.setStartedAt(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.ShoutAboutSafetyTable.STARTEDAT)));
+		}
+		cursor.close();
+		return shoutAboutSafetyObject;
+	}
+
 }

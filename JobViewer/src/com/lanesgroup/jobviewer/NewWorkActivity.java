@@ -239,13 +239,16 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
 					String result = (String) msg.obj;
-					JVResponse decodeFromJsonString = GsonConverter.getInstance().decodeFromJsonString(result, JVResponse.class);
+					JVResponse decodeFromJsonString = GsonConverter
+							.getInstance().decodeFromJsonString(result,
+									JVResponse.class);
 					CheckOutObject checkOutRemember = JobViewerDBHandler
 							.getCheckOutRemember(context);
 					checkOutRemember.setIsStartedTravel("true");
+					checkOutRemember.setWorkId(decodeFromJsonString.getId());
 					JobViewerDBHandler.saveCheckOutRemember(context,
 							checkOutRemember);
-					Utils.work_id=decodeFromJsonString.getId();
+					Utils.work_id = decodeFromJsonString.getId();
 					startEndActvity();
 					break;
 				case HttpConnection.DID_ERROR:

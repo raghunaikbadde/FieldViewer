@@ -7,28 +7,18 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
-import com.jobviewer.db.objects.SurveyJson;
-import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.QuestionMaster;
-import com.jobviewer.survey.object.Screen;
-import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.survey.object.util.SurveyUtil;
+import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.R;
-import com.lanesgroup.jobviewer.fragment.CheckTypeFragment.onClicksEnterJobNumber;
-import com.lanesgroup.jobviewer.fragment.RiskAssessmentFragment.onClicksRiskAssessment;
 
-public class ShoutOutActivity extends Activity implements
-		onClicksRiskAssessment, onClicksEnterJobNumber {
+public class ShoutOutActivity extends Activity {
 
-	private static String SHOUT_OPTION = "ShoutOption";
-	private static String HAZARD = "Hazard";
-	private static String IDEA = "Idea";
-	private static String SAFETY = "Safety";
-	
 	private static FragmentManager mFragmentManager;
-	QuestionManager manager;
-	QuestionMaster loadJsonFromAssets;
+	private static QuestionMaster questionMaster;
+	private static String option;
+	private static String startedAt;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,60 +26,24 @@ public class ShoutOutActivity extends Activity implements
 		setContentView(R.layout.questions_flow_screen);
 		Utils.startService(this);
 
-		String option = getIntent().getExtras().get(SHOUT_OPTION).toString();
-		
+		option = getIntent().getExtras().get(ActivityConstants.SHOUT_OPTION)
+				.toString();
+		startedAt = Utils.getCurrentDateAndTime();
+
 		mFragmentManager = getFragmentManager();
-		manager = QuestionManager.getInstance();
-		SurveyJson questionSet = JobViewerDBHandler.getQuestionSet(this);
-		if (questionSet != null
-				&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
-			manager.reloadAssessment(questionSet);
-		} else {
 
-			if (option.equalsIgnoreCase(HAZARD)) {
-				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-						"shout_about_safety_hazard.json");
-			} else if (option.equalsIgnoreCase(IDEA)) {
-				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-						"shout_about_safety_idea.json");
-			} else if (option.equalsIgnoreCase(SAFETY)) {
-				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-						"shout_about_safety_good_safety.json");
-			}
-			manager.setQuestionMaster(loadJsonFromAssets);
-			Screen firstScreen = manager.getFirstScreen();
-			int questionType = SurveyUtil.getQuestionType(firstScreen
-					.get_type());
-			loadFragment(SurveyUtil.getFragment(questionType));
+		if (option.equalsIgnoreCase(ActivityConstants.HAZARD)) {
+			setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
+					"shout_about_safety_hazard.json"));
+		} else if (option.equalsIgnoreCase(ActivityConstants.IDEA)) {
+			setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
+					"shout_about_safety_idea.json"));
+		} else if (option.equalsIgnoreCase(ActivityConstants.SAFETY)) {
+			setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
+					"shout_about_safety_good_safety.json"));
 		}
-		/*else {
-			CheckOutObject checkOutRemember = JobViewerDBHandler
-					.getCheckOutRemember(this);
-			if (checkOutRemember.getAssessmentSelected().equalsIgnoreCase(
-					ActivityConstants.EXCAVATION)) {
-				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-						"excavation_risk_assessment_survey1.json");
-			} else {
-				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-						"excavation_risk_assessment_survey1.json");
-			}
 
-			manager.setQuestionMaster(loadJsonFromAssets);
-			Screen firstScreen = manager.getFirstScreen();
-			int questionType = SurveyUtil.getQuestionType(firstScreen
-					.get_type());
-			loadFragment(SurveyUtil.getFragment(questionType));
-		}*/
-	}
-
-	@Override
-	public void onNextClick() {
-
-	}
-
-	@Override
-	public void onCancelClick() {
-
+		loadFragment(new ShoutOutMediaTextTypeFragment());
 	}
 
 	private void loadFragment(Fragment fragment) {
@@ -122,7 +76,7 @@ public class ShoutOutActivity extends Activity implements
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			QuestionManager.getInstance().loadPreviousFragment();
+			finish();
 			return true;
 		} else
 			return super.onKeyDown(keyCode, event);
@@ -134,13 +88,19 @@ public class ShoutOutActivity extends Activity implements
 				.commit();
 	}
 
-	/*
-	 * private OnBackStackChangedListener mOnBackStackChangeListener = new
-	 * OnBackStackChangedListener() {
-	 * 
-	 * @Override public void onBackStackChanged() { if
-	 * (mFragmentManager.getBackStackEntryCount() == 0) { Fragment fragment =
-	 * mFragmentManager .findFragmentById(R.id.container); if (fragment != null
-	 * && fragment instanceof RiskAssessmentFragment) { } } } };
-	 */
+	public static String getOptionSelected() {
+		return option;
+	}
+
+	public static String getStartedAt() {
+		return startedAt;
+	}
+
+	public static QuestionMaster getQuestionMaster() {
+		return questionMaster;
+	}
+
+	public void setQuestionMaster(QuestionMaster questionMaster) {
+		this.questionMaster = questionMaster;
+	}
 }

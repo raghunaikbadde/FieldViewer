@@ -16,6 +16,7 @@ public class CheckOutObject {
 	private String vistecId;
 	private String vistectImageId;
 	private String isAssessmentCompleted;
+	private String workId;
 
 	public String getJobSelected() {
 		return jobSelected;
@@ -136,6 +137,14 @@ public class CheckOutObject {
 
 	public void setIsAssessmentCompleted(String isAssessmentCompleted) {
 		this.isAssessmentCompleted = isAssessmentCompleted;
+	}
+
+	public String getWorkId() {
+		return workId;
+	}
+
+	public void setWorkId(String workId) {
+		this.workId = workId;
 	}
 
 }

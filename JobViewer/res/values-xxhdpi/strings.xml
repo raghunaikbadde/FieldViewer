@@ -198,6 +198,8 @@
     <string name="suggest_idea">Suggest an idea</string>
     <string name="about_safety">Shout about good safety</string>
     <string name="shout_about_safety">Shout About Safety</string>
+    <string name="survey_complete">Survey Complete</string>
+    <string name="shout_msg">Thank you for helping to make our workplace safer</string>
     
     
     <string-array name="override_reason_comment">

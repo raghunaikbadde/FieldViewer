@@ -5,6 +5,7 @@ import com.jobviewer.provider.JobViewerProviderContract.BackLogTable;
 import com.jobviewer.provider.JobViewerProviderContract.CheckOutRemember;
 import com.jobviewer.provider.JobViewerProviderContract.Image;
 import com.jobviewer.provider.JobViewerProviderContract.QuestionSetTable;
+import com.jobviewer.provider.JobViewerProviderContract.ShoutAboutSafetyTable;
 import com.jobviewer.provider.JobViewerProviderContract.TimeSheet;
 import com.jobviewer.provider.JobViewerProviderContract.User;
 
@@ -20,7 +21,7 @@ public interface JobViewerSchema {
 	public static final String TABLE_QUESTION_SET = "QuestionSetTable";
 	public static final String TABLE_BACK_LOG = "BackLogTable";
 	public static final String TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = "AddPhotosScreenSavedImages";
-	
+	public static final String TABLE_SHOUT_ABOUT_SAFETY = "ShoutAboutSafetyTable";
 
 	public static final String CREATE_TABLE_USER = "create table " + TABLE_USER
 			+ "(" + User._ID + " integer primary key autoincrement,"
@@ -39,8 +40,8 @@ public interface JobViewerSchema {
 	public static final String CREATE_TABLE_IMAGES = "create table "
 			+ TABLE_IMAGE + "(" + Image._ID
 			+ " integer primary key autoincrement," + Image.IMAGE_ID + " text,"
-			+ Image.IMAGE_STRING + " text," + Image.IMAGE_CATEGORY + " text,"+ Image.IMAGE_EXIF + " text,"
-			+ Image.IMAGE_URL + " text);";
+			+ Image.IMAGE_STRING + " text," + Image.IMAGE_CATEGORY + " text,"
+			+ Image.IMAGE_EXIF + " text," + Image.IMAGE_URL + " text);";
 
 	public static final String CREATE_TABLE_CHECK_OUT_REMEMBER = "create table "
 			+ TABLE_CHECK_OUT_REMEMBER
@@ -75,6 +76,8 @@ public interface JobViewerSchema {
 			+ " text,"
 			+ CheckOutRemember.IS_ASSESSMENT_COMPLETED
 			+ " text,"
+			+ CheckOutRemember.WORK_ID
+			+ " text,"
 			+ CheckOutRemember.CLOCKIN_CHECKOUT_SELECTED_TEXT + " text);";
 
 	public static final String CREATE_TABLE_QUESTION_SET = "create table "
@@ -90,12 +93,30 @@ public interface JobViewerSchema {
 			+ " text," + BackLogTable.REQUEST_JSON + " text,"
 			+ BackLogTable.REQUEST_API + " text,"
 			+ BackLogTable.REQUEST_CLASS_NAME + " text);";
-	
+
 	public static final String CREATE_TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = "create table "
-			+ TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES + "(" + QuestionSetTable._ID
-			+ " integer primary key autoincrement," + AddPhotosScreenSavedImages.IMAGE_ID
-			+ " text," + AddPhotosScreenSavedImages.IMAGE_STRING + " text,"
-			+ AddPhotosScreenSavedImages.IMAGE_URL + " text,"
-			+ AddPhotosScreenSavedImages.IMAGE_CATEGORY + " text,"
+			+ TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES
+			+ "("
+			+ QuestionSetTable._ID
+			+ " integer primary key autoincrement,"
+			+ AddPhotosScreenSavedImages.IMAGE_ID
+			+ " text,"
+			+ AddPhotosScreenSavedImages.IMAGE_STRING
+			+ " text,"
+			+ AddPhotosScreenSavedImages.IMAGE_URL
+			+ " text,"
+			+ AddPhotosScreenSavedImages.IMAGE_CATEGORY
+			+ " text,"
 			+ AddPhotosScreenSavedImages.IMAGE_EXIF + " text);";
+
+	public static final String CREATE_TABLE_SHOUT_ABOUT_SAFETY = "create table "
+			+ TABLE_SHOUT_ABOUT_SAFETY
+			+ "("
+			+ ShoutAboutSafetyTable._ID
+			+ " integer primary key autoincrement,"
+			+ ShoutAboutSafetyTable.OPTION_SELECTED
+			+ " text,"
+			+ ShoutAboutSafetyTable.STARTEDAT
+			+ " text,"
+			+ ShoutAboutSafetyTable.QUESTION_SET + " text);";
 }
