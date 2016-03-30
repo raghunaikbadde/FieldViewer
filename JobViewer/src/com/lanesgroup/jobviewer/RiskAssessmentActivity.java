@@ -20,7 +20,7 @@ import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
 
 public class RiskAssessmentActivity extends BaseActivity implements
-		OnClickListener {
+		OnClickListener, android.widget.CompoundButton.OnCheckedChangeListener {
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep, number_text;
@@ -80,12 +80,14 @@ public class RiskAssessmentActivity extends BaseActivity implements
 		mRememberSelection = (CheckBox) findViewById(R.id.checkBox3);
 		riskAssessmentOption = (RadioGroup) findViewById(R.id.riskAssessmentOption);
 		mExcavation = (RadioButton) findViewById(R.id.checkBox2);
+		mExcavation.setOnCheckedChangeListener(this);
 		mNonExcavation = (RadioButton) findViewById(R.id.checkBox1);
+		mNonExcavation.setOnCheckedChangeListener(this);
 		number_text = (TextView) findViewById(R.id.number_text);
 		mSave = (Button) findViewById(R.id.button1);
 		mSave.setOnClickListener(this);
 		mNext = (Button) findViewById(R.id.button2);
-		mNext.setOnClickListener(this);
+		//mNext.setOnClickListener(this);
 	}
 
 	@Override
@@ -115,5 +117,11 @@ public class RiskAssessmentActivity extends BaseActivity implements
 					checkOutRemember);
 			startActivity(intent);
 		}
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		mNext.setBackgroundResource(R.drawable.red_background);
+		mNext.setOnClickListener(this);
 	}
 }
