@@ -1,13 +1,5 @@
 package com.lanesgroup.jobviewer.fragment;
 
-import com.jobviewer.db.objects.CheckOutObject;
-import com.jobviewer.provider.JobViewerDBHandler;
-import com.jobviewer.survey.object.util.QuestionManager;
-import com.jobviewer.util.ActivityConstants;
-import com.lanesgroup.jobviewer.AddPhotosActivity;
-import com.lanesgroup.jobviewer.PollutionActivity;
-import com.lanesgroup.jobviewer.R;
-
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.survey.object.util.QuestionManager;
+import com.jobviewer.util.ActivityConstants;
+import com.lanesgroup.jobviewer.AddPhotosActivity;
+import com.lanesgroup.jobviewer.PollutionActivity;
+import com.lanesgroup.jobviewer.R;
 
 public class AssessmentCompleteFragment extends Fragment implements
 		OnClickListener {
@@ -26,6 +27,8 @@ public class AssessmentCompleteFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		getActivity().getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		mRootView = inflater.inflate(R.layout.assessment_complete_fragment,
 				container, false);
 		CheckOutObject checkOutRemember = JobViewerDBHandler

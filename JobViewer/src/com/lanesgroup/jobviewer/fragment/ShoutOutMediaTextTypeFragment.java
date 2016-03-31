@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -73,6 +74,8 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		getActivity().getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		mRootView = inflater.inflate(R.layout.question_media_text_fragment,
 				container, false);
 		initUI();
@@ -91,6 +94,9 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		question.setText(currentScreen.getText());
 		screenTitle.setText(getActivity().getResources().getString(
 				R.string.shout_about_safety));
+		if (Utils.isNullOrEmpty(currentScreen.getAnswer())) {
+			mDescribe.setText(currentScreen.getAnswer());
+		}
 		checkAndEnableNextButton();
 		com.jobviewer.survey.object.Button[] buttons = currentScreen
 				.getButtons().getButton();
@@ -320,6 +326,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(getActivity(), backLogRequest);
 		Utils.StopProgress();
+		JobViewerDBHandler.deleteShoutAboutSafety(getActivity());
 		ShoutOutActivity.loadNextFragment(new ShoutOutCompleteFragment());
 	}
 
@@ -330,6 +337,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
+					JobViewerDBHandler.deleteShoutAboutSafety(getActivity());
 					ShoutOutActivity
 							.loadNextFragment(new ShoutOutCompleteFragment());
 					String result = (String) msg.obj;

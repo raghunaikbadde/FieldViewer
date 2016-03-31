@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.WindowManager;
 
 import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.provider.JobViewerDBHandler;
@@ -26,6 +27,8 @@ public class ShoutOutActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		setContentView(R.layout.questions_flow_screen);
 		if (ActivityConstants.TRUE.equalsIgnoreCase(getIntent()
 				.getExtras().get(ActivityConstants.IS_SHOUT_SAVED).toString())) {

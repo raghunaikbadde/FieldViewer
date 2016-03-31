@@ -7,13 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 
-import com.jobviewer.survey.object.QuestionMaster;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
-import com.lanesgroup.jobviewer.WorkSuccessActivity;
 
 public class StopFragment extends Fragment implements OnClickListener{
 
@@ -29,6 +28,8 @@ public class StopFragment extends Fragment implements OnClickListener{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		getActivity().getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		mRootView = inflater.inflate(R.layout.stop_work_screen, container,
 				false);
 		mStopButton = (Button)mRootView.findViewById(R.id.button1);

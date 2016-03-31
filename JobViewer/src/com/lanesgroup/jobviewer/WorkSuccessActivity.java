@@ -35,6 +35,7 @@ public class WorkSuccessActivity extends BaseActivity implements OnClickListener
 	public void onClick(View v) {
 		if(v.getId() == mDoneButton.getId()){
 			Intent appPageActivityIntent = new Intent(WorkSuccessActivity.this,ActivityPageActivity.class);
+			JobViewerDBHandler.deleteQuestionSet(WorkSuccessActivity.this);
 			startActivity(appPageActivityIntent); 
 		}
 	}

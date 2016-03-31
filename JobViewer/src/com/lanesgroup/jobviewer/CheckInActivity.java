@@ -1,5 +1,19 @@
 package com.lanesgroup.jobviewer;
 
+import android.content.ContentValues;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
@@ -12,19 +26,6 @@ import com.jobviwer.response.object.User;
 import com.raghu.VehicleCheckInOut;
 import com.vehicle.communicator.HttpConnection;
 
-import android.content.ContentValues;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-
 public class CheckInActivity extends BaseActivity implements
 		View.OnClickListener {
 	ProgressBar progressBar;
@@ -36,6 +37,8 @@ public class CheckInActivity extends BaseActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		setContentView(R.layout.check_in_screen);
 
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
