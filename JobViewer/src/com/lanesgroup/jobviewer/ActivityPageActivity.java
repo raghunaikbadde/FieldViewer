@@ -78,10 +78,7 @@ public class ActivityPageActivity extends BaseActivity implements
 			}
 		}
 		
-		if (Utils.checkOutObject != null) {
-			Utils.checkOutObject = JobViewerDBHandler
-					.getCheckOutRemember(mContext);
-		}
+		
 		String dateText = "Shift Started: "
 				+ Utils.checkOutObject.getJobStartedTime()
 				+ "  .  Breaks: None taken";
@@ -126,6 +123,9 @@ public class ActivityPageActivity extends BaseActivity implements
 	}
 
 	private void initUI() {
+		
+		Utils.checkOutObject = JobViewerDBHandler.getCheckOutRemember(mContext);
+		vehicleRegNo = Utils.checkOutObject.getVehicleRegistration();
 		user_email_text = (TextView) findViewById(R.id.user_email_text);
 		date_time_text = (TextView) findViewById(R.id.date_time_text);
 		vehicleRegistrationNumber = (TextView) findViewById(R.id.vehicleRegistrationNumber);
@@ -139,6 +139,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		mStartTravel.setOnClickListener(this);
 		mEndOnCall.setOnClickListener(this);
 		bundle = getIntent().getExtras();
+		
 		if (Utils.checkOutObject == null
 				|| Utils.isNullOrEmpty(Utils.checkOutObject.getMilage())) {
 			checked_out_layout.setVisibility(View.GONE);
@@ -161,7 +162,9 @@ public class ActivityPageActivity extends BaseActivity implements
 		if(bundle != null && bundle.containsKey(ActivityConstants.VEHICLE_REGISTRATION_NUMBER)){
 			checked_out_layout.setVisibility(View.VISIBLE);
 			mCheckOutVehicle.setVisibility(View.GONE);
-			vehicleRegNo = Utils.checkOutObject.getVehicleRegistration();
+			
+			if(Utils.isNullOrEmpty(vehicleRegNo))
+				vehicleRegNo = bundle.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER);
 			if(Utils.isNullOrEmpty(vehicleRegNo))
 				vehicleRegNo = bundle.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER);
 			checked_out_layout.setOnClickListener(new OnClickListener() {

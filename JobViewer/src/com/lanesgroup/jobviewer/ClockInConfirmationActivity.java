@@ -254,6 +254,11 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		Bundle extras = getIntent().getExtras();
 		if(extras != null && extras.containsKey(ActivityConstants.VEHICLE_REGISTRATION_NUMBER)){
 			intent.putExtra(ActivityConstants.VEHICLE_REGISTRATION_NUMBER, extras.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER));
+			
+			Utils.checkOutObject.setVehicleRegistration(extras.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER));
+			Utils.checkOutObject.setMilage(extras.getString(ActivityConstants.VEHICLE_MILEAGE));
+			JobViewerDBHandler.saveCheckOutRemember(ClockInConfirmationActivity.this, Utils.checkOutObject);
+			
 		}
 	}
 
