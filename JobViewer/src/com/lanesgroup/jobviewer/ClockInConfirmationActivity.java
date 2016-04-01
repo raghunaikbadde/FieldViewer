@@ -219,6 +219,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				if(shouldCallActivityPageActivity){
 					Intent intent = new Intent(ClockInConfirmationActivity.this,
 						ActivityPageActivity.class);
+					putVehicleRegistrationNumberInIntent(intent);
 					startActivity(intent);
 				}
 			} else {
@@ -246,6 +247,13 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 			// JobViewerDBHandler.saveBackLog(ClockInConfirmationActivity.this,
 			// request);
 
+		}
+	}
+
+	private void putVehicleRegistrationNumberInIntent(Intent intent) {
+		Bundle extras = getIntent().getExtras();
+		if(extras != null && extras.containsKey(ActivityConstants.VEHICLE_REGISTRATION_NUMBER)){
+			intent.putExtra(ActivityConstants.VEHICLE_REGISTRATION_NUMBER, extras.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER));
 		}
 	}
 
@@ -397,6 +405,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					Intent intent = new Intent(
 							ClockInConfirmationActivity.this,
 							ActivityPageActivity.class);
+					putVehicleRegistrationNumberInIntent(intent);
 					intent.putExtra(Utils.CALLING_ACTIVITY,
 							ClockInConfirmationActivity.this.getClass()
 									.getSimpleName());
