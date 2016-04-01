@@ -102,6 +102,9 @@
                     android:paddingTop="@dimen/grey_lato_regular_small35"
                     android:singleLine="true"
                     android:textColor="@color/dark_grey"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"                    
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                     android:textColorHint="@color/dark_grey"
                     android:textSize="@dimen/black_lato_regular_medium45" >
                 </EditText>
@@ -128,12 +131,14 @@
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:background="@drawable/grey_background"
                     android:hint="@string/enter_mileage"
-                    android:inputType="numberDecimal"
+                    android:inputType="number|none"
+                    android:digits="0123456789"
                     android:paddingBottom="@dimen/grey_lato_regular_small35"
                     android:paddingLeft="@dimen/grey_lato_regular_small35"
                     android:paddingRight="@dimen/grey_lato_regular_small35"
                     android:paddingTop="@dimen/grey_lato_regular_small35"
                     android:singleLine="true"
+                    android:maxLength="@integer/max_vehicle_mileage_length"
                     android:textColor="@color/dark_grey"
                     android:textColorHint="@color/dark_grey"
                     android:textSize="@dimen/black_lato_regular_medium45" >
