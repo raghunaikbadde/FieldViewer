@@ -60,7 +60,7 @@ import com.raghu.TimeSheetServiceRequests;
 import com.raghu.WorkPhotoUpload;
 import com.vehicle.communicator.HttpConnection;
 
-public class Utils {
+public class Utils {	
 	public static final String PROGRESS_1_TO_3 = "Step 1 of 3";
 	public static final String PROGRESS_2_TO_3 = "Step 2 of 3";
 	public static final String PROGRESS_1_TO_2 = "Step 1 of 2";
@@ -87,6 +87,8 @@ public class Utils {
 
 	public static String work_id = "22345";
 	public static String UPDATE_RISK_ASSESSMENT_ACTIVITY = "UPDATE_RISK_ASSESSMENT_ACTIVITY";
+	
+	public static final String LOG_TAG = "JV";
 	
 	static Dialog progressDialog;
 	public static CheckOutObject checkOutObject;

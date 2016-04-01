@@ -29,7 +29,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.lanesgroup.jobviewer.LauncherActicity"
+            android:name="com.lanesgroup.jobviewer.LauncherActivity"
             android:noHistory="true"
             android:screenOrientation="portrait" >
             <intent-filter>
