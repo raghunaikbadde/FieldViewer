@@ -24,6 +24,7 @@ import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 import com.raghu.VehicleCheckInOut;
@@ -144,6 +145,7 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 						Utils.checkOutObject);
 				Intent intent = new Intent(CheckoutVehicleActivity.this,
 						ClockInConfirmationActivity.class);
+				putVehcielRegNoAndMileageInIntent(intent);
 				intent.putExtra(Utils.CALLING_ACTIVITY,
 						CheckoutVehicleActivity.this.getClass()
 								.getSimpleName());
@@ -158,6 +160,13 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 			 * startActivity(intent);
 			 */
 		}
+	}
+
+	private void putVehcielRegNoAndMileageInIntent(Intent intent) {
+		intent.putExtra(ActivityConstants.VEHICLE_REGISTRATION_NUMBER, mRegistration
+				.getText().toString());
+		intent.putExtra(ActivityConstants.VEHICLE_MILEAGE, mMileage
+				.getText().toString());
 	}
 
 	private void excuteCheckOutVehicle() {
@@ -184,6 +193,7 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 					// String result = (String) msg.obj;
 					Intent intent = new Intent(CheckoutVehicleActivity.this,
 							ClockInConfirmationActivity.class);
+					putVehcielRegNoAndMileageInIntent(intent);
 					intent.putExtra(Utils.CALLING_ACTIVITY,
 							CheckoutVehicleActivity.this.getClass()
 									.getSimpleName());

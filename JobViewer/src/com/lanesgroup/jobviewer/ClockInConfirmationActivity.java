@@ -1,5 +1,8 @@
 package com.lanesgroup.jobviewer;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,11 +20,11 @@ import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
-import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 import com.vehicle.communicator.HttpConnection;
@@ -77,9 +80,19 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 			mProgressStep.setText(Utils.PROGRESS_2_TO_3);
 			mVehicleUsed.setVisibility(View.VISIBLE);
 			mMileage.setVisibility(View.VISIBLE);
-			mMileage.setText(Utils.checkOutObject.getVehicleRegistration()
+			Bundle extras = getIntent().getExtras();
+			if(extras!=null && extras.containsKey(ActivityConstants.VEHICLE_REGISTRATION_NUMBER)
+					&& extras.containsKey(ActivityConstants.VEHICLE_MILEAGE)){
+				String mileage = extras.getString(ActivityConstants.VEHICLE_MILEAGE);
+				NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
+				mileage = numberFormat.format(Double.valueOf(mileage));
+				mMileage.setText(extras.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER)
+						+ "(mileage " +  mileage+")");
+			} else {
+				mMileage.setText(Utils.checkOutObject.getVehicleRegistration()
 					+ "(mileage " + Utils.checkOutObject.getMilage() + ")");
-			mDivider.setVisibility(View.VISIBLE);
+				mDivider.setVisibility(View.VISIBLE);
+			}
 		}
 		mCheckBox = (CheckBox) findViewById(R.id.confirm_checkbox);
 		mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
