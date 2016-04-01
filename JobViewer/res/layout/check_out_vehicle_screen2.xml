@@ -155,7 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/checkout_checkbox_left_margin158"
             android:button="@drawable/checkbox_selector"
-            android:paddingLeft="@dimen/template_spacing15"
+            android:paddingLeft="@dimen/template_spacing27"
             android:text="@string/remember_my_selection"
             android:textColor="@color/black"
             android:textSize="@dimen/progressbar_top_margin58" />

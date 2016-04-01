@@ -113,6 +113,7 @@
             android:background="@drawable/dialog_grey_button"
             android:text="@string/cancel"
             android:textColor="@color/lighter_grey"
+            android:textAllCaps="false"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
         <Button
@@ -123,6 +124,7 @@
             android:background="@drawable/dialog_red_button"
             android:text="@string/confirm"
             android:textColor="@color/white"
+            android:textAllCaps="false"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 

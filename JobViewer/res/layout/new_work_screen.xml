@@ -198,7 +198,7 @@
                     android:text="@string/is_this_pollution_str"
                     android:textColor="@color/black"
                     android:button="@drawable/checkbox_selector"
-                    android:paddingLeft="@dimen/template_spacing15"
+                    android:paddingLeft="@dimen/template_spacing27"
                     android:textSize="@dimen/white_lato_bold_small50" />
 
                 <LinearLayout
@@ -218,6 +218,7 @@
                         android:background="@drawable/grey_background"
                         android:text="@string/cancel"
                         android:textColor="@color/black"
+                        android:textAllCaps="false"
                         android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
                     <Button
@@ -235,6 +236,7 @@
                         android:background="@drawable/dark_grey_background"
                         android:text="@string/next"
                         android:textColor="@color/white"
+                        android:textAllCaps="false"
                         android:textSize="@dimen/dialog_black_lato_regular_small60" />
                 </LinearLayout>
             </RelativeLayout>

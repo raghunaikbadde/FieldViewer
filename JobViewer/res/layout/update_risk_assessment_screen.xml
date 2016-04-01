@@ -76,6 +76,7 @@
                 android:layout_weight="20"
                 android:background="@drawable/grey_background"
                 android:text="@string/cancel"
+                android:textAllCaps="false"
                 android:textColor="@color/dark_grey" />
 
             <Button
@@ -92,6 +93,7 @@
                 android:layout_weight="20"
                 android:background="@drawable/dark_grey_background"
                 android:text="@string/next"
+                android:textAllCaps="false"
                 android:textColor="@color/white" />
         </LinearLayout>
     </RelativeLayout>

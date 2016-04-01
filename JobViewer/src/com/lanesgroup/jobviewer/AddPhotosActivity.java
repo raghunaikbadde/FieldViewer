@@ -352,7 +352,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
 		@Override
 		public int getCount() {
-			mSave.setText("SAVE(" + hashMapOfCapturedIamges.size() + ")");
+			mSave.setText("Save(" + hashMapOfCapturedIamges.size() + ")");
 			return hashMapOfCapturedIamges.size();
 		}
 

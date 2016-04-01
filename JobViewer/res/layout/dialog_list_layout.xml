@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:clickable="false"
             android:focusable="false"
-            android:paddingLeft="@dimen/template_spacing15"
+            android:paddingLeft="@dimen/template_spacing27"
             android:button="@drawable/checkbox_selector"
             android:layout_gravity="right|center_vertical"
             android:layout_marginLeft="@dimen/white_lato_regular_small40"

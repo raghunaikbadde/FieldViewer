@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:button="@drawable/checkbox_selector"
-        android:paddingLeft="@dimen/template_spacing15"
+        android:paddingLeft="@dimen/template_spacing27"
         android:text="@string/current_present"
         android:textColor="@color/black"
         android:textSize="@dimen/black_lato_regular_medium45" />

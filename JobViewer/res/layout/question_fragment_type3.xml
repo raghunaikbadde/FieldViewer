@@ -106,7 +106,7 @@
 	                    android:layout_marginLeft="@dimen/checkout_checkbox_left_margin158"
 	                    android:text="@string/tmp_yes"
 	                    android:textColor="@color/black"
-	                    android:paddingLeft="@dimen/template_spacing15"
+	                    android:paddingLeft="@dimen/template_spacing27"
 	                    android:button="@drawable/checkbox_selector"
 	                    android:textSize="@dimen/progressbar_top_margin58"/>
 
@@ -119,7 +119,7 @@
 	                    android:layout_marginLeft="@dimen/checkout_checkbox_left_margin158"
 	                    android:text="@string/tmp_no"
 	                    android:textColor="@color/black"
-	                    android:paddingLeft="@dimen/template_spacing15"
+	                    android:paddingLeft="@dimen/template_spacing27"
 	                    android:button="@drawable/checkbox_selector"
 	                    android:textSize="@dimen/progressbar_top_margin58" />
                 </RadioGroup>
@@ -169,6 +169,7 @@
             android:background="@drawable/grey_background"
             android:text="@string/save"
             android:textColor="@color/black"
+            android:textAllCaps="false"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
         <Button
@@ -186,6 +187,7 @@
             android:background="@drawable/red_background"
             android:text="@string/next"
             android:textColor="@color/white"
+            android:textAllCaps="false"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 

@@ -13,7 +13,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/copyright_text"
-            android:layout_marginLeft="@dimen/spinner_bottom_margin30"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/template_spacing15"
             android:layout_centerVertical="true"
             android:src="@drawable/lance_group_footer_icon" />
 

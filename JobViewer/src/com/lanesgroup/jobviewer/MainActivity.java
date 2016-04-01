@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity {
     public void openDialog() {
         final Dialog dialog = new Dialog(this); // Context, this, etc.
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.timestamp_dialog);
+        dialog.setContentView(R.layout.dialog_box2_test);
         dialog.show();
     }
 }

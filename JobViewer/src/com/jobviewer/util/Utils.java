@@ -104,6 +104,12 @@ public class Utils {
 	
 	public static String[] mActivityList = { "Blockage", "CCTV", "Line Clean",
 			"Pumo Down", "SFOC", "Clean Up", "SROPR", "Enable" };
+	
+	public static String[] mLandPollutionList = { "Less than 25m/sq", "20-50m/sq", "50-100m/sq",
+		"Greater than 100m/sq" };
+	
+	public static String[] mLandAffectedList = { "Park", "Gardens", "Dry ditch", "Highway" };
+	
 	public static TimeSheetRequest callStartTimeRequest = null;
 	public static TimeSheetRequest callEndTimeRequest = null;
 	static int notificationId = 1000;

@@ -153,6 +153,7 @@
             android:background="@drawable/grey_background"
             android:text="@string/save_2"
             android:textColor="@color/black"
+            android:textAllCaps="false"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
         <Button
@@ -171,6 +172,7 @@
             android:background="@drawable/dark_grey_background"
             android:text="@string/leave_site_complete"
             android:textColor="@color/white"
+            android:textAllCaps="false"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 
