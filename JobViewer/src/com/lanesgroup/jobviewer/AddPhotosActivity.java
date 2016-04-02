@@ -221,8 +221,14 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 500 && resultCode == RESULT_OK) {
-			Bitmap photo = Utils.decodeSampledBitmapFromFile(
+			Bitmap photo = null;
+			try{
+				photo = Utils.decodeSampledBitmapFromFile(
 					file.getAbsolutePath(), 1000, 700);
+			}catch(OutOfMemoryError oome){
+				photo = Utils.decodeSampledBitmapFromFile(
+						file.getAbsolutePath(), 100, 70);
+			}
 
 			Bitmap rotateBitmap = Utils.rotateBitmap(file.getAbsolutePath(),
 					photo);
