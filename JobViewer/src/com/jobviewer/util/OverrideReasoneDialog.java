@@ -71,6 +71,7 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 
 			Intent intent = new Intent();
 			intent.putExtra(Constants.TIME, "");
+			intent.putExtra("eventType", eventType);
 			setResult(RESULT_OK, intent);
 			finish();
 		}

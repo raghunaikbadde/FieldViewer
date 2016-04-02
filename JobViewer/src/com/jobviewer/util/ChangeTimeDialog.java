@@ -22,6 +22,7 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 	private TimePicker mTimePicker;
 	private DatePicker mDatePicker;
 	String eventType;
+	String eventTypeValue;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +57,17 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 							+ mTimePicker.getCurrentMinute());
 			if ("start".equalsIgnoreCase(eventType)) {
 				Utils.timeSheetRequest.setOverride_timestamp(time);
+				eventTypeValue = "start";
 			} else if ("travel".equalsIgnoreCase(eventType)) {
 				Utils.startTravelTimeRequest.setOverride_timestamp(time);
+				eventTypeValue = "travel";
 			} else {
 				Utils.endTimeRequest.setOverride_timestamp(time);
+				eventTypeValue = "endtravel";				
 			}
 			Intent intent = new Intent();
 			intent.putExtra(Constants.TIME, time);
+			intent.putExtra("eventType", eventTypeValue);
 			setResult(RESULT_OK, intent);
 			finish();
 		}

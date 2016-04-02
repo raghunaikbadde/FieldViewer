@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -119,6 +120,10 @@ public class ActivityPageActivity extends BaseActivity implements
 			mStart.setText(getResources().getString(R.string.start_text));
 			mStart.setTag(getResources().getString(R.string.start_text));
 		}
+		}
+		Log.d(Utils.LOG_TAG,GsonConverter.getInstance().encodeToJsonString(Utils.checkOutObject));
+		if(Utils.checkOutObject.getJobSelected().contains("shift")){
+			mStartTravel.setText(getResources().getString(R.string.start_break));
 		}
 	}
 
@@ -279,15 +284,28 @@ public class ActivityPageActivity extends BaseActivity implements
 	@Override
 	public void onContinue() {
 		if (!Utils.isInternetAvailable(mContext)) {
-			JobViewerDBHandler.saveTimeSheet(this,
-					Utils.startTravelTimeRequest,
-					CommsConstant.START_TRAVEL_API);
-			String time = new SimpleDateFormat("HH:mm:ss dd MMM yyyy")
-					.format(Calendar.getInstance().getTime());
-
-			startEndActvity(time);
+			
+			if(Utils.checkOutObject.getJobSelected().contains("shift")){
+				//JobViewerDBHandler.saveTimeSheet(this,
+					//	Utils.timeSheetRequest,
+						//CommsConstant.START_TRAVEL_API);
+				//String time = new SimpleDateFormat("HH:mm:ss dd MMM yyyy")
+					//	.format(Calendar.getInstance().getTime());
+				//break
+			} else{
+				JobViewerDBHandler.saveTimeSheet(this,
+						Utils.startTravelTimeRequest,
+						CommsConstant.START_TRAVEL_API);
+				String time = new SimpleDateFormat("HH:mm:ss dd MMM yyyy")
+						.format(Calendar.getInstance().getTime());
+				startEndActvity(time);
+			}
 		} else {
-			executeStartBreakService();
+			if(Utils.checkOutObject.getJobSelected().contains("shift")){
+				executeStartBreakService();
+			} else {
+				//executeStartTravelar
+			}
 		}
 	}
 
@@ -301,29 +319,76 @@ public class ActivityPageActivity extends BaseActivity implements
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
+		
 		if (requestCode == Constants.RESULT_CODE_CHANGE_TIME
 				&& resultCode == RESULT_OK) {
-			if (ActivityConstants.TRUE.equalsIgnoreCase(Utils.timeSheetRequest
+			TimeSheetRequest timeSheetRequest;
+			if(data.getExtras().getString("eventType").equalsIgnoreCase("start")){
+				timeSheetRequest = Utils.timeSheetRequest;
+			} else if (data.getExtras().getString("eventType").equalsIgnoreCase("travel")){
+				timeSheetRequest = Utils.startTravelTimeRequest;
+			} else {
+				timeSheetRequest = Utils.endTravelTimeRequest;
+			}
+			
+			if (ActivityConstants.TRUE.equalsIgnoreCase(timeSheetRequest
 					.getIs_overriden())) {
 				Intent intent = new Intent(this, OverrideReasoneDialog.class);
+				intent.putExtra("eventType", data.getExtras().getString("eventType"));
 				startActivityForResult(intent,
 						Constants.RESULT_CODE_OVERRIDE_COMMENT);
 			}
 		} else if (requestCode == Constants.RESULT_CODE_OVERRIDE_COMMENT
 				&& resultCode == RESULT_OK) {
-
+			TimeSheetRequest timeSheetRequest;
+			if(data.getExtras().getString("eventType").equalsIgnoreCase("start")){
+				timeSheetRequest = Utils.timeSheetRequest;
+			} else if (data.getExtras().getString("eventType").equalsIgnoreCase("travel")){
+				timeSheetRequest = Utils.startTravelTimeRequest;
+			} else {
+				timeSheetRequest = Utils.endTravelTimeRequest;
+			}
 			if (!Utils.isInternetAvailable(this)) {
-				JobViewerDBHandler.saveTimeSheet(this, Utils.timeSheetRequest,
-						CommsConstant.START_BREAK_API);
-				JobViewerDBHandler.getAllTimeSheet(mContext);
-				Utils.saveTimeSheetInBackLogTable(ActivityPageActivity.this,
-						Utils.timeSheetRequest, CommsConstant.START_BREAK_API,
-						Utils.REQUEST_TYPE_WORK);
+				if(data.getExtras().getString("eventType").equalsIgnoreCase("start")){
+					JobViewerDBHandler.saveTimeSheet(this, timeSheetRequest,
+							CommsConstant.START_BREAK_API);
+					JobViewerDBHandler.getAllTimeSheet(mContext);
+					Utils.saveTimeSheetInBackLogTable(ActivityPageActivity.this,
+							timeSheetRequest, CommsConstant.START_BREAK_API,
+							Utils.REQUEST_TYPE_WORK);
+				}else if (data.getExtras().getString("eventType").equalsIgnoreCase("travel")){
+					JobViewerDBHandler.saveTimeSheet(this, timeSheetRequest,
+							CommsConstant.START_TRAVEL_API);
+					JobViewerDBHandler.getAllTimeSheet(mContext);
+					Utils.saveTimeSheetInBackLogTable(ActivityPageActivity.this,
+							timeSheetRequest, CommsConstant.START_TRAVEL_API,
+							Utils.REQUEST_TYPE_WORK);
+				} else{
+					JobViewerDBHandler.saveTimeSheet(this, timeSheetRequest,
+							CommsConstant.END_TRAVEL_API);
+					JobViewerDBHandler.getAllTimeSheet(mContext);
+					Utils.saveTimeSheetInBackLogTable(ActivityPageActivity.this,
+							timeSheetRequest, CommsConstant.END_TRAVEL_API,
+							Utils.REQUEST_TYPE_WORK);
+				}
+				
+				
 				// saveStartBreakinToBackLogDb();
-				startEndActvity(Utils.timeSheetRequest.getOverride_timestamp());
+				if(Utils.checkOutObject.getJobSelected().contains("shift")){
+					
+				}else{				
+					startEndActvity(Utils.timeSheetRequest.getOverride_timestamp());
+				}
 			} else {
 				Utils.startProgress(ActivityPageActivity.this);
-				executeStartBreakService();
+				if(data.getExtras().getString("eventType").equalsIgnoreCase("start")){	
+					executeStartBreakService();
+				} else if(data.getExtras().getString("eventType").equalsIgnoreCase("travel")){
+					Utils.StopProgress();
+				} else {
+					Utils.StopProgress();
+					startEndActvity(Utils.endTravelTimeRequest.getOverride_timestamp());
+				}
 			}
 		} else if(requestCode == Constants.RESULT_CODE_START_TRAINING && resultCode == RESULT_OK){
 			mStart.setText(Constants.END_TRAINING);
