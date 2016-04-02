@@ -50,14 +50,16 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 	private LinearLayout mLinearLayout;
 	private View mRootView;
 	private ImageView mCapturedImage;
+	LinearLayout linearLayout;
 	int imageCount = 0;
 	public static final int RESULT_OK = -1;
 	static File file;
 	Screen currentScreen;
 	CheckOutObject checkOutRemember;
-	private boolean formwardIamgeToAddPhotosActivity=false;
+	private boolean formwardIamgeToAddPhotosActivity = false;
 	public static ArrayList<ImageObject> addPhotoActivityimageObject;
 	public static ArrayList<String> timeCapturedForAddPhotosActivity = new ArrayList<String>();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,9 +93,14 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());
 		question.setText(currentScreen.getText());
-		if(currentScreen.getText().toString().equalsIgnoreCase(getResources().getString(R.string.capture_safe_zone))){
+		if (currentScreen
+				.getText()
+				.toString()
+				.equalsIgnoreCase(
+						getResources().getString(R.string.capture_safe_zone))) {
 			formwardIamgeToAddPhotosActivity = true;
 		}
+		checkAndLoadSavedImages();
 		checkAndEnableNextButton();
 		com.jobviewer.survey.object.Button[] buttons = currentScreen
 				.getButtons().getButton();
@@ -105,6 +112,21 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				mSave.setText(getResources().getString(
 						Utils.getButtonText(buttons[i].getName())));
 				break;
+			}
+		}
+
+	}
+
+	private void checkAndLoadSavedImages() {
+		for (int i = 0; i < currentScreen.getImages().length; i++) {
+			String image_string = currentScreen.getImages()[i]
+					.getImage_string();
+			if (!Utils.isNullOrEmpty(image_string)) {
+				ImageObject imageById = JobViewerDBHandler.getImageById(
+						getActivity(), image_string);
+				Bitmap base64ToBitmap = Utils.base64ToBitmap(imageById
+						.getImage_string());
+				loadImages(base64ToBitmap);
 			}
 		}
 
@@ -134,6 +156,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 		question = (TextView) mRootView.findViewById(R.id.question);
 		mLinearLayout = (LinearLayout) mRootView
 				.findViewById(R.id.capture_layout);
+		linearLayout = (LinearLayout) mRootView.findViewById(R.id.imageslinear);
 		mLinearLayout.setOnClickListener(this);
 
 		mSave = (Button) mRootView.findViewById(R.id.button1);
@@ -159,51 +182,54 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 	public void onClick(View view) {
 		if (view == mSave) {
 			if ("save".equalsIgnoreCase(mSave.getText().toString())) {
-				
+
 				for (int i = 0; i < currentScreen.getImages().length; i++) {
 					ImageObject imageObject = new ImageObject();
-					String generateUniqueID = Utils.generateUniqueID(getActivity());
+					String generateUniqueID = Utils
+							.generateUniqueID(getActivity());
 					imageObject.setImageId(generateUniqueID);
 					imageObject.setCategory("surveys");
-					imageObject.setImage_exif(currentScreen.getImages()[i].getImage_exif());
+					imageObject.setImage_exif(currentScreen.getImages()[i]
+							.getImage_exif());
 					imageObject.setImage_string(currentScreen.getImages()[i]
 							.getImage_string());
-					currentScreen.getImages()[i].setImage_string(generateUniqueID);
-					JobViewerDBHandler.saveImage(view.getContext(), imageObject);
-					if(formwardIamgeToAddPhotosActivity){
+					currentScreen.getImages()[i]
+							.setImage_string(generateUniqueID);
+					JobViewerDBHandler
+							.saveImage(view.getContext(), imageObject);
+					if (formwardIamgeToAddPhotosActivity) {
 						addPhotoActivityimageObject.add(imageObject);
 					}
 					sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 				}
-				
-				
+
 				QuestionManager.getInstance().updateScreenOnQuestionMaster(
 						currentScreen);
-				
+
 				QuestionManager.getInstance().saveAssessment(
 						checkOutRemember.getAssessmentSelected());
-				
-				
-				
-				Intent intent=new Intent(view.getContext(),ActivityPageActivity.class);
+
+				Intent intent = new Intent(view.getContext(),
+						ActivityPageActivity.class);
 				intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intent);
 			}
 		} else if (view == mNext) {
 			addPhotoActivityimageObject = new ArrayList<ImageObject>();
-			
+
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 				ImageObject imageObject = new ImageObject();
 				String generateUniqueID = Utils.generateUniqueID(getActivity());
 				imageObject.setImageId(generateUniqueID);
 				imageObject.setCategory("surveys");
-				imageObject.setImage_exif(currentScreen.getImages()[i].getImage_exif());
+				imageObject.setImage_exif(currentScreen.getImages()[i]
+						.getImage_exif());
 				imageObject.setImage_string(currentScreen.getImages()[i]
 						.getImage_string());
-				
+
 				currentScreen.getImages()[i].setImage_string(generateUniqueID);
 				JobViewerDBHandler.saveImage(view.getContext(), imageObject);
-				if(formwardIamgeToAddPhotosActivity){
+				if (formwardIamgeToAddPhotosActivity) {
 					addPhotoActivityimageObject.add(imageObject);
 				}
 				sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
@@ -253,8 +279,6 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		LinearLayout linearLayout = (LinearLayout) mRootView
-				.findViewById(R.id.imageslinear);
 		if (requestCode == 500 && resultCode == RESULT_OK) {
 			Bitmap photo = Utils.decodeSampledBitmapFromFile(
 					file.getAbsolutePath(), 1000, 700);
@@ -276,7 +300,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				geoLocation = geoLocationCamera.toString();
 
 				Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
-				if(formwardIamgeToAddPhotosActivity)
+				if (formwardIamgeToAddPhotosActivity)
 					timeCapturedForAddPhotosActivity.add(formatDate);
 				Log.i("Android", "geoLocation   :" + geoLocation);
 			} catch (IOException e) {
@@ -294,12 +318,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 					break;
 				}
 			}
-			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-					310, 220);
-			layoutParams.setMargins(0, 30, 0, 0);
-			mCapturedImage = new ImageView(getActivity());
-			mCapturedImage.setImageBitmap(rotateBitmap);
-			linearLayout.addView(mCapturedImage, layoutParams);
+			loadImages(rotateBitmap);
 			imageCount++;
 			Toast.makeText(getActivity(), "Number of images are " + imageCount,
 					3000).show();
@@ -307,16 +326,26 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 
 		}
 	}
-	
-	private void sendDetailsOrSaveCapturedImageInBacklogDb(ImageObject imageObject){
-		if(Utils.isInternetAvailable(getActivity())){
+
+	private void loadImages(Bitmap bitmap) {
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+				310, 220);
+		layoutParams.setMargins(0, 30, 0, 0);
+		mCapturedImage = new ImageView(getActivity());
+		mCapturedImage.setImageBitmap(bitmap);
+		linearLayout.addView(mCapturedImage, layoutParams);
+	}
+
+	private void sendDetailsOrSaveCapturedImageInBacklogDb(
+			ImageObject imageObject) {
+		if (Utils.isInternetAvailable(getActivity())) {
 			sendWorkImageToServer(imageObject);
 		} else {
 			JobViewerDBHandler.saveImage(getActivity(), imageObject);
 		}
 	}
-	
-	private synchronized void sendWorkImageToServer(ImageObject imageObject){
+
+	private synchronized void sendWorkImageToServer(ImageObject imageObject) {
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageObject.getImageId());
 		data.put("category", "surveys");
@@ -324,26 +353,30 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 		data.put("image_exif", imageObject.getImage_exif());
 
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-				+ CommsConstant.SURVEY_PHOTO_UPLOAD, data, getSendWorkImageHandler(imageObject));
-		
-		
+				+ CommsConstant.SURVEY_PHOTO_UPLOAD, data,
+				getSendWorkImageHandler(imageObject));
+
 	}
-	private Handler getSendWorkImageHandler(final ImageObject imageObject){
+
+	private Handler getSendWorkImageHandler(final ImageObject imageObject) {
 		Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-					/*Intent intent = new Intent(getActivity(),
-							RiskAssessmentActivity.class);
-					startActivity(intent);*/
+					/*
+					 * Intent intent = new Intent(getActivity(),
+					 * RiskAssessmentActivity.class); startActivity(intent);
+					 */
 					break;
 				case HttpConnection.DID_ERROR:
-					/*String error = (String) msg.obj;
-					VehicleException exception = GsonConverter
-							.getInstance()
-							.decodeFromJsonString(error, VehicleException.class);
-					ExceptionHandler.showException(getActivity(), exception, "Info");*/
+					/*
+					 * String error = (String) msg.obj; VehicleException
+					 * exception = GsonConverter .getInstance()
+					 * .decodeFromJsonString(error, VehicleException.class);
+					 * ExceptionHandler.showException(getActivity(), exception,
+					 * "Info");
+					 */
 					Utils.saveWorkImageInBackLogDb(getActivity(), imageObject);
 					break;
 				default:

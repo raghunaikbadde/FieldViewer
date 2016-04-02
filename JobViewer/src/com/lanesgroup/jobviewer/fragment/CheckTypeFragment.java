@@ -75,9 +75,21 @@ public class CheckTypeFragment extends Fragment implements OnClickListener {
 					R.string.non_excavation_risk_assessment_str));
 		}
 		if (ActivityConstants.TRUE.equalsIgnoreCase(currentScreen.getCheckbox()
-				.getRequired())) {
-			enableNextButton(false);
+				.getRequired())
+				&& !ActivityConstants.SELECTED.equalsIgnoreCase(currentScreen
+						.getAnswer())) {
 
+			enableNextButton(false);
+		} else {
+			enableNextButton(true);
+		}
+
+		if (ActivityConstants.SELECTED.equalsIgnoreCase(currentScreen
+				.getAnswer())) {
+			enableNextButton(true);
+			radio_yes.setChecked(true);
+		}else{
+			radio_yes.setChecked(false);
 		}
 		radio_yes.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 

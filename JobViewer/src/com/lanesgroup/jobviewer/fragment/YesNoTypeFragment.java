@@ -59,11 +59,11 @@ public class YesNoTypeFragment extends Fragment implements OnClickListener {
 		mRootView = inflater.inflate(R.layout.question_yes_no_fragment,
 				container, false);
 		initUI();
-		updateDtat();
+		updateData();
 		return mRootView;
 	}
 
-	private void updateDtat() {
+	private void updateData() {
 		currentScreen = QuestionManager.getInstance().getCurrentScreen();
 		checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getActivity());
@@ -81,6 +81,16 @@ public class YesNoTypeFragment extends Fragment implements OnClickListener {
 		question.setText(currentScreen.getText());
 		radio_yes.setText(currentScreen.getOptions().getOption()[0].getLabel());
 		radio_no.setText(currentScreen.getOptions().getOption()[1].getLabel());
+		
+		if (ActivityConstants.YES.equalsIgnoreCase(currentScreen.getAnswer())) {
+			radio_yes.setChecked(true);
+		}else if(ActivityConstants.NO.equalsIgnoreCase(currentScreen.getAnswer())){
+			radio_no.setChecked(true);
+		}else{
+			radio_yes.setChecked(false);
+			radio_no.setChecked(false);
+		}
+		
 		mNext.setEnabled(false);
 		mNext.setBackgroundResource(R.drawable.dark_grey_background);
 
