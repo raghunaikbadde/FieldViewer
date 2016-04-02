@@ -1,5 +1,6 @@
 package com.lanesgroup.jobviewer;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -91,10 +92,13 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		if(MediaTypeFragment.addPhotoActivityimageObject == null)
 			MediaTypeFragment.addPhotoActivityimageObject = new ArrayList<ImageObject>();
 		for (ImageObject imageObject : MediaTypeFragment.addPhotoActivityimageObject) {
-			byte[] decodedString = Base64.decode(imageObject.getImage_string(),
-					Base64.DEFAULT);
-			Bitmap bitmapOfSafeZone = BitmapFactory.decodeByteArray(
-					decodedString, 0, decodedString.length);
+			Bitmap bitmapOfSafeZone = null;
+			try{
+				bitmapOfSafeZone = Utils.base64ToBitmap(imageObject.getImage_string());
+			}catch(OutOfMemoryError oome){
+				Log.d(Utils.LOG_TAG," oome safezone to add photos activity "+oome.toString());
+				oome.printStackTrace();
+			}
 			hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
 			hashMapOfSafeZoneBitmap.put("photo", bitmapOfSafeZone);
 			hashMapOfSafeZoneBitmap.put("time",
@@ -250,8 +254,20 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			if (mPhotoList.size() >= 4) {
 				enableLeaveSiteButton(true);
 			}
-
-			String base64 = Utils.bitmapToBase64String(rotateBitmap);
+			String base64 = "";
+			try{
+				base64 = Utils.bitmapToBase64String(rotateBitmap);
+			}catch(OutOfMemoryError oome){
+				try{
+				 	ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+				 	rotateBitmap.compress(Bitmap.CompressFormat.JPEG,10, baos);
+	                byte[] b =baos.toByteArray();
+	                base64=Base64.encodeToString(b, Base64.DEFAULT);
+	                Log.e(Utils.LOG_TAG, "Out of memory error catched");
+				}catch(OutOfMemoryError oomme){
+					
+				}
+			}
 
 			ImageObject imageObject = new ImageObject();
 			String generateUniqueID = Utils.generateUniqueID(this);

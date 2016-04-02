@@ -129,6 +129,7 @@
     <string name="progress_step_assessment_pollution">Step 3 of 6</string>
     <string name="district_str">District:</string>
     <string name="tmp_number">00</string>
+    <string name="district_four_tmp_number">0000</string>
     <string name="task_number_str">Task Number:</string>
     <string name="is_this_pollution_str">Is this a pollution?</string>
     <string name="non_excavation_risk_str">Non-Excavation Risk Assessment</string>

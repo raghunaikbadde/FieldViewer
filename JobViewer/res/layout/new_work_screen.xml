@@ -178,7 +178,7 @@
                         android:layout_marginLeft="@dimen/spinner_bottom_margin30"
                         android:background="@drawable/grey_background"
                         android:gravity="center_vertical|center_horizontal"
-                        android:hint="@string/tmp_number"
+                        android:hint="@string/district_four_tmp_number"
                         android:maxLength="4" android:textAllCaps="true" 
                         android:inputType="textCapCharacters"
                         android:singleLine="true"
