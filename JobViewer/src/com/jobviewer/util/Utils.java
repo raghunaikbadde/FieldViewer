@@ -112,6 +112,16 @@ public class Utils {
 	
 	public static String[] mLandAffectedList = { "Park", "Gardens", "Dry ditch", "Highway" };
 	
+	public static String[] mExtentOfWaterList = {"Less than 10m", "10-50m", "50-100m", "Greater than 100m"};
+	
+	public static String[] mWaterBodyList = {"Pond", "Ditch", "Stream/Brook", "River", "Reservoir"};
+	
+	public static String[] mIndicativeCause = {"3rd Party", "Blockage", "Hydraulic overload", "Failed asset"};
+	
+	public static String[] mAmmonia = {"0 Mg/l", "1-3 Mg/l", "3-6 Mg/l", "Greater than 6 Mg/l"};
+	
+	public static String[] mFishKill = {"None", "1-10", "10-50", "50-100", "Greater than 100"};
+	
 	public static TimeSheetRequest callStartTimeRequest = null;
 	public static TimeSheetRequest callEndTimeRequest = null;
 	static int notificationId = 1000;
@@ -536,7 +546,6 @@ public class Utils {
 						int position, long arg3) {
 					seleTextView.setText(list[position]);
 					dialog.dismiss();
-					// ((ICustomSpinnerItemClick)activity).onQuestionsSpinnerItemClick(position);
 				}
 			});
 		}

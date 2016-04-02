@@ -2,24 +2,23 @@ package com.lanesgroup.jobviewer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.internal.widget.ContentFrameLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -47,6 +46,11 @@ public class PollutionActivity extends BaseActivity implements
 			additionalEDSpinner;
 	Button nextButton;
 	PollutionReportRequest pollutionReportRequest;
+	
+	RelativeLayout spinnerLayout, landAffectedLayout, spinnerLayoutExtentOfWater, spinnerLayoutWaterBody, spinnerLayoutAmmonia, spinnerLayoutFishKill,
+	spinnerLayoutIndicative;
+	TextView landPollution, landAffected, extentOfWater, waterBody, ammonia, fishKill, indicativeCause;
+	
 	ArrayList<String> stringOfLandPollutants;
 	ArrayList<String> stringOfWaterPollutants;
 	@Override
@@ -107,7 +111,7 @@ public class PollutionActivity extends BaseActivity implements
 	}
 
 	protected void addWaterPollutionData() {
-		final String[] extentOfLandPollutionArray = getResources().getStringArray(
+		/*final String[] extentOfLandPollutionArray = getResources().getStringArray(
 				R.array.extentOfLandPollutionArray);
 		ArrayAdapter<String> extentOfWaterAdapter = new ArrayAdapter<String>(
 				this, android.R.layout.simple_spinner_item,
@@ -150,7 +154,7 @@ public class PollutionActivity extends BaseActivity implements
 			public void onNothingSelected(AdapterView<?> parent) {
 				
 			}
-		});
+		});*/
 
 		final ArrayAdapter<String> waterPollutantsAdapter = new ArrayAdapter<String>(
 				this, R.layout.simple_spinner_item);
@@ -186,7 +190,7 @@ public class PollutionActivity extends BaseActivity implements
 	}
 
 	protected void addLandPollutionData() {
-		final String[] extentOfLandPollutionArray = getResources().getStringArray(
+		/*final String[] extentOfLandPollutionArray = getResources().getStringArray(
 				R.array.extentOfLandPollutionArray);
 		ArrayAdapter<String> extentOfLandPollutionAdapter = new ArrayAdapter<String>(
 				this, android.R.layout.simple_spinner_item,
@@ -227,7 +231,7 @@ public class PollutionActivity extends BaseActivity implements
 			public void onNothingSelected(AdapterView<?> parent) {
 				
 			}
-		});
+		});*/
 		final ArrayAdapter<String> landPollutantsAdapter = new ArrayAdapter<String>(
 				this, R.layout.simple_spinner_item);
 		String[] landPollutantsArray = getResources().getStringArray(
@@ -266,19 +270,47 @@ public class PollutionActivity extends BaseActivity implements
 		progress_step_text = (TextView) findViewById(R.id.progress_step_text);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 		ptlCheckbox = (CheckBox) findViewById(R.id.ptlCheckbox);
-		extentOfLandSpinner = (Spinner) findViewById(R.id.extentOfLandSpinner);
-		landAffectedSpinner = (Spinner) findViewById(R.id.landAffectedSpinner);
+		//extentOfLandSpinner = (Spinner) findViewById(R.id.extentOfLandSpinner);
+		//landAffectedSpinner = (Spinner) findViewById(R.id.landAffectedSpinner);
 		landPollutantsSpinner = (MultiSelectSpinner) findViewById(R.id.landPollutantsSpinner);
 		ptwCheckbox = (CheckBox) findViewById(R.id.ptwCheckbox);
-		extentOfWaterSpinner = (Spinner) findViewById(R.id.extentOfWaterSpinner);
-		waterBodyAffectedSpinner = (Spinner) findViewById(R.id.waterBodyAffectedSpinner);
+		//extentOfWaterSpinner = (Spinner) findViewById(R.id.extentOfWaterSpinner);
+		//waterBodyAffectedSpinner = (Spinner) findViewById(R.id.waterBodyAffectedSpinner);
 		waterPollutantsSpinner = (MultiSelectSpinner) findViewById(R.id.waterPollutantsSpinner);
-		indicativeCauseSpinner = (Spinner) findViewById(R.id.indicativeCauseSpinner);
+		//indicativeCauseSpinner = (Spinner) findViewById(R.id.indicativeCauseSpinner);
 		additionalEDSpinner = (MultiSelectSpinner) findViewById(R.id.additionalEDSpinner);
 		ptlExpandLayout = (LinearLayout) findViewById(R.id.ptlExpandLayout);
 		ptwExpandLayout = (LinearLayout) findViewById(R.id.ptwExpandLayout);
 		nextButton = (Button) findViewById(R.id.nextButton);
 		nextButton.setOnClickListener(this);
+		
+		spinnerLayout = (RelativeLayout) findViewById(R.id.spinnerLayout);
+		spinnerLayout.setOnClickListener(this);
+		landPollution = (TextView)findViewById(R.id.landPollution);
+		landAffectedLayout = (RelativeLayout)findViewById(R.id.spinnerLayout1);
+		landAffectedLayout.setOnClickListener(this);
+		landAffected = (TextView)findViewById(R.id.landAffected);
+		
+		spinnerLayoutExtentOfWater = (RelativeLayout) findViewById(R.id.spinnerLayoutExtentOfWater);
+		spinnerLayoutExtentOfWater.setOnClickListener(this);
+		extentOfWater = (TextView) findViewById(R.id.extentOfWater);
+		
+		spinnerLayoutWaterBody = (RelativeLayout) findViewById(R.id.spinnerLayoutWaterBody);
+		spinnerLayoutWaterBody.setOnClickListener(this);
+		waterBody = (TextView) findViewById(R.id.waterBody);
+		
+		spinnerLayoutAmmonia = (RelativeLayout) findViewById(R.id.spinnerLayoutAmmonia);
+		spinnerLayoutAmmonia.setOnClickListener(this);
+		ammonia = (TextView) findViewById(R.id.ammonia);
+		
+		spinnerLayoutFishKill = (RelativeLayout) findViewById(R.id.spinnerLayoutFishKill);
+		spinnerLayoutFishKill.setOnClickListener(this);
+		fishKill = (TextView) findViewById(R.id.fishKill);
+		
+		spinnerLayoutIndicative = (RelativeLayout) findViewById(R.id.spinnerLayoutIndicative);
+		spinnerLayoutIndicative.setOnClickListener(this);
+		indicativeCause = (TextView) findViewById(R.id.indicativeCause);
+
 	}
 
 	@Override
@@ -296,9 +328,35 @@ public class PollutionActivity extends BaseActivity implements
 				Intent addPhotosActivityIntent = new Intent(PollutionActivity.this, AddPhotosActivity.class);
 				startActivity(addPhotosActivityIntent);
 			}
-			
 			break;
-
+		case R.id.spinnerLayout:
+			String landPollutionHeader = "Extent of land pollution";
+			Utils.dailogboxSelector(this, Utils.mLandPollutionList, R.layout.work_complete_dialog, landPollution, landPollutionHeader);
+			break;
+		case R.id.spinnerLayout1:
+			String landAffectedHeader = "Land type";
+			Utils.dailogboxSelector(this, Utils.mLandAffectedList, R.layout.work_complete_dialog, landAffected, landAffectedHeader);
+			break;
+		case R.id.spinnerLayoutExtentOfWater:
+			String extentOfWaterHeader = "Extent of water pollution";
+			Utils.dailogboxSelector(this, Utils.mExtentOfWaterList, R.layout.work_complete_dialog, extentOfWater, extentOfWaterHeader);
+			break;
+		case R.id.spinnerLayoutWaterBody:
+			String waterBodyHeader = "Water body";
+			Utils.dailogboxSelector(this, Utils.mWaterBodyList, R.layout.work_complete_dialog, waterBody, waterBodyHeader);
+			break;
+		case R.id.spinnerLayoutIndicative:
+			String indicativeHeader = "Indicative Cause";
+			Utils.dailogboxSelector(this, Utils.mIndicativeCause, R.layout.work_complete_dialog, indicativeCause, indicativeHeader);
+			break;
+		case R.id.spinnerLayoutAmmonia:
+			String ammoniaHeader = "Ammonia";
+			Utils.dailogboxSelector(this, Utils.mAmmonia, R.layout.work_complete_dialog, ammonia, ammoniaHeader);
+			break;
+		case R.id.spinnerLayoutFishKill:
+			String fishKillHeader = "Fish Kill";
+			Utils.dailogboxSelector(this, Utils.mFishKill, R.layout.work_complete_dialog, fishKill, fishKillHeader);
+			break;
 		default:
 			break;
 		}

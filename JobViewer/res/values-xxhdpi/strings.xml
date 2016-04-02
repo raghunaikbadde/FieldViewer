@@ -191,6 +191,9 @@
     <string name="extentOfWaterPollution">Extent of water pollution</string>
     <string name="waterBodyAffected">Water body affected</string>
     <string name="waterPollutants">Water pollutants</string>
+    <string name="dissolvedOxygen">Dissolved Oxygen (DO)%:</string>
+    <string name="upstream">Upstream:</string>
+    <string name="downstream">Downstream:</string>
     <string name="noPreviousQuestionMessage">There are no previous questions. Tap Save or to cancel, press the phone menu button and tap cancel.</string>
     <string name="returnVehicleMsg">Enter details for the vehicle you are returning</string>
     <string name="i_want_to_str">I want to...</string>
@@ -200,7 +203,8 @@
     <string name="shout_about_safety">Shout About Safety</string>
     <string name="survey_complete">Survey Complete</string>
     <string name="shout_msg">Thank you for helping to make our workplace safer</string>
-    
+    <string name="site_photo">Site Photo</string>
+    <string name="pollution_detail">Provide all details below</string>
     
     <string-array name="override_reason_comment">
         <item>Forgot to clock in/out on time</item>
