@@ -26,6 +26,10 @@ public class LauncherActivity extends BaseActivity {
 			Utils.checkOutObject = checkOutRemember;
 			launcherIntent = new Intent(this, PollutionActivity.class);
 		} else if (checkOutRemember != null
+				&& !Utils.isNullOrEmpty(checkOutRemember.getVistecId())) {
+			Utils.checkOutObject = checkOutRemember;
+			launcherIntent = new Intent(this, ActivityPageActivity.class);
+		} else if (checkOutRemember != null
 				&& ActivityConstants.TRUE.equalsIgnoreCase(checkOutRemember
 						.getIsStartedTravel())) {
 			List<TimeSheet> allTimeSheet = JobViewerDBHandler

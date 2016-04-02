@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.CheckOutObject;
@@ -58,6 +57,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 	Screen currentScreen;
 	static File file;
 	CheckOutObject checkOutRemember;
+	LinearLayout linearLayout;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -106,6 +106,8 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 				break;
 			}
 		}
+
+		checkAndLoadSavedImages();
 	}
 
 	private void initUI() {
@@ -116,7 +118,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 		questionTitle = (TextView) mRootView.findViewById(R.id.questionTitle);
 		question = (TextView) mRootView.findViewById(R.id.question);
 		mDescribe = (EditText) mRootView.findViewById(R.id.describe_edittext);
-
+		linearLayout = (LinearLayout) mRootView.findViewById(R.id.imageslinear);
 		mLinearLayout = (LinearLayout) mRootView
 				.findViewById(R.id.capture_layout);
 		mLinearLayout.setOnClickListener(this);
@@ -153,34 +155,52 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 
 	}
 
+	private void checkAndLoadSavedImages() {
+		for (int i = 0; i < currentScreen.getImages().length; i++) {
+			String image_string = currentScreen.getImages()[i]
+					.getImage_string();
+			if (!Utils.isNullOrEmpty(image_string)) {
+				ImageObject imageById = JobViewerDBHandler.getImageById(
+						getActivity(), image_string);
+				Bitmap base64ToBitmap = Utils.base64ToBitmap(imageById
+						.getImage_string());
+				loadImages(base64ToBitmap);
+			}
+		}
+
+	}
+
+	private void loadImages(Bitmap bitmap) {
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+				310, 220);
+		layoutParams.setMargins(0, 30, 0, 0);
+		mCapturedImage = new ImageView(getActivity());
+		mCapturedImage.setImageBitmap(bitmap);
+		linearLayout.addView(mCapturedImage, layoutParams);
+	}
+
 	@SuppressWarnings("static-access")
 	@Override
 	public void onClick(View view) {
 		if (view == mSave) {
 			if ("save".equalsIgnoreCase(mSave.getText().toString())) {
-				
+
 				for (int i = 0; i < currentScreen.getImages().length; i++) {
-					ImageObject imageObject = new ImageObject();
-					String generateUniqueID = Utils.generateUniqueID(getActivity());
-					imageObject.setImageId(generateUniqueID);
-					imageObject.setCategory("surveys");
-					imageObject.setImage_exif(currentScreen.getImages()[i].getImage_exif());
-					imageObject.setImage_string(currentScreen.getImages()[i]
-							.getImage_string());
-					
-					currentScreen.getImages()[i].setImage_string(generateUniqueID);
-					JobViewerDBHandler.saveImage(view.getContext(), imageObject);
-					
-					sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
+					if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
+							.getImage_string())) {
+						ImageObject imageObject = JobViewerDBHandler
+								.getImageById(getActivity(), currentScreen
+										.getImages()[i].getImage_string());
+						sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
+					}
 				}
-				
-				
+
 				QuestionManager.getInstance().updateScreenOnQuestionMaster(
 						currentScreen);
-				
+
 				QuestionManager.getInstance().saveAssessment(
 						checkOutRemember.getAssessmentSelected());
-				
+
 				Intent intent = new Intent(view.getContext(),
 						ActivityPageActivity.class);
 				intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
@@ -193,16 +213,13 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 			}
 
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
-				ImageObject imageObject = new ImageObject();
-				String generateUniqueID = Utils.generateUniqueID(getActivity());
-				imageObject.setImageId(generateUniqueID);
-				imageObject.setImage_string(currentScreen.getImages()[i]
-						.getImage_string());
-				imageObject.setCategory("surveys");
-				imageObject.setImage_exif(currentScreen.getImages()[i]
-						.getImage_exif());
-				currentScreen.getImages()[i].setImage_string(generateUniqueID);
-				sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
+				if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
+						.getImage_string())) {
+					ImageObject imageObject = JobViewerDBHandler.getImageById(
+							getActivity(),
+							currentScreen.getImages()[i].getImage_string());
+					sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
+				}
 			}
 
 			QuestionManager.getInstance().updateScreenOnQuestionMaster(
@@ -224,10 +241,10 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 			ImageObject imageObject) {
 		if (Utils.isInternetAvailable(getActivity())) {
 			sendWorkImageToServer(imageObject);
-		} else {
-			JobViewerDBHandler.saveImage(getActivity(), imageObject);
-			// loadNextFragement();
-		}
+		} /*
+		 * else { JobViewerDBHandler.saveImage(getActivity(), imageObject); //
+		 * loadNextFragement(); }
+		 */
 
 	}
 
@@ -300,8 +317,6 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		LinearLayout linearLayout = (LinearLayout) mRootView
-				.findViewById(R.id.imageslinear);
 		if (requestCode == 500 && resultCode == RESULT_OK) {
 			Bitmap photo = Utils.decodeSampledBitmapFromFile(
 					file.getAbsolutePath(), 1000, 700);
@@ -334,22 +349,24 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 						.getImage_string())) {
 					String image_exif = formatDate + "," + geoLocation;
 					currentScreen.getImages()[i].setImage_exif(image_exif);
-					String image_base_64 = Utils
-							.bitmapToBase64String(rotateBitmap);
-					currentScreen.getImages()[i].setImage_string(image_base_64);
-					// sendDetailsOrSaveCapturedImageInBacklogDb(image_base_64,image_exif);
+					ImageObject imageObject = new ImageObject();
+					String generateUniqueID = Utils
+							.generateUniqueID(getActivity());
+					imageObject.setImageId(generateUniqueID);
+					imageObject.setCategory("surveys");
+					imageObject.setImage_exif(currentScreen.getImages()[i]
+							.getImage_exif());
+					imageObject.setImage_string(Utils
+							.bitmapToBase64String(rotateBitmap));
+
+					currentScreen.getImages()[i]
+							.setImage_string(generateUniqueID);
+					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;
 				}
 			}
-			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-					310, 220);
-			layoutParams.setMargins(0, 30, 0, 0);
-			mCapturedImage = new ImageView(getActivity());
-			mCapturedImage.setImageBitmap(rotateBitmap);
-			linearLayout.addView(mCapturedImage, layoutParams);
+			loadImages(rotateBitmap);
 			imageCount++;
-			Toast.makeText(getActivity(), "Number of images are " + imageCount,
-					3000).show();
 			checkAndEnableNextButton();
 
 		}

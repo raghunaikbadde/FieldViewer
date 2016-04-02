@@ -127,6 +127,10 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				Bitmap base64ToBitmap = Utils.base64ToBitmap(imageById
 						.getImage_string());
 				loadImages(base64ToBitmap);
+
+				Log.i("Android", imageById.getImage_exif());
+				Log.i("Android", imageById.getImage_string());
+				Log.i("Android", imageById.getImageId());
 			}
 		}
 
@@ -184,23 +188,17 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 			if ("save".equalsIgnoreCase(mSave.getText().toString())) {
 
 				for (int i = 0; i < currentScreen.getImages().length; i++) {
-					ImageObject imageObject = new ImageObject();
-					String generateUniqueID = Utils
-							.generateUniqueID(getActivity());
-					imageObject.setImageId(generateUniqueID);
-					imageObject.setCategory("surveys");
-					imageObject.setImage_exif(currentScreen.getImages()[i]
-							.getImage_exif());
-					imageObject.setImage_string(currentScreen.getImages()[i]
-							.getImage_string());
-					currentScreen.getImages()[i]
-							.setImage_string(generateUniqueID);
-					JobViewerDBHandler
-							.saveImage(view.getContext(), imageObject);
-					if (formwardIamgeToAddPhotosActivity) {
-						addPhotoActivityimageObject.add(imageObject);
+
+					if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
+							.getImage_string())) {
+						ImageObject imageObject = JobViewerDBHandler
+								.getImageById(getActivity(), currentScreen
+										.getImages()[i].getImage_string());
+						if (formwardIamgeToAddPhotosActivity) {
+							addPhotoActivityimageObject.add(imageObject);
+						}
+						sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 					}
-					sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 				}
 
 				QuestionManager.getInstance().updateScreenOnQuestionMaster(
@@ -218,21 +216,17 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 			addPhotoActivityimageObject = new ArrayList<ImageObject>();
 
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
-				ImageObject imageObject = new ImageObject();
-				String generateUniqueID = Utils.generateUniqueID(getActivity());
-				imageObject.setImageId(generateUniqueID);
-				imageObject.setCategory("surveys");
-				imageObject.setImage_exif(currentScreen.getImages()[i]
-						.getImage_exif());
-				imageObject.setImage_string(currentScreen.getImages()[i]
-						.getImage_string());
 
-				currentScreen.getImages()[i].setImage_string(generateUniqueID);
-				JobViewerDBHandler.saveImage(view.getContext(), imageObject);
-				if (formwardIamgeToAddPhotosActivity) {
-					addPhotoActivityimageObject.add(imageObject);
+				if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
+						.getImage_string())) {
+					ImageObject imageObject = JobViewerDBHandler.getImageById(
+							getActivity(),
+							currentScreen.getImages()[i].getImage_string());
+					if (formwardIamgeToAddPhotosActivity) {
+						addPhotoActivityimageObject.add(imageObject);
+					}
+					sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 				}
-				sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 			}
 
 			QuestionManager.getInstance().updateScreenOnQuestionMaster(
@@ -311,10 +305,24 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 				if (Utils.isNullOrEmpty(currentScreen.getImages()[i]
 						.getImage_string())) {
-					currentScreen.getImages()[i].setImage_exif(formatDate + ","
-							+ geoLocation);
-					currentScreen.getImages()[i].setImage_string(Utils
+					String image_exif = formatDate + "," + geoLocation;
+					currentScreen.getImages()[i].setImage_exif(image_exif);
+					ImageObject imageObject = new ImageObject();
+					String generateUniqueID = Utils
+							.generateUniqueID(getActivity());
+					imageObject.setImageId(generateUniqueID);
+					imageObject.setCategory("surveys");
+					imageObject.setImage_exif(currentScreen.getImages()[i]
+							.getImage_exif());
+					imageObject.setImage_string(Utils
 							.bitmapToBase64String(rotateBitmap));
+					Log.i("Android", imageObject.getImage_exif());
+					Log.i("Android", imageObject.getImage_string());
+					Log.i("Android", imageObject.getImageId());
+
+					currentScreen.getImages()[i]
+							.setImage_string(generateUniqueID);
+					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;
 				}
 			}
@@ -340,9 +348,9 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 			ImageObject imageObject) {
 		if (Utils.isInternetAvailable(getActivity())) {
 			sendWorkImageToServer(imageObject);
-		} else {
-			JobViewerDBHandler.saveImage(getActivity(), imageObject);
-		}
+		} /*
+		 * else { JobViewerDBHandler.saveImage(getActivity(), imageObject); }
+		 */
 	}
 
 	private synchronized void sendWorkImageToServer(ImageObject imageObject) {

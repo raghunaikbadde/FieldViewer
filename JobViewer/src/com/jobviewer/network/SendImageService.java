@@ -34,7 +34,7 @@ public class SendImageService extends Service {
 
 			@Override
 			public void run() {
-				Utils.sendImagesToserver(getApplicationContext());
+				//Utils.sendImagesToserver(getApplicationContext());
 				Log.i("Andriod", "Service Started");
 			}
 		});

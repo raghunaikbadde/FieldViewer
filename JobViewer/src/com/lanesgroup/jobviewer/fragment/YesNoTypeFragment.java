@@ -84,15 +84,19 @@ public class YesNoTypeFragment extends Fragment implements OnClickListener {
 		
 		if (ActivityConstants.YES.equalsIgnoreCase(currentScreen.getAnswer())) {
 			radio_yes.setChecked(true);
+			mNext.setEnabled(true);
+			mNext.setBackgroundResource(R.drawable.red_background);
 		}else if(ActivityConstants.NO.equalsIgnoreCase(currentScreen.getAnswer())){
 			radio_no.setChecked(true);
+			mNext.setEnabled(true);
+			mNext.setBackgroundResource(R.drawable.red_background);
 		}else{
 			radio_yes.setChecked(false);
 			radio_no.setChecked(false);
+			mNext.setEnabled(false);
+			mNext.setBackgroundResource(R.drawable.dark_grey_background);
 		}
 		
-		mNext.setEnabled(false);
-		mNext.setBackgroundResource(R.drawable.dark_grey_background);
 
 		radioGroup1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
