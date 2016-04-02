@@ -228,6 +228,13 @@ public class Utils {
 		return Base64.encodeToString(byteArray, Base64.DEFAULT);
 	}
 
+	public static Bitmap base64ToBitmap(String base64String) {
+		byte[] imageAsBytes = Base64.decode(base64String.getBytes(),
+				Base64.DEFAULT);
+		return BitmapFactory.decodeByteArray(imageAsBytes, 0,
+				imageAsBytes.length);
+	}
+
 	public static String generateUniqueID(Context context) {
 		long timeInMilli = Calendar.getInstance().getTimeInMillis();
 		return getIMEI(context) + timeInMilli;
