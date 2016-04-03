@@ -104,6 +104,7 @@
     <string name="shift_start_time_str">Shift start time:</string>
     <string name="user">User:</string>
     <string name="tmp_user_email">demonstration2@lanesgroup.com</string>
+    <string name="tmp_vehicle_number">GJ065PPP</string>
     <string name="i_confirm_the_info_str">I confirm the information above is correct (required to continue)</string>
     <string name="risk_assessment_str">Risk Assessment</string>
     <string name="select_the_type_str">Select the type of work to be carried out from the choices below:</string>
@@ -123,6 +124,7 @@
     <string name="enter_the_vistec_str">Enter the Vistec Job Number</string>
     <string name="progress_step_return_vehicle">Step 1 of 2</string>
     <string name="progress_step">Step 1 of 5</string>
+    <string name="progress_step_end_on_call">Step 2 of 2</string>
     <string name="progress_step_capture">Step 2 of 5</string>
     <string name="progress_step_pollution">Step 1 of 6</string>
     <string name="progress_step_capture_pollution">Step 2 of 6</string>
@@ -293,6 +295,12 @@
     </string-array>
     <string name="break_start_time_text">Break Started:</string>
     <string name="end_break_str">End Break</string>
-    
-    
+    <string name="end_shift_screen_title">End Shift</string>
+    <string name="enter_mileage_for_vehicle">Enter the ending mileage for the vehicle below</string>
+    <string name="ending_mileage_str">Ending Mileage</string>
+    <string name="end_on_call_str">End On-Call</string>
+    <string name="confirm_all_details">Confirm all details below are correct to continue</string>
+    <string name="shift_end_time">Shift end time:</string>
+    <string name="user_ending_shift">User ending shift:</string>
+    <string name="vehicle_used">Vehicle Used:</string>
 </resources>

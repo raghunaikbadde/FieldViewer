@@ -39,7 +39,7 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 	private CheckBox mRememberSelection;
 	private Button mBack, mNext;
 	private boolean isRegistraionEntered, isMileageEntered;
-
+	private String callingFrom = "";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,6 +59,11 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 		mBack.setOnClickListener(this);
 		mNext = (Button) findViewById(R.id.next_button);
 		mRegistration = (EditText) findViewById(R.id.enter_registration_edittext);
+		Bundle bundle = getIntent().getExtras();
+		if(bundle!=null && bundle.containsKey(Utils.CALLING_ACTIVITY)){
+			callingFrom = bundle.getString(Utils.CALLING_ACTIVITY);	
+		}
+		 
 		mRegistration.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence characters, int start,
@@ -141,10 +146,21 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 				excuteCheckOutVehicle();
 			} else {
 				saveVechicleCheckOutInDB();
+				
 				JobViewerDBHandler.saveCheckOutRemember(CheckoutVehicleActivity.this,
 						Utils.checkOutObject);
-				Intent intent = new Intent(CheckoutVehicleActivity.this,
+				Intent intent = null;
+				if(callingFrom.contains("ActivityPageActivity")){
+					Utils.checkOutObject.setVehicleRegistration(mRegistration.getText().toString());
+					Utils.checkOutObject.setMilage(mMileage.getText().toString());
+					JobViewerDBHandler.saveCheckOutRemember(CheckoutVehicleActivity.this,
+							Utils.checkOutObject);
+					intent = new Intent(CheckoutVehicleActivity.this,
+							ActivityPageActivity.class);
+				}else{
+					intent = new Intent(CheckoutVehicleActivity.this,
 						ClockInConfirmationActivity.class);
+				}
 				putVehcielRegNoAndMileageInIntent(intent);
 				intent.putExtra(Utils.CALLING_ACTIVITY,
 						CheckoutVehicleActivity.this.getClass()
@@ -152,13 +168,6 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 				startActivity(intent);
 				//finish();
 			}
-			/*
-			 * Intent intent = new Intent(CheckoutVehicleActivity.this,
-			 * ClockInConfirmationActivity.class);
-			 * intent.putExtra(Utils.CALLING_ACTIVITY,
-			 * CheckoutVehicleActivity.this.getClass().getSimpleName());
-			 * startActivity(intent);
-			 */
 		}
 	}
 
@@ -191,8 +200,18 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
 					// String result = (String) msg.obj;
-					Intent intent = new Intent(CheckoutVehicleActivity.this,
+					Intent intent =null;
+					if(callingFrom.contains("ActivityPageActivity")){
+						Utils.checkOutObject.setVehicleRegistration(mRegistration.getText().toString());
+						Utils.checkOutObject.setMilage(mMileage.getText().toString());
+						JobViewerDBHandler.saveCheckOutRemember(CheckoutVehicleActivity.this,
+								Utils.checkOutObject);
+						intent = new Intent(CheckoutVehicleActivity.this,
+								ActivityPageActivity.class);
+					}else{
+						intent = new Intent(CheckoutVehicleActivity.this,
 							ClockInConfirmationActivity.class);
+					}
 					putVehcielRegNoAndMileageInIntent(intent);
 					intent.putExtra(Utils.CALLING_ACTIVITY,
 							CheckoutVehicleActivity.this.getClass()

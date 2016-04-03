@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -125,7 +126,8 @@ public class CheckInActivity extends BaseActivity implements
 		data.put("registration", checkOutRemember.getVehicleRegistration());
 		data.put("mileage", enter_mileage_edittext.getText().toString());
 		data.put("user_id", userProfile.getEmail());
-		Utils.SendHTTPRequest(CheckInActivity.this, CommsConstant.HOST
+		Log.d(Utils.LOG_TAG, "executeCheckInService : "+GsonConverter.getInstance().encodeToJsonString(data));
+		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.CHECKIN_VEHICLE, data, getCheckInHandler());
 
 	}

@@ -116,6 +116,12 @@
         <activity
             android:name=".EndBreakActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".EndShiftReturnVehicleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EndOnCallActivity"
+            android:screenOrientation="portrait" />
         
 
         <receiver

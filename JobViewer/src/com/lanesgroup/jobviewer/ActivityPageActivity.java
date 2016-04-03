@@ -228,6 +228,7 @@ public class ActivityPageActivity extends BaseActivity implements
 			}
 		} else if (view == mCheckOutVehicle) {
 			intent.setClass(this, CheckoutVehicleActivity.class);
+			intent.putExtra(Utils.CALLING_ACTIVITY, ActivityPageActivity.this.getClass().getSimpleName());
 			startActivity(intent);
 		} else if (view == mStartTravel) {
 			Utils.startTravelTimeRequest = new TimeSheetRequest();
@@ -267,16 +268,34 @@ public class ActivityPageActivity extends BaseActivity implements
 	private void endShiftOrCall() {
 		Intent intent;
 		if(mEndOnCall.getText().toString().equals("End Call")){
-			intent = new Intent(ActivityPageActivity.this,
-					ClockInConfirmationActivity.class);
+			
 			Utils.callEndTimeRequest = new TimeSheetRequest();
+			if(mCheckOutVehicle.getVisibility()!=View.VISIBLE){
+				intent = new Intent(ActivityPageActivity.this,
+						EndShiftReturnVehicleActivity.class);	
+				intent.putExtra("progressStep", "Step 1 of 2");
+			} else{
+				intent = new Intent(ActivityPageActivity.this,
+						EndOnCallActivity.class);	
+				intent.putExtra("progressStep", "Step 1 of 1");
+				intent.putExtra("mileage", JobViewerDBHandler.getCheckOutRemember(ActivityPageActivity.this).getMilage());
+			}
 			intent.putExtra(Utils.END_CALL,Utils.END_CALL);
 			intent.putExtra(Utils.CALLING_ACTIVITY,
 					ActivityPageActivity.this.getClass().getSimpleName());
 			startActivity(intent);
 		} else if(mEndOnCall.getText().toString().equals("End Shift")){
-			intent = new Intent(ActivityPageActivity.this,
-					ClockInConfirmationActivity.class);
+			
+			if(mCheckOutVehicle.getVisibility()!=View.VISIBLE){
+				intent = new Intent(ActivityPageActivity.this,
+						EndShiftReturnVehicleActivity.class);	
+				intent.putExtra("progressStep", "Step 1 of 2");
+			} else{
+				intent = new Intent(ActivityPageActivity.this,
+						EndOnCallActivity.class);	
+				intent.putExtra("mileage", JobViewerDBHandler.getCheckOutRemember(ActivityPageActivity.this).getMilage());
+				intent.putExtra("progressStep", "Step 1 of 1");
+			}
 			Utils.endShiftRequest = new TimeSheetRequest();
 			intent.putExtra(Utils.SHIFT_END,Utils.SHIFT_END);
 			intent.putExtra(Utils.CALLING_ACTIVITY,
