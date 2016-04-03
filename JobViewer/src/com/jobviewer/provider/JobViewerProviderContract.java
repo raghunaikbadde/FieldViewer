@@ -183,4 +183,33 @@ public class JobViewerProviderContract {
 		public static final String TRAINING_END_TIME="trainingEndTime";
 	}
 
+	public static final class BreakTravelShiftCallTable implements BaseColumns {
+		public static final Uri CONTENT_URI = Uri.withAppendedPath(
+				JobViewerProviderContract.CONTENT_URI, "BreakTravelShiftCallTable");
+		public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
+				+ "/vnd.jobviewer";
+		public static final String CONTENT_WALLET_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+				+ "/vnd.jobviewer";
+		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+				+ "/vnd.jobviewer.BreakTravelShiftCallTable";
+
+		public static final String IS_BREAK_STARTED ="isBreakStarted";
+		public static final String BREAK_START_TIME ="breakStartedTime";		
+		public static final String BREAK_END_TIME ="breakEndTime";
+		
+		public static final String IS_SHIFT_STARTED ="isShiftStarted";
+		public static final String SHIFT_START_TIME ="shiftStartTime";
+		public static final String SHIFT_END_TIME ="shiftEndTime";
+		
+		public static final String IS_CALL_STARTED ="isCallStarted";
+		public static final String CALL_START_TIME ="callStartTime";
+		public static final String CALL_END_TIME ="callEndTime";
+		
+		public static final String NUMBER_OF_BREAKS ="noOfBreaks";
+		
+		public static final String IS_TRAVEL_STARTED="isTravelStarted";
+		public static final String TRAVEL_START_TIME ="travelStartedTime";		
+		public static final String TRAVEL_END_TIME ="travelEndTime";
+	}
+	
 }

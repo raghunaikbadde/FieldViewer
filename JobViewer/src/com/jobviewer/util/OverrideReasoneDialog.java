@@ -37,7 +37,7 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 		setContentView(R.layout.override_reason_dialog);
 		mCancel = (Button) findViewById(R.id.dialog_cancel);
 		overrideReasonSpinner = (Spinner) findViewById(R.id.overrideReasonSpinner);
-		eventType = (String) getIntent().getExtras().get("eventType");
+		eventType = getIntent().getExtras().getString("eventType");
 		String[] stringArray = getResources().getStringArray(
 				R.array.override_reason_comment);
 		List<String> overrideReasonCommentList = new ArrayList<String>();
@@ -50,11 +50,17 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 		overrideReasonSpinner.setAdapter(dataAdapter);
 		overrideReasonSpinner.setOnItemSelectedListener(this);
 		timeStampValue = (TextView) findViewById(R.id.timeStampValue);
-		if (eventType.equalsIgnoreCase(Constants.BREAK_STARTED)) {
+		if (eventType.equalsIgnoreCase("start")) {
 			timeStampValue.setText(Utils.timeSheetRequest
 					.getOverride_timestamp());
-		} else {
+		} else if (eventType.equalsIgnoreCase("travel")) {
 			timeStampValue.setText(Utils.startTravelTimeRequest
+					.getOverride_timestamp());
+		} else if (eventType.equalsIgnoreCase("End Travel")) {
+			timeStampValue.setText(Utils.endTravelTimeRequest
+					.getOverride_timestamp());
+		} else {
+			timeStampValue.setText(Utils.endTimeRequest
 					.getOverride_timestamp());
 		}
 
@@ -82,10 +88,14 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 	public void onItemSelected(AdapterView<?> parent, View view, int position,
 			long id) {
 		String item = parent.getItemAtPosition(position).toString();
-		if (Constants.BREAK_STARTED.equalsIgnoreCase(eventType)) {
+		if ("start".equalsIgnoreCase(eventType)) {
 			Utils.timeSheetRequest.setOverride_comment(item);
-		} else {
+		} else  if ("travel".equalsIgnoreCase(eventType)) {
 			Utils.startTravelTimeRequest.setOverride_comment(item);
+		} else  if ("End Travel".equalsIgnoreCase(eventType)) {
+			Utils.endTravelTimeRequest.setOverride_comment(item);
+		} else {
+			Utils.endTimeRequest.setOverride_comment(item);
 		}
 
 	}

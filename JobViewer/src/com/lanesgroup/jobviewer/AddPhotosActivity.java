@@ -82,11 +82,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mContext = this;
 		mPhotoList = new ArrayList<HashMap<String, Object>>();
 		imageObjects = new ArrayList<ImageObject>();
-		/*
-		 * mAdapter = new SimpleAdapter(this, mPhotoList,
-		 * R.layout.add_photo_list, new String[] { "picture", "time" }, new
-		 * int[] { R.id.captured_image1, R.id.date_time_text1 });
-		 */
+		
 		HashMap<String, Object> hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
 		int count = 0;
 		if(MediaTypeFragment.addPhotoActivityimageObject == null)

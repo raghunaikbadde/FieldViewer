@@ -8,12 +8,14 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.jobviewer.db.objects.BackLogRequest;
+import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.db.objects.StartTrainingObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.db.objects.TimeSheet;
+import com.jobviewer.provider.JobViewerProviderContract.BreakTravelShiftCallTable;
 import com.jobviewer.provider.JobViewerProviderContract.StartTrainingTable;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
@@ -588,4 +590,40 @@ public class JobViewerDBHandler {
 		return startTrainingObject;
 	}
 
+	public static void saveStartTraining(Context context, BreakShiftTravelCall breakShiftTravelCall) {
+		deleteUserProfile(context);
+		ContentValues values = new ContentValues();
+		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.IS_BREAK_STARTED,
+				breakShiftTravelCall.isBreakStarted());
+		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.BREAK_START_TIME,
+				breakShiftTravelCall.getBreakStartedTime());
+		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.BREAK_END_TIME,
+				breakShiftTravelCall.getBreakEndTime());
+		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.NUMBER_OF_BREAKS,
+				breakShiftTravelCall.getNoOfBreaks());
+		
+		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.IS_SHIFT_STARTED,
+				breakShiftTravelCall.isShiftStarted());
+		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.SHIFT_START_TIME,
+				breakShiftTravelCall.getShiftStartTime());
+		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.SHIFT_END_TIME,
+				breakShiftTravelCall.getShiftEndTime());
+		
+		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.IS_CALL_STARTED,
+				breakShiftTravelCall.isCallStarted());
+		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.CALL_START_TIME,
+				breakShiftTravelCall.getCallStartTime());
+		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.CALL_END_TIME,
+				breakShiftTravelCall.getCallEndTime());
+		
+		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.IS_TRAVEL_STARTED,
+				breakShiftTravelCall.isTravelStarted());
+		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.TRAVEL_START_TIME,
+				breakShiftTravelCall.getTravelStartedTime());
+		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.TRAVEL_END_TIME,
+				breakShiftTravelCall.getTravelEndTime());
+		context.getContentResolver().insert(
+				JobViewerProviderContract.BreakTravelShiftCallTable.CONTENT_URI, values);
+		
+	}
 }

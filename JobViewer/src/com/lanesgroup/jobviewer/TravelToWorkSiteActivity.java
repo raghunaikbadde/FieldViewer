@@ -62,7 +62,7 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 			JobViewerDBHandler.saveCheckOutRemember(mContext, checkOutRemember);
 			Intent intent = new Intent(TravelToWorkSiteActivity.this,
 					EndTravelActivity.class);
-			intent.putExtra(Constants.STARTED, Constants.TRAVEL_STARTED);
+			intent.putExtra("eventType", "End Travel");
 			intent.putExtra(Constants.TIME,
 					Utils.startTravelTimeRequest.getStarted_at());
 			startActivity(intent);
@@ -94,7 +94,7 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 							.equalsIgnoreCase(Utils.timeSheetRequest
 									.getIs_overriden())) {
 				Intent intent = new Intent(this, OverrideReasoneDialog.class);
-				intent.putExtra("eventType", Constants.BREAK_STARTED);
+				intent.putExtra("eventType", "start");
 				startActivityForResult(intent,
 						Constants.RESULT_CODE_OVERRIDE_COMMENT);
 			} else if (Utils.startTravelTimeRequest != null
@@ -102,14 +102,14 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 							.equalsIgnoreCase(Utils.startTravelTimeRequest
 									.getIs_overriden())) {
 				Intent intent = new Intent(this, OverrideReasoneDialog.class);
-				intent.putExtra("eventType", Constants.TRAVEL_STARTED);
+				intent.putExtra("eventType", "travel");
 				startActivityForResult(intent,
 						Constants.RESULT_CODE_OVERRIDE_COMMENT);
 			} else {
 				startEndActvity();
 				String time = data.getExtras().get(Constants.TIME).toString();
 				Intent intent = new Intent(this, EndTravelActivity.class);
-				intent.putExtra(Constants.STARTED, Constants.TRAVEL_STARTED);
+				intent.putExtra(Constants.STARTED, "End Travel");
 				intent.putExtra(Constants.TIME, time);
 				startActivity(intent);
 			}
@@ -194,7 +194,7 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 
 	private void startEndActvity() {
 		Intent intent = new Intent(this, EndTravelActivity.class);
-		intent.putExtra(Constants.STARTED, Constants.TRAVEL_STARTED);
+		intent.putExtra("eventType", "End Travel");
 		if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
 				.getOverride_timestamp())) {
 			intent.putExtra(Constants.TIME,

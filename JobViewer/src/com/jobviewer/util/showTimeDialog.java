@@ -24,6 +24,7 @@ import com.lanesgroup.jobviewer.R;
 
 public class showTimeDialog extends Dialog implements OnClickListener {
 
+	private TextView mTitle,mDesc;
 	private TextView mTime;
 	private CheckBox mCheckOverride;
 	private Button mTimeContinue, mTimeCancel;
@@ -49,20 +50,31 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 		mContext = context;
 		mCallback = callback;
 		mTime = (TextView) findViewById(R.id.time);
+		mTitle = (TextView) findViewById(R.id.dialog_info);
+		mDesc = (TextView) findViewById(R.id.your_break_text);
+		
 		mCurrentTime = new SimpleDateFormat("HH:mm:ss dd MMM yyyy")
 				.format(Calendar.getInstance().getTime());
 		if ("start".equalsIgnoreCase(eventType)) {
 			Utils.timeSheetRequest.setStarted_at(mCurrentTime);
 		} else if ("travel".equalsIgnoreCase(eventType)) {
+			mTitle.setText(mContext.getResources().getString(R.string.start_travel));
+			mDesc.setText(mContext.getResources().getString(R.string.your_travel_start_time));
 			Utils.startTravelTimeRequest.setStarted_at(mCurrentTime);
+		} else if("End Travel".equalsIgnoreCase(eventType)) {
+			mTitle.setText(mContext.getResources().getString(R.string.end_travel_str));
+			mDesc.setText(mContext.getResources().getString(R.string.your_travel_end_time));
+			Utils.endTravelTimeRequest.setStarted_at(mCurrentTime);
 		} else {
+			mTitle.setText(mContext.getResources().getString(R.string.end_break_str));
+			mDesc.setText(mContext.getResources().getString(R.string.your_break_end_time));
 			Utils.endTimeRequest.setStarted_at(mCurrentTime);
 		}
 		User userProfile = JobViewerDBHandler.getUserProfile(mContext);
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getContext());
 		if (!Utils.isNullOrEmpty(userProfile.getUserid())) {
-			if ("start".equalsIgnoreCase(eventType)) {
+			if ("start".equalsIgnoreCase(eventType)) {				
 				Utils.timeSheetRequest.setUser_id(userProfile.getEmail());
 				if (!Utils.isNullOrEmpty(checkOutRemember.getVistecId())) {
 					Utils.timeSheetRequest.setReference_id(checkOutRemember
@@ -76,6 +88,14 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 							.setReference_id(checkOutRemember.getVistecId());
 				}
 				Utils.startTravelTimeRequest.setRecord_for(userProfile
+						.getEmail());
+			} else if ("End Travel".equalsIgnoreCase(eventType)) {
+				Utils.endTravelTimeRequest.setUser_id(userProfile.getEmail());
+				if (!Utils.isNullOrEmpty(checkOutRemember.getVistecId())) {
+					Utils.endTravelTimeRequest
+							.setReference_id(checkOutRemember.getVistecId());
+				}
+				Utils.endTravelTimeRequest.setRecord_for(userProfile
 						.getEmail());
 			} else {
 				Utils.endTimeRequest.setUser_id(userProfile.getEmail());
@@ -118,6 +138,8 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 					Utils.timeSheetRequest.setIs_overriden("true");
 				} else if ("travel".equalsIgnoreCase(eventType)) {
 					Utils.startTravelTimeRequest.setIs_overriden("true");
+				} else if ("End Travel".equalsIgnoreCase(eventType)) {
+					Utils.endTravelTimeRequest.setIs_overriden("true");
 				} else {
 					Utils.endTimeRequest.setIs_overriden("true");
 				}

@@ -113,6 +113,10 @@
         <activity
             android:name=".ShiftOrCallEndActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".EndBreakActivity"
+            android:screenOrientation="portrait" />
+        
 
         <receiver
             android:name="com.jobviewer.network.NetworkChangeReceiver"

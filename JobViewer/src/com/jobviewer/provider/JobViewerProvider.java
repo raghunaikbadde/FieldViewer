@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.jobviewer.provider.JobViewerProviderContract.BackLogTable;
+import com.jobviewer.provider.JobViewerProviderContract.BreakTravelShiftCallTable;
 import com.jobviewer.provider.JobViewerProviderContract.Image;
 import com.jobviewer.provider.JobViewerProviderContract.QuestionSetTable;
 import com.jobviewer.provider.JobViewerProviderContract.ShoutAboutSafetyTable;
@@ -34,6 +35,7 @@ public class JobViewerProvider extends ContentProvider {
 	private static final int TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = 8;
 	private static final int TABLE_SHOUT_ABOUT_SAFETY = 9;
 	private static final int TABLE_START_TRAINING = 10;
+	private static final int TABLE_BREAK_TRAVEL_SHIFT_CALL = 11;
 	// prepare the UriMatcher
 	private static final UriMatcher URI_MATCHER;
 	static {
@@ -58,6 +60,8 @@ public class JobViewerProvider extends ContentProvider {
 				TABLE_SHOUT_ABOUT_SAFETY);
 		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "StartTrainingTable",
 				TABLE_START_TRAINING);
+		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "BreakTravelShiftCallTable",
+				TABLE_BREAK_TRAVEL_SHIFT_CALL);
 		
 	}
 
@@ -93,6 +97,8 @@ public class JobViewerProvider extends ContentProvider {
 			return ShoutAboutSafetyTable.CONTENT_TYPE;
 		case TABLE_START_TRAINING:
 			return StartTrainingTable.CONTENT_TYPE;
+		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
+			return BreakTravelShiftCallTable.CONTENT_TYPE;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -139,6 +145,9 @@ public class JobViewerProvider extends ContentProvider {
 			return getUriForId(id, uri);
 		case TABLE_START_TRAINING:
 			id = db.insert(JobViewerSchema.TABLE_START_TRAINING, null, values);
+			return getUriForId(id, uri);
+		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
+			id = db.insert(JobViewerSchema.TABLE_BREAK_TRAVEL_SHIFT_CALL, null, values);
 			return getUriForId(id, uri);
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -207,6 +216,9 @@ public class JobViewerProvider extends ContentProvider {
 		case TABLE_START_TRAINING:
 			queryBuilder.setTables(JobViewerSchema.TABLE_START_TRAINING);
 			break;
+		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
+			queryBuilder.setTables(JobViewerSchema.TABLE_BREAK_TRAVEL_SHIFT_CALL);
+			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -267,6 +279,10 @@ public class JobViewerProvider extends ContentProvider {
 			break;
 		case TABLE_START_TRAINING:
 			deleteCount = db.delete(JobViewerSchema.TABLE_START_TRAINING, selection, 
+					selectionArgs);
+			break;
+		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
+			deleteCount = db.delete(JobViewerSchema.TABLE_BREAK_TRAVEL_SHIFT_CALL, selection, 
 					selectionArgs);
 			break;
 		default:
@@ -331,6 +347,10 @@ public class JobViewerProvider extends ContentProvider {
 			break;
 		case TABLE_START_TRAINING:
 			updateCount = db.update(JobViewerSchema.TABLE_START_TRAINING, values, 
+					selection, selectionArgs);
+			break;
+		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
+			updateCount = db.update(JobViewerSchema.TABLE_BREAK_TRAVEL_SHIFT_CALL, values, 
 					selection, selectionArgs);
 			break;
 		default:

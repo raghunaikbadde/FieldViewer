@@ -2,6 +2,7 @@ package com.jobviewer.provider;
 
 import com.jobviewer.provider.JobViewerProviderContract.AddPhotosScreenSavedImages;
 import com.jobviewer.provider.JobViewerProviderContract.BackLogTable;
+import com.jobviewer.provider.JobViewerProviderContract.BreakTravelShiftCallTable;
 import com.jobviewer.provider.JobViewerProviderContract.CheckOutRemember;
 import com.jobviewer.provider.JobViewerProviderContract.Image;
 import com.jobviewer.provider.JobViewerProviderContract.QuestionSetTable;
@@ -24,6 +25,7 @@ public interface JobViewerSchema {
 	public static final String TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = "AddPhotosScreenSavedImages";
 	public static final String TABLE_SHOUT_ABOUT_SAFETY = "ShoutAboutSafetyTable";
 	public static final String TABLE_START_TRAINING = "StartTrainingTable";
+	public static final String TABLE_BREAK_TRAVEL_SHIFT_CALL = "BreakTravelShiftCallTable";
 
 	public static final String CREATE_TABLE_USER = "create table " + TABLE_USER
 			+ "(" + User._ID + " integer primary key autoincrement,"
@@ -132,4 +134,18 @@ public interface JobViewerSchema {
 		+ StartTrainingTable.TRAINING_START_TIME 
 		+ " text,"
 		+ StartTrainingTable.TRAINING_END_TIME + " text);";
+	
+	public static final String CREATE_TABLE_BREAK_TRAVEL_SHIFT_CALL = "create table " + TABLE_BREAK_TRAVEL_SHIFT_CALL
+			+ "(" + User._ID + " integer primary key autoincrement,"
+			+ BreakTravelShiftCallTable.IS_BREAK_STARTED + " BOOLEAN," + 
+			BreakTravelShiftCallTable.BREAK_START_TIME + " text,"+BreakTravelShiftCallTable.BREAK_END_TIME + " text,"
+			+ BreakTravelShiftCallTable.NUMBER_OF_BREAKS + " INT," + BreakTravelShiftCallTable.IS_CALL_STARTED + " BOOLEAN"
+					+ "," + BreakTravelShiftCallTable.CALL_START_TIME + " text,"
+					 + BreakTravelShiftCallTable.CALL_END_TIME + " text,"
+					  + BreakTravelShiftCallTable.IS_SHIFT_STARTED + " BOOLEAN"
+					+ "," + BreakTravelShiftCallTable.SHIFT_START_TIME + " text,"
+					 + BreakTravelShiftCallTable.SHIFT_END_TIME + " text,"
+					 + BreakTravelShiftCallTable.IS_TRAVEL_STARTED + " BOOLEAN"
+					+ "," + BreakTravelShiftCallTable.TRAVEL_START_TIME + " text,"
+					 + BreakTravelShiftCallTable.TRAVEL_END_TIME + " text);";
 }

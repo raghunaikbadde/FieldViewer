@@ -63,6 +63,7 @@
     <string name="confirm_work_stop">Confirm Work Stop</string>
     <string name="break_start">Break Start</string>
     <string name="your_break_start_time">Your break start time will be logged as:</string>
+    <string name="your_break_end_time">Your break end time will be logged as:</string>
     <string name="check_here_if_you_need">Check here if you need to override this system generated timestamp</string>
     <string name="cancel">Cancel</string>
     <string name="select_new_timestamp">Select New Timestamp</string>
@@ -290,5 +291,8 @@
         <item>External</item>
         <item>Internal &amp; External</item>
     </string-array>
+    <string name="break_start_time_text">Break Started:</string>
+    <string name="end_break_str">End Break</string>
+    
     
 </resources>
