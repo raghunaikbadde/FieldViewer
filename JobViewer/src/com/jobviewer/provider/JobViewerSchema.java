@@ -143,15 +143,15 @@ public interface JobViewerSchema {
 	
 	public static final String CREATE_TABLE_BREAK_TRAVEL_SHIFT_CALL = "create table " + TABLE_BREAK_TRAVEL_SHIFT_CALL
 			+ "(" + User._ID + " integer primary key autoincrement,"
-			+ BreakTravelShiftCallTable.IS_BREAK_STARTED + " BOOLEAN," + 
+			+ BreakTravelShiftCallTable.IS_BREAK_STARTED + " text," + 
 			BreakTravelShiftCallTable.BREAK_START_TIME + " text,"+BreakTravelShiftCallTable.BREAK_END_TIME + " text,"
-			+ BreakTravelShiftCallTable.NUMBER_OF_BREAKS + " INT," + BreakTravelShiftCallTable.IS_CALL_STARTED + " BOOLEAN"
+			+ BreakTravelShiftCallTable.NUMBER_OF_BREAKS + " INT," + BreakTravelShiftCallTable.IS_CALL_STARTED + " text"
 					+ "," + BreakTravelShiftCallTable.CALL_START_TIME + " text,"
 					 + BreakTravelShiftCallTable.CALL_END_TIME + " text,"
-					  + BreakTravelShiftCallTable.IS_SHIFT_STARTED + " BOOLEAN"
+					  + BreakTravelShiftCallTable.IS_SHIFT_STARTED + " text"
 					+ "," + BreakTravelShiftCallTable.SHIFT_START_TIME + " text,"
 					 + BreakTravelShiftCallTable.SHIFT_END_TIME + " text,"
-					 + BreakTravelShiftCallTable.IS_TRAVEL_STARTED + " BOOLEAN"
+					 + BreakTravelShiftCallTable.IS_TRAVEL_STARTED + " text"
 					+ "," + BreakTravelShiftCallTable.TRAVEL_START_TIME + " text,"
 					 + BreakTravelShiftCallTable.TRAVEL_END_TIME + " text);";
 }

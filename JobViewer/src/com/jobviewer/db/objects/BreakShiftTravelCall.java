@@ -3,28 +3,28 @@ package com.jobviewer.db.objects;
 import java.util.Date;
 
 public class BreakShiftTravelCall {
-	private boolean isBreakStarted;
+	private String isBreakStarted;
 	private String breakStartedTime;		
 	private String breakEndTime;
 	
-	private boolean isShiftStarted;
+	private String isShiftStarted;
 	private String shiftStartTime;
 	private String shiftEndTime;
 	
-	private boolean isCallStarted;
+	private String isCallStarted;
 	private String callStartTime;
 	private String callEndTime;
 	
 	private int noOfBreaks;
 	
-	private boolean isTravelStarted;
+	private String isTravelStarted;
 	private String travelStartedTime;		
 	private String travelEndTime;
 
-	public boolean isBreakStarted() {
+	public String isBreakStarted() {
 		return isBreakStarted;
 	}
-	public void setBreakStarted(boolean isBreakStarted) {
+	public void setBreakStarted(String isBreakStarted) {
 		this.isBreakStarted = isBreakStarted;
 	}
 	public String getBreakStartedTime() {
@@ -39,10 +39,10 @@ public class BreakShiftTravelCall {
 	public void setBreakEndTime(String breakEndTime) {
 		this.breakEndTime = breakEndTime;
 	}
-	public boolean isShiftStarted() {
+	public String isShiftStarted() {
 		return isShiftStarted;
 	}
-	public void setShiftStarted(boolean isShiftStarted) {
+	public void setShiftStarted(String isShiftStarted) {
 		this.isShiftStarted = isShiftStarted;
 	}
 	public String getShiftStartTime() {
@@ -57,10 +57,10 @@ public class BreakShiftTravelCall {
 	public void setShiftEndTime(String shiftEndTime) {
 		this.shiftEndTime = shiftEndTime;
 	}
-	public boolean isCallStarted() {
+	public String isCallStarted() {
 		return isCallStarted;
 	}
-	public void setCallStarted(boolean isCallStarted) {
+	public void setCallStarted(String isCallStarted) {
 		this.isCallStarted = isCallStarted;
 	}
 	public String getCallStartTime() {
@@ -81,10 +81,10 @@ public class BreakShiftTravelCall {
 	public void setNoOfBreaks(int noOfBreaks) {
 		this.noOfBreaks = noOfBreaks;
 	}
-	public boolean isTravelStarted() {
+	public String isTravelStarted() {
 		return isTravelStarted;
 	}
-	public void setTravelStarted(boolean isTravelStarted) {
+	public void setTravelStarted(String isTravelStarted) {
 		this.isTravelStarted = isTravelStarted;
 	}
 	public String getTravelStartedTime() {

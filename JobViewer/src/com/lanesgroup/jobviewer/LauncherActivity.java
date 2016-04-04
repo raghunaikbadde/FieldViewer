@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.TimeSheet;
 import com.jobviewer.provider.JobViewerDBHandler;
@@ -18,6 +19,10 @@ public class LauncherActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		/*if(isBreakStartedShown()){
+			return;
+		}*/
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(this);
 		if (checkOutRemember != null
@@ -61,5 +66,23 @@ public class LauncherActivity extends BaseActivity {
 
 		launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(launcherIntent);
+	}
+
+	private boolean isBreakStartedShown() {
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(this);
+		try{
+			if(breakShiftTravelCall.isBreakStarted().equalsIgnoreCase(Constants.YES_CONSTANT)){
+				launcherIntent = new Intent(this, EndBreakActivity.class);
+				launcherIntent.putExtra(Constants.TIME, breakShiftTravelCall.getBreakStartedTime());
+				launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(launcherIntent);
+				return true;
+			} else {
+				return false;
+			}
+		}catch(Exception e){
+			return false;
+			
+		}
 	}
 }

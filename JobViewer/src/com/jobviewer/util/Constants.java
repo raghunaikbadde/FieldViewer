@@ -24,4 +24,7 @@ public class Constants {
 	public static final String END_TRAINING_MESSAGE = "Are you ready to end training?";
 	public static final String END_TRAINING_HEADER = "Training Confirmation";
 	
+	public static final String YES_CONSTANT = "YES";
+	public static final String NO_CONSTANT = "NO";
+	
 }

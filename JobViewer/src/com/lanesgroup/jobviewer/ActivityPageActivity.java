@@ -122,7 +122,7 @@ public class ActivityPageActivity extends BaseActivity implements
 			mStart.setTag(getResources().getString(R.string.start_text));
 		}
 		}
-		Log.d(Utils.LOG_TAG,GsonConverter.getInstance().encodeToJsonString(Utils.checkOutObject));
+		
 		if(Utils.checkOutObject.getJobSelected().equalsIgnoreCase(ActivityConstants.JOB_SELECTED_SHIFT)){
 			mStartTravel.setText(getResources().getString(R.string.start_break));
 		}

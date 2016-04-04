@@ -12,10 +12,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.provider.JobViewerProviderContract.BreakTravelShiftCallTable;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
@@ -33,7 +35,7 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 	Button mEndBreak;
 	TextView mBreakTime;
 	private String eventType = "End Break";
-
+	BreakShiftTravelCall breakTravelShiftCallTable;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -53,6 +55,20 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 		mBreakTime.append(time);
 		mEndBreak.setOnClickListener(this);
 		mContext = EndBreakActivity.this;
+		
+		
+		saveBreakShftCAllTravelDataOnStartUp(time);
+	}
+
+	private void saveBreakShftCAllTravelDataOnStartUp(String time) {
+		breakTravelShiftCallTable = JobViewerDBHandler.getBreakShiftTravelCall(mContext);
+		if(breakTravelShiftCallTable == null){
+			breakTravelShiftCallTable = new BreakShiftTravelCall();
+		}
+		breakTravelShiftCallTable.setBreakStarted(Constants.YES_CONSTANT);
+		breakTravelShiftCallTable.setBreakStartedTime(time);
+	
+		JobViewerDBHandler.saveBreakShiftTravelCall(mContext, breakTravelShiftCallTable);
 	}
 
 	@Override
@@ -106,8 +122,8 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 						Utils.REQUEST_TYPE_WORK);
 				// savePaidEndTravelinBackLogDb();
 				JobViewerDBHandler.saveTimeSheet(this, Utils.endTimeRequest,
-						CommsConstant.HOST + CommsConstant.END_BREAK_API);
-				finish();
+						CommsConstant.HOST + CommsConstant.END_BREAK_API);				
+				
 				startHomePage();
 			}
 		}
@@ -141,8 +157,8 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
-					String result = (String) msg.obj;
-					finish();
+					String result = (String) msg.obj;					
+					
 					startHomePage();
 					break;
 				case HttpConnection.DID_ERROR:
@@ -162,10 +178,33 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 	}
 
 	private void startHomePage() {
-		Intent homePageIntent = new Intent(EndBreakActivity.this,
-				ActivityPageActivity.class);
-		startActivity(homePageIntent);
+		
+		if(saveBreakEndDB()){
+			Intent homePageIntent = new Intent(EndBreakActivity.this,
+					ActivityPageActivity.class);
+			finish();
+			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(this);
+			startActivity(homePageIntent);
+		}
 	}
+
+	private boolean saveBreakEndDB() {
+		breakTravelShiftCallTable.setBreakEndTime(Utils.getCurrentDateAndTime());
+		int numberOfBreaks =0;
+		try{
+			numberOfBreaks = breakTravelShiftCallTable.getNoOfBreaks();
+		}catch(Exception e){
+			numberOfBreaks = 0;
+		}
+		numberOfBreaks = numberOfBreaks+1;
+		breakTravelShiftCallTable.setNoOfBreaks(numberOfBreaks);
+		breakTravelShiftCallTable.setBreakStarted(Constants.NO_CONSTANT);
+		JobViewerDBHandler.saveBreakShiftTravelCall(mContext, breakTravelShiftCallTable);
+		
+		
+		return true;
+	}
+	
 	@Override
 	public void onBackPressed() {
 	}
