@@ -23,6 +23,7 @@ import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.SelectClockInActivityDialog;
 import com.jobviewer.util.Utils;
@@ -88,12 +89,18 @@ public class WelcomeActivity extends BaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
     	if (requestCode == 1003 && resultCode == RESULT_OK) {
     		selected = data.getExtras().getString("Selected");
+    		
+			if (Utils.checkOutObject==null) {
+				Utils.checkOutObject=new CheckOutObject();
+			}
     		Intent intent;
 			if (selected.equalsIgnoreCase("Shift")) {
 				Utils.startShiftTimeRequest = new TimeSheetRequest();
 				JobViewerDBHandler.saveTimeSheet(WelcomeActivity.this, Utils.startShiftTimeRequest, CommsConstant.START_SHIFT_API);
 				intent = new Intent(WelcomeActivity.this,
 						ClockInActivity.class);
+				Utils.checkOutObject.setJobSelected(ActivityConstants.JOB_SELECTED_SHIFT);
+				JobViewerDBHandler.saveCheckOutRemember(WelcomeActivity.this, Utils.checkOutObject);
 				intent.putExtra(Utils.SHIFT_START, Utils.SHIFT_START);
 			} else {
 				intent = new Intent(WelcomeActivity.this,
@@ -101,6 +108,8 @@ public class WelcomeActivity extends BaseActivity {
 				Utils.callStartTimeRequest = new TimeSheetRequest();
 				intent.putExtra(Utils.CALLING_ACTIVITY,
 						WelcomeActivity.this.getClass().getSimpleName());
+				Utils.checkOutObject.setJobSelected(ActivityConstants.JOB_SELECTED_ON_CALL);
+				JobViewerDBHandler.saveCheckOutRemember(WelcomeActivity.this, Utils.checkOutObject);
 				intent.putExtra(Utils.CALL_START, Utils.CALL_START);
 			}
 			startActivity(intent);

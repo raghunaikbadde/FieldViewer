@@ -88,7 +88,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		date_time_text.setSelected(true);
 		
 		vehicleRegistrationNumber.setText(vehicleRegNo);
-		if ("shift".equalsIgnoreCase(Utils.checkOutObject.getJobSelected())) {
+		if (ActivityConstants.JOB_SELECTED_SHIFT.equalsIgnoreCase(Utils.checkOutObject.getJobSelected())) {
 			mEndOnCall.setText("End Shift");
 		} else {
 			mEndOnCall.setText("End Call");
@@ -123,7 +123,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		}
 		}
 		Log.d(Utils.LOG_TAG,GsonConverter.getInstance().encodeToJsonString(Utils.checkOutObject));
-		if(Utils.checkOutObject.getJobSelected().contains("shift")){
+		if(Utils.checkOutObject.getJobSelected().equalsIgnoreCase(ActivityConstants.JOB_SELECTED_SHIFT)){
 			mStartTravel.setText(getResources().getString(R.string.start_break));
 		}
 	}
@@ -312,7 +312,7 @@ public class ActivityPageActivity extends BaseActivity implements
 	public void onContinue() {
 		if (!Utils.isInternetAvailable(mContext)) {
 			
-			if(Utils.checkOutObject.getJobSelected().contains("shift")){
+			if(Utils.checkOutObject.getJobSelected().contains(ActivityConstants.JOB_SELECTED_SHIFT)){
 				JobViewerDBHandler.saveTimeSheet(this,
 						Utils.timeSheetRequest,
 						CommsConstant.START_BREAK_API);
@@ -327,7 +327,7 @@ public class ActivityPageActivity extends BaseActivity implements
 				startEndActvity(time);
 			}
 		} else {
-			if(Utils.checkOutObject.getJobSelected().contains("shift")){
+			if(Utils.checkOutObject.getJobSelected().contains(ActivityConstants.JOB_SELECTED_SHIFT)){
 				executeStartBreakService();
 			} else {
 				executeStartTravelService();
@@ -400,7 +400,7 @@ public class ActivityPageActivity extends BaseActivity implements
 				
 				
 				// saveStartBreakinToBackLogDb();
-				if(Utils.checkOutObject.getJobSelected().contains("shift")){
+				if(Utils.checkOutObject.getJobSelected().contains(ActivityConstants.JOB_SELECTED_SHIFT)){
 					startEndBreakActivity();
 				}else{				
 					startEndActvity(Utils.startTravelTimeRequest.getOverride_timestamp());

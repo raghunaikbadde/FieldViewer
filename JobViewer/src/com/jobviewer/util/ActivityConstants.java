@@ -25,4 +25,6 @@ public class ActivityConstants {
 	public static final String VEHICLE_REGISTRATION_NUMBER = "VEHICLE_REGISTRATION_NUMBER";
 	public static final String VEHICLE_MILEAGE = "VEHICLE_MILEAGE";
 	public static final String IMAGE_SEND_STATUS="send";
+	public static final String JOB_SELECTED_SHIFT = "shift";
+	public static final String JOB_SELECTED_ON_CALL = "onCall";
 }

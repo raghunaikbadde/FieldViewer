@@ -22,7 +22,7 @@ import android.widget.SimpleAdapter;
 
 import com.lanesgroup.jobviewer.R;
 
-public class SelectClockInActivityDialog extends Activity{
+public class SelectClockInActivityDialog extends Activity {
 
 	private Button start, cancel;
 
@@ -64,23 +64,24 @@ public class SelectClockInActivityDialog extends Activity{
 
 		lv.setAdapter(adapter);
 
-lv.setOnItemClickListener(new OnItemClickListener() {
+		lv.setOnItemClickListener(new OnItemClickListener() {
 
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		RadioButton rb = (RadioButton) view.findViewById(R.id.checkBox2);
-		if (!rb.isChecked()) // OFF->ON
-		{
-			for (HashMap<String, Object> m : m_data)
-				// clean previous selected
-				m.put("checked", false);
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				RadioButton rb = (RadioButton) view
+						.findViewById(R.id.checkBox2);
+				if (!rb.isChecked()) // OFF->ON
+				{
+					for (HashMap<String, Object> m : m_data)
+						// clean previous selected
+						m.put("checked", false);
 
-			m_data.get(position).put("checked", true);
-			adapter.notifyDataSetChanged();
-		}
-	}
-});
+					m_data.get(position).put("checked", true);
+					adapter.notifyDataSetChanged();
+				}
+			}
+		});
 
 		// show result
 		((Button) findViewById(R.id.dialog_ok))
@@ -100,11 +101,11 @@ lv.setOnItemClickListener(new OnItemClickListener() {
 							}
 						}
 						String result = "";
-						if(r==-1)
+						if (r == -1)
 							return;
-						else if(r==0)
+						else if (r == 0)
 							result = SHIFT;
-						else if (r==1)
+						else if (r == 1)
 							result = ON_CALL;
 						Intent intent = new Intent();
 						intent.putExtra("Selected", result);
@@ -112,13 +113,14 @@ lv.setOnItemClickListener(new OnItemClickListener() {
 						finish();
 					}
 				});
-		
-		((Button) findViewById(R.id.dialog_cancel)).setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
+
+		((Button) findViewById(R.id.dialog_cancel))
+				.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				});
 	}
 }

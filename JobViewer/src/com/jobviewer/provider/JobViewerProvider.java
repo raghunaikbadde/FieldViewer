@@ -161,6 +161,7 @@ public class JobViewerProvider extends ContentProvider {
 			return getUriForId(id, uri);
 		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
 			id = db.insert(JobViewerSchema.TABLE_BREAK_TRAVEL_SHIFT_CALL, null, values);
+			return getUriForId(id, uri);
 		case TABLE_IMAGE_SEND_STATUS:
 			id = db.insert(JobViewerSchema.TABLE_IMAGE_SEND_STATUS, null,
 					values);
