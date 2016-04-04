@@ -30,6 +30,7 @@
                 android:textSize="@dimen/title_text_size70" />
 
             <LinearLayout
+                android:id="@+id/shiftHoursSummary"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/shout_logo_right_margin388"
                 android:layout_marginLeft="@dimen/white_lato_regular_big79"
@@ -200,6 +201,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/shiftCompleteThankYouLayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/capture_button_height220"
                 android:layout_marginBottom="@dimen/dialog_clock_icon_left_right_margin40"

@@ -303,4 +303,6 @@
     <string name="shift_end_time">Shift end time:</string>
     <string name="user_ending_shift">User ending shift:</string>
     <string name="vehicle_used">Vehicle Used:</string>
+    <string name="call_complete_str">on-call time complete</string>
+    
 </resources>

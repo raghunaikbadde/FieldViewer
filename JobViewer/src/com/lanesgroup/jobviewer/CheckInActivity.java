@@ -47,6 +47,7 @@ public class CheckInActivity extends BaseActivity implements
 		enter_mileage_edittext = (EditText) findViewById(R.id.enter_mileage_edittext);
 		cancel_button = (Button) findViewById(R.id.cancel_button);
 		next_button = (Button) findViewById(R.id.next_button);
+		cancel_button.setOnClickListener(this);
 		updateData();
 	}
 

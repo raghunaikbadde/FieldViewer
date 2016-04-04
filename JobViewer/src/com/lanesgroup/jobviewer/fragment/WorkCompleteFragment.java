@@ -307,6 +307,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener{
 			
 		}
 		private void startWorkSuccessActivity() {
+			getActivity().finish();
 			Intent workSuccessIntent = new Intent(getActivity(),WorkSuccessActivity.class);
 			startActivity(workSuccessIntent);
 		}

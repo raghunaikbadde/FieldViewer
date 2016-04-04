@@ -83,7 +83,7 @@ public class EndShiftReturnVehicleActivity extends BaseActivity implements
 	}
 
 	private void launchEndOnCallActivity() {
-
+		finish();
 		Intent endOnCallActivity = new Intent(
 				EndShiftReturnVehicleActivity.this, EndOnCallActivity.class);
 		endOnCallActivity.putExtra("mileage",mMileage.getText().toString());

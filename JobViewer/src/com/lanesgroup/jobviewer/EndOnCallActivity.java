@@ -8,6 +8,7 @@ import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,9 +23,10 @@ import android.widget.TextView;
 public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 
 	Button mCancel,mEndOnCall;
-	TextView mUserEmail,mVehileUsedHeading,mVehicleUsed,mMileage,mProgressText,mEndTime,mStrokeText;
+	TextView mUserEmail,mVehileUsedHeading,mVehicleUsed,mMileage,mProgressText,mEndTime,mStrokeText,mHeading;
 	ProgressBar progressBar;
 	CheckBox mConfirmCheckBox;
+	CheckOutObject checkOutRemember;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,6 +39,7 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 	private void initUI(){
 		mCancel = (Button)findViewById(R.id.cancel);
 		mEndOnCall = (Button) findViewById(R.id.endoncall);
+		mHeading = (TextView)findViewById(R.id.clockin_text);
 		mEndTime = (TextView)findViewById(R.id.date_time_text);
 		mUserEmail = (TextView)findViewById(R.id.user_email_text);
 		mStrokeText = (TextView)findViewById(R.id.stroke_text4);
@@ -66,11 +69,15 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 	private void updateDetailsOnUI() {
 		User user = JobViewerDBHandler.getUserProfile(EndOnCallActivity.this);
 		String email = user.getEmail();
-		CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(EndOnCallActivity.this);
+		checkOutRemember = JobViewerDBHandler.getCheckOutRemember(EndOnCallActivity.this);
 		String vehicleRegistrationNumber = checkOutRemember.getVehicleRegistration();
 		Bundle bundle = getIntent().getExtras();
 		String mileage = "";
 		String progressStep = "";
+		if(checkOutRemember.getJobSelected().contains("shift")){
+			mHeading.setText(getResources().getString(R.string.end_shift_screen_title));
+			mEndOnCall.setText(getResources().getString(R.string.end_shift_screen_title));
+		}
 		if(bundle!=null && bundle.containsKey("mileage")){
 			mileage = bundle.getString("mileage");
 		}
@@ -114,6 +121,15 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 			finish();
 		} else if (v==mEndOnCall){
 			
+			if(checkOutRemember.getJobSelected().contains("shift")){
+				Intent intent = new Intent(EndOnCallActivity.this,ShiftOrCallEndActivity.class);
+				finish();
+				startActivity(intent);
+			} else{
+				Intent intent = new Intent(EndOnCallActivity.this,ShiftOrCallEndActivity.class);
+				finish();
+				startActivity(intent);
+			}
 		}
 	}
 	

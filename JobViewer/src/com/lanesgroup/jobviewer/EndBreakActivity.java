@@ -107,6 +107,7 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 				// savePaidEndTravelinBackLogDb();
 				JobViewerDBHandler.saveTimeSheet(this, Utils.endTimeRequest,
 						CommsConstant.HOST + CommsConstant.END_BREAK_API);
+				finish();
 				startHomePage();
 			}
 		}
@@ -141,6 +142,7 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
 					String result = (String) msg.obj;
+					finish();
 					startHomePage();
 					break;
 				case HttpConnection.DID_ERROR:
