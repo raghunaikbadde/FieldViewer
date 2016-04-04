@@ -22,7 +22,6 @@ import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
-import com.jobviewer.util.SelectClockInActivityDialog;
 import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.StartUpResponse;

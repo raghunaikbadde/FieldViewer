@@ -30,7 +30,7 @@
         </activity>
         
         <activity
-            android:name="com.jobviewer.util.SelectClockInActivityDialog"
+            android:name=".SelectClockInActivityDialog"
             android:screenOrientation="portrait" 
             android:theme="@android:style/Theme.Dialog" />
         

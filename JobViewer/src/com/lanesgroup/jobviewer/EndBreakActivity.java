@@ -164,5 +164,8 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 				ActivityPageActivity.class);
 		startActivity(homePageIntent);
 	}
+	@Override
+	public void onBackPressed() {
+	}
 
 }
