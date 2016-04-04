@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -32,12 +31,12 @@ public class EndTravelActivity extends BaseActivity implements
 	private Button mStartTravel;
 	private TextView mTravelTime, mTitleText;
 	private String TRAVEL_STARTED = "Travel started: ";
-	private String ON_BREAK = "On Break";
+	//private String ON_BREAK = "On Break";
 	private String ENROUTE = "Enroute to Work";
-	private String BREAK_TIME = "Break started: ";
-	private String END_BREAK = "End Break";
+	//private String BREAK_TIME = "Break started: ";
+	//private String END_BREAK = "End Break";
 	private String END_TRAVEL = "End Travel";
-	private boolean isBreakStarted;
+	//private boolean isBreakStarted;
 	Context mContext;
 	private String eventType;
 
@@ -219,11 +218,10 @@ public class EndTravelActivity extends BaseActivity implements
 				+ CommsConstant.END_TRAVEL_API, data, getEndTravelHandler());
 
 	}
-
+	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		exitApplication();
-		return true;
+	public void onBackPressed() {
+		exitApplication(this);
 	}
 
 	@Override

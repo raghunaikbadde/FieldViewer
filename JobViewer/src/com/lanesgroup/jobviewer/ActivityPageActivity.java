@@ -496,7 +496,7 @@ public class ActivityPageActivity extends BaseActivity implements
 	
 	@Override
 	public void onBackPressed() {
-		exitApplication();
+		exitApplication(this);
 	}
 
 	@Override

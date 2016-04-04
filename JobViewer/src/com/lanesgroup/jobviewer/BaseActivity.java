@@ -1,6 +1,5 @@
 package com.lanesgroup.jobviewer;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,12 +16,11 @@ public class BaseActivity extends AppCompatActivity {
 		context = this;
 		getSupportActionBar().hide();
 	}
-	public static void exitApplication() {
-		Intent j = new Intent(Intent.ACTION_MAIN);
-		j.addCategory(Intent.CATEGORY_HOME);
-		j.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		context.startActivity(j);
-		((Activity) context).finish();
-		System.exit(0);
+	public static void exitApplication(BaseActivity baseActivity) {
+		Intent intent = new Intent(context, WelcomeActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.putExtra("Exit me", true);
+		context.startActivity(intent);
+		baseActivity.finish();
 	}
 }

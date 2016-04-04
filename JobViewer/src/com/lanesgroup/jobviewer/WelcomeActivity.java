@@ -1,6 +1,5 @@
 package com.lanesgroup.jobviewer;
 
-import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -9,10 +8,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 
@@ -170,6 +167,6 @@ public class WelcomeActivity extends BaseActivity {
 	}
 	@Override
 	public void onBackPressed() {
-		exitApplication();
+		exitApplication(this);
 	}
 }
