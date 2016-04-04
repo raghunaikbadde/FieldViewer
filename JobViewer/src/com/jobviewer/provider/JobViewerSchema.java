@@ -5,10 +5,11 @@ import com.jobviewer.provider.JobViewerProviderContract.BackLogTable;
 import com.jobviewer.provider.JobViewerProviderContract.BreakTravelShiftCallTable;
 import com.jobviewer.provider.JobViewerProviderContract.CheckOutRemember;
 import com.jobviewer.provider.JobViewerProviderContract.Image;
+import com.jobviewer.provider.JobViewerProviderContract.ImageSendStatusTable;
 import com.jobviewer.provider.JobViewerProviderContract.QuestionSetTable;
 import com.jobviewer.provider.JobViewerProviderContract.ShoutAboutSafetyTable;
-import com.jobviewer.provider.JobViewerProviderContract.TimeSheet;
 import com.jobviewer.provider.JobViewerProviderContract.StartTrainingTable;
+import com.jobviewer.provider.JobViewerProviderContract.TimeSheet;
 import com.jobviewer.provider.JobViewerProviderContract.User;
 
 public interface JobViewerSchema {
@@ -26,11 +27,16 @@ public interface JobViewerSchema {
 	public static final String TABLE_SHOUT_ABOUT_SAFETY = "ShoutAboutSafetyTable";
 	public static final String TABLE_START_TRAINING = "StartTrainingTable";
 	public static final String TABLE_BREAK_TRAVEL_SHIFT_CALL = "BreakTravelShiftCallTable";
-
+	public static final String TABLE_IMAGE_SEND_STATUS = "ImageSendStatusTable";
+	
 	public static final String CREATE_TABLE_USER = "create table " + TABLE_USER
 			+ "(" + User._ID + " integer primary key autoincrement,"
 			+ User.FIRST_NAME + " text," + User.LAST_NAME + " text,"
 			+ User.EMAIL + " text," + User.USER_ID + " text);";
+	
+	public static final String CREATE_TABLE_IMAGE_SEND_STATUS = "create table "
+			+ TABLE_IMAGE_SEND_STATUS + "(" + ImageSendStatusTable._ID
+			+ ImageSendStatusTable.IMAGE_SEND_SATTUS + " text);";
 	public static final String CREATE_TABLE_TIMESHEET = "create table "
 			+ TABLE_TIMESHEET + "(" + TimeSheet._ID
 			+ " integer primary key autoincrement," + TimeSheet.STARTED_AT

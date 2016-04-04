@@ -23,6 +23,7 @@ public class JobViewerHelper extends SQLiteOpenHelper {
 		db.execSQL(JobViewerSchema.CREATE_TABLE_SHOUT_ABOUT_SAFETY);
 		db.execSQL(JobViewerSchema.CREATE_TABLE_START_TRAINING);
 		db.execSQL(JobViewerSchema.CREATE_TABLE_BREAK_TRAVEL_SHIFT_CALL);		
+		db.execSQL(JobViewerSchema.CREATE_TABLE_IMAGE_SEND_STATUS);
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import com.jobviewer.provider.JobViewerProviderContract.BackLogTable;
 import com.jobviewer.provider.JobViewerProviderContract.BreakTravelShiftCallTable;
 import com.jobviewer.provider.JobViewerProviderContract.Image;
+import com.jobviewer.provider.JobViewerProviderContract.ImageSendStatusTable;
 import com.jobviewer.provider.JobViewerProviderContract.QuestionSetTable;
 import com.jobviewer.provider.JobViewerProviderContract.ShoutAboutSafetyTable;
 import com.jobviewer.provider.JobViewerProviderContract.TimeSheet;
@@ -36,6 +37,7 @@ public class JobViewerProvider extends ContentProvider {
 	private static final int TABLE_SHOUT_ABOUT_SAFETY = 9;
 	private static final int TABLE_START_TRAINING = 10;
 	private static final int TABLE_BREAK_TRAVEL_SHIFT_CALL = 11;
+	private static final int TABLE_IMAGE_SEND_STATUS = 12;
 	// prepare the UriMatcher
 	private static final UriMatcher URI_MATCHER;
 	static {
@@ -54,7 +56,8 @@ public class JobViewerProvider extends ContentProvider {
 				"QuestionSetTable", TABLE_QUESTION_SET);
 		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "BackLogTable",
 				TABLE_BACK_LOG);
-		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "AddPhotosScreenSavedImages",
+		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY,
+				"AddPhotosScreenSavedImages",
 				TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES);
 		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "ShoutAboutSafetyTable",
 				TABLE_SHOUT_ABOUT_SAFETY);
@@ -62,7 +65,12 @@ public class JobViewerProvider extends ContentProvider {
 				TABLE_START_TRAINING);
 		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY, "BreakTravelShiftCallTable",
 				TABLE_BREAK_TRAVEL_SHIFT_CALL);
-		
+		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY,
+				"ShoutAboutSafetyTable", TABLE_SHOUT_ABOUT_SAFETY);
+		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY,
+				"StartTrainingTable", TABLE_START_TRAINING);
+		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY,
+				"ImageSendStatusTable", TABLE_IMAGE_SEND_STATUS);
 	}
 
 	// system calls onCreate() when it starts up the provider.
@@ -99,6 +107,8 @@ public class JobViewerProvider extends ContentProvider {
 			return StartTrainingTable.CONTENT_TYPE;
 		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
 			return BreakTravelShiftCallTable.CONTENT_TYPE;
+		case TABLE_IMAGE_SEND_STATUS:
+			return ImageSendStatusTable.CONTENT_TYPE;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -138,16 +148,22 @@ public class JobViewerProvider extends ContentProvider {
 			id = db.insert(JobViewerSchema.TABLE_BACK_LOG, null, values);
 			return getUriForId(id, uri);
 		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
-			id = db.insert(JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES, null, values);
+			id = db.insert(
+					JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES, null,
+					values);
 			return getUriForId(id, uri);
 		case TABLE_SHOUT_ABOUT_SAFETY:
-			id = db.insert(JobViewerSchema.TABLE_SHOUT_ABOUT_SAFETY, null, values);
+			id = db.insert(JobViewerSchema.TABLE_SHOUT_ABOUT_SAFETY, null,
+					values);
 			return getUriForId(id, uri);
 		case TABLE_START_TRAINING:
 			id = db.insert(JobViewerSchema.TABLE_START_TRAINING, null, values);
 			return getUriForId(id, uri);
 		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
 			id = db.insert(JobViewerSchema.TABLE_BREAK_TRAVEL_SHIFT_CALL, null, values);
+		case TABLE_IMAGE_SEND_STATUS:
+			id = db.insert(JobViewerSchema.TABLE_IMAGE_SEND_STATUS, null,
+					values);
 			return getUriForId(id, uri);
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -208,13 +224,17 @@ public class JobViewerProvider extends ContentProvider {
 			queryBuilder.setTables(JobViewerSchema.TABLE_BACK_LOG);
 			break;
 		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
-			queryBuilder.setTables(JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES);
+			queryBuilder
+					.setTables(JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES);
 			break;
 		case TABLE_SHOUT_ABOUT_SAFETY:
 			queryBuilder.setTables(JobViewerSchema.TABLE_SHOUT_ABOUT_SAFETY);
 			break;
 		case TABLE_START_TRAINING:
 			queryBuilder.setTables(JobViewerSchema.TABLE_START_TRAINING);
+			break;
+		case TABLE_IMAGE_SEND_STATUS:
+			queryBuilder.setTables(JobViewerSchema.TABLE_IMAGE_SEND_STATUS);
 			break;
 		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
 			queryBuilder.setTables(JobViewerSchema.TABLE_BREAK_TRAVEL_SHIFT_CALL);
@@ -270,20 +290,28 @@ public class JobViewerProvider extends ContentProvider {
 					selectionArgs);
 			break;
 		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
-			deleteCount = db.delete(JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES, selection,
-					selectionArgs);
+			deleteCount = db.delete(
+					JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES,
+					selection, selectionArgs);
 			break;
 		case TABLE_SHOUT_ABOUT_SAFETY:
-			deleteCount = db.delete(JobViewerSchema.TABLE_SHOUT_ABOUT_SAFETY, selection,
-					selectionArgs);
+			deleteCount = db.delete(JobViewerSchema.TABLE_SHOUT_ABOUT_SAFETY,
+					selection, selectionArgs);
 			break;
 		case TABLE_START_TRAINING:
+
 			deleteCount = db.delete(JobViewerSchema.TABLE_START_TRAINING, selection, 
 					selectionArgs);
 			break;
 		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
 			deleteCount = db.delete(JobViewerSchema.TABLE_BREAK_TRAVEL_SHIFT_CALL, selection, 
 					selectionArgs);
+			deleteCount = db.delete(JobViewerSchema.TABLE_START_TRAINING,
+					selection, selectionArgs);
+			break;
+		case TABLE_IMAGE_SEND_STATUS:
+			deleteCount = db.delete(JobViewerSchema.TABLE_IMAGE_SEND_STATUS,
+					selection, selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -338,16 +366,21 @@ public class JobViewerProvider extends ContentProvider {
 					selection, selectionArgs);
 			break;
 		case TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES:
-			updateCount = db.update(JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES, values,
-					selection, selectionArgs);
+			updateCount = db.update(
+					JobViewerSchema.TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES,
+					values, selection, selectionArgs);
 			break;
 		case TABLE_SHOUT_ABOUT_SAFETY:
-			updateCount = db.update(JobViewerSchema.TABLE_SHOUT_ABOUT_SAFETY, values,
-					selection, selectionArgs);
+			updateCount = db.update(JobViewerSchema.TABLE_SHOUT_ABOUT_SAFETY,
+					values, selection, selectionArgs);
 			break;
 		case TABLE_START_TRAINING:
-			updateCount = db.update(JobViewerSchema.TABLE_START_TRAINING, values, 
-					selection, selectionArgs);
+			updateCount = db.update(JobViewerSchema.TABLE_START_TRAINING,
+					values, selection, selectionArgs);
+			break;
+		case TABLE_IMAGE_SEND_STATUS:
+			updateCount = db.update(JobViewerSchema.TABLE_IMAGE_SEND_STATUS,
+					values, selection, selectionArgs);
 			break;
 		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
 			updateCount = db.update(JobViewerSchema.TABLE_BREAK_TRAVEL_SHIFT_CALL, values, 

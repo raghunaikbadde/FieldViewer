@@ -182,6 +182,20 @@ public class JobViewerProviderContract {
 		public static final String TRAINING_START_TIME="trainingStartTime";
 		public static final String TRAINING_END_TIME="trainingEndTime";
 	}
+	
+	public static final class ImageSendStatusTable implements BaseColumns {
+		public static final Uri CONTENT_URI = Uri.withAppendedPath(
+				JobViewerProviderContract.CONTENT_URI, "ImageSendStatusTable");
+		public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
+				+ "/vnd.jobviewer";
+		public static final String CONTENT_WALLET_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+				+ "/vnd.jobviewer";
+		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+				+ "/vnd.jobviewer.ImageSendStatusTable";
+
+		public static final String IMAGE_ID ="imageId";
+		public static final String IMAGE_SEND_SATTUS="imageSendStatus";
+	}
 
 	public static final class BreakTravelShiftCallTable implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(

@@ -11,12 +11,12 @@ import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
+import com.jobviewer.db.objects.ImageSendStatusObject;
 import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.db.objects.StartTrainingObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.db.objects.TimeSheet;
 import com.jobviewer.provider.JobViewerProviderContract.BreakTravelShiftCallTable;
-import com.jobviewer.provider.JobViewerProviderContract.StartTrainingTable;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 
@@ -503,9 +503,9 @@ public class JobViewerDBHandler {
 	}
 	
 	public static void deleteAllAddCardSavedImages(Context context) {
-		context.getContentResolver().delete(
-				JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI, null,
-				null);
+		context.getContentResolver()
+				.delete(JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI,
+						null, null);
 	}
 
 	public static void saveShoutAboutSafety(Context context,
@@ -551,28 +551,34 @@ public class JobViewerDBHandler {
 		return shoutAboutSafetyObject;
 	}
 	
-	public static void saveStartTraining(Context context, StartTrainingObject trainingStart) {
+	public static void saveStartTraining(Context context,
+			StartTrainingObject trainingStart) {
 		deleteUserProfile(context);
 		ContentValues values = new ContentValues();
-		values.put(JobViewerProviderContract.StartTrainingTable.IS_TRAINING_STARTED,
+		values.put(
+				JobViewerProviderContract.StartTrainingTable.IS_TRAINING_STARTED,
 				trainingStart.getIsTrainingStarted());
-		values.put(JobViewerProviderContract.StartTrainingTable.TRAINING_START_TIME,
+		values.put(
+				JobViewerProviderContract.StartTrainingTable.TRAINING_START_TIME,
 				trainingStart.getStartTime());
-		values.put(JobViewerProviderContract.StartTrainingTable.TRAINING_END_TIME,
+		values.put(
+				JobViewerProviderContract.StartTrainingTable.TRAINING_END_TIME,
 				trainingStart.getEndTime());
 		context.getContentResolver().insert(
-				JobViewerProviderContract.StartTrainingTable.CONTENT_URI, values);
+				JobViewerProviderContract.StartTrainingTable.CONTENT_URI,
+				values);
 	}
 
 	public static void deleteStartTraining(Context context) {
 		context.getContentResolver().delete(
-				JobViewerProviderContract.StartTrainingTable.CONTENT_URI, null, null);
+				JobViewerProviderContract.StartTrainingTable.CONTENT_URI, null,
+				null);
 	}
 	
 	public static StartTrainingObject getTrainingToolBox(Context context) {
 		Cursor cursor = context.getContentResolver().query(
-				JobViewerProviderContract.StartTrainingTable.CONTENT_URI,
-				null, null, null, null);
+				JobViewerProviderContract.StartTrainingTable.CONTENT_URI, null,
+				null, null, null);
 		StartTrainingObject startTrainingObject = null;
 		if (cursor != null && cursor.moveToFirst()) {
 			startTrainingObject = new StartTrainingObject();
@@ -626,4 +632,36 @@ public class JobViewerDBHandler {
 				JobViewerProviderContract.BreakTravelShiftCallTable.CONTENT_URI, values);
 		
 	}
+	public static void saveImageStatus(Context context,
+			ImageSendStatusObject imageSendStatusObject) {
+		ContentValues values = new ContentValues();
+		values.put(JobViewerProviderContract.ImageSendStatusTable.IMAGE_ID,
+				imageSendStatusObject.getImageId());
+		values.put(
+				JobViewerProviderContract.ImageSendStatusTable.IMAGE_SEND_SATTUS,
+				imageSendStatusObject.getStatus());
+		context.getContentResolver().insert(
+				JobViewerProviderContract.ImageSendStatusTable.CONTENT_URI,
+				values);
+	}
+
+	public static void updateImageStatusById(Context context,
+			ImageSendStatusObject imageSendStatusObject) {
+		String selection = JobViewerProviderContract.ImageSendStatusTable.IMAGE_ID
+				+ "=" + "?";
+		String[] selectionArgs = new String[] { imageSendStatusObject
+				.getImageId() };
+
+		ContentValues values = new ContentValues();
+		values.put(JobViewerProviderContract.ImageSendStatusTable.IMAGE_ID,
+				imageSendStatusObject.getImageId());
+		values.put(
+				JobViewerProviderContract.ImageSendStatusTable.IMAGE_SEND_SATTUS,
+				imageSendStatusObject.getStatus());
+		context.getContentResolver().update(
+				JobViewerProviderContract.ImageSendStatusTable.CONTENT_URI,
+				values, selection, selectionArgs);
+
+	}
+
 }
