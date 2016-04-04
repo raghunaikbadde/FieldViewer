@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
+import com.jobviewer.db.objects.ImageSendStatusObject;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.Images;
 import com.jobviewer.survey.object.Screen;
@@ -270,9 +271,12 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 					ImageUploadResponse decodeFromJsonString = GsonConverter
 							.getInstance().decodeFromJsonString(result,
 									ImageUploadResponse.class);
-					JobViewerDBHandler.deleteImageById(getActivity(),
-							decodeFromJsonString.getTemp_id());
-
+					/*JobViewerDBHandler.deleteImageById(getActivity(),
+							decodeFromJsonString.getTemp_id());*/
+					ImageSendStatusObject imageSendStatusObject=new ImageSendStatusObject();
+					imageSendStatusObject.setImageId(decodeFromJsonString.getTemp_id());
+					imageSendStatusObject.setStatus(ActivityConstants.IMAGE_SEND_STATUS);
+					JobViewerDBHandler.saveImageStatus(getActivity(), imageSendStatusObject);
 					break;
 				case HttpConnection.DID_ERROR:
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);

@@ -34,6 +34,7 @@ import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
+import com.jobviewer.db.objects.ImageSendStatusObject;
 import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.Images;
@@ -283,13 +284,13 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 			values.put("completed_at", Utils.getCurrentDateAndTime());
 			values.put("survey_json", obj.getQuestionSet());
 			values.put("created_by", userProfile.getEmail());
-			values.put("status", "New");
+			values.put("status", "update");
 			GPSTracker gpsTracker = new GPSTracker(getActivity());
 			values.put("location_latitude", gpsTracker.getLatitude());
 			values.put("location_longitude", gpsTracker.getLongitude());
 
 			Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-					+ CommsConstant.WORK_CREATE_API, values,
+					+ CommsConstant.WORK_UPDATE_API, values,
 					getSendSurveyHandler());
 		} else {
 			saveInBackLog(obj);
@@ -388,8 +389,13 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 					ImageUploadResponse decodeFromJsonString = GsonConverter
 							.getInstance().decodeFromJsonString(result,
 									ImageUploadResponse.class);
-					JobViewerDBHandler.deleteImageById(getActivity(),
-							decodeFromJsonString.getTemp_id());
+					/*JobViewerDBHandler.deleteImageById(getActivity(),
+							decodeFromJsonString.getTemp_id());*/
+					
+					ImageSendStatusObject imageSendStatusObject=new ImageSendStatusObject();
+					imageSendStatusObject.setImageId(decodeFromJsonString.getTemp_id());
+					imageSendStatusObject.setStatus(ActivityConstants.IMAGE_SEND_STATUS);
+					JobViewerDBHandler.saveImageStatus(getActivity(), imageSendStatusObject);
 
 					break;
 				case HttpConnection.DID_ERROR:

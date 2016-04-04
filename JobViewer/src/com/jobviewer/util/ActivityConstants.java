@@ -24,4 +24,5 @@ public class ActivityConstants {
 		
 	public static final String VEHICLE_REGISTRATION_NUMBER = "VEHICLE_REGISTRATION_NUMBER";
 	public static final String VEHICLE_MILEAGE = "VEHICLE_MILEAGE";
+	public static final String IMAGE_SEND_STATUS="send";
 }

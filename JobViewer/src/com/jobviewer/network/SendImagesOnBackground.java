@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.ImageObject;
+import com.jobviewer.db.objects.ImageSendStatusObject;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.ImageUploadResponse;
 import com.vehicle.communicator.HttpConnection;
@@ -55,8 +57,14 @@ public class SendImagesOnBackground {
 					ImageUploadResponse decodeFromJsonString = GsonConverter
 							.getInstance().decodeFromJsonString(result,
 									ImageUploadResponse.class);
-					JobViewerDBHandler.deleteImageById(context,
-							decodeFromJsonString.getTemp_id());
+					/*JobViewerDBHandler.deleteImageById(context,
+							decodeFromJsonString.getTemp_id());*/
+					
+					ImageSendStatusObject imageSendStatusObject=new ImageSendStatusObject();
+					imageSendStatusObject.setImageId(decodeFromJsonString.getTemp_id());
+					imageSendStatusObject.setStatus(ActivityConstants.IMAGE_SEND_STATUS);
+					JobViewerDBHandler.saveImageStatus(context, imageSendStatusObject);
+					
 					if (index <= allSavedImages.size()) {
 						index++;
 						sendImage(allSavedImages.get(index));
