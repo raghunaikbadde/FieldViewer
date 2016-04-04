@@ -1,7 +1,9 @@
 package com.jobviewer.util;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -13,9 +15,14 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.SimpleAdapter;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.jobviewer.comms.CommsConstant;
@@ -45,6 +52,7 @@ public class SelectActivityDialog extends Activity implements ConfirmDialogCallb
 	private final String WORK = "Work";
 	private final String WORK_NO_PHOTOS = "WorkNoPhotos";
 	private final String TRAINING = "Training";
+	final ArrayList<HashMap<String, Object>> m_data = new ArrayList<HashMap<String, Object>>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,87 +60,114 @@ public class SelectActivityDialog extends Activity implements ConfirmDialogCallb
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.getWindow().setBackgroundDrawableResource(
 				android.R.color.transparent);
-		setContentView(R.layout.dialog_box2);
-
-		mContext = this;
+		setContentView(R.layout.select_dialog);
 		
-		mWork = (CheckBox) findViewById(R.id.checkBox1);
-		mWorkNoPhotos = (CheckBox) findViewById(R.id.checkBox2);
-		mTraining = (CheckBox) findViewById(R.id.checkBox3);
+		
 
-		start = (Button) findViewById(R.id.dialog_ok);
-		cancel = (Button) findViewById(R.id.dialog_cancel);
+		HashMap<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("maintext", R.drawable.work_camera_icon);
+		map1.put("subtext", "Work");
+		m_data.add(map1);
 
-		checkChangedListner = new OnCheckedChangeListener() {
+		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("maintext", R.drawable.work_nophotos_user_icon);
+		map2.put("subtext", "Work (no photos or data)");// no small text of this item!
+		m_data.add(map2);
 
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (buttonView == mWork && isChecked) {
-					mTraining.setChecked(false);
-					mWorkNoPhotos.setChecked(false);
-					start.setClickable(true);
-					enableStartButton();
-					selected = WORK;
-				} else if (buttonView == mWorkNoPhotos && isChecked) {
-					mWork.setChecked(false);
-					mTraining.setChecked(false);
-					start.setClickable(true);
-					enableStartButton();
-					selected = WORK_NO_PHOTOS;
-				} else if (buttonView == mTraining && isChecked) {
-					mWork.setChecked(false);
-					mWorkNoPhotos.setChecked(false);
-					start.setClickable(true);
-					enableStartButton();
-					selected = TRAINING;
-				} else {
-					start.setClickable(false);
-				}
-			}
-		};
+		HashMap<String, Object> map3 = new HashMap<String, Object>();
+		map3.put("maintext", R.drawable.training_book_icon);
+		map3.put("subtext", "Training / Toolbox Talk");
+		m_data.add(map3);
 
-		mWork.setOnCheckedChangeListener(checkChangedListner);
-		mWorkNoPhotos.setOnCheckedChangeListener(checkChangedListner);
-		mTraining.setOnCheckedChangeListener(checkChangedListner);
+		for (HashMap<String, Object> m : m_data)
+			// make data of this view should not be null (hide )
+			m.put("checked", false);
+		// end init data
 
-		cancel.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
+		final ListView lv = (ListView) findViewById(R.id.listview);
+		lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+		final SimpleAdapter adapter = new SimpleAdapter(this, m_data,
+				R.layout.dialog_list_layout, new String[] { "maintext",
+						"subtext", "checked" }, new int[] { R.id.oncall_image,
+						R.id.oncall_text, R.id.checkBox2 });
+
+		lv.setAdapter(adapter);
+
+lv.setOnItemClickListener(new OnItemClickListener() {
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		RadioButton rb = (RadioButton) view.findViewById(R.id.checkBox2);
+		if (!rb.isChecked()) // OFF->ON
+		{
+			for (HashMap<String, Object> m : m_data)
+				// clean previous selected
+				m.put("checked", false);
+
+			m_data.get(position).put("checked", true);
+			adapter.notifyDataSetChanged();
+		}
 	}
+});
 
-	private void enableStartButton() {
-		start.setOnClickListener(new OnClickListener() {
-
+		// show result
+		((Button) findViewById(R.id.dialog_ok))
+				.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						int selected = -1;
+						Intent intent = new Intent();
+						for (int i = 0; i < m_data.size(); i++) // clean
+																// previous
+																// selected
+						{
+							HashMap<String, Object> m = m_data.get(i);
+							Boolean x = (Boolean) m.get("checked");
+							if (x == true) {
+								selected = i;
+								break; // break, since it's a single choice list
+							}
+						}
+						String result = "";
+						if(selected==-1)
+							return;
+						else if(selected==0){
+							CheckOutObject checkOutRemember = JobViewerDBHandler
+									.getCheckOutRemember(v.getContext());
+							if (checkOutRemember != null
+									&& ActivityConstants.TRUE
+											.equalsIgnoreCase(checkOutRemember
+													.getIsTravelEnd())) {
+								intent.setClass(SelectActivityDialog.this,
+										NewWorkActivity.class);
+							} else {
+								intent.setClass(SelectActivityDialog.this,
+										TravelToWorkSiteActivity.class);
+							}
+							result = WORK;
+							startActivity(intent);
+						}
+						else if (selected==1){
+							result = WORK_NO_PHOTOS;
+						}
+							
+						else if (selected==2){
+							new ConfirmDialog(v.getContext(), SelectActivityDialog.this, Constants.START_TRAINING).show();
+							result = TRAINING;
+							return;
+						}
+						/*intent.putExtra("Selected", result);
+						setResult(RESULT_OK, intent);*/
+						finish();
+					}
+				});
+		
+		((Button) findViewById(R.id.dialog_cancel)).setOnClickListener(new OnClickListener() {
+			
 			@Override
 			public void onClick(View v) {
-				Intent intent;
-				if (selected.equalsIgnoreCase(WORK)) {
-					CheckOutObject checkOutRemember = JobViewerDBHandler
-							.getCheckOutRemember(v.getContext());
-					if (checkOutRemember != null
-							&& ActivityConstants.TRUE
-									.equalsIgnoreCase(checkOutRemember
-											.getIsTravelEnd())) {
-						intent = new Intent(SelectActivityDialog.this,
-								NewWorkActivity.class);
-					} else {
-						intent = new Intent(SelectActivityDialog.this,
-								TravelToWorkSiteActivity.class);
-					}
-					startActivity(intent);
-
-				} else if (selected.equalsIgnoreCase(WORK_NO_PHOTOS)) {
-					/*intent = new Intent(SelectActivityDialog.this,
-							MainActivity.class);
-					startActivity(intent);*/
-				} else {
-					new ConfirmDialog(v.getContext(), SelectActivityDialog.this, Constants.START_TRAINING).show();
-					return;
-				}
 				finish();
 			}
 		});

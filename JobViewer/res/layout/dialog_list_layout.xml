@@ -11,10 +11,11 @@
         <ImageView
             android:id="@+id/oncall_image"
             android:layout_width="@dimen/dialog_icon_full_space163"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/white_lato_regular_small40"
             android:layout_marginRight="@dimen/white_lato_regular_small40"
             android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/ic_launcher" />
 
         <TextView

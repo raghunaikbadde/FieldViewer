@@ -12,6 +12,7 @@ public class Constants {
 	public static final int RESULT_CODE_CHANGE_TIME = 1000;
 	public static final int RESULT_CODE_OVERRIDE_COMMENT = 1001;
 	public static final int RESULT_CODE_START_TRAINING = 1002;
+	public static final int RESULT_CODE_WELCOME = 1003;
 	public static final String IMAGE_CAPTURE_ACTION = "android.media.action.IMAGE_CAPTURE";
 	public static final String TIME = "time";
 	public static final String STARTED = "STARTED";

@@ -88,7 +88,7 @@
                 android:text="@string/start_text" android:singleLine="true"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/white_lato_regular_big79" />
+                android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
             <Button
                 android:id="@+id/check_out_vehicle"
@@ -149,6 +149,7 @@
                     android:layout_weight="20"
                     android:background="@drawable/imagebutton"
                     android:text="@string/start_travel"
+                    android:textSize="@dimen/dialog_black_lato_regular_small60" 
                     android:textAllCaps="false" />
 
                 <Button
@@ -166,6 +167,7 @@
                     android:layout_weight="20"
                     android:background="@drawable/imagebutton"
                     android:text="@string/end_button"
+                    android:textSize="@dimen/dialog_black_lato_regular_small60" 
                     android:textAllCaps="false" />
             </LinearLayout>
 

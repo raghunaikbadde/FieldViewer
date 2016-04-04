@@ -59,7 +59,7 @@
                     android:text="@string/start_travel"
                     android:textColor="@color/white"
                     android:textAllCaps="false"
-                    android:textSize="@dimen/white_lato_regular_big79" />
+                    android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
                 <TextView
                     android:id="@+id/question_text1"

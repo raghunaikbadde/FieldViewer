@@ -23,6 +23,8 @@ import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.util.Constants;
+import com.jobviewer.util.SelectClockInActivityDialog;
 import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.StartUpResponse;
@@ -63,7 +65,9 @@ public class WelcomeActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				openDialog();
+				Intent intent = new Intent();
+		    	intent.setClass(WelcomeActivity.this, SelectClockInActivityDialog.class);
+		    	startActivityForResult(intent, Constants.RESULT_CODE_WELCOME);
 			}
 		});
 		if (Utils.isInternetAvailable(context)&& !Utils.isExitApplication) {
@@ -77,6 +81,31 @@ public class WelcomeActivity extends BaseActivity {
 
 		Utils.startNotification(this);
 		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+    	if (requestCode == 1003 && resultCode == RESULT_OK) {
+    		selected = data.getExtras().getString("Selected");
+    		Intent intent;
+			if (selected.equalsIgnoreCase("Shift")) {
+				Utils.startShiftTimeRequest = new TimeSheetRequest();
+				JobViewerDBHandler.saveTimeSheet(WelcomeActivity.this, Utils.startShiftTimeRequest, CommsConstant.START_SHIFT_API);
+				intent = new Intent(WelcomeActivity.this,
+						ClockInActivity.class);
+				intent.putExtra(Utils.SHIFT_START, Utils.SHIFT_START);
+			} else {
+				intent = new Intent(WelcomeActivity.this,
+						ClockInConfirmationActivity.class);
+				Utils.callStartTimeRequest = new TimeSheetRequest();
+				intent.putExtra(Utils.CALLING_ACTIVITY,
+						WelcomeActivity.this.getClass().getSimpleName());
+				intent.putExtra(Utils.CALL_START, Utils.CALL_START);
+			}
+			startActivity(intent);
+    		
+    	}
 	}
 
 	private void executeStartUpApi() {
@@ -115,90 +144,9 @@ public class WelcomeActivity extends BaseActivity {
 				}
 			}
 		};
-
 		return handler;
-
 	}
 
-	public void openDialog() {
-		final Dialog dialog = new Dialog(this, R.style.AppCompatDialogStyle);
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.getWindow().setBackgroundDrawableResource(
-				android.R.color.transparent);
-
-		dialog.setContentView(R.layout.dialog_box1);
-
-		shift = (CheckBox) dialog.findViewById(R.id.checkBox1);
-		onCall = (CheckBox) dialog.findViewById(R.id.checkBox2);
-
-		start = (Button) dialog.findViewById(R.id.dialog_ok);
-		cancel = (Button) dialog.findViewById(R.id.dialog_cancel);
-
-		shift.setOnCheckedChangeListener(checkChangedListner);
-		onCall.setOnCheckedChangeListener(checkChangedListner);
-		checkChangedListner = new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (buttonView == shift && isChecked) {
-					onCall.setChecked(false);
-					start.setClickable(true);
-					enableStartButton(dialog);
-					selected = "shift";
-					Utils.startShiftTimeRequest = new TimeSheetRequest();
-					Utils.checkOutObject.setJobSelected(selected);
-				} else if (buttonView == onCall && isChecked) {
-					shift.setChecked(false);
-					start.setClickable(true);
-					enableStartButton(dialog);
-					selected = "onCall";
-					Utils.callStartTimeRequest = new TimeSheetRequest();
-					Utils.checkOutObject.setJobSelected(selected);
-				} else {
-					start.setClickable(false);
-				}
-			}
-		};
-
-		shift.setOnCheckedChangeListener(checkChangedListner);
-		onCall.setOnCheckedChangeListener(checkChangedListner);
-
-		cancel.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
-		dialog.show();
-	}
-
-	private void enableStartButton(final Dialog dialog) {
-		start.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intent;
-				if (selected.equalsIgnoreCase("shift")) {
-					Utils.startShiftTimeRequest = new TimeSheetRequest();
-					JobViewerDBHandler.saveTimeSheet(WelcomeActivity.this, Utils.startShiftTimeRequest, CommsConstant.START_SHIFT_API);
-					intent = new Intent(WelcomeActivity.this,
-							ClockInActivity.class);
-					intent.putExtra(Utils.SHIFT_START, Utils.SHIFT_START);
-				} else {
-					intent = new Intent(WelcomeActivity.this,
-							ClockInConfirmationActivity.class);
-					Utils.callStartTimeRequest = new TimeSheetRequest();
-					intent.putExtra(Utils.CALLING_ACTIVITY,
-							WelcomeActivity.this.getClass().getSimpleName());
-					intent.putExtra(Utils.CALL_START, Utils.CALL_START);
-				}
-				dialog.dismiss();
-				startActivity(intent);
-			}
-		});
-	}
-	
 	private void saveStartUpObjectInBackLogDb(){
 		StartUpRequest  startUpRequest = new StartUpRequest();
 		startUpRequest.setImei(Utils.getIMEI(WelcomeActivity.this));
