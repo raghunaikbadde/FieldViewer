@@ -1,5 +1,5 @@
 {
-  "type": "Non-Excavation Risk Assessment",
+  "type": "Excavation Risk Assessment",
   "screens": {
     "screen": [
       {
@@ -9,10 +9,6 @@
         "title": "Set-up on Arrival",
         "text": "Set up your basic cones and signs at the front and rear of the vehicle as required",
         "answer": "",
-        "checkbox": {
-          "label": "Set-up complete",
-          "required": true
-        },
         "buttons": {
           "button": [
             {
@@ -43,6 +39,10 @@
               "display": false
             }
           ]
+        },
+        "checkbox": {
+          "label": "Set-up complete",
+          "required": true
         }
       },
       {
@@ -52,17 +52,6 @@
         "title": "Set-up on Arrival",
         "text": "Capture the set-up in front of, and behind, the vehicle. At least two photos are required.",
         "answer": "",
-        "required_images": "2",
-        "images": [
-          {
-            "image_string": "",
-            "image_exif": ""
-          },
-          {
-            "image_string": "",
-            "image_exif": ""
-          }
-        ],
         "buttons": {
           "button": [
             {
@@ -93,7 +82,18 @@
               "display": false
             }
           ]
-        }
+        },
+        "required_images": "2",
+        "images": [
+          {
+            "image_string": "",
+            "image_exif": ""
+          },
+          {
+            "image_string": "",
+            "image_exif": ""
+          }
+        ]
       },
       {
         "_number": "3",
@@ -105,7 +105,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -115,7 +114,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "click": {
@@ -140,25 +138,20 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
                   "type": "MOVE",
-                  "onClick": "4"
+                  "onClick": "3"
                 }
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
-                "click": {
-                  
-                },
                 "submit": {
                   "type": "MOVE",
-                  "onClick": "5"
+                  "onClick": "3"
                 }
               }
             }
@@ -172,13 +165,6 @@
         "title": "Calling Card",
         "text": "Capture the completed calling card",
         "answer": "",
-        "required_images": "1",
-        "images": [
-          {
-            "image_string": "",
-            "image_exif": ""
-          }
-        ],
         "buttons": {
           "button": [
             {
@@ -209,7 +195,14 @@
               "display": false
             }
           ]
-        }
+        },
+        "required_images": "1",
+        "images": [
+          {
+            "image_string": "",
+            "image_exif": ""
+          }
+        ]
       },
       {
         "_number": "6",
@@ -221,9 +214,13 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
+                "click": {
+                  "type": "ALERT",
+                  "text": "Ensure that your vehicle is a safe height to continue. If in doubt contact your Field Manager.",
+                  "vibrate": true
+                },
                 "submit": {
                   "type": "MOVE",
                   "onClick": "7"
@@ -231,12 +228,8 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
-                "click": {
-                  
-                },
                 "submit": {
                   "type": "MOVE",
                   "onClick": "7"
@@ -256,7 +249,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -266,7 +258,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -288,7 +279,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -298,7 +288,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -320,9 +309,13 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
+                "click": {
+                  "type": "ALERT",
+                  "text": "Make contact and discuss work co-ordination",
+                  "vibrate": true
+                },
                 "submit": {
                   "type": "MOVE",
                   "onClick": "10"
@@ -330,12 +323,11 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
                   "type": "MOVE",
-                  "onClick": "11"
+                  "onClick": "18"
                 }
               }
             }
@@ -352,7 +344,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -362,7 +353,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -384,7 +374,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -394,7 +383,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -416,7 +404,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -426,7 +413,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -448,7 +434,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -458,7 +443,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -480,7 +464,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -490,7 +473,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "click": {
@@ -517,7 +499,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -527,7 +508,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "click": {
@@ -554,7 +534,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -564,7 +543,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -586,7 +564,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -596,7 +573,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -613,15 +589,8 @@
         "_progress": "52",
         "_type": "media",
         "title": "Footpaths",
-        "text": "Capture the protection measures in place on/around footpaths",
+        "text": "Capture the protection measures in place on\/around footpaths",
         "answer": "",
-        "required_images": "1",
-        "images": [
-          {
-            "image_string": "",
-            "image_exif": ""
-          }
-        ],
         "buttons": {
           "button": [
             {
@@ -634,7 +603,6 @@
               "actions": {
                 "click": {
                   "type": "SAVE"
-                  
                 }
               }
             },
@@ -653,7 +621,14 @@
               "display": false
             }
           ]
-        }
+        },
+        "required_images": "1",
+        "images": [
+          {
+            "image_string": "",
+            "image_exif": ""
+          }
+        ]
       },
       {
         "_number": "19",
@@ -665,7 +640,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -675,7 +649,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -697,7 +670,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -707,7 +679,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -729,7 +700,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -739,7 +709,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "click": {
@@ -766,7 +735,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -776,7 +744,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -798,7 +765,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "click": {
@@ -813,7 +779,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -835,7 +800,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -845,7 +809,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -867,7 +830,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -877,7 +839,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -896,13 +857,6 @@
         "title": "Standpipe",
         "text": "Optional: Capture an image of the standpipe if required",
         "answer": "",
-        "required_images": "0",
-        "images": [
-          {
-            "image_string": "",
-            "image_exif": ""
-          }
-        ],
         "buttons": {
           "button": [
             {
@@ -915,7 +869,6 @@
               "actions": {
                 "click": {
                   "type": "SAVE"
-                  
                 }
               }
             },
@@ -934,7 +887,14 @@
               "display": false
             }
           ]
-        }
+        },
+        "required_images": "0",
+        "images": [
+          {
+            "image_string": "",
+            "image_exif": ""
+          }
+        ]
       },
       {
         "_number": "27",
@@ -946,7 +906,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -956,7 +915,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -978,7 +936,6 @@
         "options": {
           "option": [
             {
-              "display": true,
               "label": "Yes",
               "actions": {
                 "submit": {
@@ -988,7 +945,6 @@
               }
             },
             {
-              "display": true,
               "label": "No",
               "actions": {
                 "submit": {
@@ -1007,14 +963,6 @@
         "title": "Location Awareness",
         "text": "Capture an image or add a description of how you will control the risk at this location?",
         "answer": "",
-        "input": "",
-        "required_images": "0",
-        "images": [
-          {
-            "image_string": "",
-            "image_exif": ""
-          }
-        ],
         "buttons": {
           "button": [
             {
@@ -1027,7 +975,6 @@
               "actions": {
                 "click": {
                   "type": "SAVE"
-                  
                 }
               }
             },
@@ -1037,7 +984,7 @@
               "actions": {
                 "click": {
                   "type": "MOVE",
-                  "onClick": "19"
+                  "onClick": "30"
                 }
               }
             },
@@ -1046,7 +993,15 @@
               "display": false
             }
           ]
-        }
+        },
+        "required_images": "0",
+        "images": [
+          {
+            "image_string": "",
+            "image_exif": ""
+          }
+        ],
+        "input": ""
       },
       {
         "_number": "30",
@@ -1055,10 +1010,6 @@
         "title": "Confirmation",
         "text": "I confirm that the hazards at this location can be suitably controlled and it is safe to continue work. If anything at this location changes I will stop work and re-assess.",
         "answer": "",
-        "checkbox": {
-          "label": "I confirm",
-          "required": true
-        },
         "buttons": {
           "button": [
             {
@@ -1089,6 +1040,10 @@
               "display": false
             }
           ]
+        },
+        "checkbox": {
+          "label": "I confirm",
+          "required": true
         }
       },
       {
@@ -1097,12 +1052,7 @@
         "_type": "information",
         "title": "",
         "text": "Start Work - remember safe manual handling. 'Use the big engines!'",
-        "information": "Tap Next to continue",
         "answer": "",
-        "checkbox": {
-          "label": "I confirm",
-          "required": true
-        },
         "buttons": {
           "button": [
             {
@@ -1133,6 +1083,11 @@
               "display": false
             }
           ]
+        },
+        "information": "Tap Next to continue",
+        "checkbox": {
+          "label": "I confirm",
+          "required": true
         }
       },
       {
@@ -1142,13 +1097,6 @@
         "title": "Safe Zone",
         "text": "Capture the safe zone",
         "answer": "",
-        "required_images": "1",
-        "images": [
-          {
-            "image_string": "",
-            "image_exif": ""
-          }
-        ],
         "buttons": {
           "button": [
             {
@@ -1179,9 +1127,15 @@
               "display": false
             }
           ]
-        }
-      },
-      
+        },
+        "required_images": "1",
+        "images": [
+          {
+            "image_string": "",
+            "image_exif": ""
+          }
+        ]
+      }
     ]
   }
 }

@@ -58,10 +58,10 @@ public class QuestionsActivity extends Activity implements
 			if (checkOutRemember.getAssessmentSelected().equalsIgnoreCase(
 					ActivityConstants.EXCAVATION)) {
 				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-						"excavation_risk_assessment_survey1.json");
+						"excavation.json");
 			} else {
 				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-						"non_excavation_risk_assessment_survey.json");
+						"non_excavation.json");
 			}
 
 			manager.setQuestionMaster(loadJsonFromAssets);

@@ -51,7 +51,7 @@ public class ShoutOutActivity extends Activity {
 						"shout_about_safety_idea.json"));
 			} else if (option.equalsIgnoreCase(ActivityConstants.SAFETY)) {
 				setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
-						"shout_about_safety_good_safety.json"));
+						"shout_about_good_safety.json"));
 			}
 		}
 		mFragmentManager = getFragmentManager();
