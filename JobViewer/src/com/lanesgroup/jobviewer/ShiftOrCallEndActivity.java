@@ -59,11 +59,10 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 			checkOutRemember.setIsTravelEnd("");
 			checkOutRemember.setIsAssessmentCompleted("");
 			checkOutRemember.setJobStartedTime("");
+			checkOutRemember.setVistecId("");
 			JobViewerDBHandler.saveCheckOutRemember(v.getContext(),
 					checkOutRemember);
-			finish();
 			onBackPressed();
-			
 		} else if (v == mGoOnCallButton) {
 			/*
 			 * Intent intent = new

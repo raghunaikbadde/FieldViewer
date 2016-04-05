@@ -36,6 +36,8 @@ import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.db.objects.ImageSendStatusObject;
 import com.jobviewer.db.objects.ShoutAboutSafetyObject;
+import com.jobviewer.exception.ExceptionHandler;
+import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.Images;
 import com.jobviewer.survey.object.Screen;
@@ -284,13 +286,13 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 			values.put("completed_at", Utils.getCurrentDateAndTime());
 			values.put("survey_json", obj.getQuestionSet());
 			values.put("created_by", userProfile.getEmail());
-			values.put("status", "update");
+			values.put("status", "Completed");
 			GPSTracker gpsTracker = new GPSTracker(getActivity());
 			values.put("location_latitude", gpsTracker.getLatitude());
 			values.put("location_longitude", gpsTracker.getLongitude());
 
 			Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-					+ CommsConstant.WORK_UPDATE_API, values,
+					+ CommsConstant.WORK_CREATE_API, values,
 					getSendSurveyHandler());
 		} else {
 			saveInBackLog(obj);
@@ -312,7 +314,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		shoutOutBackLogRequest.setCompleted_at(Utils.getCurrentDateAndTime());
 		shoutOutBackLogRequest.setSurvey_json(obj.getQuestionSet());
 		shoutOutBackLogRequest.setCreated_by(userProfile.getEmail());
-		shoutOutBackLogRequest.setStatus("New");
+		shoutOutBackLogRequest.setStatus("Completed");
 		GPSTracker gpsTracker = new GPSTracker(getActivity());
 		shoutOutBackLogRequest.setLocation_latitude(""
 				+ gpsTracker.getLatitude());
@@ -341,12 +343,16 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 					JobViewerDBHandler.deleteShoutAboutSafety(getActivity());
 					ShoutOutActivity
 							.loadNextFragment(new ShoutOutCompleteFragment());
-					String result = (String) msg.obj;
+					//String result = (String) msg.obj;
 					Log.i("Android", "");
 					break;
 				case HttpConnection.DID_ERROR:
 					Utils.StopProgress();
-					Log.i("Android", "");
+					String error = (String) msg.obj;
+					VehicleException exception = GsonConverter
+							.getInstance()
+							.decodeFromJsonString(error, VehicleException.class);
+					ExceptionHandler.showException(getActivity(), exception, "Info");
 					break;
 
 				default:
