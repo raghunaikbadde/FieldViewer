@@ -15,17 +15,17 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.welcome_screen);
+        setContentView(R.layout.success_screen);
         
-        Button button1 = (Button) findViewById(R.id.clock_in);
+        /*Button button1 = (Button) findViewById(R.id.clock_in);
         button1.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				openDialog();
+				//openDialog();
 			}
-		});
+		});*/
     }
     
     public void openDialog() {
