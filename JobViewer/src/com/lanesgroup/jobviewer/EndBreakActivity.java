@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
@@ -120,7 +121,6 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 				Utils.saveTimeSheetInBackLogTable(EndBreakActivity.this,
 						Utils.endTimeRequest, CommsConstant.END_BREAK_API,
 						Utils.REQUEST_TYPE_WORK);
-				// savePaidEndTravelinBackLogDb();
 				JobViewerDBHandler.saveTimeSheet(this, Utils.endTimeRequest,
 						CommsConstant.HOST + CommsConstant.END_BREAK_API);				
 				
@@ -187,7 +187,7 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 			startActivity(homePageIntent);
 		}
 	}
-
+	
 	private boolean saveBreakEndDB() {
 		breakTravelShiftCallTable.setBreakEndTime(Utils.getCurrentDateAndTime());
 		int numberOfBreaks =0;
@@ -209,5 +209,5 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 	public void onBackPressed() {
 		closeApplication();
 	}
-
+	
 }

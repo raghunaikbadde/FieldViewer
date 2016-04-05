@@ -3,13 +3,21 @@ package com.lanesgroup.jobviewer;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.exception.ExceptionHandler;
+import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
+import com.vehicle.communicator.HttpConnection;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -120,25 +128,41 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 		if(v==mCancel){
 			finish();
 		} else if (v==mEndOnCall){
-			
-			if(checkOutRemember.getJobSelected().contains("shift")){
-				Intent intent = new Intent(EndOnCallActivity.this,ShiftOrCallEndActivity.class);
-				finish();
-				startActivity(intent);
+			Utils.startProgress(EndOnCallActivity.this);
+			if(Utils.isInternetAvailable(EndOnCallActivity.this)){
+				executeEndShiftOrCallService();
 			} else{
-				Intent intent = new Intent(EndOnCallActivity.this,ShiftOrCallEndActivity.class);
-				finish();
-				startActivity(intent);
+				saveEndCallOrEndShiftInBackLogDB();
+				Utils.StopProgress();
+				callEndCallShiftActivity();
 			}
+			
+			
+		}
+	}
+
+	private void executeEndShiftOrCallService() {
+		if(checkOutRemember.getJobSelected().contains("shift")){
+			executeShiftEndService();
+		} else{
+			executeEndOnCallService();
 		}
 	}
 	
-	private void executeEndOnCallService(){
-		
+	private void saveEndCallOrEndShiftInBackLogDB(){
+		if(checkOutRemember.getJobSelected().contains("shift")){
+			JobViewerDBHandler.saveTimeSheet(this, Utils.endShiftRequest,
+					CommsConstant.HOST + CommsConstant.END_SHIFT_API);	
+		} else{
+			JobViewerDBHandler.saveTimeSheet(this, Utils.callEndTimeRequest,
+					CommsConstant.HOST + CommsConstant.END_ON_CALL_API);	
+		}
 	}
-	
-	private void closeAppOrGoOnCallActivity(){
-		
+
+	private void callEndCallShiftActivity() {
+		Intent intent = new Intent(EndOnCallActivity.this,ShiftOrCallEndActivity.class);
+		finish();
+		startActivity(intent);
 	}
 	
 	public void enableNextButton(boolean isEnable) {
@@ -149,6 +173,100 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 			mEndOnCall.setEnabled(isEnable);
 			mEndOnCall.setBackgroundResource(R.drawable.dark_grey_background);
 		}
+	}
+	
+	private void executeEndOnCallService() {
+		User userProfile = JobViewerDBHandler
+				.getUserProfile(EndOnCallActivity.this);
+		Utils.callEndTimeRequest.setUser_id(userProfile.getEmail());
+		Utils.callEndTimeRequest.setRecord_for(userProfile
+				.getEmail());
+		Utils.callEndTimeRequest.setStarted_at(Utils.getCurrentDateAndTime());
+		ContentValues data = new ContentValues();
+		data.put("started_at", Utils.callEndTimeRequest.getStarted_at());
+		data.put("record_for", Utils.callEndTimeRequest.getRecord_for());
+		data.put("is_inactive", Utils.callEndTimeRequest.getIs_inactive());
+		data.put("is_overriden", Utils.callEndTimeRequest.getIs_overriden());
+		data.put("override_reason",
+				Utils.callEndTimeRequest.getOverride_reason());
+		data.put("override_comment",
+				Utils.callEndTimeRequest.getOverride_comment());
+		data.put("override_timestamp",
+				Utils.callEndTimeRequest.getOverride_timestamp());
+		data.put("reference_id", Utils.callEndTimeRequest.getReference_id());
+		data.put("user_id", Utils.callEndTimeRequest.getUser_id());
+		String time = "";
+		if (Utils.isNullOrEmpty(Utils.callEndTimeRequest
+				.getOverride_timestamp())) {
+			time = Utils.callEndTimeRequest.getOverride_timestamp();
+		} else {
+			time = Utils.callEndTimeRequest.getStarted_at();
+		}
+
+		Utils.SendHTTPRequest(this, CommsConstant.HOST
+				+ CommsConstant.END_ON_CALL_API, data, getEndCallOrShiftHandler());
+
+	}
+	
+	private void executeShiftEndService() {
+		User userProfile = JobViewerDBHandler
+				.getUserProfile(EndOnCallActivity.this);
+		Utils.endShiftRequest.setUser_id(userProfile.getEmail());
+		Utils.endShiftRequest.setRecord_for(userProfile
+				.getEmail());
+		Utils.endShiftRequest.setStarted_at(Utils.getCurrentDateAndTime());
+		ContentValues data = new ContentValues();
+		data.put("started_at", Utils.endShiftRequest.getStarted_at());
+		data.put("record_for", Utils.endShiftRequest.getRecord_for());
+		data.put("is_inactive", Utils.endShiftRequest.getIs_inactive());
+		data.put("is_overriden", Utils.endShiftRequest.getIs_overriden());
+		data.put("override_reason",
+				Utils.endShiftRequest.getOverride_reason());
+		data.put("override_comment",
+				Utils.endShiftRequest.getOverride_comment());
+		data.put("override_timestamp",
+				Utils.endShiftRequest.getOverride_timestamp());
+		data.put("reference_id", Utils.endShiftRequest.getReference_id());
+		data.put("user_id", Utils.endShiftRequest.getUser_id());
+		String time = "";
+		if (Utils.isNullOrEmpty(Utils.endShiftRequest
+				.getOverride_timestamp())) {
+			time = Utils.endShiftRequest.getOverride_timestamp();
+		} else {
+			time = Utils.endShiftRequest.getStarted_at();
+		}
+
+		Utils.SendHTTPRequest(this, CommsConstant.HOST
+				+ CommsConstant.END_SHIFT_API, data, getEndCallOrShiftHandler());
+
+	}
+	
+	private Handler getEndCallOrShiftHandler() {
+		Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
+					// String result = (String) msg.obj;
+					callEndCallShiftActivity();
+					break;
+				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
+					String error = (String) msg.obj;
+					VehicleException exception = GsonConverter
+							.getInstance()
+							.decodeFromJsonString(error, VehicleException.class);
+					ExceptionHandler.showException(context, exception, "Info");
+					saveEndCallOrEndShiftInBackLogDB();
+					break;
+
+				default:
+					break;
+				}
+			}
+		};
+		return handler;
 	}
 
 }

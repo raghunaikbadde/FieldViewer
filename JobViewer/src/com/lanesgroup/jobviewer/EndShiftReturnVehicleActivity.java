@@ -1,10 +1,21 @@
 package com.lanesgroup.jobviewer;
 
+import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BackLogRequest;
+import com.jobviewer.exception.ExceptionHandler;
+import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.Utils;
+import com.jobviwer.response.object.User;
+import com.raghu.VehicleCheckInOut;
+import com.vehicle.communicator.HttpConnection;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -69,17 +80,16 @@ public class EndShiftReturnVehicleActivity extends BaseActivity implements
 		if (v == mCancel) {
 			finish();
 		} else if (v == mNext) {
+			Utils.startProgress(EndShiftReturnVehicleActivity.this);
 			if (Utils.isInternetAvailable(EndShiftReturnVehicleActivity.this)) {
+				
 				executeCheckInVehicleService();
 			} else {
-				// save time sheet in DB
+				saveCheckInVehicleInBackLogDB();			
+				Utils.StopProgress();
 				launchEndOnCallActivity();
 			}
 		}
-	}
-
-	private void executeCheckInVehicleService() {
-		launchEndOnCallActivity();
 	}
 
 	private void launchEndOnCallActivity() {
@@ -100,5 +110,65 @@ public class EndShiftReturnVehicleActivity extends BaseActivity implements
 			mNext.setBackgroundResource(R.drawable.dark_grey_background);
 			mNext.setOnClickListener(null);
 		}
+	}
+	
+	private void executeCheckInVehicleService() {
+		User userProfile = JobViewerDBHandler
+				.getUserProfile(EndShiftReturnVehicleActivity.this);
+		ContentValues data = new ContentValues();
+		data.put("started_at", Utils.getCurrentDateAndTime());
+		data.put("record_for", userProfile.getEmail());
+		data.put("registration", mVehicleRegNo.getText().toString());
+		data.put("mileage", mMileage.getText().toString());
+		data.put("user_id", userProfile.getEmail());
+		Utils.SendHTTPRequest(EndShiftReturnVehicleActivity.this, CommsConstant.HOST+
+				CommsConstant.CHECKIN_VEHICLE, data, getCheckOutHandler());
+
+	}
+	
+	private Handler getCheckOutHandler() {
+		Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
+					launchEndOnCallActivity();
+					break;
+				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
+					String error = (String) msg.obj;
+					VehicleException exception = GsonConverter
+							.getInstance()
+							.decodeFromJsonString(error, VehicleException.class);
+					ExceptionHandler.showException(context, exception, "Info");
+					saveCheckInVehicleInBackLogDB();
+					break;
+
+				default:
+					break;
+				}
+			}
+		};
+		return handler;
+	}
+	
+	
+	public void saveCheckInVehicleInBackLogDB(){
+		User userProfile = JobViewerDBHandler
+				.getUserProfile(EndShiftReturnVehicleActivity.this);		
+		VehicleCheckInOut vehicleCheckInOut = new VehicleCheckInOut();
+		vehicleCheckInOut.setStarted_at(Utils.getCurrentDateAndTime());
+		vehicleCheckInOut.setRecord_for(userProfile.getEmail());
+		vehicleCheckInOut.setRegistration(mVehicleRegNo.getText().toString());
+		vehicleCheckInOut.setMileage(mMileage.getText().toString());
+		vehicleCheckInOut.setUser_id(userProfile.getEmail());
+		BackLogRequest backLogRequest = new BackLogRequest();
+		backLogRequest.setRequestApi(CommsConstant.HOST+CommsConstant.CHECKIN_VEHICLE);
+		backLogRequest.setRequestClassName("VehicleCheckInOut");
+		backLogRequest.setRequestJson(vehicleCheckInOut.toString());
+		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
+		JobViewerDBHandler.saveBackLog(getApplicationContext(), backLogRequest);
+		
 	}
 }
