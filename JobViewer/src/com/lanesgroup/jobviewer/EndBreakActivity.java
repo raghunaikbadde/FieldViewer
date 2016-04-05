@@ -207,6 +207,7 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 	
 	@Override
 	public void onBackPressed() {
+		closeApplication();
 	}
 
 }

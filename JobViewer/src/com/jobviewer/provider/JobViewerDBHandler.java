@@ -595,7 +595,8 @@ public class JobViewerDBHandler {
 		return startTrainingObject;
 	}
 
-	public static void saveBreakShiftTravelCall(Context context, BreakShiftTravelCall breakShiftTravelCall) {		
+	public static void saveBreakShiftTravelCall(Context context, BreakShiftTravelCall breakShiftTravelCall) {
+		deleteBreakTravelShiftCallTable(context);
 		ContentValues values = new ContentValues();
 		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.IS_BREAK_STARTED,
 				breakShiftTravelCall.isBreakStarted());
@@ -679,6 +680,12 @@ public class JobViewerDBHandler {
 		cursor.close();
 		return breakShiftTravelCall;
 	}
+	
+	public static void deleteBreakTravelShiftCallTable(Context context) {
+		context.getContentResolver().delete(
+				JobViewerProviderContract.BreakTravelShiftCallTable.CONTENT_URI, null, null);
+	}
+
 	
 	public static void saveImageStatus(Context context,
 			ImageSendStatusObject imageSendStatusObject) {

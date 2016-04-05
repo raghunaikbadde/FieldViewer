@@ -20,9 +20,9 @@ public class LauncherActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		/*if(isBreakStartedShown()){
+		if(isBreakStartedShown()){
 			return;
-		}*/
+		}
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(this);
 		if (checkOutRemember != null
