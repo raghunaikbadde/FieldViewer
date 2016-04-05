@@ -77,6 +77,6 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 
 	@Override
 	public void onBackPressed() {
-		exitApplication(ShiftOrCallEndActivity.this);
+		closeApplication();
 	}
 }

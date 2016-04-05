@@ -221,7 +221,7 @@ public class EndTravelActivity extends BaseActivity implements
 	
 	@Override
 	public void onBackPressed() {
-		exitApplication(this);
+		closeApplication();
 	}
 
 	@Override
