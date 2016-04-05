@@ -58,7 +58,7 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 		mMileage = (TextView)findViewById(R.id.mileage_text);
 		mConfirmCheckBox = (CheckBox)findViewById(R.id.confirm_checkbox);
 		mCancel.setOnClickListener(this);
-		mEndOnCall.setOnClickListener(this);
+		
 		mConfirmCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
@@ -169,9 +169,11 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 		if (isEnable) {
 			mEndOnCall.setEnabled(isEnable);
 			mEndOnCall.setBackgroundResource(R.drawable.red_background);
+			mEndOnCall.setOnClickListener(this);
 		} else {
 			mEndOnCall.setEnabled(isEnable);
 			mEndOnCall.setBackgroundResource(R.drawable.dark_grey_background);
+			mEndOnCall.setOnClickListener(null);
 		}
 	}
 	
