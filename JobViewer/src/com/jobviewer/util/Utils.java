@@ -51,6 +51,7 @@ import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.network.SendImagesOnBackground;
 import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.service.AppKillService;
 import com.lanesgroup.jobviewer.LauncherActivity;
@@ -470,13 +471,13 @@ public class Utils {
 	public static void saveWorkImageInBackLogDb(Context mContext,
 			ImageObject imageObject) {
 		WorkPhotoUpload workPhotoUpload = new WorkPhotoUpload();
-		workPhotoUpload.setImage(imageObject.getImageId());
+		workPhotoUpload.setImage_id(imageObject.getImageId());
 
 		BackLogRequest backLogRequest = new BackLogRequest();
 		backLogRequest.setRequestApi(CommsConstant.HOST
 				+ CommsConstant.WORK_PHOTO_UPLOAD + "/" + Utils.work_id);
 		backLogRequest.setRequestClassName("WorkPhotoUpload");
-		backLogRequest.setRequestJson(workPhotoUpload.toString());
+		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(workPhotoUpload));
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_UPLOAD);
 		JobViewerDBHandler.saveBackLog(mContext, backLogRequest);
 	}

@@ -4,9 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -31,11 +29,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
-import android.widget.SimpleAdapter.ViewBinder;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.CheckOutObject;
@@ -45,11 +40,8 @@ import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
-import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
-import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
-import com.lanesgroup.jobviewer.fragment.MediaTextTypeFragment;
 import com.lanesgroup.jobviewer.fragment.MediaTypeFragment;
 import com.lanesgroup.jobviewer.fragment.WorkCompleteFragment;
 import com.raghu.WorkPhotoUpload;
@@ -57,13 +49,11 @@ import com.vehicle.communicator.HttpConnection;
 
 public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
-	private ProgressBar mProgress;
-	private TextView mProgressStep, mVistecNumber;
-	private ImageButton mAddInfo, mStop, mUser, mClickPhoto,
+	private TextView mVistecNumber;
+	private ImageButton mClickPhoto,
 			mCaptureCallingCard, mUpdateRiskActivity;
 	private Button mSave, mLeaveSite;
 	private ListView mListView;
-	private View mRootView;
 	private ArrayList<HashMap<String, Object>> mPhotoList;
 	private ArrayList<ImageObject> imageObjects;
 	private AddPhotosAdapter mAdapter;
@@ -101,18 +91,13 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 					MediaTypeFragment.timeCapturedForAddPhotosActivity
 							.get(count));
 			mPhotoList.add(hashMapOfSafeZoneBitmap);
+			imageObjects.add(imageObject);
+			WorkPhotoUpload workPhotoUpload = new WorkPhotoUpload();
+			workPhotoUpload.setImage_id(imageObject.getImageId());
+			arrayListOfWokImagesUpload.add(workPhotoUpload);
 			count++;
 		}
 
-		// hashMapOfSafeZoneBitmap.put(MediaTypeFragment.addPhotoActivityimageObject.getImage_exif(),
-		// bitmapOfSafeZone);
-
-		/*
-		 * mAdapter.setViewBinder(new ViewBinder() { public boolean
-		 * setViewValue(View view, Object data, String textRepresentation) { if
-		 * (data == null) { view.setVisibility(View.GONE); return true; }
-		 * view.setVisibility(View.VISIBLE); return false; } });
-		 */
 
 		mListView = (ListView) findViewById(R.id.listview);
 
@@ -125,11 +110,6 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
 		mUpdateRiskActivity = (ImageButton) findViewById(R.id.video_imageButton);
 		mUpdateRiskActivity.setOnClickListener(this);
-		mProgress = (ProgressBar) findViewById(R.id.progressBar);
-		mProgressStep = (TextView) findViewById(R.id.progress_step_text);
-		mAddInfo = (ImageButton) findViewById(R.id.detail_imageButton);
-		mStop = (ImageButton) findViewById(R.id.video_imageButton);
-		mUser = (ImageButton) findViewById(R.id.user_imageButton);
 		mClickPhoto = (ImageButton) findViewById(R.id.capture_imageButton);
 		mClickPhoto.setOnClickListener(this);
 		mSave = (Button) findViewById(R.id.button1);
@@ -185,10 +165,18 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 					UpdateRiskAssessmentActivity.class);
 			startActivity(intent);
 		} else if (view == mLeaveSite) {
-			for (WorkPhotoUpload workPhotoToUpload : arrayListOfWokImagesUpload) {
-				// sendDetailsOrSaveCapturedImageInBacklogDb(workPhotoToUpload.getImage(),workPhotoToUpload.getImage_exit());
+			Utils.startProgress(mContext);
+			
+			for(ImageObject imageObject : imageObjects){
+				JobViewerDBHandler.saveImage(AddPhotosActivity.this, imageObject);
 			}
-			showWorkCompleteFragemnt();
+			
+			if(sendWorkUploadImagesToServer()){
+				Utils.StopProgress();
+				showWorkCompleteFragemnt();	
+			}
+			
+			
 		} else if (view == mClickPhoto || view == mCaptureCallingCard) {
 			if (view == mCaptureCallingCard) {
 				Toast.makeText(
@@ -207,6 +195,16 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			// Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);
 			// startActivityForResult(intent, Constants.RESULT_CODE);
 		}
+	}
+
+	private boolean sendWorkUploadImagesToServer() {
+		int count = 0;
+		for (WorkPhotoUpload workPhotoToUpload : arrayListOfWokImagesUpload) {
+			
+			sendDetailsOrSaveCapturedImageInBacklogDb(workPhotoToUpload.getImage_id(),imageObjects.get(count));
+			count++;
+		}
+		return true;
 	}
 
 	private void showWorkCompleteFragemnt() {
@@ -279,8 +277,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			imageObject.setImage_string(base64);
 			imageObjects.add(imageObject);
 			WorkPhotoUpload workPhotoUpload = new WorkPhotoUpload();
-			workPhotoUpload.setImage(base64);
-			// workPhotoUpload.setImage_exit(formatDate);
+			workPhotoUpload.setImage_id(imageObject.getImageId());
 			arrayListOfWokImagesUpload.add(workPhotoUpload);
 
 		}
@@ -297,51 +294,41 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
 	}
 
-	private void sendDetailsOrSaveCapturedImageInBacklogDb(String mImageBase64,
-			String mImage_exif_string) {
-		Utils.startProgress(mContext);
+	private void sendDetailsOrSaveCapturedImageInBacklogDb(String imageId, ImageObject imageObject) {
+		
 		if (Utils.isInternetAvailable(this)) {
-			sendWorkImageToServer(mImageBase64, mImage_exif_string);
+			sendWorkImageToServer(imageId,imageObject);
 		} else {
-			Utils.StopProgress();
-			// Utils.saveWorkImageInBackLogDb(this, mImageBase64,
-			// mImage_exif_string);
-
+			Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this, imageObject);
 		}
 	}
 
-	private synchronized void sendWorkImageToServer(String mImageBase64,
-			String mImage_exif_string) {
+	private void sendWorkImageToServer(String imageId,ImageObject imageObject) {
 		ContentValues data = new ContentValues();
-		data.put("image", mImageBase64);
-		data.put("image_exif", mImage_exif_string);
+		data.put("temp_id", imageId);
 
 		Utils.SendHTTPRequest(AddPhotosActivity.this, CommsConstant.HOST
 				+ CommsConstant.WORK_PHOTO_UPLOAD + "/" + Utils.work_id, data,
-				getSendWorkImageHandler(mImageBase64, mImage_exif_string));
+				getSendWorkImageHandler(imageId,imageObject));
 
 	}
-
-	private Handler getSendWorkImageHandler(final String mImageBase64,
-			final String mImage_exif_string) {
+	
+	private Handler getSendWorkImageHandler(final String imageId,final ImageObject imageObject) {
 		Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-					Utils.StopProgress();
-					showWorkCompleteFragemnt();
+										
 					break;
 				case HttpConnection.DID_ERROR:
-					Utils.StopProgress();
 					String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
 					ExceptionHandler.showException(AddPhotosActivity.this,
 							exception, "Info");
-					// Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this,
-					// mImageBase64, mImage_exif_string);
+					Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this, imageObject);
 					break;
 				default:
 					break;
