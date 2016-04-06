@@ -45,6 +45,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/email_top_margin21"
                     android:text="@string/shift_summary"
+                    android:textSize="@dimen/white_lato_bold_small50"
                     android:textColor="@color/dark_grey" />
 
                 <LinearLayout
@@ -181,13 +182,14 @@
                     android:layout_weight="20"
                     android:background="@drawable/dark_grey_background"
                     android:textAllCaps="false"
+                    android:textSize="@dimen/dialog_black_lato_regular_small60"
                     android:text="@string/close_app" />
 
                 <Button
                     android:id="@+id/space"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="4"
                     android:visibility="invisible" />
 
                 <Button
@@ -197,6 +199,7 @@
                     android:layout_weight="20"
                     android:background="@drawable/red_background"
                     android:textAllCaps="false"
+                    android:textSize="@dimen/dialog_black_lato_regular_small60"
                     android:text="@string/go_on_call" />
             </LinearLayout>
 

@@ -47,7 +47,7 @@
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:text="@string/assessmentCompleteTitle"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/grey_lato_regular_small35" />
+                    android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
                 <TextView
                     android:id="@+id/question"

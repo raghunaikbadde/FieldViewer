@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -9,16 +9,18 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottombutton"
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:id="@+id/success_detail_layout"
@@ -32,7 +34,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="@dimen/checkout_progressbar_top_margin110"
+                        android:layout_marginBottom="@dimen/white_lato_regular_big79"
                         android:layout_marginTop="@dimen/white_lato_bold_small50"
                         android:text="@string/success"
                         android:textColor="@color/red"
@@ -52,8 +54,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="@dimen/title_number_spacing65"
-                        android:layout_marginTop="@dimen/title_number_spacing65"
+                        android:layout_marginBottom="@dimen/progressbar_top_margin58"
+                        android:layout_marginTop="@dimen/progressbar_top_margin58"
                         android:gravity="center_horizontal"
                         android:text="@string/vistec_number"
                         android:textColor="@color/black"
@@ -78,30 +80,34 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="@dimen/white_lato_regular_big79"
                         android:layout_marginRight="@dimen/white_lato_regular_big79"
-                        android:layout_marginTop="@dimen/title_number_spacing65"
+                        android:layout_marginTop="@dimen/progressbar_top_margin58"
                         android:gravity="center_horizontal"
                         android:text="@string/tap_done_to_continue"
                         android:textColor="@color/black"
                         android:textSize="@dimen/black_lato_regular_small55" />
                 </LinearLayout>
-
-                <Button
-                    android:id="@+id/done_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dialog_list_height200"
-                    android:layout_alignParentBottom="true"
-                    android:layout_below="@+id/success_detail_layout"
-                    android:layout_marginTop="@dimen/risk_buttons_top_margin253"
-                    android:layout_marginBottom="@dimen/screen_border_margin80"
-                    android:layout_marginLeft="@dimen/done_button_left_right_margin225"
-                    android:layout_marginRight="@dimen/done_button_left_right_margin225"
-                    android:background="@drawable/red_background"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:text="@string/done"
-                    android:textColor="@color/white"
-                    android:textAllCaps="false"
-                    android:textSize="@dimen/edit_text_alert_icon_spacing78" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/bottombutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/white_lato_regular_big79"
+        android:layout_marginLeft="@dimen/white_lato_regular_big79"
+        android:layout_marginRight="@dimen/white_lato_regular_big79"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/done_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_height150"
+            android:background="@drawable/red_background"
+            android:text="@string/done"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+    </LinearLayout>
+    
+</RelativeLayout>

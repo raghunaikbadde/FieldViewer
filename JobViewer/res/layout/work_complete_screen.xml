@@ -5,99 +5,100 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:context="com.jobviewer.MainActivity" >
-    
-    <LinearLayout 
+
+    <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:orientation="vertical">
-        
-       		<TextView
-                    android:id="@+id/leave_site_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
-                    android:layout_marginTop="@dimen/white_lato_bold_small50"
-                    android:gravity="center_horizontal"
-                    android:text="@string/leave_site_str"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/title_text_size70" />
+        android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/vistec_number_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
-                    android:text="@string/vistec_number"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/black_lato_regular_small55" />
+        <TextView
+            android:id="@+id/leave_site_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/white_lato_bold_small50"
+            android:layout_marginTop="@dimen/white_lato_bold_small50"
+            android:gravity="center_horizontal"
+            android:text="@string/leave_site_str"
+            android:textColor="@color/black"
+            android:textSize="@dimen/title_text_size70" />
 
-                <LinearLayout
-                    android:id="@+id/progress_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:orientation="horizontal" >
+        <TextView
+            android:id="@+id/vistec_number_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/white_lato_bold_small50"
+            android:text="@string/vistec_number"
+            android:textColor="@color/black"
+            android:textSize="@dimen/black_lato_regular_small55" />
 
-                    <TextView
-                        android:id="@+id/progress_step_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/progress_step"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/white_lato_bold_small50"
-                        android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/progress_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+            android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+            android:orientation="horizontal" >
 
-                    <ProgressBar
-                        android:id="@+id/progressBar"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dialog_button_top_margin70"
-                        android:layout_marginLeft="@dimen/edit_error_stroke10"
-                        android:progress="5"
-                        android:progressDrawable="@drawable/progressbar" />
-                </LinearLayout>
+            <TextView
+                android:id="@+id/progress_step_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/progress_step"
+                android:textColor="@color/black"
+                android:textSize="@dimen/white_lato_bold_small50"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/enter_details_info_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/progressbar_top_margin58"
-                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginTop="@dimen/dialog_detail_top_margin80"
-                    android:text="@string/enter_detail_str"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/black_lato_regular_small55" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dialog_button_top_margin70"
+                android:layout_marginLeft="@dimen/edit_error_stroke10"
+                android:progress="5"
+                android:progressDrawable="@drawable/progressbar" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/enter_details_info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/progressbar_top_margin58"
+            android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+            android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+            android:layout_marginTop="@dimen/dialog_detail_top_margin80"
+            android:text="@string/enter_detail_str"
+            android:textColor="@color/black"
+            android:textSize="@dimen/black_lato_regular_small55" />
     </LinearLayout>
-    		
+
     <ScrollView
         android:id="@+id/scrollView1"
-        android:layout_above="@+id/bottom_layout"
-        android:layout_below="@+id/header"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_layout"
+        android:layout_below="@+id/header" >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                
+                android:layout_height="wrap_content" >
+
                 <TextView
                     android:id="@+id/activity_type_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
                     android:layout_marginBottom="@dimen/imagebutton_spacing20"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:layout_alignParentTop="true"
                     android:text="@string/activity_type_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
@@ -107,135 +108,117 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/actionbar_height125"
                     android:layout_below="@+id/activity_type_text"
-                    android:background="@drawable/grey_background"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80">
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:background="@drawable/grey_background" >
+
                     <TextView
-	                    android:id="@+id/spinner_selected"
-	                    android:layout_width="wrap_content"
-	                    android:layout_height="wrap_content"
-	                    android:layout_centerVertical="true"
-	                    android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
-	                    android:text="@string/select_spinner_str"
-	                    android:textColor="@color/black"
-	                    android:textSize="@dimen/black_lato_regular_small55" />
-                    
-                    <ImageView 
+                        android:id="@+id/spinner_selected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
+                        android:text="@string/select_spinner_str"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/black_lato_regular_small55" />
+
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
-                        android:src="@drawable/down_arrow_image"/>
+                        android:src="@drawable/down_arrow_image" />
                 </RelativeLayout>
-                
-                <Spinner
-                    android:id="@+id/spinner1"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/actionbar_height125"
-                    android:layout_below="@+id/activity_type_text"
-                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:background="@drawable/grey_background"
-                    android:entries="@array/paymentcard_bank_info_month"
-                    android:prompt="@string/activity_type_str" />
-				<TextView
+
+                <TextView
                     android:id="@+id/was_property_flooded"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/imagebutton_spacing20"
+                    android:layout_below="@id/spinnerLayout"
                     android:layout_marginBottom="@dimen/imagebutton_spacing20"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:layout_below="@id/spinner1"
+                    android:layout_marginTop="@dimen/imagebutton_spacing20"
                     android:text="@string/was_property_flooded"
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
+
                 <RelativeLayout
                     android:id="@+id/spinnerLayout_flood"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/actionbar_height125"
                     android:layout_below="@+id/was_property_flooded"
-                    android:background="@drawable/grey_background"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80">
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:background="@drawable/grey_background" >
+
                     <TextView
-	                    android:id="@+id/spinner_selected_flood"
-	                    android:layout_width="wrap_content"
-	                    android:layout_height="wrap_content"
-	                    android:layout_centerVertical="true"
-	                    android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
-	                    android:text="@string/was_property_flooded"
-	                    android:textColor="@color/black"
-	                    android:textSize="@dimen/black_lato_regular_small55" />
-                    
-                    <ImageView 
+                        android:id="@+id/spinner_selected_flood"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
+                        android:text="@string/was_property_flooded"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/black_lato_regular_small55" />
+
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
-                        android:src="@drawable/down_arrow_image"/>
+                        android:src="@drawable/down_arrow_image" />
                 </RelativeLayout>
-                
-                <Spinner
-                    android:id="@+id/spinner_flood"
+
+                <EditText
+                    android:id="@+id/enter_pipe_edittext"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/actionbar_height125"
-                    android:layout_below="@+id/activity_type_text"
+                    android:layout_height="@dimen/call_customer_button_height180"
+                    android:layout_below="@+id/spinnerLayout_flood"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginTop="@dimen/spinner_bottom_margin30"
                     android:background="@drawable/grey_background"
-                    android:entries="@array/property_flooding_array"
-                    android:prompt="@string/spinner_prompt_flood" />
-                
-                <EditText
-			        android:id="@+id/enter_pipe_edittext"
-			        android:layout_width="match_parent"
-			        android:layout_height="@dimen/call_customer_button_height180"
-			        android:layout_below="@+id/spinnerLayout_flood"
-			        android:layout_marginTop="@dimen/spinner_bottom_margin30"
-			        android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:hint="@string/enter_pipe_diameter"
                     android:paddingLeft="@dimen/grey_lato_regular_small35"
-			        android:paddingRight="@dimen/grey_lato_regular_small35"
-			        android:hint="@string/enter_pipe_diameter"
-			        android:textSize="@dimen/black_lato_regular_medium45"
-			        android:background="@drawable/grey_background"
-			        android:textColor="@color/dark_grey"
-			        android:singleLine="true"
-			        android:visibility="gone"
-			        android:textColorHint="@color/dark_grey">
-			    </EditText>
-			    
+                    android:paddingRight="@dimen/grey_lato_regular_small35"
+                    android:singleLine="true"
+                    android:textColor="@color/dark_grey"
+                    android:textColorHint="@color/dark_grey"
+                    android:textSize="@dimen/black_lato_regular_medium45"
+                    android:visibility="gone" >
+                </EditText>
+
                 <EditText
-			        android:id="@+id/enter_length_edittext"
-			        android:layout_width="match_parent"
-			        android:layout_height="@dimen/call_customer_button_height180"
-			        android:layout_below="@+id/enter_pipe_edittext"
-			        android:layout_marginTop="@dimen/spinner_bottom_margin30"
-			        android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:id="@+id/enter_length_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/call_customer_button_height180"
+                    android:layout_below="@+id/enter_pipe_edittext"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginTop="@dimen/spinner_bottom_margin30"
+                    android:background="@drawable/grey_background"
+                    android:hint="@string/length_str"
                     android:paddingLeft="@dimen/grey_lato_regular_small35"
-			        android:paddingRight="@dimen/grey_lato_regular_small35"
-			        android:hint="@string/length_str"
-			        android:textSize="@dimen/black_lato_regular_medium45"
-			        android:background="@drawable/grey_background"
-			        android:textColor="@color/dark_grey"
-			        android:singleLine="true"
-			        android:visibility="gone"
-			        android:textColorHint="@color/dark_grey">
-			    </EditText>
+                    android:paddingRight="@dimen/grey_lato_regular_small35"
+                    android:singleLine="true"
+                    android:textColor="@color/dark_grey"
+                    android:textColorHint="@color/dark_grey"
+                    android:textSize="@dimen/black_lato_regular_medium45"
+                    android:visibility="gone" >
+                </EditText>
 
                 <TextView
                     android:id="@+id/capture_calling_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/enter_length_edittext"
-                    android:layout_marginTop="@dimen/white_lato_regular_small40"
                     android:layout_marginBottom="@dimen/imagebutton_spacing20"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginTop="@dimen/white_lato_regular_small40"
                     android:text="@string/capture_calling_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
@@ -285,42 +268,41 @@
                     android:id="@+id/checkbox_relative"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_label_vertical_spacing100"
                     android:layout_below="@+id/question_text"
-                    android:layout_centerHorizontal="true" >
-                    
+                    android:layout_centerHorizontal="true"
+                    android:paddingBottom="@dimen/text_label_vertical_spacing100" >
+
                     <RadioGroup
                         android:id="@+id/radioGroup1"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal" >
-                    
 
-                    <RadioButton
-                        android:id="@+id/radio1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginLeft="@dimen/checkout_checkbox_left_margin158"
-                        android:text="@string/tmp_no"
-                        android:textColor="@color/black"
-                        android:button="@drawable/checkbox_selector"
-                        android:paddingLeft="@dimen/template_spacing27"
-                        android:textSize="@dimen/progressbar_top_margin58" />
+                        <RadioButton
+                            android:id="@+id/radio1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginLeft="@dimen/checkout_checkbox_left_margin158"
+                            android:button="@drawable/checkbox_selector"
+                            android:paddingLeft="@dimen/template_spacing27"
+                            android:text="@string/tmp_no"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/progressbar_top_margin58" />
 
-                    <RadioButton
-                        android:id="@+id/radio2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginLeft="@dimen/stop_work_icon_height350"
-                        android:text="@string/tmp_yes"
-                        android:textColor="@color/black"
-                        android:button="@drawable/checkbox_selector"
-                        android:paddingLeft="@dimen/template_spacing27"
-                        android:textSize="@dimen/progressbar_top_margin58" />
+                        <RadioButton
+                            android:id="@+id/radio2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginLeft="@dimen/stop_work_icon_height350"
+                            android:button="@drawable/checkbox_selector"
+                            android:paddingLeft="@dimen/template_spacing27"
+                            android:text="@string/tmp_yes"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/progressbar_top_margin58" />
                     </RadioGroup>
                 </RelativeLayout>
             </RelativeLayout>
@@ -378,8 +360,8 @@
                 android:layout_weight="20"
                 android:background="@drawable/grey_background"
                 android:text="@string/save"
-                android:textColor="@color/black"
                 android:textAllCaps="false"
+                android:textColor="@color/black"
                 android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
             <Button
@@ -397,8 +379,8 @@
                 android:layout_weight="20"
                 android:background="@drawable/dark_grey_background"
                 android:text="@string/submit"
-                android:textColor="@color/white"
                 android:textAllCaps="false"
+                android:textColor="@color/white"
                 android:textSize="@dimen/dialog_black_lato_regular_small60" />
         </LinearLayout>
     </LinearLayout>

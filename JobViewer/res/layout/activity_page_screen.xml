@@ -85,7 +85,8 @@
                 android:layout_marginRight="@dimen/user_detail_left_spacing140"
                 android:layout_marginTop="@dimen/dialog_edit_top_margin35"
                 android:background="@drawable/red_background"
-                android:text="@string/start_text" android:singleLine="true"
+                android:singleLine="true"
+                android:text="@string/start_text"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/dialog_black_lato_regular_small60" />
@@ -149,8 +150,8 @@
                     android:layout_weight="20"
                     android:background="@drawable/imagebutton"
                     android:text="@string/start_travel"
-                    android:textSize="@dimen/dialog_black_lato_regular_small60" 
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
                 <Button
                     android:id="@+id/space"
@@ -167,8 +168,8 @@
                     android:layout_weight="20"
                     android:background="@drawable/imagebutton"
                     android:text="@string/end_button"
-                    android:textSize="@dimen/dialog_black_lato_regular_small60" 
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/dialog_black_lato_regular_small60" />
             </LinearLayout>
 
             <ImageView
