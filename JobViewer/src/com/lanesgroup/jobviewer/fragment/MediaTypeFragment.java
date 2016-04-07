@@ -17,7 +17,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,8 +27,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
@@ -102,14 +101,13 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 						getResources().getString(R.string.capture_safe_zone))) {
 			formwardIamgeToAddPhotosActivity = true;
 		}
-		try{
+		try {
 			checkAndLoadSavedImages();
-		}catch(Exception e){
-			Log.d(Utils.LOG_TAG,"not able to load images "+e.toString());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		checkAndEnableNextButton();
-		
+
 		com.jobviewer.survey.object.Button[] buttons = currentScreen
 				.getButtons().getButton();
 
@@ -131,14 +129,11 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 					.getImage_string();
 			if (!Utils.isNullOrEmpty(image_string)) {
 				ImageObject imageById = JobViewerDBHandler.getImageById(
-						getActivity(), image_string);				
-				Bitmap base64ToBitmap = Utils.base64ToBitmap(imageById
-						.getImage_string());
-				loadImages(base64ToBitmap);
-
-				Log.i("Android", imageById.getImage_exif());
-				Log.i("Android", imageById.getImage_string());
-				Log.i("Android", imageById.getImageId());
+						getActivity(), image_string);
+				byte[] getbyteArrayFromBase64String = Utils
+						.getbyteArrayFromBase64String(imageById
+								.getImage_string());
+				loadImages(getbyteArrayFromBase64String);
 			}
 		}
 
@@ -199,16 +194,15 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 
 					if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
 							.getImage_string())) {
-						try{
-						ImageObject imageObject = JobViewerDBHandler
-								.getImageById(getActivity(), currentScreen
-										.getImages()[i].getImage_string());
-						if (formwardIamgeToAddPhotosActivity) {
-							addPhotoActivityimageObject.add(imageObject);
-						}
-						sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
-						}catch(Exception e){
-							Log.d(Utils.LOG_TAG,"MEdia Type Fragment not able to save image No : "+ i +" "+e.toString());
+						try {
+							ImageObject imageObject = JobViewerDBHandler
+									.getImageById(getActivity(), currentScreen
+											.getImages()[i].getImage_string());
+							if (formwardIamgeToAddPhotosActivity) {
+								addPhotoActivityimageObject.add(imageObject);
+							}
+							sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
+						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
@@ -227,24 +221,20 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 			}
 		} else if (view == mNext) {
 			addPhotoActivityimageObject = new ArrayList<ImageObject>();
-			Log.d(Utils.LOG_TAG, "mNext Clicked number of Images"+currentScreen.getImages().length);
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 
 				if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
 						.getImage_string())) {
-					Log.d(Utils.LOG_TAG, "mNext Clicked -> unique Id -> "+currentScreen.getImages()[i]
-							.getImage_string());
-					try{
-					ImageObject imageObject = JobViewerDBHandler.getImageById(
-							getActivity(),
-							currentScreen.getImages()[i].getImage_string());
-					if (formwardIamgeToAddPhotosActivity) {
-						addPhotoActivityimageObject.add(imageObject);
-					}
-					
-					sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
-					}catch(Exception e){
-						Log.d(Utils.LOG_TAG,"MEdia Type Fragment not able to save image No : "+ i +" "+e.toString());
+					try {
+						ImageObject imageObject = JobViewerDBHandler
+								.getImageById(getActivity(), currentScreen
+										.getImages()[i].getImage_string());
+						if (formwardIamgeToAddPhotosActivity) {
+							addPhotoActivityimageObject.add(imageObject);
+						}
+
+						sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
@@ -285,7 +275,6 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 			}
 			images[currentScreen.getImages().length] = new Images();
 			currentScreen.setImages(images);
-			Log.i("Android", "");
 		}
 
 	}
@@ -295,6 +284,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 500 && resultCode == RESULT_OK) {
+			String imageString = null;
 			Bitmap photo = Utils.decodeSampledBitmapFromFile(
 					file.getAbsolutePath(), 1000, 700);
 
@@ -314,10 +304,8 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 						exif);
 				geoLocation = geoLocationCamera.toString();
 
-				Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
 				if (formwardIamgeToAddPhotosActivity)
 					timeCapturedForAddPhotosActivity.add(formatDate);
-				Log.i("Android", "geoLocation   :" + geoLocation);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -336,42 +324,38 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 					imageObject.setImage_exif(currentScreen.getImages()[i]
 							.getImage_exif());
 					String base64 = "";
-					try{
-						base64 = Utils.bitmapToBase64String(rotateBitmap); 
-					}catch(OutOfMemoryError oome){
-					 	ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-					 	rotateBitmap.compress(Bitmap.CompressFormat.JPEG,50, baos);
-		                byte[] b =baos.toByteArray();
-		                base64=Base64.encodeToString(b, Base64.DEFAULT);
-		                Log.e(Utils.LOG_TAG, "Out of memory error catched");
+					try {
+						base64 = Utils.bitmapToBase64String(rotateBitmap);
+					} catch (OutOfMemoryError oome) {
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						rotateBitmap.compress(Bitmap.CompressFormat.JPEG, 50,
+								baos);
+						byte[] b = baos.toByteArray();
+						base64 = Base64.encodeToString(b, Base64.DEFAULT);
 					}
 					imageObject.setImage_string(base64);
-					Log.i(Utils.LOG_TAG, imageObject.getImage_exif());
-					Log.i(Utils.LOG_TAG, imageObject.getImage_string());
-					Log.i(Utils.LOG_TAG, imageObject.getImageId());
-
+					imageString = base64;
 					currentScreen.getImages()[i]
 							.setImage_string(generateUniqueID);
-					Log.d(Utils.LOG_TAG,"MediaTypeFragment generateUniqueID "+generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;
 				}
 			}
-			loadImages(rotateBitmap);
+			if (!Utils.isNullOrEmpty(imageString)) {
+				loadImages(Utils.getbyteArrayFromBase64String(imageString));
+			}
 			imageCount++;
-			Toast.makeText(getActivity(), "Number of images are " + imageCount,
-					3000).show();
 			checkAndEnableNextButton();
-
 		}
 	}
 
-	private void loadImages(Bitmap bitmap) {
+	private void loadImages(byte[] getbyteArrayFromBase64String) {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				310, 220);
 		layoutParams.setMargins(0, 30, 0, 0);
 		mCapturedImage = new ImageView(getActivity());
-		mCapturedImage.setImageBitmap(bitmap);
+		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
+				.into(mCapturedImage);
 		linearLayout.addView(mCapturedImage, layoutParams);
 	}
 

@@ -9,7 +9,7 @@ public class JobViewerApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 	}
-
+	
 	public ApplicationSubject getApplicationSubject() {
 		if (applicationSubject == null)
 			applicationSubject = new ApplicationSubject();

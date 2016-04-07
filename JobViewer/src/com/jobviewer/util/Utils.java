@@ -61,7 +61,7 @@ import com.raghu.TimeSheetServiceRequests;
 import com.raghu.WorkPhotoUpload;
 import com.vehicle.communicator.HttpConnection;
 
-public class Utils {	
+public class Utils {
 	public static final String PROGRESS_1_TO_3 = "Step 1 of 3";
 	public static final String PROGRESS_2_TO_3 = "Step 2 of 3";
 	public static final String PROGRESS_1_TO_2 = "Step 1 of 2";
@@ -74,7 +74,7 @@ public class Utils {
 	public static final String CALL_START = "CALL_START";
 	public static final String SHIFT_END = "SHIFT_END";
 	public static final String END_CALL = "END_CALL";
-	
+
 	public static final String REQUEST_TYPE_WORK = "WORK";
 	public static final String REQUEST_TYPE_UPLOAD = "UPLOAD";
 	public static final String REQUEST_TYPE_TIMESHEET = "TIMESHEET";
@@ -88,9 +88,9 @@ public class Utils {
 
 	public static String work_id = "22345";
 	public static String UPDATE_RISK_ASSESSMENT_ACTIVITY = "UPDATE_RISK_ASSESSMENT_ACTIVITY";
-	
+
 	public static final String LOG_TAG = "JV";
-	
+
 	static Dialog progressDialog;
 	public static CheckOutObject checkOutObject;
 	public static TimeSheetRequest timeSheetRequest = null;
@@ -99,38 +99,45 @@ public class Utils {
 	public static TimeSheetRequest endTravelTimeRequest = null;
 	public static TimeSheetRequest startShiftTimeRequest = null;
 	public static TimeSheetRequest endShiftRequest = null;
-	
+
 	public static TimeSheetRequest workEndTimeSheetRequest = null;
 	public static String lastest_work_started_at = "";
 	public static String lastest_call_started_at = "";
 	public static String lastest_shift_started_at = "";
-	
+
 	public static String[] mActivityList = { "Blockage", "CCTV", "Line Clean",
-		"Pumo Down", "SFOC", "Clean Up", "SROPR", "Enable", "Private", "Cover", "Dig Down", "Make Safe", "Lining", "Well Clean" };
-	
-	public static String[] mFloodingList = { "No Flooding", "Internal", "External",
-		"Internal & External" };
-	
-	public static String[] mLandPollutionList = { "Less than 25m/sq", "20-50m/sq", "50-100m/sq",
-		"Greater than 100m/sq" };
-	
-	public static String[] mLandAffectedList = { "Park", "Gardens", "Dry ditch", "Highway" };
-	
-	public static String[] mExtentOfWaterList = {"Less than 10m", "10-50m", "50-100m", "Greater than 100m"};
-	
-	public static String[] mWaterBodyList = {"Pond", "Ditch", "Stream/Brook", "River", "Reservoir"};
-	
-	public static String[] mIndicativeCause = {"3rd Party", "Blockage", "Hydraulic overload", "Failed asset"};
-	
-	public static String[] mAmmonia = {"0 Mg/l", "1-3 Mg/l", "3-6 Mg/l", "Greater than 6 Mg/l"};
-	
-	public static String[] mFishKill = {"None", "1-10", "10-50", "50-100", "Greater than 100"};
-	
+			"Pumo Down", "SFOC", "Clean Up", "SROPR", "Enable", "Private",
+			"Cover", "Dig Down", "Make Safe", "Lining", "Well Clean" };
+
+	public static String[] mFloodingList = { "No Flooding", "Internal",
+			"External", "Internal & External" };
+
+	public static String[] mLandPollutionList = { "Less than 25m/sq",
+			"20-50m/sq", "50-100m/sq", "Greater than 100m/sq" };
+
+	public static String[] mLandAffectedList = { "Park", "Gardens",
+			"Dry ditch", "Highway" };
+
+	public static String[] mExtentOfWaterList = { "Less than 10m", "10-50m",
+			"50-100m", "Greater than 100m" };
+
+	public static String[] mWaterBodyList = { "Pond", "Ditch", "Stream/Brook",
+			"River", "Reservoir" };
+
+	public static String[] mIndicativeCause = { "3rd Party", "Blockage",
+			"Hydraulic overload", "Failed asset" };
+
+	public static String[] mAmmonia = { "0 Mg/l", "1-3 Mg/l", "3-6 Mg/l",
+			"Greater than 6 Mg/l" };
+
+	public static String[] mFishKill = { "None", "1-10", "10-50", "50-100",
+			"Greater than 100" };
+
 	public static TimeSheetRequest callStartTimeRequest = null;
 	public static TimeSheetRequest callEndTimeRequest = null;
 	static int notificationId = 1000;
 	private static NotificationManager myNotificationManager;
-	public static boolean isExitApplication=false;
+	public static boolean isExitApplication = false;
 
 	public static void SendHTTPRequest(Context context, String url,
 			ContentValues data, Handler handler) {
@@ -247,6 +254,10 @@ public class Utils {
 				Base64.DEFAULT);
 		return BitmapFactory.decodeByteArray(imageAsBytes, 0,
 				imageAsBytes.length);
+	}
+
+	public static byte[] getbyteArrayFromBase64String(String base64String) {
+		return Base64.decode(base64String.getBytes(), Base64.DEFAULT);
 	}
 
 	public static String generateUniqueID(Context context) {
@@ -477,7 +488,8 @@ public class Utils {
 		backLogRequest.setRequestApi(CommsConstant.HOST
 				+ CommsConstant.WORK_PHOTO_UPLOAD + "/" + Utils.work_id);
 		backLogRequest.setRequestClassName("WorkPhotoUpload");
-		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(workPhotoUpload));
+		backLogRequest.setRequestJson(GsonConverter.getInstance()
+				.encodeToJsonString(workPhotoUpload));
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_UPLOAD);
 		JobViewerDBHandler.saveBackLog(mContext, backLogRequest);
 	}
@@ -517,40 +529,40 @@ public class Utils {
 						locationOfUser = location;
 					}
 				});
-			return locationOfUser;
-		}
+		return locationOfUser;
+	}
 
-		public static void sendImagesToserver(Context context) {
-			SendImagesOnBackground sendImagesOnBackground = new SendImagesOnBackground();
-			sendImagesOnBackground.getAndSendImagesToServer(context);
-		}
+	public static void sendImagesToserver(Context context) {
+		SendImagesOnBackground sendImagesOnBackground = new SendImagesOnBackground();
+		sendImagesOnBackground.getAndSendImagesToServer(context);
+	}
 
-		public static void dailogboxSelector(final Activity activity,
-				final String[] list, int resorce, final TextView seleTextView,
-				String header) {
+	public static void dailogboxSelector(final Activity activity,
+			final String[] list, int resorce, final TextView seleTextView,
+			String header) {
 
-			View view = activity.getLayoutInflater().inflate(resorce, null);
-			CustomDialogAdapter mAgeAndLocationAdapter = new CustomDialogAdapter(
-					activity, list, seleTextView.getText().toString().trim());
+		View view = activity.getLayoutInflater().inflate(resorce, null);
+		CustomDialogAdapter mAgeAndLocationAdapter = new CustomDialogAdapter(
+				activity, list, seleTextView.getText().toString().trim());
 
-			ListView listView = (ListView) view.findViewById(R.id.list);
-			TextView headerTxt = (TextView) view.findViewById(R.id.dialog_info);
-			headerTxt.setText(header);
-			listView.setAdapter(mAgeAndLocationAdapter);
+		ListView listView = (ListView) view.findViewById(R.id.list);
+		TextView headerTxt = (TextView) view.findViewById(R.id.dialog_info);
+		headerTxt.setText(header);
+		listView.setAdapter(mAgeAndLocationAdapter);
 
-			final Dialog dialog = new Dialog(activity);
-			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-			dialog.setContentView(view);
-			dialog.show();
-			dialog.setCancelable(false);
+		final Dialog dialog = new Dialog(activity);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(view);
+		dialog.show();
+		dialog.setCancelable(false);
 
-			listView.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1,
-						int position, long arg3) {
-					seleTextView.setText(list[position]);
-					dialog.dismiss();
-				}
-			});
-		}
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				seleTextView.setText(list[position]);
+				dialog.dismiss();
+			}
+		});
+	}
 }

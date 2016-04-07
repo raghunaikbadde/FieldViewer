@@ -32,6 +32,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
@@ -78,9 +79,10 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		if(MediaTypeFragment.addPhotoActivityimageObject == null)
 			MediaTypeFragment.addPhotoActivityimageObject = new ArrayList<ImageObject>();
 		for (ImageObject imageObject : MediaTypeFragment.addPhotoActivityimageObject) {
-			Bitmap bitmapOfSafeZone = null;
+			byte[] bitmapOfSafeZone = null;
 			try{
-				bitmapOfSafeZone = Utils.base64ToBitmap(imageObject.getImage_string());
+				//bitmapOfSafeZone = Utils.base64ToBitmap(imageObject.getImage_string());
+				bitmapOfSafeZone=Utils.getbyteArrayFromBase64String(imageObject.getImage_string());
 			}catch(OutOfMemoryError oome){
 				Log.d(Utils.LOG_TAG," oome safezone to add photos activity "+oome.toString());
 				oome.printStackTrace();
@@ -379,15 +381,19 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 				ViewHolder vh = new ViewHolder(convertView);
 				vh.dateTime.setText(hashMapOfCapturedIamges.get(position)
 						.get("time").toString());
-				vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
-						.get(position).get("photo"));
+				Glide.with(mContext).load(hashMapOfCapturedIamges
+						.get(position).get("photo")).asBitmap().into(vh.imageView);
+				/*vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
+						.get(position).get("photo"));*/
 				convertView.setTag(vh);
 			} else {
 				ViewHolder vh = (ViewHolder) convertView.getTag();
 				vh.dateTime.setText(hashMapOfCapturedIamges.get(position)
 						.get("time").toString());
-				vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
-						.get(position).get("photo"));
+				Glide.with(mContext).load(hashMapOfCapturedIamges
+						.get(position).get("photo")).asBitmap().into(vh.imageView);
+				/*vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
+						.get(position).get("photo"));*/
 				convertView.setTag(vh);
 			}
 
