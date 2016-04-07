@@ -67,7 +67,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/white_lato_regular_big79"
             android:layout_marginRight="@dimen/white_lato_regular_big79"
-            android:paddingBottom="@dimen/dialog_clock_icon_left_right_margin40" >
+            android:layout_marginBottom="@dimen/white_lato_regular_big79">
 
             <Button
                 android:id="@+id/button1"
@@ -77,6 +77,7 @@
                 android:background="@drawable/grey_background"
                 android:text="@string/cancel"
                 android:textAllCaps="false"
+                android:textSize="@dimen/dialog_black_lato_regular_small60"
                 android:textColor="@color/dark_grey" />
 
             <Button
@@ -94,6 +95,7 @@
                 android:background="@drawable/dark_grey_background"
                 android:text="@string/next"
                 android:textAllCaps="false"
+                android:textSize="@dimen/dialog_black_lato_regular_small60"
                 android:textColor="@color/white" />
         </LinearLayout>
     </RelativeLayout>

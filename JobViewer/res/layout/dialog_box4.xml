@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dialog_detail_bottom_margin95"
-            android:layout_marginTop="@dimen/dialog_detail_top_margin80" >
+            android:layout_marginTop="@dimen/dialog_edit_bottom_margin90" >
 
             <ImageView
                 android:id="@+id/info_image"

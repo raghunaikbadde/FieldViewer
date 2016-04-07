@@ -56,7 +56,7 @@
             android:layout_marginBottom="@dimen/grey_lato_regular_small35"
             android:textColor="@color/black"
             android:gravity="center_vertical"
-            android:textSize="@dimen/dialog_black_lato_regular_small60"
+            android:textSize="@dimen/black_lato_regular_small55"
             android:text="@string/name" />
 
     <EditText

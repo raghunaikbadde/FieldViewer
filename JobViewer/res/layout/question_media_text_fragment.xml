@@ -89,7 +89,7 @@
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:text="@string/capture_info_str"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/white_lato_bold_small50"/>
+                    android:textSize="@dimen/black_lato_regular_small55"/>
                 
                 <EditText
 			        android:id="@+id/describe_edittext"
