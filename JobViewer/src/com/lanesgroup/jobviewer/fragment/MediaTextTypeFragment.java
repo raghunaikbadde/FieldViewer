@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
@@ -163,20 +164,26 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 			if (!Utils.isNullOrEmpty(image_string)) {
 				ImageObject imageById = JobViewerDBHandler.getImageById(
 						getActivity(), image_string);
-				Bitmap base64ToBitmap = Utils.base64ToBitmap(imageById
-						.getImage_string());
-				loadImages(base64ToBitmap);
+				/*
+				 * Bitmap base64ToBitmap = Utils.base64ToBitmap(imageById
+				 * .getImage_string());
+				 */
+				byte[] getbyteArrayFromBase64String = Utils
+						.getbyteArrayFromBase64String(imageById
+								.getImage_string());
+				loadImages(getbyteArrayFromBase64String);
 			}
 		}
 
 	}
 
-	private void loadImages(Bitmap bitmap) {
+	private void loadImages(byte[] getbyteArrayFromBase64String) {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				310, 220);
 		layoutParams.setMargins(0, 30, 0, 0);
 		mCapturedImage = new ImageView(getActivity());
-		mCapturedImage.setImageBitmap(bitmap);
+		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
+				.into(mCapturedImage);
 		linearLayout.addView(mCapturedImage, layoutParams);
 	}
 
@@ -271,12 +278,17 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 					ImageUploadResponse decodeFromJsonString = GsonConverter
 							.getInstance().decodeFromJsonString(result,
 									ImageUploadResponse.class);
-					/*JobViewerDBHandler.deleteImageById(getActivity(),
-							decodeFromJsonString.getTemp_id());*/
-					ImageSendStatusObject imageSendStatusObject=new ImageSendStatusObject();
-					imageSendStatusObject.setImageId(decodeFromJsonString.getTemp_id());
-					imageSendStatusObject.setStatus(ActivityConstants.IMAGE_SEND_STATUS);
-					JobViewerDBHandler.saveImageStatus(getActivity(), imageSendStatusObject);
+					/*
+					 * JobViewerDBHandler.deleteImageById(getActivity(),
+					 * decodeFromJsonString.getTemp_id());
+					 */
+					ImageSendStatusObject imageSendStatusObject = new ImageSendStatusObject();
+					imageSendStatusObject.setImageId(decodeFromJsonString
+							.getTemp_id());
+					imageSendStatusObject
+							.setStatus(ActivityConstants.IMAGE_SEND_STATUS);
+					JobViewerDBHandler.saveImageStatus(getActivity(),
+							imageSendStatusObject);
 					break;
 				case HttpConnection.DID_ERROR:
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
@@ -322,6 +334,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 500 && resultCode == RESULT_OK) {
+			String imageString = null;
 			Bitmap photo = Utils.decodeSampledBitmapFromFile(
 					file.getAbsolutePath(), 1000, 700);
 
@@ -362,14 +375,14 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 							.getImage_exif());
 					imageObject.setImage_string(Utils
 							.bitmapToBase64String(rotateBitmap));
-
+					imageString = imageObject.getImage_string();
 					currentScreen.getImages()[i]
 							.setImage_string(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;
 				}
 			}
-			loadImages(rotateBitmap);
+			loadImages(Utils.getbyteArrayFromBase64String(imageString));
 			imageCount++;
 			checkAndEnableNextButton();
 

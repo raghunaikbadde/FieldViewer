@@ -28,8 +28,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
@@ -68,6 +68,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	Screen currentScreen;
 	static File file;
 	CheckOutObject checkOutRemember;
+	LinearLayout linearLayout;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -113,6 +114,34 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 				break;
 			}
 		}
+		
+		checkAndLoadSavedImages();
+	}
+	
+	private void checkAndLoadSavedImages() {
+		for (int i = 0; i < currentScreen.getImages().length; i++) {
+			String image_string = currentScreen.getImages()[i]
+					.getImage_string();
+			if (!Utils.isNullOrEmpty(image_string)) {
+				ImageObject imageById = JobViewerDBHandler.getImageById(
+						getActivity(), image_string);
+				byte[] getbyteArrayFromBase64String = Utils
+						.getbyteArrayFromBase64String(imageById
+								.getImage_string());
+				loadImages(getbyteArrayFromBase64String);
+			}
+		}
+
+	}
+	
+	private void loadImages(byte[] getbyteArrayFromBase64String) {
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+				310, 220);
+		layoutParams.setMargins(0, 30, 0, 0);
+		mCapturedImage = new ImageView(getActivity());
+		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
+				.into(mCapturedImage);
+		linearLayout.addView(mCapturedImage, layoutParams);
 	}
 
 	private void initUI() {
@@ -123,7 +152,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		questionTitle = (TextView) mRootView.findViewById(R.id.questionTitle);
 		question = (TextView) mRootView.findViewById(R.id.question);
 		mDescribe = (EditText) mRootView.findViewById(R.id.describe_edittext);
-
+		linearLayout = (LinearLayout) mRootView.findViewById(R.id.imageslinear);
 		mLinearLayout = (LinearLayout) mRootView
 				.findViewById(R.id.capture_layout);
 		mLinearLayout.setOnClickListener(this);
@@ -132,6 +161,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		mSave.setOnClickListener(this);
 		mNext = (Button) mRootView.findViewById(R.id.button2);
 		mNext.setOnClickListener(this);
+		mDescribe.setText(currentScreen.getAnswer());
 		mDescribe.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -441,9 +471,8 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		LinearLayout linearLayout = (LinearLayout) mRootView
-				.findViewById(R.id.imageslinear);
 		if (requestCode == 500 && resultCode == RESULT_OK) {
+			String imageString=null;
 			Bitmap photo = Utils.decodeSampledBitmapFromFile(
 					file.getAbsolutePath(), 1000, 700);
 
@@ -475,22 +504,24 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 						.getImage_string())) {
 					String image_exif = formatDate + "," + geoLocation;
 					currentScreen.getImages()[i].setImage_exif(image_exif);
-					String image_base_64 = Utils
-							.bitmapToBase64String(rotateBitmap);
-					currentScreen.getImages()[i].setImage_string(image_base_64);
-					// sendDetailsOrSaveCapturedImageInBacklogDb(image_base_64,image_exif);
+					ImageObject imageObject = new ImageObject();
+					String generateUniqueID = Utils
+							.generateUniqueID(getActivity());
+					imageObject.setImageId(generateUniqueID);
+					imageObject.setCategory("surveys");
+					imageObject.setImage_exif(currentScreen.getImages()[i]
+							.getImage_exif());
+					imageObject.setImage_string(Utils
+							.bitmapToBase64String(rotateBitmap));
+					imageString = imageObject.getImage_string();
+					currentScreen.getImages()[i]
+							.setImage_string(generateUniqueID);
+					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;
 				}
 			}
-			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-					310, 220);
-			layoutParams.setMargins(0, 30, 0, 0);
-			mCapturedImage = new ImageView(getActivity());
-			mCapturedImage.setImageBitmap(rotateBitmap);
-			linearLayout.addView(mCapturedImage, layoutParams);
+			loadImages(Utils.getbyteArrayFromBase64String(imageString));
 			imageCount++;
-			Toast.makeText(getActivity(), "Number of images are " + imageCount,
-					3000).show();
 			checkAndEnableNextButton();
 
 		}
