@@ -27,6 +27,9 @@ import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.util.ConfirmDialog;
+import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallback;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.EditTextFocusListener;
 import com.jobviewer.util.EditTextWatcher;
 import com.jobviewer.util.GPSTracker;
@@ -36,11 +39,11 @@ import com.jobviwer.response.object.User;
 import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 
-public class NewWorkActivity extends BaseActivity implements OnClickListener {
+public class NewWorkActivity extends BaseActivity implements OnClickListener,ConfirmDialogCallback {
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep;
-	private CheckBox pollutionCheckBox;
+	private CheckBox mPollutionCheckBox;
 	private EditText mDistrict1;
 	private static EditText mDistrict2;
 	private static EditText mTaskNumber1;
@@ -64,7 +67,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 		mProgress.setProgress(progress);
 		mLocation = Utils.getCurrentLocation(this);
 		mProgressStep = (TextView) findViewById(R.id.progress_step_text);
-		pollutionCheckBox = (CheckBox) findViewById(R.id.pollutionCheckBox);
+		mPollutionCheckBox = (CheckBox) findViewById(R.id.pollutionCheckBox);
 		mDistrict1 = (EditText) findViewById(R.id.distric1_edittext);
 		mDistrict2 = (EditText) findViewById(R.id.distric2_edittext);
 		mTaskNumber1 = (EditText) findViewById(R.id.distric3_edittext);
@@ -87,7 +90,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 				mTaskNumber1, 2, mTaskNumber2));
 		mTaskNumber2.addTextChangedListener(new EditTextWatcher(this,
 				mTaskNumber2, 4, null));
-		pollutionCheckBox
+		mPollutionCheckBox
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 					@Override
@@ -136,25 +139,34 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 		} else if (view == mNext) {
 			boolean isValidUserInput = isValidUserInput();
 			if (isValidUserInput) {
-				CheckOutObject checkOutRemember = JobViewerDBHandler
-						.getCheckOutRemember(view.getContext());
-				checkOutRemember.setVistecId(mDistrict2.getText().toString()
-						+ mTaskNumber1.getText().toString()
-						+ mTaskNumber2.getText().toString());
-				if (pollutionCheckBox.isChecked()) {
-					checkOutRemember.setIsPollutionSelected("true");
-				} else {
-					checkOutRemember.setIsPollutionSelected("");
-				}
-				JobViewerDBHandler.saveCheckOutRemember(view.getContext(),
-						checkOutRemember);
-				if (Utils.isInternetAvailable(view.getContext())) {
-					executeWorkCreateService();
-				} else {
-					saveCreatedWorkInBackLogDb();
-					startEndActvity();
+				if(mPollutionCheckBox.isChecked()){
+					ConfirmDialog confirmDialog = new ConfirmDialog(context, this, Constants.POLLUTION_CONFIRMATION);
+					confirmDialog.show();
+				} else{
+					executeNewWorkActivity();
 				}
 			}
+		}
+	}
+
+	private void executeNewWorkActivity() {
+		CheckOutObject checkOutRemember = JobViewerDBHandler
+				.getCheckOutRemember(context);
+		checkOutRemember.setVistecId(mDistrict2.getText().toString()
+				+ mTaskNumber1.getText().toString()
+				+ mTaskNumber2.getText().toString());
+		if (mPollutionCheckBox.isChecked()) {
+			checkOutRemember.setIsPollutionSelected("true");
+		} else {
+			checkOutRemember.setIsPollutionSelected("");
+		}
+		JobViewerDBHandler.saveCheckOutRemember(context,
+				checkOutRemember);
+		if (Utils.isInternetAvailable(context)) {
+			executeWorkCreateService();
+		} else {
+			saveCreatedWorkInBackLogDb();
+			startEndActvity();
 		}
 	}
 
@@ -305,5 +317,15 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener {
 		backLogRequest.setRequestJson(workRequest.toString());
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(context, backLogRequest);
+	}
+
+	@Override
+	public void onConfirmStartTraining() {
+		executeNewWorkActivity();		
+	}
+
+	@Override
+	public void onConfirmDismiss() {
+		mPollutionCheckBox.setChecked(false);
 	}
 }

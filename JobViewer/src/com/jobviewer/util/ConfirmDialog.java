@@ -48,7 +48,10 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		mMessage = (TextView) findViewById(R.id.cofirmation_msg_text);
 		if(this.eventType.equalsIgnoreCase(Constants.START_TRAINING)){
 			mMessage.setText(Constants.START_TRAINING_MESSAGE);
-		}else {
+		} else if(this.eventType.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)){
+			mMessage.setText(context.getResources().getString(R.string.pollution_cofirmation_msg));
+			mHeader.setText(context.getResources().getString(R.string.pollution_confirmation));
+		} else {
 			mMessage.setText(Constants.END_TRAINING_MESSAGE);
 		}
 		
@@ -64,6 +67,9 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 	public void onClick(View view) {
 		if (view == mTimeCancel) {
 			this.dismiss();
+			if(eventType.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)){
+				mCallback.onConfirmDismiss();
+			}
 		} else if (view == mTimeContinue) {
 			this.dismiss();
 			mCallback.onConfirmStartTraining();

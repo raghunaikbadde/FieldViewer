@@ -20,6 +20,7 @@ public class Constants {
 	public static final String TRAVEL_STARTED = "TRAVEL_STARTED";
 	public static final String END_TRAINING = "End Training";
 	public static final String START_TRAINING = "Start Training";
+	public static final String POLLUTION_CONFIRMATION = "pollutionConfirmation";
 	public static final String START_TRAINING_MESSAGE = "Training should only be logged when requested by the office. Do you want to continue?";
 	public static final String END_TRAINING_MESSAGE = "Are you ready to end training?";
 	public static final String END_TRAINING_HEADER = "Training Confirmation";
