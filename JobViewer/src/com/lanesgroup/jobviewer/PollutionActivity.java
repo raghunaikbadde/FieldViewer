@@ -1,13 +1,21 @@
 package com.lanesgroup.jobviewer;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -16,6 +24,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -27,7 +36,9 @@ import com.jobviewer.custom.view.MultiSelectSpinner;
 import com.jobviewer.custom.view.MultiSelectSpinner.MultiSpinnerListener;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Utils;
@@ -44,8 +55,10 @@ public class PollutionActivity extends BaseActivity implements
 			waterBodyAffectedSpinner, indicativeCauseSpinner;
 	MultiSelectSpinner landPollutantsSpinner, waterPollutantsSpinner,
 			additionalEDSpinner;
-	Button nextButton;
+	Button nextButton, mTakePicUpStream,mTakePicDownStream;
 	PollutionReportRequest pollutionReportRequest;
+	
+	EditText mUpStreamEditText, mDownStreamEdiText;
 	
 	RelativeLayout spinnerLayout, landAffectedLayout, spinnerLayoutExtentOfWater, spinnerLayoutWaterBody, spinnerLayoutAmmonia, spinnerLayoutFishKill,
 	spinnerLayoutIndicative;
@@ -53,6 +66,9 @@ public class PollutionActivity extends BaseActivity implements
 	
 	ArrayList<String> stringOfLandPollutants;
 	ArrayList<String> stringOfWaterPollutants;
+
+	ImageObject upStreamImageObject,downSteamIamgeObject;
+	static File file;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,6 +124,9 @@ public class PollutionActivity extends BaseActivity implements
 				}
 			}
 		});
+		
+		upStreamImageObject = new ImageObject();
+		downSteamIamgeObject = new ImageObject();
 	}
 
 	protected void addWaterPollutionData() {
@@ -270,6 +289,8 @@ public class PollutionActivity extends BaseActivity implements
 		progress_step_text = (TextView) findViewById(R.id.progress_step_text);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 		ptlCheckbox = (CheckBox) findViewById(R.id.ptlCheckbox);
+		mUpStreamEditText = (EditText) findViewById(R.id.upstream_edittext);
+		mDownStreamEdiText = (EditText) findViewById(R.id.downstream_edittext);
 		//extentOfLandSpinner = (Spinner) findViewById(R.id.extentOfLandSpinner);
 		//landAffectedSpinner = (Spinner) findViewById(R.id.landAffectedSpinner);
 		landPollutantsSpinner = (MultiSelectSpinner) findViewById(R.id.landPollutantsSpinner);
@@ -282,6 +303,10 @@ public class PollutionActivity extends BaseActivity implements
 		ptlExpandLayout = (LinearLayout) findViewById(R.id.ptlExpandLayout);
 		ptwExpandLayout = (LinearLayout) findViewById(R.id.ptwExpandLayout);
 		nextButton = (Button) findViewById(R.id.nextButton);
+		mTakePicUpStream = (Button) findViewById(R.id.takePicture_upstream);
+		mTakePicDownStream = (Button) findViewById(R.id.takePicture_downstream);
+		mTakePicUpStream.setOnClickListener(this);
+		mTakePicDownStream.setOnClickListener(this);
 		nextButton.setOnClickListener(this);
 		
 		spinnerLayout = (RelativeLayout) findViewById(R.id.spinnerLayout);
@@ -357,6 +382,24 @@ public class PollutionActivity extends BaseActivity implements
 			String fishKillHeader = "Fish Kill";
 			Utils.dailogboxSelector(this, Utils.mFishKill, R.layout.work_complete_dialog, fishKill, fishKillHeader);
 			break;
+		case R.id.takePicture_upstream:
+			file = new File(Environment.getExternalStorageDirectory()
+					+ File.separator + "image.jpg");
+			Intent intent = new Intent(
+					com.jobviewer.util.Constants.IMAGE_CAPTURE_ACTION);
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+			startActivityForResult(intent,
+					com.jobviewer.util.Constants.UPSTREAM_RESULT_CODE);
+			break;
+		case R.id.takePicture_downstream:
+			file = new File(Environment.getExternalStorageDirectory()
+					+ File.separator + "image.jpg");
+			Intent imageIntent = new Intent(
+					com.jobviewer.util.Constants.IMAGE_CAPTURE_ACTION);
+			imageIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+			startActivityForResult(imageIntent,
+					com.jobviewer.util.Constants.DOWNSTREAM_RESULT_CODE);
+			break;
 		default:
 			break;
 		}
@@ -367,22 +410,58 @@ public class PollutionActivity extends BaseActivity implements
 		ContentValues data = new ContentValues();
 
 		data.put("land_polluted",pollutionReportRequest.getLand_polluted());
+		
+		pollutionReportRequest.setLand_area(landPollution.getText().toString());		
 		data.put("land_area",pollutionReportRequest.getLand_area());
+		
+		pollutionReportRequest.setLand_type(landAffected.getText().toString());		
 		data.put("land_type",pollutionReportRequest.getLand_type());
 		 
 		data.put("land_pollutants",Arrays.toString(pollutionReportRequest.getLand_pollutants().toArray()));
 		data.put("water_polluted",pollutionReportRequest.getWater_polluted());
+		
+		pollutionReportRequest.setWater_area(extentOfWater.getText().toString());		
 		data.put("water_area",pollutionReportRequest.getWater_area());
-		data.put("water_body",pollutionReportRequest.getWater_body());		
+		
+		pollutionReportRequest.setWater_body(waterBody.getText().toString());
+		data.put("water_body",pollutionReportRequest.getWater_body());	
+		
 		data.put("water_pollutants",Arrays.toString(pollutionReportRequest.getWater_pollutants().toArray()));
+		
+		pollutionReportRequest.setDo_upstream(mUpStreamEditText.getText().toString());
 		data.put("do_upstream",pollutionReportRequest.getDo_upstream());
+		
+		pollutionReportRequest.setDo_downstream(mDownStreamEdiText.getText().toString());
 		data.put("do_downstream",pollutionReportRequest.getDo_downstream());
+		
+		
+		if(!Utils.isNullOrEmpty(upStreamImageObject.getImage_string())){
+			pollutionReportRequest.setDo_upstream_image(upStreamImageObject.getImage_string());
+		} else {
+			pollutionReportRequest.setDo_upstream_image("");
+		}
 		data.put("do_upstream_image",pollutionReportRequest.getDo_upstream_image());
+		
+		
+		if(!Utils.isNullOrEmpty(upStreamImageObject.getImage_string())){
+			pollutionReportRequest.setDo_downstream_image(downSteamIamgeObject.getImage_string());
+		} else {
+			pollutionReportRequest.setDo_downstream_image("");
+		}		
 		data.put("do_downstream_image",pollutionReportRequest.getDo_downstream_image());
+		
+		pollutionReportRequest.setAmmonia(ammonia.getText().toString());
 		data.put("ammonia",pollutionReportRequest.getAmmonia());
+		
+		pollutionReportRequest.setFish_kill(fishKill.getText().toString());
 		data.put("fish_kill",pollutionReportRequest.getFish_kill());
+		
+		pollutionReportRequest.setIndicative_cause(indicativeCause.getText().toString());
 		data.put("indicative_cause",pollutionReportRequest.getIndicative_cause());
+		
 		data.put("failed_asset",pollutionReportRequest.getFailed_asset());
+		
+		//TODO: UI is not not yet ready
 		data.put("equipment_deployed",Arrays.toString(pollutionReportRequest.getEquipment_deployed()));
 		
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
@@ -418,5 +497,60 @@ public class PollutionActivity extends BaseActivity implements
 		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(pollutionReportRequest));
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(getApplicationContext(), backLogRequest);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == com.jobviewer.util.Constants.UPSTREAM_RESULT_CODE && resultCode == RESULT_OK) {
+			upStreamImageObject = new ImageObject();
+			prepareImageObject(upStreamImageObject);
+			mTakePicUpStream.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.camera_plus_icon));
+			mTakePicUpStream.setBackgroundColor(context.getResources().getColor(R.color.red));
+		} else if  (requestCode == com.jobviewer.util.Constants.DOWNSTREAM_RESULT_CODE && resultCode == RESULT_OK) {
+			downSteamIamgeObject = new ImageObject();
+			prepareImageObject(downSteamIamgeObject);
+			mTakePicDownStream.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.camera_plus_icon));
+			mTakePicDownStream.setBackgroundColor(context.getResources().getColor(R.color.red));
+		}
+	}
+
+	private void prepareImageObject(ImageObject imageObject) {
+		String generateUniqueID = Utils
+				.generateUniqueID(this);
+		imageObject.setImageId(generateUniqueID);
+		imageObject.setCategory("work");
+		
+		Bitmap photo = Utils.decodeSampledBitmapFromFile(
+				file.getAbsolutePath(), 1000, 700);
+
+		Bitmap rotateBitmap = Utils.rotateBitmap(file.getAbsolutePath(),
+				photo);
+		
+		String currentImageFile = Utils.getRealPathFromURI(
+				Uri.fromFile(file), this);
+		
+		String formatDate = "";
+		String geoLocation = "";
+
+		try {
+			ExifInterface exif = new ExifInterface(currentImageFile);
+			String picDateTime = exif
+					.getAttribute(ExifInterface.TAG_DATETIME);
+			formatDate = Utils.formatDate(picDateTime);
+			GeoLocationCamera geoLocationCamera = new GeoLocationCamera(
+					exif);
+			geoLocation = geoLocationCamera.toString();
+
+			Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
+			Log.i("Android", "geoLocation   :" + geoLocation);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String image_exif = formatDate + "," + geoLocation;
+		imageObject.setImage_string(Utils
+				.bitmapToBase64String(rotateBitmap));
+		imageObject.setImage_exif(image_exif);
 	}
 }

@@ -9,6 +9,8 @@ public class Constants {
 	public static final String PROGRESS_1_TO_1 = "Step 1 of 1";
 	public static final String CALLING_ACTIVITY = "callingActivity";
 	public static final int RESULT_CODE = 500;
+	public static final int UPSTREAM_RESULT_CODE = 600;
+	public static final int DOWNSTREAM_RESULT_CODE = 400;
 	public static final int RESULT_CODE_CHANGE_TIME = 1000;
 	public static final int RESULT_CODE_OVERRIDE_COMMENT = 1001;
 	public static final int RESULT_CODE_START_TRAINING = 1002;

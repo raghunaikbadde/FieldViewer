@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/dialog_width920"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.jobviewer.util.ConfirmDialog" >
 
     <TextView
         android:id="@+id/dialog_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_header_height242"
+        android:background="@drawable/dialog_header_background"
+        android:gravity="center_vertical|center_horizontal"
         android:paddingLeft="@dimen/black_lato_regular_small55"
         android:paddingRight="@dimen/black_lato_regular_small55"
+        android:text="@string/pollution_confirmation"
         android:textColor="@color/white"
-        android:gravity="center_vertical|center_horizontal"
-        android:textSize="@dimen/dialog_detail_top_margin80"
-        android:background="@drawable/dialog_header_background"
-        android:text="@string/pollution_confirmation"/>
-    
+        android:textSize="@dimen/dialog_detail_top_margin80" />
+
     <TextView
         android:id="@+id/cofirmation_msg_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/dialog_detail_top_margin80"
-    	android:paddingBottom="@dimen/dialog_detail_bottom_margin95"
-        android:paddingRight="@dimen/white_lato_regular_small40"
-        android:paddingLeft="@dimen/white_lato_regular_small40"
+        android:background="@color/white"
         android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/dialog_detail_bottom_margin95"
+        android:paddingLeft="@dimen/white_lato_regular_small40"
+        android:paddingRight="@dimen/white_lato_regular_small40"
+        android:paddingTop="@dimen/dialog_detail_top_margin80"
+        android:text="@string/pollution_cofirmation_msg"
         android:textColor="@color/black"
-    	android:background="@color/white"
-        android:textSize="@dimen/black_lato_regular_small55"
-        android:text="@string/pollution_cofirmation_msg" />
+        android:textSize="@dimen/black_lato_regular_small55" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dialog_button_height152">
+        android:layout_height="@dimen/dialog_button_height152" >
 
         <Button
             android:id="@+id/dialog_cancel"
@@ -41,10 +42,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/dialog_grey_button"
-            android:textColor="@color/lighter_grey"
-            android:textSize="@dimen/dialog_black_lato_regular_small60"
+            android:text="@string/tmp_no"
             android:textAllCaps="false"
-            android:text="@string/tmp_no"/>
+            android:textColor="@color/lighter_grey"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
         <Button
             android:id="@+id/dialog_ok"
@@ -52,9 +53,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/dialog_red_button"
-            android:textColor="@color/white"
-            android:textSize="@dimen/dialog_black_lato_regular_small60"
+            android:text="@string/tmp_yes"
             android:textAllCaps="false"
-            android:text="@string/tmp_yes"/>
+            android:textColor="@color/white"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
+
 </LinearLayout>
