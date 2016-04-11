@@ -1,6 +1,5 @@
 package com.jobviewer.util;
 
-import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -90,12 +89,16 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 		String item = parent.getItemAtPosition(position).toString();
 		if ("start".equalsIgnoreCase(eventType)) {
 			Utils.timeSheetRequest.setOverride_comment(item);
+			Utils.timeSheetRequest.setOverride_reason(item);
 		} else  if ("travel".equalsIgnoreCase(eventType)) {
 			Utils.startTravelTimeRequest.setOverride_comment(item);
+			Utils.startTravelTimeRequest.setOverride_reason(item);
 		} else  if ("End Travel".equalsIgnoreCase(eventType)) {
 			Utils.endTravelTimeRequest.setOverride_comment(item);
+			Utils.endTravelTimeRequest.setOverride_reason(item);
 		} else {
 			Utils.endTimeRequest.setOverride_comment(item);
+			Utils.endTimeRequest.setOverride_reason(item);
 		}
 
 	}
