@@ -56,6 +56,7 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.service.AppKillService;
 import com.lanesgroup.jobviewer.LauncherActivity;
+import com.lanesgroup.jobviewer.PollutionActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.WelcomeActivity;
 import com.raghu.TimeSheetServiceRequests;
@@ -576,6 +577,9 @@ public class Utils {
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				seleTextView.setText(list[position]);
+				if(activity instanceof PollutionActivity){
+					((PollutionActivity) activity).validateUserInputs();
+				}
 				dialog.dismiss();
 			}
 		});

@@ -277,7 +277,11 @@
         <item>Lining</item>
         <item>Well Clean</item>
     </string-array>
-     
+    
+    <string-array name="additionalEquipmentDeployed">
+        <item>Jetting</item>
+        <item>Tanker</item>
+    </string-array>
     
 	<!--Raghu Strings -->
     <string name="your_travel_start_time">Your travel start time will be logged as:</string>

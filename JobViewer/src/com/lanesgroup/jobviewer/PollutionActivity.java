@@ -66,6 +66,7 @@ public class PollutionActivity extends BaseActivity implements
 	
 	ArrayList<String> stringOfLandPollutants;
 	ArrayList<String> stringOfWaterPollutants;
+	ArrayList<String> stringOfAdditionalEPD;
 
 	ImageObject upStreamImageObject,downSteamIamgeObject;
 	static File file;
@@ -99,6 +100,7 @@ public class PollutionActivity extends BaseActivity implements
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
+				validateUserInputs();
 				if (isChecked) {
 					ptlExpandLayout.setVisibility(View.VISIBLE);
 					pollutionReportRequest.setLand_polluted("Yes");
@@ -114,6 +116,7 @@ public class PollutionActivity extends BaseActivity implements
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
+				validateUserInputs();
 				if (isChecked) {
 					ptwExpandLayout.setVisibility(View.VISIBLE);
 					pollutionReportRequest.setWater_polluted("Yes");
@@ -125,6 +128,39 @@ public class PollutionActivity extends BaseActivity implements
 			}
 		});
 		
+
+		final ArrayAdapter<String> additionEPDAdapter = new ArrayAdapter<String>(
+				this, R.layout.simple_spinner_item);
+		String[] additionalEPDArray = getResources().getStringArray(
+				R.array.additionalEquipmentDeployed);
+		for (int i = 0; i < additionalEPDArray.length; i++) {
+			additionEPDAdapter.add(additionalEPDArray[i]);
+		}
+
+		stringOfAdditionalEPD = new ArrayList<String>();
+		additionalEDSpinner.setAdapter(additionEPDAdapter, false,
+				new MultiSpinnerListener() {
+
+					@Override
+					public void onItemsSelected(boolean[] selected) {
+						StringBuilder builder = new StringBuilder();
+
+						for (int i = 0; i < selected.length; i++) {
+							if (selected[i]) {
+								builder.append(
+										additionEPDAdapter.getItem(i))
+										.append(" ");
+								stringOfAdditionalEPD.add(additionEPDAdapter.getItem(i));								
+								validateUserInputs();
+							}
+						}
+
+					}
+				});
+
+		boolean[] selectedEPDItems = new boolean[additionEPDAdapter.getCount()];
+		selectedEPDItems[0] = true; // select second item
+		additionalEDSpinner.setSelected(selectedEPDItems);
 		upStreamImageObject = new ImageObject();
 		downSteamIamgeObject = new ImageObject();
 	}
@@ -196,6 +232,8 @@ public class PollutionActivity extends BaseActivity implements
 										waterPollutantsAdapter.getItem(i))
 										.append(" ");
 								stringOfWaterPollutants.add(waterPollutantsAdapter.getItem(i));
+								pollutionReportRequest.setWater_pollutants(stringOfWaterPollutants);
+								validateUserInputs();
 							}
 						}
 
@@ -205,7 +243,7 @@ public class PollutionActivity extends BaseActivity implements
 		boolean[] selectedItems = new boolean[waterPollutantsAdapter.getCount()];
 		selectedItems[1] = true; // select second item
 		waterPollutantsSpinner.setSelected(selectedItems);
-
+		
 	}
 
 	protected void addLandPollutionData() {
@@ -271,7 +309,8 @@ public class PollutionActivity extends BaseActivity implements
 								builder.append(landPollutantsAdapter.getItem(i))
 										.append(" ");			
 								stringOfLandPollutants.add(landPollutantsAdapter.getItem(i));
-								
+								pollutionReportRequest.setLand_pollutants(stringOfLandPollutants);								
+								validateUserInputs();
 							}
 						}
 
@@ -335,12 +374,13 @@ public class PollutionActivity extends BaseActivity implements
 		spinnerLayoutIndicative = (RelativeLayout) findViewById(R.id.spinnerLayoutIndicative);
 		spinnerLayoutIndicative.setOnClickListener(this);
 		indicativeCause = (TextView) findViewById(R.id.indicativeCause);
-
+		enableNextButton(false);
 	}
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
+		
+		switch (v.getId()) {		
 		case R.id.nextButton:
 			
 			pollutionReportRequest.setLand_pollutants(stringOfLandPollutants);
@@ -372,7 +412,7 @@ public class PollutionActivity extends BaseActivity implements
 			break;
 		case R.id.spinnerLayoutIndicative:
 			String indicativeHeader = "Indicative Cause";
-			Utils.dailogboxSelector(this, Utils.mIndicativeCause, R.layout.work_complete_dialog, indicativeCause, indicativeHeader);
+			Utils.dailogboxSelector(this, Utils.mIndicativeCause, R.layout.work_complete_dialog, indicativeCause, indicativeHeader);			
 			break;
 		case R.id.spinnerLayoutAmmonia:
 			String ammoniaHeader = "Ammonia";
@@ -403,7 +443,7 @@ public class PollutionActivity extends BaseActivity implements
 		default:
 			break;
 		}
-
+		validateUserInputs();
 	}
 	
 	private void sendPollutionReportToServer(){
@@ -417,6 +457,10 @@ public class PollutionActivity extends BaseActivity implements
 		pollutionReportRequest.setLand_type(landAffected.getText().toString());		
 		data.put("land_type",pollutionReportRequest.getLand_type());
 		 
+		if(pollutionReportRequest.getLand_pollutants() == null){
+			pollutionReportRequest.setLand_pollutants(new ArrayList<String>());
+		}
+		
 		data.put("land_pollutants",Arrays.toString(pollutionReportRequest.getLand_pollutants().toArray()));
 		data.put("water_polluted",pollutionReportRequest.getWater_polluted());
 		
@@ -424,9 +468,12 @@ public class PollutionActivity extends BaseActivity implements
 		data.put("water_area",pollutionReportRequest.getWater_area());
 		
 		pollutionReportRequest.setWater_body(waterBody.getText().toString());
-		data.put("water_body",pollutionReportRequest.getWater_body());	
+		data.put("water_body",pollutionReportRequest.getWater_body());
 		
-		data.put("water_pollutants",Arrays.toString(pollutionReportRequest.getWater_pollutants().toArray()));
+		if(pollutionReportRequest.getWater_pollutants() == null){
+			pollutionReportRequest.setWater_pollutants(new ArrayList<String>());
+		}			
+			data.put("water_pollutants",Arrays.toString(pollutionReportRequest.getWater_pollutants().toArray()));		
 		
 		pollutionReportRequest.setDo_upstream(mUpStreamEditText.getText().toString());
 		data.put("do_upstream",pollutionReportRequest.getDo_upstream());
@@ -552,5 +599,128 @@ public class PollutionActivity extends BaseActivity implements
 		imageObject.setImage_string(Utils
 				.bitmapToBase64String(rotateBitmap));
 		imageObject.setImage_exif(image_exif);
+	}
+	
+	public void enableNextButton(boolean isEnable) {
+		if (isEnable) {
+			nextButton.setEnabled(true);
+			nextButton.setBackgroundResource(R.drawable.red_background);
+			nextButton.setOnClickListener(this);
+		} else {
+			nextButton.setEnabled(false);
+			nextButton.setBackgroundResource(R.drawable.dark_grey_background);
+			nextButton.setOnClickListener(null);
+		}
+	}
+	
+	public void validateUserInputs(){
+		enableNextButton(false);
+		if(ptlCheckbox.isChecked() && ptwCheckbox.isChecked()){
+			String extentOfLandPollution = landPollution.getText().toString();
+			String landEffected = landAffected.getText().toString();
+			
+			ArrayList<String> langpollutants = null;
+			
+			try{
+				langpollutants = pollutionReportRequest.getLand_pollutants();
+			}catch(Exception e){
+				
+			}
+			if(langpollutants == null){
+				langpollutants = new ArrayList<String>();
+			}
+			
+			String indicativeCasueStr = indicativeCause.getText().toString();
+			
+			
+			String extentOfWaterPollution = extentOfWater.getText().toString();
+			String waterBoddyEffected = waterBody.getText().toString();
+			ArrayList<String> waterPollutants = null;
+			
+			try{
+				waterPollutants = pollutionReportRequest.getWater_pollutants();
+			}catch(Exception e){
+				
+			}
+			if(waterPollutants == null){
+				waterPollutants = new ArrayList<String>();
+			}
+			
+			String ammoniaStr = ammonia.getText().toString();
+			String fishKillStr = fishKill.getText().toString();
+			if(!extentOfLandPollution.contains("Select") &&
+					!landEffected.contains("Select") && langpollutants.size() != 0){
+				if(!extentOfWaterPollution.contains("Select") && !waterBoddyEffected.contains("Select")
+						&& waterPollutants.size() != 0 && !ammoniaStr.contains("Select")
+						&& !fishKillStr.contains("Select")){
+					if(!indicativeCasueStr.contains("Select")){
+						enableNextButton(true);
+					}
+				}
+			}
+			Log.d(Utils.LOG_TAG," extentOfLandPollution "+extentOfLandPollution
+					+" landEffected "+landEffected + "indicativeCasueStr "+indicativeCasueStr);
+			
+			Log.d(Utils.LOG_TAG, " extentOfWaterPollution "+extentOfWaterPollution
+					+" waterBoddyEffected "+waterBoddyEffected +
+					" ammoniaStr "+ammoniaStr 
+				+" fishKillStr "+fishKillStr+" indicativeCasueStr "+indicativeCasueStr);
+			
+		} else {
+			if(ptlCheckbox.isChecked()){
+				String extentOfLandPollution = landPollution.getText().toString();
+				String landEffected = landAffected.getText().toString();
+				ArrayList<String> langpollutants = null;
+				
+				try{
+					langpollutants = pollutionReportRequest.getLand_pollutants();
+				}catch(Exception e){
+					
+				}
+				if(langpollutants == null){
+					langpollutants = new ArrayList<String>();
+				}
+				String indicativeCasueStr = indicativeCause.getText().toString();
+				if(!extentOfLandPollution.contains("Select") &&
+						!landEffected.contains("Select") && langpollutants.size() != 0){
+					if(!indicativeCasueStr.contains("Select")){
+						enableNextButton(true);
+					}
+				}
+				
+				Log.d(Utils.LOG_TAG," extentOfLandPollution "+extentOfLandPollution
+						+" landEffected "+landEffected + "indicativeCasueStr "+indicativeCasueStr );
+			}
+			if(ptwCheckbox.isChecked()){
+				String extentOfWaterPollution = extentOfWater.getText().toString();
+				String waterBoddyEffected = waterBody.getText().toString();
+				ArrayList<String> waterPollutants = null;
+				
+				try{
+					waterPollutants = pollutionReportRequest.getWater_pollutants();
+				}catch(Exception e){
+					
+				}
+				if(waterPollutants == null){
+					waterPollutants = new ArrayList<String>();
+				}
+				
+				String ammoniaStr = ammonia.getText().toString();
+				String fishKillStr = fishKill.getText().toString();
+				String indicativeCasueStr = indicativeCause.getText().toString();
+				if(!extentOfWaterPollution.contains("Select") && !waterBoddyEffected.contains("Select")
+						&& waterPollutants.size() != 0 && !ammoniaStr.contains("Select")
+						&& !fishKillStr.contains("Select")){
+					if(!indicativeCasueStr.contains("Select")){
+						enableNextButton(true);
+					}
+				}		
+				
+				Log.d(Utils.LOG_TAG, " extentOfWaterPollution "+extentOfWaterPollution
+						+" waterBoddyEffected "+waterBoddyEffected +
+						 " ammoniaStr "+ammoniaStr 
+					+" fishKillStr "+fishKillStr+" indicativeCasueStr "+indicativeCasueStr);
+			}
+		}
 	}
 }
