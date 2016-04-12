@@ -23,8 +23,7 @@ public class LauncherActivity extends BaseActivity {
 		if(isBreakStartedShown()){
 			return;
 		}
-		launcherIntent = new Intent(this, PollutionActivity.class);
-		/*CheckOutObject checkOutRemember = JobViewerDBHandler
+		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(this);
 		if (checkOutRemember != null
 				&& !Utils.isNullOrEmpty(checkOutRemember
@@ -64,7 +63,7 @@ public class LauncherActivity extends BaseActivity {
 		} else {
 			launcherIntent = new Intent(this, WelcomeActivity.class);
 		}
-*/
+
 		launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(launcherIntent);
 	}

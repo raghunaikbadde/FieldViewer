@@ -552,12 +552,12 @@ public class PollutionActivity extends BaseActivity implements
 		if (requestCode == com.jobviewer.util.Constants.UPSTREAM_RESULT_CODE && resultCode == RESULT_OK) {
 			upStreamImageObject = new ImageObject();
 			prepareImageObject(upStreamImageObject);
-			mTakePicUpStream.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.camera_plus_icon));
+			mTakePicUpStream.setCompoundDrawablesWithIntrinsicBounds(null,context.getResources().getDrawable(R.drawable.camera_plus_icon),null,null);			
 			mTakePicUpStream.setBackgroundColor(context.getResources().getColor(R.color.red));
 		} else if  (requestCode == com.jobviewer.util.Constants.DOWNSTREAM_RESULT_CODE && resultCode == RESULT_OK) {
 			downSteamIamgeObject = new ImageObject();
 			prepareImageObject(downSteamIamgeObject);
-			mTakePicDownStream.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.camera_plus_icon));
+			mTakePicDownStream.setCompoundDrawablesWithIntrinsicBounds(null,context.getResources().getDrawable(R.drawable.camera_plus_icon),null,null);
 			mTakePicDownStream.setBackgroundColor(context.getResources().getColor(R.color.red));
 		}
 	}
