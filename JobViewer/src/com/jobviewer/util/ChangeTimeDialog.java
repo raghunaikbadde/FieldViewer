@@ -83,6 +83,8 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 				} else if ("End Travel".equalsIgnoreCase(eventType)) {
 					Utils.endTravelTimeRequest.setOverride_timestamp(time);
 					eventTypeValue = eventType;
+				} else if("ClockIn".equalsIgnoreCase(eventType)){
+					eventTypeValue=eventType;
 				} else {
 					Utils.endTimeRequest.setOverride_timestamp(time);
 					eventTypeValue = "endtravel";
@@ -98,6 +100,8 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 			}
 
 		}
+		
+		
 
 	}
 
@@ -124,8 +128,8 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 				return false;
 			}
 		} else {
-			Utils.endTimeRequest.setOverride_timestamp(time);
-			eventTypeValue = "endtravel";
+			/*Utils.endTimeRequest.setOverride_timestamp(time);
+			eventTypeValue = "endtravel";*/
 		}
 		return true;
 	}

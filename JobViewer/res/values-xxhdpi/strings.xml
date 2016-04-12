@@ -10,6 +10,7 @@
     <string name="copyright2015">Copyright 2015 Lance Group Plc. All rights reserved\nDeveloped by Aecor Digital</string>
     <string name="welcome">Welcome</string>
     <string name="please_clock_in_to_begin">Please Clock-in to begin</string>
+    <string name="travel_started">Travel started: </string>
     <string name="clock_in_str">Clock-In</string>
     <string name="tmp_date_time">11/06/2015 12:12PM</string>
     <string name="tmp_email_address">tarun@yopmail.com</string>

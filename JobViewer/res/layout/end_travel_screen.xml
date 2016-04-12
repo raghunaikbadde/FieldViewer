@@ -38,6 +38,15 @@
                 android:textSize="@dimen/red_lato_bold_big90" />
 
             <TextView
+                android:id="@+id/travel_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/travel_started"
+                android:textColor="@color/black"
+                android:textSize="@dimen/black_lato_regular_small55" />
+            
+            <TextView
                 android:id="@+id/travel_start_time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

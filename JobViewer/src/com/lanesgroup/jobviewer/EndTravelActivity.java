@@ -53,7 +53,7 @@ public class EndTravelActivity extends BaseActivity implements
 		if(getIntent().getExtras().get(Constants.OVERRIDE_TIME) != null){
 			String overtime = getIntent().getExtras().get(Constants.OVERRIDE_TIME).toString();
 			mOverrideText.setVisibility(View.VISIBLE);
-			mOverrideText.setText(overtime);
+			mOverrideText.setText(overtime + " (User)");
 		}
 		
 		mStartTravel = (Button) findViewById(R.id.end_travel);
@@ -62,9 +62,8 @@ public class EndTravelActivity extends BaseActivity implements
 		//Log.i(Utils.LOG_TAG, Utils.timeSheetRequest.getStarted_at());
 		/*mTravelTime.setText(TRAVEL_STARTED
 				+ getIntent().getExtras().get(Constants.TIME));*/
-		//JobViewerDBHandler.getCheckOutRemember(mContext).get
-		mTravelTime.setText(TRAVEL_STARTED
-				+ getIntent().getExtras().get(Constants.TIME));
+		JobViewerDBHandler.getCheckOutRemember(mContext).getTravelStartedTime();
+		mTravelTime.setText(JobViewerDBHandler.getCheckOutRemember(mContext).getTravelStartedTime() + " (System)");
 		mStartTravel.setText(END_TRAVEL);
 
 		mStartTravel.setOnClickListener(new OnClickListener() {
