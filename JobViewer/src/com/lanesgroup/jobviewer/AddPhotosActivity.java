@@ -249,7 +249,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 				e.printStackTrace();
 			}
 			HashMap<String, Object> hashMap = new HashMap<String, Object>();
-			hashMap.put("photo", rotateBitmap);
+			
 			hashMap.put("time", formatDate);
 			mPhotoList.add(hashMap);
 			mAdapter.notifyDataSetChanged();
@@ -264,13 +264,14 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 				 	ByteArrayOutputStream baos=new  ByteArrayOutputStream();
 				 	rotateBitmap.compress(Bitmap.CompressFormat.JPEG,10, baos);
 	                byte[] b =baos.toByteArray();
+	                
 	                base64=Base64.encodeToString(b, Base64.DEFAULT);
 	                Log.e(Utils.LOG_TAG, "Out of memory error catched");
 				}catch(OutOfMemoryError oomme){
 					
 				}
 			}
-
+			hashMap.put("photo", Utils.getbyteArrayFromBase64String(base64));
 			ImageObject imageObject = new ImageObject();
 			String generateUniqueID = Utils.generateUniqueID(this);
 			imageObject.setImageId(generateUniqueID);
