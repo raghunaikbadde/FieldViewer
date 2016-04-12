@@ -43,6 +43,7 @@ import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.raghu.PollutionReportRequest;
 import com.vehicle.communicator.HttpConnection;
@@ -401,12 +402,14 @@ public class PollutionActivity extends BaseActivity implements
 			
 			if(Utils.isInternetAvailable(PollutionActivity.this)){
 				Utils.startProgress(PollutionActivity.this);
-				sendPollutionReportToServer();
+				sendPollutionReportToServer();				
 			} else {
 				savePollutionReportInBackLogDb();
 				Intent addPhotosActivityIntent = new Intent(PollutionActivity.this, AddPhotosActivity.class);
 				startActivity(addPhotosActivityIntent);
 			}
+			JobViewerDBHandler.saveImage(PollutionActivity.this, upStreamImageObject);
+			JobViewerDBHandler.saveImage(PollutionActivity.this, downSteamIamgeObject);
 			break;
 		case R.id.spinnerLayout:
 			String landPollutionHeader = "Extent of land pollution";
@@ -606,6 +609,16 @@ public class PollutionActivity extends BaseActivity implements
 	private void prepareImageObject(ImageObject imageObject) {
 		String generateUniqueID = Utils
 				.generateUniqueID(this);
+		GPSTracker gpsTracker = new GPSTracker(this);
+		String geoLocation = "";
+		try{
+			String lat = String.valueOf(gpsTracker.getLatitude());
+			String lon = String.valueOf(gpsTracker.getLongitude());
+			geoLocation = lat+ ","+lon;
+		}catch(Exception e){
+			
+		}
+		
 		imageObject.setImageId(generateUniqueID);
 		imageObject.setCategory("work");
 		
@@ -619,7 +632,7 @@ public class PollutionActivity extends BaseActivity implements
 				Uri.fromFile(file), this);
 		
 		String formatDate = "";
-		String geoLocation = "";
+
 
 		try {
 			ExifInterface exif = new ExifInterface(currentImageFile);
@@ -628,7 +641,7 @@ public class PollutionActivity extends BaseActivity implements
 			formatDate = Utils.formatDate(picDateTime);
 			GeoLocationCamera geoLocationCamera = new GeoLocationCamera(
 					exif);
-			geoLocation = geoLocationCamera.toString();
+			//geoLocation = geoLocationCamera.toString();
 
 			Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
 			Log.i("Android", "geoLocation   :" + geoLocation);
