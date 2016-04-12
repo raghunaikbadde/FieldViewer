@@ -2,6 +2,7 @@ package com.jobviewer.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -56,7 +57,6 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.service.AppKillService;
 import com.lanesgroup.jobviewer.LauncherActivity;
-import com.lanesgroup.jobviewer.PollutionActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.WelcomeActivity;
 import com.raghu.TimeSheetServiceRequests;
@@ -552,6 +552,27 @@ public class Utils {
 		SendImagesOnBackground sendImagesOnBackground = new SendImagesOnBackground();
 		sendImagesOnBackground.getAndSendImagesToServer(context);
 	}
+	
+	
+	public static boolean checkIfStartDateIsGreater(String startDate,String endDate){
+		SimpleDateFormat dfDate = new SimpleDateFormat(Constants.TIME_FORMAT);
+
+	    boolean b = false;
+
+	    try {
+	        if (dfDate.parse(startDate).before(dfDate.parse(endDate))) {
+	            b = true;  // If start date is before end date.
+	        } else if (dfDate.parse(startDate).equals(dfDate.parse(endDate))) {
+	            b = true;  // If two dates are equal.
+	        } else {
+	            b = false; // If start date is after the end date.
+	        }
+	    } catch (ParseException e) {
+	        e.printStackTrace();
+	    }
+
+	    return b;
+	}
 
 	public static void dailogboxSelector(final Activity activity,
 			final String[] list, int resorce, final TextView seleTextView,
@@ -577,9 +598,6 @@ public class Utils {
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				seleTextView.setText(list[position]);
-				if(activity instanceof PollutionActivity){
-					((PollutionActivity) activity).validateUserInputs();
-				}
 				dialog.dismiss();
 			}
 		});

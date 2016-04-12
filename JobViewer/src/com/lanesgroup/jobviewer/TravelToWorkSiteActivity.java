@@ -11,7 +11,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.jobviewer.comms.CommsConstant;
-import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
@@ -24,7 +23,6 @@ import com.jobviewer.util.Utils;
 import com.jobviewer.util.showTimeDialog;
 import com.jobviewer.util.showTimeDialog.DialogCallback;
 import com.jobviwer.request.object.TimeSheetRequest;
-import com.raghu.TimeSheetServiceRequests;
 import com.vehicle.communicator.HttpConnection;
 
 public class TravelToWorkSiteActivity extends BaseActivity implements
@@ -126,7 +124,22 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 						TravelToWorkSiteActivity.this,
 						Utils.startTravelTimeRequest,
 						CommsConstant.START_TRAVEL_API, Utils.REQUEST_TYPE_WORK);
-				// saveStartTravelInBackLogDb();
+				CheckOutObject checkOutRemember = JobViewerDBHandler
+						.getCheckOutRemember(mContext);
+				checkOutRemember.setIsStartedTravel("true");
+				if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
+						.getOverride_timestamp())) {
+					checkOutRemember
+							.setTravelStartedTime(Utils.startTravelTimeRequest
+									.getStarted_at());
+				} else {
+					checkOutRemember
+							.setTravelStartedTime(Utils.startTravelTimeRequest
+									.getOverride_timestamp());
+				}
+
+				JobViewerDBHandler.saveCheckOutRemember(mContext,
+						checkOutRemember);
 
 				startEndActvity();
 			} else {
@@ -162,12 +175,19 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
-					// String result = (String) msg.obj;
 					CheckOutObject checkOutRemember = JobViewerDBHandler
 							.getCheckOutRemember(mContext);
 					checkOutRemember.setIsStartedTravel("true");
-					JobViewerDBHandler.saveCheckOutRemember(mContext,
-							checkOutRemember);
+					if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
+							.getOverride_timestamp())) {
+						checkOutRemember
+								.setTravelStartedTime(Utils.startTravelTimeRequest
+										.getStarted_at());
+					} else {
+						checkOutRemember
+								.setTravelStartedTime(Utils.startTravelTimeRequest
+										.getOverride_timestamp());
+					}
 					startEndActvity();
 					break;
 				case HttpConnection.DID_ERROR:

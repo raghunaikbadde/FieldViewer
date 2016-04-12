@@ -97,6 +97,7 @@ public class JobViewerProviderContract {
 		public static final String ASSESSMENT_SELECTED = "assessmentSelected";
 		public static final String ASSESSMENT_REMEMBER_SELECTED="isAssessmentRemember";
 		public static final String IS_TRAVEL_STARTED = "isStartedTravel";
+		public static final String TRAVEL_STARTED_TIME="travelStartedTime";
 		public static final String IS_TRAVEL_END = "isTravelEnd";
 		public static final String IS_POLLUTION_SELECTED = "isPollutionSelected";
 		public static final String VISTEC_ID = "vistecId";

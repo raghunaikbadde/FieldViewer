@@ -278,6 +278,9 @@ public class JobViewerDBHandler {
 		values.put(
 				JobViewerProviderContract.CheckOutRemember.IS_TRAVEL_STARTED,
 				checkOutObject.getIsStartedTravel());
+		values.put(
+				JobViewerProviderContract.CheckOutRemember.TRAVEL_STARTED_TIME,
+				checkOutObject.getTravelStartedTime());
 		values.put(JobViewerProviderContract.CheckOutRemember.IS_TRAVEL_END,
 				checkOutObject.getIsTravelEnd());
 		values.put(
@@ -340,6 +343,9 @@ public class JobViewerDBHandler {
 			checkOutObject
 					.setIsStartedTravel(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.CheckOutRemember.IS_TRAVEL_STARTED)));
+			checkOutObject
+					.setTravelStartedTime(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.CheckOutRemember.TRAVEL_STARTED_TIME)));
 			checkOutObject
 					.setIsTravelEnd(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.CheckOutRemember.IS_TRAVEL_END)));
@@ -500,7 +506,7 @@ public class JobViewerDBHandler {
 		cursor.close();
 		return imageList;
 	}
-	
+
 	public static void deleteAllAddCardSavedImages(Context context) {
 		context.getContentResolver()
 				.delete(JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI,
@@ -549,7 +555,7 @@ public class JobViewerDBHandler {
 		cursor.close();
 		return shoutAboutSafetyObject;
 	}
-	
+
 	public static void saveStartTraining(Context context,
 			StartTrainingObject trainingStart) {
 		deleteUserProfile(context);
@@ -573,7 +579,7 @@ public class JobViewerDBHandler {
 				JobViewerProviderContract.StartTrainingTable.CONTENT_URI, null,
 				null);
 	}
-	
+
 	public static StartTrainingObject getTrainingToolBox(Context context) {
 		Cursor cursor = context.getContentResolver().query(
 				JobViewerProviderContract.StartTrainingTable.CONTENT_URI, null,
@@ -595,98 +601,126 @@ public class JobViewerDBHandler {
 		return startTrainingObject;
 	}
 
-	public static void saveBreakShiftTravelCall(Context context, BreakShiftTravelCall breakShiftTravelCall) {
+	public static void saveBreakShiftTravelCall(Context context,
+			BreakShiftTravelCall breakShiftTravelCall) {
 		deleteBreakTravelShiftCallTable(context);
 		ContentValues values = new ContentValues();
-		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.IS_BREAK_STARTED,
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.IS_BREAK_STARTED,
 				breakShiftTravelCall.isBreakStarted());
-		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.BREAK_START_TIME,
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.BREAK_START_TIME,
 				breakShiftTravelCall.getBreakStartedTime());
-		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.BREAK_END_TIME,
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.BREAK_END_TIME,
 				breakShiftTravelCall.getBreakEndTime());
-		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.NUMBER_OF_BREAKS,
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.NUMBER_OF_BREAKS,
 				breakShiftTravelCall.getNoOfBreaks());
-		
-		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.IS_SHIFT_STARTED,
+
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.IS_SHIFT_STARTED,
 				breakShiftTravelCall.isShiftStarted());
-		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.SHIFT_START_TIME,
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.SHIFT_START_TIME,
 				breakShiftTravelCall.getShiftStartTime());
-		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.SHIFT_END_TIME,
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.SHIFT_END_TIME,
 				breakShiftTravelCall.getShiftEndTime());
-		
-		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.IS_CALL_STARTED,
+
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.IS_CALL_STARTED,
 				breakShiftTravelCall.isCallStarted());
-		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.CALL_START_TIME,
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.CALL_START_TIME,
 				breakShiftTravelCall.getCallStartTime());
-		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.CALL_END_TIME,
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.CALL_END_TIME,
 				breakShiftTravelCall.getCallEndTime());
-		
-		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.IS_TRAVEL_STARTED,
+
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.IS_TRAVEL_STARTED,
 				breakShiftTravelCall.isTravelStarted());
-		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.TRAVEL_START_TIME,
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.TRAVEL_START_TIME,
 				breakShiftTravelCall.getTravelStartedTime());
-		values.put(JobViewerProviderContract.BreakTravelShiftCallTable.TRAVEL_END_TIME,
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.TRAVEL_END_TIME,
 				breakShiftTravelCall.getTravelEndTime());
-		context.getContentResolver().insert(
-				JobViewerProviderContract.BreakTravelShiftCallTable.CONTENT_URI, values);
-		
+		context.getContentResolver()
+				.insert(JobViewerProviderContract.BreakTravelShiftCallTable.CONTENT_URI,
+						values);
+
 	}
-	
+
 	public static BreakShiftTravelCall getBreakShiftTravelCall(Context context) {
-		Cursor cursor = context.getContentResolver().query(
-				JobViewerProviderContract.BreakTravelShiftCallTable.CONTENT_URI,
-				null, null, null, null);
-		
-		
+		Cursor cursor = context
+				.getContentResolver()
+				.query(JobViewerProviderContract.BreakTravelShiftCallTable.CONTENT_URI,
+						null, null, null, null);
+
 		BreakShiftTravelCall breakShiftTravelCall = null;
 		if (cursor != null && cursor.moveToFirst()) {
 			breakShiftTravelCall = new BreakShiftTravelCall();
-			breakShiftTravelCall.setBreakStarted(cursor.getString(cursor
-					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.IS_BREAK_STARTED)));
-			
-			breakShiftTravelCall.setBreakStartedTime(cursor.getString(cursor
-					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.BREAK_START_TIME)));
-			
-			breakShiftTravelCall.setBreakEndTime(cursor.getString(cursor
-					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.BREAK_END_TIME)));
-			
-			breakShiftTravelCall.setNoOfBreaks(cursor.getInt(cursor
-					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.NUMBER_OF_BREAKS)));
-			
-			breakShiftTravelCall.setShiftStarted(cursor.getString(cursor
-					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.IS_SHIFT_STARTED)));
-			
-			breakShiftTravelCall.setShiftStartTime(cursor.getString(cursor
-					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.IS_SHIFT_STARTED)));
-			
-			breakShiftTravelCall.setShiftEndTime(cursor.getString(cursor
-					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.SHIFT_END_TIME)));
-			
-			breakShiftTravelCall.setCallStarted(cursor.getString(cursor
-					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.IS_CALL_STARTED)));
-			breakShiftTravelCall.setCallStartTime(cursor.getString(cursor
-					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.CALL_START_TIME)));
-			breakShiftTravelCall.setCallEndTime(cursor.getString(cursor
-					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.CALL_END_TIME)));
-			
-			breakShiftTravelCall.setTravelStarted(cursor.getString(cursor
-					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.IS_TRAVEL_STARTED)));
-			breakShiftTravelCall.setTravelStartedTime(cursor.getString(cursor
-					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.TRAVEL_START_TIME)));
-			breakShiftTravelCall.setTravelEndTime(cursor.getString(cursor
-					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.TRAVEL_END_TIME)));
-			
+			breakShiftTravelCall
+					.setBreakStarted(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.IS_BREAK_STARTED)));
+
+			breakShiftTravelCall
+					.setBreakStartedTime(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.BREAK_START_TIME)));
+
+			breakShiftTravelCall
+					.setBreakEndTime(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.BREAK_END_TIME)));
+
+			breakShiftTravelCall
+					.setNoOfBreaks(cursor.getInt(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.NUMBER_OF_BREAKS)));
+
+			breakShiftTravelCall
+					.setShiftStarted(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.IS_SHIFT_STARTED)));
+
+			breakShiftTravelCall
+					.setShiftStartTime(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.IS_SHIFT_STARTED)));
+
+			breakShiftTravelCall
+					.setShiftEndTime(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.SHIFT_END_TIME)));
+
+			breakShiftTravelCall
+					.setCallStarted(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.IS_CALL_STARTED)));
+			breakShiftTravelCall
+					.setCallStartTime(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.CALL_START_TIME)));
+			breakShiftTravelCall
+					.setCallEndTime(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.CALL_END_TIME)));
+
+			breakShiftTravelCall
+					.setTravelStarted(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.IS_TRAVEL_STARTED)));
+			breakShiftTravelCall
+					.setTravelStartedTime(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.TRAVEL_START_TIME)));
+			breakShiftTravelCall
+					.setTravelEndTime(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.TRAVEL_END_TIME)));
+
 		}
 		cursor.close();
 		return breakShiftTravelCall;
 	}
-	
+
 	public static void deleteBreakTravelShiftCallTable(Context context) {
-		context.getContentResolver().delete(
-				JobViewerProviderContract.BreakTravelShiftCallTable.CONTENT_URI, null, null);
+		context.getContentResolver()
+				.delete(JobViewerProviderContract.BreakTravelShiftCallTable.CONTENT_URI,
+						null, null);
 	}
 
-	
 	public static void saveImageStatus(Context context,
 			ImageSendStatusObject imageSendStatusObject) {
 		ContentValues values = new ContentValues();

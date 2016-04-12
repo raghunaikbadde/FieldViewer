@@ -17,6 +17,7 @@ public class CheckOutObject {
 	private String vistectImageId;
 	private String isAssessmentCompleted;
 	private String workId;
+	private String travelStartedTime;
 
 	public String getJobSelected() {
 		return jobSelected;
@@ -145,6 +146,14 @@ public class CheckOutObject {
 
 	public void setWorkId(String workId) {
 		this.workId = workId;
+	}
+
+	public String getTravelStartedTime() {
+		return travelStartedTime;
+	}
+
+	public void setTravelStartedTime(String travelStartedTime) {
+		this.travelStartedTime = travelStartedTime;
 	}
 
 }

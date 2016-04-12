@@ -308,5 +308,8 @@
     <string name="user_ending_shift">User ending shift:</string>
     <string name="vehicle_used">Vehicle Used:</string>
     <string name="call_complete_str">on-call time complete</string>
+    <string name="pastDateValidationErrorMsg">Please enter a past date and time</string>
+    <string name="dateTimeShouldBeAfterTravelErrorMsg">Date and time must be after you started travel</string>
+    <string name="dateAndTimeMustAfterShiftStart">Date and time must be after shift start</string>
     
 </resources>

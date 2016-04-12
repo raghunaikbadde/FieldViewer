@@ -28,12 +28,12 @@ public interface JobViewerSchema {
 	public static final String TABLE_START_TRAINING = "StartTrainingTable";
 	public static final String TABLE_BREAK_TRAVEL_SHIFT_CALL = "BreakTravelShiftCallTable";
 	public static final String TABLE_IMAGE_SEND_STATUS = "ImageSendStatusTable";
-	
+
 	public static final String CREATE_TABLE_USER = "create table " + TABLE_USER
 			+ "(" + User._ID + " integer primary key autoincrement,"
 			+ User.FIRST_NAME + " text," + User.LAST_NAME + " text,"
 			+ User.EMAIL + " text," + User.USER_ID + " text);";
-	
+
 	public static final String CREATE_TABLE_IMAGE_SEND_STATUS = "create table "
 			+ TABLE_IMAGE_SEND_STATUS + "(" + ImageSendStatusTable._ID
 			+ ImageSendStatusTable.IMAGE_SEND_SATTUS + " text);";
@@ -88,6 +88,8 @@ public interface JobViewerSchema {
 			+ " text,"
 			+ CheckOutRemember.WORK_ID
 			+ " text,"
+			+ CheckOutRemember.TRAVEL_STARTED_TIME
+			+ " text,"
 			+ CheckOutRemember.CLOCKIN_CHECKOUT_SELECTED_TEXT + " text);";
 
 	public static final String CREATE_TABLE_QUESTION_SET = "create table "
@@ -131,27 +133,43 @@ public interface JobViewerSchema {
 			+ ShoutAboutSafetyTable.QUESTION_SET + " text);";
 
 	public static final String CREATE_TABLE_START_TRAINING = "create table "
-		+ TABLE_START_TRAINING
-		+ "("
-		+ StartTrainingTable._ID
-		+ " integer primary key autoincrement,"
-		+ StartTrainingTable.IS_TRAINING_STARTED
-		+ " text,"
-		+ StartTrainingTable.TRAINING_START_TIME 
-		+ " text,"
-		+ StartTrainingTable.TRAINING_END_TIME + " text);";
-	
-	public static final String CREATE_TABLE_BREAK_TRAVEL_SHIFT_CALL = "create table " + TABLE_BREAK_TRAVEL_SHIFT_CALL
-			+ "(" + User._ID + " integer primary key autoincrement,"
-			+ BreakTravelShiftCallTable.IS_BREAK_STARTED + " text," + 
-			BreakTravelShiftCallTable.BREAK_START_TIME + " text,"+BreakTravelShiftCallTable.BREAK_END_TIME + " text,"
-			+ BreakTravelShiftCallTable.NUMBER_OF_BREAKS + " INT," + BreakTravelShiftCallTable.IS_CALL_STARTED + " text"
-					+ "," + BreakTravelShiftCallTable.CALL_START_TIME + " text,"
-					 + BreakTravelShiftCallTable.CALL_END_TIME + " text,"
-					  + BreakTravelShiftCallTable.IS_SHIFT_STARTED + " text"
-					+ "," + BreakTravelShiftCallTable.SHIFT_START_TIME + " text,"
-					 + BreakTravelShiftCallTable.SHIFT_END_TIME + " text,"
-					 + BreakTravelShiftCallTable.IS_TRAVEL_STARTED + " text"
-					+ "," + BreakTravelShiftCallTable.TRAVEL_START_TIME + " text,"
-					 + BreakTravelShiftCallTable.TRAVEL_END_TIME + " text);";
+			+ TABLE_START_TRAINING + "(" + StartTrainingTable._ID
+			+ " integer primary key autoincrement,"
+			+ StartTrainingTable.IS_TRAINING_STARTED + " text,"
+			+ StartTrainingTable.TRAINING_START_TIME + " text,"
+			+ StartTrainingTable.TRAINING_END_TIME + " text);";
+
+	public static final String CREATE_TABLE_BREAK_TRAVEL_SHIFT_CALL = "create table "
+			+ TABLE_BREAK_TRAVEL_SHIFT_CALL
+			+ "("
+			+ User._ID
+			+ " integer primary key autoincrement,"
+			+ BreakTravelShiftCallTable.IS_BREAK_STARTED
+			+ " text,"
+			+ BreakTravelShiftCallTable.BREAK_START_TIME
+			+ " text,"
+			+ BreakTravelShiftCallTable.BREAK_END_TIME
+			+ " text,"
+			+ BreakTravelShiftCallTable.NUMBER_OF_BREAKS
+			+ " INT,"
+			+ BreakTravelShiftCallTable.IS_CALL_STARTED
+			+ " text"
+			+ ","
+			+ BreakTravelShiftCallTable.CALL_START_TIME
+			+ " text,"
+			+ BreakTravelShiftCallTable.CALL_END_TIME
+			+ " text,"
+			+ BreakTravelShiftCallTable.IS_SHIFT_STARTED
+			+ " text"
+			+ ","
+			+ BreakTravelShiftCallTable.SHIFT_START_TIME
+			+ " text,"
+			+ BreakTravelShiftCallTable.SHIFT_END_TIME
+			+ " text,"
+			+ BreakTravelShiftCallTable.IS_TRAVEL_STARTED
+			+ " text"
+			+ ","
+			+ BreakTravelShiftCallTable.TRAVEL_START_TIME
+			+ " text,"
+			+ BreakTravelShiftCallTable.TRAVEL_END_TIME + " text);";
 }
