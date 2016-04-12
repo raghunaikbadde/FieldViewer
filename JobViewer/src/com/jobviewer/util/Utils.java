@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -21,6 +22,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -38,15 +40,19 @@ import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jobviewer.adapter.MultiChoiceAdapter;
+import com.jobviewer.adapter.MultiChoiceItem;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
@@ -552,26 +558,26 @@ public class Utils {
 		SendImagesOnBackground sendImagesOnBackground = new SendImagesOnBackground();
 		sendImagesOnBackground.getAndSendImagesToServer(context);
 	}
-	
-	
-	public static boolean checkIfStartDateIsGreater(String startDate,String endDate){
+
+	public static boolean checkIfStartDateIsGreater(String startDate,
+			String endDate) {
 		SimpleDateFormat dfDate = new SimpleDateFormat(Constants.TIME_FORMAT);
 
-	    boolean b = false;
+		boolean b = false;
 
-	    try {
-	        if (dfDate.parse(startDate).before(dfDate.parse(endDate))) {
-	            b = true;  // If start date is before end date.
-	        } else if (dfDate.parse(startDate).equals(dfDate.parse(endDate))) {
-	            b = true;  // If two dates are equal.
-	        } else {
-	            b = false; // If start date is after the end date.
-	        }
-	    } catch (ParseException e) {
-	        e.printStackTrace();
-	    }
+		try {
+			if (dfDate.parse(startDate).before(dfDate.parse(endDate))) {
+				b = true; // If start date is before end date.
+			} else if (dfDate.parse(startDate).equals(dfDate.parse(endDate))) {
+				b = true; // If two dates are equal.
+			} else {
+				b = false; // If start date is after the end date.
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
-	    return b;
+		return b;
 	}
 
 	public static void dailogboxSelector(final Activity activity,
@@ -598,6 +604,79 @@ public class Utils {
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				seleTextView.setText(list[position]);
+				dialog.dismiss();
+			}
+		});
+	}
+
+	public static void createMultiSelectDialog(Context context,
+			List<MultiChoiceItem> multiChoiceItems, String title,
+			final TextView multiChoiceTextView) {
+		View view = ((Activity) context).getLayoutInflater().inflate(
+				R.layout.multichoice_dialog_screen, null);
+		final MultiChoiceAdapter adapter = new MultiChoiceAdapter(context,
+				multiChoiceItems);
+		ListView listView = (ListView) view.findViewById(R.id.list);
+		TextView headerTxt = (TextView) view.findViewById(R.id.dialog_title);
+		headerTxt.setText(title);
+
+		Button dialog_cancel = (Button) view.findViewById(R.id.dialog_cancel);
+		Button dialog_ok = (Button) view.findViewById(R.id.dialog_ok);
+		listView.setAdapter(adapter);
+		final Dialog dialog = new Dialog(context, R.style.dialogMultipleTheme);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(view);
+		dialog.show();
+		dialog.setCancelable(false);
+
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				MultiChoiceItem multiChoiceItem = adapter.getList().get(
+						position);
+				if (multiChoiceItem.isChecked()) {
+					multiChoiceItem.setChecked(false);
+				} else {
+					multiChoiceItem.setChecked(true);
+				}
+				adapter.refresh(position, multiChoiceItem);
+			}
+		});
+		// dialog.getWindow().setBackgroundDrawable(new
+		// ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+		dialog_cancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+
+			}
+		});
+		dialog_ok.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				List<MultiChoiceItem> list = adapter.getList();
+				StringBuffer sb = new StringBuffer();
+
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i).isChecked()) {
+						if (!Utils.isNullOrEmpty(sb.toString())) {
+							sb.append(",");
+						}
+						sb.append(list.get(i).getText());
+					}
+
+				}
+				if (Utils.isNullOrEmpty(sb.toString())) {
+					multiChoiceTextView.setText(v.getContext().getResources()
+							.getString(R.string.select_spinner_str));
+				} else {
+					multiChoiceTextView.setText(sb);
+				}
 				dialog.dismiss();
 			}
 		});

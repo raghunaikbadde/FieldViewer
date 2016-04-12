@@ -313,5 +313,6 @@
     <string name="pastDateValidationErrorMsg">Please enter a past date and time</string>
     <string name="dateTimeShouldBeAfterTravelErrorMsg">Date and time must be after you started travel</string>
     <string name="dateAndTimeMustAfterShiftStart">Date and time must be after shift start</string>
+    <string name="btn_ok">Ok</string>
     
 </resources>

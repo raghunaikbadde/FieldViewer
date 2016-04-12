@@ -639,8 +639,39 @@
                     android:text="@string/additionalED"
                     android:textColor="@color/blackColor"
                     android:textSize="@dimen/white_lato_bold_small50" />
+                
+                 <RelativeLayout
+		                    android:id="@+id/spinnerLayoutadditionalED"
+		                    android:layout_width="match_parent"
+		                    android:layout_height="@dimen/actionbar_height125"
+		                    android:layout_below="@+id/additionalEDTitle"
+		                    android:background="@drawable/grey_background"
+		                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                            android:layout_marginRight="@dimen/white_lato_regular_small40"
+		                    android:layout_marginTop="@dimen/template_spacing15"
+		                    android:layout_marginBottom="@dimen/template_spacing15">
+		                    <TextView
+			                    android:id="@+id/additionalED"
+			                    android:layout_width="wrap_content"
+			                    android:layout_height="wrap_content"
+			                    android:layout_centerVertical="true"
+			                    android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
+			                    android:text="@string/select_spinner_str"
+			                    android:textColor="@color/black"
+			                    android:textSize="@dimen/black_lato_regular_small55" />
+		                    
+		                    <ImageView 
+		                        android:layout_width="wrap_content"
+		                        android:layout_height="wrap_content"
+		                        android:layout_alignParentRight="true"
+		                        android:layout_centerVertical="true"
+		                        android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+		                        android:src="@drawable/down_arrow_image"/>
+		                </RelativeLayout>
+                
+                
 
-                <com.jobviewer.custom.view.MultiSelectSpinner
+                <!-- <com.jobviewer.custom.view.MultiSelectSpinner
                     android:id="@+id/additionalEDSpinner"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -649,7 +680,7 @@
                     android:layout_marginLeft="@dimen/white_lato_regular_small40"
                     android:layout_marginRight="@dimen/white_lato_regular_small40"
                     android:textColor="@color/blackColor"
-                    android:textSize="@dimen/white_lato_regular_small40" />
+                    android:textSize="@dimen/white_lato_regular_small40" /> -->
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
