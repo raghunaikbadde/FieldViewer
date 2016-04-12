@@ -400,6 +400,7 @@ public class PollutionActivity extends BaseActivity implements
 			pollutionReportRequest.setWater_pollutants(stringOfWaterPollutants);
 			
 			if(Utils.isInternetAvailable(PollutionActivity.this)){
+				Utils.startProgress(PollutionActivity.this);
 				sendPollutionReportToServer();
 			} else {
 				savePollutionReportInBackLogDb();
@@ -508,7 +509,7 @@ public class PollutionActivity extends BaseActivity implements
 			
 			
 			if(!Utils.isNullOrEmpty(upStreamImageObject.getImage_string())){
-				pollutionReportRequest.setDo_upstream_image(upStreamImageObject.getImage_string());
+				pollutionReportRequest.setDo_upstream_image(upStreamImageObject.getImageId());
 			} else {
 				pollutionReportRequest.setDo_upstream_image("");
 			}
@@ -516,7 +517,7 @@ public class PollutionActivity extends BaseActivity implements
 			
 			
 			if(!Utils.isNullOrEmpty(upStreamImageObject.getImage_string())){
-				pollutionReportRequest.setDo_downstream_image(downSteamIamgeObject.getImage_string());
+				pollutionReportRequest.setDo_downstream_image(downSteamIamgeObject.getImageId());
 			} else {
 				pollutionReportRequest.setDo_downstream_image("");
 			}		
@@ -553,11 +554,13 @@ public class PollutionActivity extends BaseActivity implements
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
 					Intent addPhotosActivityIntent = new Intent(PollutionActivity.this, AddPhotosActivity.class);
 					startActivity(addPhotosActivityIntent);
 					break;
 				case HttpConnection.DID_ERROR:
 					String error = (String) msg.obj;
+					Utils.StopProgress();
 					VehicleException exception = GsonConverter
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
