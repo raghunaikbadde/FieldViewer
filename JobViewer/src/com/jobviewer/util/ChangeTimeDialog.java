@@ -1,8 +1,11 @@
 package com.jobviewer.util;
 
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -38,6 +41,13 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 		mContinue.setOnClickListener(this);
 		mTimePicker = (TimePicker) findViewById(R.id.timePicker);
 		mDatePicker = (DatePicker) findViewById(R.id.datePicker);
+		Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		int day = c.get(Calendar.DAY_OF_MONTH);
+		mDatePicker.init(year, month, day, null);
+		mTimePicker.setCurrentHour(c.get(Calendar.HOUR_OF_DAY));
+		mTimePicker.setCurrentMinute(c.get(Calendar.MINUTE));
 	}
 
 	@SuppressWarnings("deprecation")
@@ -46,7 +56,15 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 		if (view == mCancel) {
 			finish();
 		} else if (view == mContinue) {
-			String time = mDatePicker.getDayOfMonth()
+			
+			long dateTime = mDatePicker.getCalendarView().getDate();
+			Date date = new Date(dateTime);
+			
+			DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_PICKER_FORMAT);
+			String formattedDate = dateFormat.format(date);
+			String time=mTimePicker.getCurrentHour()+":"+mTimePicker.getCurrentMinute()+":"+"00 "+formattedDate;
+			
+			/*String time = mDatePicker.getDayOfMonth()
 					+ "/"
 					+ mDatePicker.getMonth()
 					+ 1
@@ -54,16 +72,21 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 					+ mDatePicker.getYear()
 					+ " "
 					+ getTime("" + mTimePicker.getCurrentHour(), ""
-							+ mTimePicker.getCurrentMinute());
+							+ mTimePicker.getCurrentMinute());*/
+			/*time = Utils.convertTimeOneToAnotherFormat(time,
+					Constants.CHANGE_TIME_FORMAT, Constants.TIME_FORMAT);*/
 			if ("start".equalsIgnoreCase(eventType)) {
 				Utils.timeSheetRequest.setOverride_timestamp(time);
 				eventTypeValue = "start";
 			} else if ("travel".equalsIgnoreCase(eventType)) {
 				Utils.startTravelTimeRequest.setOverride_timestamp(time);
 				eventTypeValue = "travel";
-			} else {
+			} else if("End Travel".equalsIgnoreCase(eventType)){
+				Utils.endTravelTimeRequest.setOverride_timestamp(time);
+				eventTypeValue=eventType;
+			}else {
 				Utils.endTimeRequest.setOverride_timestamp(time);
-				eventTypeValue = "endtravel";				
+				eventTypeValue = "endtravel";
 			}
 			Intent intent = new Intent();
 			intent.putExtra(Constants.TIME, time);

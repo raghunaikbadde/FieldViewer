@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -218,6 +219,20 @@ public class Utils {
 		df = new SimpleDateFormat("HH:mm:ss dd MMM yyyy");
 		String formattedDate = df.format(c.getTime());
 		return formattedDate;
+	}
+
+	public static String convertTimeOneToAnotherFormat(String time,
+			String fromFormat, String resultFormat) {
+		SimpleDateFormat sdf = new SimpleDateFormat(fromFormat);
+		Date fromDate = null;
+		try {
+			fromDate = sdf.parse(time);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		SimpleDateFormat formatter = new SimpleDateFormat(resultFormat);
+
+		return formatter.format(fromDate);
 	}
 
 	public static String formatDate(String date) {
