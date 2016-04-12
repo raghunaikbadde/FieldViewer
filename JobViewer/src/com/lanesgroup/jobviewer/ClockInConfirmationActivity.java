@@ -3,7 +3,9 @@ package com.lanesgroup.jobviewer;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,6 +28,8 @@ import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.ChangeTimeDialog;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 import com.vehicle.communicator.HttpConnection;
@@ -34,11 +39,14 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep, mShiftStartTime, mUserEmail, mDivider,
-			mVehicleUsed, mMileage;
+			mVehicleUsed, mMileage, mOverrideStartTime;
+	private ImageView mEditTime;
 	private CheckBox mCheckBox;
 	private Button mBack, mClockIn;
 	private String mCallingActivity;
+	private Context mContext;
 
+	String eventType;
 	private final String CALLING_ACTIVITY = "callingActivity";
 	private boolean shouldCallActivityPageActivity = true;
 	@Override
@@ -52,11 +60,18 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 	}
 
 	private void initUI() {
+		mContext = this;
 		mCallingActivity = getIntent().getExtras().get(CALLING_ACTIVITY)
 				.toString();
 		mProgress = (ProgressBar) findViewById(R.id.progressBar);
 		mProgressStep = (TextView) findViewById(R.id.progress_step_text);
 		mShiftStartTime = (TextView) findViewById(R.id.date_time_text);
+		
+		mOverrideStartTime = (TextView) findViewById(R.id.overrided_date_time_text);
+		mEditTime = (ImageView) findViewById(R.id.edit_date);
+		mEditTime.setOnClickListener(this);
+		
+		
 		mUserEmail = (TextView) findViewById(R.id.user_email_text);
 		mDivider = (TextView) findViewById(R.id.stroke_text2);
 		mVehicleUsed = (TextView) findViewById(R.id.vehicle_used_text);
@@ -243,10 +258,26 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					}
 				}
 			}
-
 			// JobViewerDBHandler.saveBackLog(ClockInConfirmationActivity.this,
 			// request);
 
+		} else if(view == mEditTime){
+			Intent intent = new Intent(mContext, ChangeTimeDialog.class);
+			intent.putExtra("eventType", "ClockIn");
+			((Activity) mContext).startActivityForResult(intent,
+					Constants.RESULT_CODE_CLOCK_IN);
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == Constants.RESULT_CODE_CLOCK_IN
+				&& resultCode == RESULT_OK) {
+			String time = data.getExtras().get(Constants.TIME).toString();
+			mOverrideStartTime.setVisibility(View.VISIBLE);
+			mOverrideStartTime.setText(time);
 		}
 	}
 

@@ -45,6 +45,16 @@
                 android:text="@string/please_clock_in_to_begin"
                 android:textColor="@color/black"
                 android:textSize="@dimen/black_lato_regular_small55" />
+            
+            <TextView
+                android:id="@+id/travel_override_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/please_clock_in_to_begin"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:textSize="@dimen/black_lato_regular_small55" />
 
             <Button
                 android:id="@+id/end_travel"

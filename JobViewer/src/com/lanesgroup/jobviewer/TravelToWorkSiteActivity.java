@@ -220,7 +220,7 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 			intent.putExtra(Constants.TIME,
 					Utils.startTravelTimeRequest.getStarted_at());
 		} else {
-			intent.putExtra(Constants.TIME,
+			intent.putExtra(Constants.OVERRIDE_TIME,
 					Utils.startTravelTimeRequest.getOverride_timestamp());
 		}
 		startActivity(intent);

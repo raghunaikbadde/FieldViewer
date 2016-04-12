@@ -15,8 +15,10 @@ public class Constants {
 	public static final int RESULT_CODE_OVERRIDE_COMMENT = 1001;
 	public static final int RESULT_CODE_START_TRAINING = 1002;
 	public static final int RESULT_CODE_WELCOME = 1003;
+	public static final int RESULT_CODE_CLOCK_IN = 1004;
 	public static final String IMAGE_CAPTURE_ACTION = "android.media.action.IMAGE_CAPTURE";
 	public static final String TIME = "time";
+	public static final String OVERRIDE_TIME = "overridetime";
 	public static final String STARTED = "STARTED";
 	public static final String BREAK_STARTED = "BREAK_STARTED";
 	public static final String TRAVEL_STARTED = "TRAVEL_STARTED";

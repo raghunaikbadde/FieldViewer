@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,7 +30,7 @@ import com.vehicle.communicator.HttpConnection;
 public class EndTravelActivity extends BaseActivity implements
 		View.OnClickListener, DialogCallback {
 	private Button mStartTravel;
-	private TextView mTravelTime, mTitleText;
+	private TextView mTravelTime, mTitleText, mOverrideText;
 	private String TRAVEL_STARTED = "Travel started: ";
 	//private String ON_BREAK = "On Break";
 	private String ENROUTE = "Enroute to Work";
@@ -48,9 +49,20 @@ public class EndTravelActivity extends BaseActivity implements
 		mContext = this;
 		mTitleText = (TextView) findViewById(R.id.enroute_to_work_text);
 		mTravelTime = (TextView) findViewById(R.id.travel_start_time_text);
+		mOverrideText = (TextView) findViewById(R.id.travel_override_time_text);
+		if(getIntent().getExtras().get(Constants.OVERRIDE_TIME) != null){
+			String overtime = getIntent().getExtras().get(Constants.OVERRIDE_TIME).toString();
+			mOverrideText.setVisibility(View.VISIBLE);
+			mOverrideText.setText(overtime);
+		}
+		
 		mStartTravel = (Button) findViewById(R.id.end_travel);
 		eventType = (String) getIntent().getExtras().get(Constants.STARTED);
 		mTitleText.setText(ENROUTE);
+		//Log.i(Utils.LOG_TAG, Utils.timeSheetRequest.getStarted_at());
+		/*mTravelTime.setText(TRAVEL_STARTED
+				+ getIntent().getExtras().get(Constants.TIME));*/
+		//JobViewerDBHandler.getCheckOutRemember(mContext).get
 		mTravelTime.setText(TRAVEL_STARTED
 				+ getIntent().getExtras().get(Constants.TIME));
 		mStartTravel.setText(END_TRAVEL);
