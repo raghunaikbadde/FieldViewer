@@ -282,7 +282,8 @@
         <item>Jetting</item>
         <item>Tanker</item>
     </string-array>
-    
+    <string name="ammonia">Ammonia:</string>
+    <string name="fish_kill">Fish kill:</string>
 	<!--Raghu Strings -->
     <string name="your_travel_start_time">Your travel start time will be logged as:</string>
     <string name="your_travel_end_time">Your travel end time will be logged as:</string>

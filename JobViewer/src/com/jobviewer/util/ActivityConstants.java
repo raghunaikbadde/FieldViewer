@@ -16,6 +16,7 @@ public class ActivityConstants {
 	public static final String END_BREAK="End Break";
 	public static final String ADD_PHOTOS_ACTIVITY="AddPhotosActitivy";
 	public static final String ACTIVITY_PAGE_ACTIVITY="ActivityPageActivity";
+	public static final String POLLUTION_ACTIVITY="PollutionActitivy";
 	public static final String SHOUT_OPTION = "ShoutOption";
 	public static final String IS_SHOUT_SAVED = "isSaved";
 	public static final String HAZARD = "Hazard";

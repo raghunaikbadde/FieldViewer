@@ -391,7 +391,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
-                            android:text="@string/waterPollutants"
+                            android:text="@string/dissolvedOxygen"
                             android:textColor="@color/blackColor"
                             android:textSize="@dimen/white_lato_bold_small50"/>
                         
@@ -494,7 +494,7 @@
                             android:layout_below="@+id/pollutionToWaterParent"
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
-                            android:text="@string/indicativeCause"
+                            android:text="@string/ammonia"
                             android:textColor="@color/blackColor"
                             android:textSize="@dimen/white_lato_bold_small50" />
 
@@ -534,7 +534,7 @@
                             android:layout_below="@+id/pollutionToWaterParent"
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
-                            android:text="@string/indicativeCause"
+                            android:text="@string/fish_kill"
                             android:textColor="@color/blackColor"
                             android:textSize="@dimen/white_lato_bold_small50" />
 

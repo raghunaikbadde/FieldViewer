@@ -207,6 +207,18 @@ public class ActivityPageActivity extends BaseActivity implements
 							Utils.CALLING_ACTIVITY,
 							ActivityConstants.ACTIVITY_PAGE_ACTIVITY);
 					startActivity(addPhotoScreenIntent);
+				}else if (bundle != null
+						&& bundle.containsKey(Utils.CALLING_ACTIVITY)
+						&& bundle.getString(Utils.CALLING_ACTIVITY)
+								.equalsIgnoreCase(
+										ActivityConstants.POLLUTION_ACTIVITY)) {
+					Intent addPhotoScreenIntent = new Intent(mContext,
+							PollutionActivity.class);
+					Bundle addPhotoScreenIntentBundle = new Bundle();
+					addPhotoScreenIntentBundle.putString(
+							Utils.CALLING_ACTIVITY,
+							ActivityConstants.ACTIVITY_PAGE_ACTIVITY);
+					startActivity(addPhotoScreenIntent);
 				} else if (questionSet != null
 						&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
 					Intent riskAssIntent = new Intent(mContext,

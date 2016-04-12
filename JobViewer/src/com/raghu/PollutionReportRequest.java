@@ -20,7 +20,7 @@ public class PollutionReportRequest {
 	private String fish_kill = "1-10";
 	private String indicative_cause = "Failed asset";
 	private String failed_asset = "Pumping station";
-	private String[] equipment_deployed = new String[]{"Jetting", "Tanker"};
+	private ArrayList<String> equipment_deployed = new ArrayList<String>();
 	
 	public String getLand_polluted() {
 		return land_polluted;
@@ -118,10 +118,10 @@ public class PollutionReportRequest {
 	public void setFailed_asset(String failed_asset) {
 		this.failed_asset = failed_asset;
 	}
-	public String[] getEquipment_deployed() {
+	public ArrayList<String> getEquipment_deployed() {
 		return equipment_deployed;
 	}
-	public void setEquipment_deployed(String[] equipment_deployed) {
+	public void setEquipment_deployed(ArrayList<String> equipment_deployed) {
 		this.equipment_deployed = equipment_deployed;
 	}
 

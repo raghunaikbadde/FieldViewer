@@ -23,6 +23,7 @@ public class LauncherActivity extends BaseActivity {
 		if(isBreakStartedShown()){
 			return;
 		}
+		
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(this);
 		if (checkOutRemember != null
@@ -63,7 +64,6 @@ public class LauncherActivity extends BaseActivity {
 		} else {
 			launcherIntent = new Intent(this, WelcomeActivity.class);
 		}
-
 		launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(launcherIntent);
 	}
