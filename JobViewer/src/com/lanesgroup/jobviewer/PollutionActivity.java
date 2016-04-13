@@ -15,6 +15,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,8 +33,6 @@ import android.widget.TextView;
 
 import com.jobviewer.adapter.MultiChoiceItem;
 import com.jobviewer.comms.CommsConstant;
-import com.jobviewer.custom.view.MultiSelectSpinner;
-import com.jobviewer.custom.view.MultiSelectSpinner.MultiSpinnerListener;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
@@ -55,7 +55,7 @@ public class PollutionActivity extends BaseActivity implements
 	LinearLayout ptlExpandLayout, ptwExpandLayout;
 	Spinner extentOfLandSpinner, landAffectedSpinner, extentOfWaterSpinner,
 			waterBodyAffectedSpinner, indicativeCauseSpinner;
-	MultiSelectSpinner landPollutantsSpinner, waterPollutantsSpinner;
+	//MultiSelectSpinner waterPollutantsSpinner;
 	// additionalEDSpinner;
 	Button nextButton, mTakePicUpStream, mTakePicDownStream, mSaveButton;
 	PollutionReportRequest pollutionReportRequest;
@@ -65,9 +65,10 @@ public class PollutionActivity extends BaseActivity implements
 	RelativeLayout spinnerLayout, landAffectedLayout,
 			spinnerLayoutExtentOfWater, spinnerLayoutWaterBody,
 			spinnerLayoutAmmonia, spinnerLayoutFishKill,
-			spinnerLayoutIndicative, spinnerLayoutadditionalED;
+			spinnerLayoutIndicative, spinnerLayoutadditionalED,
+			landPollutantsSpinnerLayout,spinnerLayoutWaterPollutants;
 	TextView landPollution, landAffected, extentOfWater, waterBody, ammonia,
-			fishKill, indicativeCause, additionalED;
+			fishKill, indicativeCause, additionalED, landPollutantsText,waterPollutantsTextView;
 
 	ArrayList<String> stringOfLandPollutants;
 	ArrayList<String> stringOfWaterPollutants;
@@ -209,7 +210,7 @@ public class PollutionActivity extends BaseActivity implements
 		 * } });
 		 */
 
-		final ArrayAdapter<String> waterPollutantsAdapter = new ArrayAdapter<String>(
+		/*final ArrayAdapter<String> waterPollutantsAdapter = new ArrayAdapter<String>(
 				this, R.layout.simple_spinner_item);
 		String[] waterPollutantsArray = getResources().getStringArray(
 				R.array.waterPollutantsArray);
@@ -242,7 +243,7 @@ public class PollutionActivity extends BaseActivity implements
 
 		boolean[] selectedItems = new boolean[waterPollutantsAdapter.getCount()];
 		selectedItems[1] = true; // select second item
-		waterPollutantsSpinner.setSelected(selectedItems);
+		waterPollutantsSpinner.setSelected(selectedItems);*/
 
 	}
 
@@ -284,38 +285,31 @@ public class PollutionActivity extends BaseActivity implements
 		 * 
 		 * } });
 		 */
-		final ArrayAdapter<String> landPollutantsAdapter = new ArrayAdapter<String>(
-				this, R.layout.simple_spinner_item);
-		String[] landPollutantsArray = getResources().getStringArray(
-				R.array.landPollutantsArray);
-		for (int i = 0; i < landPollutantsArray.length; i++) {
-			landPollutantsAdapter.add(landPollutantsArray[i]);
-		}
-		stringOfLandPollutants = new ArrayList<String>();
-		landPollutantsSpinner.setAdapter(landPollutantsAdapter, false,
-				new MultiSpinnerListener() {
-
-					@Override
-					public void onItemsSelected(boolean[] selected) {
-						StringBuilder builder = new StringBuilder();
-
-						for (int i = 0; i < selected.length; i++) {
-							if (selected[i]) {
-								builder.append(landPollutantsAdapter.getItem(i))
-										.append(" ");
-								stringOfLandPollutants
-										.add(landPollutantsAdapter.getItem(i));
-								pollutionReportRequest
-										.setLand_pollutants(stringOfLandPollutants);
-								validateUserInputs();
-							}
-						}
-
-					}
-				});
-		boolean[] selectedItems = new boolean[landPollutantsAdapter.getCount()];
-		selectedItems[1] = true; // select second item
-		landPollutantsSpinner.setSelected(selectedItems);
+		/*
+		 * final ArrayAdapter<String> landPollutantsAdapter = new
+		 * ArrayAdapter<String>( this, R.layout.simple_spinner_item); String[]
+		 * landPollutantsArray = getResources().getStringArray(
+		 * R.array.landPollutantsArray); for (int i = 0; i <
+		 * landPollutantsArray.length; i++) {
+		 * landPollutantsAdapter.add(landPollutantsArray[i]); }
+		 * stringOfLandPollutants = new ArrayList<String>();
+		 * landPollutantsSpinner.setAdapter(landPollutantsAdapter, false, new
+		 * MultiSpinnerListener() {
+		 * 
+		 * @Override public void onItemsSelected(boolean[] selected) {
+		 * StringBuilder builder = new StringBuilder();
+		 * 
+		 * for (int i = 0; i < selected.length; i++) { if (selected[i]) {
+		 * builder.append(landPollutantsAdapter.getItem(i)) .append(" ");
+		 * stringOfLandPollutants .add(landPollutantsAdapter.getItem(i));
+		 * pollutionReportRequest .setLand_pollutants(stringOfLandPollutants);
+		 * validateUserInputs(); } }
+		 * 
+		 * } }); boolean[] selectedItems = new
+		 * boolean[landPollutantsAdapter.getCount()]; selectedItems[1] = true;
+		 * // select second item
+		 * landPollutantsSpinner.setSelected(selectedItems);
+		 */
 
 	}
 
@@ -333,13 +327,14 @@ public class PollutionActivity extends BaseActivity implements
 		// findViewById(R.id.extentOfLandSpinner);
 		// landAffectedSpinner = (Spinner)
 		// findViewById(R.id.landAffectedSpinner);
-		landPollutantsSpinner = (MultiSelectSpinner) findViewById(R.id.landPollutantsSpinner);
+		// landPollutantsSpinner = (MultiSelectSpinner)
+		// findViewById(R.id.landPollutantsSpinner);
 		ptwCheckbox = (CheckBox) findViewById(R.id.ptwCheckbox);
 		// extentOfWaterSpinner = (Spinner)
 		// findViewById(R.id.extentOfWaterSpinner);
 		// waterBodyAffectedSpinner = (Spinner)
 		// findViewById(R.id.waterBodyAffectedSpinner);
-		waterPollutantsSpinner = (MultiSelectSpinner) findViewById(R.id.waterPollutantsSpinner);
+		//waterPollutantsSpinner = (MultiSelectSpinner) findViewById(R.id.waterPollutantsSpinner);
 		// indicativeCauseSpinner = (Spinner)
 		// findViewById(R.id.indicativeCauseSpinner);
 		// additionalEDSpinner = (MultiSelectSpinner)
@@ -382,8 +377,16 @@ public class PollutionActivity extends BaseActivity implements
 		spinnerLayoutadditionalED = (RelativeLayout) findViewById(R.id.spinnerLayoutadditionalED);
 		spinnerLayoutadditionalED.setOnClickListener(this);
 
+		landPollutantsSpinnerLayout = (RelativeLayout) findViewById(R.id.landPollutantsSpinnerLayout);
+		landPollutantsSpinnerLayout.setOnClickListener(this);
+		
+		spinnerLayoutWaterPollutants=(RelativeLayout) findViewById(R.id.spinnerLayoutWaterPollutants);
+		spinnerLayoutWaterPollutants.setOnClickListener(this);
+
 		indicativeCause = (TextView) findViewById(R.id.indicativeCause);
 		additionalED = (TextView) findViewById(R.id.additionalED);
+		landPollutantsText = (TextView) findViewById(R.id.landPollutantsText);
+		waterPollutantsTextView=(TextView) findViewById(R.id.waterPollutantsTextView);
 		enableNextButton(false);
 	}
 
@@ -507,6 +510,75 @@ public class PollutionActivity extends BaseActivity implements
 			}
 			Utils.createMultiSelectDialog(this, multiChoiceItems, title,
 					additionalED);
+			break;
+		case R.id.landPollutantsSpinnerLayout:
+			String landPollutantTitle = "Land Pollutants";
+			String[] landPollutantArray = getResources().getStringArray(
+					R.array.landPollutantsArray);
+			String landPollutanttext = landPollutantsText.getText().toString();
+			boolean islandPollutantSelctedBefore = false;
+			String[] landPollutantSelectedText = null;
+			if (!getResources().getString(R.string.select_spinner_str)
+					.equalsIgnoreCase(landPollutanttext)) {
+				islandPollutantSelctedBefore = true;
+				landPollutantSelectedText = landPollutanttext.split(",");
+			}
+
+			List<MultiChoiceItem> multiChoiceItems1 = new ArrayList<MultiChoiceItem>();
+			for (int i = 0; i < landPollutantArray.length; i++) {
+				MultiChoiceItem item = new MultiChoiceItem();
+				item.setText(landPollutantArray[i]);
+				if (islandPollutantSelctedBefore) {
+					for (int j = 0; j < landPollutantSelectedText.length; j++) {
+						if (landPollutantArray[i]
+								.equalsIgnoreCase(landPollutantSelectedText[j])) {
+							item.setChecked(true);
+							break;
+						}
+					}
+				} else {
+					item.setChecked(false);
+				}
+
+				multiChoiceItems1.add(item);
+			}
+			Utils.createMultiSelectDialog(this, multiChoiceItems1,
+					landPollutantTitle, landPollutantsText);
+			break;
+		case R.id.spinnerLayoutWaterPollutants:
+			String waterPollutantTitle = "Water Pollutants";
+			String[] waterPollutantArray = getResources().getStringArray(
+					R.array.waterPollutantsArray);
+			String waterPollutanttext = landPollutantsText.getText().toString();
+			boolean iswaterPollutantSelctedBefore = false;
+			String[] waterPollutantSelectedText = null;
+			if (!getResources().getString(R.string.select_spinner_str)
+					.equalsIgnoreCase(waterPollutanttext)) {
+				iswaterPollutantSelctedBefore = true;
+				waterPollutantSelectedText = waterPollutanttext.split(",");
+			}
+
+			List<MultiChoiceItem> multiChoiceItems2 = new ArrayList<MultiChoiceItem>();
+			for (int i = 0; i < waterPollutantArray.length; i++) {
+				MultiChoiceItem item = new MultiChoiceItem();
+				item.setText(waterPollutantArray[i]);
+				if (iswaterPollutantSelctedBefore) {
+					for (int j = 0; j < waterPollutantSelectedText.length; j++) {
+						if (waterPollutantArray[i]
+								.equalsIgnoreCase(waterPollutantSelectedText[j])) {
+							item.setChecked(true);
+							break;
+						}
+					}
+				} else {
+					item.setChecked(false);
+				}
+
+				multiChoiceItems2.add(item);
+			}
+			Utils.createMultiSelectDialog(this, multiChoiceItems2,
+					waterPollutantTitle, waterPollutantsTextView);
+			break;
 		default:
 			break;
 		}
@@ -678,20 +750,17 @@ public class PollutionActivity extends BaseActivity implements
 			prepareImageObject(upStreamImageObject);
 			mTakePicUpStream.setCompoundDrawablesWithIntrinsicBounds(
 					null,
-					context.getResources().getDrawable(
-							R.drawable.camera_plus_icon), null, null);
-			mTakePicUpStream.setBackgroundColor(context.getResources()
-					.getColor(R.color.red));
+					ResourcesCompat.getDrawable(getResources(), R.drawable.camera_plus_icon, null), null, null);
+			mTakePicUpStream.setBackgroundColor(ContextCompat.getColor(context, R.color.red));
+			
 		} else if (requestCode == com.jobviewer.util.Constants.DOWNSTREAM_RESULT_CODE
 				&& resultCode == RESULT_OK) {
 			downSteamIamgeObject = new ImageObject();
 			prepareImageObject(downSteamIamgeObject);
 			mTakePicDownStream.setCompoundDrawablesWithIntrinsicBounds(
-					null,
-					context.getResources().getDrawable(
-							R.drawable.camera_plus_icon), null, null);
-			mTakePicDownStream.setBackgroundColor(context.getResources()
-					.getColor(R.color.red));
+					null,ResourcesCompat.getDrawable(getResources(), R.drawable.camera_plus_icon, null)
+					, null, null);
+			mTakePicDownStream.setBackgroundColor(ContextCompat.getColor(context, R.color.red));
 		}
 	}
 
@@ -725,7 +794,7 @@ public class PollutionActivity extends BaseActivity implements
 			String picDateTime = exif.getAttribute(ExifInterface.TAG_DATETIME);
 			formatDate = Utils.formatDate(picDateTime);
 			GeoLocationCamera geoLocationCamera = new GeoLocationCamera(exif);
-			// geoLocation = geoLocationCamera.toString();
+			geoLocation = geoLocationCamera.toString();
 
 			Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
 			Log.i("Android", "geoLocation   :" + geoLocation);
