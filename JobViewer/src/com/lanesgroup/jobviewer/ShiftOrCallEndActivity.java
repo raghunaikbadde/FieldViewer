@@ -103,7 +103,7 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 			JobViewerDBHandler.saveCheckOutRemember(v.getContext(),
 					checkOutRemember);
 			JobViewerDBHandler.deleteBreakTravelShiftCallTable(this);
-			onBackPressed();
+			closeApplication();
 		} else if (v == mGoOnCallButton) {
 			/*
 			 * Intent intent = new
@@ -116,6 +116,17 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 
 	@Override
 	public void onBackPressed() {
+		CheckOutObject checkOutRemember = JobViewerDBHandler
+		.getCheckOutRemember(this);
+		checkOutRemember.setJobSelected("");
+		checkOutRemember.setIsStartedTravel("");
+		checkOutRemember.setIsTravelEnd("");
+		checkOutRemember.setIsAssessmentCompleted("");
+		checkOutRemember.setJobStartedTime("");
+		checkOutRemember.setVistecId("");
+		JobViewerDBHandler.saveCheckOutRemember(this,
+				checkOutRemember);
+		JobViewerDBHandler.deleteBreakTravelShiftCallTable(this);
 		closeApplication();
 	}
 }
