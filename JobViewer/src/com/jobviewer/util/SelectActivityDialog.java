@@ -33,6 +33,7 @@ import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallback;
+import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallbackForNoPhotos;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
@@ -41,7 +42,7 @@ import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.TravelToWorkSiteActivity;
 import com.vehicle.communicator.HttpConnection;
 
-public class SelectActivityDialog extends Activity implements ConfirmDialogCallback {
+public class SelectActivityDialog extends Activity implements ConfirmDialogCallback,ConfirmDialogCallbackForNoPhotos {
 
 	private CheckBox mWork, mWorkNoPhotos, mTraining;
 	private String selected;
@@ -149,8 +150,11 @@ lv.setOnItemClickListener(new OnItemClickListener() {
 							result = WORK;
 							startActivity(intent);
 						}
-						else if (selected==1){
+						else if (selected==1){							
+							
+							new ConfirmDialog(v.getContext(), SelectActivityDialog.this, Constants.WORK_NO_PHOTOS_CONFIRMATION,"").show();
 							result = WORK_NO_PHOTOS;
+							return;
 						}
 							
 						else if (selected==2){
@@ -280,7 +284,48 @@ lv.setOnItemClickListener(new OnItemClickListener() {
 
 	@Override
 	public void onConfirmDismiss() {
-		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onConfirmStartWithNoPhotos() {
+		int selected = -1;
+		Intent workWithNoPhotosintent = new Intent();
+		for (int i = 0; i < m_data.size(); i++) // clean
+												// previous
+												// selected
+		{
+			HashMap<String, Object> m = m_data.get(i);
+			Boolean x = (Boolean) m.get("checked");
+			if (x == true) {
+				selected = i;
+				break; // break, since it's a single choice list
+			}
+		}
+		String result = "";
+		if(selected==-1)
+			return;
+		else if(selected==0 || selected==1){
+			CheckOutObject checkOutRemember = JobViewerDBHandler
+					.getCheckOutRemember(this);
+			if (checkOutRemember != null
+					&& ActivityConstants.TRUE
+							.equalsIgnoreCase(checkOutRemember
+									.getIsTravelEnd())) {
+				workWithNoPhotosintent.setClass(SelectActivityDialog.this,
+						NewWorkActivity.class);
+			} else {
+				workWithNoPhotosintent.setClass(SelectActivityDialog.this,
+						TravelToWorkSiteActivity.class);
+			}
+			result = WORK_NO_PHOTOS;
+			startActivity(workWithNoPhotosintent);
+		}
+		finish();
+	}
+
+	@Override
+	public void onConfirmDismissWithNoPhotos() {
 		
 	}
 }
