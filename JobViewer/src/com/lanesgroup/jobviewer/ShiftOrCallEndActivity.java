@@ -102,6 +102,7 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 			checkOutRemember.setVistecId("");
 			JobViewerDBHandler.saveCheckOutRemember(v.getContext(),
 					checkOutRemember);
+			JobViewerDBHandler.deleteBreakTravelShiftCallTable(this);
 			onBackPressed();
 		} else if (v == mGoOnCallButton) {
 			/*

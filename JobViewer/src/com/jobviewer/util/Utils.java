@@ -605,12 +605,15 @@ public class Utils {
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				seleTextView.setText(list[position]);
+				if(activity instanceof PollutionActivity){
+					((PollutionActivity) activity).validateUserInputs();
+				}
 				dialog.dismiss();
 			}
 		});
 	}
 
-	public static void createMultiSelectDialog(Context context,
+	public static void createMultiSelectDialog(final Context context,
 			List<MultiChoiceItem> multiChoiceItems, String title,
 			final TextView multiChoiceTextView) {
 		
@@ -681,8 +684,8 @@ public class Utils {
 					multiChoiceTextView.setText(sb);
 				}
 				dialog.dismiss();
-				if(((Activity) v.getContext()) instanceof PollutionActivity){			
-					PollutionActivity pollutionActivity = (PollutionActivity)((Activity) v.getContext());
+				if(((Activity) context) instanceof PollutionActivity){			
+					PollutionActivity pollutionActivity = (PollutionActivity)((Activity) context);
 					pollutionActivity.validateUserInputs();
 				}
 				
