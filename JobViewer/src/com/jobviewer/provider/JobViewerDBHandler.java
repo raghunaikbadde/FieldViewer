@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
@@ -16,6 +17,8 @@ import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.db.objects.StartTrainingObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.db.objects.TimeSheet;
+import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 
@@ -647,10 +650,15 @@ public class JobViewerDBHandler {
 		values.put(
 				JobViewerProviderContract.BreakTravelShiftCallTable.TRAVEL_END_TIME,
 				breakShiftTravelCall.getTravelEndTime());
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.WORK_START_TIME,
+				breakShiftTravelCall.getWorkStartTime());
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.WORK_END_TIME,
+				breakShiftTravelCall.getWorkEndTime());
 		context.getContentResolver()
 				.insert(JobViewerProviderContract.BreakTravelShiftCallTable.CONTENT_URI,
 						values);
-
 	}
 
 	public static BreakShiftTravelCall getBreakShiftTravelCall(Context context) {
@@ -684,7 +692,7 @@ public class JobViewerDBHandler {
 
 			breakShiftTravelCall
 					.setShiftStartTime(cursor.getString(cursor
-							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.IS_SHIFT_STARTED)));
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.SHIFT_START_TIME)));
 
 			breakShiftTravelCall
 					.setShiftEndTime(cursor.getString(cursor
@@ -709,6 +717,13 @@ public class JobViewerDBHandler {
 			breakShiftTravelCall
 					.setTravelEndTime(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.TRAVEL_END_TIME)));
+			breakShiftTravelCall.
+					setWorkStartTime(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.WORK_START_TIME)));
+			
+			breakShiftTravelCall.setWorkEndTime
+					(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.WORK_END_TIME)));
 
 		}
 		cursor.close();

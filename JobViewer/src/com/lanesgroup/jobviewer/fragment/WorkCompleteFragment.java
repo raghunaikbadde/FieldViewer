@@ -16,11 +16,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
+import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
@@ -165,6 +165,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener {
 				.getCheckOutRemember(getActivity());
 		User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
 		WorkRequest workRequest = new WorkRequest();
+		insertWorkEndTimeIntoHoursCalculator();
 		workRequest.setStarted_at(Utils.lastest_work_started_at);
 		if (checkOutRemember.getVistecId() != null) {
 			workRequest.setReference_id(checkOutRemember.getVistecId());
@@ -231,6 +232,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener {
 		User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
 		CheckOutObject checkOutRemember2 = JobViewerDBHandler
 				.getCheckOutRemember(getActivity());
+		insertWorkEndTimeIntoHoursCalculator();
 		data.put("started_at", checkOutRemember2.getJobStartedTime());
 		if (checkOutRemember.getVistecId() != null) {
 			data.put("reference_id", checkOutRemember.getVistecId());
@@ -337,5 +339,10 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener {
 				WorkSuccessActivity.class);
 		startActivity(workSuccessIntent);
 	}
-
+	
+	private void insertWorkEndTimeIntoHoursCalculator() {
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(getActivity());
+		breakShiftTravelCall.setWorkEndTime(String.valueOf(System.currentTimeMillis()));
+		JobViewerDBHandler.saveBreakShiftTravelCall(getActivity(), breakShiftTravelCall);
+	}
 }

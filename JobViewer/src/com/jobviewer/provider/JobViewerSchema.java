@@ -171,5 +171,7 @@ public interface JobViewerSchema {
 			+ ","
 			+ BreakTravelShiftCallTable.TRAVEL_START_TIME
 			+ " text,"
-			+ BreakTravelShiftCallTable.TRAVEL_END_TIME + " text);";
+			+ BreakTravelShiftCallTable.TRAVEL_END_TIME + " text,"
+			+ BreakTravelShiftCallTable.WORK_START_TIME+ " text,"
+			+ BreakTravelShiftCallTable.WORK_END_TIME + " text);";
 }

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.jobviewer.MainActivity" >
+    tools:context=".ShiftOrCallEndActivity" >
 
     <include layout="@layout/job_viewer_title_template" />
 

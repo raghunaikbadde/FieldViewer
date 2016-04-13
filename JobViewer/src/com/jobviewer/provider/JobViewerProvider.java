@@ -300,15 +300,12 @@ public class JobViewerProvider extends ContentProvider {
 					selection, selectionArgs);
 			break;
 		case TABLE_START_TRAINING:
-
 			deleteCount = db.delete(JobViewerSchema.TABLE_START_TRAINING, selection, 
 					selectionArgs);
 			break;
 		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
 			deleteCount = db.delete(JobViewerSchema.TABLE_BREAK_TRAVEL_SHIFT_CALL, selection, 
 					selectionArgs);
-			deleteCount = db.delete(JobViewerSchema.TABLE_START_TRAINING,
-					selection, selectionArgs);
 			break;
 		case TABLE_IMAGE_SEND_STATUS:
 			deleteCount = db.delete(JobViewerSchema.TABLE_IMAGE_SEND_STATUS,

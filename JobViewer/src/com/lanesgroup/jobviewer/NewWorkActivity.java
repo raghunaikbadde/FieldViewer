@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
+import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
@@ -165,6 +166,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 		if (Utils.isInternetAvailable(context)) {
 			executeWorkCreateService();
 		} else {
+			insertWorkStartTimeIntoHoursCalculator();
 			saveCreatedWorkInBackLogDb();
 			startEndActvity();
 		}
@@ -215,7 +217,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 				.getCheckOutRemember(getApplicationContext());
 		User userProfile = JobViewerDBHandler
 				.getUserProfile(NewWorkActivity.this);
-
+		insertWorkStartTimeIntoHoursCalculator();
 		data.put("started_at", Utils.getCurrentDateAndTime());
 		if (checkOutRemember.getVistecId() != null) {
 			data.put("reference_id", checkOutRemember.getVistecId());
@@ -327,5 +329,11 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 	@Override
 	public void onConfirmDismiss() {
 		mPollutionCheckBox.setChecked(false);
+	}
+	
+	private void insertWorkStartTimeIntoHoursCalculator() {
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(NewWorkActivity.this);
+		breakShiftTravelCall.setWorkStartTime(String.valueOf(System.currentTimeMillis()));
+		JobViewerDBHandler.saveBreakShiftTravelCall(NewWorkActivity.this, breakShiftTravelCall);
 	}
 }

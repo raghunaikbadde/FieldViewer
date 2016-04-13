@@ -225,6 +225,9 @@ public class JobViewerProviderContract {
 		public static final String IS_TRAVEL_STARTED="isTravelStarted";
 		public static final String TRAVEL_START_TIME ="travelStartedTime";		
 		public static final String TRAVEL_END_TIME ="travelEndTime";
+		
+		public static final String WORK_START_TIME ="workStartedTime";
+		public static final String WORK_END_TIME ="workEndTime";
 	}
 	
 }

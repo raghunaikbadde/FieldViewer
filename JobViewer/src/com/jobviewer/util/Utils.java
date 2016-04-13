@@ -681,4 +681,24 @@ public class Utils {
 			}
 		});
 	}
+	/**
+	 * Returns number of Hours and Minutes from number of milliseconds
+	 * Ex:long millis = 876738162L; 
+	 * getTimeInHHMMFromNumberOfMillis(millis)
+	 * gives output of 243h 32 m
+	 * @param milliseconds
+	 * @return
+	 */
+	public static String getTimeInHHMMFromNumberOfMillis(long milliseconds){
+		String HHMMString = "";
+		if (milliseconds >= 1000){
+	        int seconds = (int) (milliseconds / 1000) % 60;
+	        int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
+	        int hours = (int) ((milliseconds / (1000 * 60 * 60)));
+	        HHMMString = hours + "h "+minutes +" m";
+	    } else{
+	    	HHMMString = "Less than a second ago.";
+	    }
+		return HHMMString;
+	}
 }

@@ -4,6 +4,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
@@ -151,9 +152,11 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 	
 	private void saveEndCallOrEndShiftInBackLogDB(){
 		if(checkOutRemember.getJobSelected().contains("shift")){
+			insertShiftEndTimeIntoHoursCalculator();
 			JobViewerDBHandler.saveTimeSheet(this, Utils.endShiftRequest,
 					CommsConstant.HOST + CommsConstant.END_SHIFT_API);	
 		} else{
+			insertCallEndTimeIntoHoursCalculator();
 			JobViewerDBHandler.saveTimeSheet(this, Utils.callEndTimeRequest,
 					CommsConstant.HOST + CommsConstant.END_ON_CALL_API);	
 		}
@@ -184,6 +187,7 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 		Utils.callEndTimeRequest.setRecord_for(userProfile
 				.getEmail());
 		Utils.callEndTimeRequest.setStarted_at(Utils.getCurrentDateAndTime());
+		insertCallEndTimeIntoHoursCalculator();
 		ContentValues data = new ContentValues();
 		data.put("started_at", Utils.callEndTimeRequest.getStarted_at());
 		data.put("record_for", Utils.callEndTimeRequest.getRecord_for());
@@ -217,6 +221,7 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 		Utils.endShiftRequest.setRecord_for(userProfile
 				.getEmail());
 		Utils.endShiftRequest.setStarted_at(Utils.getCurrentDateAndTime());
+		insertShiftEndTimeIntoHoursCalculator();
 		ContentValues data = new ContentValues();
 		data.put("started_at", Utils.endShiftRequest.getStarted_at());
 		data.put("record_for", Utils.endShiftRequest.getRecord_for());
@@ -270,5 +275,16 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 		};
 		return handler;
 	}
-
+	
+	private void insertShiftEndTimeIntoHoursCalculator() {
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(EndOnCallActivity.this);
+		breakShiftTravelCall.setShiftEndTime(String.valueOf(System.currentTimeMillis()));
+		JobViewerDBHandler.saveBreakShiftTravelCall(EndOnCallActivity.this, breakShiftTravelCall);
+	}
+	
+	private void insertCallEndTimeIntoHoursCalculator() {
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(EndOnCallActivity.this);
+		breakShiftTravelCall.setCallEndTime(String.valueOf(System.currentTimeMillis()));
+		JobViewerDBHandler.saveBreakShiftTravelCall(EndOnCallActivity.this, breakShiftTravelCall);
+	}
 }

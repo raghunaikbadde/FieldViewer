@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
+import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
@@ -155,6 +156,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 							.getEmail());
 					Utils.callStartTimeRequest.setStarted_at(Utils
 							.getCurrentDateAndTime());
+					insertCallStartTimeIntoHoursCalculator();
 					Utils.saveTimeSheetInBackLogTable(
 							ClockInConfirmationActivity.this,
 							Utils.callStartTimeRequest,
@@ -180,6 +182,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 							.getEmail());
 					Utils.startShiftTimeRequest.setStarted_at(Utils
 							.getCurrentDateAndTime());
+					insertShiftStartTimeIntoHoursCalculator();
 					Utils.saveTimeSheetInBackLogTable(
 							ClockInConfirmationActivity.this,
 							Utils.startShiftTimeRequest,
@@ -269,6 +272,21 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		}
 	}
 	
+	private void insertShiftStartTimeIntoHoursCalculator() {
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(ClockInConfirmationActivity.this);
+		if(breakShiftTravelCall == null){
+			breakShiftTravelCall = new BreakShiftTravelCall();
+		}
+		breakShiftTravelCall.setShiftStartTime(String.valueOf(System.currentTimeMillis()));
+		JobViewerDBHandler.saveBreakShiftTravelCall(ClockInConfirmationActivity.this, breakShiftTravelCall);
+	}
+	
+	private void insertCallStartTimeIntoHoursCalculator() {
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(ClockInConfirmationActivity.this);
+		breakShiftTravelCall.setCallStartTime(String.valueOf(System.currentTimeMillis()));
+		JobViewerDBHandler.saveBreakShiftTravelCall(ClockInConfirmationActivity.this, breakShiftTravelCall);
+	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
@@ -302,6 +320,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				.getEmail());
 		Utils.startShiftTimeRequest
 				.setStarted_at(Utils.getCurrentDateAndTime());
+		insertShiftStartTimeIntoHoursCalculator();
 		ContentValues data = new ContentValues();
 		data.put("started_at", Utils.startShiftTimeRequest.getStarted_at());
 		data.put("record_for", Utils.startShiftTimeRequest.getRecord_for());
@@ -336,6 +355,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		Utils.callStartTimeRequest.setRecord_for(userProfile
 				.getEmail());
 		Utils.callStartTimeRequest.setStarted_at(Utils.getCurrentDateAndTime());
+		insertCallStartTimeIntoHoursCalculator();
 		ContentValues data = new ContentValues();
 		data.put("started_at", Utils.callStartTimeRequest.getStarted_at());
 		data.put("record_for", Utils.callStartTimeRequest.getRecord_for());
