@@ -137,9 +137,6 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 							.setTravelStartedTime(Utils.startTravelTimeRequest
 									.getOverride_timestamp());
 				}
-
-				JobViewerDBHandler.saveCheckOutRemember(mContext,
-						checkOutRemember);
 				JobViewerDBHandler.saveCheckOutRemember(mContext,
 						checkOutRemember);
 				startEndActvity();
