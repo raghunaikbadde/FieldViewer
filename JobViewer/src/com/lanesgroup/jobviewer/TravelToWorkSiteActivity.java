@@ -140,7 +140,8 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 
 				JobViewerDBHandler.saveCheckOutRemember(mContext,
 						checkOutRemember);
-
+				JobViewerDBHandler.saveCheckOutRemember(mContext,
+						checkOutRemember);
 				startEndActvity();
 			} else {
 				executeStartTravelService();
@@ -188,6 +189,8 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 								.setTravelStartedTime(Utils.startTravelTimeRequest
 										.getOverride_timestamp());
 					}
+					JobViewerDBHandler.saveCheckOutRemember(mContext,
+							checkOutRemember);
 					startEndActvity();
 					break;
 				case HttpConnection.DID_ERROR:
