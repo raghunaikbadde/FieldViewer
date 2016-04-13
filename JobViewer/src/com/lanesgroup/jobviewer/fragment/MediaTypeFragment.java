@@ -126,7 +126,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 	private void checkAndLoadSavedImages() {
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
 			String image_string = currentScreen.getImages()[i]
-					.getImage_string();
+					.getTemp_id();
 			if (!Utils.isNullOrEmpty(image_string)) {
 				ImageObject imageById = JobViewerDBHandler.getImageById(
 						getActivity(), image_string);
@@ -143,7 +143,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 		int count = 0;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
 			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getImage_string())) {
+					.getTemp_id())) {
 				count++;
 			}
 		}
@@ -193,11 +193,11 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				for (int i = 0; i < currentScreen.getImages().length; i++) {
 
 					if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-							.getImage_string())) {
+							.getTemp_id())) {
 						try {
 							ImageObject imageObject = JobViewerDBHandler
 									.getImageById(getActivity(), currentScreen
-											.getImages()[i].getImage_string());
+											.getImages()[i].getTemp_id());
 							if (formwardIamgeToAddPhotosActivity) {
 								addPhotoActivityimageObject.add(imageObject);
 							}
@@ -224,11 +224,11 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 
 				if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-						.getImage_string())) {
+						.getTemp_id())) {
 					try {
 						ImageObject imageObject = JobViewerDBHandler
 								.getImageById(getActivity(), currentScreen
-										.getImages()[i].getImage_string());
+										.getImages()[i].getTemp_id());
 						if (formwardIamgeToAddPhotosActivity) {
 							addPhotoActivityimageObject.add(imageObject);
 						}
@@ -261,7 +261,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 		boolean isAllImagedAdded = false;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
 			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getImage_string())) {
+					.getTemp_id())) {
 				isAllImagedAdded = true;
 			} else {
 				isAllImagedAdded = false;
@@ -313,16 +313,15 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 				if (Utils.isNullOrEmpty(currentScreen.getImages()[i]
-						.getImage_string())) {
+						.getTemp_id())) {
 					String image_exif = formatDate + "," + geoLocation;
-					currentScreen.getImages()[i].setImage_exif(image_exif);
+					//currentScreen.getImages()[i].setImage_exif(image_exif);
 					ImageObject imageObject = new ImageObject();
 					String generateUniqueID = Utils
 							.generateUniqueID(getActivity());
 					imageObject.setImageId(generateUniqueID);
 					imageObject.setCategory("surveys");
-					imageObject.setImage_exif(currentScreen.getImages()[i]
-							.getImage_exif());
+					imageObject.setImage_exif(image_exif);
 					String base64 = "";
 					try {
 						base64 = Utils.bitmapToBase64String(rotateBitmap);
@@ -336,7 +335,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 					imageObject.setImage_string(base64);
 					imageString = base64;
 					currentScreen.getImages()[i]
-							.setImage_string(generateUniqueID);
+							.setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;
 				}

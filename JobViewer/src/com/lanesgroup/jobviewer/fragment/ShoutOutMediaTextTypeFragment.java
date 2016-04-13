@@ -121,7 +121,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	private void checkAndLoadSavedImages() {
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
 			String image_string = currentScreen.getImages()[i]
-					.getImage_string();
+					.getTemp_id();
 			if (!Utils.isNullOrEmpty(image_string)) {
 				ImageObject imageById = JobViewerDBHandler.getImageById(
 						getActivity(), image_string);
@@ -190,7 +190,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		int count = 0;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
 			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getImage_string())) {
+					.getTemp_id())) {
 				count++;
 			}
 		}
@@ -231,11 +231,10 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 				String generateUniqueID = Utils.generateUniqueID(getActivity());
 				imageObject.setImageId(generateUniqueID);
 				imageObject.setImage_string(currentScreen.getImages()[i]
-						.getImage_string());
+						.getTemp_id());
 				imageObject.setCategory("surveys");
-				imageObject.setImage_exif(currentScreen.getImages()[i]
-						.getImage_exif());
-				currentScreen.getImages()[i].setImage_string(generateUniqueID);
+				imageObject.setImage_exif("");
+				currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 				sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 			}
 
@@ -281,16 +280,15 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
 			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getImage_string())) {
+					.getTemp_id())) {
 				ImageObject imageObject = new ImageObject();
 				String generateUniqueID = Utils.generateUniqueID(getActivity());
 				imageObject.setImageId(generateUniqueID);
 				imageObject.setImage_string(currentScreen.getImages()[i]
-						.getImage_string());
+						.getTemp_id());
 				imageObject.setCategory("surveys");
-				imageObject.setImage_exif(currentScreen.getImages()[i]
-						.getImage_exif());
-				currentScreen.getImages()[i].setImage_string(generateUniqueID);
+				imageObject.setImage_exif("");
+				currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 				sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 			}
 
@@ -449,7 +447,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		boolean isAllImagedAdded = false;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
 			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getImage_string())) {
+					.getTemp_id())) {
 				isAllImagedAdded = true;
 			} else {
 				isAllImagedAdded = false;
@@ -501,21 +499,20 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 				if (Utils.isNullOrEmpty(currentScreen.getImages()[i]
-						.getImage_string())) {
+						.getTemp_id())) {
 					String image_exif = formatDate + "," + geoLocation;
-					currentScreen.getImages()[i].setImage_exif(image_exif);
+					//currentScreen.getImages()[i].setImage_exif(image_exif);
 					ImageObject imageObject = new ImageObject();
 					String generateUniqueID = Utils
 							.generateUniqueID(getActivity());
 					imageObject.setImageId(generateUniqueID);
 					imageObject.setCategory("surveys");
-					imageObject.setImage_exif(currentScreen.getImages()[i]
-							.getImage_exif());
+					imageObject.setImage_exif(image_exif);
 					imageObject.setImage_string(Utils
 							.bitmapToBase64String(rotateBitmap));
 					imageString = imageObject.getImage_string();
 					currentScreen.getImages()[i]
-							.setImage_string(generateUniqueID);
+							.setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;
 				}

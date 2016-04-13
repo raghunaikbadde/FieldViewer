@@ -17,13 +17,19 @@ public class Screen {
 
 	private Images[] images;
 
+	private Inputs[] inputs;
+
 	private String _progress;
 
 	private Buttons buttons;
 
 	private Options options;
-	
+
 	private String input;
+
+	private String time;
+
+	private boolean allow_skip;
 
 	public String get_type() {
 		return _type;
@@ -129,5 +135,29 @@ public class Screen {
 
 	public void setInput(String input) {
 		this.input = input;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public boolean isAllow_skip() {
+		return allow_skip;
+	}
+
+	public void setAllow_skip(boolean allow_skip) {
+		this.allow_skip = allow_skip;
+	}
+
+	public Inputs[] getInputs() {
+		return inputs;
+	}
+
+	public void setInputs(Inputs[] inputs) {
+		this.inputs = inputs;
 	}
 }
