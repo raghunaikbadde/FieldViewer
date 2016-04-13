@@ -63,6 +63,7 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.service.AppKillService;
 import com.lanesgroup.jobviewer.LauncherActivity;
+import com.lanesgroup.jobviewer.PollutionActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.WelcomeActivity;
 import com.raghu.TimeSheetServiceRequests;
@@ -612,6 +613,8 @@ public class Utils {
 	public static void createMultiSelectDialog(Context context,
 			List<MultiChoiceItem> multiChoiceItems, String title,
 			final TextView multiChoiceTextView) {
+		
+		
 		View view = ((Activity) context).getLayoutInflater().inflate(
 				R.layout.multichoice_dialog_screen, null);
 		final MultiChoiceAdapter adapter = new MultiChoiceAdapter(context,
@@ -678,6 +681,11 @@ public class Utils {
 					multiChoiceTextView.setText(sb);
 				}
 				dialog.dismiss();
+				if(((Activity) v.getContext()) instanceof PollutionActivity){			
+					PollutionActivity pollutionActivity = (PollutionActivity)((Activity) v.getContext());
+					pollutionActivity.validateUserInputs();
+				}
+				
 			}
 		});
 	}

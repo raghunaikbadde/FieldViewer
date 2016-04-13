@@ -184,6 +184,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener {
 		workRequest.setLocation_longitude("" + tracker.getLongitude());
 		workRequest.setCreated_by(userProfile.getEmail());
 		BackLogRequest backLogRequest = new BackLogRequest();
+		Utils.work_id = "1";
 		backLogRequest.setRequestApi(CommsConstant.HOST + "/"
 				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id);
 		backLogRequest.setRequestClassName("WorkRequest");
