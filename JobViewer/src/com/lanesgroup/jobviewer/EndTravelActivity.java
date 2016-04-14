@@ -106,12 +106,20 @@ public class EndTravelActivity extends BaseActivity implements
 					checkOutRemember.setIsTravelEnd("true");
 					JobViewerDBHandler.saveCheckOutRemember(mContext,
 							checkOutRemember);
+					
 					Intent intent = new Intent(this, NewWorkActivity.class);
+					CheckAndCcontinueNoWork(intent);
 					startActivity(intent);
 				}
 			}
 	}
 
+	private void CheckAndCcontinueNoWork(Intent intent) {
+		Bundle bundle = getIntent().getExtras();
+		if(bundle!=null && bundle.containsKey(Constants.WORK_NO_PHOTOS)){
+			intent.putExtra(Constants.WORK_NO_PHOTOS, Constants.WORK_NO_PHOTOS);
+		}
+	}
 	/*
 	 * private void executeEndBreakService() { TimeSheetRequest endTimeRequest =
 	 * null; String api; if
@@ -167,6 +175,7 @@ public class EndTravelActivity extends BaseActivity implements
 					Utils.endTravelTimeRequest, CommsConstant.END_TRAVEL_API,
 					Utils.REQUEST_TYPE_WORK);
 			Intent intent = new Intent(this, NewWorkActivity.class);
+			CheckAndCcontinueNoWork(intent);
 			startActivity(intent);
 		}
 
@@ -187,6 +196,7 @@ public class EndTravelActivity extends BaseActivity implements
 					JobViewerDBHandler.saveCheckOutRemember(mContext,
 							checkOutRemember);
 					Intent intent = new Intent(mContext, NewWorkActivity.class);
+					CheckAndCcontinueNoWork(intent);
 					startActivity(intent);
 					break;
 				case HttpConnection.DID_ERROR:

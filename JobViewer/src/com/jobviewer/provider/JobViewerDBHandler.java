@@ -455,7 +455,53 @@ public class JobViewerDBHandler {
 		cursor.close();
 		return surveyJson;
 	}
+	
+	public static void saveWorkWithNoPhotosQuestionSet(Context context,
+			SurveyJson surveyJson) {
+		deleteWorkWithNoPhotosQuestionSet(context);
+		ContentValues values = new ContentValues();
+		values.put(
+				JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.BACK_STACK,
+				surveyJson.getBackStack());
+		values.put(
+				JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.QUESTION_SET,
+				surveyJson.getQuestionJson());
+		values.put(
+				JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.WORK_TYPE,
+				surveyJson.getWorkType());
+		context.getContentResolver().insert(
+				JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.CONTENT_URI,
+				values);
+	}
+	
+	public static void deleteWorkWithNoPhotosQuestionSet(Context context) {
+		context.getContentResolver().delete(
+				JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.CONTENT_URI,
+				null, null);
+	}
+	
+	public static SurveyJson getWorkWithNoPhotosQuestionSet(Context context) {
+		Cursor cursor = context.getContentResolver().query(
+				JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.CONTENT_URI,
+				null, null, null, null);
+		SurveyJson surveyJson = null;
+		if (cursor != null && cursor.moveToFirst()) {
+			surveyJson = new SurveyJson();
+			surveyJson
+					.setBackStack(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.BACK_STACK)));
+			surveyJson
+					.setQuestionJson(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.QUESTION_SET)));
+			surveyJson
+					.setWorkType(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.WORK_TYPE)));
 
+		}
+		cursor.close();
+		return surveyJson;
+	}
+	
 	public static void saveBackLog(Context context, BackLogRequest request) {
 		ContentValues values = new ContentValues();
 		values.put(JobViewerProviderContract.BackLogTable.REQUEST_TYPE,

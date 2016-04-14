@@ -14,6 +14,9 @@ import com.jobviewer.confined.fragment.ConfinedMediaTextTypeFragment;
 import com.jobviewer.confined.fragment.ConfinedMediaTypeFragment;
 import com.jobviewer.confined.fragment.ConfinedStopFragment;
 import com.jobviewer.confined.fragment.ConfinedYesNoTypeFragment;
+import com.jobviewer.nophotos.fragment.NoPhotosAssessmentCompleteFragment;
+import com.jobviewer.nophotos.fragment.NoPhotosStopFragment;
+import com.jobviewer.nophotos.fragment.NoPhotosYesNoTypeFragment;
 import com.jobviewer.survey.object.QuestionMaster;
 import com.lanesgroup.jobviewer.fragment.AssessmentCompleteFragment;
 import com.lanesgroup.jobviewer.fragment.CheckTypeFragment;
@@ -109,6 +112,25 @@ public class SurveyUtil {
 			return new ConfinedStopFragment();
 		case 8:
 			return new ConfinedAssessmentCompleteFragment();
+		default:
+			return null;
+		}
+	}
+	
+	public static Fragment getNoPhotosFragment(int type) {
+		switch (type) {
+		case 1:
+		case 2:
+		case 3:
+			return new NoPhotosYesNoTypeFragment();
+		case 4:
+		case 5:
+		case 6:
+			return new NoPhotosStopFragment();
+		case 7:
+			return new NoPhotosStopFragment();
+		case 8:
+			return new NoPhotosAssessmentCompleteFragment();
 		default:
 			return null;
 		}

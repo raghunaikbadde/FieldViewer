@@ -319,6 +319,7 @@ lv.setOnItemClickListener(new OnItemClickListener() {
 						TravelToWorkSiteActivity.class);
 			}
 			result = WORK_NO_PHOTOS;
+			workWithNoPhotosintent.putExtra(Constants.WORK_NO_PHOTOS, Constants.WORK_NO_PHOTOS);
 			startActivity(workWithNoPhotosintent);
 		}
 		finish();

@@ -26,6 +26,7 @@ import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
+import com.jobviewer.nophotos.WorkWithNoPhotosQuestionActivity;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ConfirmDialog;
@@ -284,11 +285,26 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 	}
 
 	private void startEndActvity() {
-		Intent intent = new Intent(NewWorkActivity.this,
-				CaptureVistecActivity.class);
-		startActivity(intent);
+		if(CheckAndCcontinueNoWork()){
+			Intent intent = new Intent(NewWorkActivity.this,
+					WorkWithNoPhotosQuestionActivity.class);
+		
+			startActivity(intent);
+		} else {
+			Intent intent = new Intent(NewWorkActivity.this,
+					CaptureVistecActivity.class);
+		
+			startActivity(intent);
+		}
 	}
 
+	private boolean CheckAndCcontinueNoWork() {
+		Bundle bundle = getIntent().getExtras();
+		if(bundle!=null && bundle.containsKey(Constants.WORK_NO_PHOTOS)){
+			return true;
+		}
+		return false;
+	}
 	private void saveCreatedWorkInBackLogDb() {
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getApplicationContext());

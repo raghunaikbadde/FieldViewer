@@ -152,6 +152,21 @@ public class JobViewerProviderContract {
 		public static final String BACK_STACK="backStack";
 	}
 	
+	public static final class WorkWithNoPhotosQuestionSetTable implements BaseColumns {
+		public static final Uri CONTENT_URI = Uri.withAppendedPath(
+				JobViewerProviderContract.CONTENT_URI, "WorkWithNoPhotosQuestionSetTable");
+		public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
+				+ "/vnd.jobviewer";
+		public static final String CONTENT_WALLET_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+				+ "/vnd.jobviewer";
+		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+				+ "/vnd.jobviewer.WorkWithNoPhotosQuestionSetTable";
+
+		public static final String WORK_TYPE ="wokType";
+		public static final String QUESTION_SET="questionJson";
+		public static final String BACK_STACK="backStack";
+	}
+	
 	public static final class AddPhotosScreenSavedImages implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(
 				JobViewerProviderContract.CONTENT_URI, "AddPhotosScreenSavedImages");

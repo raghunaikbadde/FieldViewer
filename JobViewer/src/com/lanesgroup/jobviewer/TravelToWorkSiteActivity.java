@@ -60,10 +60,18 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 			JobViewerDBHandler.saveCheckOutRemember(mContext, checkOutRemember);
 			Intent intent = new Intent(TravelToWorkSiteActivity.this,
 					EndTravelActivity.class);
+			CheckAndCcontinueNoWork(intent);
 			intent.putExtra("eventType", "End Travel");
 			intent.putExtra(Constants.TIME,
 					Utils.startTravelTimeRequest.getStarted_at());
 			startActivity(intent);
+		}
+	}
+
+	private void CheckAndCcontinueNoWork(Intent intent) {
+		Bundle bundle = getIntent().getExtras();
+		if(bundle!=null && bundle.containsKey(Constants.WORK_NO_PHOTOS)){
+			intent.putExtra(Constants.WORK_NO_PHOTOS, Constants.WORK_NO_PHOTOS);
 		}
 	}
 
@@ -107,6 +115,7 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 				startEndActvity();
 				String time = data.getExtras().get(Constants.TIME).toString();
 				Intent intent = new Intent(this, EndTravelActivity.class);
+				CheckAndCcontinueNoWork(intent);
 				intent.putExtra(Constants.STARTED, "End Travel");
 				intent.putExtra(Constants.TIME, time);
 				startActivity(intent);
@@ -214,6 +223,7 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 
 	private void startEndActvity() {
 		Intent intent = new Intent(this, EndTravelActivity.class);
+		CheckAndCcontinueNoWork(intent);
 		intent.putExtra("eventType", "End Travel");
 		if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
 				.getOverride_timestamp())) {

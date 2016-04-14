@@ -12,6 +12,7 @@ import com.jobviewer.provider.JobViewerProviderContract.ShoutAboutSafetyTable;
 import com.jobviewer.provider.JobViewerProviderContract.StartTrainingTable;
 import com.jobviewer.provider.JobViewerProviderContract.TimeSheet;
 import com.jobviewer.provider.JobViewerProviderContract.User;
+import com.jobviewer.provider.JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable;
 
 public interface JobViewerSchema {
 
@@ -30,6 +31,7 @@ public interface JobViewerSchema {
 	public static final String TABLE_BREAK_TRAVEL_SHIFT_CALL = "BreakTravelShiftCallTable";
 	public static final String TABLE_IMAGE_SEND_STATUS = "ImageSendStatusTable";
 	public static final String TABLE_CONFINED_QUESTION_SET = "ConfinedQuestionSetTable";
+	public static final String TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET = "WorkWithNoPhotosQuestionSetTable";
 
 	public static final String CREATE_TABLE_USER = "create table " + TABLE_USER
 			+ "(" + User._ID + " integer primary key autoincrement,"
@@ -107,6 +109,14 @@ public interface JobViewerSchema {
 			+ ConfinedQuestionSetTable.WORK_TYPE + " text,"
 			+ ConfinedQuestionSetTable.QUESTION_SET + " text,"
 			+ ConfinedQuestionSetTable.BACK_STACK + " text);";
+	
+	public static final String CREATE_TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET = "create table "
+			+ TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET + "(" + WorkWithNoPhotosQuestionSetTable._ID
+			+ " integer primary key autoincrement,"
+			+ WorkWithNoPhotosQuestionSetTable.WORK_TYPE + " text,"
+			+ WorkWithNoPhotosQuestionSetTable.QUESTION_SET + " text,"
+			+ WorkWithNoPhotosQuestionSetTable.BACK_STACK + " text);";
+	
 
 	public static final String CREATE_TABLE_BACK_LOG = "create table "
 			+ TABLE_BACK_LOG + "(" + QuestionSetTable._ID
