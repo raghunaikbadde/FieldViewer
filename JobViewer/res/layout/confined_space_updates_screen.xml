@@ -32,7 +32,7 @@
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:layout_marginTop="@dimen/white_lato_bold_small50"
                     android:gravity="center_horizontal"
-                    android:text="@string/non_excavation_risk_assessment_str"
+                    android:text="@string/confined_space_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/title_text_size70" />
 
@@ -72,7 +72,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/dialog_button_top_margin70"
                     android:layout_marginTop="@dimen/dialog_button_top_margin70"
-                    android:text="@string/overhead_cables_str"
+                    android:text="@string/gas_level_updates"
                     android:textColor="@color/red"
                     android:textSize="@dimen/title_text_size70" />
 
@@ -84,71 +84,60 @@
                     android:layout_marginBottom="@dimen/white_lato_bold_small50"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
-                    android:text="@string/question_are_ther_any_str"
+                    android:text="@string/gas_level_updates_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
-				<RadioGroup
-                    android:id="@+id/radioGroup1"
-                    android:layout_width="fill_parent"
+
+                <TextView
+                    android:id="@+id/next_update_text"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/question_text"
-                    android:orientation="vertical">
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginTop="@dimen/dialog_detail_top_margin80"
+                    android:text="@string/next_update_str"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/white_lato_regular_small40" />
 
-                <RadioButton
-                    android:id="@+id/radio1"
+                <TextView
+                    android:id="@+id/timer_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
-                    android:layout_marginLeft="@dimen/checkout_checkbox_left_margin158"
-                    android:button="@drawable/checkbox_selector"
-                    android:paddingLeft="@dimen/template_spacing27"
-                    android:text="@string/tmp_yes"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/progressbar_top_margin58" />
-
-                <RadioButton
-                    android:id="@+id/radio2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/checkout_checkbox_left_margin158"
-                    android:button="@drawable/checkbox_selector"
-                    android:paddingLeft="@dimen/template_spacing27"
-                    android:text="@string/tmp_no"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/progressbar_top_margin58" />
-                </RadioGroup>
-
-                <LinearLayout
-                    android:id="@+id/error_msg_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/radioGroup1"
-                    android:layout_marginBottom="@dimen/call_customer_button_height180"
+                    android:layout_below="@+id/next_update_text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/dialog_detail_top_margin80"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
-                    android:layout_marginTop="@dimen/white_lato_bold_small50"
-                    android:background="@color/grey"
-                    android:gravity="left"
+                    android:text="@string/tmp_timer"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_label_vertical_spacing100" />
+
+                <LinearLayout
+                    android:id="@+id/skip_timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/welcome_bottom_margin113"
+                    android:layout_below="@+id/timer_text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/white_lato_regular_small40"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:background="@drawable/grey_stroke_back"
+                    android:gravity="center_vertical|center_horizontal"
                     android:orientation="horizontal" >
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|left"
-                        android:src="@drawable/alert_red_image" />
-
                     <TextView
-                        android:id="@+id/user_email_text"
+                        android:id="@+id/tap_to_call_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingLeft="@dimen/shift_complete_spacing12"
-                        android:paddingRight="@dimen/shift_complete_spacing12"
-                        android:text="@string/error_msg_str"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/white_lato_regular_small40" />
+                        android:paddingLeft="@dimen/text_label_vertical_spacing100"
+                        android:paddingRight="@dimen/text_label_vertical_spacing100"
+                        android:text="@string/skip_timer_str"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/black_lato_regular_small55" />
                 </LinearLayout>
             </RelativeLayout>
+
         </LinearLayout>
     </ScrollView>
 
@@ -168,7 +157,7 @@
             android:text="@string/save"
             android:textColor="@color/black"
             android:textAllCaps="false"
-            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+            android:textSize="@dimen/progressbar_top_margin58" />
 
         <Button
             android:id="@+id/space"
@@ -181,12 +170,13 @@
             android:id="@+id/button2"
             android:layout_width="0dp"
             android:layout_height="@dimen/button_height150"
+            android:layout_gravity="center_vertical"
             android:layout_weight="20"
-            android:background="@drawable/red_background"
-            android:text="@string/next"
+            android:background="@drawable/dark_grey_background"
+            android:text="@string/entry_complete"
             android:textColor="@color/white"
             android:textAllCaps="false"
-            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+            android:textSize="@dimen/progressbar_top_margin58" />
     </LinearLayout>
 
 </RelativeLayout>

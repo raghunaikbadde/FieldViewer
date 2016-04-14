@@ -15,7 +15,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.risk_assessment_screen);
+        setContentView(R.layout.confined_space_manhole_screen);
         
         /*Button button1 = (Button) findViewById(R.id.clock_in);
         button1.setOnClickListener(new OnClickListener() {
