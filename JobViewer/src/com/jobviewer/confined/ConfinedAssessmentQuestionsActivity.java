@@ -8,15 +8,12 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 
-import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.QuestionMaster;
 import com.jobviewer.survey.object.Screen;
-import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.survey.object.util.SurveyUtil;
-import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.fragment.CheckTypeFragment;
@@ -27,7 +24,7 @@ public class ConfinedAssessmentQuestionsActivity extends Activity implements
 		onClicksRiskAssessment, onClicksEnterJobNumber {
 
 	private static FragmentManager mFragmentManager;
-	QuestionManager manager;
+	ConfinedQuestionManager manager;
 	QuestionMaster loadJsonFromAssets;
 
 	@Override
@@ -38,15 +35,10 @@ public class ConfinedAssessmentQuestionsActivity extends Activity implements
 		setContentView(R.layout.questions_flow_screen);
 		Utils.startService(this);
 		mFragmentManager = getFragmentManager();
-		manager = QuestionManager.getInstance();
-		SurveyJson questionSet = JobViewerDBHandler.getQuestionSet(this);
-		Bundle bundle = getIntent().getExtras();
-		
-		if(bundle != null && bundle.containsKey(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY) ){
-			updateFragmentsFromRiskAssessment(questionSet,bundle.getString(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY));
-		} else{
-			updateFragments(questionSet);
-		}
+		manager = ConfinedQuestionManager.getInstance();
+		SurveyJson questionSet = JobViewerDBHandler
+				.getConfinedQuestionSet(this);
+		updateFragments(questionSet);
 	}
 
 	private void updateFragments(SurveyJson questionSet) {
@@ -54,34 +46,17 @@ public class ConfinedAssessmentQuestionsActivity extends Activity implements
 				&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
 			manager.reloadAssessment(questionSet);
 		} else {
-			CheckOutObject checkOutRemember = JobViewerDBHandler
-					.getCheckOutRemember(this);
-			if (checkOutRemember.getAssessmentSelected().equalsIgnoreCase(
-					ActivityConstants.EXCAVATION)) {
-				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-						"excavation.json");
-			} else {
-				loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
-						"non_excavation.json");
-			}
+			loadJsonFromAssets = SurveyUtil.loadJsonFromAssets(this,
+					"confined_space_entry.json");
 
 			manager.setQuestionMaster(loadJsonFromAssets);
 			Screen firstScreen = manager.getFirstScreen();
 			int questionType = SurveyUtil.getQuestionType(firstScreen
 					.get_type());
-			loadFragment(SurveyUtil.getFragment(questionType));
+			loadFragment(SurveyUtil.getConfinedFragment(questionType));
 		}
 	}
 
-	private void updateFragmentsFromRiskAssessment(SurveyJson questionSet,String screenId) {
-		
-		manager.setQuestionMaster(GsonConverter.getInstance().decodeFromJsonString(questionSet.getQuestionJson(), QuestionMaster.class));
-		Screen screenToShow = manager.getScreenById(screenId);
-		manager.setCurrentScreen(screenToShow);
-		int questionType = SurveyUtil.getQuestionType(screenToShow.get_type());
-		loadFragment(SurveyUtil.getFragment(questionType));
-		
-	}
 	@Override
 	public void onNextClick() {
 

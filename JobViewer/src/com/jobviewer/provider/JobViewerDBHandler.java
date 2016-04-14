@@ -6,7 +6,6 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
@@ -17,8 +16,6 @@ import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.db.objects.StartTrainingObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.db.objects.TimeSheet;
-import com.jobviewer.survey.object.util.GsonConverter;
-import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 
@@ -413,6 +410,52 @@ public class JobViewerDBHandler {
 		return surveyJson;
 	}
 
+	public static void saveConfinedQuestionSet(Context context,
+			SurveyJson surveyJson) {
+		deleteConfinedQuestionSet(context);
+		ContentValues values = new ContentValues();
+		values.put(
+				JobViewerProviderContract.ConfinedQuestionSetTable.BACK_STACK,
+				surveyJson.getBackStack());
+		values.put(
+				JobViewerProviderContract.ConfinedQuestionSetTable.QUESTION_SET,
+				surveyJson.getQuestionJson());
+		values.put(
+				JobViewerProviderContract.ConfinedQuestionSetTable.WORK_TYPE,
+				surveyJson.getWorkType());
+		context.getContentResolver().insert(
+				JobViewerProviderContract.ConfinedQuestionSetTable.CONTENT_URI,
+				values);
+	}
+
+	public static void deleteConfinedQuestionSet(Context context) {
+		context.getContentResolver().delete(
+				JobViewerProviderContract.ConfinedQuestionSetTable.CONTENT_URI,
+				null, null);
+	}
+
+	public static SurveyJson getConfinedQuestionSet(Context context) {
+		Cursor cursor = context.getContentResolver().query(
+				JobViewerProviderContract.ConfinedQuestionSetTable.CONTENT_URI,
+				null, null, null, null);
+		SurveyJson surveyJson = null;
+		if (cursor != null && cursor.moveToFirst()) {
+			surveyJson = new SurveyJson();
+			surveyJson
+					.setBackStack(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.ConfinedQuestionSetTable.BACK_STACK)));
+			surveyJson
+					.setQuestionJson(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.ConfinedQuestionSetTable.QUESTION_SET)));
+			surveyJson
+					.setWorkType(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.ConfinedQuestionSetTable.WORK_TYPE)));
+
+		}
+		cursor.close();
+		return surveyJson;
+	}
+
 	public static void saveBackLog(Context context, BackLogRequest request) {
 		ContentValues values = new ContentValues();
 		values.put(JobViewerProviderContract.BackLogTable.REQUEST_TYPE,
@@ -717,12 +760,12 @@ public class JobViewerDBHandler {
 			breakShiftTravelCall
 					.setTravelEndTime(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.TRAVEL_END_TIME)));
-			breakShiftTravelCall.
-					setWorkStartTime(cursor.getString(cursor
+			breakShiftTravelCall
+					.setWorkStartTime(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.WORK_START_TIME)));
-			
-			breakShiftTravelCall.setWorkEndTime
-					(cursor.getString(cursor
+
+			breakShiftTravelCall
+					.setWorkEndTime(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.WORK_END_TIME)));
 
 		}

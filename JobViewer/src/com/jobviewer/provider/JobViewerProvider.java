@@ -13,6 +13,7 @@ import android.text.TextUtils;
 
 import com.jobviewer.provider.JobViewerProviderContract.BackLogTable;
 import com.jobviewer.provider.JobViewerProviderContract.BreakTravelShiftCallTable;
+import com.jobviewer.provider.JobViewerProviderContract.ConfinedQuestionSetTable;
 import com.jobviewer.provider.JobViewerProviderContract.Image;
 import com.jobviewer.provider.JobViewerProviderContract.ImageSendStatusTable;
 import com.jobviewer.provider.JobViewerProviderContract.QuestionSetTable;
@@ -38,6 +39,7 @@ public class JobViewerProvider extends ContentProvider {
 	private static final int TABLE_START_TRAINING = 10;
 	private static final int TABLE_BREAK_TRAVEL_SHIFT_CALL = 11;
 	private static final int TABLE_IMAGE_SEND_STATUS = 12;
+	private static final int TABLE_CONFINED_QUESTION_SET = 13;
 	// prepare the UriMatcher
 	private static final UriMatcher URI_MATCHER;
 	static {
@@ -71,6 +73,8 @@ public class JobViewerProvider extends ContentProvider {
 				"StartTrainingTable", TABLE_START_TRAINING);
 		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY,
 				"ImageSendStatusTable", TABLE_IMAGE_SEND_STATUS);
+		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY,
+				"ConfinedQuestionSetTable", TABLE_CONFINED_QUESTION_SET);
 	}
 
 	// system calls onCreate() when it starts up the provider.
@@ -109,6 +113,8 @@ public class JobViewerProvider extends ContentProvider {
 			return BreakTravelShiftCallTable.CONTENT_TYPE;
 		case TABLE_IMAGE_SEND_STATUS:
 			return ImageSendStatusTable.CONTENT_TYPE;
+		case TABLE_CONFINED_QUESTION_SET:
+			return ConfinedQuestionSetTable.CONTENT_TYPE;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -164,6 +170,10 @@ public class JobViewerProvider extends ContentProvider {
 			return getUriForId(id, uri);
 		case TABLE_IMAGE_SEND_STATUS:
 			id = db.insert(JobViewerSchema.TABLE_IMAGE_SEND_STATUS, null,
+					values);
+			return getUriForId(id, uri);
+		case TABLE_CONFINED_QUESTION_SET:
+			id = db.insert(JobViewerSchema.TABLE_CONFINED_QUESTION_SET, null,
 					values);
 			return getUriForId(id, uri);
 		default:
@@ -240,6 +250,9 @@ public class JobViewerProvider extends ContentProvider {
 		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
 			queryBuilder.setTables(JobViewerSchema.TABLE_BREAK_TRAVEL_SHIFT_CALL);
 			break;
+		case TABLE_CONFINED_QUESTION_SET:
+			queryBuilder.setTables(JobViewerSchema.TABLE_CONFINED_QUESTION_SET);
+			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -309,6 +322,10 @@ public class JobViewerProvider extends ContentProvider {
 			break;
 		case TABLE_IMAGE_SEND_STATUS:
 			deleteCount = db.delete(JobViewerSchema.TABLE_IMAGE_SEND_STATUS,
+					selection, selectionArgs);
+			break;
+		case TABLE_CONFINED_QUESTION_SET:
+			deleteCount = db.delete(JobViewerSchema.TABLE_CONFINED_QUESTION_SET,
 					selection, selectionArgs);
 			break;
 		default:
@@ -382,6 +399,10 @@ public class JobViewerProvider extends ContentProvider {
 			break;
 		case TABLE_BREAK_TRAVEL_SHIFT_CALL:
 			updateCount = db.update(JobViewerSchema.TABLE_BREAK_TRAVEL_SHIFT_CALL, values, 
+					selection, selectionArgs);
+			break;
+		case TABLE_CONFINED_QUESTION_SET:
+			updateCount = db.update(JobViewerSchema.TABLE_CONFINED_QUESTION_SET, values, 
 					selection, selectionArgs);
 			break;
 		default:

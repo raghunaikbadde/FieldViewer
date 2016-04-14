@@ -4,6 +4,7 @@ import com.jobviewer.provider.JobViewerProviderContract.AddPhotosScreenSavedImag
 import com.jobviewer.provider.JobViewerProviderContract.BackLogTable;
 import com.jobviewer.provider.JobViewerProviderContract.BreakTravelShiftCallTable;
 import com.jobviewer.provider.JobViewerProviderContract.CheckOutRemember;
+import com.jobviewer.provider.JobViewerProviderContract.ConfinedQuestionSetTable;
 import com.jobviewer.provider.JobViewerProviderContract.Image;
 import com.jobviewer.provider.JobViewerProviderContract.ImageSendStatusTable;
 import com.jobviewer.provider.JobViewerProviderContract.QuestionSetTable;
@@ -28,6 +29,7 @@ public interface JobViewerSchema {
 	public static final String TABLE_START_TRAINING = "StartTrainingTable";
 	public static final String TABLE_BREAK_TRAVEL_SHIFT_CALL = "BreakTravelShiftCallTable";
 	public static final String TABLE_IMAGE_SEND_STATUS = "ImageSendStatusTable";
+	public static final String TABLE_CONFINED_QUESTION_SET = "ConfinedQuestionSetTable";
 
 	public static final String CREATE_TABLE_USER = "create table " + TABLE_USER
 			+ "(" + User._ID + " integer primary key autoincrement,"
@@ -98,6 +100,13 @@ public interface JobViewerSchema {
 			+ QuestionSetTable.WORK_TYPE + " text,"
 			+ QuestionSetTable.QUESTION_SET + " text,"
 			+ QuestionSetTable.BACK_STACK + " text);";
+	
+	public static final String CREATE_TABLE_CONFINED_QUESTION_SET = "create table "
+			+ TABLE_CONFINED_QUESTION_SET + "(" + ConfinedQuestionSetTable._ID
+			+ " integer primary key autoincrement,"
+			+ ConfinedQuestionSetTable.WORK_TYPE + " text,"
+			+ ConfinedQuestionSetTable.QUESTION_SET + " text,"
+			+ ConfinedQuestionSetTable.BACK_STACK + " text);";
 
 	public static final String CREATE_TABLE_BACK_LOG = "create table "
 			+ TABLE_BACK_LOG + "(" + QuestionSetTable._ID

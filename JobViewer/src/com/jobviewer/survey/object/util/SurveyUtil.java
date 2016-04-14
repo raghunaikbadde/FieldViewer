@@ -7,6 +7,13 @@ import android.app.Fragment;
 import android.content.Context;
 import android.util.Log;
 
+import com.jobviewer.confined.fragment.ConfinedAssessmentCompleteFragment;
+import com.jobviewer.confined.fragment.ConfinedCheckTypeFragment;
+import com.jobviewer.confined.fragment.ConfinedInformationTypeFragment;
+import com.jobviewer.confined.fragment.ConfinedMediaTextTypeFragment;
+import com.jobviewer.confined.fragment.ConfinedMediaTypeFragment;
+import com.jobviewer.confined.fragment.ConfinedStopFragment;
+import com.jobviewer.confined.fragment.ConfinedYesNoTypeFragment;
 import com.jobviewer.survey.object.QuestionMaster;
 import com.lanesgroup.jobviewer.fragment.AssessmentCompleteFragment;
 import com.lanesgroup.jobviewer.fragment.CheckTypeFragment;
@@ -79,6 +86,29 @@ public class SurveyUtil {
 			return new StopFragment();
 		case 8:
 			return new AssessmentCompleteFragment();
+		default:
+			return null;
+		}
+	}
+	
+	public static Fragment getConfinedFragment(int type) {
+		switch (type) {
+		case 1:
+			return new ConfinedCheckTypeFragment();
+		case 2:
+			return new ConfinedMediaTypeFragment();
+		case 3:
+			return new ConfinedYesNoTypeFragment();
+		case 4:
+			return new ConfinedMediaTextTypeFragment();
+		case 5:
+			return new ConfinedInformationTypeFragment();
+		case 6:
+			return new ConfinedStopFragment();
+		case 7:
+			return new ConfinedStopFragment();
+		case 8:
+			return new ConfinedAssessmentCompleteFragment();
 		default:
 			return null;
 		}

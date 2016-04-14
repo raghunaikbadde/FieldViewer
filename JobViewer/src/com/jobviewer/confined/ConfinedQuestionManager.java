@@ -117,17 +117,17 @@ public class ConfinedQuestionManager {
 		if (screenId.equalsIgnoreCase(ActivityConstants.STOP_SCREEN)) {
 			int questionType = SurveyUtil.getQuestionType(screenId);
 			ConfinedAssessmentQuestionsActivity.loadNextFragment(SurveyUtil
-					.getFragment(questionType));
+					.getConfinedFragment(questionType));
 		} else if (screenId
 				.equalsIgnoreCase(ActivityConstants.STOP_SCREEN_CUSTOMER)) {
 			int questionType = SurveyUtil.getQuestionType(screenId);
 			ConfinedAssessmentQuestionsActivity.loadNextFragment(SurveyUtil
-					.getFragment(questionType));
+					.getConfinedFragment(questionType));
 		} else if (screenId
 				.equalsIgnoreCase(ActivityConstants.ASSESSMENT_COMPLETE)) {
 			int questionType = SurveyUtil.getQuestionType(screenId);
 			ConfinedAssessmentQuestionsActivity.loadNextFragment(SurveyUtil
-					.getFragment(questionType));
+					.getConfinedFragment(questionType));
 		} else {
 			for (int i = 0; i < questionMaster.getScreens().getScreen().length; i++) {
 				if (screenId.equalsIgnoreCase(questionMaster.getScreens()
@@ -136,7 +136,7 @@ public class ConfinedQuestionManager {
 					int questionType = SurveyUtil.getQuestionType(currentScreen
 							.get_type());
 					ConfinedAssessmentQuestionsActivity.loadNextFragment(SurveyUtil
-							.getFragment(questionType));
+							.getConfinedFragment(questionType));
 					if (!isBackPressed) {
 						addToBackStack(screenId);
 					} else {
@@ -156,7 +156,7 @@ public class ConfinedQuestionManager {
 		json.setQuestionJson(encodeToJsonString);
 		json.setWorkType(workType);
 		json.setBackStack(getBackStackAsString());
-		JobViewerDBHandler.saveQuestionSet(BaseActivity.context, json);
+		JobViewerDBHandler.saveConfinedQuestionSet(BaseActivity.context, json);
 	}
 
 	public void reloadAssessment(SurveyJson surveyJson) {
