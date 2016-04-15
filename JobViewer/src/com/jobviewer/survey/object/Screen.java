@@ -30,6 +30,8 @@ public class Screen {
 	private String time;
 
 	private boolean allow_skip;
+	
+	private boolean timer_skipped;
 
 	public String get_type() {
 		return _type;
@@ -159,5 +161,13 @@ public class Screen {
 
 	public void setInputs(Inputs[] inputs) {
 		this.inputs = inputs;
+	}
+
+	public boolean isTimer_skipped() {
+		return timer_skipped;
+	}
+
+	public void setTimer_skipped(boolean timer_skipped) {
+		this.timer_skipped = timer_skipped;
 	}
 }
