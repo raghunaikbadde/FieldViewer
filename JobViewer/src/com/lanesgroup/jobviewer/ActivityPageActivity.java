@@ -129,11 +129,11 @@ public class ActivityPageActivity extends BaseActivity implements
 		} else if (shouldShowWorkInProgress) {
 			mStart.setText("Continue Work In Progress");
 			mStart.setTag("Continue Work In Progress");
-		} else if (shouldShowWorkInProgressWithNoPhotos || (WorkWithNoPhotosSurveryJSON != null && !Utils.isNullOrEmpty(questionSet.getQuestionJson()))){
+		} else if (shouldShowWorkInProgressWithNoPhotos || (WorkWithNoPhotosSurveryJSON != null && !Utils.isNullOrEmpty(WorkWithNoPhotosSurveryJSON.getQuestionJson()))){
 			mStart.setText(getResources().getString(R.string.work_in_progree_str));
 			mStart.setTag(getResources().getString(R.string.work_in_progree_str)+Constants.WORK_NO_PHOTOS_HOME);
 			this.registerForContextMenu(mStart);
-		}else {
+		} else {
 			mStart.setText(getResources().getString(R.string.start_text));
 			mStart.setTag(getResources().getString(R.string.start_text));
 		}
