@@ -72,7 +72,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/dialog_button_top_margin70"
                     android:layout_marginTop="@dimen/dialog_button_top_margin70"
-                    android:text="@string/manhole_ventilation"
+                    android:text="@string/gas_level_updates"
                     android:textColor="@color/red"
                     android:textSize="@dimen/title_text_size70" />
 
@@ -84,7 +84,7 @@
                     android:layout_marginBottom="@dimen/white_lato_bold_small50"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
-                    android:text="@string/open_manhole_str"
+                    android:text="@string/gas_level_updates_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
 
@@ -96,7 +96,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/title_text_size70"
                     android:layout_marginTop="@dimen/title_text_size70"
-                    android:text="@string/wait_before_str"
+                    android:text="@string/next_update_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/white_lato_regular_small40" />
 
@@ -111,7 +111,7 @@
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:text="@string/tmp_timer"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/edit_text_height130" />
+                    android:textSize="@dimen/text_label_vertical_spacing100" />
 
                 <LinearLayout
                     android:id="@+id/skip_timer"
@@ -119,7 +119,7 @@
                     android:layout_height="@dimen/welcome_bottom_margin113"
                     android:layout_below="@+id/timer_text"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/white_lato_regular_small40"
+                    android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:background="@drawable/grey_stroke_back"
@@ -136,6 +136,17 @@
                         android:textColor="@color/grey"
                         android:textSize="@dimen/black_lato_regular_small55" />
                 </LinearLayout>
+                
+                <ImageButton
+                    android:id="@+id/capture_imageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/start_break_button_height168"
+                    android:layout_below="@+id/skip_timer"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginTop="@dimen/spinner_top_margin25"
+                    android:background="@drawable/red_background"
+                    android:src="@drawable/camera_plus_icon" />
             </RelativeLayout>
 
         </LinearLayout>
@@ -175,7 +186,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="20"
             android:background="@drawable/dark_grey_background"
-            android:text="@string/next"
+            android:text="@string/entry_complete"
             android:textColor="@color/white"
             android:textAllCaps="false"
             android:textSize="@dimen/progressbar_top_margin58" />
