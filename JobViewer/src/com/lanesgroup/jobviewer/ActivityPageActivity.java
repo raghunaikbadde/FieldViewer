@@ -10,7 +10,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.ContextMenu;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.confined.ConfinedAssessmentQuestionsActivity;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.db.objects.StartTrainingObject;
@@ -66,7 +73,7 @@ public class ActivityPageActivity extends BaseActivity implements
 	}
 
 	private void updateDetailsOnUI() {
-		
+		this.unregisterForContextMenu(mStart);
 		mShoutAbout = (ImageView) findViewById(R.id.shout_about_image);
 		mShoutAbout.setOnClickListener(this);
 		
@@ -102,12 +109,18 @@ public class ActivityPageActivity extends BaseActivity implements
 		} else {			
 		bundle = getIntent().getExtras();
 		boolean shouldShowWorkInProgress = false;
+		boolean shouldShowWorkInProgressWithNoPhotos = false;
 		if (bundle != null
 				&& bundle.containsKey(Utils.SHOULD_SHOW_WORK_IN_PROGRESS)) {
 			shouldShowWorkInProgress = bundle
 					.getBoolean(Utils.SHOULD_SHOW_WORK_IN_PROGRESS);
 		}
-
+		if (bundle != null
+				&& bundle.containsKey(Constants.WORK_NO_PHOTOS_HOME)) {
+			shouldShowWorkInProgressWithNoPhotos = bundle
+					.getBoolean(Constants.WORK_NO_PHOTOS_HOME);
+		}
+		SurveyJson WorkWithNoPhotosSurveryJSON = JobViewerDBHandler.getWorkWithNoPhotosQuestionSet(this);
 		SurveyJson questionSet = JobViewerDBHandler.getQuestionSet(mContext);
 		if (questionSet != null
 				&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
@@ -116,10 +129,15 @@ public class ActivityPageActivity extends BaseActivity implements
 		} else if (shouldShowWorkInProgress) {
 			mStart.setText("Continue Work In Progress");
 			mStart.setTag("Continue Work In Progress");
-		} else {
+		} else if (shouldShowWorkInProgressWithNoPhotos || (WorkWithNoPhotosSurveryJSON != null && !Utils.isNullOrEmpty(questionSet.getQuestionJson()))){
+			mStart.setText(getResources().getString(R.string.work_in_progree_str));
+			mStart.setTag(getResources().getString(R.string.work_in_progree_str)+Constants.WORK_NO_PHOTOS_HOME);
+			this.registerForContextMenu(mStart);
+		}else {
 			mStart.setText(getResources().getString(R.string.start_text));
 			mStart.setTag(getResources().getString(R.string.start_text));
 		}
+		
 		}
 		
 		if(Utils.checkOutObject.getJobSelected().equalsIgnoreCase(ActivityConstants.JOB_SELECTED_SHIFT)){
@@ -230,6 +248,8 @@ public class ActivityPageActivity extends BaseActivity implements
 							RiskAssessmentActivity.class);
 					startActivity(riskAssIntent);
 				} 
+			} else if((getResources().getString(R.string.work_in_progree_str)+Constants.WORK_NO_PHOTOS_HOME).equalsIgnoreCase(tag)){
+				openContextMenu(mStart);
 			} else if (Constants.END_TRAINING.equalsIgnoreCase(tag)){
 				executeEndTraining();
 				
@@ -578,6 +598,40 @@ public class ActivityPageActivity extends BaseActivity implements
 			}
 		};
 		return handler;
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		 menu.setHeaderTitle(getResources().getString(R.string.context_work_options));
+		if (v == mStart)
+        {
+			menu.add(0, 1, 0, getResources().getString(R.string.context_menu_start_confined_space_entry));
+			menu.add(0, 2, 0, getResources().getString(R.string.context_menu_leave_work));  
+			menu.add(0, 3, 0, getResources().getString(R.string.context_menu_back));
+        }
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		 switch (item.getItemId()) {
+	        case 1:
+	        	Intent confinedWorkintent = new Intent(ActivityPageActivity.this,ConfinedAssessmentQuestionsActivity.class);
+	        	confinedWorkintent.putExtra(Constants.CALLING_ACTIVITY, ActivityPageActivity.this.getClass().getSimpleName());
+	        	startActivity(confinedWorkintent);
+	            return true;
+	        case 2:
+	        	Intent intent = new Intent(this,ActivityPageActivity.class);
+	        	JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(this);
+	        	finish();
+	        	startActivity(intent);
+	            return true;
+	        case 3:
+	        	mStart.getRootView().dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 
 }

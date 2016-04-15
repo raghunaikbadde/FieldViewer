@@ -61,6 +61,20 @@
                     android:text="@string/assessmentCompleteMsg"
                     android:textColor="@color/black"
                     android:textSize="@dimen/white_lato_bold_small50" />
+                
+                <TextView
+                    android:id="@+id/tapDone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/question"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/actionbar_bottom_margin85"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:text="@string/tap_done_str"
+                    android:textColor="@color/black"
+                    android:visibility="gone"
+                    android:textSize="@dimen/white_lato_regular_small40" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

@@ -1,6 +1,5 @@
 package com.jobviewer.nophotos;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -15,12 +14,13 @@ import com.jobviewer.survey.object.Screen;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.survey.object.util.SurveyUtil;
 import com.jobviewer.util.Utils;
+import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.fragment.CheckTypeFragment;
 import com.lanesgroup.jobviewer.fragment.CheckTypeFragment.onClicksEnterJobNumber;
 import com.lanesgroup.jobviewer.fragment.RiskAssessmentFragment.onClicksRiskAssessment;
 
-public class WorkWithNoPhotosQuestionActivity extends Activity implements
+public class WorkWithNoPhotosQuestionActivity extends BaseActivity implements
 		onClicksRiskAssessment, onClicksEnterJobNumber {
 
 	private static FragmentManager mFragmentManager;

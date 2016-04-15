@@ -15,6 +15,7 @@ import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.nophotos.WorkWithNoPhotosQuestionManager;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.Constants;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 
@@ -22,7 +23,7 @@ public class NoPhotosAssessmentCompleteFragment extends Fragment implements
 		OnClickListener {
 	private View mRootView;
 	private Button doneButton;
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -34,13 +35,25 @@ public class NoPhotosAssessmentCompleteFragment extends Fragment implements
 				.getCheckOutRemember(getActivity());
 		TextView screenTitle = (TextView) mRootView
 				.findViewById(R.id.screenTitle);
+		
+		TextView questionTitle = (TextView) mRootView
+				.findViewById(R.id.questionTitle);
+		questionTitle.setText(getResources().getString(R.string.persoal_risk_assement_complete_str));
+		TextView question = (TextView) mRootView
+				.findViewById(R.id.question);
+		questionTitle.setText(getResources().getString(R.string.persoal_riskassement_continue_str));
+		
+		TextView tapDone = (TextView) mRootView
+				.findViewById(R.id.tapDone);
+		tapDone.setVisibility(View.VISIBLE);
+		
 		if (ActivityConstants.EXCAVATION.equalsIgnoreCase(checkOutRemember
 				.getAssessmentSelected())) {
 			screenTitle.setText(getActivity().getResources().getString(
-					R.string.excavation_risk_str));
+					R.string.persoal_risk_assement_str));
 		} else {
 			screenTitle.setText(getActivity().getResources().getString(
-					R.string.non_excavation_risk_str));
+					R.string.persoal_risk_assement_str));
 		}
 		doneButton = (Button) mRootView.findViewById(R.id.doneButton);
 		doneButton.setOnClickListener(this);
@@ -52,6 +65,7 @@ public class NoPhotosAssessmentCompleteFragment extends Fragment implements
 		WorkWithNoPhotosQuestionManager.getInstance().saveAssessment("work");
 		Intent homeIntent = new Intent(getActivity(),
 					ActivityPageActivity.class);
+		homeIntent.putExtra(Constants.WORK_NO_PHOTOS_HOME, true);
 		startActivity(homeIntent);
 	}
 

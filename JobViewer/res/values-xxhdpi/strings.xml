@@ -340,4 +340,16 @@
     <string name="manhole_ventilation">Manhole Ventilation</string>
     <string name="open_manhole_str">Open manhole to allow adequate ventilation and lower gas monitor to lowest point leaving for at least 5 minutes</string>
     <string name="wait_before_str">Wait before continuing</string>
+    
+    <string name="persoal_risk_assement_str">Perosnal Risk Assessment</string>
+    <string name="persoal_risk_assement_complete_str">Perosnal Risk Assessment Complete</string>
+    <string name="persoal_riskassement_continue_str">You may now continue with the required work</string>
+    <string name="tap_done_str">Tap Done to continue</string>
+    <string name="work_in_progree_str">Work In Progress...</string>
+    
+    <string name="context_work_options">Work Options</string>
+    <string name="context_menu_start_confined_space_entry">Start Confined Space Entry</string>
+    <string name="context_menu_leave_work">Leave Work</string>
+    <string name="context_menu_back">Back</string>
+    
 </resources>
