@@ -97,6 +97,9 @@
             android:name="com.jobviewer.confined.ConfinedAssessmentQuestionsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.jobviewer.nophotos.WorkWithNoPhotosQuestionActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".CaptureVistecActivity"
             android:screenOrientation="portrait" />
         <activity

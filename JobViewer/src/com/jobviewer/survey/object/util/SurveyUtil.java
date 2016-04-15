@@ -119,12 +119,8 @@ public class SurveyUtil {
 	
 	public static Fragment getNoPhotosFragment(int type) {
 		switch (type) {
-		case 1:
-		case 2:
 		case 3:
 			return new NoPhotosYesNoTypeFragment();
-		case 4:
-		case 5:
 		case 6:
 			return new NoPhotosStopFragment();
 		case 7:
