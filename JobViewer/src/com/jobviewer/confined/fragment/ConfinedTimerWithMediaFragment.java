@@ -3,6 +3,12 @@ package com.jobviewer.confined.fragment;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.jobviewer.confined.ConfinedQuestionManager;
+import com.jobviewer.confined.CountdownTimer;
+import com.jobviewer.survey.object.Screen;
+import com.lanesgroup.jobviewer.BaseActivity;
+import com.lanesgroup.jobviewer.R;
+
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -18,13 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.jobviewer.confined.ConfinedQuestionManager;
-import com.jobviewer.confined.CountdownTimer;
-import com.jobviewer.survey.object.Screen;
-import com.lanesgroup.jobviewer.BaseActivity;
-import com.lanesgroup.jobviewer.R;
-
-public class ConfinedTimerFragment extends Fragment implements OnClickListener {
+public class ConfinedTimerWithMediaFragment extends Fragment implements
+		OnClickListener {
 	private View mRootView;
 	ProgressBar progressBar;
 	TextView screenTitle, progress_step_text, overhead_text, question_text,
@@ -46,22 +47,23 @@ public class ConfinedTimerFragment extends Fragment implements OnClickListener {
 			Bundle savedInstanceState) {
 		getActivity().getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		mRootView = inflater.inflate(R.layout.confined_space_manhole_screen,
-				container, false);
+		mRootView = inflater.inflate(
+				R.layout.confined_space_updates_media_screen, container, false);
+
 		removePhoneKeypad();
 		initUI();
 		updateData();
+
 		return mRootView;
 	}
-	
-	public void removePhoneKeypad() {
-	    InputMethodManager inputManager = (InputMethodManager) mRootView
-	            .getContext()
-	            .getSystemService(Context.INPUT_METHOD_SERVICE);
 
-	    IBinder binder = mRootView.getWindowToken();
-	    inputManager.hideSoftInputFromWindow(binder,
-	            InputMethodManager.HIDE_NOT_ALWAYS);
+	public void removePhoneKeypad() {
+		InputMethodManager inputManager = (InputMethodManager) mRootView
+				.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		IBinder binder = mRootView.getWindowToken();
+		inputManager.hideSoftInputFromWindow(binder,
+				InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
 	private void updateData() {
@@ -78,7 +80,7 @@ public class ConfinedTimerFragment extends Fragment implements OnClickListener {
 			skip_timer.setOnClickListener(null);
 		}
 		long startTime = getStartTimeForTimer();
-		timer = new CountdownTimer(startTime, 1000, timer_text,"timer");
+		timer = new CountdownTimer(startTime, 1000, timer_text, "timer");
 		timer.start();
 	}
 

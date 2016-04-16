@@ -15,6 +15,7 @@ import com.jobviewer.confined.fragment.ConfinedMediaTextTypeFragment;
 import com.jobviewer.confined.fragment.ConfinedMediaTypeFragment;
 import com.jobviewer.confined.fragment.ConfinedStopFragment;
 import com.jobviewer.confined.fragment.ConfinedTimerFragment;
+import com.jobviewer.confined.fragment.ConfinedTimerWithMediaFragment;
 import com.jobviewer.confined.fragment.ConfinedYesNoTypeFragment;
 import com.jobviewer.nophotos.fragment.NoPhotosAssessmentCompleteFragment;
 import com.jobviewer.nophotos.fragment.NoPhotosStopFragment;
@@ -72,6 +73,8 @@ public class SurveyUtil {
 			return 9;
 		} else if (type.equalsIgnoreCase("inputs")) {
 			return 10;
+		} else if (type.equalsIgnoreCase("timer_with_media")) {
+			return 11;
 		} else {
 			return 0;
 		}
@@ -122,6 +125,8 @@ public class SurveyUtil {
 			return new ConfinedTimerFragment();
 		case 10:
 			return new ConfinedEngineerFragment();
+		case 11:
+			return new ConfinedTimerWithMediaFragment();
 		default:
 			return null;
 		}

@@ -1,11 +1,15 @@
 package com.jobviewer.confined.fragment;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -43,10 +47,35 @@ public class ConfinedEngineerFragment extends Fragment implements
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		mRootView = inflater.inflate(R.layout.confined_space_engineer_screen,
 				container, false);
+		removePhoneKeypad();
 		initUI();
 		updateData();
 		enableNextButton(true);
 		return mRootView;
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		switch (newConfig.keyboardHidden) {
+		case Configuration.KEYBOARDHIDDEN_YES:
+			InputMethodManager imm = (InputMethodManager) getActivity()
+					.getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView()
+					.getWindowToken(), 0);
+			break;
+		case Configuration.KEYBOARDHIDDEN_NO:
+			break;
+		}
+	}
+	
+	public void removePhoneKeypad() {
+	    InputMethodManager inputManager = (InputMethodManager) mRootView
+	            .getContext()
+	            .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+	    IBinder binder = mRootView.getWindowToken();
+	    inputManager.hideSoftInputFromWindow(binder,
+	            InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
 	private void updateData() {

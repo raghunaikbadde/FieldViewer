@@ -4,12 +4,14 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -57,9 +59,20 @@ public class ConfinedYesNoTypeFragment extends Fragment implements OnClickListen
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		mRootView = inflater.inflate(R.layout.question_yes_no_fragment,
 				container, false);
+		removePhoneKeypad();
 		initUI();
 		updateData();
 		return mRootView;
+	}
+	
+	public void removePhoneKeypad() {
+	    InputMethodManager inputManager = (InputMethodManager) mRootView
+	            .getContext()
+	            .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+	    IBinder binder = mRootView.getWindowToken();
+	    inputManager.hideSoftInputFromWindow(binder,
+	            InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
 	private void updateData() {

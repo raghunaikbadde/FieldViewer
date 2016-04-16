@@ -151,7 +151,7 @@
         android:layout_marginBottom="@dimen/white_lato_regular_big79">
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/saveBtn"
             android:layout_width="0dp"
             android:layout_height="@dimen/button_height150"
             android:layout_weight="20"
@@ -169,7 +169,7 @@
             android:visibility="invisible" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/nextBtn"
             android:layout_width="0dp"
             android:layout_height="@dimen/button_height150"
             android:layout_gravity="center_vertical"
