@@ -80,16 +80,6 @@ public class ConfinedMediaTypeFragment extends Fragment implements OnClickListen
 
 	private void updateData() {
 		currentScreen = ConfinedQuestionManager.getInstance().getCurrentScreen();
-		checkOutRemember = JobViewerDBHandler
-				.getCheckOutRemember(getActivity());
-		if (ActivityConstants.EXCAVATION.equalsIgnoreCase(checkOutRemember
-				.getAssessmentSelected())) {
-			screenTitle.setText(getActivity().getResources().getString(
-					R.string.excavation_risk_str));
-		} else {
-			screenTitle.setText(getActivity().getResources().getString(
-					R.string.non_excavation_risk_assessment_str));
-		}
 		mProgressStep.setText(currentScreen.get_progress() + "%");
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());

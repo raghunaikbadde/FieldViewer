@@ -12,7 +12,6 @@ import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.QuestionMaster;
 import com.jobviewer.survey.object.Screen;
-import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.survey.object.util.SurveyUtil;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.R;
@@ -97,7 +96,7 @@ public class ConfinedAssessmentQuestionsActivity extends Activity implements
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			QuestionManager.getInstance().loadPreviousFragment();
+			ConfinedQuestionManager.getInstance().loadPreviousFragment();
 			return true;
 		} else
 			return super.onKeyDown(keyCode, event);

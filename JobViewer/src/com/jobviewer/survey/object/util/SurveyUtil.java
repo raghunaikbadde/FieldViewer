@@ -9,10 +9,12 @@ import android.util.Log;
 
 import com.jobviewer.confined.fragment.ConfinedAssessmentCompleteFragment;
 import com.jobviewer.confined.fragment.ConfinedCheckTypeFragment;
+import com.jobviewer.confined.fragment.ConfinedEngineerFragment;
 import com.jobviewer.confined.fragment.ConfinedInformationTypeFragment;
 import com.jobviewer.confined.fragment.ConfinedMediaTextTypeFragment;
 import com.jobviewer.confined.fragment.ConfinedMediaTypeFragment;
 import com.jobviewer.confined.fragment.ConfinedStopFragment;
+import com.jobviewer.confined.fragment.ConfinedTimerFragment;
 import com.jobviewer.confined.fragment.ConfinedYesNoTypeFragment;
 import com.jobviewer.nophotos.fragment.NoPhotosAssessmentCompleteFragment;
 import com.jobviewer.nophotos.fragment.NoPhotosStopFragment;
@@ -66,6 +68,10 @@ public class SurveyUtil {
 			return 7;
 		} else if (type.equalsIgnoreCase("COMPLETE")) {
 			return 8;
+		} else if (type.equalsIgnoreCase("timer")) {
+			return 9;
+		} else if (type.equalsIgnoreCase("inputs")) {
+			return 10;
 		} else {
 			return 0;
 		}
@@ -93,7 +99,7 @@ public class SurveyUtil {
 			return null;
 		}
 	}
-	
+
 	public static Fragment getConfinedFragment(int type) {
 		switch (type) {
 		case 1:
@@ -112,11 +118,15 @@ public class SurveyUtil {
 			return new ConfinedStopFragment();
 		case 8:
 			return new ConfinedAssessmentCompleteFragment();
+		case 9:
+			return new ConfinedTimerFragment();
+		case 10:
+			return new ConfinedEngineerFragment();
 		default:
 			return null;
 		}
 	}
-	
+
 	public static Fragment getNoPhotosFragment(int type) {
 		switch (type) {
 		case 3:

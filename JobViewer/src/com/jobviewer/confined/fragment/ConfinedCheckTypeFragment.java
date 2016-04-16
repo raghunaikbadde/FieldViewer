@@ -58,6 +58,7 @@ public class ConfinedCheckTypeFragment extends Fragment implements OnClickListen
 
 	private void updateData() {
 		currentScreen = ConfinedQuestionManager.getInstance().getCurrentScreen();
+		screenTitle.setText(getResources().getString(R.string.confined_space_str));
 		questionTitle.setText(currentScreen.getTitle());
 		question.setText(currentScreen.getText());
 		radio_yes.setText(currentScreen.getCheckbox().getLabel());
@@ -139,7 +140,7 @@ public class ConfinedCheckTypeFragment extends Fragment implements OnClickListen
 		if (view == mCancel) {
 			if ("save".equalsIgnoreCase(mCancel.getText().toString())) {
 				ConfinedQuestionManager.getInstance().saveAssessment(
-						checkOutRemember.getAssessmentSelected());
+						"Confined");
 				Intent intent = new Intent(view.getContext(),
 						ActivityPageActivity.class);
 				intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);

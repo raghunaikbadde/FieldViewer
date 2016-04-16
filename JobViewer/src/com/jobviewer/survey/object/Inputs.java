@@ -5,7 +5,7 @@ public class Inputs {
 
 	private String name;
 
-	private String required;
+	private boolean required;
 
 	private String placeholder;
 
@@ -29,11 +29,11 @@ public class Inputs {
 		this.name = name;
 	}
 
-	public String getRequired() {
+	public boolean getRequired() {
 		return required;
 	}
 
-	public void setRequired(String required) {
+	public void setRequired(boolean required) {
 		this.required = required;
 	}
 

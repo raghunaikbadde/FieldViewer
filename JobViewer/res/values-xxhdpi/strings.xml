@@ -352,4 +352,6 @@
     <string name="context_menu_leave_work">Leave Work</string>
     <string name="context_menu_back">Back</string>
     
+    <string name="topManEditTextError">is required.</string>
+    
 </resources>
