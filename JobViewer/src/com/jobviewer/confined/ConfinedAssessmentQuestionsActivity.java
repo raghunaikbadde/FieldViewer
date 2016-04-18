@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.provider.JobViewerDBHandler;

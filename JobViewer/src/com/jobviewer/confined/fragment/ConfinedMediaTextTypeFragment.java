@@ -7,7 +7,6 @@ import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -21,9 +20,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -100,7 +99,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements OnClickLi
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());
 		question.setText(currentScreen.getText());
-		screenTitle.setText("Excavation");
+		screenTitle.setText(getResources().getString(R.string.confined_space_str));
 		checkAndEnableNextButton();
 		com.jobviewer.survey.object.Button[] buttons = currentScreen
 				.getButtons().getButton();

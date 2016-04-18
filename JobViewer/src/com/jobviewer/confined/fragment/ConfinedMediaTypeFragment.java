@@ -95,6 +95,7 @@ public class ConfinedMediaTypeFragment extends Fragment implements OnClickListen
 	private void updateData() {
 		currentScreen = ConfinedQuestionManager.getInstance().getCurrentScreen();
 		mProgressStep.setText(currentScreen.get_progress() + "%");
+		screenTitle.setText(getResources().getString(R.string.confined_space_str));
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());
 		question.setText(currentScreen.getText());

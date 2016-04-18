@@ -69,6 +69,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 	private void updateData() {
 		currentScreen = ConfinedQuestionManager.getInstance()
 				.getCurrentScreen();
+		screenTitle.setText(getResources().getString(R.string.confined_space_str));
 		progressBar.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		progress_step_text.setText(currentScreen.get_progress() + "%");
 		overhead_text.setText(currentScreen.getTitle());

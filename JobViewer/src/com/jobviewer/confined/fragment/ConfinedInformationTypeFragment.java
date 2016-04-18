@@ -85,6 +85,7 @@ public class ConfinedInformationTypeFragment extends Fragment implements
 	private void updateData() {
 		currentScreen = ConfinedQuestionManager.getInstance().getCurrentScreen();
 		questionTitle.setText(currentScreen.getTitle());
+		screenTitle.setText(getResources().getString(R.string.confined_space_str));
 		question.setText(currentScreen.getText());
 		radio_yes.setText(currentScreen.getCheckbox().getLabel());
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
