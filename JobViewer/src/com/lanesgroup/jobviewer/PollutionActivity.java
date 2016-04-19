@@ -411,17 +411,18 @@ public class PollutionActivity extends BaseActivity implements
 
 			if (Utils.isInternetAvailable(PollutionActivity.this)) {
 				Utils.startProgress(PollutionActivity.this);
-				sendPollutionReportToServer();
+				JobViewerDBHandler.saveImage(getApplicationContext(), upStreamImageObject);
+				JobViewerDBHandler.saveImage(getApplicationContext(), downSteamIamgeObject);
+				sendUpStreamWorkImageToServer(upStreamImageObject);
+								
+				
 			} else {
 				savePollutionReportInBackLogDb();
 				Intent addPhotosActivityIntent = new Intent(
 						PollutionActivity.this, AddPhotosActivity.class);
 				startActivity(addPhotosActivityIntent);
 			}
-			JobViewerDBHandler.saveImage(PollutionActivity.this,
-					upStreamImageObject);
-			JobViewerDBHandler.saveImage(PollutionActivity.this,
-					downSteamIamgeObject);
+			
 			break;
 		case R.id.spinnerLayout:
 			String landPollutionHeader = "Extent of land pollution";
@@ -657,7 +658,7 @@ public class PollutionActivity extends BaseActivity implements
 			data.put("do_upstream_image",
 					pollutionReportRequest.getDo_upstream_image());
 
-			if (!Utils.isNullOrEmpty(upStreamImageObject.getImage_string())) {
+			if (!Utils.isNullOrEmpty(downSteamIamgeObject.getImage_string())) {
 				pollutionReportRequest
 						.setDo_downstream_image(downSteamIamgeObject
 								.getImageId());
@@ -689,13 +690,18 @@ public class PollutionActivity extends BaseActivity implements
 		String idList = eqDeployedArray.toString();
 		String additionalEqDeployedString = idList.substring(1,
 				idList.length() - 1).replace(", ", ",");
+		if(additionalEqDeployedString.contains("Select"))
+		{
+			additionalEqDeployedString = null;
+		}
 		data.put("equipment_deployed", additionalEqDeployedString);
 
 		Log.d(Utils.LOG_TAG, " url - : " + CommsConstant.HOST
 				+ CommsConstant.POLLUTION_REPORT_UPLOAD + "/" + Utils.work_id);
 		Log.d(Utils.LOG_TAG, " request "
 				+ GsonConverter.getInstance().encodeToJsonString(data));
-		Utils.work_id = "1";
+		
+		Utils.work_id ="1";
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.POLLUTION_REPORT_UPLOAD + "/" + Utils.work_id,
 				data, getPollutionReportHandler());
@@ -708,6 +714,9 @@ public class PollutionActivity extends BaseActivity implements
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
+					Log.d(Utils.LOG_TAG,"pollution report success");
+					
+					
 					Intent addPhotosActivityIntent = new Intent(
 							PollutionActivity.this, AddPhotosActivity.class);
 					startActivity(addPhotosActivityIntent);
@@ -754,6 +763,7 @@ public class PollutionActivity extends BaseActivity implements
 				&& resultCode == RESULT_OK) {
 			upStreamImageObject = new ImageObject();
 			prepareImageObject(upStreamImageObject);
+			
 			mTakePicUpStream.setText(null);
 			mTakePicUpStream.setCompoundDrawablesWithIntrinsicBounds(
 					null,
@@ -802,7 +812,7 @@ public class PollutionActivity extends BaseActivity implements
 			String picDateTime = exif.getAttribute(ExifInterface.TAG_DATETIME);
 			formatDate = Utils.formatDate(picDateTime);
 			GeoLocationCamera geoLocationCamera = new GeoLocationCamera(exif);
-			geoLocation = geoLocationCamera.toString();
+			//geoLocation = geoLocationCamera.toString();
 
 			Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
 			Log.i("Android", "geoLocation   :" + geoLocation);
@@ -812,7 +822,7 @@ public class PollutionActivity extends BaseActivity implements
 		}
 		String image_exif = formatDate + "," + geoLocation;
 		imageObject.setImage_string(Utils.bitmapToBase64String(rotateBitmap));
-		imageObject.setImage_exif(image_exif);
+		imageObject.setImage_exif(image_exif);			
 	}
 
 	public void enableNextButton(boolean isEnable) {
@@ -984,5 +994,106 @@ public class PollutionActivity extends BaseActivity implements
 		homeIntent.putExtra(Utils.CALLING_ACTIVITY,
 				ActivityConstants.POLLUTION_ACTIVITY);
 		startActivity(homeIntent);
+	}
+	
+	private synchronized void sendUpStreamWorkImageToServer(ImageObject imageObject) {
+		if(imageObject != null){
+		ContentValues data = new ContentValues();
+		data.put("temp_id", imageObject.getImageId());
+		data.put("category", "WorkPhotoUpload");
+		data.put("image_string", imageObject.getImage_string());
+		data.put("image_exif", imageObject.getImage_exif());
+		Log.d(Utils.LOG_TAG," pollutiion activity sendUpStreamWorkImageToServer");
+		Utils.SendHTTPRequest(this, CommsConstant.HOST
+				+ CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id, data,
+				getSendWorkUpImageHandler(imageObject));
+		} else{
+			return;
+		}
+
+	}
+	
+	private synchronized void sendDownStreamWorkImageToServer(ImageObject imageObject) {
+		if(imageObject != null){
+		ContentValues data = new ContentValues();
+		data.put("temp_id", imageObject.getImageId());
+		data.put("category", "WorkPhotoUpload");
+		data.put("image_string", imageObject.getImage_string());
+		data.put("image_exif", imageObject.getImage_exif());
+		Log.d(Utils.LOG_TAG," pollutiion activity sendDownStreamWorkImageToServer");
+		Utils.SendHTTPRequest(this, CommsConstant.HOST
+				+ CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id, data,
+				getSendWorkDownImageHandler(imageObject));
+		} else{
+			return;
+		}
+
+	}
+	
+	private Handler getSendWorkUpImageHandler(final ImageObject imageObject) {
+		Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case HttpConnection.DID_SUCCEED:
+					Log.d(Utils.LOG_TAG," pollutiion activity getSendWorkUpImageHandler handleMessage DID_SUCCEED");
+					/*
+					 * Intent intent = new Intent(getActivity(),
+					 * RiskAssessmentActivity.class); startActivity(intent);
+					 */
+					
+					sendDownStreamWorkImageToServer(downSteamIamgeObject);
+					break;
+				case HttpConnection.DID_ERROR:
+					
+					  String error = (String) msg.obj; 
+					   /* VehicleException
+					  exception = GsonConverter .getInstance()
+					  .decodeFromJsonString(error, VehicleException.class);
+					  ExceptionHandler.showException(getApplicationContext(), exception,
+					  "Info");*/
+					Log.d(Utils.LOG_TAG," pollutiion activity getSendWorkUpImageHandler handleMessage DID_ERROR "+ error);
+					sendDownStreamWorkImageToServer(downSteamIamgeObject);
+					 
+					Utils.saveWorkImageInBackLogDb(getApplicationContext(), upStreamImageObject);
+					break;
+				default:
+					break;
+				}
+			}
+		};
+		return handler;
+	}
+	
+	private Handler getSendWorkDownImageHandler(final ImageObject imageObject) {
+		Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case HttpConnection.DID_SUCCEED:
+					Log.d(Utils.LOG_TAG," pollutiion activity getSendWorkDownImageHandler handleMessage DID_SUCCEED");
+					/*
+					 * Intent intent = new Intent(getActivity(),
+					 * RiskAssessmentActivity.class); startActivity(intent);
+					 */
+					
+					sendPollutionReportToServer();
+					break;
+				case HttpConnection.DID_ERROR:
+					
+					  String error = (String) msg.obj; 
+					  /*VehicleException exception = GsonConverter .getInstance()
+					  .decodeFromJsonString(error, VehicleException.class);
+					  ExceptionHandler.showException(getApplicationContext(), exception,
+					  "Info");*/
+					  Log.d(Utils.LOG_TAG," pollutiion activity getSendWorkDownImageHandler handleMessage DID_ERROR "+error);
+					Utils.saveWorkImageInBackLogDb(getApplicationContext(), downSteamIamgeObject);
+					break;
+				default:
+					break;
+				}
+			}
+		};
+		return handler;
 	}
 }
