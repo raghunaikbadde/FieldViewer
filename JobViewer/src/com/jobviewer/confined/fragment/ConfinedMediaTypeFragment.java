@@ -46,7 +46,8 @@ import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 import com.vehicle.communicator.HttpConnection;
 
-public class ConfinedMediaTypeFragment extends Fragment implements OnClickListener {
+public class ConfinedMediaTypeFragment extends Fragment implements
+		OnClickListener {
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep, questionTitle, question, screenTitle;
@@ -81,21 +82,22 @@ public class ConfinedMediaTypeFragment extends Fragment implements OnClickListen
 		updateData();
 		return mRootView;
 	}
-	
-	public void removePhoneKeypad() {
-	    InputMethodManager inputManager = (InputMethodManager) mRootView
-	            .getContext()
-	            .getSystemService(Context.INPUT_METHOD_SERVICE);
 
-	    IBinder binder = mRootView.getWindowToken();
-	    inputManager.hideSoftInputFromWindow(binder,
-	            InputMethodManager.HIDE_NOT_ALWAYS);
+	public void removePhoneKeypad() {
+		InputMethodManager inputManager = (InputMethodManager) mRootView
+				.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		IBinder binder = mRootView.getWindowToken();
+		inputManager.hideSoftInputFromWindow(binder,
+				InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
 	private void updateData() {
-		currentScreen = ConfinedQuestionManager.getInstance().getCurrentScreen();
+		currentScreen = ConfinedQuestionManager.getInstance()
+				.getCurrentScreen();
 		mProgressStep.setText(currentScreen.get_progress() + "%");
-		screenTitle.setText(getResources().getString(R.string.confined_space_str));
+		screenTitle.setText(getResources().getString(
+				R.string.confined_space_str));
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());
 		question.setText(currentScreen.getText());
@@ -130,8 +132,7 @@ public class ConfinedMediaTypeFragment extends Fragment implements OnClickListen
 
 	private void checkAndLoadSavedImages() {
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			String image_string = currentScreen.getImages()[i]
-					.getTemp_id();
+			String image_string = currentScreen.getImages()[i].getTemp_id();
 			if (!Utils.isNullOrEmpty(image_string)) {
 				ImageObject imageById = JobViewerDBHandler.getImageById(
 						getActivity(), image_string);
@@ -147,8 +148,7 @@ public class ConfinedMediaTypeFragment extends Fragment implements OnClickListen
 	private void checkAndEnableNextButton() {
 		int count = 0;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getTemp_id())) {
+			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
 				count++;
 			}
 		}
@@ -213,8 +213,8 @@ public class ConfinedMediaTypeFragment extends Fragment implements OnClickListen
 					}
 				}
 
-				ConfinedQuestionManager.getInstance().updateScreenOnQuestionMaster(
-						currentScreen);
+				ConfinedQuestionManager.getInstance()
+						.updateScreenOnQuestionMaster(currentScreen);
 
 				ConfinedQuestionManager.getInstance().saveAssessment(
 						checkOutRemember.getAssessmentSelected());
@@ -265,8 +265,7 @@ public class ConfinedMediaTypeFragment extends Fragment implements OnClickListen
 	private void addPicObjectInScreenIfRequired() {
 		boolean isAllImagedAdded = false;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getTemp_id())) {
+			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
 				isAllImagedAdded = true;
 			} else {
 				isAllImagedAdded = false;
@@ -286,7 +285,6 @@ public class ConfinedMediaTypeFragment extends Fragment implements OnClickListen
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 500 && resultCode == RESULT_OK) {
 			String imageString = null;
@@ -320,7 +318,7 @@ public class ConfinedMediaTypeFragment extends Fragment implements OnClickListen
 				if (Utils.isNullOrEmpty(currentScreen.getImages()[i]
 						.getTemp_id())) {
 					String image_exif = formatDate + "," + geoLocation;
-					//currentScreen.getImages()[i].setImage_exif(image_exif);
+					// currentScreen.getImages()[i].setImage_exif(image_exif);
 					ImageObject imageObject = new ImageObject();
 					String generateUniqueID = Utils
 							.generateUniqueID(getActivity());
@@ -339,8 +337,7 @@ public class ConfinedMediaTypeFragment extends Fragment implements OnClickListen
 					}
 					imageObject.setImage_string(base64);
 					imageString = base64;
-					currentScreen.getImages()[i]
-							.setTemp_id(generateUniqueID);
+					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;
 				}
@@ -367,9 +364,10 @@ public class ConfinedMediaTypeFragment extends Fragment implements OnClickListen
 			ImageObject imageObject) {
 		if (Utils.isInternetAvailable(getActivity())) {
 			sendWorkImageToServer(imageObject);
-		} /*
-		 * else { JobViewerDBHandler.saveImage(getActivity(), imageObject); }
-		 */
+		} else {
+			JobViewerDBHandler.saveImage(getActivity(), imageObject);
+		}
+
 	}
 
 	private synchronized void sendWorkImageToServer(ImageObject imageObject) {
@@ -404,7 +402,7 @@ public class ConfinedMediaTypeFragment extends Fragment implements OnClickListen
 					 * ExceptionHandler.showException(getActivity(), exception,
 					 * "Info");
 					 */
-					Utils.saveWorkImageInBackLogDb(getActivity(), imageObject);
+					//Utils.saveWorkImageInBackLogDb(getActivity(), imageObject);
 					break;
 				default:
 					break;
