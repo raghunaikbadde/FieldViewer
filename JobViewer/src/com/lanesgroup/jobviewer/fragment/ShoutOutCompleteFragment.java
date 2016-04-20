@@ -1,7 +1,6 @@
 package com.lanesgroup.jobviewer.fragment;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.lanesgroup.jobviewer.ActivityPageActivity;
+import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 
 public class ShoutOutCompleteFragment extends Fragment implements
@@ -32,11 +31,7 @@ public class ShoutOutCompleteFragment extends Fragment implements
 
 	@Override
 	public void onClick(View v) {
-		Intent homeIntent = new Intent(v.getContext(),
-				ActivityPageActivity.class);
-		homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(homeIntent);
-
+		((BaseActivity) getActivity()).goBackToStartScreenFromShoutOut();
 	}
 
 }

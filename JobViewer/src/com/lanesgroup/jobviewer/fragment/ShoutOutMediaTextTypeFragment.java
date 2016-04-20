@@ -48,7 +48,7 @@ import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.ImageUploadResponse;
 import com.jobviwer.response.object.User;
-import com.lanesgroup.jobviewer.ActivityPageActivity;
+import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.raghu.ShoutOutBackLogRequest;
 import com.vehicle.communicator.HttpConnection;
@@ -98,7 +98,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		question.setText(currentScreen.getText());
 		screenTitle.setText(getActivity().getResources().getString(
 				R.string.shout_about_safety));
-		if (Utils.isNullOrEmpty(currentScreen.getAnswer())) {
+		if (!Utils.isNullOrEmpty(currentScreen.getAnswer())) {
 			mDescribe.setText(currentScreen.getAnswer());
 		}
 		checkAndEnableNextButton();
@@ -114,14 +114,13 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 				break;
 			}
 		}
-		
+
 		checkAndLoadSavedImages();
 	}
-	
+
 	private void checkAndLoadSavedImages() {
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			String image_string = currentScreen.getImages()[i]
-					.getTemp_id();
+			String image_string = currentScreen.getImages()[i].getTemp_id();
 			if (!Utils.isNullOrEmpty(image_string)) {
 				ImageObject imageById = JobViewerDBHandler.getImageById(
 						getActivity(), image_string);
@@ -133,7 +132,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		}
 
 	}
-	
+
 	private void loadImages(byte[] getbyteArrayFromBase64String) {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				310, 220);
@@ -161,7 +160,6 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		mSave.setOnClickListener(this);
 		mNext = (Button) mRootView.findViewById(R.id.button2);
 		mNext.setOnClickListener(this);
-		mDescribe.setText(currentScreen.getAnswer());
 		mDescribe.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -189,8 +187,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	private void checkAndEnableNextButton() {
 		int count = 0;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getTemp_id())) {
+			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
 				count++;
 			}
 		}
@@ -221,27 +218,13 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 					.getScreen();
 			currentScreen.setAnswer(mDescribe.getText().toString());
 			screen[0] = currentScreen;
+			ShoutOutActivity.getQuestionMaster().getScreens().setScreen(screen);
 			obj.setQuestionSet(GsonConverter.getInstance().encodeToJsonString(
 					ShoutOutActivity.getQuestionMaster()));
 			obj.setOptionSelected(ShoutOutActivity.getOptionSelected());
+			obj.setStartedAt(ShoutOutActivity.getStartedAt());
 			JobViewerDBHandler.saveShoutAboutSafety(getActivity(), obj);
-
-			for (int i = 0; i < currentScreen.getImages().length; i++) {
-				ImageObject imageObject = new ImageObject();
-				String generateUniqueID = Utils.generateUniqueID(getActivity());
-				imageObject.setImageId(generateUniqueID);
-				imageObject.setImage_string(currentScreen.getImages()[i]
-						.getTemp_id());
-				imageObject.setCategory("surveys");
-				imageObject.setImage_exif("");
-				currentScreen.getImages()[i].setTemp_id(generateUniqueID);
-				sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
-			}
-
-			Intent homeIntent = new Intent(getActivity(),
-					ActivityPageActivity.class);
-			homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(homeIntent);
+			((BaseActivity) getActivity()).goBackToStartScreenFromShoutOut();
 		} else if (view == mNext) {
 			ShoutAboutSafetyObject obj = new ShoutAboutSafetyObject();
 			Screen[] screen = ShoutOutActivity.getQuestionMaster().getScreens()
@@ -251,6 +234,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 			obj.setQuestionSet(GsonConverter.getInstance().encodeToJsonString(
 					ShoutOutActivity.getQuestionMaster()));
 			obj.setOptionSelected(ShoutOutActivity.getOptionSelected());
+			obj.setStartedAt(ShoutOutActivity.getStartedAt());
 			executeShoutAboutSafetyService(obj);
 		} else if (view == mLinearLayout) {
 			addPicObjectInScreenIfRequired();
@@ -268,30 +252,19 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 			ImageObject imageObject) {
 		if (Utils.isInternetAvailable(getActivity())) {
 			sendWorkImageToServer(imageObject);
-		} else {
-			JobViewerDBHandler.saveImage(getActivity(), imageObject);
-			// loadNextFragement();
 		}
-
 	}
 
 	private void executeShoutAboutSafetyService(ShoutAboutSafetyObject obj) {
 		Utils.startProgress(getActivity());
 
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getTemp_id())) {
-				ImageObject imageObject = new ImageObject();
-				String generateUniqueID = Utils.generateUniqueID(getActivity());
-				imageObject.setImageId(generateUniqueID);
-				imageObject.setImage_string(currentScreen.getImages()[i]
-						.getTemp_id());
-				imageObject.setCategory("surveys");
-				imageObject.setImage_exif("");
-				currentScreen.getImages()[i].setTemp_id(generateUniqueID);
-				sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
+			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
+				ImageObject imageById = JobViewerDBHandler.getImageById(
+						getActivity(),
+						currentScreen.getImages()[i].getTemp_id());
+				sendDetailsOrSaveCapturedImageInBacklogDb(imageById);
 			}
-
 		}
 
 		if (Utils.isInternetAvailable(getActivity())) {
@@ -299,13 +272,15 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 			CheckOutObject checkOutRemember2 = JobViewerDBHandler
 					.getCheckOutRemember(getActivity());
 			User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
-			if (Utils.isNullOrEmpty(checkOutRemember2.getWorkId())) {
+			if (checkOutRemember2 == null
+					|| Utils.isNullOrEmpty(checkOutRemember2.getWorkId())) {
 				values.put("work_id", "");
 			} else
 				values.put("work_id", checkOutRemember2.getWorkId());
 			values.put("survey_type", getWorkType(obj.getOptionSelected()));
 			values.put("related_type", "Work");
-			if (Utils.isNullOrEmpty(checkOutRemember2.getVistecId())) {
+			if (checkOutRemember2 == null
+					|| Utils.isNullOrEmpty(checkOutRemember2.getVistecId())) {
 				values.put("related_type_reference", "");
 			} else
 				values.put("related_type_reference",
@@ -371,7 +346,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 					JobViewerDBHandler.deleteShoutAboutSafety(getActivity());
 					ShoutOutActivity
 							.loadNextFragment(new ShoutOutCompleteFragment());
-					//String result = (String) msg.obj;
+					// String result = (String) msg.obj;
 					Log.i("Android", "");
 					break;
 				case HttpConnection.DID_ERROR:
@@ -380,7 +355,8 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 					VehicleException exception = GsonConverter
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
-					ExceptionHandler.showException(getActivity(), exception, "Info");
+					ExceptionHandler.showException(getActivity(), exception,
+							"Info");
 					break;
 
 				default:
@@ -423,17 +399,20 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 					ImageUploadResponse decodeFromJsonString = GsonConverter
 							.getInstance().decodeFromJsonString(result,
 									ImageUploadResponse.class);
-					/*JobViewerDBHandler.deleteImageById(getActivity(),
-							decodeFromJsonString.getTemp_id());*/
-					
-					ImageSendStatusObject imageSendStatusObject=new ImageSendStatusObject();
-					imageSendStatusObject.setImageId(decodeFromJsonString.getTemp_id());
-					imageSendStatusObject.setStatus(ActivityConstants.IMAGE_SEND_STATUS);
-					JobViewerDBHandler.saveImageStatus(getActivity(), imageSendStatusObject);
+					ImageSendStatusObject imageSendStatusObject = new ImageSendStatusObject();
+					imageSendStatusObject.setImageId(decodeFromJsonString
+							.getTemp_id());
+					imageSendStatusObject
+							.setStatus(ActivityConstants.IMAGE_SEND_STATUS);
+					JobViewerDBHandler.saveImageStatus(getActivity(),
+							imageSendStatusObject);
 
 					break;
 				case HttpConnection.DID_ERROR:
-					JobViewerDBHandler.saveImage(getActivity(), imageObject);
+					if (!Utils.isNullOrEmpty(imageObject.getImage_string())) {
+						JobViewerDBHandler
+								.saveImage(getActivity(), imageObject);
+					}
 					break;
 				default:
 					break;
@@ -446,8 +425,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	private void addPicObjectInScreenIfRequired() {
 		boolean isAllImagedAdded = false;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getTemp_id())) {
+			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
 				isAllImagedAdded = true;
 			} else {
 				isAllImagedAdded = false;
@@ -470,7 +448,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 500 && resultCode == RESULT_OK) {
-			String imageString=null;
+			String imageString = null;
 			Bitmap photo = Utils.decodeSampledBitmapFromFile(
 					file.getAbsolutePath(), 1000, 700);
 
@@ -501,7 +479,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 				if (Utils.isNullOrEmpty(currentScreen.getImages()[i]
 						.getTemp_id())) {
 					String image_exif = formatDate + "," + geoLocation;
-					//currentScreen.getImages()[i].setImage_exif(image_exif);
+					// currentScreen.getImages()[i].setImage_exif(image_exif);
 					ImageObject imageObject = new ImageObject();
 					String generateUniqueID = Utils
 							.generateUniqueID(getActivity());
@@ -511,8 +489,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 					imageObject.setImage_string(Utils
 							.bitmapToBase64String(rotateBitmap));
 					imageString = imageObject.getImage_string();
-					currentScreen.getImages()[i]
-							.setTemp_id(generateUniqueID);
+					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;
 				}

@@ -52,10 +52,14 @@ public class ShoutOptionsActivity extends BaseActivity implements
 						shoutAboutSafety.getOptionSelected());
 				intent.putExtra(ActivityConstants.IS_SHOUT_SAVED,
 						ActivityConstants.TRUE);
+				intent.putExtra(ActivityConstants.STARTED_AT,
+						shoutAboutSafety.getStartedAt());
 			} else {
 				intent.putExtra(ActivityConstants.SHOUT_OPTION, mOption);
 				intent.putExtra(ActivityConstants.IS_SHOUT_SAVED,
 						ActivityConstants.FALSE);
+				intent.putExtra(ActivityConstants.STARTED_AT,
+						Utils.getCurrentDateAndTime());
 			}
 			intent.setClass(ShoutOptionsActivity.this, ShoutOutActivity.class);
 			startActivity(intent);

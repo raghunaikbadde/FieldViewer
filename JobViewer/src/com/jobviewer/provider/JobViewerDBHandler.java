@@ -607,6 +607,7 @@ public class JobViewerDBHandler {
 
 	public static void saveShoutAboutSafety(Context context,
 			ShoutAboutSafetyObject shoutAboutSafetyObject) {
+		deleteShoutAboutSafety(context);
 		ContentValues values = new ContentValues();
 		values.put(
 				JobViewerProviderContract.ShoutAboutSafetyTable.OPTION_SELECTED,

@@ -24,14 +24,6 @@ public class BaseActivity extends AppCompatActivity implements Observer {
 		getSupportActionBar().hide();
 	}
 
-	/*public static void exitApplication(BaseActivity baseActivity) {
-		Intent intent = new Intent(context, WelcomeActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		intent.putExtra("Exit me", true);
-		context.startActivity(intent);
-		baseActivity.finish();
-	}*/
-
 	@Override
 	public void update(Subject subject) {
 		this.finish();
@@ -45,5 +37,9 @@ public class BaseActivity extends AppCompatActivity implements Observer {
 
 	public void closeApplication() {
 		application.getApplicationSubject().exit();
+	}
+	
+	public void goBackToStartScreenFromShoutOut(){
+		application.getApplicationSubject().goToStartUpScreenFromShoutOut();
 	}
 }

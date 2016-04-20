@@ -1,6 +1,5 @@
 package com.lanesgroup.jobviewer.fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -14,10 +13,10 @@ import com.jobviewer.survey.object.QuestionMaster;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.SurveyUtil;
 import com.jobviewer.util.ActivityConstants;
-import com.jobviewer.util.Utils;
+import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 
-public class ShoutOutActivity extends Activity {
+public class ShoutOutActivity extends BaseActivity {
 
 	private static FragmentManager mFragmentManager;
 	private static QuestionMaster questionMaster;
@@ -30,8 +29,8 @@ public class ShoutOutActivity extends Activity {
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		setContentView(R.layout.questions_flow_screen);
-		if (ActivityConstants.TRUE.equalsIgnoreCase(getIntent()
-				.getExtras().get(ActivityConstants.IS_SHOUT_SAVED).toString())) {
+		if (ActivityConstants.TRUE.equalsIgnoreCase(getIntent().getExtras()
+				.get(ActivityConstants.IS_SHOUT_SAVED).toString())) {
 			ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
 					.getShoutAboutSafety(this);
 			setQuestionMaster(GsonConverter.getInstance().decodeFromJsonString(
@@ -42,7 +41,8 @@ public class ShoutOutActivity extends Activity {
 
 			option = getIntent().getExtras()
 					.get(ActivityConstants.SHOUT_OPTION).toString();
-			startedAt = Utils.getCurrentDateAndTime();
+			startedAt = getIntent().getExtras()
+					.get(ActivityConstants.STARTED_AT).toString();
 			if (option.equalsIgnoreCase(ActivityConstants.HAZARD)) {
 				setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
 						"shout_about_safety_hazard.json"));

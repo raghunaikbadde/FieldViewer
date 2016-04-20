@@ -37,6 +37,16 @@ public class Subject {
 		}
 	}
 
+	protected void goToStartUpScreen() {
+		int activitySize = observers.size();
+		for (int i = activitySize - 1; i > 0; i--) {
+			if (observers.get(i).toString().contains("ShoutOptionsActivity")
+					|| observers.get(i).toString().contains("ShoutOutActivity")) {
+				observers.get(i).update(this);
+			}
+		}
+	}
+
 	protected String getTopActivity() {
 		if (observers != null && observers.size() != 0) {
 			int activitySize = observers.size();

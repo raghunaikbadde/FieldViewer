@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
@@ -26,6 +27,7 @@ import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.StartUpResponse;
 import com.jobviwer.response.object.User;
+import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
 import com.raghu.StartUpRequest;
 import com.vehicle.communicator.HttpConnection;
 
@@ -52,10 +54,24 @@ public class WelcomeActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
+				ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
+						.getShoutAboutSafety(v.getContext());
 				Intent intent = new Intent();
-				intent.setClass(WelcomeActivity.this, ShoutOptionsActivity.class);
+				if (shoutAboutSafety != null
+						&& !Utils.isNullOrEmpty(shoutAboutSafety.getQuestionSet())) {
+					intent.setClass(v.getContext(),
+							ShoutOutActivity.class);
+					intent.putExtra(ActivityConstants.SHOUT_OPTION,
+							shoutAboutSafety.getOptionSelected());
+					intent.putExtra(ActivityConstants.IS_SHOUT_SAVED,
+							ActivityConstants.TRUE);
+					startActivity(intent);
+				} else {
+					intent.setClass(v.getContext(),
+							ShoutOptionsActivity.class);
 				startActivity(intent);
 			}
+		}
 		});
 		Button clockIn = (Button) findViewById(R.id.clock_in);
 		clockIn.setOnClickListener(new OnClickListener() {

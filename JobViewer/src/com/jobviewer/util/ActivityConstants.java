@@ -19,6 +19,7 @@ public class ActivityConstants {
 	public static final String POLLUTION_ACTIVITY="PollutionActitivy";
 	public static final String SHOUT_OPTION = "ShoutOption";
 	public static final String IS_SHOUT_SAVED = "isSaved";
+	public static final String STARTED_AT = "startedAt";
 	public static final String HAZARD = "Hazard";
 	public static final String IDEA = "Idea";
 	public static final String SAFETY = "Safety";
