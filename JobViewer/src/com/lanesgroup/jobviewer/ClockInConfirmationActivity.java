@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.res.ResourcesCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,19 +25,25 @@ import android.widget.TextView;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
+import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.provider.JobViewerProviderContract.CheckOutRemember;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.ChangeTimeDialog;
 import com.jobviewer.util.Constants;
+import com.jobviewer.util.OverrideReasoneDialog;
 import com.jobviewer.util.Utils;
+import com.jobviewer.util.showTimeDialog;
+import com.jobviewer.util.showTimeDialog.DialogCallback;
+import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 import com.vehicle.communicator.HttpConnection;
 
 public class ClockInConfirmationActivity extends BaseActivity implements
-		OnClickListener {
+		OnClickListener,DialogCallback {
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep, mShiftStartTime, mUserEmail, mDivider,
@@ -57,6 +64,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		if (Utils.checkOutObject == null) {
 			Utils.checkOutObject = JobViewerDBHandler.getCheckOutRemember(this);
 		}
+		Log.d(Utils.LOG_TAG,"ClockInConfirmationActivity");
 		initUI();
 	}
 
@@ -265,10 +273,24 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 			// request);
 
 		} else if(view == mEditTime){
+			//new showTimeDialog(this, this, "ClockIn").show();
 			Intent intent = new Intent(mContext, ChangeTimeDialog.class);
 			intent.putExtra("eventType", "ClockIn");
+			Utils.startShiftTimeRequest.setStarted_at(Utils.getCurrentDateAndTime());
+			Utils.startShiftTimeRequest.setIs_overriden("true");
+			User userProfile = JobViewerDBHandler.getUserProfile(this);
+			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(this);
+			if(userProfile!=null && checkOutRemember!=null){
+				Utils.startShiftTimeRequest.setUser_id(userProfile.getEmail());
+				if (!Utils.isNullOrEmpty(checkOutRemember.getVistecId())) {
+					Utils.startShiftTimeRequest
+						.setReference_id(checkOutRemember.getVistecId());
+				}			
+				Utils.startShiftTimeRequest.setRecord_for(userProfile
+					.getEmail());
+			}
 			((Activity) mContext).startActivityForResult(intent,
-					Constants.RESULT_CODE_CLOCK_IN);
+					Constants.RESULT_CODE_CHANGE_TIME);
 		}
 	}
 	
@@ -291,7 +313,24 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == Constants.RESULT_CODE_CLOCK_IN
+		if (requestCode == Constants.RESULT_CODE_CHANGE_TIME
+				&& resultCode == RESULT_OK) {
+			TimeSheetRequest timeSheetRequest = Utils.startShiftTimeRequest;
+			
+			
+			if (ActivityConstants.TRUE.equalsIgnoreCase(timeSheetRequest
+					.getIs_overriden())) {
+				Intent intent = new Intent(this, OverrideReasoneDialog.class);
+				intent.putExtra("eventType", data.getExtras().getString("eventType"));
+				startActivityForResult(intent,
+						Constants.RESULT_CODE_OVERRIDE_COMMENT);
+			}
+		}else if (requestCode == Constants.RESULT_CODE_OVERRIDE_COMMENT
+				&& resultCode == RESULT_OK) {
+			//executeStartShiftService();
+			mOverrideStartTime.setVisibility(View.VISIBLE);
+			mOverrideStartTime.setText(Utils.startShiftTimeRequest.getOverride_timestamp() + " (User)");
+		}else if (requestCode == Constants.RESULT_CODE_CLOCK_IN
 				&& resultCode == RESULT_OK) {
 			String time = data.getExtras().get(Constants.TIME).toString();
 			mOverrideStartTime.setVisibility(View.VISIBLE);
@@ -341,7 +380,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		} else {
 			time = Utils.startShiftTimeRequest.getStarted_at();
 		}
-
+		
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.START_SHIFT_API, data, getStartShiftHandler());
 
@@ -554,5 +593,17 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 			}
 		};
 		return handler;
+	}
+
+	@Override
+	public void onContinue() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDismiss() {
+		// TODO Auto-generated method stub
+		
 	}
 }

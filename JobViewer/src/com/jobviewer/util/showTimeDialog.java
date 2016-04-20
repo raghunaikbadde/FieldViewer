@@ -65,6 +65,10 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 			mTitle.setText(mContext.getResources().getString(R.string.end_travel_str));
 			mDesc.setText(mContext.getResources().getString(R.string.your_travel_end_time));
 			Utils.endTravelTimeRequest.setStarted_at(mCurrentTime);
+		} else if("ClockIn".equalsIgnoreCase(eventType)) {
+			mTitle.setText(mContext.getResources().getString(R.string.shiftStartStr));
+			mDesc.setText(mContext.getResources().getString(R.string.shiftStartStrDesc));
+			Utils.startShiftTimeRequest.setStarted_at(mCurrentTime);
 		} else {
 			mTitle.setText(mContext.getResources().getString(R.string.end_break_str));
 			mDesc.setText(mContext.getResources().getString(R.string.your_break_end_time));
@@ -96,6 +100,14 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 							.setReference_id(checkOutRemember.getVistecId());
 				}
 				Utils.endTravelTimeRequest.setRecord_for(userProfile
+						.getEmail());
+			} else if ("ClockIn".equalsIgnoreCase(eventType)) {
+				Utils.startShiftTimeRequest.setUser_id(userProfile.getEmail());
+				if (!Utils.isNullOrEmpty(checkOutRemember.getVistecId())) {
+					Utils.startShiftTimeRequest
+							.setReference_id(checkOutRemember.getVistecId());
+				}
+				Utils.startShiftTimeRequest.setRecord_for(userProfile
 						.getEmail());
 			} else {
 				Utils.endTimeRequest.setUser_id(userProfile.getEmail());
@@ -140,6 +152,8 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 					Utils.startTravelTimeRequest.setIs_overriden("true");
 				} else if ("End Travel".equalsIgnoreCase(eventType)) {
 					Utils.endTravelTimeRequest.setIs_overriden("true");
+				}  else if ("ClockIn".equalsIgnoreCase(eventType)) {
+					Utils.startShiftTimeRequest.setIs_overriden("true");
 				} else {
 					Utils.endTimeRequest.setIs_overriden("true");
 				}

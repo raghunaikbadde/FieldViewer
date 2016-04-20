@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -29,10 +30,12 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 	private Button mCancel, mContinue;
 	private TimePicker mTimePicker;
 	private DatePicker mDatePicker;
+	private CheckBox mCheckOverride;
 	String eventType;
 	String eventTypeValue;
 	String errorMsg;
-
+	private boolean mIsChecked;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,6 +50,7 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 		mContinue.setOnClickListener(this);
 		mTimePicker = (TimePicker) findViewById(R.id.timePicker);
 		mDatePicker = (DatePicker) findViewById(R.id.datePicker);
+		mCheckOverride = (CheckBox) findViewById(R.id.checkBox1);
 		Calendar c = Calendar.getInstance();
 		int year = c.get(Calendar.YEAR);
 		int month = c.get(Calendar.MONTH);
