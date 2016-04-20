@@ -142,6 +142,10 @@ public class CaptureVistecActivity extends BaseActivity implements
 			checkOutRemember.setVistectImageId(generateUniqueID);
 			// TODO: Add server communicator for sending vistec image
 			if(Utils.isInternetAvailable(CaptureVistecActivity.this)){
+				/*Utils.sendCapturedImageToServer(imageObject);
+				Intent intent = new Intent(CaptureVistecActivity.this,
+						RiskAssessmentActivity.class);
+				startActivity(intent);*/
 				sendVistecImageToServer(imageObject);
 			} else {
 				Utils.saveWorkImageInBackLogDb(CaptureVistecActivity.this, imageObject);
@@ -166,7 +170,11 @@ public class CaptureVistecActivity extends BaseActivity implements
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-					Utils.StopProgress();
+					try{
+						Utils.StopProgress();
+					}catch (Exception e) {
+						
+					}
 					Intent intent = new Intent(CaptureVistecActivity.this,
 							RiskAssessmentActivity.class);
 					startActivity(intent);
