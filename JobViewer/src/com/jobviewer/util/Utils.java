@@ -32,6 +32,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -56,11 +57,14 @@ import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
+import com.jobviewer.db.objects.ImageSendStatusObject;
 import com.jobviewer.network.SendImagesOnBackground;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviwer.request.object.TimeSheetRequest;
+import com.jobviwer.response.object.ImageUploadResponse;
 import com.jobviwer.service.AppKillService;
+import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.LauncherActivity;
 import com.lanesgroup.jobviewer.PollutionActivity;
 import com.lanesgroup.jobviewer.R;
@@ -710,5 +714,59 @@ public class Utils {
 	    	HHMMString = "Less than a second ago.";
 	    }
 		return HHMMString;
+	}
+	
+	
+	public static void sendCapturedImageToServer(
+			ImageObject imageObject) {
+		if (Utils.isInternetAvailable(BaseActivity.context)) {
+			sendWorkImageToServer(imageObject);
+		}
+	}
+	
+	public static void sendWorkImageToServer(ImageObject imageObject) {
+		ContentValues values = new ContentValues();
+		values.put("temp_id", imageObject.getImageId());
+		values.put("category", imageObject.getCategory());
+		values.put("image_string", imageObject.getImage_string());
+		values.put("image_exif", imageObject.getImage_exif());
+		Utils.SendHTTPRequest(BaseActivity.context, CommsConstant.HOST
+				+ CommsConstant.SURVEY_PHOTO_UPLOAD, values,
+				getSaveImageHandler(imageObject));
+
+	}
+	
+	public static Handler getSaveImageHandler(final ImageObject imageObject) {
+		Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case HttpConnection.DID_SUCCEED:
+					String result = (String) msg.obj;
+					Log.i("Android", result);
+					ImageUploadResponse decodeFromJsonString = GsonConverter
+							.getInstance().decodeFromJsonString(result,
+									ImageUploadResponse.class);
+					ImageSendStatusObject imageSendStatusObject = new ImageSendStatusObject();
+					imageSendStatusObject.setImageId(decodeFromJsonString
+							.getTemp_id());
+					imageSendStatusObject
+							.setStatus(ActivityConstants.IMAGE_SEND_STATUS);
+					JobViewerDBHandler.saveImageStatus(BaseActivity.context,
+							imageSendStatusObject);
+
+					break;
+				case HttpConnection.DID_ERROR:
+					if (!Utils.isNullOrEmpty(imageObject.getImage_string())) {
+						JobViewerDBHandler
+								.saveImage(BaseActivity.context, imageObject);
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		};
+		return handler;
 	}
 }

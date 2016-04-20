@@ -34,7 +34,6 @@ import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
-import com.jobviewer.db.objects.ImageSendStatusObject;
 import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
@@ -44,9 +43,9 @@ import com.jobviewer.survey.object.Screen;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
-import com.jobviwer.response.object.ImageUploadResponse;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
@@ -248,25 +247,20 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		}
 	}
 
-	private void sendDetailsOrSaveCapturedImageInBacklogDb(
-			ImageObject imageObject) {
-		if (Utils.isInternetAvailable(getActivity())) {
-			sendWorkImageToServer(imageObject);
-		}
-	}
-
 	private void executeShoutAboutSafetyService(ShoutAboutSafetyObject obj) {
 		Utils.startProgress(getActivity());
+		if (Utils.isInternetAvailable(getActivity())) {
 
-		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
-				ImageObject imageById = JobViewerDBHandler.getImageById(
-						getActivity(),
-						currentScreen.getImages()[i].getTemp_id());
-				sendDetailsOrSaveCapturedImageInBacklogDb(imageById);
+			for (int i = 0; i < currentScreen.getImages().length; i++) {
+				if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
+						.getTemp_id())) {
+					ImageObject imageById = JobViewerDBHandler.getImageById(
+							getActivity(),
+							currentScreen.getImages()[i].getTemp_id());
+					Utils.sendCapturedImageToServer(imageById);
+				}
 			}
 		}
-
 		if (Utils.isInternetAvailable(getActivity())) {
 			ContentValues values = new ContentValues();
 			CheckOutObject checkOutRemember2 = JobViewerDBHandler
@@ -342,12 +336,13 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-					Utils.StopProgress();
+
+					String result = (String) msg.obj;
+					Log.i("Android", result);
 					JobViewerDBHandler.deleteShoutAboutSafety(getActivity());
 					ShoutOutActivity
 							.loadNextFragment(new ShoutOutCompleteFragment());
-					// String result = (String) msg.obj;
-					Log.i("Android", "");
+					Utils.StopProgress();
 					break;
 				case HttpConnection.DID_ERROR:
 					Utils.StopProgress();
@@ -375,51 +370,6 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		} else {
 			return "Shout About Safety Good Safety";
 		}
-	}
-
-	private synchronized void sendWorkImageToServer(ImageObject imageObject) {
-		ContentValues values = new ContentValues();
-		values.put("temp_id", imageObject.getImageId());
-		values.put("category", imageObject.getCategory());
-		values.put("image_string", imageObject.getImage_string());
-		values.put("image_exif", imageObject.getImage_exif());
-		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-				+ CommsConstant.SURVEY_PHOTO_UPLOAD, values,
-				getSaveImageHandler(imageObject));
-
-	}
-
-	private Handler getSaveImageHandler(final ImageObject imageObject) {
-		Handler handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case HttpConnection.DID_SUCCEED:
-					String result = (String) msg.obj;
-					ImageUploadResponse decodeFromJsonString = GsonConverter
-							.getInstance().decodeFromJsonString(result,
-									ImageUploadResponse.class);
-					ImageSendStatusObject imageSendStatusObject = new ImageSendStatusObject();
-					imageSendStatusObject.setImageId(decodeFromJsonString
-							.getTemp_id());
-					imageSendStatusObject
-							.setStatus(ActivityConstants.IMAGE_SEND_STATUS);
-					JobViewerDBHandler.saveImageStatus(getActivity(),
-							imageSendStatusObject);
-
-					break;
-				case HttpConnection.DID_ERROR:
-					if (!Utils.isNullOrEmpty(imageObject.getImage_string())) {
-						JobViewerDBHandler
-								.saveImage(getActivity(), imageObject);
-					}
-					break;
-				default:
-					break;
-				}
-			}
-		};
-		return handler;
 	}
 
 	private void addPicObjectInScreenIfRequired() {
@@ -486,9 +436,9 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 					imageObject.setImageId(generateUniqueID);
 					imageObject.setCategory("surveys");
 					imageObject.setImage_exif(image_exif);
-					imageObject.setImage_string(Utils
-							.bitmapToBase64String(rotateBitmap));
-					imageString = imageObject.getImage_string();
+					imageString = Utils.bitmapToBase64String(rotateBitmap);
+					imageObject.setImage_string(Constants.IMAGE_STRING_INITIAL
+							+ imageString);
 					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;

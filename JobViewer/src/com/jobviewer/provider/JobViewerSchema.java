@@ -40,6 +40,8 @@ public interface JobViewerSchema {
 
 	public static final String CREATE_TABLE_IMAGE_SEND_STATUS = "create table "
 			+ TABLE_IMAGE_SEND_STATUS + "(" + ImageSendStatusTable._ID
+			+ " integer primary key autoincrement,"
+			+ ImageSendStatusTable.IMAGE_ID + " text,"
 			+ ImageSendStatusTable.IMAGE_SEND_SATTUS + " text);";
 	public static final String CREATE_TABLE_TIMESHEET = "create table "
 			+ TABLE_TIMESHEET + "(" + TimeSheet._ID
@@ -102,21 +104,28 @@ public interface JobViewerSchema {
 			+ QuestionSetTable.WORK_TYPE + " text,"
 			+ QuestionSetTable.QUESTION_SET + " text,"
 			+ QuestionSetTable.BACK_STACK + " text);";
-	
+
 	public static final String CREATE_TABLE_CONFINED_QUESTION_SET = "create table "
-			+ TABLE_CONFINED_QUESTION_SET + "(" + ConfinedQuestionSetTable._ID
+			+ TABLE_CONFINED_QUESTION_SET
+			+ "("
+			+ ConfinedQuestionSetTable._ID
 			+ " integer primary key autoincrement,"
-			+ ConfinedQuestionSetTable.WORK_TYPE + " text,"
-			+ ConfinedQuestionSetTable.QUESTION_SET + " text,"
+			+ ConfinedQuestionSetTable.WORK_TYPE
+			+ " text,"
+			+ ConfinedQuestionSetTable.QUESTION_SET
+			+ " text,"
 			+ ConfinedQuestionSetTable.BACK_STACK + " text);";
-	
+
 	public static final String CREATE_TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET = "create table "
-			+ TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET + "(" + WorkWithNoPhotosQuestionSetTable._ID
+			+ TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET
+			+ "("
+			+ WorkWithNoPhotosQuestionSetTable._ID
 			+ " integer primary key autoincrement,"
-			+ WorkWithNoPhotosQuestionSetTable.WORK_TYPE + " text,"
-			+ WorkWithNoPhotosQuestionSetTable.QUESTION_SET + " text,"
+			+ WorkWithNoPhotosQuestionSetTable.WORK_TYPE
+			+ " text,"
+			+ WorkWithNoPhotosQuestionSetTable.QUESTION_SET
+			+ " text,"
 			+ WorkWithNoPhotosQuestionSetTable.BACK_STACK + " text);";
-	
 
 	public static final String CREATE_TABLE_BACK_LOG = "create table "
 			+ TABLE_BACK_LOG + "(" + QuestionSetTable._ID
@@ -190,7 +199,9 @@ public interface JobViewerSchema {
 			+ ","
 			+ BreakTravelShiftCallTable.TRAVEL_START_TIME
 			+ " text,"
-			+ BreakTravelShiftCallTable.TRAVEL_END_TIME + " text,"
-			+ BreakTravelShiftCallTable.WORK_START_TIME+ " text,"
+			+ BreakTravelShiftCallTable.TRAVEL_END_TIME
+			+ " text,"
+			+ BreakTravelShiftCallTable.WORK_START_TIME
+			+ " text,"
 			+ BreakTravelShiftCallTable.WORK_END_TIME + " text);";
 }
