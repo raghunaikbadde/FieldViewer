@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -68,8 +69,23 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 			DateFormat dateFormat = new SimpleDateFormat(
 					Constants.DATE_PICKER_FORMAT);
 			String formattedDate = dateFormat.format(date);
-			String time = mTimePicker.getCurrentHour() + ":"
-					+ mTimePicker.getCurrentMinute() + ":" + "00 "
+			Integer currentMinute = mTimePicker.getCurrentMinute();
+			String minute = "";
+			if(currentMinute < 10){
+				minute = "0"+String.valueOf(currentMinute);
+			} else {
+				minute = String.valueOf(currentMinute);
+			}
+			Integer currentHour = mTimePicker.getCurrentHour();
+			String hour = "";
+			if(currentHour < 10){
+				hour = "0"+String.valueOf(currentHour);
+						
+			} else{
+				hour = String.valueOf(currentHour);
+			}
+			String time = hour + ":"
+					+ minute + ":" + "00 "
 					+ formattedDate;
 
 			boolean isValidTime = validateTime(view.getContext(),time);
@@ -79,11 +95,14 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 					eventTypeValue = "start";
 				} else if ("travel".equalsIgnoreCase(eventType)) {
 					Utils.startTravelTimeRequest.setOverride_timestamp(time);
+					Log.d(Utils.LOG_TAG," override start travel time stamp "+time);
 					eventTypeValue = "travel";
 				} else if ("End Travel".equalsIgnoreCase(eventType)) {
 					Utils.endTravelTimeRequest.setOverride_timestamp(time);
+					Log.d(Utils.LOG_TAG," override end travel time stamp "+time);					
 					eventTypeValue = eventType;
 				} else if("ClockIn".equalsIgnoreCase(eventType)){
+					Utils.startShiftTimeRequest.setOverride_timestamp(time);
 					eventTypeValue=eventType;
 				} else {
 					Utils.endTimeRequest.setOverride_timestamp(time);
@@ -127,9 +146,11 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
 				return false;
 			}
+		} else if ("ClockIn".equalsIgnoreCase(eventType)) {
+			Utils.startShiftTimeRequest.setOverride_timestamp(time);
 		} else {
-			/*Utils.endTimeRequest.setOverride_timestamp(time);
-			eventTypeValue = "endtravel";*/
+			Utils.endTimeRequest.setOverride_timestamp(time);
+			eventTypeValue = "endtravel";
 		}
 		return true;
 	}

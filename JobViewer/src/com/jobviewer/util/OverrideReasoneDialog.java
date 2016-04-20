@@ -58,6 +58,9 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 		} else if (eventType.equalsIgnoreCase("End Travel")) {
 			timeStampValue.setText(Utils.endTravelTimeRequest
 					.getOverride_timestamp());
+		} else if(eventType.equalsIgnoreCase("ClockIn")){
+			timeStampValue.setText(Utils.startShiftTimeRequest
+					.getOverride_timestamp());
 		} else {
 			timeStampValue.setText(Utils.endTimeRequest
 					.getOverride_timestamp());
@@ -96,6 +99,9 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 		} else  if ("End Travel".equalsIgnoreCase(eventType)) {
 			Utils.endTravelTimeRequest.setOverride_comment(item);
 			Utils.endTravelTimeRequest.setOverride_reason(item);
+		}  else if(eventType.equalsIgnoreCase("ClockIn")){
+			Utils.startShiftTimeRequest.setOverride_comment(item);
+			Utils.startShiftTimeRequest.setOverride_reason(item);
 		} else {
 			Utils.endTimeRequest.setOverride_comment(item);
 			Utils.endTimeRequest.setOverride_reason(item);
