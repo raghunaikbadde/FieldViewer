@@ -553,7 +553,7 @@ public class PollutionActivity extends BaseActivity implements
 			String waterPollutantTitle = "Water Pollutants";
 			String[] waterPollutantArray = getResources().getStringArray(
 					R.array.waterPollutantsArray);
-			String waterPollutanttext = landPollutantsText.getText().toString();
+			String waterPollutanttext = waterPollutantsTextView.getText().toString();
 			boolean iswaterPollutantSelctedBefore = false;
 			
 			if (!getResources().getString(R.string.select_spinner_str)

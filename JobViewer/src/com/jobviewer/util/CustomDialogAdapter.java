@@ -55,7 +55,7 @@ public class CustomDialogAdapter extends BaseAdapter {
 		ViewHolder holder = null;
 		LayoutInflater mInflater = (LayoutInflater) mContext
 				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
+		
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.activity_list_row, null);
 			holder = new ViewHolder();
@@ -68,6 +68,9 @@ public class CustomDialogAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.mTextView.setText(mData[position]);
+		if(mLastSelectedValue.contains(mData[position])){
+			holder.mCheckbox.setChecked(true);
+		}
 		return convertView;
 	}
 
