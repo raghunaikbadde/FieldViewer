@@ -105,7 +105,7 @@ public class WorkWithNoPhotosQuestionActivity extends BaseActivity implements
 
 	public static void loadNextFragment(Fragment fragment) {
 		mFragmentManager.popBackStack();
-		mFragmentManager.beginTransaction().add(R.id.container, fragment)
+		mFragmentManager.beginTransaction().add(R.id.container, fragment,"WorkWithNoPhotos")
 				.commit();
 	}
 }

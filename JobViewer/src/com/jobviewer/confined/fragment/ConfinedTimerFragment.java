@@ -138,7 +138,7 @@ public class ConfinedTimerFragment extends Fragment implements OnClickListener {
 		case R.id.skip_timer:
 			if (currentScreen.isAllow_skip()) {
 				currentScreen.setTimer_skipped(true);
-				timer.cancel();
+				//timer.cancel();
 				enableNextButton(true);
 			}
 			break;

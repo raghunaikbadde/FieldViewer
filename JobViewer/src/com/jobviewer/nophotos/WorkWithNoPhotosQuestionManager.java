@@ -202,7 +202,7 @@ public class WorkWithNoPhotosQuestionManager {
 	}
 
 	public void loadPreviousFragmentOnResume() {
-		if (backStack != null && backStack.size() > 1) {
+		if (backStack != null && backStack.size() >= 1) {
 			String screenId = backStack.get(backStack.size() - 1);
 			backStack.remove(backStack.size() - 1);
 			isBackPressed = true;
