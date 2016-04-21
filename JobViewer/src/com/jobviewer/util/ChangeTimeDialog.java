@@ -151,7 +151,12 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 				return false;
 			}
 		} else if ("ClockIn".equalsIgnoreCase(eventType)) {
-			Utils.startShiftTimeRequest.setOverride_timestamp(time);
+			if(!Utils.checkIfStartDateIsGreater(time,Utils.getCurrentDateAndTime())){
+				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
+				return false;
+			} else{
+				Utils.startShiftTimeRequest.setOverride_timestamp(time);
+			}
 		} else {
 			Utils.endTimeRequest.setOverride_timestamp(time);
 			eventTypeValue = "endtravel";
