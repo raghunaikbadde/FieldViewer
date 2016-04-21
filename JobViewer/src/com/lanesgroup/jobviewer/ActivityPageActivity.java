@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.confined.ConfinedAssessmentQuestionsActivity;
@@ -272,6 +274,14 @@ public class ActivityPageActivity extends BaseActivity implements
 		} else if (view == mEndOnCall) {
 			if(!mStart.getTag().toString().equalsIgnoreCase("Continue Work In Progress")){
 				endShiftOrCall();	
+			} else {
+				if (ActivityConstants.JOB_SELECTED_SHIFT.equalsIgnoreCase(Utils.checkOutObject.getJobSelected())) {
+					Toast.makeText(
+							BaseActivity.context,
+							BaseActivity.context.getResources().getString(
+									R.string.closeWorkInProgressToastMsg),
+							Toast.LENGTH_SHORT).show();
+				}
 			}
 			
 		} else if (view == mShoutAbout){
@@ -484,7 +494,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		} else {
 			time = Utils.timeSheetRequest.getStarted_at();
 		}
-
+		Log.d(Utils.LOG_TAG,"executeStartBreakService "+GsonConverter.getInstance().encodeToJsonString(Utils.timeSheetRequest));
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.START_BREAK_API, data,
 				getStartBreakHandler(time));
