@@ -353,5 +353,7 @@
     <string name="context_menu_back">Back</string>
     
     <string name="topManEditTextError">is required.</string>
-    
+    <string name="shiftStartStr">Shift Start</string>
+    <string name="shiftStartStrDesc">Your Shift start time will be logged as:</string>
+	
 </resources>
