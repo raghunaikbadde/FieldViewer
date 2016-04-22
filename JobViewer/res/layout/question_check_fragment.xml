@@ -104,6 +104,20 @@
 	                    android:textColor="@color/black"	                
 	                    android:paddingLeft="@dimen/template_spacing27"    
 	                    android:textSize="@dimen/progressbar_top_margin58"/>
+                   <TextView
+                        android:id="@+id/tapNextToContinue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|top"
+                        android:layout_below="@+id/question"
+	                    android:layout_marginLeft="@dimen/checkout_checkbox_left_margin158"
+	                    android:drawablePadding="@dimen/template_spacing27"
+	                    android:text="@string/tapNextToContinueStr"
+	                    android:button="@drawable/checkbox_selector"
+	                    android:textColor="@color/black"	      
+	                    android:visibility="gone"          
+	                    android:paddingLeft="@dimen/template_spacing27"    
+	                    android:textSize="@dimen/progressbar_top_margin58"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

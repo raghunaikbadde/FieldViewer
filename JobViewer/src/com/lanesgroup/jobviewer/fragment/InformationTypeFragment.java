@@ -34,7 +34,7 @@ public class InformationTypeFragment extends Fragment implements
 	private View mRootView;
 	private Screen currentScreen;
 	CheckOutObject checkOutRemember;
-
+	private TextView mTapNextToContinue;
 	public interface onClicksEnterJobNumber {
 		public void onNextClick();
 
@@ -118,7 +118,7 @@ public class InformationTypeFragment extends Fragment implements
 				break;
 			}
 		}
-
+		checkAndUpdateUIIfItIsBigEngineersFrament();
 	}
 
 	private void initUI() {
@@ -131,6 +131,7 @@ public class InformationTypeFragment extends Fragment implements
 		radio_yes = (CheckBox) mRootView.findViewById(R.id.radio_yes);
 		mCancel = (Button) mRootView.findViewById(R.id.button1);
 		mNext = (Button) mRootView.findViewById(R.id.button2);
+		mTapNextToContinue = (TextView)mRootView.findViewById(R.id.tapNextToContinue);
 		mNext.setOnClickListener(this);
 		mCancel.setOnClickListener(this);
 	}
@@ -154,6 +155,19 @@ public class InformationTypeFragment extends Fragment implements
 			QuestionManager.getInstance().loadNextFragment(
 					currentScreen.getButtons().getButton()[2].getActions()
 							.getClick().getOnClick());
+		}
+	}
+	
+	private boolean isItBigEngineersFragement(){
+		String bigEngineers = "Use the big engines";
+		return currentScreen.getText().contains(bigEngineers);
+	}
+	
+	private void checkAndUpdateUIIfItIsBigEngineersFrament(){
+		if(isItBigEngineersFragement()){
+			radio_yes.setVisibility(View.GONE);
+			mTapNextToContinue.setVisibility(View.VISIBLE);
+			enableNextButton(true);
 		}
 	}
 }
