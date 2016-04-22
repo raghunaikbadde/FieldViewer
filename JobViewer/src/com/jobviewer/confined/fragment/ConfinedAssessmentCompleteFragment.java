@@ -147,7 +147,9 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
 					JobViewerDBHandler.deleteConfinedQuestionSet(getActivity());
-
+					ConfinedEngineerFragment.engineerName1 = null;
+					ConfinedEngineerFragment.engineerName2 = null;
+					ConfinedEngineerFragment.engineerName3 = null;
 					getActivity().finish();
 					Log.i("Android", "");
 					break;

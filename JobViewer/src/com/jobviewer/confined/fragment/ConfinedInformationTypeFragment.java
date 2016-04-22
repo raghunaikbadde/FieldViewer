@@ -36,7 +36,7 @@ public class ConfinedInformationTypeFragment extends Fragment implements
 	private View mRootView;
 	private Screen currentScreen;
 	CheckOutObject checkOutRemember;
-
+	private TextView mTapNextToContinue;
 	public interface onClicksEnterJobNumber {
 		public void onNextClick();
 
@@ -122,7 +122,15 @@ public class ConfinedInformationTypeFragment extends Fragment implements
 				break;
 			}
 		}
+		checkAndUpdateUIOnCommunciationQuestion();
+	}
 
+	private void checkAndUpdateUIOnCommunciationQuestion() {
+		if(updateUIOnCommunciationQuestion()){
+			mTapNextToContinue.setVisibility(View.VISIBLE);
+			radio_yes.setVisibility(View.GONE);
+			enableNextButton(true);
+		}
 	}
 
 	private void initUI() {
@@ -133,6 +141,7 @@ public class ConfinedInformationTypeFragment extends Fragment implements
 		questionTitle = (TextView) mRootView.findViewById(R.id.questionTitle);
 		question = (TextView) mRootView.findViewById(R.id.question);
 		radio_yes = (CheckBox) mRootView.findViewById(R.id.radio_yes);
+		mTapNextToContinue = (TextView) mRootView.findViewById(R.id.tapNextToContinue);
 		mCancel = (Button) mRootView.findViewById(R.id.button1);
 		mNext = (Button) mRootView.findViewById(R.id.button2);
 		mNext.setOnClickListener(this);
@@ -159,5 +168,10 @@ public class ConfinedInformationTypeFragment extends Fragment implements
 					currentScreen.getButtons().getButton()[2].getActions()
 							.getClick().getOnClick());
 		}
+	}
+	
+	private boolean updateUIOnCommunciationQuestion(){
+		String maintainComm = "maintain communication";
+		return currentScreen.getText().contains(maintainComm);
 	}
 }

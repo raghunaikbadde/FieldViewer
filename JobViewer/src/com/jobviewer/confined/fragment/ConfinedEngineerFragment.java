@@ -2,10 +2,13 @@ package com.jobviewer.confined.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,12 +23,13 @@ import android.widget.TextView;
 import com.jobviewer.confined.ConfinedQuestionManager;
 import com.jobviewer.survey.object.Inputs;
 import com.jobviewer.survey.object.Screen;
+import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 
 public class ConfinedEngineerFragment extends Fragment implements
-		OnClickListener {
+		OnClickListener,TextWatcher {
 	private View mRootView;
 	Screen currentScreen;
 	ProgressBar progressBar;
@@ -34,7 +38,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 	EditText top_man_edittext, bottom_man1_edittext, bottom_man2_edittext,
 			bottom_man3_edittext;
 	Button saveBtn, nextBtn;
-
+	public static String engineerName1,engineerName2,engineerName3;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,7 +54,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 		removePhoneKeypad();
 		initUI();
 		updateData();
-		enableNextButton(true);
+		
 		return mRootView;
 	}
 	
@@ -89,17 +93,36 @@ public class ConfinedEngineerFragment extends Fragment implements
 		if (currentScreen.getInputs().length < 4) {
 			bottom_man3_text.setVisibility(View.GONE);
 			bottom_man3_edittext.setVisibility(View.GONE);
+			if(engineerName1 !=null && engineerName2!=null && engineerName3!=null){
+				top_man_edittext.setText(engineerName1);
+				bottom_man1_edittext.setText(engineerName2);
+				bottom_man2_edittext.setText(engineerName3);			
+			}
+			top_man_edittext.addTextChangedListener(this);
+			bottom_man1_edittext.addTextChangedListener(this);
+			bottom_man2_edittext.addTextChangedListener(this);
+			enableNextButton(false);
 		} else {
 			bottom_man3_text.setVisibility(View.VISIBLE);
 			bottom_man3_edittext.setVisibility(View.VISIBLE);
+			enableNextButton(true);
 		}
 		setDataInEditText();
 	}
 
+
+	
 	public void enableNextButton(boolean isEnable) {
-		nextBtn.setEnabled(true);
-		nextBtn.setBackgroundResource(R.drawable.red_background);
+		if (isEnable) {
+			nextBtn.setEnabled(true);
+			nextBtn.setBackgroundResource(R.drawable.red_background);
+		} else {
+			nextBtn.setEnabled(false);
+			nextBtn.setBackgroundResource(R.drawable.dark_grey_background);
+		}
+
 	}
+
 
 	private void initUI() {
 		progressBar = (ProgressBar) mRootView.findViewById(R.id.progressBar);
@@ -137,7 +160,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 				top_man_edittext.setHint(inputs[i].getPlaceholder());
 				top_man_edittext.setTag(i);
 				if ("number".equalsIgnoreCase(inputs[i].getType())) {
-					top_man_edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
+					top_man_edittext.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);					
 				}
 			} else if (i == 1) {
 				bottom_man1_text.setText(inputs[i].getLabel());
@@ -145,7 +168,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 				bottom_man1_edittext.setTag(i);
 				if ("number".equalsIgnoreCase(inputs[i].getType())) {
 					bottom_man1_edittext
-							.setInputType(InputType.TYPE_CLASS_NUMBER);
+							.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 				}
 			} else if (i == 2) {
 				bottom_man2_text.setText(inputs[i].getLabel());
@@ -153,7 +176,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 				bottom_man2_edittext.setTag(i);
 				if ("number".equalsIgnoreCase(inputs[i].getType())) {
 					bottom_man2_edittext
-							.setInputType(InputType.TYPE_CLASS_NUMBER);
+							.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 				}
 			} else if (i == 3) {
 				bottom_man3_text.setText(inputs[i].getLabel());
@@ -161,7 +184,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 				bottom_man3_edittext.setTag(i);
 				if ("number".equalsIgnoreCase(inputs[i].getType())) {
 					bottom_man3_edittext
-							.setInputType(InputType.TYPE_CLASS_NUMBER);
+							.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 				}
 			}
 		}
@@ -174,21 +197,39 @@ public class ConfinedEngineerFragment extends Fragment implements
 		case R.id.nextBtn:
 			if (validUserInputs()) {
 				setAnswerForInputs();
+				saveEngineerNames();
+				try{  
+					 View view = getActivity().getCurrentFocus();
+					 if(view!=null){
+						 InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+						 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+					 }
+				}catch(Exception e){
+					
+				}
 				ConfinedQuestionManager.getInstance()
 						.updateScreenOnQuestionMaster(currentScreen);
 				ConfinedQuestionManager.getInstance().loadNextFragment(
 						currentScreen.getButtons().getButton()[2].getActions()
 								.getClick().getOnClick());
-			}
+			} 
 			break;
 		case R.id.saveBtn:
+			saveEngineerNames();
 			ConfinedQuestionManager.getInstance().saveAssessment("Confined");
 			((BaseActivity) getActivity()).finish();
+			
 			break;
 		default:
 			break;
 		}
 
+	}
+
+	private void saveEngineerNames() {
+		engineerName1 = top_man_edittext.getText().toString();
+		engineerName2 = bottom_man1_edittext.getText().toString();
+		engineerName3 = bottom_man2_edittext.getText().toString();
 	}
 
 	private void setAnswerForInputs() {
@@ -267,7 +308,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 				} else {
 					isValid = isValidGasLevel(currentScreen.getInputs()[2]
 							.getLabel());
-					if (!isValid) {
+					if (!isValid) {						
 						break;
 					}
 				}
@@ -287,6 +328,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 				isValid = isValidGasLevel(currentScreen.getInputs()[3]
 						.getLabel());
 				if (!isValid) {
+					
 					break;
 				}
 			}
@@ -302,7 +344,8 @@ public class ConfinedEngineerFragment extends Fragment implements
 			if (ch4Level <= 9.9) {
 				return true;
 			} else {
-				top_man_edittext.setError("CH4 should be 9.9 or below.");
+				//top_man_edittext.setError("CH4 should be 9.9 or below.");
+				callStopFragment();
 				return false;
 			}
 		}
@@ -312,7 +355,8 @@ public class ConfinedEngineerFragment extends Fragment implements
 			if (ch4Level >= 19.0) {
 				return true;
 			} else {
-				bottom_man1_edittext.setError("CO should be 19.0 or above.");
+				//bottom_man1_edittext.setError("O2 should be 19.0 or above.");
+				callStopFragment();
 				return false;
 			}
 		}
@@ -322,7 +366,8 @@ public class ConfinedEngineerFragment extends Fragment implements
 			if (ch4Level <= 29.9) {
 				return true;
 			} else {
-				bottom_man2_edittext.setError("CO should be 29.9 or below.");
+				//bottom_man2_edittext.setError("CO should be 29.9 or below.");
+				callStopFragment();
 				return false;
 			}
 		}
@@ -332,12 +377,53 @@ public class ConfinedEngineerFragment extends Fragment implements
 			if (ch4Level <= 4.9) {
 				return true;
 			} else {
-				bottom_man3_edittext.setError("H2S should be 4.9 or below.");
+				//bottom_man3_edittext.setError("H2S should be 4.9 or below.");
+				callStopFragment();
 				return false;
 			}
 		}
 
 		return validGasLevel;
+	}
+
+	private void callStopFragment() {
+		
+		try{  
+			 View view = getActivity().getCurrentFocus();
+			 if(view!=null){
+				 InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+				 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+			 }
+		}catch(Exception e){
+			
+		}
+		
+		ConfinedQuestionManager.getInstance()
+		.updateScreenOnQuestionMaster(currentScreen);
+		ConfinedQuestionManager.getInstance().loadNextFragment(ActivityConstants.STOP_SCREEN);
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+
+		
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		if(!Utils.isNullOrEmpty(top_man_edittext.getText().toString()) 
+				&& !Utils.isNullOrEmpty(bottom_man1_edittext.getText().toString())
+				&& !Utils.isNullOrEmpty(bottom_man2_edittext.getText().toString())){
+			enableNextButton(true);
+		}
+		
+	}
+
+	@Override
+	public void afterTextChanged(Editable s) {
+		
+		
 	}
 
 }
