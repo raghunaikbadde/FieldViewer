@@ -540,9 +540,16 @@ public class ActivityPageActivity extends BaseActivity implements
 
 	@Override
 	public void onConfirmStartTraining() {
-		JobViewerDBHandler.deleteStartTraining(mContext);
-		mStart.setText("Start...");
-		mStart.setTag(Constants.START_TRAINING);
+		if(ConfirmDialog.eventType.contains(Constants.END_TRAINING)){
+			JobViewerDBHandler.deleteStartTraining(mContext);
+			mStart.setText("Start...");
+			mStart.setTag(Constants.START_TRAINING);
+		} else {
+			Intent intent = new Intent(this,ActivityPageActivity.class);
+        	JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(this);
+        	finish();
+        	startActivity(intent);
+		}
 	}
 
 	@Override
@@ -629,10 +636,10 @@ public class ActivityPageActivity extends BaseActivity implements
 	        	startActivity(confinedWorkintent);
 	            return true;
 	        case 2:
-	        	Intent intent = new Intent(this,ActivityPageActivity.class);
-	        	JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(this);
-	        	finish();
-	        	startActivity(intent);
+	        	ConfirmDialog confirmDialog = new ConfirmDialog(mContext, this, ActivityConstants.LEAVE_WORK_CONFIMRATION);
+	        	confirmDialog.show();
+	        	
+	        	
 	            return true;
 	        case 3:
 	        	mStart.getRootView().dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));

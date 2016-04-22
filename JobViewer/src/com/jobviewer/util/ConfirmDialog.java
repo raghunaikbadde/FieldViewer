@@ -18,7 +18,7 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 	ConfirmDialogCallbackForNoPhotos mCallbackForNoPhotos;
 	private Context mContext;
 	private TextView mHeader, mMessage;
-	String eventType;
+	public static String eventType;
 
 	public interface ConfirmDialogCallback {
 		public void onConfirmStartTraining();
@@ -50,6 +50,9 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		} else if(this.eventType.equalsIgnoreCase(Constants.WORK_NO_PHOTOS_CONFIRMATION)){
 			mMessage.setText(context.getResources().getString(R.string.workWithNoPhotosConfirmation));
 			mHeader.setText(context.getResources().getString(R.string.confirm));
+		} else if(this.eventType.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)){
+			mMessage.setText(context.getResources().getString(R.string.workEndConfirmationMsg));
+			mHeader.setText(context.getResources().getString(R.string.workEndConfirmation));
 		} else {
 			mMessage.setText(Constants.END_TRAINING_MESSAGE);
 		}
@@ -81,6 +84,9 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		} else if(this.eventType.equalsIgnoreCase(Constants.WORK_NO_PHOTOS_CONFIRMATION)){
 			mMessage.setText(context.getResources().getString(R.string.workWithNoPhotosConfirmation));
 			mHeader.setText(context.getResources().getString(R.string.confirm));
+		}  else if(this.eventType.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)){
+			mMessage.setText(context.getResources().getString(R.string.workEndConfirmationMsg));
+			mHeader.setText(context.getResources().getString(R.string.workEndConfirmation));
 		} else {
 			mMessage.setText(Constants.END_TRAINING_MESSAGE);
 		}
@@ -100,6 +106,9 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		if (view == mTimeCancel) {
 			this.dismiss();
 			if(eventType.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)){
+				mCallback.onConfirmDismiss();
+			}
+			if(eventType.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)){
 				mCallback.onConfirmDismiss();
 			}
 		} else if (view == mTimeContinue) {

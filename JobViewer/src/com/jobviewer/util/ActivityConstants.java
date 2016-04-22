@@ -23,6 +23,7 @@ public class ActivityConstants {
 	public static final String HAZARD = "Hazard";
 	public static final String IDEA = "Idea";
 	public static final String SAFETY = "Safety";
+	public static final String LEAVE_WORK_CONFIMRATION="LEAVE_WORK_CONFIMRATION";
 		
 	public static final String VEHICLE_REGISTRATION_NUMBER = "VEHICLE_REGISTRATION_NUMBER";
 	public static final String VEHICLE_MILEAGE = "VEHICLE_MILEAGE";
