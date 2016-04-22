@@ -356,5 +356,5 @@
     <string name="shiftStartStr">Shift Start</string>
     <string name="shiftStartStrDesc">Your Shift start time will be logged as:</string>
     <string name="closeWorkInProgressToastMsg">Please close work in progress before ending your shift.</string>
-
+	<string name="tapNextToContinueStr">Tap Next to continue</string>
 </resources>
