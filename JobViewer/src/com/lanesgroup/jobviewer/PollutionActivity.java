@@ -700,8 +700,14 @@ public class PollutionActivity extends BaseActivity implements
 				+ CommsConstant.POLLUTION_REPORT_UPLOAD + "/" + Utils.work_id);
 		Log.d(Utils.LOG_TAG, " request "
 				+ GsonConverter.getInstance().encodeToJsonString(data));
-		
-		Utils.work_id ="1";
+		try{
+			CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(this);
+			if(checkOutObject!=null && Utils.isNullOrEmpty(checkOutObject.getWorkId())){
+				Utils.work_id = checkOutObject.getWorkId();
+			}
+		}catch(Exception e){
+			
+		}
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.POLLUTION_REPORT_UPLOAD + "/" + Utils.work_id,
 				data, getPollutionReportHandler());
