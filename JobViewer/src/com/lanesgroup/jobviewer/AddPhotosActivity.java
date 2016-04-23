@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.confined.ConfinedAssessmentQuestionsActivity;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.exception.ExceptionHandler;
@@ -42,6 +43,7 @@ import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.fragment.MediaTypeFragment;
 import com.lanesgroup.jobviewer.fragment.WorkCompleteFragment;
@@ -52,7 +54,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
 	private TextView mVistecNumber;
 	private ImageButton mClickPhoto,
-			mCaptureCallingCard, mUpdateRiskActivity;
+			mCaptureCallingCard, mUpdateRiskActivity,mConfinedSpaceRiskActivity;
 	private Button mSave, mLeaveSite;
 	private ListView mListView;
 	private ArrayList<HashMap<String, Object>> mPhotoList;
@@ -113,6 +115,8 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mUpdateRiskActivity = (ImageButton) findViewById(R.id.video_imageButton);
 		mUpdateRiskActivity.setOnClickListener(this);
 		mClickPhoto = (ImageButton) findViewById(R.id.capture_imageButton);
+		mConfinedSpaceRiskActivity = (ImageButton) findViewById(R.id.user_imageButton);
+		mConfinedSpaceRiskActivity.setOnClickListener(this);
 		mClickPhoto.setOnClickListener(this);
 		mSave = (Button) findViewById(R.id.button1);
 		mLeaveSite = (Button) findViewById(R.id.button2);
@@ -196,6 +200,12 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 					com.jobviewer.util.Constants.RESULT_CODE);
 			// Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);
 			// startActivityForResult(intent, Constants.RESULT_CODE);
+		} else if(view == mConfinedSpaceRiskActivity){
+			finish();
+			
+			Intent confinedWorkintent = new Intent(AddPhotosActivity.this,ConfinedAssessmentQuestionsActivity.class);
+        	confinedWorkintent.putExtra(Constants.CALLING_ACTIVITY, AddPhotosActivity.this.getClass().getSimpleName());
+        	startActivity(confinedWorkintent);
 		}
 	}
 
