@@ -359,4 +359,8 @@
 	<string name="tapNextToContinueStr">Tap Next to continue</string>
 	<string name="workEndConfirmation">Work Confirmation</string>
 	<string name="workEndConfirmationMsg">Are you ready to end work with reference</string>
+	<string name="callDAMobileNumber">1234567890</string>
+	<string name="DACallConfirmation">DA Call Confirmation</string>
+	<string name="DACallConfimrationMsg">Did you get through to DA>?</string>
+	
 </resources>

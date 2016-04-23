@@ -28,6 +28,8 @@ public class Constants {
 	public static final String WORK_NO_PHOTOS_CONFIRMATION = "WORK_NO_PHOTOS_CONFIRMATION";
 	public static final String WORK_NO_PHOTOS = "WORK_NO_PHOTOS";
 	public static final String WORK_NO_PHOTOS_HOME = "WORK_NO_PHOTOS_HOME";
+	public static final int TAP_DA_PHONE_CALL_REQUEST_CODE = 1005;
+	public static final String TAP_DA_PHONE_CALL = "TAP_DA_PHONE_CALL";
 	public static final String START_TRAINING_MESSAGE = "Training should only be logged when requested by the office. Do you want to continue?";
 	public static final String END_TRAINING_MESSAGE = "Are you ready to end training?";
 	public static final String END_TRAINING_HEADER = "Training Confirmation";

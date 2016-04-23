@@ -3,9 +3,11 @@ package com.lanesgroup.jobviewer.fragment;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,9 +28,12 @@ import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.util.ConfirmDialog;
+import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallback;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
+import com.jobviewer.util.showTimeDialog.DialogCallback;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.R;
@@ -36,17 +41,17 @@ import com.lanesgroup.jobviewer.WorkSuccessActivity;
 import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 
-public class WorkCompleteFragment extends Fragment implements OnClickListener {
+public class WorkCompleteFragment extends Fragment implements OnClickListener,ConfirmDialogCallback {
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep, mVistecNumber;
 	private ImageButton mAddInfo, mStop, mUser, mClickPhoto;
 	private Button mSave, mLeaveSite;
-	private LinearLayout mCaptureCallingCard;
+	private LinearLayout mCaptureCallingCard,mTapToCallDa;
 	private View mRootView;
 	private RelativeLayout mSpinnerLayout, mSpinnerLayoutFlooding;
 	private TextView mSpinnerSelectedText, mSpinnerSelectedFloodedText;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -98,6 +103,10 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener {
 		mProgressStep.setText("Step 5 of 6");
 		mCaptureCallingCard = (LinearLayout) mRootView
 				.findViewById(R.id.customer_calling_layout);
+		mTapToCallDa = (LinearLayout) mRootView
+				.findViewById(R.id.tap_to_call_layout);
+		mTapToCallDa.setOnClickListener(this);
+		mTapToCallDa.setBackgroundResource(R.drawable.red_background);
 		mCaptureCallingCard.setClickable(true);
 		mCaptureCallingCard.setOnClickListener(this);
 		mSave = (Button) mRootView.findViewById(R.id.button1);
@@ -133,6 +142,10 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener {
 			Utils.dailogboxSelector(getActivity(), Utils.mActivityList,
 					R.layout.work_complete_dialog, mSpinnerSelectedFloodedText,
 					header);
+		} else if(view == mTapToCallDa){
+			Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+			phoneIntent.setData(Uri.parse("tel:"+getResources().getString(R.string.callDAMobileNumber)));
+			startActivityForResult(phoneIntent, Constants.TAP_DA_PHONE_CALL_REQUEST_CODE);
 		}
 	}
 
@@ -140,6 +153,10 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 500 && resultCode == getActivity().RESULT_OK) {
 
+		}
+		if (requestCode == Constants.TAP_DA_PHONE_CALL_REQUEST_CODE) {
+			ConfirmDialog confirmDialog = new ConfirmDialog(getActivity(), this, Constants.TAP_DA_PHONE_CALL);
+			confirmDialog.show();
 		}
 	}
 
@@ -159,7 +176,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener {
 		}
 
 	}
-
+	
 	private WorkRequest prepareWorkCompletedRequest() {
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getActivity());
@@ -346,4 +363,16 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener {
 		breakShiftTravelCall.setWorkEndTime(String.valueOf(System.currentTimeMillis()));
 		JobViewerDBHandler.saveBreakShiftTravelCall(getActivity(), breakShiftTravelCall);
 	}
+
+	@Override
+	public void onConfirmStartTraining() {
+		mTapToCallDa.setVisibility(View.GONE);
+		
+	}
+
+	@Override
+	public void onConfirmDismiss() {
+				
+	}
+
 }

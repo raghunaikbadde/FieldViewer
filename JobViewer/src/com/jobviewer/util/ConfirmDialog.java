@@ -53,6 +53,9 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		} else if(this.eventType.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)){
 			mMessage.setText(context.getResources().getString(R.string.workEndConfirmationMsg));
 			mHeader.setText(context.getResources().getString(R.string.workEndConfirmation));
+		} else if(this.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)){
+			mMessage.setText(context.getResources().getString(R.string.DACallConfimrationMsg));
+			mHeader.setText(context.getResources().getString(R.string.DACallConfirmation));
 		} else {
 			mMessage.setText(Constants.END_TRAINING_MESSAGE);
 		}
@@ -87,6 +90,9 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		}  else if(this.eventType.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)){
 			mMessage.setText(context.getResources().getString(R.string.workEndConfirmationMsg));
 			mHeader.setText(context.getResources().getString(R.string.workEndConfirmation));
+		} else if(this.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)){
+			mMessage.setText(context.getResources().getString(R.string.DACallConfimrationMsg));
+			mHeader.setText(context.getResources().getString(R.string.DACallConfirmation));
 		} else {
 			mMessage.setText(Constants.END_TRAINING_MESSAGE);
 		}
