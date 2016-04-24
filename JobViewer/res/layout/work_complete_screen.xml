@@ -130,12 +130,50 @@
                         android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
                         android:src="@drawable/down_arrow_image" />
                 </RelativeLayout>
+                <EditText
+                    android:id="@+id/enter_pipe_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/call_customer_button_height180"
+                    android:layout_below="@+id/spinnerLayout"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginTop="@dimen/spinner_bottom_margin30"
+                    android:background="@drawable/grey_background"
+                    android:hint="@string/enter_pipe_diameter"
+                    android:paddingLeft="@dimen/grey_lato_regular_small35"
+                    android:paddingRight="@dimen/grey_lato_regular_small35"
+                    android:singleLine="true"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/dark_grey"
+                    android:textColorHint="@color/dark_grey"
+                    android:textSize="@dimen/black_lato_regular_medium45"
+                    android:visibility="gone" >
+                </EditText>
 
+                <EditText
+                    android:id="@+id/enter_length_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/call_customer_button_height180"
+                    android:layout_below="@+id/enter_pipe_edittext"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginTop="@dimen/spinner_bottom_margin30"
+                    android:background="@drawable/grey_background"
+                    android:hint="@string/length_str"
+                    android:paddingLeft="@dimen/grey_lato_regular_small35"
+                    android:paddingRight="@dimen/grey_lato_regular_small35"
+                    android:singleLine="true"
+                    android:textColor="@color/dark_grey"
+                    android:textColorHint="@color/dark_grey"
+                    android:inputType="numberDecimal"
+                    android:textSize="@dimen/black_lato_regular_medium45"
+                    android:visibility="gone" >
+                </EditText>
                 <TextView
                     android:id="@+id/was_property_flooded"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/spinnerLayout"
+                    android:layout_below="@id/enter_length_edittext"
                     android:layout_marginBottom="@dimen/imagebutton_spacing20"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
@@ -159,7 +197,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
-                        android:text="@string/was_property_flooded"
+                        android:text="@string/select_spinner_str"
                         android:textColor="@color/black"
                         android:textSize="@dimen/black_lato_regular_small55" />
 
@@ -172,49 +210,13 @@
                         android:src="@drawable/down_arrow_image" />
                 </RelativeLayout>
 
-                <EditText
-                    android:id="@+id/enter_pipe_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/call_customer_button_height180"
-                    android:layout_below="@+id/spinnerLayout_flood"
-                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginTop="@dimen/spinner_bottom_margin30"
-                    android:background="@drawable/grey_background"
-                    android:hint="@string/enter_pipe_diameter"
-                    android:paddingLeft="@dimen/grey_lato_regular_small35"
-                    android:paddingRight="@dimen/grey_lato_regular_small35"
-                    android:singleLine="true"
-                    android:textColor="@color/dark_grey"
-                    android:textColorHint="@color/dark_grey"
-                    android:textSize="@dimen/black_lato_regular_medium45"
-                    android:visibility="gone" >
-                </EditText>
 
-                <EditText
-                    android:id="@+id/enter_length_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/call_customer_button_height180"
-                    android:layout_below="@+id/enter_pipe_edittext"
-                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginTop="@dimen/spinner_bottom_margin30"
-                    android:background="@drawable/grey_background"
-                    android:hint="@string/length_str"
-                    android:paddingLeft="@dimen/grey_lato_regular_small35"
-                    android:paddingRight="@dimen/grey_lato_regular_small35"
-                    android:singleLine="true"
-                    android:textColor="@color/dark_grey"
-                    android:textColorHint="@color/dark_grey"
-                    android:textSize="@dimen/black_lato_regular_medium45"
-                    android:visibility="gone" >
-                </EditText>
 
                 <TextView
                     android:id="@+id/capture_calling_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/enter_length_edittext"
+                    android:layout_below="@+id/spinnerLayout_flood"
                     android:layout_marginBottom="@dimen/imagebutton_spacing20"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"

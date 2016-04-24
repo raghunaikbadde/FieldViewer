@@ -1,32 +1,51 @@
 package com.lanesgroup.jobviewer.fragment;
 
+import java.io.File;
+import java.io.IOException;
+
 import android.app.Fragment;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.res.ResourcesCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebView.FindListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ConfirmDialog;
 import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallback;
@@ -36,12 +55,13 @@ import com.jobviewer.util.Utils;
 import com.jobviewer.util.showTimeDialog.DialogCallback;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
+import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.WorkSuccessActivity;
 import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 
-public class WorkCompleteFragment extends Fragment implements OnClickListener,ConfirmDialogCallback {
+public class WorkCompleteFragment extends Fragment implements OnClickListener,ConfirmDialogCallback,TextWatcher {
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep, mVistecNumber;
@@ -51,7 +71,11 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 	private View mRootView;
 	private RelativeLayout mSpinnerLayout, mSpinnerLayoutFlooding;
 	private TextView mSpinnerSelectedText, mSpinnerSelectedFloodedText;
-	
+	private EditText mPipeDiameterEditText,mPipeLengthEditText;
+	private RadioButton radioOne,radioTwo;
+	private RadioGroup radioGroup;
+	static File file;	
+	private String mPipeDiameter,mPipeLength;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,6 +97,21 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		super.onActivityCreated(savedInstanceState);
 		initUI();
 	}
+	private void radioButtonChangedListeners() {
+		radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				if(validateUserInputs()){
+					enableNextButton(true);
+				} else{
+					enableNextButton(false);
+				}
+			}
+		});
+	}
+		
+        
 
 	private void initUI() {
 		mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
@@ -80,7 +119,14 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 				.findViewById(R.id.progress_step_text);
 		mVistecNumber = (TextView) mRootView
 				.findViewById(R.id.vistec_number_text);
-		// mVistecNumber.setText(Utils.checkOutObject.getVistecId());
+		if(Utils.checkOutObject == null){
+			Utils.checkOutObject = JobViewerDBHandler.getCheckOutRemember(getActivity());
+		}
+		mPipeDiameterEditText = (EditText) mRootView.findViewById(R.id.enter_pipe_edittext);
+		mPipeLengthEditText = (EditText) mRootView.findViewById(R.id.enter_length_edittext);
+		mPipeDiameterEditText.addTextChangedListener(this);
+		mPipeLengthEditText.addTextChangedListener(this);
+		mVistecNumber.setText(Utils.checkOutObject.getVistecId());
 		mAddInfo = (ImageButton) mRootView
 				.findViewById(R.id.detail_imageButton);
 		mStop = (ImageButton) mRootView.findViewById(R.id.video_imageButton);
@@ -111,17 +157,23 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		mCaptureCallingCard.setOnClickListener(this);
 		mSave = (Button) mRootView.findViewById(R.id.button1);
 		mLeaveSite = (Button) mRootView.findViewById(R.id.button2);
+		
 		mLeaveSite.setOnClickListener(this);
-		enableNextButton(true);
+		radioGroup = (RadioGroup)mRootView.findViewById(R.id.radioGroup1);
+		radioOne = (RadioButton) mRootView.findViewById(R.id.radio1);
+		radioTwo  = (RadioButton) mRootView.findViewById(R.id.radio2);
+		radioButtonChangedListeners();
+		
 	}
 
 	@Override
 	public void onClick(View view) {
+		checkAndEnableNextButton();
 		if (view == mSave) {
-
+			
 		} else if (view == mLeaveSite) {
 			// Upload Photos here// if calling card available
-
+			
 			if (Utils.isInternetAvailable(getActivity())) {
 				sendWorkEndTimeSheetToServer();
 			} else {
@@ -133,31 +185,75 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		} else if (view == mCaptureCallingCard) {
 			Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);
 			startActivityForResult(intent, Constants.RESULT_CODE);
+			Toast.makeText(getActivity(), this.getResources().getString(R.string.capture_calling_Card),Toast.LENGTH_LONG).show();
 		} else if (view == mSpinnerLayout) {
 			String header = getResources().getString(R.string.activity_type);
-			Utils.dailogboxSelector(getActivity(), Utils.mFloodingList,
+			mSpinnerSelectedText.addTextChangedListener(this);
+			Utils.dailogboxSelector(getActivity(), Utils.mActivityList,
 					R.layout.work_complete_dialog, mSpinnerSelectedText, header);
 		} else if (view == mSpinnerLayoutFlooding) {
 			String header = getResources().getString(R.string.activity_type);
-			Utils.dailogboxSelector(getActivity(), Utils.mActivityList,
+			Utils.dailogboxSelector(getActivity(), Utils.mFloodingList,
 					R.layout.work_complete_dialog, mSpinnerSelectedFloodedText,
 					header);
 		} else if(view == mTapToCallDa){
 			Intent phoneIntent = new Intent(Intent.ACTION_CALL);
 			phoneIntent.setData(Uri.parse("tel:"+getResources().getString(R.string.callDAMobileNumber)));
 			startActivityForResult(phoneIntent, Constants.TAP_DA_PHONE_CALL_REQUEST_CODE);
-		}
+		}		
+		checkAndEnableNextButton();
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 500 && resultCode == getActivity().RESULT_OK) {
+			String imageString = null;
+			Bitmap photo = Utils.decodeSampledBitmapFromFile(
+					file.getAbsolutePath(), 1000, 700);
 
+			Bitmap rotateBitmap = Utils.rotateBitmap(file.getAbsolutePath(),
+					photo);
+			String currentImageFile = Utils.getRealPathFromURI(
+					Uri.fromFile(file), getActivity());
+			String formatDate = "";
+			String geoLocation = "";
+			GPSTracker tracker = new GPSTracker(getActivity());
+			
+			try {
+				ExifInterface exif = new ExifInterface(currentImageFile);
+				String picDateTime = exif
+						.getAttribute(ExifInterface.TAG_DATETIME);
+				formatDate = Utils.formatDate(picDateTime);
+				GeoLocationCamera geoLocationCamera = new GeoLocationCamera(
+						exif);
+				geoLocation = geoLocationCamera.toString();
+
+				Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
+				Log.i("Android", "geoLocation   :" + geoLocation);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			geoLocation = formatDate + tracker.getLatitude()+";"+tracker.getLongitude();
+			String image_exif = formatDate + "," + geoLocation;
+			ImageObject imageObject = new ImageObject();
+			String generateUniqueID = Utils
+					.generateUniqueID(getActivity());
+			imageObject.setImageId(generateUniqueID);
+			imageObject.setCategory("work");
+			imageObject.setImage_exif(image_exif);
+			imageObject.setImage_string(Utils
+					.bitmapToBase64String(rotateBitmap));			
+			JobViewerDBHandler.saveImage(getActivity(), imageObject);
+			
 		}
 		if (requestCode == Constants.TAP_DA_PHONE_CALL_REQUEST_CODE) {
 			ConfirmDialog confirmDialog = new ConfirmDialog(getActivity(), this, Constants.TAP_DA_PHONE_CALL);
 			confirmDialog.show();
+			
 		}
+		
+		checkAndEnableNextButton();
 	}
 
 	public void openDialog() {
@@ -230,8 +326,18 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		data.put("started_at", checkOutRemember2.getJobStartedTime());
 		data.put("record_for", userProfile.getEmail());
 		data.put("is_inactive", "false");
-		data.put("override_reason", "");
-		data.put("override_comment", "");
+		
+		if(Utils.isNullOrEmpty(Utils.workEndTimeSheetRequest.getOverride_reason())){
+			data.put("override_reason", "");
+		}else{			
+			data.put("override_reason", Utils.workEndTimeSheetRequest.getOverride_reason());
+		}
+		if(Utils.isNullOrEmpty(Utils.workEndTimeSheetRequest.getOverride_comment())){
+			data.put("override_comment", "");
+		} else{
+			data.put("override_comment", Utils.workEndTimeSheetRequest.getOverride_comment());
+		}
+		
 		data.put("override_timestamp",
 				Utils.workEndTimeSheetRequest.getOverride_timestamp());
 		data.put("reference_id", checkOutRemember.getVistecId());
@@ -272,6 +378,9 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		data.put("location_longitude", tracker.getLatitude());
 		data.put("created_by", userProfile.getEmail());
 		Utils.startProgress(getActivity());
+		try{
+			Utils.work_id = checkOutRemember.getWorkId();
+		}catch(Exception e){}
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
 				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, data,
 				getWorkCompletedHandler());
@@ -367,12 +476,103 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 	@Override
 	public void onConfirmStartTraining() {
 		mTapToCallDa.setVisibility(View.GONE);
-		
+		Utils.work_DA_call_out="Call Made";
 	}
 
 	@Override
 	public void onConfirmDismiss() {
 				
+	}
+	
+	private boolean validateUserInputs(){
+		boolean validInputs = true;
+		if(mSpinnerSelectedText.getText().toString().contains("Select")){
+			validInputs = false;
+		}
+		
+		if(mPipeDiameterEditText.getVisibility() == View.VISIBLE){
+			mPipeDiameter = mPipeDiameterEditText.getText().toString();
+			if(Utils.isNullOrEmpty(mPipeDiameter)){
+				mPipeDiameterEditText.setError(this.getResources().getString(R.string.diameterRequired));
+				enableNextButton(false);
+				validInputs = false;
+			}
+		}
+		
+		if( mPipeLengthEditText.getVisibility() == View.VISIBLE){
+			mPipeLength = mPipeLengthEditText.getText().toString();
+			if(Utils.isNullOrEmpty(mPipeLength)){
+				mPipeLengthEditText.setError(this.getResources().getString(R.string.diameterRequired));
+				enableNextButton(false);
+				validInputs = false;
+			}	
+		}
+		
+		if(mSpinnerSelectedFloodedText.getText().toString().contains("Select")){
+			validInputs = false;
+		} else{
+			Utils.work_flooding_status = mSpinnerSelectedFloodedText.getText().toString();
+		}
+		if(!(radioOne.isChecked() || radioTwo.isChecked())){
+			validInputs = false;
+		}
+		return validInputs;
+	}
+
+	@Override
+	public void afterTextChanged(Editable s) {
+		makePipeDiameterAndLengthInvisible();
+		if(mSpinnerSelectedText.getText().toString().contains(this.getResources().getString(R.string.cctv))){
+			updatePipeDiamterAndLength();
+		}
+		
+		if(mSpinnerSelectedText.getText().toString().contains(this.getResources().getString(R.string.line_clean))){
+			updatePipeDiamterAndLength();
+		}
+		
+		if(!mSpinnerSelectedText.getText().toString().contains(this.getResources().getString(R.string.cctv))&&
+				!mSpinnerSelectedText.getText().toString().contains(this.getResources().getString(R.string.line_clean))){
+			makePipeDiameterAndLengthInvisible();
+		}
+	}
+
+	private void makePipeDiameterAndLengthInvisible() {
+		mPipeDiameterEditText.setVisibility(View.GONE);
+		mPipeLengthEditText.setVisibility(View.GONE);
+		checkAndEnableNextButton();
+	}
+
+	private void checkAndEnableNextButton() {
+		if(validateUserInputs()){
+			enableNextButton(true);
+		} else{
+			enableNextButton(false);
+		}
+	}
+
+	private void updatePipeDiamterAndLength() {
+		if(mPipeDiameterEditText.getVisibility()==View.VISIBLE){
+			mPipeDiameter = mPipeDiameterEditText.getText().toString();
+		} else{
+			mPipeDiameterEditText.setVisibility(View.VISIBLE);
+		}
+		if(mPipeLengthEditText.getVisibility()==View.VISIBLE){
+			mPipeLength = mPipeLengthEditText.getText().toString();
+		} else {
+			mPipeLengthEditText.setVisibility(View.VISIBLE);
+		}
+		checkAndEnableNextButton();
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+		
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		
 	}
 
 }
