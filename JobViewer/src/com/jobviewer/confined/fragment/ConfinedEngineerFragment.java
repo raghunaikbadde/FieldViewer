@@ -96,12 +96,15 @@ public class ConfinedEngineerFragment extends Fragment implements
 			if(engineerName1 !=null && engineerName2!=null && engineerName3!=null){
 				top_man_edittext.setText(engineerName1);
 				bottom_man1_edittext.setText(engineerName2);
-				bottom_man2_edittext.setText(engineerName3);			
+				bottom_man2_edittext.setText(engineerName3);
+				enableNextButton(true);
+			} else{
+				enableNextButton(false);
 			}
 			top_man_edittext.addTextChangedListener(this);
 			bottom_man1_edittext.addTextChangedListener(this);
 			bottom_man2_edittext.addTextChangedListener(this);
-			enableNextButton(false);
+			
 		} else {
 			bottom_man3_text.setVisibility(View.VISIBLE);
 			bottom_man3_edittext.setVisibility(View.VISIBLE);
@@ -416,6 +419,8 @@ public class ConfinedEngineerFragment extends Fragment implements
 				&& !Utils.isNullOrEmpty(bottom_man1_edittext.getText().toString())
 				&& !Utils.isNullOrEmpty(bottom_man2_edittext.getText().toString())){
 			enableNextButton(true);
+		} else {
+			enableNextButton(false);
 		}
 		
 	}
