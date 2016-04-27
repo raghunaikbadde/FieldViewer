@@ -5,6 +5,7 @@ import com.jobviewer.provider.JobViewerProviderContract.BackLogTable;
 import com.jobviewer.provider.JobViewerProviderContract.BreakTravelShiftCallTable;
 import com.jobviewer.provider.JobViewerProviderContract.CheckOutRemember;
 import com.jobviewer.provider.JobViewerProviderContract.ConfinedQuestionSetTable;
+import com.jobviewer.provider.JobViewerProviderContract.FlagJSON;
 import com.jobviewer.provider.JobViewerProviderContract.Image;
 import com.jobviewer.provider.JobViewerProviderContract.ImageSendStatusTable;
 import com.jobviewer.provider.JobViewerProviderContract.QuestionSetTable;
@@ -32,6 +33,7 @@ public interface JobViewerSchema {
 	public static final String TABLE_IMAGE_SEND_STATUS = "ImageSendStatusTable";
 	public static final String TABLE_CONFINED_QUESTION_SET = "ConfinedQuestionSetTable";
 	public static final String TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET = "WorkWithNoPhotosQuestionSetTable";
+	public static final String TABLE_FLAG_JSON = "FlagJSON";
 
 	public static final String CREATE_TABLE_USER = "create table " + TABLE_USER
 			+ "(" + User._ID + " integer primary key autoincrement,"
@@ -204,4 +206,9 @@ public interface JobViewerSchema {
 			+ BreakTravelShiftCallTable.WORK_START_TIME
 			+ " text,"
 			+ BreakTravelShiftCallTable.WORK_END_TIME + " text);";
+	
+	public static final String CREATE_TABLE_FLAG_JSON = "create table "
+			+ TABLE_FLAG_JSON + "(" + FlagJSON._ID
+			+ " integer primary key autoincrement,"
+			+ FlagJSON.FLAG_JSON + " text);";
 }

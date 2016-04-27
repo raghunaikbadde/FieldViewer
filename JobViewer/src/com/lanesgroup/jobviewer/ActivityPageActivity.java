@@ -109,6 +109,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		} else {			
 		bundle = getIntent().getExtras();
 		boolean shouldShowWorkInProgress = false;
+		boolean captureVisTecScreen = false;
 		boolean shouldShowWorkInProgressWithNoPhotos = false;
 		if (bundle != null
 				&& bundle.containsKey(Utils.SHOULD_SHOW_WORK_IN_PROGRESS)) {
@@ -120,6 +121,18 @@ public class ActivityPageActivity extends BaseActivity implements
 			shouldShowWorkInProgressWithNoPhotos = bundle
 					.getBoolean(Constants.WORK_NO_PHOTOS_HOME);
 		}
+		if(bundle!=null && bundle.containsKey(Constants.CAPTURE_VISTEC_SCREEN)){
+			captureVisTecScreen = true;
+			
+			CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(this);
+			if(!Utils.isNullOrEmpty(checkOutObject.getVistecId())){
+				mStart.setText("Continue Work In Progress");
+				mStart.setTag("captureVisTecScreen");
+				return;
+			}
+			
+		}
+		
 		SurveyJson WorkWithNoPhotosSurveryJSON = JobViewerDBHandler.getWorkWithNoPhotosQuestionSet(this);
 		SurveyJson questionSet = JobViewerDBHandler.getQuestionSet(mContext);
 		if (questionSet != null
@@ -133,6 +146,9 @@ public class ActivityPageActivity extends BaseActivity implements
 			mStart.setText(getResources().getString(R.string.work_in_progree_str));
 			mStart.setTag(getResources().getString(R.string.work_in_progree_str)+Constants.WORK_NO_PHOTOS_HOME);
 			this.registerForContextMenu(mStart);
+		} else if(captureVisTecScreen){
+			mStart.setText("Continue Work In Progress");
+			mStart.setTag("captureVisTecScreen");
 		} else {
 			mStart.setText(getResources().getString(R.string.start_text));
 			mStart.setTag(getResources().getString(R.string.start_text));
@@ -242,7 +258,10 @@ public class ActivityPageActivity extends BaseActivity implements
 					Intent riskAssIntent = new Intent(mContext,
 							QuestionsActivity.class);
 					startActivity(riskAssIntent);
-				} else if (!Utils.isNullOrEmpty(checkOutRemember
+				} else if(mStart.getTag().toString().contains("captureVistecScreen")){
+					Intent vistecIntent = new Intent(this,CaptureVistecActivity.class);
+					startActivity(vistecIntent);
+				}else if (!Utils.isNullOrEmpty(checkOutRemember
 						.getAssessmentSelected())) {
 					Intent riskAssIntent = new Intent(mContext,
 							RiskAssessmentActivity.class);

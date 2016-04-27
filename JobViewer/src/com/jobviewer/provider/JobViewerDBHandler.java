@@ -858,4 +858,27 @@ public class JobViewerDBHandler {
 
 	}
 
+	public static void saveFlaginJSONObject(Context context, String jsonString){
+		ContentValues values = new ContentValues();
+		values.put(JobViewerProviderContract.FlagJSON.FLAG_JSON,
+				jsonString);
+		
+		context.getContentResolver().insert(
+				JobViewerProviderContract.FlagJSON.CONTENT_URI,
+				values);
+	}
+	
+	public static String getJSONFlagObject(Context context){
+		Cursor cursor = context.getContentResolver().query(
+				JobViewerProviderContract.FlagJSON.CONTENT_URI, null, null, null,
+				null);
+		String jsonStr = "{}";
+		if(cursor!=null && cursor.moveToFirst()){
+			
+			jsonStr = cursor.getString(1);
+		}
+		return jsonStr;
+	}
+	
+	
 }

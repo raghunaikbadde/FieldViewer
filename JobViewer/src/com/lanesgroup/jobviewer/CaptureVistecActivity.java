@@ -198,4 +198,11 @@ public class CaptureVistecActivity extends BaseActivity implements
 		return handler;
 	}
 	
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(this,ActivityPageActivity.class);
+		intent.putExtra(Constants.CAPTURE_VISTEC_SCREEN, Constants.CAPTURE_VISTEC_SCREEN);
+		startActivity(intent);
+	}
+	
 }

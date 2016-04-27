@@ -27,6 +27,7 @@ public class Constants {
 	public static final String POLLUTION_CONFIRMATION = "pollutionConfirmation";
 	public static final String WORK_NO_PHOTOS_CONFIRMATION = "WORK_NO_PHOTOS_CONFIRMATION";
 	public static final String WORK_NO_PHOTOS = "WORK_NO_PHOTOS";
+	public static final String CAPTURE_VISTEC_SCREEN = "CAPTURE_VISTEC_SCREEN";
 	public static final String WORK_NO_PHOTOS_HOME = "WORK_NO_PHOTOS_HOME";
 	public static final int TAP_DA_PHONE_CALL_REQUEST_CODE = 1005;
 	public static final String TAP_DA_PHONE_CALL = "TAP_DA_PHONE_CALL";

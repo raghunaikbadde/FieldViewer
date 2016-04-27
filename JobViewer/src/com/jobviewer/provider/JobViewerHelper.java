@@ -26,6 +26,7 @@ public class JobViewerHelper extends SQLiteOpenHelper {
 		db.execSQL(JobViewerSchema.CREATE_TABLE_IMAGE_SEND_STATUS);
 		db.execSQL(JobViewerSchema.CREATE_TABLE_CONFINED_QUESTION_SET);
 		db.execSQL(JobViewerSchema.CREATE_TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET);
+		db.execSQL(JobViewerSchema.CREATE_TABLE_FLAG_JSON);
 	}
 
 	@Override
