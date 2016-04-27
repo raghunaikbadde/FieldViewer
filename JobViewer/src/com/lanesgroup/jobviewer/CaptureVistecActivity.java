@@ -3,6 +3,8 @@ package com.lanesgroup.jobviewer;
 import java.io.File;
 import java.io.IOException;
 
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -176,6 +178,19 @@ public class CaptureVistecActivity extends BaseActivity implements
 					}catch (Exception e) {
 						
 					}
+					String str = JobViewerDBHandler.getJSONFlagObject(getApplicationContext());
+					if(Utils.isNullOrEmpty(str)){
+						str = "{}";
+					}
+					try{
+						JSONObject jsonObject = new JSONObject(str);
+						jsonObject.put(Constants.CAPTURE_VISTEC_SCREEN, false);
+						String jsonString = jsonObject.toString();
+						JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(), jsonString);
+					}catch(Exception e){
+						
+					}
+					
 					Intent intent = new Intent(CaptureVistecActivity.this,
 							RiskAssessmentActivity.class);
 					startActivity(intent);
@@ -200,6 +215,21 @@ public class CaptureVistecActivity extends BaseActivity implements
 	
 	@Override
 	public void onBackPressed() {
+		String str = JobViewerDBHandler.getJSONFlagObject(this);
+		if(Utils.isNullOrEmpty(str)){
+			str = "{}";
+		}
+			try{
+				JSONObject jsonObject = new JSONObject(str);
+				jsonObject.put(Constants.CAPTURE_VISTEC_SCREEN, true);
+				String jsonString = jsonObject.toString();
+				JobViewerDBHandler.saveFlaginJSONObject(this, jsonString);
+			}catch(Exception e){
+				
+			}
+		
+		
+		
 		Intent intent = new Intent(this,ActivityPageActivity.class);
 		intent.putExtra(Constants.CAPTURE_VISTEC_SCREEN, Constants.CAPTURE_VISTEC_SCREEN);
 		startActivity(intent);

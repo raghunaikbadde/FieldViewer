@@ -4,6 +4,8 @@ package com.lanesgroup.jobviewer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -109,7 +111,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		} else {			
 		bundle = getIntent().getExtras();
 		boolean shouldShowWorkInProgress = false;
-		boolean captureVisTecScreen = false;
+		
 		boolean shouldShowWorkInProgressWithNoPhotos = false;
 		if (bundle != null
 				&& bundle.containsKey(Utils.SHOULD_SHOW_WORK_IN_PROGRESS)) {
@@ -121,17 +123,9 @@ public class ActivityPageActivity extends BaseActivity implements
 			shouldShowWorkInProgressWithNoPhotos = bundle
 					.getBoolean(Constants.WORK_NO_PHOTOS_HOME);
 		}
-		if(bundle!=null && bundle.containsKey(Constants.CAPTURE_VISTEC_SCREEN)){
-			captureVisTecScreen = true;
-			
-			CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(this);
-			if(!Utils.isNullOrEmpty(checkOutObject.getVistecId())){
-				mStart.setText("Continue Work In Progress");
-				mStart.setTag("captureVisTecScreen");
-				return;
-			}
-			
-		}
+		
+		
+		
 		
 		SurveyJson WorkWithNoPhotosSurveryJSON = JobViewerDBHandler.getWorkWithNoPhotosQuestionSet(this);
 		SurveyJson questionSet = JobViewerDBHandler.getQuestionSet(mContext);
@@ -146,9 +140,6 @@ public class ActivityPageActivity extends BaseActivity implements
 			mStart.setText(getResources().getString(R.string.work_in_progree_str));
 			mStart.setTag(getResources().getString(R.string.work_in_progree_str)+Constants.WORK_NO_PHOTOS_HOME);
 			this.registerForContextMenu(mStart);
-		} else if(captureVisTecScreen){
-			mStart.setText("Continue Work In Progress");
-			mStart.setTag("captureVisTecScreen");
 		} else {
 			mStart.setText(getResources().getString(R.string.start_text));
 			mStart.setTag(getResources().getString(R.string.start_text));
@@ -158,6 +149,20 @@ public class ActivityPageActivity extends BaseActivity implements
 		
 		if(Utils.checkOutObject.getJobSelected().equalsIgnoreCase(ActivityConstants.JOB_SELECTED_SHIFT)){
 			mStartTravel.setText(getResources().getString(R.string.start_break));
+		}
+		
+		String flagStr = JobViewerDBHandler.getJSONFlagObject(this);
+		try{
+			JSONObject jsonObject = new JSONObject(flagStr);
+			if(jsonObject.has(Constants.CAPTURE_VISTEC_SCREEN)){
+				if(jsonObject.getBoolean(Constants.CAPTURE_VISTEC_SCREEN)){				
+					mStart.setText("Continue Work In Progress");					
+					mStart.setTag("captureVisTecScreen");
+					return;
+				}
+			}
+		}catch(Exception e){
+			
 		}
 	}
 
@@ -224,6 +229,21 @@ public class ActivityPageActivity extends BaseActivity implements
 		Intent intent = new Intent();
 		if (view == mStart) {
 			String tag = (String) mStart.getTag();
+			String flagStr = JobViewerDBHandler.getJSONFlagObject(this);
+			try{
+				JSONObject jsonObject = new JSONObject(flagStr);
+				if(jsonObject.has(Constants.CAPTURE_VISTEC_SCREEN)){
+					if(jsonObject.getBoolean(Constants.CAPTURE_VISTEC_SCREEN)){
+						Intent vistecIntent = new Intent(this,CaptureVistecActivity.class);
+						startActivity(vistecIntent);
+						return;
+						}
+					}
+			}catch(Exception e){
+				
+				
+			}
+			
 			if ("Continue Work In Progress".equalsIgnoreCase(tag)) {
 				CheckOutObject checkOutRemember = JobViewerDBHandler
 						.getCheckOutRemember(mContext);

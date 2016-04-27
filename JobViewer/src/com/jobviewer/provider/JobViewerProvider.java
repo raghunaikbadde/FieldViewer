@@ -81,6 +81,8 @@ public class JobViewerProvider extends ContentProvider {
 				"ConfinedQuestionSetTable", TABLE_CONFINED_QUESTION_SET);
 		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY,
 				"WorkWithNoPhotosQuestionSetTable", TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET);
+		URI_MATCHER.addURI(JobViewerProviderContract.AUTHORITY,
+				"FlagJSON", TABLE_FLAG_JSON);
 	}
 
 	// system calls onCreate() when it starts up the provider.
