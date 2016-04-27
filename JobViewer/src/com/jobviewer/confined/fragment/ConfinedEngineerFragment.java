@@ -413,8 +413,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 		if(!Utils.isNullOrEmpty(top_man_edittext.getText().toString()) 
-				&& !Utils.isNullOrEmpty(bottom_man1_edittext.getText().toString())
-				&& !Utils.isNullOrEmpty(bottom_man2_edittext.getText().toString())){
+				&& !Utils.isNullOrEmpty(bottom_man1_edittext.getText().toString())){
 			enableNextButton(true);
 		}
 		

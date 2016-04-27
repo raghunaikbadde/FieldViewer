@@ -172,9 +172,9 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			startActivity(intent);
 		} else if (view == mLeaveSite) {
 			Utils.startProgress(mContext);
-			
+						
 			for(ImageObject imageObject : imageObjects){
-				JobViewerDBHandler.saveImage(AddPhotosActivity.this, imageObject);
+				JobViewerDBHandler.saveAddPhotoImage(AddPhotosActivity.this, imageObject);
 			}
 			
 			if(sendWorkUploadImagesToServer()){
@@ -261,11 +261,8 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			HashMap<String, Object> hashMap = new HashMap<String, Object>();
 			
 			hashMap.put("time", formatDate);
-			mPhotoList.add(hashMap);
-			mAdapter.notifyDataSetChanged();
-			if (mPhotoList.size() >= 4) {
-				enableLeaveSiteButton(true);
-			}
+
+			
 			String base64 = "";
 			try{
 				base64 = Utils.bitmapToBase64String(rotateBitmap);
@@ -282,6 +279,11 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 				}
 			}
 			hashMap.put("photo", Utils.getbyteArrayFromBase64String(base64));
+			mPhotoList.add(hashMap);
+			mAdapter.notifyDataSetChanged();
+			if (mPhotoList.size() >= 4) {
+				enableLeaveSiteButton(true);
+			}
 			ImageObject imageObject = new ImageObject();
 			String generateUniqueID = Utils.generateUniqueID(this);
 			imageObject.setImageId(generateUniqueID);
@@ -422,5 +424,25 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 						.findViewById(R.id.captured_image1);
 			}
 		}
+	}
+	
+	@Override
+	public void onBackPressed() {
+
+		Utils.startProgress(this);
+		for (ImageObject imageObjectToSave : imageObjects) {
+			if(imageObjectToSave == null || Utils.isNullOrEmpty(imageObjectToSave.getImage_string())){
+				continue;
+			}
+			JobViewerDBHandler.saveAddPhotoImage(mContext,
+					imageObjectToSave);
+		}
+		
+		Intent intent = new Intent(this, ActivityPageActivity.class);
+		intent.putExtra(Utils.SHOULD_SHOW_WORK_IN_PROGRESS, true);
+		intent.putExtra(Utils.CALLING_ACTIVITY,
+				ActivityConstants.ADD_PHOTOS_ACTIVITY);
+		Utils.StopProgress();
+		startActivity(intent);		
 	}
 }

@@ -574,7 +574,7 @@ public class JobViewerDBHandler {
 				.getContentResolver()
 				.query(JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI,
 						null, null, null, null);
-		if (cursor != null && cursor.moveToFirst()) {
+		if (cursor != null && cursor.moveToFirst() && cursor.getCount()>0) {
 			do {
 				ImageObject imageObject = new ImageObject();
 				imageObject

@@ -137,7 +137,7 @@ public interface JobViewerSchema {
 	public static final String CREATE_TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = "create table "
 			+ TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES
 			+ "("
-			+ QuestionSetTable._ID
+			+ AddPhotosScreenSavedImages._ID
 			+ " integer primary key autoincrement,"
 			+ AddPhotosScreenSavedImages.IMAGE_ID
 			+ " text,"
