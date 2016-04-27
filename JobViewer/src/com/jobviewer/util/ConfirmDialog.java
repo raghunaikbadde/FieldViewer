@@ -2,6 +2,7 @@ package com.jobviewer.util;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -9,6 +10,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.provider.JobViewerDBHandler;
 import com.lanesgroup.jobviewer.R;
 
 public class ConfirmDialog extends Dialog implements OnClickListener {
@@ -42,6 +45,17 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		mHeader = (TextView) findViewById(R.id.dialog_header);
 		mHeader.setText(Constants.END_TRAINING_HEADER);
 		mMessage = (TextView) findViewById(R.id.cofirmation_msg_text);
+		String vistecId = "";
+		CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(context);
+		if(checkOutObject!=null && Utils.isNullOrEmpty(checkOutObject.getVistecId())){
+			vistecId = checkOutObject.getVistecId();
+		}
+		Log.d(Utils.LOG_TAG, "vistecId "+vistecId);
+		if(Utils.isNullOrEmpty(vistecId)){
+			Log.d(Utils.LOG_TAG, "confirm dialog utils vistecId "+vistecId);
+			vistecId = Utils.checkOutObject.getVistecId();
+		}
+		Log.d(Utils.LOG_TAG, "vistecId "+vistecId);
 		if(this.eventType.equalsIgnoreCase(Constants.START_TRAINING)){
 			mMessage.setText(Constants.START_TRAINING_MESSAGE);
 		} else if(this.eventType.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)){
@@ -51,7 +65,7 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 			mMessage.setText(context.getResources().getString(R.string.workWithNoPhotosConfirmation));
 			mHeader.setText(context.getResources().getString(R.string.confirm));
 		} else if(this.eventType.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)){
-			mMessage.setText(context.getResources().getString(R.string.workEndConfirmationMsg));
+			mMessage.setText(context.getResources().getString(R.string.workEndConfirmationMsg)+" "+vistecId);
 			mHeader.setText(context.getResources().getString(R.string.workEndConfirmation));
 		} else if(this.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)){
 			mMessage.setText(context.getResources().getString(R.string.DACallConfimrationMsg));
@@ -79,6 +93,18 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		mHeader = (TextView) findViewById(R.id.dialog_header);
 		mHeader.setText(Constants.END_TRAINING_HEADER);
 		mMessage = (TextView) findViewById(R.id.cofirmation_msg_text);
+		
+		String vistecId = "";
+		CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(context);
+		if(checkOutObject!=null && Utils.isNullOrEmpty(checkOutObject.getVistecId())){
+			vistecId = checkOutObject.getVistecId();			
+		}
+		Log.d(Utils.LOG_TAG, "vistecId "+vistecId);
+		if(Utils.isNullOrEmpty(vistecId)){
+			Log.d(Utils.LOG_TAG, "confirm dialog utils vistecId "+vistecId);
+			vistecId = Utils.checkOutObject.getVistecId();
+		}
+		Log.d(Utils.LOG_TAG, "vistecId "+vistecId);
 		if(this.eventType.equalsIgnoreCase(Constants.START_TRAINING)){
 			mMessage.setText(Constants.START_TRAINING_MESSAGE);
 		} else if(this.eventType.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)){
@@ -88,7 +114,7 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 			mMessage.setText(context.getResources().getString(R.string.workWithNoPhotosConfirmation));
 			mHeader.setText(context.getResources().getString(R.string.confirm));
 		}  else if(this.eventType.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)){
-			mMessage.setText(context.getResources().getString(R.string.workEndConfirmationMsg));
+			mMessage.setText(context.getResources().getString(R.string.workEndConfirmationMsg)+" "+vistecId);
 			mHeader.setText(context.getResources().getString(R.string.workEndConfirmation));
 		} else if(this.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)){
 			mMessage.setText(context.getResources().getString(R.string.DACallConfimrationMsg));
