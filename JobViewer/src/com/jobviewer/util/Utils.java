@@ -769,4 +769,16 @@ public class Utils {
 		};
 		return handler;
 	}
+	
+	public static String getGeoLocationString(Context context){
+		String geoLocation = "";
+		GPSTracker gpsTracker = new GPSTracker(context);
+		Double lat = gpsTracker.getLatitude();
+		Double lon = gpsTracker.getLongitude();
+		if(lat!=null && lon !=null && lat != 0.0 && lon != 0.0){
+			geoLocation = String.valueOf(lat) +";"+String.valueOf(lon);	
+		}
+		Log.d(Utils.LOG_TAG," getGeoLocationString "+geoLocation);
+		return geoLocation;
+	}
 }

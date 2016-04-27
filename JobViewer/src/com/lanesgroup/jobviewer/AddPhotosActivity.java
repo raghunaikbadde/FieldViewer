@@ -58,6 +58,8 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	private Button mSave, mLeaveSite;
 	private ListView mListView;
 	private ArrayList<HashMap<String, Object>> mPhotoList;
+	private ArrayList<byte[]> photosArrays = new ArrayList<byte[]>();
+	private ArrayList<String> photosTimeStamp = new ArrayList<String>();
 	private ArrayList<ImageObject> imageObjects;
 	private AddPhotosAdapter mAdapter;
 	private Context mContext;
@@ -109,8 +111,8 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mVistecNumber = (TextView) findViewById(R.id.vistec_number_text);
 		CheckOutObject checkOutObject = JobViewerDBHandler
 				.getCheckOutRemember(AddPhotosActivity.this);
-		String visTecId = checkOutObject.getVistecId();
-		mVistecNumber.setText(visTecId);
+		//String visTecId = checkOutObject.getVistecId();
+		//mVistecNumber.setText(visTecId);
 
 		mUpdateRiskActivity = (ImageButton) findViewById(R.id.video_imageButton);
 		mUpdateRiskActivity.setOnClickListener(this);
@@ -124,7 +126,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mSave.setOnClickListener(this);
 		mCaptureCallingCard.setOnClickListener(this);
 
-		if (mPhotoList.size() >= 4) {
+		if (photosArrays.size() >= 4) {
 			enableLeaveSiteButton(true);
 		} else {
 			enableLeaveSiteButton(false);
@@ -134,17 +136,19 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		for (ImageObject imageObject : imageObjects) {
 			byte[] decodedString = Base64.decode(imageObject.getImage_string(),
 					Base64.DEFAULT);
-			Bitmap bitmapOfSafeZone = BitmapFactory.decodeByteArray(
+			/*Bitmap bitmapOfSafeZone = BitmapFactory.decodeByteArray(
 					decodedString, 0, decodedString.length);
 			hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
 			hashMapOfSafeZoneBitmap.put("photo", bitmapOfSafeZone);
 			hashMapOfSafeZoneBitmap.put("time",
 					imageObject.getImage_exif());
-			mPhotoList.add(hashMapOfSafeZoneBitmap);
+			mPhotoList.add(hashMapOfSafeZoneBitmap);*/
+			photosTimeStamp.add(imageObject.getImage_exif());
+			photosArrays.add(decodedString);
 			count++;
 		}
 
-		mAdapter = new AddPhotosAdapter(mContext, mPhotoList);
+		mAdapter = new AddPhotosAdapter(mContext, photosArrays, photosTimeStamp);
 		mListView.setAdapter(mAdapter);
 	}
 
@@ -258,30 +262,29 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			HashMap<String, Object> hashMap = new HashMap<String, Object>();
 			
-			hashMap.put("time", formatDate);
-
-			
+			geoLocation = Utils.getGeoLocationString(this);
 			String base64 = "";
 			try{
 				base64 = Utils.bitmapToBase64String(rotateBitmap);
+				Log.d(Utils.LOG_TAG, "base 64 captured first time");
 			}catch(OutOfMemoryError oome){
 				try{
 				 	ByteArrayOutputStream baos=new  ByteArrayOutputStream();
 				 	rotateBitmap.compress(Bitmap.CompressFormat.JPEG,10, baos);
 	                byte[] b =baos.toByteArray();
-	                
 	                base64=Base64.encodeToString(b, Base64.DEFAULT);
 	                Log.e(Utils.LOG_TAG, "Out of memory error catched");
 				}catch(OutOfMemoryError oomme){
-					
+					Log.e(Utils.LOG_TAG, "Out of memory error catched seocnd time");
 				}
 			}
-			hashMap.put("photo", Utils.getbyteArrayFromBase64String(base64));
-			mPhotoList.add(hashMap);
+			photosArrays.add(Utils.getbyteArrayFromBase64String(base64));
+			photosTimeStamp.add(formatDate + "," + geoLocation);
+			Log.d(Utils.LOG_TAG, "Add photo activity no. of photos "+mPhotoList.size());
+			
 			mAdapter.notifyDataSetChanged();
-			if (mPhotoList.size() >= 4) {
+			if (photosArrays.size() >= 4) {
 				enableLeaveSiteButton(true);
 			}
 			ImageObject imageObject = new ImageObject();
@@ -301,9 +304,11 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	private void enableLeaveSiteButton(boolean isEnable) {
 		if (isEnable) {
 			mLeaveSite.setEnabled(true);
+			mLeaveSite.setOnClickListener(this);
 			mLeaveSite.setBackgroundResource(R.drawable.red_background);
 		} else {
 			mLeaveSite.setEnabled(false);
+			mLeaveSite.setOnClickListener(null);
 			mLeaveSite.setBackgroundResource(R.drawable.dark_grey_background);
 		}
 
@@ -363,22 +368,24 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	private class AddPhotosAdapter extends BaseAdapter {
 		Context mContext;
 		ArrayList<HashMap<String, Object>> hashMapOfCapturedIamges;
-
+		ArrayList<byte[]> photosArrays;
+		ArrayList<String> photosTimeStamp;
 		public AddPhotosAdapter(Context mContext,
-				ArrayList<HashMap<String, Object>> hashMapOfCapturedIamges) {
+				ArrayList<byte[]> photos, ArrayList<String> timeStamps) {
 			this.mContext = mContext;
-			this.hashMapOfCapturedIamges = hashMapOfCapturedIamges;
+			this.photosArrays = photos;
+			this.photosTimeStamp = timeStamps;
 		}
 
 		@Override
 		public int getCount() {
-			mSave.setText("Save(" + hashMapOfCapturedIamges.size() + ")");
-			return hashMapOfCapturedIamges.size();
+			mSave.setText("Save(" + photosArrays.size() + ")");
+			return photosArrays.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			return hashMapOfCapturedIamges.get(position);
+			return photosArrays.get(position);
 		}
 
 		@Override
@@ -392,19 +399,15 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 				convertView = getLayoutInflater().inflate(
 						R.layout.add_photo_list, null);
 				ViewHolder vh = new ViewHolder(convertView);
-				vh.dateTime.setText(hashMapOfCapturedIamges.get(position)
-						.get("time").toString());
-				Glide.with(mContext).load(hashMapOfCapturedIamges
-						.get(position).get("photo")).asBitmap().into(vh.imageView);
+				vh.dateTime.setText(photosTimeStamp.get(position));
+				Glide.with(mContext).load(photosArrays.get(position)).asBitmap().into(vh.imageView);
 				/*vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
 						.get(position).get("photo"));*/
 				convertView.setTag(vh);
 			} else {
 				ViewHolder vh = (ViewHolder) convertView.getTag();
-				vh.dateTime.setText(hashMapOfCapturedIamges.get(position)
-						.get("time").toString());
-				Glide.with(mContext).load(hashMapOfCapturedIamges
-						.get(position).get("photo")).asBitmap().into(vh.imageView);
+				vh.dateTime.setText(photosTimeStamp.get(position));
+				Glide.with(mContext).load(photosArrays.get(position)).asBitmap().into(vh.imageView);
 				/*vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
 						.get(position).get("photo"));*/
 				convertView.setTag(vh);

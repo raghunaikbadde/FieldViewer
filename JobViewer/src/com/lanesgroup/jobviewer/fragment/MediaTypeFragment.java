@@ -310,7 +310,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			geoLocation = Utils.getGeoLocationString(getActivity());
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 				if (Utils.isNullOrEmpty(currentScreen.getImages()[i]
 						.getTemp_id())) {

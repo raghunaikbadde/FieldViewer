@@ -43,6 +43,7 @@ import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.ImageUploadResponse;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
@@ -64,7 +65,8 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements OnClickLi
 	static File file;
 	CheckOutObject checkOutRemember;
 	LinearLayout linearLayout;
-
+	
+	private String geoLocationOfUser;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -80,6 +82,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements OnClickLi
 		removePhoneKeypad();
 		initUI();
 		updateData();
+		geoLocationOfUser = Utils.getGeoLocationString(getActivity());
 		return mRootView;
 	}
 	
@@ -365,7 +368,8 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements OnClickLi
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			geoLocation = Utils.getGeoLocationString(getActivity());
+			
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 				if (Utils.isNullOrEmpty(currentScreen.getImages()[i]
 						.getTemp_id())) {

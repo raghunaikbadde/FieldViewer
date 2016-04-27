@@ -120,7 +120,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 				GeoLocationCamera geoLocationCamera = new GeoLocationCamera(
 						exif);
 				geoLocation = geoLocationCamera.toString();
-
+				geoLocation = Utils.getGeoLocationString(this);
 				Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
 				Log.i("Android", "geoLocation   :" + geoLocation);
 				mImage_exif_string = formatDate + ";"+geoLocation;
@@ -130,6 +130,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 			ImageObject imageObject = new ImageObject();
 			String generateUniqueID = Utils.generateUniqueID(this);
 			imageObject.setImageId(generateUniqueID);

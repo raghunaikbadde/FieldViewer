@@ -826,6 +826,7 @@ public class PollutionActivity extends BaseActivity implements
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		geoLocation = Utils.getGeoLocationString(this);
 		String image_exif = formatDate + "," + geoLocation;
 		imageObject.setImage_string(Utils.bitmapToBase64String(rotateBitmap));
 		imageObject.setImage_exif(image_exif);			
