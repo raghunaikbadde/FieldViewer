@@ -305,6 +305,11 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 	
 	private void insertCallStartTimeIntoHoursCalculator() {
 		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(ClockInConfirmationActivity.this);
+		
+		if(breakShiftTravelCall == null){
+			breakShiftTravelCall = new BreakShiftTravelCall();
+		}
+		
 		breakShiftTravelCall.setCallStartTime(String.valueOf(System.currentTimeMillis()));
 		JobViewerDBHandler.saveBreakShiftTravelCall(ClockInConfirmationActivity.this, breakShiftTravelCall);
 	}
