@@ -57,6 +57,7 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 			CheckOutObject checkOutRemember = JobViewerDBHandler
 					.getCheckOutRemember(mContext);
 			checkOutRemember.setIsStartedTravel("true");
+			checkOutRemember.setTravelStartedTime(Utils.startTravelTimeRequest.getStarted_at());
 			JobViewerDBHandler.saveCheckOutRemember(mContext, checkOutRemember);
 			Intent intent = new Intent(TravelToWorkSiteActivity.this,
 					EndTravelActivity.class);

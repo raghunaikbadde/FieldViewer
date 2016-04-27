@@ -26,6 +26,8 @@ public class CommsConstant {
 	public static String WORK_UPDATE_API = "api/v1/works/update"; 	
 	public static String SURVEY_PHOTO_UPLOAD="api/v1/image/upload";
 	public static String POLLUTION_REPORT_UPLOAD="api/v1/pollution/store";
+	public static String SYNC_API="api/v1/sync";
+	public static String SURVEY_STORE_API="api/v1/surveys/store";
 	
 
 }

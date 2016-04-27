@@ -39,7 +39,6 @@ public class ConfinedEngineerFragment extends Fragment implements
 			bottom_man3_edittext;
 	Button saveBtn, nextBtn;
 	public static String engineerName1,engineerName2,engineerName3;
-	public static String gasMonitorReading1,gasMonitorReading2,gasMonitorReading3,gasMonitorReading4;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -97,24 +96,15 @@ public class ConfinedEngineerFragment extends Fragment implements
 			if(engineerName1 !=null && engineerName2!=null && engineerName3!=null){
 				top_man_edittext.setText(engineerName1);
 				bottom_man1_edittext.setText(engineerName2);
-				bottom_man2_edittext.setText(engineerName3);
-				enableNextButton(true);
-			} else{
-				enableNextButton(false);
+				bottom_man2_edittext.setText(engineerName3);			
 			}
 			top_man_edittext.addTextChangedListener(this);
 			bottom_man1_edittext.addTextChangedListener(this);
 			bottom_man2_edittext.addTextChangedListener(this);
-			
+			enableNextButton(false);
 		} else {
 			bottom_man3_text.setVisibility(View.VISIBLE);
 			bottom_man3_edittext.setVisibility(View.VISIBLE);
-			if(gasMonitorReading1 !=null && gasMonitorReading2!=null && gasMonitorReading3!=null && gasMonitorReading4!=null){
-				top_man_edittext.setText(gasMonitorReading1);
-				bottom_man1_edittext.setText(gasMonitorReading2);
-				bottom_man2_edittext.setText(gasMonitorReading3);
-				bottom_man3_edittext.setText(gasMonitorReading4);				
-			} 
 			enableNextButton(true);
 		}
 		setDataInEditText();
@@ -208,7 +198,6 @@ public class ConfinedEngineerFragment extends Fragment implements
 			if (validUserInputs()) {
 				setAnswerForInputs();
 				saveEngineerNames();
-				
 				try{  
 					 View view = getActivity().getCurrentFocus();
 					 if(view!=null){
@@ -238,21 +227,11 @@ public class ConfinedEngineerFragment extends Fragment implements
 	}
 
 	private void saveEngineerNames() {
-		if (currentScreen.getInputs().length < 4) {
 		engineerName1 = top_man_edittext.getText().toString();
 		engineerName2 = bottom_man1_edittext.getText().toString();
 		engineerName3 = bottom_man2_edittext.getText().toString();
-		}
 	}
 
-	private void saveGasMonitorReadings(){
-		if (currentScreen.getInputs().length >= 4) {
-			gasMonitorReading1 = top_man_edittext.getText().toString();
-			gasMonitorReading2 = bottom_man1_edittext.getText().toString();
-			gasMonitorReading3 = bottom_man2_edittext.getText().toString();
-			gasMonitorReading4 = bottom_man3_edittext.getText().toString();
-		}
-	}
 	private void setAnswerForInputs() {
 		for (int i = 0; i < currentScreen.getInputs().length; i++) {
 			if (i == 0) {
@@ -418,7 +397,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 		}catch(Exception e){
 			
 		}
-		saveGasMonitorReadings();
+		
 		ConfinedQuestionManager.getInstance()
 		.updateScreenOnQuestionMaster(currentScreen);
 		ConfinedQuestionManager.getInstance().loadNextFragment(ActivityConstants.STOP_SCREEN);
@@ -437,8 +416,6 @@ public class ConfinedEngineerFragment extends Fragment implements
 				&& !Utils.isNullOrEmpty(bottom_man1_edittext.getText().toString())
 				&& !Utils.isNullOrEmpty(bottom_man2_edittext.getText().toString())){
 			enableNextButton(true);
-		} else {
-			enableNextButton(false);
 		}
 		
 	}

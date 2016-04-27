@@ -123,9 +123,10 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 			if (!Utils.isNullOrEmpty(image_string)) {
 				ImageObject imageById = JobViewerDBHandler.getImageById(
 						getActivity(), image_string);
+				String base4String = imageById.getImage_string().replace(
+						Constants.IMAGE_STRING_INITIAL, "");
 				byte[] getbyteArrayFromBase64String = Utils
-						.getbyteArrayFromBase64String(imageById
-								.getImage_string());
+						.getbyteArrayFromBase64String(base4String);
 				loadImages(getbyteArrayFromBase64String);
 			}
 		}
@@ -281,15 +282,15 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 						checkOutRemember2.getVistecId());
 			values.put("started_at", ShoutOutActivity.getStartedAt());
 			values.put("completed_at", Utils.getCurrentDateAndTime());
-			values.put("survey_json", obj.getQuestionSet());
+
 			values.put("created_by", userProfile.getEmail());
 			values.put("status", "Completed");
 			GPSTracker gpsTracker = new GPSTracker(getActivity());
 			values.put("location_latitude", gpsTracker.getLatitude());
 			values.put("location_longitude", gpsTracker.getLongitude());
-
+			values.put("survey_json", obj.getQuestionSet());
 			Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-					+ CommsConstant.WORK_CREATE_API, values,
+					+ CommsConstant.SURVEY_STORE_API, values,
 					getSendSurveyHandler());
 		} else {
 			saveInBackLog(obj);
@@ -319,7 +320,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 				+ gpsTracker.getLongitude());
 		BackLogRequest backLogRequest = new BackLogRequest();
 		backLogRequest.setRequestApi(CommsConstant.HOST
-				+ CommsConstant.WORK_CREATE_API);
+				+ CommsConstant.SURVEY_STORE_API);
 		backLogRequest.setRequestClassName("ShoutOutBackLogRequest");
 		backLogRequest.setRequestJson(GsonConverter.getInstance()
 				.encodeToJsonString(shoutOutBackLogRequest));

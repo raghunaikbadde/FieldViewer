@@ -150,11 +150,6 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 					ConfinedEngineerFragment.engineerName1 = null;
 					ConfinedEngineerFragment.engineerName2 = null;
 					ConfinedEngineerFragment.engineerName3 = null;
-					
-					ConfinedEngineerFragment.gasMonitorReading1 = null;
-					ConfinedEngineerFragment.gasMonitorReading2 = null;
-					ConfinedEngineerFragment.gasMonitorReading3 = null;
-					ConfinedEngineerFragment.gasMonitorReading4 = null;
 					getActivity().finish();
 					Log.i("Android", "");
 					break;

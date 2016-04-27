@@ -1,7 +1,5 @@
 package com.jobviewer.network;
 
-import com.jobviewer.util.Utils;
-
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -34,7 +32,12 @@ public class SendImageService extends Service {
 
 			@Override
 			public void run() {
-				//Utils.sendImagesToserver(getApplicationContext());
+				SyncAllData syncAllData=new SyncAllData();
+				syncAllData.sendAllData(getApplicationContext());
+				SendImagesOnBackground sendImagesOnBackground = new SendImagesOnBackground();
+				sendImagesOnBackground
+						.getAndSendImagesToServer(getApplicationContext());
+				// Utils.sendImagesToserver(getApplicationContext());
 				Log.i("Andriod", "Service Started");
 			}
 		});

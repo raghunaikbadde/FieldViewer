@@ -349,6 +349,9 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 	
 	private void insertWorkStartTimeIntoHoursCalculator() {
 		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(NewWorkActivity.this);
+		if (breakShiftTravelCall==null) {
+			breakShiftTravelCall=new BreakShiftTravelCall();
+		}
 		breakShiftTravelCall.setWorkStartTime(String.valueOf(System.currentTimeMillis()));
 		JobViewerDBHandler.saveBreakShiftTravelCall(NewWorkActivity.this, breakShiftTravelCall);
 	}

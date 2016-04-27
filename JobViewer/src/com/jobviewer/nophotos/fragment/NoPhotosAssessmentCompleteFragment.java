@@ -47,9 +47,14 @@ public class NoPhotosAssessmentCompleteFragment extends Fragment implements
 				.findViewById(R.id.tapDone);
 		tapDone.setVisibility(View.VISIBLE);
 		
-		screenTitle.setText(getActivity().getResources().getString(
+		if (ActivityConstants.EXCAVATION.equalsIgnoreCase(checkOutRemember
+				.getAssessmentSelected())) {
+			screenTitle.setText(getActivity().getResources().getString(
 					R.string.persoal_risk_assement_str));
-		
+		} else {
+			screenTitle.setText(getActivity().getResources().getString(
+					R.string.persoal_risk_assement_str));
+		}
 		doneButton = (Button) mRootView.findViewById(R.id.doneButton);
 		doneButton.setOnClickListener(this);
 		return mRootView;
