@@ -77,33 +77,6 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mContext = this;
 		mPhotoList = new ArrayList<HashMap<String, Object>>();
 		imageObjects = new ArrayList<ImageObject>();
-		
-		HashMap<String, Object> hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
-		int count = 0;
-		if(MediaTypeFragment.addPhotoActivityimageObject == null)
-			MediaTypeFragment.addPhotoActivityimageObject = new ArrayList<ImageObject>();
-		for (ImageObject imageObject : MediaTypeFragment.addPhotoActivityimageObject) {
-			byte[] bitmapOfSafeZone = null;
-			try{
-				//bitmapOfSafeZone = Utils.base64ToBitmap(imageObject.getImage_string());
-				bitmapOfSafeZone=Utils.getbyteArrayFromBase64String(imageObject.getImage_string());
-			}catch(OutOfMemoryError oome){
-				Log.d(Utils.LOG_TAG," oome safezone to add photos activity "+oome.toString());
-				oome.printStackTrace();
-			}
-			hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
-			hashMapOfSafeZoneBitmap.put("photo", bitmapOfSafeZone);
-			hashMapOfSafeZoneBitmap.put("time",
-					MediaTypeFragment.timeCapturedForAddPhotosActivity
-							.get(count));
-			mPhotoList.add(hashMapOfSafeZoneBitmap);
-			imageObjects.add(imageObject);
-			WorkPhotoUpload workPhotoUpload = new WorkPhotoUpload();
-			workPhotoUpload.setImage_id(imageObject.getImageId());
-			arrayListOfWokImagesUpload.add(workPhotoUpload);
-			count++;
-		}
-
 
 		mListView = (ListView) findViewById(R.id.listview);
 
@@ -111,8 +84,8 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mVistecNumber = (TextView) findViewById(R.id.vistec_number_text);
 		CheckOutObject checkOutObject = JobViewerDBHandler
 				.getCheckOutRemember(AddPhotosActivity.this);
-		//String visTecId = checkOutObject.getVistecId();
-		//mVistecNumber.setText(visTecId);
+		String visTecId = checkOutObject.getVistecId();
+		mVistecNumber.setText(visTecId);
 
 		mUpdateRiskActivity = (ImageButton) findViewById(R.id.video_imageButton);
 		mUpdateRiskActivity.setOnClickListener(this);
@@ -126,30 +99,24 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mSave.setOnClickListener(this);
 		mCaptureCallingCard.setOnClickListener(this);
 
-		if (photosArrays.size() >= 4) {
-			enableLeaveSiteButton(true);
-		} else {
-			enableLeaveSiteButton(false);
-		}
+		
 		List<ImageObject> imageObjects = JobViewerDBHandler
 				.getAllAddCardSavedImages(mContext);
 		for (ImageObject imageObject : imageObjects) {
 			byte[] decodedString = Base64.decode(imageObject.getImage_string(),
 					Base64.DEFAULT);
-			/*Bitmap bitmapOfSafeZone = BitmapFactory.decodeByteArray(
-					decodedString, 0, decodedString.length);
-			hashMapOfSafeZoneBitmap = new HashMap<String, Object>();
-			hashMapOfSafeZoneBitmap.put("photo", bitmapOfSafeZone);
-			hashMapOfSafeZoneBitmap.put("time",
-					imageObject.getImage_exif());
-			mPhotoList.add(hashMapOfSafeZoneBitmap);*/
 			photosTimeStamp.add(imageObject.getImage_exif());
 			photosArrays.add(decodedString);
-			count++;
 		}
 
 		mAdapter = new AddPhotosAdapter(mContext, photosArrays, photosTimeStamp);
 		mListView.setAdapter(mAdapter);
+		
+		if (photosArrays.size() >= 4) {
+			enableLeaveSiteButton(true);
+		} else {
+			enableLeaveSiteButton(false);
+		}
 	}
 
 	@Override

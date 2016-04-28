@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,7 +58,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 	static File file;
 	Screen currentScreen;
 	CheckOutObject checkOutRemember;
-	private boolean formwardIamgeToAddPhotosActivity = false;
+	private boolean formwardImageToAddPhotosActivity = false;
 	public static ArrayList<ImageObject> addPhotoActivityimageObject;
 	public static ArrayList<String> timeCapturedForAddPhotosActivity = new ArrayList<String>();
 
@@ -99,7 +100,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				.toString()
 				.equalsIgnoreCase(
 						getResources().getString(R.string.capture_safe_zone))) {
-			formwardIamgeToAddPhotosActivity = true;
+			formwardImageToAddPhotosActivity = true;
 		}
 		try {
 			checkAndLoadSavedImages();
@@ -198,8 +199,9 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 							ImageObject imageObject = JobViewerDBHandler
 									.getImageById(getActivity(), currentScreen
 											.getImages()[i].getTemp_id());
-							if (formwardIamgeToAddPhotosActivity) {
-								addPhotoActivityimageObject.add(imageObject);
+							Log.d(Utils.LOG_TAG, "formwardImageToAddPhotosActivity "+formwardImageToAddPhotosActivity);
+							if (formwardImageToAddPhotosActivity) {
+								JobViewerDBHandler.saveAddPhotoImage(getActivity(), imageObject);
 							}
 							sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 						} catch (Exception e) {
@@ -229,8 +231,9 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 						ImageObject imageObject = JobViewerDBHandler
 								.getImageById(getActivity(), currentScreen
 										.getImages()[i].getTemp_id());
-						if (formwardIamgeToAddPhotosActivity) {
-							addPhotoActivityimageObject.add(imageObject);
+						Log.d(Utils.LOG_TAG, "formwardImageToAddPhotosActivity "+formwardImageToAddPhotosActivity);
+						if (formwardImageToAddPhotosActivity) {
+							JobViewerDBHandler.saveAddPhotoImage(getActivity(), imageObject);
 						}
 
 						sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
@@ -304,7 +307,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 						exif);
 				geoLocation = geoLocationCamera.toString();
 
-				if (formwardIamgeToAddPhotosActivity)
+				if (formwardImageToAddPhotosActivity)
 					timeCapturedForAddPhotosActivity.add(formatDate);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

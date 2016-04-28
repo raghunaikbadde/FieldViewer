@@ -142,7 +142,7 @@ public interface JobViewerSchema {
 			+ AddPhotosScreenSavedImages._ID
 			+ " integer primary key autoincrement,"
 			+ AddPhotosScreenSavedImages.IMAGE_ID
-			+ " text,"
+			+ " text unique,"
 			+ AddPhotosScreenSavedImages.IMAGE_STRING
 			+ " text,"
 			+ AddPhotosScreenSavedImages.IMAGE_URL

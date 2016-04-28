@@ -6,6 +6,8 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteConstraintException;
 
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
@@ -546,25 +548,29 @@ public class JobViewerDBHandler {
 	}
 
 	public static void saveAddPhotoImage(Context context, ImageObject image) {
-		ContentValues values = new ContentValues();
-		values.put(
-				JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_ID,
-				image.getImageId());
-		values.put(
-				JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_STRING,
-				image.getImage_string());
-		values.put(
-				JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_URL,
-				image.getImage_url());
-		values.put(
-				JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_CATEGORY,
-				image.getCategory());
-		values.put(
-				JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_EXIF,
-				image.getImage_exif());
-		context.getContentResolver()
-				.insert(JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI,
-						values);
+		try{
+			ContentValues values = new ContentValues();
+			values.put(
+					JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_ID,
+					image.getImageId());
+			values.put(
+					JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_STRING,
+					image.getImage_string());
+			values.put(
+					JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_URL,
+					image.getImage_url());
+			values.put(
+					JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_CATEGORY,
+					image.getCategory());
+			values.put(
+					JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_EXIF,
+					image.getImage_exif());
+			context.getContentResolver()
+					.insert(JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI,
+							values);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	public static List<ImageObject> getAllAddCardSavedImages(Context context) {
