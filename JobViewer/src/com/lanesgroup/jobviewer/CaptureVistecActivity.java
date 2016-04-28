@@ -184,6 +184,10 @@ public class CaptureVistecActivity extends BaseActivity implements
 					}
 					try{
 						JSONObject jsonObject = new JSONObject(str);
+						if(jsonObject.has(Constants.CAPTURE_VISTEC_SCREEN)){
+							jsonObject.remove(Constants.CAPTURE_VISTEC_SCREEN);
+						}
+						
 						jsonObject.put(Constants.CAPTURE_VISTEC_SCREEN, false);
 						String jsonString = jsonObject.toString();
 						JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(), jsonString);
