@@ -41,6 +41,7 @@ import com.jobviewer.survey.object.Images;
 import com.jobviewer.survey.object.Screen;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
@@ -374,7 +375,8 @@ public class ConfinedMediaTypeFragment extends Fragment implements
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageObject.getImageId());
 		data.put("category", "surveys");
-		data.put("image_string", imageObject.getImage_string());
+		data.put("image_string",
+				Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
 		data.put("image_exif", imageObject.getImage_exif());
 
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
@@ -402,7 +404,8 @@ public class ConfinedMediaTypeFragment extends Fragment implements
 					 * ExceptionHandler.showException(getActivity(), exception,
 					 * "Info");
 					 */
-					//Utils.saveWorkImageInBackLogDb(getActivity(), imageObject);
+					// Utils.saveWorkImageInBackLogDb(getActivity(),
+					// imageObject);
 					break;
 				default:
 					break;

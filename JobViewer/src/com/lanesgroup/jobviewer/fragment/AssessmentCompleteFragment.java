@@ -115,7 +115,7 @@ public class AssessmentCompleteFragment extends Fragment implements
 				+ gpsTracker.getLongitude());
 		BackLogRequest backLogRequest = new BackLogRequest();
 		backLogRequest.setRequestApi(CommsConstant.HOST
-				+ CommsConstant.WORK_CREATE_API);
+				+ CommsConstant.SURVEY_STORE_API);
 		backLogRequest.setRequestClassName("ShoutOutBackLogRequest");
 		backLogRequest.setRequestJson(GsonConverter.getInstance()
 				.encodeToJsonString(shoutOutBackLogRequest));
@@ -155,7 +155,7 @@ public class AssessmentCompleteFragment extends Fragment implements
 						QuestionManager.getInstance().getQuestionMaster());
 		values.put("survey_json", encodeToJsonString);
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-				+ CommsConstant.WORK_CREATE_API, values, getSendSurveyHandler());
+				+ CommsConstant.SURVEY_STORE_API, values, getSendSurveyHandler());
 
 	}
 

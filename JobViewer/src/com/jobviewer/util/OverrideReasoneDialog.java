@@ -26,6 +26,7 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 	private TextView timeStampValue;
 	private Spinner overrideReasonSpinner;
 	String eventType;
+	String eventType1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +60,15 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 			timeStampValue.setText(Utils.endTravelTimeRequest
 					.getOverride_timestamp());
 		} else if(eventType.equalsIgnoreCase("ClockIn")){
-			timeStampValue.setText(Utils.startShiftTimeRequest
-					.getOverride_timestamp());
+			eventType1 = getIntent().getExtras().getString("eventType1");
+			if (eventType1.equalsIgnoreCase(Utils.SHIFT_START)) {
+				timeStampValue.setText(Utils.startShiftTimeRequest
+						.getOverride_timestamp());
+			}else{
+				timeStampValue.setText(Utils.callStartTimeRequest
+						.getOverride_timestamp());
+			}
+			
 		} else {
 			timeStampValue.setText(Utils.endTimeRequest
 					.getOverride_timestamp());
@@ -80,6 +88,9 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 			Intent intent = new Intent();
 			intent.putExtra(Constants.TIME, "");
 			intent.putExtra("eventType", eventType);
+			if (!Utils.isNullOrEmpty(eventType1)) {
+				intent.putExtra("eventType1", eventType1);
+			}
 			setResult(RESULT_OK, intent);
 			finish();
 		}
@@ -100,8 +111,15 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 			Utils.endTravelTimeRequest.setOverride_comment(item);
 			Utils.endTravelTimeRequest.setOverride_reason(item);
 		}  else if(eventType.equalsIgnoreCase("ClockIn")){
-			Utils.startShiftTimeRequest.setOverride_comment(item);
-			Utils.startShiftTimeRequest.setOverride_reason(item);
+			String eventType1 = getIntent().getExtras().getString("eventType1");
+			if (eventType1.equalsIgnoreCase(Utils.SHIFT_START)) {
+				Utils.startShiftTimeRequest.setOverride_comment(item);
+				Utils.startShiftTimeRequest.setOverride_reason(item);
+			}else{
+				Utils.callStartTimeRequest.setOverride_comment(item);
+				Utils.callStartTimeRequest.setOverride_reason(item);
+			}
+			
 		} else {
 			Utils.endTimeRequest.setOverride_comment(item);
 			Utils.endTimeRequest.setOverride_reason(item);

@@ -63,6 +63,7 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View view) {
+		String eventType1=null;
 		if (view == mCancel) {
 			finish();
 		} else if (view == mContinue) {
@@ -106,7 +107,12 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 					Log.d(Utils.LOG_TAG," override end travel time stamp "+time);					
 					eventTypeValue = eventType;
 				} else if("ClockIn".equalsIgnoreCase(eventType)){
-					Utils.startShiftTimeRequest.setOverride_timestamp(time);
+					eventType1=(String) getIntent().getExtras().get("eventType1");
+					if (eventType1.equalsIgnoreCase(Utils.SHIFT_START)) {
+						Utils.startShiftTimeRequest.setOverride_timestamp(time);
+					}else{
+						Utils.callStartTimeRequest.setOverride_timestamp(time);
+					}
 					eventTypeValue=eventType;
 				} else {
 					Utils.endTimeRequest.setOverride_timestamp(time);
@@ -115,6 +121,9 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 				Intent intent = new Intent();
 				intent.putExtra(Constants.TIME, time);
 				intent.putExtra("eventType", eventTypeValue);
+				if (!Utils.isNullOrEmpty(eventType1)) {
+					intent.putExtra("eventType1", eventType1);
+				}
 				setResult(RESULT_OK, intent);
 				finish();
 			} else {
@@ -155,7 +164,13 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
 				return false;
 			} else{
-				Utils.startShiftTimeRequest.setOverride_timestamp(time);
+				String eventType1=(String) getIntent().getExtras().get("eventType1");
+				if (eventType1.equalsIgnoreCase(Utils.SHIFT_START)) {
+					Utils.startShiftTimeRequest.setOverride_timestamp(time);
+				}else{
+					Utils.callStartTimeRequest.setOverride_timestamp(time);
+				}
+				
 			}
 		} else {
 			Utils.endTimeRequest.setOverride_timestamp(time);

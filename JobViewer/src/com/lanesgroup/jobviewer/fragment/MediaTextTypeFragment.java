@@ -39,6 +39,7 @@ import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.ImageUploadResponse;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
@@ -134,8 +135,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 	private void checkAndEnableNextButton() {
 		int count = 0;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getTemp_id())) {
+			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
 				count++;
 			}
 		}
@@ -159,8 +159,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 
 	private void checkAndLoadSavedImages() {
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			String image_string = currentScreen.getImages()[i]
-					.getTemp_id();
+			String image_string = currentScreen.getImages()[i].getTemp_id();
 			if (!Utils.isNullOrEmpty(image_string)) {
 				ImageObject imageById = JobViewerDBHandler.getImageById(
 						getActivity(), image_string);
@@ -260,7 +259,8 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 		ContentValues values = new ContentValues();
 		values.put("temp_id", imageObject.getImageId());
 		values.put("category", imageObject.getCategory());
-		values.put("image_string", imageObject.getImage_string());
+		values.put("image_string",
+				Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
 		values.put("image_exif", imageObject.getImage_exif());
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
 				+ CommsConstant.SURVEY_PHOTO_UPLOAD, values,
@@ -310,8 +310,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 	private void addPicObjectInScreenIfRequired() {
 		boolean isAllImagedAdded = false;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getTemp_id())) {
+			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
 				isAllImagedAdded = true;
 			} else {
 				isAllImagedAdded = false;
@@ -365,7 +364,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 				if (Utils.isNullOrEmpty(currentScreen.getImages()[i]
 						.getTemp_id())) {
 					String image_exif = formatDate + "," + geoLocation;
-					//currentScreen.getImages()[i].setImage_exif(image_exif);
+					// currentScreen.getImages()[i].setImage_exif(image_exif);
 					ImageObject imageObject = new ImageObject();
 					String generateUniqueID = Utils
 							.generateUniqueID(getActivity());
@@ -375,8 +374,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 					imageObject.setImage_string(Utils
 							.bitmapToBase64String(rotateBitmap));
 					imageString = imageObject.getImage_string();
-					currentScreen.getImages()[i]
-							.setTemp_id(generateUniqueID);
+					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;
 				}
