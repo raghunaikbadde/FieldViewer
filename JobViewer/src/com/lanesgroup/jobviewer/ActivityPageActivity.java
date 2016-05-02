@@ -1,4 +1,3 @@
-
 package com.lanesgroup.jobviewer;
 
 import java.text.SimpleDateFormat;
@@ -52,16 +51,17 @@ import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
 import com.vehicle.communicator.HttpConnection;
 
 public class ActivityPageActivity extends BaseActivity implements
-		View.OnClickListener, DialogCallback, ConfirmDialogCallback  {
+		View.OnClickListener, DialogCallback, ConfirmDialogCallback {
 	TextView user_email_text, date_time_text, vehicleRegistrationNumber;
 	LinearLayout checked_out_layout;
-	
+
 	private ImageView mShoutAbout;
-	
+
 	private Button mStart, mCheckOutVehicle, mStartTravel, mEndOnCall;
 	Context mContext;
 	Bundle bundle;
 	private String vehicleRegNo = "";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -78,96 +78,105 @@ public class ActivityPageActivity extends BaseActivity implements
 		this.unregisterForContextMenu(mStart);
 		mShoutAbout = (ImageView) findViewById(R.id.shout_about_image);
 		mShoutAbout.setOnClickListener(this);
-		
+
 		User userProfile = JobViewerDBHandler.getUserProfile(this);
-		if(userProfile!=null){
+		if (userProfile != null) {
 			if (Utils.isNullOrEmpty(userProfile.getFirstname())) {
 				user_email_text.setText(userProfile.getEmail());
 			} else {
 				user_email_text.setText(userProfile.getFirstname());
 			}
 		}
-		
-		
+
 		String dateText = "Shift Started: "
 				+ Utils.checkOutObject.getJobStartedTime()
 				+ "  .  Breaks: None taken";
 		date_time_text.setText(dateText);
 		date_time_text.setSelected(true);
-		
+
 		vehicleRegistrationNumber.setText(vehicleRegNo);
-		if (ActivityConstants.JOB_SELECTED_SHIFT.equalsIgnoreCase(Utils.checkOutObject.getJobSelected())) {
+		if (ActivityConstants.JOB_SELECTED_SHIFT
+				.equalsIgnoreCase(Utils.checkOutObject.getJobSelected())) {
 			mEndOnCall.setText("End Shift");
 		} else {
 			mEndOnCall.setText("End Call");
 		}
-		
-		StartTrainingObject trainingToolBox = JobViewerDBHandler.getTrainingToolBox(this);
-		if(trainingToolBox!=null){
-			if(ActivityConstants.TRUE.equalsIgnoreCase(trainingToolBox.getIsTrainingStarted())){
+
+		StartTrainingObject trainingToolBox = JobViewerDBHandler
+				.getTrainingToolBox(this);
+		if (trainingToolBox != null) {
+			if (ActivityConstants.TRUE.equalsIgnoreCase(trainingToolBox
+					.getIsTrainingStarted())) {
 				mStart.setTag(Constants.END_TRAINING);
 				mStart.setText(Constants.END_TRAINING);
 			}
-		} else {			
-		bundle = getIntent().getExtras();
-		boolean shouldShowWorkInProgress = false;
-		
-		boolean shouldShowWorkInProgressWithNoPhotos = false;
-		if (bundle != null
-				&& bundle.containsKey(Utils.SHOULD_SHOW_WORK_IN_PROGRESS)) {
-			shouldShowWorkInProgress = bundle
-					.getBoolean(Utils.SHOULD_SHOW_WORK_IN_PROGRESS);
-		}
-		if (bundle != null
-				&& bundle.containsKey(Constants.WORK_NO_PHOTOS_HOME)) {
-			shouldShowWorkInProgressWithNoPhotos = bundle
-					.getBoolean(Constants.WORK_NO_PHOTOS_HOME);
-		}
-		
-		
-		
-		
-		SurveyJson WorkWithNoPhotosSurveryJSON = JobViewerDBHandler.getWorkWithNoPhotosQuestionSet(this);
-		SurveyJson questionSet = JobViewerDBHandler.getQuestionSet(mContext);
-		if (questionSet != null
-				&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
-			mStart.setText("Continue Work In Progress");
-			mStart.setTag("Continue Work In Progress");
-		} else if (shouldShowWorkInProgress) {
-			mStart.setText("Continue Work In Progress");
-			mStart.setTag("Continue Work In Progress");
-		} else if (shouldShowWorkInProgressWithNoPhotos || (WorkWithNoPhotosSurveryJSON != null && !Utils.isNullOrEmpty(WorkWithNoPhotosSurveryJSON.getQuestionJson()))){
-			mStart.setText(getResources().getString(R.string.work_in_progree_str));
-			mStart.setTag(getResources().getString(R.string.work_in_progree_str)+Constants.WORK_NO_PHOTOS_HOME);
-			this.registerForContextMenu(mStart);
 		} else {
-			mStart.setText(getResources().getString(R.string.start_text));
-			mStart.setTag(getResources().getString(R.string.start_text));
+			bundle = getIntent().getExtras();
+			boolean shouldShowWorkInProgress = false;
+
+			boolean shouldShowWorkInProgressWithNoPhotos = false;
+			if (bundle != null
+					&& bundle.containsKey(Utils.SHOULD_SHOW_WORK_IN_PROGRESS)) {
+				shouldShowWorkInProgress = bundle
+						.getBoolean(Utils.SHOULD_SHOW_WORK_IN_PROGRESS);
+			}
+			if (bundle != null
+					&& bundle.containsKey(Constants.WORK_NO_PHOTOS_HOME)) {
+				shouldShowWorkInProgressWithNoPhotos = bundle
+						.getBoolean(Constants.WORK_NO_PHOTOS_HOME);
+			}
+
+			SurveyJson WorkWithNoPhotosSurveryJSON = JobViewerDBHandler
+					.getWorkWithNoPhotosQuestionSet(this);
+			SurveyJson questionSet = JobViewerDBHandler
+					.getQuestionSet(mContext);
+			if (questionSet != null
+					&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
+				mStart.setText("Continue Work In Progress");
+				mStart.setTag("Continue Work In Progress");
+			} else if (shouldShowWorkInProgress) {
+				mStart.setText("Continue Work In Progress");
+				mStart.setTag("Continue Work In Progress");
+			} else if (shouldShowWorkInProgressWithNoPhotos
+					|| (WorkWithNoPhotosSurveryJSON != null && !Utils
+							.isNullOrEmpty(WorkWithNoPhotosSurveryJSON
+									.getQuestionJson()))) {
+				mStart.setText(getResources().getString(
+						R.string.work_in_progree_str));
+				mStart.setTag(getResources().getString(
+						R.string.work_in_progree_str)
+						+ Constants.WORK_NO_PHOTOS_HOME);
+				this.registerForContextMenu(mStart);
+			} else {
+				mStart.setText(getResources().getString(R.string.start_text));
+				mStart.setTag(getResources().getString(R.string.start_text));
+			}
+
 		}
-		
+
+		if (Utils.checkOutObject.getJobSelected().equalsIgnoreCase(
+				ActivityConstants.JOB_SELECTED_SHIFT)) {
+			mStartTravel
+					.setText(getResources().getString(R.string.start_break));
 		}
-		
-		if(Utils.checkOutObject.getJobSelected().equalsIgnoreCase(ActivityConstants.JOB_SELECTED_SHIFT)){
-			mStartTravel.setText(getResources().getString(R.string.start_break));
-		}
-		
+
 		String flagStr = JobViewerDBHandler.getJSONFlagObject(this);
-		try{
+		try {
 			JSONObject jsonObject = new JSONObject(flagStr);
-			if(jsonObject.has(Constants.CAPTURE_VISTEC_SCREEN)){
-				if(jsonObject.getBoolean(Constants.CAPTURE_VISTEC_SCREEN)){				
-					mStart.setText("Continue Work In Progress");					
+			if (jsonObject.has(Constants.CAPTURE_VISTEC_SCREEN)) {
+				if (jsonObject.getBoolean(Constants.CAPTURE_VISTEC_SCREEN)) {
+					mStart.setText("Continue Work In Progress");
 					mStart.setTag("captureVisTecScreen");
 					return;
 				}
 			}
-		}catch(Exception e){
-			
+		} catch (Exception e) {
+
 		}
 	}
 
 	private void initUI() {
-		
+
 		Utils.checkOutObject = JobViewerDBHandler.getCheckOutRemember(mContext);
 		vehicleRegNo = Utils.checkOutObject.getVehicleRegistration();
 		user_email_text = (TextView) findViewById(R.id.user_email_text);
@@ -183,7 +192,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		mStartTravel.setOnClickListener(this);
 		mEndOnCall.setOnClickListener(this);
 		bundle = getIntent().getExtras();
-		
+
 		if (Utils.checkOutObject == null
 				|| Utils.isNullOrEmpty(Utils.checkOutObject.getMilage())) {
 			checked_out_layout.setVisibility(View.GONE);
@@ -202,15 +211,19 @@ public class ActivityPageActivity extends BaseActivity implements
 				}
 			});
 		}
-		
-		if(bundle != null && bundle.containsKey(ActivityConstants.VEHICLE_REGISTRATION_NUMBER)){
+
+		if (bundle != null
+				&& bundle
+						.containsKey(ActivityConstants.VEHICLE_REGISTRATION_NUMBER)) {
 			checked_out_layout.setVisibility(View.VISIBLE);
 			mCheckOutVehicle.setVisibility(View.GONE);
-			
-			if(Utils.isNullOrEmpty(vehicleRegNo))
-				vehicleRegNo = bundle.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER);
-			if(Utils.isNullOrEmpty(vehicleRegNo))
-				vehicleRegNo = bundle.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER);
+
+			if (Utils.isNullOrEmpty(vehicleRegNo))
+				vehicleRegNo = bundle
+						.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER);
+			if (Utils.isNullOrEmpty(vehicleRegNo))
+				vehicleRegNo = bundle
+						.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER);
 			checked_out_layout.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -230,20 +243,20 @@ public class ActivityPageActivity extends BaseActivity implements
 		if (view == mStart) {
 			String tag = (String) mStart.getTag();
 			String flagStr = JobViewerDBHandler.getJSONFlagObject(this);
-			try{
+			try {
 				JSONObject jsonObject = new JSONObject(flagStr);
-				if(jsonObject.has(Constants.CAPTURE_VISTEC_SCREEN)){
-					if(jsonObject.getBoolean(Constants.CAPTURE_VISTEC_SCREEN)){
-						Intent vistecIntent = new Intent(this,CaptureVistecActivity.class);
+				if (jsonObject.has(Constants.CAPTURE_VISTEC_SCREEN)) {
+					if (jsonObject.getBoolean(Constants.CAPTURE_VISTEC_SCREEN)) {
+						Intent vistecIntent = new Intent(this,
+								CaptureVistecActivity.class);
 						startActivity(vistecIntent);
 						return;
-						}
 					}
-			}catch(Exception e){
-				
-				
+				}
+			} catch (Exception e) {
+
 			}
-			
+
 			if ("Continue Work In Progress".equalsIgnoreCase(tag)) {
 				CheckOutObject checkOutRemember = JobViewerDBHandler
 						.getCheckOutRemember(mContext);
@@ -261,7 +274,7 @@ public class ActivityPageActivity extends BaseActivity implements
 							Utils.CALLING_ACTIVITY,
 							ActivityConstants.ACTIVITY_PAGE_ACTIVITY);
 					startActivity(addPhotoScreenIntent);
-				}else if (bundle != null
+				} else if (bundle != null
 						&& bundle.containsKey(Utils.CALLING_ACTIVITY)
 						&& bundle.getString(Utils.CALLING_ACTIVITY)
 								.equalsIgnoreCase(
@@ -278,43 +291,56 @@ public class ActivityPageActivity extends BaseActivity implements
 					Intent riskAssIntent = new Intent(mContext,
 							QuestionsActivity.class);
 					startActivity(riskAssIntent);
-				} else if(mStart.getTag().toString().contains("captureVistecScreen")){
-					Intent vistecIntent = new Intent(this,CaptureVistecActivity.class);
+				} else if (mStart.getTag().toString()
+						.contains("captureVistecScreen")) {
+					Intent vistecIntent = new Intent(this,
+							CaptureVistecActivity.class);
 					startActivity(vistecIntent);
-				}else if (!Utils.isNullOrEmpty(checkOutRemember
+				} else if (!Utils.isNullOrEmpty(checkOutRemember
 						.getAssessmentSelected())) {
 					Intent riskAssIntent = new Intent(mContext,
 							RiskAssessmentActivity.class);
 					startActivity(riskAssIntent);
-				} 
-			} else if((getResources().getString(R.string.work_in_progree_str)+Constants.WORK_NO_PHOTOS_HOME).equalsIgnoreCase(tag)){
+				}
+			} else if ((getResources().getString(R.string.work_in_progree_str) + Constants.WORK_NO_PHOTOS_HOME)
+					.equalsIgnoreCase(tag)) {
 				openContextMenu(mStart);
-			} else if (Constants.END_TRAINING.equalsIgnoreCase(tag)){
+			} else if (Constants.END_TRAINING.equalsIgnoreCase(tag)) {
 				executeEndTraining();
-				
-			}else {
+
+			} else {
 				intent.setClass(this, SelectActivityDialog.class);
-				startActivityForResult(intent, Constants.RESULT_CODE_START_TRAINING);
+				startActivityForResult(intent,
+						Constants.RESULT_CODE_START_TRAINING);
 			}
 		} else if (view == mCheckOutVehicle) {
 			intent.setClass(this, CheckoutVehicleActivity.class);
-			intent.putExtra(Utils.CALLING_ACTIVITY, ActivityPageActivity.this.getClass().getSimpleName());
+			intent.putExtra(Utils.CALLING_ACTIVITY, ActivityPageActivity.this
+					.getClass().getSimpleName());
 			startActivity(intent);
 		} else if (view == mStartTravel) {
 			Utils.startTravelTimeRequest = new TimeSheetRequest();
-			if(mStartTravel.getText().toString().contains(getResources().getString(R.string.start_travel))){
+			if (mStartTravel.getText().toString()
+					.contains(getResources().getString(R.string.start_travel))) {
 				new showTimeDialog(this, this, "travel").show();
-			} else if(mStartTravel.getText().toString().contains(getResources().getString(R.string.start_break))){
+			} else if (mStartTravel.getText().toString()
+					.contains(getResources().getString(R.string.start_break))) {
 				Utils.timeSheetRequest = new TimeSheetRequest();
 				new showTimeDialog(this, this, "start").show();
-			} else if(mStartTravel.getText().toString().contains(getResources().getString(R.string.end_travel_str))){
-				new showTimeDialog(this, this, getResources().getString(R.string.end_travel_str)).show();
+			} else if (mStartTravel
+					.getText()
+					.toString()
+					.contains(getResources().getString(R.string.end_travel_str))) {
+				new showTimeDialog(this, this, getResources().getString(
+						R.string.end_travel_str)).show();
 			}
 		} else if (view == mEndOnCall) {
-			if(!mStart.getTag().toString().equalsIgnoreCase("Continue Work In Progress")){
-				endShiftOrCall();	
+			if (!mStart.getTag().toString()
+					.equalsIgnoreCase("Continue Work In Progress")) {
+				endShiftOrCall();
 			} else {
-				if (ActivityConstants.JOB_SELECTED_SHIFT.equalsIgnoreCase(Utils.checkOutObject.getJobSelected())) {
+				if (ActivityConstants.JOB_SELECTED_SHIFT
+						.equalsIgnoreCase(Utils.checkOutObject.getJobSelected())) {
 					Toast.makeText(
 							BaseActivity.context,
 							BaseActivity.context.getResources().getString(
@@ -322,8 +348,8 @@ public class ActivityPageActivity extends BaseActivity implements
 							Toast.LENGTH_SHORT).show();
 				}
 			}
-			
-		} else if (view == mShoutAbout){
+
+		} else if (view == mShoutAbout) {
 			ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
 					.getShoutAboutSafety(view.getContext());
 			if (shoutAboutSafety != null
@@ -338,65 +364,70 @@ public class ActivityPageActivity extends BaseActivity implements
 			} else {
 				intent.setClass(ActivityPageActivity.this,
 						ShoutOptionsActivity.class);
-			startActivity(intent);
+				startActivity(intent);
+			}
 		}
-	}
 	}
 
 	private void endShiftOrCall() {
 		Intent intent;
-		if(mEndOnCall.getText().toString().equals("End Call")){
-			
+		if (mEndOnCall.getText().toString().equals("End Call")) {
+
 			Utils.callEndTimeRequest = new TimeSheetRequest();
-			if(mCheckOutVehicle.getVisibility()!=View.VISIBLE){
+			if (mCheckOutVehicle.getVisibility() != View.VISIBLE) {
 				intent = new Intent(ActivityPageActivity.this,
-						EndShiftReturnVehicleActivity.class);	
+						EndShiftReturnVehicleActivity.class);
 				intent.putExtra("progressStep", "Step 1 of 2");
-			} else{
+			} else {
 				intent = new Intent(ActivityPageActivity.this,
-						EndOnCallActivity.class);	
+						EndOnCallActivity.class);
 				intent.putExtra("progressStep", "Step 1 of 1");
-				intent.putExtra("mileage", JobViewerDBHandler.getCheckOutRemember(ActivityPageActivity.this).getMilage());
+				intent.putExtra("mileage", JobViewerDBHandler
+						.getCheckOutRemember(ActivityPageActivity.this)
+						.getMilage());
 			}
-			intent.putExtra(Utils.END_CALL,Utils.END_CALL);
-			intent.putExtra(Utils.CALLING_ACTIVITY,
-					ActivityPageActivity.this.getClass().getSimpleName());
+			intent.putExtra(Utils.END_CALL, Utils.END_CALL);
+			intent.putExtra(Utils.CALLING_ACTIVITY, ActivityPageActivity.this
+					.getClass().getSimpleName());
 			startActivity(intent);
-		} else if(mEndOnCall.getText().toString().equals("End Shift")){
-			
-			if(mCheckOutVehicle.getVisibility()!=View.VISIBLE){
+		} else if (mEndOnCall.getText().toString().equals("End Shift")) {
+
+			if (mCheckOutVehicle.getVisibility() != View.VISIBLE) {
 				intent = new Intent(ActivityPageActivity.this,
-						EndShiftReturnVehicleActivity.class);	
+						EndShiftReturnVehicleActivity.class);
 				intent.putExtra("progressStep", "Step 1 of 2");
-			} else{
+			} else {
 				intent = new Intent(ActivityPageActivity.this,
-						EndOnCallActivity.class);	
-				intent.putExtra("mileage", JobViewerDBHandler.getCheckOutRemember(ActivityPageActivity.this).getMilage());
+						EndOnCallActivity.class);
+				intent.putExtra("mileage", JobViewerDBHandler
+						.getCheckOutRemember(ActivityPageActivity.this)
+						.getMilage());
 				intent.putExtra("progressStep", "Step 1 of 1");
 			}
 			Utils.endShiftRequest = new TimeSheetRequest();
-			intent.putExtra(Utils.SHIFT_END,Utils.SHIFT_END);
-			intent.putExtra(Utils.CALLING_ACTIVITY,
-					ActivityPageActivity.this.getClass().getSimpleName());
+			intent.putExtra(Utils.SHIFT_END, Utils.SHIFT_END);
+			intent.putExtra(Utils.CALLING_ACTIVITY, ActivityPageActivity.this
+					.getClass().getSimpleName());
 			startActivity(intent);
 		}
 	}
 
 	private void executeEndTraining() {
-		new ConfirmDialog(mContext, ActivityPageActivity.this, Constants.END_TRAINING).show();
+		new ConfirmDialog(mContext, ActivityPageActivity.this,
+				Constants.END_TRAINING).show();
 	}
 
 	@Override
 	public void onContinue() {
 		if (!Utils.isInternetAvailable(mContext)) {
-			
-			if(Utils.checkOutObject.getJobSelected().contains(ActivityConstants.JOB_SELECTED_SHIFT)){
-				JobViewerDBHandler.saveTimeSheet(this,
-						Utils.timeSheetRequest,
+
+			if (Utils.checkOutObject.getJobSelected().contains(
+					ActivityConstants.JOB_SELECTED_SHIFT)) {
+				JobViewerDBHandler.saveTimeSheet(this, Utils.timeSheetRequest,
 						CommsConstant.START_BREAK_API);
 				startEndBreakActivity();
-				
-			} else{
+
+			} else {
 				JobViewerDBHandler.saveTimeSheet(this,
 						Utils.startTravelTimeRequest,
 						CommsConstant.START_TRAVEL_API);
@@ -405,7 +436,8 @@ public class ActivityPageActivity extends BaseActivity implements
 				startEndActvity(time);
 			}
 		} else {
-			if(Utils.checkOutObject.getJobSelected().contains(ActivityConstants.JOB_SELECTED_SHIFT)){
+			if (Utils.checkOutObject.getJobSelected().contains(
+					ActivityConstants.JOB_SELECTED_SHIFT)) {
 				executeStartBreakService();
 			} else {
 				executeStartTravelService();
@@ -423,78 +455,93 @@ public class ActivityPageActivity extends BaseActivity implements
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		
+
 		if (requestCode == Constants.RESULT_CODE_CHANGE_TIME
 				&& resultCode == RESULT_OK) {
 			TimeSheetRequest timeSheetRequest;
-			if(data.getExtras().getString("eventType").equalsIgnoreCase("start")){
+			if (data.getExtras().getString("eventType")
+					.equalsIgnoreCase("start")) {
 				timeSheetRequest = Utils.timeSheetRequest;
-			} else if (data.getExtras().getString("eventType").equalsIgnoreCase("travel")){
+			} else if (data.getExtras().getString("eventType")
+					.equalsIgnoreCase("travel")) {
 				timeSheetRequest = Utils.startTravelTimeRequest;
 			} else {
 				timeSheetRequest = Utils.endTravelTimeRequest;
 			}
-			
+
 			if (ActivityConstants.TRUE.equalsIgnoreCase(timeSheetRequest
 					.getIs_overriden())) {
 				Intent intent = new Intent(this, OverrideReasoneDialog.class);
-				intent.putExtra("eventType", data.getExtras().getString("eventType"));
+				intent.putExtra("eventType",
+						data.getExtras().getString("eventType"));
 				startActivityForResult(intent,
 						Constants.RESULT_CODE_OVERRIDE_COMMENT);
 			}
 		} else if (requestCode == Constants.RESULT_CODE_OVERRIDE_COMMENT
 				&& resultCode == RESULT_OK) {
 			TimeSheetRequest timeSheetRequest;
-			if(data.getExtras().getString("eventType").equalsIgnoreCase("start")){
+			if (data.getExtras().getString("eventType")
+					.equalsIgnoreCase("start")) {
 				timeSheetRequest = Utils.timeSheetRequest;
-			} else if (data.getExtras().getString("eventType").equalsIgnoreCase("travel")){
+			} else if (data.getExtras().getString("eventType")
+					.equalsIgnoreCase("travel")) {
 				timeSheetRequest = Utils.startTravelTimeRequest;
 			} else {
 				timeSheetRequest = Utils.endTravelTimeRequest;
 			}
 			if (!Utils.isInternetAvailable(this)) {
-				if(data.getExtras().getString("eventType").equalsIgnoreCase("start")){
+				if (data.getExtras().getString("eventType")
+						.equalsIgnoreCase("start")) {
 					JobViewerDBHandler.saveTimeSheet(this, timeSheetRequest,
 							CommsConstant.START_BREAK_API);
 					JobViewerDBHandler.getAllTimeSheet(mContext);
-					Utils.saveTimeSheetInBackLogTable(ActivityPageActivity.this,
-							timeSheetRequest, CommsConstant.START_BREAK_API,
+					Utils.saveTimeSheetInBackLogTable(
+							ActivityPageActivity.this, timeSheetRequest,
+							CommsConstant.START_BREAK_API,
 							Utils.REQUEST_TYPE_WORK);
-				}else if (data.getExtras().getString("eventType").equalsIgnoreCase("travel")){
+				} else if (data.getExtras().getString("eventType")
+						.equalsIgnoreCase("travel")) {
 					JobViewerDBHandler.saveTimeSheet(this, timeSheetRequest,
 							CommsConstant.START_TRAVEL_API);
 					JobViewerDBHandler.getAllTimeSheet(mContext);
-					Utils.saveTimeSheetInBackLogTable(ActivityPageActivity.this,
-							timeSheetRequest, CommsConstant.START_TRAVEL_API,
+					Utils.saveTimeSheetInBackLogTable(
+							ActivityPageActivity.this, timeSheetRequest,
+							CommsConstant.START_TRAVEL_API,
 							Utils.REQUEST_TYPE_WORK);
-				} else{
+				} else {
 					JobViewerDBHandler.saveTimeSheet(this, timeSheetRequest,
 							CommsConstant.END_TRAVEL_API);
 					JobViewerDBHandler.getAllTimeSheet(mContext);
-					Utils.saveTimeSheetInBackLogTable(ActivityPageActivity.this,
-							timeSheetRequest, CommsConstant.END_TRAVEL_API,
+					Utils.saveTimeSheetInBackLogTable(
+							ActivityPageActivity.this, timeSheetRequest,
+							CommsConstant.END_TRAVEL_API,
 							Utils.REQUEST_TYPE_WORK);
 				}
-				
-				
+
 				// saveStartBreakinToBackLogDb();
-				if(Utils.checkOutObject.getJobSelected().contains(ActivityConstants.JOB_SELECTED_SHIFT)){
+				if (Utils.checkOutObject.getJobSelected().contains(
+						ActivityConstants.JOB_SELECTED_SHIFT)) {
 					startEndBreakActivity();
-				}else{				
-					startEndActvity(Utils.startTravelTimeRequest.getOverride_timestamp());
+				} else {
+					startEndActvity(Utils.startTravelTimeRequest
+							.getOverride_timestamp());
 				}
 			} else {
 				Utils.startProgress(ActivityPageActivity.this);
-				if(data.getExtras().getString("eventType").equalsIgnoreCase("start")){	
+				if (data.getExtras().getString("eventType")
+						.equalsIgnoreCase("start")) {
 					executeStartBreakService();
-				} else if(data.getExtras().getString("eventType").equalsIgnoreCase("travel")){
+				} else if (data.getExtras().getString("eventType")
+						.equalsIgnoreCase("travel")) {
 					executeStartTravelService();
 				} else {
 					Utils.StopProgress();
-					startEndActvity(Utils.endTravelTimeRequest.getOverride_timestamp());
+					startEndActvity(Utils.endTravelTimeRequest
+							.getOverride_timestamp());
 				}
 			}
-		} else if(requestCode == Constants.RESULT_CODE_START_TRAINING && resultCode == RESULT_OK){
+		} else if (requestCode == Constants.RESULT_CODE_START_TRAINING
+				&& resultCode == RESULT_OK) {
 			mStart.setText(Constants.END_TRAINING);
 			mStart.setTag(Constants.END_TRAINING);
 		}
@@ -507,13 +554,13 @@ public class ActivityPageActivity extends BaseActivity implements
 		startActivity(intent);
 	}
 
-	private void startEndBreakActivity(){
+	private void startEndBreakActivity() {
 		Intent intent = new Intent(this, EndBreakActivity.class);
-		intent.putExtra("eventType", "End Break");		
+		intent.putExtra("eventType", "End Break");
 		intent.putExtra(Constants.TIME, Utils.getCurrentDateAndTime());
 		startActivity(intent);
 	}
-	
+
 	private void executeStartBreakService() {
 		ContentValues data = new ContentValues();
 		data.put("started_at", Utils.timeSheetRequest.getStarted_at());
@@ -533,7 +580,10 @@ public class ActivityPageActivity extends BaseActivity implements
 		} else {
 			time = Utils.timeSheetRequest.getStarted_at();
 		}
-		Log.d(Utils.LOG_TAG,"executeStartBreakService "+GsonConverter.getInstance().encodeToJsonString(Utils.timeSheetRequest));
+		Log.d(Utils.LOG_TAG,
+				"executeStartBreakService "
+						+ GsonConverter.getInstance().encodeToJsonString(
+								Utils.timeSheetRequest));
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.START_BREAK_API, data,
 				getStartBreakHandler(time));
@@ -549,7 +599,7 @@ public class ActivityPageActivity extends BaseActivity implements
 					Utils.StopProgress();
 					startEndBreakActivity();
 					// String result = (String) msg.obj;
-					//startEndActvity(time);
+					// startEndActvity(time);
 					break;
 				case HttpConnection.DID_ERROR:
 					Utils.StopProgress();
@@ -571,7 +621,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		};
 		return handler;
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		closeApplication();
@@ -579,23 +629,70 @@ public class ActivityPageActivity extends BaseActivity implements
 
 	@Override
 	public void onConfirmStartTraining() {
-		if(ConfirmDialog.eventType.contains(Constants.END_TRAINING)){
-			JobViewerDBHandler.deleteStartTraining(mContext);
-			mStart.setText("Start...");
-			mStart.setTag(Constants.START_TRAINING);
+		if (ConfirmDialog.eventType.contains(Constants.END_TRAINING)) {
+			sendEndTraining();
+		} 
+	}
+
+	private void sendEndTraining() {
+		Utils.startProgress(mContext);
+		ContentValues values = new ContentValues();
+		values.put("started_at", Utils.getCurrentDateAndTime());
+		User userProfile = JobViewerDBHandler.getUserProfile(mContext);
+		values.put("record_for", userProfile.getEmail());
+		values.put("is_inactive", false);
+		values.put("is_overriden", false);
+		values.put("override_reason", "");
+		values.put("override_comment", "");
+		values.put("override_timestamp", "");
+		CheckOutObject checkOutRemember = JobViewerDBHandler
+				.getCheckOutRemember(mContext);
+		if (Utils.isNullOrEmpty(checkOutRemember.getVistecId())) {
+			values.put("reference_id", "");
 		} else {
-			Intent intent = new Intent(this,ActivityPageActivity.class);
-        	JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(this);
-        	finish();
-        	startActivity(intent);
+			values.put("reference_id", checkOutRemember.getVistecId());
 		}
+		values.put("user_id", userProfile.getEmail());
+		Utils.SendHTTPRequest(mContext, CommsConstant.HOST
+				+ CommsConstant.END_TRAINING_API, values,
+				getTrainingEndHandler());
+
+	}
+
+	private Handler getTrainingEndHandler() {
+		Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case HttpConnection.DID_SUCCEED:
+					String result = (String) msg.obj;
+					Log.i("Android", result);
+					Utils.StopProgress();
+					JobViewerDBHandler.deleteStartTraining(mContext);
+					mStart.setText("Start...");
+					mStart.setTag(Constants.START_TRAINING);
+					break;
+				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
+					String error = (String) msg.obj;
+					VehicleException exception = GsonConverter
+							.getInstance()
+							.decodeFromJsonString(error, VehicleException.class);
+					ExceptionHandler.showException(mContext, exception, "Info");
+					break;
+				default:
+					break;
+				}
+			}
+		};
+		return handler;
 	}
 
 	@Override
 	public void onConfirmDismiss() {
-		
+
 	}
-	
+
 	private void executeStartTravelService() {
 		ContentValues data = new ContentValues();
 		data.put("started_at", Utils.startTravelTimeRequest.getStarted_at());
@@ -629,7 +726,7 @@ public class ActivityPageActivity extends BaseActivity implements
 					checkOutRemember.setIsStartedTravel("true");
 					JobViewerDBHandler.saveCheckOutRemember(mContext,
 							checkOutRemember);
-					
+
 					startEndActvity(Utils.getCurrentDateAndTime());
 					break;
 				case HttpConnection.DID_ERROR:
@@ -653,39 +750,49 @@ public class ActivityPageActivity extends BaseActivity implements
 		};
 		return handler;
 	}
-	
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
-		 menu.setHeaderTitle(getResources().getString(R.string.context_work_options));
-		if (v == mStart)
-        {
-			menu.add(0, 1, 0, getResources().getString(R.string.context_menu_start_confined_space_entry));
-			menu.add(0, 2, 0, getResources().getString(R.string.context_menu_leave_work));  
-			menu.add(0, 3, 0, getResources().getString(R.string.context_menu_back));
-        }
+		menu.setHeaderTitle(getResources().getString(
+				R.string.context_work_options));
+		if (v == mStart) {
+			menu.add(
+					0,
+					1,
+					0,
+					getResources().getString(
+							R.string.context_menu_start_confined_space_entry));
+			menu.add(0, 2, 0,
+					getResources().getString(R.string.context_menu_leave_work));
+			menu.add(0, 3, 0,
+					getResources().getString(R.string.context_menu_back));
+		}
 	}
-	
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		 switch (item.getItemId()) {
-	        case 1:
-	        	Intent confinedWorkintent = new Intent(ActivityPageActivity.this,ConfinedAssessmentQuestionsActivity.class);
-	        	confinedWorkintent.putExtra(Constants.CALLING_ACTIVITY, ActivityPageActivity.this.getClass().getSimpleName());
-	        	startActivity(confinedWorkintent);
-	            return true;
-	        case 2:
-	        	ConfirmDialog confirmDialog = new ConfirmDialog(mContext, this, ActivityConstants.LEAVE_WORK_CONFIMRATION);
-	        	confirmDialog.show();
-	        	
-	        	
-	            return true;
-	        case 3:
-	        	mStart.getRootView().dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+		switch (item.getItemId()) {
+		case 1:
+			Intent confinedWorkintent = new Intent(ActivityPageActivity.this,
+					ConfinedAssessmentQuestionsActivity.class);
+			confinedWorkintent.putExtra(Constants.CALLING_ACTIVITY,
+					ActivityPageActivity.this.getClass().getSimpleName());
+			startActivity(confinedWorkintent);
+			return true;
+		case 2:
+			ConfirmDialog confirmDialog = new ConfirmDialog(mContext, this,
+					ActivityConstants.LEAVE_WORK_CONFIMRATION);
+			confirmDialog.show();
+
+			return true;
+		case 3:
+			mStart.getRootView().dispatchKeyEvent(
+					new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 }

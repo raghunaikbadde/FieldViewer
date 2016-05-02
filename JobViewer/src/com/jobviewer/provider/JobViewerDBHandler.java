@@ -657,7 +657,7 @@ public class JobViewerDBHandler {
 
 	public static void saveStartTraining(Context context,
 			StartTrainingObject trainingStart) {
-		deleteUserProfile(context);
+		deleteStartTraining(context);
 		ContentValues values = new ContentValues();
 		values.put(
 				JobViewerProviderContract.StartTrainingTable.IS_TRAINING_STARTED,

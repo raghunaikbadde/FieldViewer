@@ -1,8 +1,6 @@
 package com.jobviewer.util;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -16,14 +14,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.CheckOutObject;
@@ -36,18 +31,18 @@ import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallback;
 import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallbackForNoPhotos;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
-import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.NewWorkActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.TravelToWorkSiteActivity;
 import com.vehicle.communicator.HttpConnection;
 
-public class SelectActivityDialog extends Activity implements ConfirmDialogCallback,ConfirmDialogCallbackForNoPhotos {
+public class SelectActivityDialog extends Activity implements
+		ConfirmDialogCallback, ConfirmDialogCallbackForNoPhotos {
 
-	private CheckBox mWork, mWorkNoPhotos, mTraining;
+	/*private CheckBox mWork, mWorkNoPhotos, mTraining;
 	private String selected;
 	private OnCheckedChangeListener checkChangedListner;
-	private Button start, cancel;
+	private Button start, cancel;*/
 	private Context mContext;
 
 	private final String WORK = "Work";
@@ -62,9 +57,7 @@ public class SelectActivityDialog extends Activity implements ConfirmDialogCallb
 		this.getWindow().setBackgroundDrawableResource(
 				android.R.color.transparent);
 		setContentView(R.layout.select_dialog);
-		
-		
-
+		mContext=this;
 		HashMap<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("maintext", R.drawable.work_camera_icon);
 		map1.put("subtext", "Work");
@@ -72,7 +65,8 @@ public class SelectActivityDialog extends Activity implements ConfirmDialogCallb
 
 		HashMap<String, Object> map2 = new HashMap<String, Object>();
 		map2.put("maintext", R.drawable.work_nophotos_user_icon);
-		map2.put("subtext", "Work (no photos or data)");// no small text of this item!
+		map2.put("subtext", "Work (no photos or data)");// no small text of this
+														// item!
 		m_data.add(map2);
 
 		HashMap<String, Object> map3 = new HashMap<String, Object>();
@@ -95,23 +89,24 @@ public class SelectActivityDialog extends Activity implements ConfirmDialogCallb
 
 		lv.setAdapter(adapter);
 
-lv.setOnItemClickListener(new OnItemClickListener() {
+		lv.setOnItemClickListener(new OnItemClickListener() {
 
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		RadioButton rb = (RadioButton) view.findViewById(R.id.checkBox2);
-		if (!rb.isChecked()) // OFF->ON
-		{
-			for (HashMap<String, Object> m : m_data)
-				// clean previous selected
-				m.put("checked", false);
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				RadioButton rb = (RadioButton) view
+						.findViewById(R.id.checkBox2);
+				if (!rb.isChecked()) // OFF->ON
+				{
+					for (HashMap<String, Object> m : m_data)
+						// clean previous selected
+						m.put("checked", false);
 
-			m_data.get(position).put("checked", true);
-			adapter.notifyDataSetChanged();
-		}
-	}
-});
+					m_data.get(position).put("checked", true);
+					adapter.notifyDataSetChanged();
+				}
+			}
+		});
 
 		// show result
 		((Button) findViewById(R.id.dialog_ok))
@@ -132,9 +127,9 @@ lv.setOnItemClickListener(new OnItemClickListener() {
 							}
 						}
 						String result = "";
-						if(selected==-1)
+						if (selected == -1)
 							return;
-						else if(selected==0){
+						else if (selected == 0) {
 							CheckOutObject checkOutRemember = JobViewerDBHandler
 									.getCheckOutRemember(v.getContext());
 							if (checkOutRemember != null
@@ -149,107 +144,113 @@ lv.setOnItemClickListener(new OnItemClickListener() {
 							}
 							result = WORK;
 							startActivity(intent);
-						}
-						else if (selected==1){							
-							
-							new ConfirmDialog(v.getContext(), SelectActivityDialog.this, Constants.WORK_NO_PHOTOS_CONFIRMATION,"").show();
+						} else if (selected == 1) {
+
+							new ConfirmDialog(v.getContext(),
+									SelectActivityDialog.this,
+									Constants.WORK_NO_PHOTOS_CONFIRMATION, "")
+									.show();
 							result = WORK_NO_PHOTOS;
 							return;
 						}
-							
-						else if (selected==2){
-							new ConfirmDialog(v.getContext(), SelectActivityDialog.this, Constants.START_TRAINING).show();
+
+						else if (selected == 2) {
+							new ConfirmDialog(v.getContext(),
+									SelectActivityDialog.this,
+									Constants.START_TRAINING).show();
 							result = TRAINING;
 							return;
 						}
-						/*intent.putExtra("Selected", result);
-						setResult(RESULT_OK, intent);*/
+						/*
+						 * intent.putExtra("Selected", result);
+						 * setResult(RESULT_OK, intent);
+						 */
 						finish();
 					}
 				});
-		
-		((Button) findViewById(R.id.dialog_cancel)).setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
+
+		((Button) findViewById(R.id.dialog_cancel))
+				.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				});
 	}
 
 	@Override
 	public void onConfirmStartTraining() {
-		
+
 		ContentValues data = new ContentValues();
 		Utils.timeSheetRequest = new TimeSheetRequest();
-		
-		Utils.timeSheetRequest.setStarted_at(new SimpleDateFormat("HH:mm:ss dd MMM yyyy")
-		.format(Calendar.getInstance().getTime())); 
-				
-		data.put("started_at", new SimpleDateFormat("HH:mm:ss dd MMM yyyy")
-		.format(Calendar.getInstance().getTime()));
-		
-		
+
+		Utils.timeSheetRequest.setStarted_at(Utils.getCurrentDateAndTime());
+
+		data.put("started_at", Utils.getCurrentDateAndTime());
+
 		User userProfile = JobViewerDBHandler.getUserProfile(this);
-		if(userProfile!=null){
+		if (userProfile != null) {
 			Utils.timeSheetRequest.setRecord_for(userProfile.getEmail());
 			data.put("record_for", userProfile.getEmail());
-		}else{
-			Utils.timeSheetRequest.setRecord_for("fsa@lancegroup.com");
-			data.put("record_for", "fsa@lancegroup.com");
 		}
-		
+
 		Utils.timeSheetRequest.setIs_inactive("");
 		data.put("is_inactive", "");
-		
+
 		Utils.timeSheetRequest.setIs_overriden("");
 		data.put("is_overriden", "");
-		
+
 		Utils.timeSheetRequest.setOverride_reason("");
 		data.put("override_reason", "");
-		
+
 		Utils.timeSheetRequest.setOverride_comment("");
-		data.put("override_comment","");
-		
+		data.put("override_comment", "");
+
 		Utils.timeSheetRequest.setOverride_timestamp("");
-		data.put("override_timestamp","");
-		
-		CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(this);
-		if(checkOutObject.getVistecId() != null){
-			Utils.timeSheetRequest.setReference_id(checkOutObject.getVistecId());
+		data.put("override_timestamp", "");
+
+		CheckOutObject checkOutObject = JobViewerDBHandler
+				.getCheckOutRemember(this);
+		if (checkOutObject.getVistecId() != null) {
+			Utils.timeSheetRequest
+					.setReference_id(checkOutObject.getVistecId());
 			data.put("reference_id", checkOutObject.getVistecId());
 		} else {
 			Utils.timeSheetRequest.setReference_id("");
 			data.put("reference_id", "");
 		}
-		if(userProfile!=null)
+		if (userProfile != null)
 			data.put("user_id", userProfile.getEmail());
-		else 
-			data.put("user_id", "fsa@lancegroup.com");
-		String time = new SimpleDateFormat("HH:mm:ss dd MMM yyyy")
-		.format(Calendar.getInstance().getTime());
+		else{
+			data.put("user_id", "");
+		}
 
-		if (Utils.isInternetAvailable(this)){
+		String time = Utils.getCurrentDateAndTime();
+
+		if (Utils.isInternetAvailable(this)) {
+			//finish();
+			Utils.startProgress(this);
 			Utils.SendHTTPRequest(this, CommsConstant.HOST
 					+ CommsConstant.START_TRAINING_API, data,
 					getStartTrainingHandler(time));
 		} else {
-			Utils.saveTimeSheetInBackLogTable(
-					SelectActivityDialog.this, Utils.timeSheetRequest,
-					CommsConstant.START_TRAINING_API,
+			Utils.saveTimeSheetInBackLogTable(SelectActivityDialog.this,
+					Utils.timeSheetRequest, CommsConstant.START_TRAINING_API,
 					Utils.REQUEST_TYPE_WORK);
 			saveTrainingTimeSheet(Utils.timeSheetRequest);
+			finish();
 		}
 		setResult(RESULT_OK);
-		finish();
+		
 	}
-	
+
 	private void saveTrainingTimeSheet(TimeSheetRequest timeSheetRequest) {
-		StartTrainingObject startTraining=new StartTrainingObject();
+		StartTrainingObject startTraining = new StartTrainingObject();
 		startTraining.setIsTrainingStarted("true");
 		startTraining.setStartTime(timeSheetRequest.getStarted_at());
 		JobViewerDBHandler.saveStartTraining(this, startTraining);
-		
+
 	}
 
 	private Handler getStartTrainingHandler(final String time) {
@@ -260,6 +261,7 @@ lv.setOnItemClickListener(new OnItemClickListener() {
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
 					saveTrainingTimeSheet(Utils.timeSheetRequest);
+					finish();
 					break;
 				case HttpConnection.DID_ERROR:
 					Utils.StopProgress();
@@ -284,7 +286,7 @@ lv.setOnItemClickListener(new OnItemClickListener() {
 
 	@Override
 	public void onConfirmDismiss() {
-		
+
 	}
 
 	@Override
@@ -303,15 +305,14 @@ lv.setOnItemClickListener(new OnItemClickListener() {
 			}
 		}
 		String result = "";
-		if(selected==-1)
+		if (selected == -1)
 			return;
-		else if(selected==0 || selected==1){
+		else if (selected == 0 || selected == 1) {
 			CheckOutObject checkOutRemember = JobViewerDBHandler
 					.getCheckOutRemember(this);
 			if (checkOutRemember != null
-					&& ActivityConstants.TRUE
-							.equalsIgnoreCase(checkOutRemember
-									.getIsTravelEnd())) {
+					&& ActivityConstants.TRUE.equalsIgnoreCase(checkOutRemember
+							.getIsTravelEnd())) {
 				workWithNoPhotosintent.setClass(SelectActivityDialog.this,
 						NewWorkActivity.class);
 			} else {
@@ -319,7 +320,8 @@ lv.setOnItemClickListener(new OnItemClickListener() {
 						TravelToWorkSiteActivity.class);
 			}
 			result = WORK_NO_PHOTOS;
-			workWithNoPhotosintent.putExtra(Constants.WORK_NO_PHOTOS, Constants.WORK_NO_PHOTOS);
+			workWithNoPhotosintent.putExtra(Constants.WORK_NO_PHOTOS,
+					Constants.WORK_NO_PHOTOS);
 			startActivity(workWithNoPhotosintent);
 		}
 		finish();
@@ -327,6 +329,6 @@ lv.setOnItemClickListener(new OnItemClickListener() {
 
 	@Override
 	public void onConfirmDismissWithNoPhotos() {
-		
+
 	}
 }
