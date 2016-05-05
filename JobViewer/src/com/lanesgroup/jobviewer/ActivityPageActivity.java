@@ -671,6 +671,11 @@ public class ActivityPageActivity extends BaseActivity implements
 					JobViewerDBHandler.deleteStartTraining(mContext);
 					mStart.setText("Start...");
 					mStart.setTag(Constants.START_TRAINING);
+					Toast.makeText(
+							BaseActivity.context,
+							BaseActivity.context.getResources().getString(
+									R.string.traningendmsg),
+							Toast.LENGTH_SHORT).show();
 					break;
 				case HttpConnection.DID_ERROR:
 					Utils.StopProgress();
