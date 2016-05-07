@@ -367,4 +367,5 @@
 	<string name="length">Length required</string>
 	<string name="traningendmsg">Training ended successfully.</string>
 	<string name="endTrainingWarningMsg">Please end training before ending your shift</string>
+	<string name="startedTrainingMsg">Training Started</string>
 </resources>

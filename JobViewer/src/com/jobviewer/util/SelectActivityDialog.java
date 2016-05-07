@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.CheckOutObject;
@@ -31,6 +32,7 @@ import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallback;
 import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallbackForNoPhotos;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
+import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.NewWorkActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.TravelToWorkSiteActivity;
@@ -261,6 +263,11 @@ public class SelectActivityDialog extends Activity implements
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
 					saveTrainingTimeSheet(Utils.timeSheetRequest);
+					Toast.makeText(
+							BaseActivity.context,
+							BaseActivity.context.getResources().getString(
+									R.string.startedTrainingMsg),
+							Toast.LENGTH_SHORT).show();
 					finish();
 					break;
 				case HttpConnection.DID_ERROR:
