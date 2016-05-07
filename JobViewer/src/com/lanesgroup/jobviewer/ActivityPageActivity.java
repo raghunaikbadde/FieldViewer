@@ -391,7 +391,15 @@ public class ActivityPageActivity extends BaseActivity implements
 					.getClass().getSimpleName());
 			startActivity(intent);
 		} else if (mEndOnCall.getText().toString().equals("End Shift")) {
-
+			String tag = (String) mStart.getTag();
+			if(tag.contains(Constants.END_TRAINING)){
+				Toast.makeText(
+						BaseActivity.context,
+						BaseActivity.context.getResources().getString(
+								R.string.endTrainingWarningMsg),
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
 			if (mCheckOutVehicle.getVisibility() != View.VISIBLE) {
 				intent = new Intent(ActivityPageActivity.this,
 						EndShiftReturnVehicleActivity.class);

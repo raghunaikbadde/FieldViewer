@@ -366,4 +366,5 @@
 	<string name="diameterRequired">Diameter required</string>
 	<string name="length">Length required</string>
 	<string name="traningendmsg">Training ended successfully.</string>
+	<string name="endTrainingWarningMsg">Please end training before ending your shift</string>
 </resources>
