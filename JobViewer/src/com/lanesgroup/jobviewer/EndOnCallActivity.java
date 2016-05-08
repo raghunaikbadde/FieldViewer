@@ -10,10 +10,16 @@ import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.ChangeTimeDialog;
+import com.jobviewer.util.Constants;
+import com.jobviewer.util.OverrideReasoneDialog;
 import com.jobviewer.util.Utils;
+import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 import com.vehicle.communicator.HttpConnection;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +31,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,8 +39,9 @@ import android.widget.TextView;
 public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 
 	Button mCancel,mEndOnCall;
-	TextView mUserEmail,mVehileUsedHeading,mVehicleUsed,mMileage,mProgressText,mEndTime,mStrokeText,mHeading;
+	TextView mUserEmail,mVehileUsedHeading,mVehicleUsed,mMileage,mProgressText,mEndTime,mStrokeText,mHeading, mOverrideStartTime;
 	ProgressBar progressBar;
+	private ImageView mEditTime;
 	CheckBox mConfirmCheckBox;
 	CheckOutObject checkOutRemember;
 	@Override
@@ -52,6 +60,9 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 		mEndTime = (TextView)findViewById(R.id.date_time_text);
 		mUserEmail = (TextView)findViewById(R.id.user_email_text);
 		mStrokeText = (TextView)findViewById(R.id.stroke_text4);
+		mEditTime = (ImageView) findViewById(R.id.edit_date);
+		mEditTime.setOnClickListener(this);
+		mOverrideStartTime = (TextView) findViewById(R.id.overrided_date_time_text);
 		mVehileUsedHeading = (TextView)findViewById(R.id.vehicle_used);
 		mProgressText = (TextView)findViewById(R.id.progress_step_text);
 		mVehicleUsed = (TextView)findViewById(R.id.vehicle_used_text);
@@ -139,6 +150,24 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 			}
 			
 			
+		} else if(v == mEditTime){
+			Intent intent = new Intent(EndOnCallActivity.this, ChangeTimeDialog.class);
+			intent.putExtra("eventType", "EndOnCall");			
+			intent.putExtra("eventType1", "EndOnCall");
+			Utils.callEndTimeRequest.setStarted_at(Utils
+					.getCurrentDateAndTime());
+			Utils.callEndTimeRequest.setIs_overriden("true");
+			User userProfile = JobViewerDBHandler.getUserProfile(this);
+			CheckOutObject checkOutRemember = JobViewerDBHandler
+					.getCheckOutRemember(this);
+			Utils.callEndTimeRequest.setUser_id(userProfile
+					.getEmail());
+			Utils.callEndTimeRequest
+			.setReference_id(checkOutRemember.getVistecId());
+			Utils.callEndTimeRequest.setRecord_for(userProfile
+					.getEmail());
+			(EndOnCallActivity.this).startActivityForResult(intent,
+					Constants.RESULT_CODE_CHANGE_TIME);
 		}
 	}
 
@@ -199,7 +228,12 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 				Utils.callEndTimeRequest.getOverride_comment());
 		data.put("override_timestamp",
 				Utils.callEndTimeRequest.getOverride_timestamp());
-		data.put("reference_id", Utils.callEndTimeRequest.getReference_id());
+		if (!Utils.isNullOrEmpty(Utils.callEndTimeRequest
+				.getReference_id())) {
+			data.put("reference_id", Utils.callEndTimeRequest.getReference_id());
+		} else {
+			data.put("reference_id","");
+		}
 		data.put("user_id", Utils.callEndTimeRequest.getUser_id());
 		String time = "";
 		if (Utils.isNullOrEmpty(Utils.callEndTimeRequest
@@ -286,5 +320,32 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(EndOnCallActivity.this);
 		breakShiftTravelCall.setCallEndTime(String.valueOf(System.currentTimeMillis()));
 		JobViewerDBHandler.saveBreakShiftTravelCall(EndOnCallActivity.this, breakShiftTravelCall);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {	
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == Constants.RESULT_CODE_CHANGE_TIME
+				&& resultCode == RESULT_OK) {
+			TimeSheetRequest timeSheetRequest = Utils.callEndTimeRequest;
+			if (ActivityConstants.TRUE.equalsIgnoreCase(timeSheetRequest
+					.getIs_overriden())) {
+				Intent intent = new Intent(this, OverrideReasoneDialog.class);
+				intent.putExtra("eventType",
+						data.getExtras().getString("eventType"));
+				intent.putExtra("eventType1",
+						data.getExtras().getString("eventType1"));
+				startActivityForResult(intent,
+						Constants.RESULT_CODE_OVERRIDE_COMMENT);
+			}
+		} else if (requestCode == Constants.RESULT_CODE_OVERRIDE_COMMENT
+				&& resultCode == RESULT_OK) {
+			mOverrideStartTime.setVisibility(View.VISIBLE);
+			mOverrideStartTime.setText(Utils.callEndTimeRequest
+					.getOverride_timestamp() + " (User)");
+			
+
+		}
+		
 	}
 }

@@ -86,8 +86,9 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/white_lato_bold_small50" />
 
-                <TextView
-                    android:id="@+id/date_time_text"
+               
+ 				<TextView
+                    android:id="@+id/overrided_date_time_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/shift_end_time_text"
@@ -96,18 +97,42 @@
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:text="@string/tmp_date_time"
                     android:textColor="@color/black"
+                    android:visibility="gone"
                     android:textSize="@dimen/white_lato_bold_small50" />
-
-                <TextView
+               
+ 				<RelativeLayout 
+                    android:id="@+id/date_time_layout"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@+id/overrided_date_time_text"
+                    android:orientation="horizontal">
+	                    <TextView
+		                    android:id="@+id/date_time_text"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:layout_marginBottom="@dimen/dialog_edit_top_margin35"
+		                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
+		                    android:layout_marginRight="@dimen/white_lato_regular_big79"
+		                    android:text="@string/tmp_date_time"
+		                    android:textColor="@color/black"
+		                    android:textSize="@dimen/white_lato_bold_small50" />
+	                    <ImageView 
+	                        android:id="@+id/edit_date"
+	                        android:layout_height="wrap_content"
+	                        android:layout_width="wrap_content"
+	                        android:layout_alignParentRight="true"
+	                        android:layout_marginRight="@dimen/detail_bottom_margin70"
+	                        android:src="@drawable/edit_icon"/>
+                </RelativeLayout>
+                 <TextView
                     android:id="@+id/stroke_text"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dialog_list_divider4"
-                    android:layout_below="@+id/date_time_text"
+                    android:layout_below="@+id/date_time_layout"
                     android:layout_marginBottom="@dimen/dialog_edit_top_margin35"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:background="@color/light_grey" />
-
                 <TextView
                     android:id="@+id/user_text"
                     android:layout_width="wrap_content"

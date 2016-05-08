@@ -114,7 +114,11 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 						Utils.callStartTimeRequest.setOverride_timestamp(time);
 					}
 					eventTypeValue=eventType;
-				} else {
+				} else if("EndOnCall".equalsIgnoreCase(eventType)){
+					eventTypeValue=eventType;
+					eventType1=(String) getIntent().getExtras().get("eventType1");
+					Utils.callEndTimeRequest.setOverride_timestamp(time);
+				}else {
 					Utils.endTimeRequest.setOverride_timestamp(time);
 					eventTypeValue = "endtravel";
 				}
@@ -172,6 +176,11 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 				}
 				
 			}
+		} else if ("EndOnCall".equalsIgnoreCase(eventType)) {
+			if(!Utils.checkIfStartDateIsGreater(time,Utils.getCurrentDateAndTime())){
+				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
+				return false;
+			}			
 		} else {
 			Utils.endTimeRequest.setOverride_timestamp(time);
 			eventTypeValue = "endtravel";
