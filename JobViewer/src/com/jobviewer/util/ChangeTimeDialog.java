@@ -118,6 +118,10 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 					eventTypeValue=eventType;
 					eventType1=(String) getIntent().getExtras().get("eventType1");
 					Utils.callEndTimeRequest.setOverride_timestamp(time);
+				} else if("EndShift".equalsIgnoreCase(eventType)){
+					eventTypeValue=eventType;
+					eventType1=(String) getIntent().getExtras().get("eventType1");
+					Utils.endShiftRequest.setOverride_timestamp(time);
 				}else {
 					Utils.endTimeRequest.setOverride_timestamp(time);
 					eventTypeValue = "endtravel";
@@ -178,6 +182,20 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 				}
 				
 				Utils.timeSheetRequest.setOverride_timestamp(time);
+		} else if ("EndShift".equalsIgnoreCase(eventType)) {
+			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(context);
+			
+			String shiftStartTime =checkOutRemember.getJobStartedTime();
+			String presentTime = Utils.getCurrentDateAndTime();
+			if (!Utils.checkIfStartDateIsGreater(checkOutRemember.getJobStartedTime(), time)) {
+				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+checkOutRemember.getJobStartedTime()+")";
+				return false;
+			}else if(!Utils.checkIfStartDateIsGreater(time,presentTime)){
+				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
+				return false;
+			}
+			
+			Utils.endShiftRequest.setOverride_timestamp(time);
 		} else if ("travel".equalsIgnoreCase(eventType)) {
 			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(context);
 			if (!Utils.checkIfStartDateIsGreater(checkOutRemember.getJobStartedTime(), time)) {

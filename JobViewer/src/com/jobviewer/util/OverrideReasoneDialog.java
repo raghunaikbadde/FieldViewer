@@ -72,6 +72,9 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 		} else if(eventType.equalsIgnoreCase("EndOnCall")){
 			timeStampValue.setText(Utils.callEndTimeRequest
 					.getOverride_timestamp());
+		} else if(eventType.equalsIgnoreCase("EndShift")){
+			timeStampValue.setText(Utils.endShiftRequest
+					.getOverride_timestamp());
 		}else {
 			timeStampValue.setText(Utils.endTimeRequest
 					.getOverride_timestamp());
@@ -126,6 +129,9 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 		} else if(eventType.equalsIgnoreCase("EndOnCall")){
 			Utils.callEndTimeRequest.setOverride_comment(item);
 			Utils.callEndTimeRequest.setOverride_reason(item);
+		}else if(eventType.equalsIgnoreCase("EndShift")){
+			Utils.endShiftRequest.setOverride_comment(item);
+			Utils.endShiftRequest.setOverride_reason(item);
 		}else {
 			Utils.endTimeRequest.setOverride_comment(item);
 			Utils.endTimeRequest.setOverride_reason(item);

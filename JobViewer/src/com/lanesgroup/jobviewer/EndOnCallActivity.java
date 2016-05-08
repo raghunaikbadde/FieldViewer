@@ -152,20 +152,40 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 			
 		} else if(v == mEditTime){
 			Intent intent = new Intent(EndOnCallActivity.this, ChangeTimeDialog.class);
-			intent.putExtra("eventType", "EndOnCall");			
-			intent.putExtra("eventType1", "EndOnCall");
-			Utils.callEndTimeRequest.setStarted_at(Utils
-					.getCurrentDateAndTime());
-			Utils.callEndTimeRequest.setIs_overriden("true");
-			User userProfile = JobViewerDBHandler.getUserProfile(this);
-			CheckOutObject checkOutRemember = JobViewerDBHandler
-					.getCheckOutRemember(this);
-			Utils.callEndTimeRequest.setUser_id(userProfile
-					.getEmail());
-			Utils.callEndTimeRequest
-			.setReference_id(checkOutRemember.getVistecId());
-			Utils.callEndTimeRequest.setRecord_for(userProfile
-					.getEmail());
+			if(checkOutRemember.getJobSelected().contains("shift")){
+			
+				intent.putExtra("eventType", "EndShift");			
+				intent.putExtra("eventType1", "EndShift");
+				Utils.endShiftRequest.setStarted_at(Utils
+						.getCurrentDateAndTime());
+				Utils.endShiftRequest.setIs_overriden("true");
+				User userProfile = JobViewerDBHandler.getUserProfile(this);
+				CheckOutObject checkOutRemember = JobViewerDBHandler
+						.getCheckOutRemember(this);
+				Utils.endShiftRequest.setUser_id(userProfile
+						.getEmail());
+				Utils.endShiftRequest
+				.setReference_id(checkOutRemember.getVistecId());
+				Utils.endShiftRequest.setRecord_for(userProfile
+						.getEmail());
+				
+			} else{
+				intent.putExtra("eventType", "EndOnCall");			
+				intent.putExtra("eventType1", "EndOnCall");
+				Utils.callEndTimeRequest.setStarted_at(Utils
+						.getCurrentDateAndTime());
+				Utils.callEndTimeRequest.setIs_overriden("true");
+				User userProfile = JobViewerDBHandler.getUserProfile(this);
+				CheckOutObject checkOutRemember = JobViewerDBHandler
+						.getCheckOutRemember(this);
+				Utils.callEndTimeRequest.setUser_id(userProfile
+						.getEmail());
+				Utils.callEndTimeRequest
+				.setReference_id(checkOutRemember.getVistecId());
+				Utils.callEndTimeRequest.setRecord_for(userProfile
+						.getEmail());
+			}
+			
 			(EndOnCallActivity.this).startActivityForResult(intent,
 					Constants.RESULT_CODE_CHANGE_TIME);
 		}
@@ -267,7 +287,12 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 				Utils.endShiftRequest.getOverride_comment());
 		data.put("override_timestamp",
 				Utils.endShiftRequest.getOverride_timestamp());
-		data.put("reference_id", Utils.endShiftRequest.getReference_id());
+		if (!Utils.isNullOrEmpty(Utils.endShiftRequest
+				.getReference_id())) {
+			data.put("reference_id", Utils.endShiftRequest.getReference_id());
+		} else {
+			data.put("reference_id","");
+		}
 		data.put("user_id", Utils.endShiftRequest.getUser_id());
 		String time = "";
 		if (Utils.isNullOrEmpty(Utils.endShiftRequest
@@ -327,7 +352,12 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == Constants.RESULT_CODE_CHANGE_TIME
 				&& resultCode == RESULT_OK) {
-			TimeSheetRequest timeSheetRequest = Utils.callEndTimeRequest;
+			TimeSheetRequest timeSheetRequest;
+			if(checkOutRemember.getJobSelected().contains("shift")){
+				timeSheetRequest = Utils.endShiftRequest;	
+			} else {
+				timeSheetRequest = Utils.callEndTimeRequest;
+			}
 			if (ActivityConstants.TRUE.equalsIgnoreCase(timeSheetRequest
 					.getIs_overriden())) {
 				Intent intent = new Intent(this, OverrideReasoneDialog.class);
@@ -341,7 +371,12 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 		} else if (requestCode == Constants.RESULT_CODE_OVERRIDE_COMMENT
 				&& resultCode == RESULT_OK) {
 			mOverrideStartTime.setVisibility(View.VISIBLE);
-			mOverrideStartTime.setText(Utils.callEndTimeRequest
+
+			if(checkOutRemember.getJobSelected().contains("shift")){
+				mOverrideStartTime.setText(Utils.endShiftRequest
+						.getOverride_timestamp() + " (User)");
+			}else
+				mOverrideStartTime.setText(Utils.callEndTimeRequest
 					.getOverride_timestamp() + " (User)");
 			
 
