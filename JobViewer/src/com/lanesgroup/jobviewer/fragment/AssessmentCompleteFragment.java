@@ -171,9 +171,10 @@ public class AssessmentCompleteFragment extends Fragment implements
 					Log.i("Android", result);
 					CheckOutObject checkOutRemember = JobViewerDBHandler
 							.getCheckOutRemember(getActivity());
+					
 					if (ActivityConstants.TRUE
 							.equalsIgnoreCase(checkOutRemember
-									.getIsPollutionSelected())) {
+									.getIsPollutionSelected())) {						
 						Intent pollutionIntent = new Intent(getActivity(),
 								PollutionActivity.class);
 						startActivity(pollutionIntent);
@@ -182,6 +183,7 @@ public class AssessmentCompleteFragment extends Fragment implements
 								AddPhotosActivity.class);
 						startActivity(pollutionIntent);
 					}
+					getActivity().finish();
 					Utils.StopProgress();
 					break;
 				case HttpConnection.DID_ERROR:
