@@ -143,7 +143,41 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 
 	private boolean validateTime(Context context, String time) {
 		if ("start".equalsIgnoreCase(eventType)) {
+			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(context);
+			
+			String shiftStartTime =checkOutRemember.getJobStartedTime();
+			String presentTime = Utils.getCurrentDateAndTime();
+			if (!Utils.checkIfStartDateIsGreater(checkOutRemember.getJobStartedTime(), time)) {
+				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+checkOutRemember.getJobStartedTime()+")";
+				return false;
+			}else if(!Utils.checkIfStartDateIsGreater(time,presentTime)){
+				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
+				return false;
+			}
+			
 			Utils.timeSheetRequest.setOverride_timestamp(time);
+		} else if("End Break".equalsIgnoreCase(eventType)){
+				CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(context);
+				
+				String shiftStartTime =checkOutRemember.getJobStartedTime();
+				String presentTime = Utils.getCurrentDateAndTime();
+				
+				if (!Utils.checkIfStartDateIsGreater(checkOutRemember.getJobStartedTime(), time)) {
+					errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+checkOutRemember.getJobStartedTime()+")";
+					return false;
+				}else if(!Utils.checkIfStartDateIsGreater(time,presentTime)){
+					errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
+					return false;
+				} else {
+					if(Utils.timeSheetRequest!=null){
+						if (!Utils.checkIfStartDateIsGreater(Utils.timeSheetRequest.getStarted_at(), time)) {
+							errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+Utils.timeSheetRequest.getStarted_at()+")";
+							return false;
+						}
+					}
+				}
+				
+				Utils.timeSheetRequest.setOverride_timestamp(time);
 		} else if ("travel".equalsIgnoreCase(eventType)) {
 			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(context);
 			if (!Utils.checkIfStartDateIsGreater(checkOutRemember.getJobStartedTime(), time)) {
