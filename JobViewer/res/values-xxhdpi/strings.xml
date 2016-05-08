@@ -368,4 +368,5 @@
 	<string name="traningendmsg">Training complete.</string>
 	<string name="endTrainingWarningMsg">Please end training before ending your shift</string>
 	<string name="startedTrainingMsg">Training Started</string>
+	<string name="personalRiskAssesmentHeading">Personal Risk Assessment</string>
 </resources>

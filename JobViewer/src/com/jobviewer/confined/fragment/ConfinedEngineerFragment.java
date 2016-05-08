@@ -39,6 +39,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 			bottom_man3_edittext;
 	Button saveBtn, nextBtn;
 	public static String engineerName1,engineerName2,engineerName3;
+	public static String gasLevel1,gasLevel2,gasLevel3,gasLevel4;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -102,10 +103,28 @@ public class ConfinedEngineerFragment extends Fragment implements
 			bottom_man1_edittext.addTextChangedListener(this);
 			bottom_man2_edittext.addTextChangedListener(this);
 			enableNextButton(false);
+			if(!Utils.isNullOrEmpty(top_man_edittext.getText().toString()) 
+					&& !Utils.isNullOrEmpty(bottom_man1_edittext.getText().toString())){
+				enableNextButton(true);
+			}
 		} else {
 			bottom_man3_text.setVisibility(View.VISIBLE);
 			bottom_man3_edittext.setVisibility(View.VISIBLE);
-			enableNextButton(true);
+			
+			if(gasLevel1 !=null){
+				top_man_edittext.setText(gasLevel1);
+			}
+			if(gasLevel2 != null){
+				bottom_man1_edittext.setText(gasLevel2);
+			}
+			if(gasLevel3 != null){
+				bottom_man2_edittext.setText(gasLevel3);
+			}	
+			if(gasLevel4!=null){
+				bottom_man3_edittext.setText(gasLevel4);			
+			}
+			
+			enableNextButton(true);	
 		}
 		setDataInEditText();
 	}
@@ -198,6 +217,8 @@ public class ConfinedEngineerFragment extends Fragment implements
 			if (validUserInputs()) {
 				setAnswerForInputs();
 				saveEngineerNames();
+				if (!(currentScreen.getInputs().length < 4)) {
+				saveGasLevels();}
 				try{  
 					 View view = getActivity().getCurrentFocus();
 					 if(view!=null){
@@ -229,7 +250,14 @@ public class ConfinedEngineerFragment extends Fragment implements
 	private void saveEngineerNames() {
 		engineerName1 = top_man_edittext.getText().toString();
 		engineerName2 = bottom_man1_edittext.getText().toString();
-		engineerName3 = bottom_man2_edittext.getText().toString();
+		engineerName3 = bottom_man2_edittext.getText().toString();		
+	}
+	
+	private void saveGasLevels(){
+		gasLevel1 = top_man_edittext.getText().toString();
+		gasLevel2 = bottom_man1_edittext.getText().toString();
+		gasLevel3 = bottom_man2_edittext.getText().toString();
+		gasLevel4 = bottom_man3_edittext.getText().toString();
 	}
 
 	private void setAnswerForInputs() {
@@ -415,6 +443,8 @@ public class ConfinedEngineerFragment extends Fragment implements
 		if(!Utils.isNullOrEmpty(top_man_edittext.getText().toString()) 
 				&& !Utils.isNullOrEmpty(bottom_man1_edittext.getText().toString())){
 			enableNextButton(true);
+		} else {
+			enableNextButton(false);
 		}
 		
 	}

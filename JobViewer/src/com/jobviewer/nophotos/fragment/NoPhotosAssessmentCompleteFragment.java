@@ -1,5 +1,8 @@
 package com.jobviewer.nophotos.fragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -28,6 +31,7 @@ import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
+import com.lanesgroup.jobviewer.NewWorkActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
 import com.vehicle.communicator.HttpConnection;
@@ -99,7 +103,17 @@ public class NoPhotosAssessmentCompleteFragment extends Fragment implements
 			} else
 				values.put("related_type_reference",
 						checkOutRemember2.getVistecId());
-			values.put("started_at", ShoutOutActivity.getStartedAt());
+			String jsonStr = JobViewerDBHandler.getJSONFlagObject(getActivity());
+			
+			try{
+				JSONObject jsonObject = new JSONObject(jsonStr);
+				
+				if(jsonObject.has(Constants.WorkWithNoPhotosStartedAt)){			
+					values.put("started_at", jsonObject.getString(Constants.WorkWithNoPhotosStartedAt));
+				}
+			}catch(JSONException jse){
+				
+			}
 			values.put("completed_at", Utils.getCurrentDateAndTime());
 
 			values.put("created_by", userProfile.getEmail());

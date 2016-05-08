@@ -1,5 +1,8 @@
 package com.lanesgroup.jobviewer;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -288,7 +291,16 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 		if(CheckAndCcontinueNoWork()){
 			Intent intent = new Intent(NewWorkActivity.this,
 					WorkWithNoPhotosQuestionActivity.class);
-		
+			String jsonStr = JobViewerDBHandler.getJSONFlagObject(NewWorkActivity.this);
+			try{
+			
+				JSONObject jsonObject = new JSONObject(jsonStr);
+				jsonObject.put(Constants.WorkWithNoPhotosStartedAt,Utils.getCurrentDateAndTime());
+				JobViewerDBHandler.saveFlaginJSONObject(NewWorkActivity.this, jsonObject.toString());
+			}catch(JSONException jse){
+				
+			}
+			
 			startActivity(intent);
 		} else {
 			Intent intent = new Intent(NewWorkActivity.this,

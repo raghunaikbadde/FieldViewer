@@ -42,5 +42,6 @@ public class Constants {
 	public static final String CHANGE_TIME_FORMAT="dd/MM/yyyy HH:mm a";
 	public static final String DATE_PICKER_FORMAT="dd MMM yyyy";
 	public static final String IMAGE_STRING_INITIAL="data:image/png;base64,";
+	public static final String WorkWithNoPhotosStartedAt = "WorkWithNoPhotosStartedAt"; 
 	
 }

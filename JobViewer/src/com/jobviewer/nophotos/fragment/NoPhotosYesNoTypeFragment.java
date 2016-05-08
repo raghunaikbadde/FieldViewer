@@ -38,7 +38,7 @@ public class NoPhotosYesNoTypeFragment extends Fragment implements OnClickListen
 	Screen currentScreen;
 	RadioGroup radioGroup1;
 	CheckOutObject checkOutRemember;
-
+	TextView mScreenTitle;
 	public interface onClicksEnterJobNumber {
 		public void onNextClick();
 
@@ -70,7 +70,8 @@ public class NoPhotosYesNoTypeFragment extends Fragment implements OnClickListen
 		question.setText(currentScreen.getText());
 		radio_yes.setText(currentScreen.getOptions().getOption()[0].getLabel());
 		radio_no.setText(currentScreen.getOptions().getOption()[1].getLabel());
-		
+		mScreenTitle = (TextView) mRootView.findViewById(R.id.screenTitle);
+		mScreenTitle.setText(getResources().getString(R.string.personalRiskAssesmentHeading));
 		if (ActivityConstants.YES.equalsIgnoreCase(currentScreen.getAnswer())) {
 			radio_yes.setChecked(true);
 			mNext.setEnabled(true);
