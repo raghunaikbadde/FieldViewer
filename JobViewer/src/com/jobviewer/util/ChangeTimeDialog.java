@@ -221,10 +221,14 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 				return false;
 			} else{
 				String eventType1=(String) getIntent().getExtras().get("eventType1");
-				if (eventType1.equalsIgnoreCase(Utils.SHIFT_START)) {
-					Utils.startShiftTimeRequest.setOverride_timestamp(time);
-				}else{
-					Utils.callStartTimeRequest.setOverride_timestamp(time);
+				if(!Utils.isNullOrEmpty(eventType1)){
+					if (eventType1.equalsIgnoreCase(Utils.SHIFT_START)) {
+						Utils.startShiftTimeRequest.setIs_overriden(ActivityConstants.TRUE);
+						Utils.startShiftTimeRequest.setOverride_timestamp(time);
+					}else{
+						Utils.callStartTimeRequest.setIs_overriden(ActivityConstants.TRUE);
+						Utils.callStartTimeRequest.setOverride_timestamp(time);
+					}
 				}
 				
 			}

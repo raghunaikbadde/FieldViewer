@@ -285,6 +285,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 			// new showTimeDialog(this, this, "ClockIn").show();
 			Intent intent = new Intent(mContext, ChangeTimeDialog.class);
 			intent.putExtra("eventType", "ClockIn");
+			intent.putExtra("eventType1", Utils.SHIFT_START);
 			Bundle bundle = getIntent().getExtras();
 			if (bundle != null && bundle.containsKey(Utils.CALL_START)) {
 				intent.putExtra("eventType1", Utils.CALL_START);
