@@ -36,7 +36,7 @@
     <string name="vistec_job_number">Vistec Job Number</string>
     <string name="vistec_number">001212QWER</string>
     <string name="work_and_photos">Work and photos for this job have been\ncompleted. All data will be sent to the office\nautomatically as long as you have an internet\nconnection.</string>
-    <string name="tap_done_to_continue">Tap Done to continue to the main\nscreen</string>
+    <string name="tap_done_to_continue">Tap Done to continue</string>
     <string name="done">Done</string>
     <string name="update_previous">Update Previous\nRisk</string>
     <string name="review_your_risk">Review your last risk assessment\nbelow. Select a question to continue a\nnew risk assessment from that point.</string>
