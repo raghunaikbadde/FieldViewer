@@ -336,9 +336,11 @@ public class ActivityPageActivity extends BaseActivity implements
 			}
 		} else if (view == mEndOnCall) {
 			if (!mStart.getTag().toString()
-					.equalsIgnoreCase("Continue Work In Progress")) {
+					.equalsIgnoreCase("Continue Work In Progress") && 
+					!mStart.getTag().toString()
+					.contains(getResources().getString(R.string.work_in_progree_str))) {
 				endShiftOrCall();
-			} else {
+			}else {
 				if (ActivityConstants.JOB_SELECTED_SHIFT
 						.equalsIgnoreCase(Utils.checkOutObject.getJobSelected())) {
 					Toast.makeText(

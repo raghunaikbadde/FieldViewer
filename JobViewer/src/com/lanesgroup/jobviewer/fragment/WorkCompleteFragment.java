@@ -364,7 +364,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 			data.put("reference_id", "");
 		}
 		data.put("engineer_id", Utils.work_engineer_id);
-		data.put("status", Utils.work_status);
+		data.put("status", Utils.work_status_completed);
 		data.put("completed_at", Utils.getCurrentDateAndTime());
 		data.put("activity_type", "");
 		if (Utils.isNullOrEmpty(Utils.work_flooding_status)) {

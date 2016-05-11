@@ -163,10 +163,14 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 		} else if("End Break".equalsIgnoreCase(eventType)){
 				CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(context);
 				
-				String shiftStartTime =checkOutRemember.getJobStartedTime();
+				String shiftStartTime = Utils.endTimeRequest.getStarted_at();
+				String isOverridden = Utils.endTimeRequest.getIs_overriden();
+				if(isOverridden.equalsIgnoreCase(ActivityConstants.TRUE)){
+					shiftStartTime = Utils.endTimeRequest.getOverride_timestamp();
+				}
 				String presentTime = Utils.getCurrentDateAndTime();
 				
-				if (!Utils.checkIfStartDateIsGreater(checkOutRemember.getJobStartedTime(), time)) {
+				if (!Utils.checkIfStartDateIsGreater(shiftStartTime, time)) {
 					errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+checkOutRemember.getJobStartedTime()+")";
 					return false;
 				}else if(!Utils.checkIfStartDateIsGreater(time,presentTime)){

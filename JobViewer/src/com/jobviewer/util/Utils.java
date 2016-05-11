@@ -94,6 +94,8 @@ public class Utils {
 	public static String work_completed_at = "";
 	public static String work_engineer_id = "123322";
 	public static String work_status = "New";
+	public static String work_status_stopped = "Stopped";
+	public static String work_status_completed = "Completed";
 	public static String work_flooding_status = null;
 	public static String work_DA_call_out = "No Call Made";
 	public static boolean work_is_redline_captured = false;
