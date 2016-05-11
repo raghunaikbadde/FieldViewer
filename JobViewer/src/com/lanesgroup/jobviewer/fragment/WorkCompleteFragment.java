@@ -11,8 +11,10 @@ import android.graphics.Bitmap;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -184,6 +186,9 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 
 		} else if (view == mCaptureCallingCard) {
 			Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);
+			file = new File(Environment.getExternalStorageDirectory()
+					+ File.separator + "image.jpg");
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
 			startActivityForResult(intent, Constants.RESULT_CODE);
 			Toast.makeText(getActivity(), this.getResources().getString(R.string.capture_calling_Card),Toast.LENGTH_LONG).show();
 		} else if (view == mSpinnerLayout) {
