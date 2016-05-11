@@ -3,7 +3,7 @@ package com.jobviewer.util;
 public class ActivityConstants {
 	public static final String ASSESMENT_TYPE = "AssesmentType";
 	public static final String EXCAVATION = "Excavation";
-	public static final String NON_EXCAVATION = "NonExcavation";
+	public static final String NON_EXCAVATION = "Non Excavation";
 	public static final String TRUE="true";
 	public static final String FALSE="false";
 	public static final String SELECTED="selected";
