@@ -50,8 +50,15 @@ public class ConfinedEngineerFragment extends Fragment implements
 			Bundle savedInstanceState) {
 		getActivity().getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		mRootView = inflater.inflate(R.layout.confined_space_engineer_screen,
-				container, false);
+		currentScreen = ConfinedQuestionManager.getInstance()
+				.getCurrentScreen();
+		if (currentScreen.getInputs().length < 4) {
+			mRootView = inflater.inflate(R.layout.confined_space_engineer_screen,
+					container, false);
+		} else{
+			mRootView = inflater.inflate(R.layout.confined_space_gas_monitor_readinng,
+					container, false);
+		}
 		removePhoneKeypad();
 		initUI();
 		updateData();
@@ -425,7 +432,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 		}catch(Exception e){
 			
 		}
-		
+		saveGasLevels();
 		ConfinedQuestionManager.getInstance()
 		.updateScreenOnQuestionMaster(currentScreen);
 		ConfinedQuestionManager.getInstance().loadNextFragment(ActivityConstants.STOP_SCREEN);
