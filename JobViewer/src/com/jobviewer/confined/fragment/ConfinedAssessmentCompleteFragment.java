@@ -2,6 +2,7 @@ package com.jobviewer.confined.fragment;
 
 import android.app.Fragment;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +26,7 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
+import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
@@ -149,7 +151,14 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 					ConfinedEngineerFragment.engineerName1 = null;
 					ConfinedEngineerFragment.engineerName2 = null;
 					ConfinedEngineerFragment.engineerName3 = null;
+					ConfinedEngineerFragment.gasLevel1 = null;
+					ConfinedEngineerFragment.gasLevel2 = null;
+					ConfinedEngineerFragment.gasLevel3 = null;
+					ConfinedEngineerFragment.gasLevel4 = null;
+					JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(getActivity());
 					getActivity().finish();
+					Intent intent = new Intent(mRootView.getContext(),ActivityPageActivity.class);
+					startActivity(intent);
 					Log.i("Android", "");
 					break;
 				case HttpConnection.DID_ERROR:

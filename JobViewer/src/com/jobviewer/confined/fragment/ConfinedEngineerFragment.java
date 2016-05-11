@@ -117,19 +117,21 @@ public class ConfinedEngineerFragment extends Fragment implements
 		} else {
 			bottom_man3_text.setVisibility(View.VISIBLE);
 			bottom_man3_edittext.setVisibility(View.VISIBLE);
+			if(!currentScreen.getText().contains("Enter final gas monitor readings")){
+				if(gasLevel1 !=null){
+					top_man_edittext.setText(gasLevel1);
+				}
+				if(gasLevel2 != null){
+					bottom_man1_edittext.setText(gasLevel2);
+				}
+				if(gasLevel3 != null){
+					bottom_man2_edittext.setText(gasLevel3);
+				}	
+				if(gasLevel4!=null){
+					bottom_man3_edittext.setText(gasLevel4);			
+				}	
+			}
 			
-			if(gasLevel1 !=null){
-				top_man_edittext.setText(gasLevel1);
-			}
-			if(gasLevel2 != null){
-				bottom_man1_edittext.setText(gasLevel2);
-			}
-			if(gasLevel3 != null){
-				bottom_man2_edittext.setText(gasLevel3);
-			}	
-			if(gasLevel4!=null){
-				bottom_man3_edittext.setText(gasLevel4);			
-			}
 			
 			enableNextButton(true);	
 		}

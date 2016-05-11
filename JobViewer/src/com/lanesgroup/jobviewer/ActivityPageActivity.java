@@ -336,7 +336,7 @@ public class ActivityPageActivity extends BaseActivity implements
 			}
 		} else if (view == mEndOnCall) {
 			if (!mStart.getTag().toString()
-					.equalsIgnoreCase("Continue Work In Progress") && 
+					.contains("Continue Work In Progress") && 
 					!mStart.getTag().toString()
 					.contains(getResources().getString(R.string.work_in_progree_str))) {
 				endShiftOrCall();
