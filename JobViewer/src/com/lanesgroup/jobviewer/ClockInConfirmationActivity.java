@@ -336,8 +336,16 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		if (breakShiftTravelCall == null) {
 			breakShiftTravelCall = new BreakShiftTravelCall();
 		}
-		breakShiftTravelCall.setShiftStartTime(String.valueOf(System
-				.currentTimeMillis()));
+		String isOVerridden = Utils.startShiftTimeRequest.getIs_overriden();
+		String timeToStore = null; 		
+		if(isOVerridden.equalsIgnoreCase(ActivityConstants.TRUE)){
+			timeToStore = Utils.startShiftTimeRequest.getOverride_timestamp();
+		} else{
+			timeToStore = String.valueOf(System.currentTimeMillis());
+		}
+		
+		breakShiftTravelCall.setShiftStartTime(timeToStore);
+		
 		JobViewerDBHandler.saveBreakShiftTravelCall(
 				ClockInConfirmationActivity.this, breakShiftTravelCall);
 	}

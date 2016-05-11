@@ -284,10 +284,9 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 			values.put("completed_at", Utils.getCurrentDateAndTime());
 
 			values.put("created_by", userProfile.getEmail());
-			values.put("status", "Completed");
+			
 			GPSTracker gpsTracker = new GPSTracker(getActivity());
-			values.put("location_latitude", gpsTracker.getLatitude());
-			values.put("location_longitude", gpsTracker.getLongitude());
+			
 			values.put("survey_json", obj.getQuestionSet());
 			Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
 					+ CommsConstant.SURVEY_STORE_API, values,

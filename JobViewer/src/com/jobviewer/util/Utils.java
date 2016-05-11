@@ -233,6 +233,14 @@ public class Utils {
 		String formattedDate = df.format(c.getTime());
 		return formattedDate;
 	}
+	
+	public static String formattedDateFromMillis(String millis){
+		long milliSec = Long.valueOf(millis);
+		
+		SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss dd MMM yyyy");;
+		String formattedDate = df.format(milliSec);
+		return formattedDate;
+	}
 
 	public static String convertTimeOneToAnotherFormat(String time,
 			String fromFormat, String resultFormat) {

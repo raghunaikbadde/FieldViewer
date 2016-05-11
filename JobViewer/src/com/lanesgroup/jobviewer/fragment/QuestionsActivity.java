@@ -132,14 +132,4 @@ public class QuestionsActivity extends Activity implements
 		mFragmentManager.beginTransaction().add(R.id.container, fragment)
 				.commit();
 	}
-
-	/*
-	 * private OnBackStackChangedListener mOnBackStackChangeListener = new
-	 * OnBackStackChangedListener() {
-	 * 
-	 * @Override public void onBackStackChanged() { if
-	 * (mFragmentManager.getBackStackEntryCount() == 0) { Fragment fragment =
-	 * mFragmentManager .findFragmentById(R.id.container); if (fragment != null
-	 * && fragment instanceof RiskAssessmentFragment) { } } } };
-	 */
 }

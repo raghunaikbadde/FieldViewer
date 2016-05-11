@@ -865,6 +865,7 @@ public class JobViewerDBHandler {
 	}
 
 	public static void saveFlaginJSONObject(Context context, String jsonString){
+		deleteJSONFlagObject(context);
 		ContentValues values = new ContentValues();
 		values.put(JobViewerProviderContract.FlagJSON.FLAG_JSON,
 				jsonString);
@@ -884,6 +885,12 @@ public class JobViewerDBHandler {
 			jsonStr = cursor.getString(1);
 		}
 		return jsonStr;
+	}
+	
+	public static void deleteJSONFlagObject(Context context) {
+		context.getContentResolver()
+				.delete(JobViewerProviderContract.FlagJSON.CONTENT_URI,
+						null, null);
 	}
 	
 	
