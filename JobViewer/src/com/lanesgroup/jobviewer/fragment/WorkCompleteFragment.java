@@ -521,7 +521,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 
 	@Override
 	public void afterTextChanged(Editable s) {
-		makePipeDiameterAndLengthInvisible();
+		//makePipeDiameterAndLengthInvisible();
 		if(mSpinnerSelectedText.getText().toString().contains(this.getResources().getString(R.string.cctv))){
 			updatePipeDiamterAndLength();
 		}
