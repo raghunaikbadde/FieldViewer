@@ -73,7 +73,6 @@
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:text="@string/tap_done_str"
                     android:textColor="@color/black"
-                    android:visibility="gone"
                     android:textSize="@dimen/white_lato_regular_small40" />
             </RelativeLayout>
         </LinearLayout>
