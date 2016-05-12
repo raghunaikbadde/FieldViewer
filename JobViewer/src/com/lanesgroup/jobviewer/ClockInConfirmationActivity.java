@@ -337,13 +337,12 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 			breakShiftTravelCall = new BreakShiftTravelCall();
 		}
 		String isOVerridden = Utils.startShiftTimeRequest.getIs_overriden();
-		String timeToStore = null; 		
+		String timeToStore = Utils.getMillisFromFormattedDate( Utils.startShiftTimeRequest.getStarted_at()); 		
 		if(isOVerridden.equalsIgnoreCase(ActivityConstants.TRUE)){
-			timeToStore = Utils.startShiftTimeRequest.getOverride_timestamp();
-		} else{
-			timeToStore = String.valueOf(System.currentTimeMillis());
-		}
-		
+			Log.d(Utils.LOG_TAG,"shift start time overriden");
+			timeToStore = Utils.getMillisFromFormattedDate(Utils.startShiftTimeRequest.getOverride_timestamp());
+		} 
+		Log.d(Utils.LOG_TAG,"shift start time "+timeToStore);
 		breakShiftTravelCall.setShiftStartTime(timeToStore);
 		
 		JobViewerDBHandler.saveBreakShiftTravelCall(
@@ -357,9 +356,13 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		if (breakShiftTravelCall == null) {
 			breakShiftTravelCall = new BreakShiftTravelCall();
 		}
-
-		breakShiftTravelCall.setCallStartTime(String.valueOf(System
-				.currentTimeMillis()));
+		String timeToStore = Utils.getMillisFromFormattedDate(Utils.callStartTimeRequest.getStarted_at());
+		if(Utils.callStartTimeRequest.getIs_overriden().equalsIgnoreCase(ActivityConstants.TRUE)){
+			Log.d(Utils.LOG_TAG,"call Start Time Overriden");
+			timeToStore = Utils.getMillisFromFormattedDate(Utils.callStartTimeRequest.getOverride_timestamp());
+		}
+		breakShiftTravelCall.setCallStartTime(timeToStore);
+		Log.d(Utils.LOG_TAG,"call start time "+timeToStore);
 		JobViewerDBHandler.saveBreakShiftTravelCall(
 				ClockInConfirmationActivity.this, breakShiftTravelCall);
 	}

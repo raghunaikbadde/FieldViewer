@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.confined.ConfinedAssessmentQuestionsActivity;
+import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.db.objects.StartTrainingObject;
@@ -600,6 +601,15 @@ public class ActivityPageActivity extends BaseActivity implements
 
 	}
 
+	private void insertStartBreakTime(){
+		BreakShiftTravelCall breakStart = JobViewerDBHandler.getBreakShiftTravelCall(context);
+		breakStart.setBreakStartedTime(Utils.getMillisFromFormattedDate(Utils.timeSheetRequest.getStarted_at()));
+		breakStart.setBreakStarted(Constants.YES_CONSTANT);
+		if(Utils.timeSheetRequest.getIs_overriden().equalsIgnoreCase(ActivityConstants.TRUE)){
+			breakStart.setBreakStartedTime(Utils.getMillisFromFormattedDate(Utils.timeSheetRequest.getOverride_timestamp()));
+		}
+		JobViewerDBHandler.saveBreakShiftTravelCall(context, breakStart);
+	}
 	private Handler getStartBreakHandler(final String time) {
 		Handler handler = new Handler() {
 			@Override
@@ -607,7 +617,9 @@ public class ActivityPageActivity extends BaseActivity implements
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
+					insertStartBreakTime();
 					startEndBreakActivity();
+					
 					// String result = (String) msg.obj;
 					// startEndActvity(time);
 					break;

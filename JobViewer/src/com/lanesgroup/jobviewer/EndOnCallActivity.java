@@ -337,13 +337,28 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 	
 	private void insertShiftEndTimeIntoHoursCalculator() {
 		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(EndOnCallActivity.this);
-		breakShiftTravelCall.setShiftEndTime(String.valueOf(System.currentTimeMillis()));
+		
+		String timeToStore = String.valueOf(System.currentTimeMillis());
+		if(Utils.endShiftRequest.getIs_overriden().equalsIgnoreCase(ActivityConstants.TRUE)){
+			Log.d(Utils.LOG_TAG,"shift end time overridden");
+			timeToStore = Utils.getMillisFromFormattedDate(Utils.endShiftRequest.getOverride_timestamp());
+		}
+		
+		Log.d(Utils.LOG_TAG,"shift end time "+timeToStore);
+		
+		breakShiftTravelCall.setShiftEndTime(timeToStore);
 		JobViewerDBHandler.saveBreakShiftTravelCall(EndOnCallActivity.this, breakShiftTravelCall);
 	}
 	
 	private void insertCallEndTimeIntoHoursCalculator() {
 		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(EndOnCallActivity.this);
-		breakShiftTravelCall.setCallEndTime(String.valueOf(System.currentTimeMillis()));
+		String timeToStore = String.valueOf(System.currentTimeMillis());
+		if(Utils.callEndTimeRequest.getIs_overriden().equalsIgnoreCase(ActivityConstants.TRUE)){
+			Log.d(Utils.LOG_TAG,"call end time overridden");
+			timeToStore = Utils.callEndTimeRequest.getOverride_timestamp();
+		}
+		Log.d(Utils.LOG_TAG,"call end time "+timeToStore);
+		breakShiftTravelCall.setCallEndTime(timeToStore);
 		JobViewerDBHandler.saveBreakShiftTravelCall(EndOnCallActivity.this, breakShiftTravelCall);
 	}
 	

@@ -189,7 +189,11 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 	}
 	
 	private boolean saveBreakEndDB() {
-		breakTravelShiftCallTable.setBreakEndTime(Utils.getCurrentDateAndTime());
+		breakTravelShiftCallTable.setBreakEndTime(Utils.getMillisFromFormattedDate(Utils.endTimeRequest.getStarted_at()));
+		
+		if(Utils.endTimeRequest.getIs_overriden().equalsIgnoreCase(ActivityConstants.TRUE)){
+			breakTravelShiftCallTable.setBreakEndTime(Utils.getMillisFromFormattedDate(Utils.endTimeRequest.getOverride_timestamp()));
+		}
 		int numberOfBreaks =0;
 		try{
 			numberOfBreaks = breakTravelShiftCallTable.getNoOfBreaks();
@@ -209,5 +213,6 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 	public void onBackPressed() {
 		closeApplication();
 	}
+
 	
 }

@@ -21,6 +21,7 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.lanesgroup.jobviewer.R;
@@ -147,12 +148,12 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 
 	private boolean validateTime(Context context, String time) {
 		if ("start".equalsIgnoreCase(eventType)) {
-			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(context);
-			
-			String shiftStartTime =checkOutRemember.getJobStartedTime();
+			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(context);
+			String shiftStartTime = Utils.formattedDateFromMillis( breakShiftTravelCall.getShiftStartTime());
 			String presentTime = Utils.getCurrentDateAndTime();
-			if (!Utils.checkIfStartDateIsGreater(checkOutRemember.getJobStartedTime(), time)) {
-				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+checkOutRemember.getJobStartedTime()+")";
+			
+			if (!Utils.checkIfStartDateIsGreater(shiftStartTime, time)) {
+				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+shiftStartTime+")";
 				return false;
 			}else if(!Utils.checkIfStartDateIsGreater(time,presentTime)){
 				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
@@ -161,31 +162,18 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 			
 			Utils.timeSheetRequest.setOverride_timestamp(time);
 		} else if("End Break".equalsIgnoreCase(eventType)){
-				CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(context);
+			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(context);
+			String breakStartTime = breakShiftTravelCall.getBreakStartedTime();
+			String presentTime = Utils.getCurrentDateAndTime();
 				
-				String shiftStartTime = Utils.endTimeRequest.getStarted_at();
-				String isOverridden = Utils.endTimeRequest.getIs_overriden();
-				if(isOverridden.equalsIgnoreCase(ActivityConstants.TRUE)){
-					shiftStartTime = Utils.endTimeRequest.getOverride_timestamp();
-				}
-				String presentTime = Utils.getCurrentDateAndTime();
-				
-				if (!Utils.checkIfStartDateIsGreater(shiftStartTime, time)) {
-					errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+checkOutRemember.getJobStartedTime()+")";
-					return false;
-				}else if(!Utils.checkIfStartDateIsGreater(time,presentTime)){
-					errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
-					return false;
-				} else {
-					if(Utils.timeSheetRequest!=null){
-						if (!Utils.checkIfStartDateIsGreater(Utils.timeSheetRequest.getStarted_at(), time)) {
-							errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+Utils.timeSheetRequest.getStarted_at()+")";
-							return false;
-						}
-					}
-				}
-				
-				Utils.timeSheetRequest.setOverride_timestamp(time);
+			if (!Utils.checkIfStartDateIsGreater(breakStartTime, time)) {
+				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterBreakStart)+" ("+breakStartTime+")";
+				return false;
+			}else if(!Utils.checkIfStartDateIsGreater(time,presentTime)){
+				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
+				return false;
+			}
+			Utils.timeSheetRequest.setOverride_timestamp(time);
 		} else if ("EndShift".equalsIgnoreCase(eventType)) {
 			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(context);
 			

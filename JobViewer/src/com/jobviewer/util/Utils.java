@@ -241,6 +241,17 @@ public class Utils {
 		String formattedDate = df.format(milliSec);
 		return formattedDate;
 	}
+	
+	public static String getMillisFromFormattedDate(String dateToBeConverted){
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd MMM yyyy");
+		Date date = new Date();
+		try {
+			date = sdf.parse(dateToBeConverted);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return String.valueOf(date.getTime());
+	}
 
 	public static String convertTimeOneToAnotherFormat(String time,
 			String fromFormat, String resultFormat) {
