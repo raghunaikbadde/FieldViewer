@@ -189,9 +189,10 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 			
 			Utils.endShiftRequest.setOverride_timestamp(time);
 		} else if ("travel".equalsIgnoreCase(eventType)) {
-			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(context);
-			if (!Utils.checkIfStartDateIsGreater(checkOutRemember.getJobStartedTime(), time)) {
-				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+checkOutRemember.getJobStartedTime()+")";
+			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(context);
+			String timeToComparre = Utils.formattedDateFromMillis(breakShiftTravelCall.getShiftStartTime());
+			if (!Utils.checkIfStartDateIsGreater(timeToComparre, time)) {
+				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+timeToComparre+")";
 				return false;
 			}else if(!Utils.checkIfStartDateIsGreater(time,Utils.getCurrentDateAndTime())){
 				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
@@ -199,9 +200,10 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 			}
 			
 		} else if ("End Travel".equalsIgnoreCase(eventType)) {
-			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(context);
-			if (!Utils.checkIfStartDateIsGreater(checkOutRemember.getTravelStartedTime(), time)) {
-				errorMsg=context.getResources().getString(R.string.dateTimeShouldBeAfterTravelErrorMsg)+" ("+checkOutRemember.getTravelStartedTime()+")";
+			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(context);
+			String timeToComparre = Utils.formattedDateFromMillis(breakShiftTravelCall.getTravelStartedTime());
+			if (!Utils.checkIfStartDateIsGreater(timeToComparre, time)) {
+				errorMsg=context.getResources().getString(R.string.dateTimeShouldBeAfterTravelErrorMsg)+" ("+timeToComparre+")";
 				return false;
 			}else if(!Utils.checkIfStartDateIsGreater(time,Utils.getCurrentDateAndTime())){
 				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);

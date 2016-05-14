@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
@@ -196,6 +197,7 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 								.setTravelStartedTime(Utils.startTravelTimeRequest
 										.getOverride_timestamp());
 					}
+					insertStartTravelTimeRequestInDB();
 					JobViewerDBHandler.saveCheckOutRemember(mContext,
 							checkOutRemember);
 					startEndActvity();
@@ -238,4 +240,14 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 
 	}
 
+	private void insertStartTravelTimeRequestInDB(){
+		String timeToStore = Utils.getMillisFromFormattedDate(Utils.startTravelTimeRequest.getStarted_at());
+		if(Utils.startTravelTimeRequest.getIs_overriden().equalsIgnoreCase(ActivityConstants.TRUE))
+			timeToStore = Utils.getMillisFromFormattedDate(Utils.startTravelTimeRequest.getOverride_timestamp());
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(TravelToWorkSiteActivity.this);
+		breakShiftTravelCall.setTravelStarted(Constants.YES_CONSTANT);
+		breakShiftTravelCall.setTravelStartedTime(timeToStore);
+		JobViewerDBHandler.saveBreakShiftTravelCall(TravelToWorkSiteActivity.this, breakShiftTravelCall);
+		
+	}
 }
