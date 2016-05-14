@@ -203,16 +203,13 @@ public class WorkWithNoPhotosQuestionManager {
 
 	public void loadPreviousFragmentOnResume() {
 		if (backStack != null && backStack.size() >= 1) {
-			String screenId = backStack.get(backStack.size() - 1);
-			backStack.remove(backStack.size() - 1);
+			String screenId = backStack.get(backStack.size() - 1);			
 			isBackPressed = true;
 			loadNextFragment(screenId);
 		} else {
-			Toast.makeText(
-					BaseActivity.context,
-					BaseActivity.context.getResources().getString(
-							R.string.noPreviousQuestionMessage),
-					Toast.LENGTH_SHORT).show();
+			Screen screen = getFirstScreen();
+			loadNextFragment(screen.get_number());
+			
 		}
 
 	}
