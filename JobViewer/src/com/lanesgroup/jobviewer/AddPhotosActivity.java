@@ -325,13 +325,6 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		return handler;
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		MediaTypeFragment.addPhotoActivityimageObject = null;
-		MediaTypeFragment.timeCapturedForAddPhotosActivity = null;
-	}
-
 	private class AddPhotosAdapter extends BaseAdapter {
 		Context mContext;
 		ArrayList<HashMap<String, Object>> hashMapOfCapturedIamges;

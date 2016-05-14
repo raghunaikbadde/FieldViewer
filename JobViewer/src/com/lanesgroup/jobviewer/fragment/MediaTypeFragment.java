@@ -59,9 +59,9 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 	static File file;
 	Screen currentScreen;
 	CheckOutObject checkOutRemember;
-	private boolean formwardImageToAddPhotosActivity = false;
+	/*private boolean formwardImageToAddPhotosActivity = false;
 	public static ArrayList<ImageObject> addPhotoActivityimageObject;
-	public static ArrayList<String> timeCapturedForAddPhotosActivity = new ArrayList<String>();
+	public static ArrayList<String> timeCapturedForAddPhotosActivity = new ArrayList<String>();*/
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -96,13 +96,13 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());
 		question.setText(currentScreen.getText());
-		if (currentScreen
+		/*if (currentScreen
 				.getText()
 				.toString()
 				.equalsIgnoreCase(
 						getResources().getString(R.string.capture_safe_zone))) {
 			formwardImageToAddPhotosActivity = true;
-		}
+		}*/
 		try {
 			checkAndLoadSavedImages();
 		} catch (Exception e) {
@@ -198,13 +198,13 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 							ImageObject imageObject = JobViewerDBHandler
 									.getImageById(getActivity(), currentScreen
 											.getImages()[i].getTemp_id());
-							Log.d(Utils.LOG_TAG,
+							/*Log.d(Utils.LOG_TAG,
 									"formwardImageToAddPhotosActivity "
-											+ formwardImageToAddPhotosActivity);
-							if (formwardImageToAddPhotosActivity) {
-								JobViewerDBHandler.saveAddPhotoImage(
-										getActivity(), imageObject);
-							}
+											+ formwardImageToAddPhotosActivity);*/
+							//if (formwardImageToAddPhotosActivity) {
+								/*JobViewerDBHandler.saveAddPhotoImage(
+										getActivity(), imageObject);*/
+							//}
 							sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -224,7 +224,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				startActivity(intent);
 			}
 		} else if (view == mNext) {
-			addPhotoActivityimageObject = new ArrayList<ImageObject>();
+			/*addPhotoActivityimageObject = new ArrayList<ImageObject>();*/
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 
 				if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
@@ -233,13 +233,13 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 						ImageObject imageObject = JobViewerDBHandler
 								.getImageById(getActivity(), currentScreen
 										.getImages()[i].getTemp_id());
-						Log.d(Utils.LOG_TAG,
+						/*Log.d(Utils.LOG_TAG,
 								"formwardImageToAddPhotosActivity "
-										+ formwardImageToAddPhotosActivity);
-						if (formwardImageToAddPhotosActivity) {
+										+ formwardImageToAddPhotosActivity);*/
+						/*if (formwardImageToAddPhotosActivity) {
 							JobViewerDBHandler.saveAddPhotoImage(getActivity(),
 									imageObject);
-						}
+						}*/
 
 						sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 					} catch (Exception e) {
@@ -311,8 +311,8 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 						exif);
 				geoLocation = geoLocationCamera.toString();
 
-				if (formwardImageToAddPhotosActivity)
-					timeCapturedForAddPhotosActivity.add(formatDate);
+/*				if (formwardImageToAddPhotosActivity)
+					timeCapturedForAddPhotosActivity.add(formatDate);*/
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

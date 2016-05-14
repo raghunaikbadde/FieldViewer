@@ -194,7 +194,8 @@ public class CaptureVistecActivity extends BaseActivity implements
 					}catch(Exception e){
 						
 					}
-					
+					JobViewerDBHandler.saveAddPhotoImage(
+							CaptureVistecActivity.this, imageObject);
 					Intent intent = new Intent(CaptureVistecActivity.this,
 							RiskAssessmentActivity.class);
 					startActivity(intent);
