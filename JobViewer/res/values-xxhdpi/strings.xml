@@ -313,6 +313,7 @@
     <string name="pastDateValidationErrorMsg">Please enter a past date and time</string>
     <string name="dateTimeShouldBeAfterTravelErrorMsg">Date and time must be after you started travel</string>
     <string name="dateAndTimeMustAfterShiftStart">Date and time must be after shift start</string>
+    <string name="dateAndTimeMustAfterCallStart">Date and time must be after on-call start</string>
     <string name="dateAndTimeMustAfterBreakStart">Date and time must be after Break start</string>
     <string name="btn_ok">Ok</string>
 	<string name="workWithNoPhotosConfirmation">You should only select this option if someone else in your gang is capturing work and photo data. Do you want to continue?</string>    

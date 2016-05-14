@@ -227,7 +227,12 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 				
 			}
 		} else if ("EndOnCall".equalsIgnoreCase(eventType)) {
-			if(!Utils.checkIfStartDateIsGreater(time,Utils.getCurrentDateAndTime())){
+			String timeToCompare = Utils.formattedDateFromMillis(JobViewerDBHandler.getBreakShiftTravelCall(context).getCallStartTime());
+			String presentTime = Utils.getCurrentDateAndTime();
+			if (!Utils.checkIfStartDateIsGreater(timeToCompare, time)) {
+				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterCallStart)+" ("+timeToCompare+")";
+				return false;
+			} else if(!Utils.checkIfStartDateIsGreater(time,presentTime)){
 				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
 				return false;
 			}			

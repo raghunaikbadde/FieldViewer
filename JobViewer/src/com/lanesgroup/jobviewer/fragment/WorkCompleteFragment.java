@@ -202,8 +202,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 					R.layout.work_complete_dialog, mSpinnerSelectedFloodedText,
 					header);
 		} else if(view == mTapToCallDa){
-			Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-			phoneIntent.setData(Uri.parse("tel:"+getResources().getString(R.string.callDAMobileNumber)));
+			Intent phoneIntent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+getResources().getString(R.string.callDAMobileNumber)));
 			startActivityForResult(phoneIntent, Constants.TAP_DA_PHONE_CALL_REQUEST_CODE);
 		}		
 		checkAndEnableNextButton();
