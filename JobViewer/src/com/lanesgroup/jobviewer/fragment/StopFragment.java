@@ -115,7 +115,7 @@ public class StopFragment extends Fragment implements OnClickListener,ConfirmSto
 		data.put("is_redline_captured", false);
 		GPSTracker tracker = new GPSTracker(getActivity());
 		data.put("location_latitude", tracker.getLatitude());
-		data.put("location_longitude", tracker.getLatitude());
+		data.put("location_longitude", tracker.getLongitude());
 		data.put("created_by", userProfile.getEmail());
 		Utils.startProgress(getActivity());
 		try{

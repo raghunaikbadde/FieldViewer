@@ -1,5 +1,7 @@
 package com.jobviewer.util;
 
+import java.util.HashMap;
+
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -89,6 +91,28 @@ public class GPSTracker extends Service implements LocationListener {
 							if (location != null) {
 								latitude = location.getLatitude();
 								longitude = location.getLongitude();
+								JobViewerSharedPref jobViewerSharedPref = new JobViewerSharedPref();
+								jobViewerSharedPref.save(this,
+										String.valueOf(latitude),
+										String.valueOf(longitude));
+							} else {
+								JobViewerSharedPref jobViewerSharedPref = new JobViewerSharedPref();
+								HashMap<String, String> values = jobViewerSharedPref
+										.getValues(mContext);
+								if (values != null
+										&& !Utils
+												.isNullOrEmpty(values
+														.get(JobViewerSharedPref.LATITUDE))
+										&& !Utils
+												.isNullOrEmpty(values
+														.get(JobViewerSharedPref.LONGITUDE))) {
+									latitude = Double.parseDouble(values
+											.get(JobViewerSharedPref.LATITUDE));
+									longitude = Double
+											.parseDouble(values
+													.get(JobViewerSharedPref.LONGITUDE));
+								}
+
 							}
 						}
 					}

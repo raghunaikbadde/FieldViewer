@@ -40,6 +40,7 @@ import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.ConfirmDialog;
 import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallback;
 import com.jobviewer.util.Constants;
+import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.OverrideReasoneDialog;
 import com.jobviewer.util.SelectActivityDialog;
 import com.jobviewer.util.Utils;
@@ -68,6 +69,10 @@ public class ActivityPageActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_page_screen);
 		mContext = this;
+		if (Utils.isInternetAvailable(mContext)) {
+			GPSTracker tracker = new GPSTracker(mContext);
+			tracker.getLocation();
+		}
 		initUI();
 		updateDetailsOnUI();
 		Utils.startNotification(mContext);
@@ -337,11 +342,15 @@ public class ActivityPageActivity extends BaseActivity implements
 			}
 		} else if (view == mEndOnCall) {
 			if (!mStart.getTag().toString()
-					.contains("Continue Work In Progress") && 
-					!mStart.getTag().toString()
-					.contains(getResources().getString(R.string.work_in_progree_str))) {
+					.contains("Continue Work In Progress")
+					&& !mStart
+							.getTag()
+							.toString()
+							.contains(
+									getResources().getString(
+											R.string.work_in_progree_str))) {
 				endShiftOrCall();
-			}else {
+			} else {
 				if (ActivityConstants.JOB_SELECTED_SHIFT
 						.equalsIgnoreCase(Utils.checkOutObject.getJobSelected())) {
 					Toast.makeText(
@@ -395,7 +404,7 @@ public class ActivityPageActivity extends BaseActivity implements
 			startActivity(intent);
 		} else if (mEndOnCall.getText().toString().equals("End Shift")) {
 			String tag = (String) mStart.getTag();
-			if(tag.contains(Constants.END_TRAINING)){
+			if (tag.contains(Constants.END_TRAINING)) {
 				Toast.makeText(
 						BaseActivity.context,
 						BaseActivity.context.getResources().getString(
@@ -601,15 +610,22 @@ public class ActivityPageActivity extends BaseActivity implements
 
 	}
 
-	private void insertStartBreakTime(){
-		BreakShiftTravelCall breakStart = JobViewerDBHandler.getBreakShiftTravelCall(context);
-		breakStart.setBreakStartedTime(Utils.getMillisFromFormattedDate(Utils.timeSheetRequest.getStarted_at()));
+	private void insertStartBreakTime() {
+		BreakShiftTravelCall breakStart = JobViewerDBHandler
+				.getBreakShiftTravelCall(context);
+		breakStart.setBreakStartedTime(Utils
+				.getMillisFromFormattedDate(Utils.timeSheetRequest
+						.getStarted_at()));
 		breakStart.setBreakStarted(Constants.YES_CONSTANT);
-		if(Utils.timeSheetRequest.getIs_overriden().equalsIgnoreCase(ActivityConstants.TRUE)){
-			breakStart.setBreakStartedTime(Utils.getMillisFromFormattedDate(Utils.timeSheetRequest.getOverride_timestamp()));
+		if (Utils.timeSheetRequest.getIs_overriden().equalsIgnoreCase(
+				ActivityConstants.TRUE)) {
+			breakStart.setBreakStartedTime(Utils
+					.getMillisFromFormattedDate(Utils.timeSheetRequest
+							.getOverride_timestamp()));
 		}
 		JobViewerDBHandler.saveBreakShiftTravelCall(context, breakStart);
 	}
+
 	private Handler getStartBreakHandler(final String time) {
 		Handler handler = new Handler() {
 			@Override
@@ -619,7 +635,7 @@ public class ActivityPageActivity extends BaseActivity implements
 					Utils.StopProgress();
 					insertStartBreakTime();
 					startEndBreakActivity();
-					
+
 					// String result = (String) msg.obj;
 					// startEndActvity(time);
 					break;
@@ -653,7 +669,7 @@ public class ActivityPageActivity extends BaseActivity implements
 	public void onConfirmStartTraining() {
 		if (ConfirmDialog.eventType.contains(Constants.END_TRAINING)) {
 			sendEndTraining();
-		} 
+		}
 	}
 
 	private void sendEndTraining() {
@@ -696,8 +712,8 @@ public class ActivityPageActivity extends BaseActivity implements
 					Toast.makeText(
 							BaseActivity.context,
 							BaseActivity.context.getResources().getString(
-									R.string.traningendmsg),
-							Toast.LENGTH_SHORT).show();
+									R.string.traningendmsg), Toast.LENGTH_SHORT)
+							.show();
 					break;
 				case HttpConnection.DID_ERROR:
 					Utils.StopProgress();

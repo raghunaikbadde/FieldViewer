@@ -23,6 +23,7 @@ import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
+import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.StartUpResponse;
@@ -43,90 +44,100 @@ public class WelcomeActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.welcome_screen);
-		if( getIntent().getBooleanExtra("Exit me", false)){
-		    finish();
-		}else{
-		Utils.checkOutObject=new CheckOutObject();
-		context = this;
-		
-		mShout = (ImageView) findViewById(R.id.shout_about_image);
-		mShout.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
-						.getShoutAboutSafety(v.getContext());
-				Intent intent = new Intent();
-				if (shoutAboutSafety != null
-						&& !Utils.isNullOrEmpty(shoutAboutSafety.getQuestionSet())) {
-					intent.setClass(v.getContext(),
-							ShoutOutActivity.class);
-					intent.putExtra(ActivityConstants.SHOUT_OPTION,
-							shoutAboutSafety.getOptionSelected());
-					intent.putExtra(ActivityConstants.IS_SHOUT_SAVED,
-							ActivityConstants.TRUE);
-					startActivity(intent);
-				} else {
-					intent.setClass(v.getContext(),
-							ShoutOptionsActivity.class);
-				startActivity(intent);
-			}
-		}
-		});
-		Button clockIn = (Button) findViewById(R.id.clock_in);
-		clockIn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent();
-		    	intent.setClass(WelcomeActivity.this, SelectClockInActivityDialog.class);
-		    	startActivityForResult(intent, Constants.RESULT_CODE_WELCOME);
-			}
-		});
-		if (Utils.isInternetAvailable(context)&& !Utils.isExitApplication) {
-			executeStartUpApi();
+		if (getIntent().getBooleanExtra("Exit me", false)) {
+			finish();
 		} else {
-			User user = new User();
-			user.setEmail(Utils.getMailId(context));
-			JobViewerDBHandler.saveUserDetail(context, user);
-			saveStartUpObjectInBackLogDb();
-		}
+			Utils.checkOutObject = new CheckOutObject();
+			context = this;
+			if (Utils.isInternetAvailable(context)) {
+				GPSTracker tracker = new GPSTracker(context);
+				tracker.getLocation();
+			}
+			mShout = (ImageView) findViewById(R.id.shout_about_image);
+			mShout.setOnClickListener(new OnClickListener() {
 
-		Utils.startNotification(this);
+				@Override
+				public void onClick(View v) {
+					ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
+							.getShoutAboutSafety(v.getContext());
+					Intent intent = new Intent();
+					if (shoutAboutSafety != null
+							&& !Utils.isNullOrEmpty(shoutAboutSafety
+									.getQuestionSet())) {
+						intent.setClass(v.getContext(), ShoutOutActivity.class);
+						intent.putExtra(ActivityConstants.SHOUT_OPTION,
+								shoutAboutSafety.getOptionSelected());
+						intent.putExtra(ActivityConstants.IS_SHOUT_SAVED,
+								ActivityConstants.TRUE);
+						startActivity(intent);
+					} else {
+						intent.setClass(v.getContext(),
+								ShoutOptionsActivity.class);
+						startActivity(intent);
+					}
+				}
+			});
+			Button clockIn = (Button) findViewById(R.id.clock_in);
+			clockIn.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent();
+					intent.setClass(WelcomeActivity.this,
+							SelectClockInActivityDialog.class);
+					startActivityForResult(intent,
+							Constants.RESULT_CODE_WELCOME);
+				}
+			});
+			if (Utils.isInternetAvailable(context) && !Utils.isExitApplication) {
+				executeStartUpApi();
+			} else {
+				User user = new User();
+				user.setEmail(Utils.getMailId(context));
+				JobViewerDBHandler.saveUserDetail(context, user);
+				saveStartUpObjectInBackLogDb();
+			}
+
+			Utils.startNotification(this);
 		}
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-    	if (requestCode == 1003 && resultCode == RESULT_OK) {
-    		selected = data.getExtras().getString("Selected");
-    		
-			if (Utils.checkOutObject==null) {
-				Utils.checkOutObject=new CheckOutObject();
+		if (requestCode == 1003 && resultCode == RESULT_OK) {
+			selected = data.getExtras().getString("Selected");
+
+			if (Utils.checkOutObject == null) {
+				Utils.checkOutObject = new CheckOutObject();
 			}
-    		Intent intent;
+			Intent intent;
 			if (selected.equalsIgnoreCase("Shift")) {
 				Utils.startShiftTimeRequest = new TimeSheetRequest();
-				JobViewerDBHandler.saveTimeSheet(WelcomeActivity.this, Utils.startShiftTimeRequest, CommsConstant.START_SHIFT_API);
-				intent = new Intent(WelcomeActivity.this,
-						ClockInActivity.class);
-				Utils.checkOutObject.setJobSelected(ActivityConstants.JOB_SELECTED_SHIFT);
-				JobViewerDBHandler.saveCheckOutRemember(WelcomeActivity.this, Utils.checkOutObject);
+				JobViewerDBHandler.saveTimeSheet(WelcomeActivity.this,
+						Utils.startShiftTimeRequest,
+						CommsConstant.START_SHIFT_API);
+				intent = new Intent(WelcomeActivity.this, ClockInActivity.class);
+				Utils.checkOutObject
+						.setJobSelected(ActivityConstants.JOB_SELECTED_SHIFT);
+				JobViewerDBHandler.saveCheckOutRemember(WelcomeActivity.this,
+						Utils.checkOutObject);
 				intent.putExtra(Utils.SHIFT_START, Utils.SHIFT_START);
 			} else {
 				intent = new Intent(WelcomeActivity.this,
 						ClockInConfirmationActivity.class);
 				Utils.callStartTimeRequest = new TimeSheetRequest();
-				intent.putExtra(Utils.CALLING_ACTIVITY,
-						WelcomeActivity.this.getClass().getSimpleName());
-				Utils.checkOutObject.setJobSelected(ActivityConstants.JOB_SELECTED_ON_CALL);
-				JobViewerDBHandler.saveCheckOutRemember(WelcomeActivity.this, Utils.checkOutObject);
+				intent.putExtra(Utils.CALLING_ACTIVITY, WelcomeActivity.this
+						.getClass().getSimpleName());
+				Utils.checkOutObject
+						.setJobSelected(ActivityConstants.JOB_SELECTED_ON_CALL);
+				JobViewerDBHandler.saveCheckOutRemember(WelcomeActivity.this,
+						Utils.checkOutObject);
 				intent.putExtra(Utils.CALL_START, Utils.CALL_START);
 			}
 			startActivity(intent);
-    		
-    	}
+
+		}
 	}
 
 	private void executeStartUpApi() {
@@ -168,18 +179,21 @@ public class WelcomeActivity extends BaseActivity {
 		return handler;
 	}
 
-	private void saveStartUpObjectInBackLogDb(){
-		StartUpRequest  startUpRequest = new StartUpRequest();
+	private void saveStartUpObjectInBackLogDb() {
+		StartUpRequest startUpRequest = new StartUpRequest();
 		startUpRequest.setImei(Utils.getIMEI(WelcomeActivity.this));
 		startUpRequest.setEmail(Utils.getMailId(WelcomeActivity.this));
 		BackLogRequest backLogRequest = new BackLogRequest();
-		backLogRequest.setRequestApi(CommsConstant.HOST+CommsConstant.STARTUP_API);
-		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(startUpRequest));
-		//GsonConverter.getInstance().encodeToJsonString(startUpRequest);
+		backLogRequest.setRequestApi(CommsConstant.HOST
+				+ CommsConstant.STARTUP_API);
+		backLogRequest.setRequestJson(GsonConverter.getInstance()
+				.encodeToJsonString(startUpRequest));
+		// GsonConverter.getInstance().encodeToJsonString(startUpRequest);
 		backLogRequest.setRequestClassName("StartrUpRequest");
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(getApplicationContext(), backLogRequest);
 	}
+
 	@Override
 	public void onBackPressed() {
 		closeApplication();
