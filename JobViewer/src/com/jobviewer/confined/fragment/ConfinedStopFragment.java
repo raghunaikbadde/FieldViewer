@@ -31,12 +31,12 @@ import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 import com.vehicle.communicator.HttpConnection;
 
-public class ConfinedStopFragment extends Fragment implements OnClickListener{
+public class ConfinedStopFragment extends Fragment implements OnClickListener {
 
 	private View mRootView;
 	private Button mStopButton;
 	private Button mResumeButton;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,40 +50,41 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener{
 		mRootView = inflater.inflate(R.layout.stop_work_screen, container,
 				false);
 		removePhoneKeypad();
-		mStopButton = (Button)mRootView.findViewById(R.id.button1);
-		mResumeButton = (Button)mRootView.findViewById(R.id.button2);
+		mStopButton = (Button) mRootView.findViewById(R.id.button1);
+		mResumeButton = (Button) mRootView.findViewById(R.id.button2);
 		mStopButton.setOnClickListener(this);
 		mResumeButton.setOnClickListener(this);
 		return mRootView;
 	}
-	
-	public void removePhoneKeypad() {
-	    InputMethodManager inputManager = (InputMethodManager) mRootView
-	            .getContext()
-	            .getSystemService(Context.INPUT_METHOD_SERVICE);
 
-	    IBinder binder = mRootView.getWindowToken();
-	    inputManager.hideSoftInputFromWindow(binder,
-	            InputMethodManager.HIDE_NOT_ALWAYS);
+	public void removePhoneKeypad() {
+		InputMethodManager inputManager = (InputMethodManager) mRootView
+				.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		IBinder binder = mRootView.getWindowToken();
+		inputManager.hideSoftInputFromWindow(binder,
+				InputMethodManager.HIDE_NOT_ALWAYS);
 	}
-	
+
 	@Override
 	public void onClick(View v) {
-		if(v.getId() == mStopButton.getId()){
-			//Popup dialog to report to field manager
+		if (v.getId() == mStopButton.getId()) {
+			// Popup dialog to report to field manager
 			sendWorkCompletedToServer();
-		} else if(v.getId() == mResumeButton.getId()){
-			ConfinedQuestionManager.getInstance().loadPreviousFragmentOnResume();
-			
+		} else if (v.getId() == mResumeButton.getId()) {
+			ConfinedQuestionManager.getInstance()
+					.loadPreviousFragmentOnResume();
+
 		}
 	}
 
 	private void startEndMethod() {
-		Intent appPageActivityIntent = new Intent(getActivity(),ActivityPageActivity.class);
+		Intent appPageActivityIntent = new Intent(getActivity(),
+				ActivityPageActivity.class);
 		appPageActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(appPageActivityIntent);
 	}
-	
+
 	private void sendWorkCompletedToServer() {
 		ContentValues data = new ContentValues();
 		CheckOutObject checkOutRemember = JobViewerDBHandler
@@ -113,20 +114,24 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener{
 		data.put("location_longitude", tracker.getLongitude());
 		data.put("created_by", userProfile.getEmail());
 		Utils.startProgress(getActivity());
-		try{
+		try {
 			Utils.work_id = checkOutRemember.getWorkId();
-		}catch(Exception e){}
+		} catch (Exception e) {
+		}
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
 				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, data,
 				getWorkCompletedHandler());
 	}
-	
+
 	private void insertWorkEndTimeIntoHoursCalculator() {
-		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(getActivity());
-		breakShiftTravelCall.setWorkEndTime(String.valueOf(System.currentTimeMillis()));
-		JobViewerDBHandler.saveBreakShiftTravelCall(getActivity(), breakShiftTravelCall);
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler
+				.getBreakShiftTravelCall(getActivity());
+		breakShiftTravelCall.setWorkEndTime(String.valueOf(System
+				.currentTimeMillis()));
+		JobViewerDBHandler.saveBreakShiftTravelCall(getActivity(),
+				breakShiftTravelCall);
 	}
-	
+
 	private Handler getWorkCompletedHandler() {
 
 		Handler handler = new Handler() {
@@ -134,7 +139,6 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener{
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-
 					Utils.StopProgress();
 					startEndMethod();
 					break;

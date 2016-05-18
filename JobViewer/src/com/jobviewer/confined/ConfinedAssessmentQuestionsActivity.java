@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 
+import com.jobviewer.confined.fragment.ConfinedStopFragment;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.QuestionMaster;
@@ -96,7 +97,12 @@ public class ConfinedAssessmentQuestionsActivity extends Activity implements
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			ConfinedQuestionManager.getInstance().loadPreviousFragment();
+			Fragment f = getFragmentManager().findFragmentById(R.id.container);
+			if (f instanceof ConfinedStopFragment) {
+				ConfinedQuestionManager.getInstance()
+						.loadPreviousFragmentOnResume();
+			} else
+				ConfinedQuestionManager.getInstance().loadPreviousFragment();
 			return true;
 		} else
 			return super.onKeyDown(keyCode, event);

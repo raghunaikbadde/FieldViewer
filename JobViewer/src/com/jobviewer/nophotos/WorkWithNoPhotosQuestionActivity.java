@@ -8,10 +8,10 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 
 import com.jobviewer.db.objects.SurveyJson;
+import com.jobviewer.nophotos.fragment.NoPhotosStopFragment;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.QuestionMaster;
 import com.jobviewer.survey.object.Screen;
-import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.survey.object.util.SurveyUtil;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.BaseActivity;
@@ -97,7 +97,13 @@ public class WorkWithNoPhotosQuestionActivity extends BaseActivity implements
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			QuestionManager.getInstance().loadPreviousFragment();
+			Fragment f = getFragmentManager().findFragmentById(R.id.container);
+			if (f instanceof NoPhotosStopFragment) {
+				WorkWithNoPhotosQuestionManager.getInstance()
+						.loadPreviousFragmentOnResume();
+			} else
+				WorkWithNoPhotosQuestionManager.getInstance()
+						.loadPreviousFragment();
 			return true;
 		} else
 			return super.onKeyDown(keyCode, event);
@@ -105,7 +111,7 @@ public class WorkWithNoPhotosQuestionActivity extends BaseActivity implements
 
 	public static void loadNextFragment(Fragment fragment) {
 		mFragmentManager.popBackStack();
-		mFragmentManager.beginTransaction().add(R.id.container, fragment,"WorkWithNoPhotos")
-				.commit();
+		mFragmentManager.beginTransaction()
+				.add(R.id.container, fragment, "WorkWithNoPhotos").commit();
 	}
 }

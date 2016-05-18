@@ -22,23 +22,24 @@ import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
-import com.jobviewer.util.ConfirmDialog;
 import com.jobviewer.util.ConfirmStopDialog;
-import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.ConfirmStopDialog.ConfirmStopWork;
 import com.jobviewer.util.Constants;
+import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 import com.vehicle.communicator.HttpConnection;
 
-public class StopFragment extends Fragment implements OnClickListener,ConfirmStopWork{
+public class StopFragment extends Fragment implements OnClickListener,
+		ConfirmStopWork {
 
 	private View mRootView;
 	private Button mStopButton;
 	private Button mResumeButton;
-	private ConfirmStopDialog mConfirmStopDialog; 	
+	private ConfirmStopDialog mConfirmStopDialog;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,36 +52,38 @@ public class StopFragment extends Fragment implements OnClickListener,ConfirmSto
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		mRootView = inflater.inflate(R.layout.stop_work_screen, container,
 				false);
-		mStopButton = (Button)mRootView.findViewById(R.id.button1);
-		mResumeButton = (Button)mRootView.findViewById(R.id.button2);
+		mStopButton = (Button) mRootView.findViewById(R.id.button1);
+		mResumeButton = (Button) mRootView.findViewById(R.id.button2);
 		mStopButton.setOnClickListener(this);
 		mResumeButton.setOnClickListener(this);
 		return mRootView;
 	}
-	
+
 	@Override
 	public void onClick(View v) {
-		if(v.getId() == mStopButton.getId()){
-			//Popup dialog to report to field manager
+		if (v.getId() == mStopButton.getId()) {
+			// Popup dialog to report to field manager
 			//
-			mConfirmStopDialog = new ConfirmStopDialog(v.getContext(), StopFragment.this, Constants.END_TRAINING);
+			mConfirmStopDialog = new ConfirmStopDialog(v.getContext(),
+					StopFragment.this, Constants.END_TRAINING);
 			mConfirmStopDialog.show();
-			
-		} else if(v.getId() == mResumeButton.getId()){
+
+		} else if (v.getId() == mResumeButton.getId()) {
 			QuestionManager.getInstance().loadPreviousFragmentOnResume();
-			
+
 		}
 	}
 
 	private void startEndMethod() {
-		Intent appPageActivityIntent = new Intent(getActivity(),ActivityPageActivity.class);
+		Intent appPageActivityIntent = new Intent(getActivity(),
+				ActivityPageActivity.class);
 		appPageActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(appPageActivityIntent);
 	}
 
 	@Override
 	public void onConfirmStopWork(String reason) {
-		Log.d(Utils.LOG_TAG,"reason for stopping work "+reason);
+		Log.d(Utils.LOG_TAG, "reason for stopping work " + reason);
 		sendWorkCompletedToServer();
 	}
 
@@ -88,7 +91,7 @@ public class StopFragment extends Fragment implements OnClickListener,ConfirmSto
 	public void onDismissStopWork() {
 		mConfirmStopDialog.dismiss();
 	}
-	
+
 	private void sendWorkCompletedToServer() {
 		ContentValues data = new ContentValues();
 		CheckOutObject checkOutRemember = JobViewerDBHandler
@@ -118,20 +121,24 @@ public class StopFragment extends Fragment implements OnClickListener,ConfirmSto
 		data.put("location_longitude", tracker.getLongitude());
 		data.put("created_by", userProfile.getEmail());
 		Utils.startProgress(getActivity());
-		try{
+		try {
 			Utils.work_id = checkOutRemember.getWorkId();
-		}catch(Exception e){}
+		} catch (Exception e) {
+		}
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
 				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, data,
 				getWorkCompletedHandler());
 	}
-	
+
 	private void insertWorkEndTimeIntoHoursCalculator() {
-		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(getActivity());
-		breakShiftTravelCall.setWorkEndTime(String.valueOf(System.currentTimeMillis()));
-		JobViewerDBHandler.saveBreakShiftTravelCall(getActivity(), breakShiftTravelCall);
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler
+				.getBreakShiftTravelCall(getActivity());
+		breakShiftTravelCall.setWorkEndTime(String.valueOf(System
+				.currentTimeMillis()));
+		JobViewerDBHandler.saveBreakShiftTravelCall(getActivity(),
+				breakShiftTravelCall);
 	}
-	
+
 	private Handler getWorkCompletedHandler() {
 
 		Handler handler = new Handler() {
@@ -139,7 +146,6 @@ public class StopFragment extends Fragment implements OnClickListener,ConfirmSto
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-
 					Utils.StopProgress();
 					startEndMethod();
 					break;

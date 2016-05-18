@@ -40,10 +40,12 @@ public class QuestionsActivity extends Activity implements
 		manager = QuestionManager.getInstance();
 		SurveyJson questionSet = JobViewerDBHandler.getQuestionSet(this);
 		Bundle bundle = getIntent().getExtras();
-		
-		if(bundle != null && bundle.containsKey(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY) ){
-			updateFragmentsFromRiskAssessment(questionSet,bundle.getString(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY));
-		} else{
+
+		if (bundle != null
+				&& bundle.containsKey(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY)) {
+			updateFragmentsFromRiskAssessment(questionSet,
+					bundle.getString(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY));
+		} else {
 			updateFragments(questionSet);
 		}
 	}
@@ -72,15 +74,19 @@ public class QuestionsActivity extends Activity implements
 		}
 	}
 
-	private void updateFragmentsFromRiskAssessment(SurveyJson questionSet,String screenId) {
-		
-		manager.setQuestionMaster(GsonConverter.getInstance().decodeFromJsonString(questionSet.getQuestionJson(), QuestionMaster.class));
+	private void updateFragmentsFromRiskAssessment(SurveyJson questionSet,
+			String screenId) {
+
+		manager.setQuestionMaster(GsonConverter.getInstance()
+				.decodeFromJsonString(questionSet.getQuestionJson(),
+						QuestionMaster.class));
 		Screen screenToShow = manager.getScreenById(screenId);
 		manager.setCurrentScreen(screenToShow);
 		int questionType = SurveyUtil.getQuestionType(screenToShow.get_type());
 		loadFragment(SurveyUtil.getFragment(questionType));
-		
+
 	}
+
 	@Override
 	public void onNextClick() {
 
@@ -121,7 +127,11 @@ public class QuestionsActivity extends Activity implements
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			QuestionManager.getInstance().loadPreviousFragment();
+			Fragment f = getFragmentManager().findFragmentById(R.id.container);
+			if (f instanceof StopFragment) {
+				QuestionManager.getInstance().loadPreviousFragmentOnResume();
+			} else
+				QuestionManager.getInstance().loadPreviousFragment();
 			return true;
 		} else
 			return super.onKeyDown(keyCode, event);
