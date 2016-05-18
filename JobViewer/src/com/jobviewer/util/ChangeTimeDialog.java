@@ -197,7 +197,7 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 			Utils.endShiftRequest.setOverride_timestamp(time);
 		} else if ("travel".equalsIgnoreCase(eventType)) {
 			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(context);
-			String timeToComparre = Utils.formattedDateFromMillis(breakShiftTravelCall.getShiftStartTime());
+			String timeToComparre = Utils.formattedDateFromMillis(breakShiftTravelCall.getCallStartTime());
 			if (!Utils.checkIfStartDateIsGreater(timeToComparre, time)) {
 				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+timeToComparre+")";
 				return false;

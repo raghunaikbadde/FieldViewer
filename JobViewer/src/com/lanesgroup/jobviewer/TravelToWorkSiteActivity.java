@@ -64,8 +64,16 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 					EndTravelActivity.class);
 			CheckAndCcontinueNoWork(intent);
 			intent.putExtra("eventType", "End Travel");
-			intent.putExtra(Constants.TIME,
-					Utils.startTravelTimeRequest.getStarted_at());
+			if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
+					.getOverride_timestamp())) {
+				intent.putExtra(Constants.TIME,
+						Utils.startTravelTimeRequest.getStarted_at());
+			} else {
+				intent.putExtra(Constants.TIME,
+						Utils.startTravelTimeRequest.getStarted_at());
+				intent.putExtra(Constants.OVERRIDE_TIME,
+						Utils.startTravelTimeRequest.getOverride_timestamp());
+			}
 			startActivity(intent);
 		}
 	}
@@ -119,7 +127,16 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 				Intent intent = new Intent(this, EndTravelActivity.class);
 				CheckAndCcontinueNoWork(intent);
 				intent.putExtra(Constants.STARTED, "End Travel");
-				intent.putExtra(Constants.TIME, time);
+				if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
+						.getOverride_timestamp())) {
+					intent.putExtra(Constants.TIME,
+							Utils.startTravelTimeRequest.getStarted_at());
+				} else {
+					intent.putExtra(Constants.TIME,
+							Utils.startTravelTimeRequest.getStarted_at());
+					intent.putExtra(Constants.OVERRIDE_TIME,
+							Utils.startTravelTimeRequest.getOverride_timestamp());
+				}
 				startActivity(intent);
 			}
 
@@ -233,6 +250,8 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 			intent.putExtra(Constants.TIME,
 					Utils.startTravelTimeRequest.getStarted_at());
 		} else {
+			intent.putExtra(Constants.TIME,
+					Utils.startTravelTimeRequest.getStarted_at());
 			intent.putExtra(Constants.OVERRIDE_TIME,
 					Utils.startTravelTimeRequest.getOverride_timestamp());
 		}

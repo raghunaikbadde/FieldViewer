@@ -141,6 +141,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 	public void onClick(View view) {
 		if (view == mCancel) {
 			finish();
+			closeApplication();
 		} else if (view == mNext) {
 			boolean isValidUserInput = isValidUserInput();
 			if (isValidUserInput) {
@@ -366,5 +367,10 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 		}
 		breakShiftTravelCall.setWorkStartTime(String.valueOf(System.currentTimeMillis()));
 		JobViewerDBHandler.saveBreakShiftTravelCall(NewWorkActivity.this, breakShiftTravelCall);
+	}
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		closeApplication();
 	}
 }

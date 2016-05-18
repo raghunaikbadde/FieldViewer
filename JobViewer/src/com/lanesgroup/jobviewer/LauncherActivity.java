@@ -38,20 +38,9 @@ public class LauncherActivity extends BaseActivity {
 		} else if (checkOutRemember != null
 				&& ActivityConstants.TRUE.equalsIgnoreCase(checkOutRemember
 						.getIsStartedTravel())) {
-			List<TimeSheet> allTimeSheet = JobViewerDBHandler
-					.getAllTimeSheet(this);
-			TimeSheet timeSheet = allTimeSheet.get(allTimeSheet.size() - 1);
 			launcherIntent = new Intent(this, EndTravelActivity.class);
 			launcherIntent
-					.putExtra(Constants.STARTED, Constants.TRAVEL_STARTED);
-			if (!Utils.isNullOrEmpty(timeSheet.getTimeSheetRequest()
-					.getOverride_timestamp())) {
-				launcherIntent.putExtra(Constants.TIME, timeSheet
-						.getTimeSheetRequest().getOverride_timestamp());
-			} else {
-				launcherIntent.putExtra(Constants.TIME, timeSheet
-						.getTimeSheetRequest().getStarted_at());
-			}
+					.putExtra(Constants.STARTED, Constants.TRAVEL_STARTED);		
 		} else if (checkOutRemember != null
 				&& ActivityConstants.TRUE.equalsIgnoreCase(checkOutRemember
 						.getIsTravelEnd())) {

@@ -571,6 +571,17 @@ public class ActivityPageActivity extends BaseActivity implements
 		Intent intent = new Intent(this, EndTravelActivity.class);
 		intent.putExtra("eventType", "End Travel");
 		intent.putExtra(Constants.TIME, time);
+		if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
+				.getOverride_timestamp())) {
+			intent.putExtra(Constants.TIME,
+					Utils.startTravelTimeRequest.getStarted_at());
+		} else {
+			intent.putExtra(Constants.TIME,
+					Utils.startTravelTimeRequest.getStarted_at());
+			intent.putExtra(Constants.OVERRIDE_TIME,
+					Utils.startTravelTimeRequest.getOverride_timestamp());
+		}
+		
 		startActivity(intent);
 	}
 
@@ -771,7 +782,7 @@ public class ActivityPageActivity extends BaseActivity implements
 					checkOutRemember.setIsStartedTravel("true");
 					JobViewerDBHandler.saveCheckOutRemember(mContext,
 							checkOutRemember);
-
+					insertStartTravelTimeRequestInDB();
 					startEndActvity(Utils.getCurrentDateAndTime());
 					break;
 				case HttpConnection.DID_ERROR:
@@ -840,4 +851,14 @@ public class ActivityPageActivity extends BaseActivity implements
 		}
 	}
 
+	private void insertStartTravelTimeRequestInDB(){
+		String timeToStore = Utils.getMillisFromFormattedDate(Utils.startTravelTimeRequest.getStarted_at());
+		if(Utils.startTravelTimeRequest.getIs_overriden().equalsIgnoreCase(ActivityConstants.TRUE))
+			timeToStore = Utils.getMillisFromFormattedDate(Utils.startTravelTimeRequest.getOverride_timestamp());
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(ActivityPageActivity.this);
+		breakShiftTravelCall.setTravelStarted(Constants.YES_CONSTANT);
+		breakShiftTravelCall.setTravelStartedTime(timeToStore);
+		JobViewerDBHandler.saveBreakShiftTravelCall(ActivityPageActivity.this, breakShiftTravelCall);
+		
+	}
 }
