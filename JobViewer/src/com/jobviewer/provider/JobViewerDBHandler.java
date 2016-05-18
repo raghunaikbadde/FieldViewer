@@ -876,13 +876,18 @@ public class JobViewerDBHandler {
 	}
 	
 	public static String getJSONFlagObject(Context context){
+		String jsonStr = "{}";
+		try{
 		Cursor cursor = context.getContentResolver().query(
 				JobViewerProviderContract.FlagJSON.CONTENT_URI, null, null, null,
 				null);
-		String jsonStr = "{}";
-		if(cursor!=null && cursor.moveToFirst()){
+		jsonStr = "{}";
+		if(cursor != null && cursor.moveToFirst()){
 			
 			jsonStr = cursor.getString(1);
+		}
+		}catch(Exception e){
+			
 		}
 		return jsonStr;
 	}

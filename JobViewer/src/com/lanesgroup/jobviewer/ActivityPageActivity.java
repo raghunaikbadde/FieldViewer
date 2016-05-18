@@ -577,7 +577,9 @@ public class ActivityPageActivity extends BaseActivity implements
 	private void startEndBreakActivity() {
 		Intent intent = new Intent(this, EndBreakActivity.class);
 		intent.putExtra("eventType", "End Break");
-		intent.putExtra(Constants.TIME, Utils.getCurrentDateAndTime());
+		intent.putExtra(Constants.OVERRIDE_TIME, Utils.timeSheetRequest.getOverride_timestamp());
+		intent.putExtra(Constants.IS_OVERRIDEN, Utils.timeSheetRequest.getIs_overriden());
+		intent.putExtra(Constants.TIME, Utils.timeSheetRequest.getStarted_at());
 		startActivity(intent);
 	}
 

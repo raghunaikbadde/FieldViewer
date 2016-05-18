@@ -1,5 +1,8 @@
 package com.lanesgroup.jobviewer;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
@@ -19,6 +23,7 @@ import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.provider.JobViewerProviderContract.BreakTravelShiftCallTable;
+import com.jobviewer.provider.JobViewerProviderContract.FlagJSON;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
@@ -36,6 +41,7 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 	Button mEndBreak;
 	TextView mBreakTime;
 	private String eventType = "End Break";
+	TextView overriddenBreakStartTime;
 	BreakShiftTravelCall breakTravelShiftCallTable;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +54,83 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 	private void initUI() {
 		mEndBreak = (Button) findViewById(R.id.end_break);
 		mBreakTime = (TextView)findViewById(R.id.break_start_time_text);
+		overriddenBreakStartTime = (TextView) findViewById(R.id.break_start_time_text_user);
 		Bundle bundle = getIntent().getExtras();
 		String time ="";
+		String overridenTime = "";
 		if(bundle!=null && bundle.containsKey(Constants.TIME)){
 			time = bundle.getString(Constants.TIME);
 		}
-		mBreakTime.append(time);
-		mEndBreak.setOnClickListener(this);
+		
+		mBreakTime.append(time+" (System)");
 		mContext = EndBreakActivity.this;
+		if(!isAlreadyOveridden()){
+			if(bundle!=null && bundle.containsKey(Constants.IS_OVERRIDEN) && bundle.getString(Constants.IS_OVERRIDEN).equalsIgnoreCase(ActivityConstants.TRUE)){
+				overridenTime = bundle.getString(Constants.OVERRIDE_TIME);
+				overriddenBreakStartTime.setVisibility(View.VISIBLE);
+				overriddenBreakStartTime.setText(overridenTime +" (User)");
+				saveOverrideAndActualBreakStartTimeInFlagDB(time,overridenTime,ActivityConstants.TRUE);
+				time = overridenTime;
+			} else{
+				saveOverrideAndActualBreakStartTimeInFlagDB(time,overridenTime,ActivityConstants.FALSE);
+			}
+		}
+		mEndBreak.setOnClickListener(this);
+		
 		
 		
 		saveBreakShftCAllTravelDataOnStartUp(time);
+		
 	}
 
+	private void saveOverrideAndActualBreakStartTimeInFlagDB(String actualTime,String overridenTime, String isOVeridden) {
+		String flagJSON = JobViewerDBHandler.getJSONFlagObject(mContext);
+		try{
+			JSONObject jsonObject = new JSONObject(flagJSON);
+			jsonObject.put(Constants.ACTUAL_BREAK_START_TIME_FLAG_JSON, actualTime);
+			jsonObject.put(Constants.OVERRIDE_BREAK_START_TIME_FLAG_JSON, overridenTime);
+			jsonObject.put(Constants.IS_OVERRIDEN_FLAG_JSON, isOVeridden);
+			JobViewerDBHandler.saveFlaginJSONObject(mContext, jsonObject.toString());
+		}catch(JSONException jse){
+			
+		}
+		
+	}
+	
+	private boolean isAlreadyOveridden(){
+		String flagJSON = JobViewerDBHandler.getJSONFlagObject(mContext);
+		String isOveridden = "";
+		try{
+			JSONObject jsonObject = new JSONObject(flagJSON);		
+			isOveridden = jsonObject.getString(Constants.IS_OVERRIDEN_FLAG_JSON);
+			
+		}catch(JSONException jse){
+			
+		}
+		return isOveridden.equalsIgnoreCase(ActivityConstants.TRUE);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		String flagJSON = JobViewerDBHandler.getJSONFlagObject(mContext);
+		try{
+			JSONObject jsonObject = new JSONObject(flagJSON);
+			String actualBreakStart = jsonObject.getString(Constants.ACTUAL_BREAK_START_TIME_FLAG_JSON);
+			mBreakTime.setText(actualBreakStart+" (System)");
+			String isOveridden = jsonObject.getString(Constants.IS_OVERRIDEN_FLAG_JSON);
+			String overiddenTime = "";
+			if(isOveridden.equalsIgnoreCase(ActivityConstants.TRUE)){
+				overiddenTime = jsonObject.getString(Constants.OVERRIDE_BREAK_START_TIME_FLAG_JSON);
+				overriddenBreakStartTime.setVisibility(View.VISIBLE);
+				overriddenBreakStartTime.setText(overiddenTime +" (User)");
+			}
+			
+		}catch(JSONException jse){
+			
+		}
+		
+	}
 	private void saveBreakShftCAllTravelDataOnStartUp(String time) {
 		breakTravelShiftCallTable = JobViewerDBHandler.getBreakShiftTravelCall(mContext);
 		if(breakTravelShiftCallTable == null){
@@ -68,7 +138,7 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 		}
 		breakTravelShiftCallTable.setBreakStarted(Constants.YES_CONSTANT);
 		breakTravelShiftCallTable.setBreakStartedTime(time);
-	
+		
 		JobViewerDBHandler.saveBreakShiftTravelCall(mContext, breakTravelShiftCallTable);
 	}
 
@@ -144,7 +214,7 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 		data.put("override_timestamp", endTimeRequest.getOverride_timestamp());
 		data.put("reference_id", endTimeRequest.getReference_id());
 		data.put("user_id", endTimeRequest.getUser_id());
-
+		
 		Utils.SendHTTPRequest(this, CommsConstant.HOST + api, data,
 				getEndBreakHandler());
 	}
@@ -158,7 +228,16 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
 					String result = (String) msg.obj;					
-					
+					String jsonStr = JobViewerDBHandler.getJSONFlagObject(mContext);
+					try{
+					JSONObject jsonObject = new JSONObject(jsonStr);
+					jsonObject.remove(Constants.ACTUAL_BREAK_START_TIME_FLAG_JSON);
+					jsonObject.remove(Constants.IS_OVERRIDEN_FLAG_JSON);
+					jsonObject.remove(Constants.OVERRIDE_BREAK_START_TIME_FLAG_JSON);
+					JobViewerDBHandler.saveFlaginJSONObject(mContext, jsonObject.toString());
+					}catch (JSONException e) {
+						// TODO: handle exception
+					}
 					startHomePage();
 					break;
 				case HttpConnection.DID_ERROR:

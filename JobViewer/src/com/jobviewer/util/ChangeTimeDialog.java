@@ -97,33 +97,41 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 			boolean isValidTime = validateTime(view.getContext(),time);
 			if (isValidTime) {
 				if ("start".equalsIgnoreCase(eventType)) {
+					Utils.timeSheetRequest.setIs_overriden(ActivityConstants.TRUE);
 					Utils.timeSheetRequest.setOverride_timestamp(time);
 					eventTypeValue = "start";
 				} else if ("travel".equalsIgnoreCase(eventType)) {
+					Utils.startTravelTimeRequest.setIs_overriden(ActivityConstants.TRUE);
 					Utils.startTravelTimeRequest.setOverride_timestamp(time);
 					Log.d(Utils.LOG_TAG," override start travel time stamp "+time);
 					eventTypeValue = "travel";
 				} else if ("End Travel".equalsIgnoreCase(eventType)) {
+					Utils.endTravelTimeRequest.setIs_overriden(ActivityConstants.TRUE);
 					Utils.endTravelTimeRequest.setOverride_timestamp(time);
 					Log.d(Utils.LOG_TAG," override end travel time stamp "+time);					
 					eventTypeValue = eventType;
 				} else if("ClockIn".equalsIgnoreCase(eventType)){
 					eventType1=(String) getIntent().getExtras().get("eventType1");
 					if (eventType1.equalsIgnoreCase(Utils.SHIFT_START)) {
+						Utils.startShiftTimeRequest.setIs_overriden(ActivityConstants.TRUE);
 						Utils.startShiftTimeRequest.setOverride_timestamp(time);
 					}else{
+						Utils.callStartTimeRequest.setIs_overriden(ActivityConstants.TRUE);
 						Utils.callStartTimeRequest.setOverride_timestamp(time);
 					}
 					eventTypeValue=eventType;
 				} else if("EndOnCall".equalsIgnoreCase(eventType)){
 					eventTypeValue=eventType;
 					eventType1=(String) getIntent().getExtras().get("eventType1");
+					Utils.callEndTimeRequest.setIs_overriden(ActivityConstants.TRUE);
 					Utils.callEndTimeRequest.setOverride_timestamp(time);
 				} else if("EndShift".equalsIgnoreCase(eventType)){
 					eventTypeValue=eventType;
 					eventType1=(String) getIntent().getExtras().get("eventType1");
+					Utils.endShiftRequest.setIs_overriden(ActivityConstants.TRUE);
 					Utils.endShiftRequest.setOverride_timestamp(time);
 				}else {
+					Utils.endTimeRequest.setIs_overriden(ActivityConstants.TRUE);
 					Utils.endTimeRequest.setOverride_timestamp(time);
 					eventTypeValue = "endtravel";
 				}
@@ -158,8 +166,7 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 			}else if(!Utils.checkIfStartDateIsGreater(time,presentTime)){
 				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
 				return false;
-			}
-			
+			}			
 			Utils.timeSheetRequest.setOverride_timestamp(time);
 		} else if("End Break".equalsIgnoreCase(eventType)){
 			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(context);

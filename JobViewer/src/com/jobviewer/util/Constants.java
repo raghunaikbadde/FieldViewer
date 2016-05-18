@@ -16,9 +16,10 @@ public class Constants {
 	public static final int RESULT_CODE_START_TRAINING = 1002;
 	public static final int RESULT_CODE_WELCOME = 1003;
 	public static final int RESULT_CODE_CLOCK_IN = 1004;
-	public static final String IMAGE_CAPTURE_ACTION = "android.media.action.IMAGE_CAPTURE";
+	public static final String IMAGE_CAPTURE_ACTION = "android.media.action.IMAGE_CAPTURE";	
 	public static final String TIME = "time";
 	public static final String OVERRIDE_TIME = "overridetime";
+	public static final String IS_OVERRIDEN = "isOverridden";
 	public static final String STARTED = "STARTED";
 	public static final String BREAK_STARTED = "BREAK_STARTED";
 	public static final String TRAVEL_STARTED = "TRAVEL_STARTED";
@@ -43,5 +44,8 @@ public class Constants {
 	public static final String DATE_PICKER_FORMAT="dd MMM yyyy";
 	public static final String IMAGE_STRING_INITIAL="data:image/png;base64,";
 	public static final String WorkWithNoPhotosStartedAt = "WorkWithNoPhotosStartedAt"; 
+	public static final String ACTUAL_BREAK_START_TIME_FLAG_JSON = "ACTUAL_BREAK_START_TIME";
+	public static final String IS_OVERRIDEN_FLAG_JSON = "IS_OVERRIDEN_FLAG_JSON";
+	public static final String OVERRIDE_BREAK_START_TIME_FLAG_JSON = "OVERRIDE_BREAK_START_TIME";
 	
 }

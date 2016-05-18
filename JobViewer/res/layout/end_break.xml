@@ -26,14 +26,28 @@
             android:gravity="top"
             android:orientation="vertical" >
 
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_detail_top_margin80"
+            	android:text="@string/break_start_time_text"    
+            	android:layout_gravity="center_horizontal"                
+                android:textColor="@color/black"
+                android:textSize="@dimen/black_lato_regular_small55" />
+            <TextView
+                android:id="@+id/break_start_time_text_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"                
+                android:layout_gravity="center_horizontal"                
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:textSize="@dimen/black_lato_regular_small55" />
             <TextView
                 android:id="@+id/break_start_time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dialog_detail_bottom_margin95"
-                android:layout_marginTop="@dimen/dialog_detail_top_margin80"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/break_start_time_text"
                 android:textColor="@color/black"
                 android:textSize="@dimen/black_lato_regular_small55" />
 
