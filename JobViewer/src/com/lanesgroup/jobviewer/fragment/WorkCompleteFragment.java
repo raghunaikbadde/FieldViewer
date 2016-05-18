@@ -292,7 +292,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		workRequest.setEngineer_id(Utils.work_engineer_id);
 		workRequest.setStatus(Utils.work_status);
 		workRequest.setCompleted_at(Utils.work_completed_at);
-		workRequest.setActivity_type("");
+		workRequest.setActivity_type("work");
 		workRequest.setFlooding_status(Utils.work_flooding_status);
 		workRequest.setDA_call_out(Utils.work_DA_call_out);
 		workRequest.setIs_redline_captured(Utils.work_is_redline_captured);
@@ -301,7 +301,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		workRequest.setLocation_longitude("" + tracker.getLongitude());
 		workRequest.setCreated_by(userProfile.getEmail());
 		BackLogRequest backLogRequest = new BackLogRequest();
-		Utils.work_id = "1";
+		Utils.work_id = checkOutRemember.getWorkId();
 		backLogRequest.setRequestApi(CommsConstant.HOST + "/"
 				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id);
 		backLogRequest.setRequestClassName("WorkRequest");
@@ -370,7 +370,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		data.put("engineer_id", Utils.work_engineer_id);
 		data.put("status", Utils.work_status_completed);
 		data.put("completed_at", Utils.getCurrentDateAndTime());
-		data.put("activity_type", "");
+		data.put("activity_type", "work");
 		if (Utils.isNullOrEmpty(Utils.work_flooding_status)) {
 			data.put("flooding_status", "");
 		} else
