@@ -52,13 +52,14 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 	private View mRootView;
 	ProgressBar progressBar;
 	TextView screenTitle, progress_step_text, overhead_text, question_text,
-			next_update_text, timer_text;
+			next_update_text;
+	static TextView timer_text;
 	LinearLayout skip_timer;
 	Button saveBtn;
 	static Button nextBtn;
-	Screen currentScreen;
+	static Screen currentScreen;
 	String time;
-	CountdownTimer timer;
+	static CountdownTimer timer;
 	LinearLayout linearLayout;
 	ImageButton capture_imageButton;
 	static File file;
@@ -82,7 +83,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 		removePhoneKeypad();
 		initUI();
 		updateData();
-
+		enableNextButton(true);
 		return mRootView;
 	}
 
@@ -111,7 +112,8 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 			skip_timer.setOnClickListener(null);
 		}
 		long startTime = getStartTimeForTimer();
-		timer = new CountdownTimer(startTime, 1000, timer_text, "timer");
+		timer = new CountdownTimer(startTime, 1000, timer_text,
+				"timer_multiple");
 		timer.start();
 	}
 
@@ -126,9 +128,9 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 
 	}
 
-	private long getStartTimeForTimer() {
+	private static long getStartTimeForTimer() {
 		Pattern pattern = Pattern.compile("(\\d{2}):(\\d{2}):(\\d{2})");
-		Matcher matcher = pattern.matcher("00:00:20");
+		Matcher matcher = pattern.matcher(currentScreen.getTime());
 		if (matcher.matches()) {
 			return Long.parseLong(matcher.group(1)) * 3600000L
 					+ Long.parseLong(matcher.group(2)) * 60000
@@ -183,7 +185,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 
 	private Handler getSendWorkImageHandler(final ImageObject imageObject) {
 		Handler handler = new Handler() {
-			@Override 
+			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
@@ -215,6 +217,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.nextBtn:
+			timer.cancel();
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 
 				if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
@@ -237,6 +240,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 							.getClick().getOnClick());
 			break;
 		case R.id.saveBtn:
+			timer.cancel();
 			ConfinedQuestionManager.getInstance().saveAssessment("Confined");
 			((BaseActivity) getActivity()).finish();
 			break;
@@ -358,5 +362,19 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 			currentScreen.setImages(images);
 		}
 
+	}
+
+	public static void showMultipleTypeScreen() {
+		timer.cancel();
+		int on_timer_complete = currentScreen.getOn_timer_complete();
+		ConfinedQuestionManager.getInstance().showOntimerCompleteScreen(
+				on_timer_complete);
+	}
+
+	public static void restartTimer() {
+		long startTime = getStartTimeForTimer();
+		timer = new CountdownTimer(startTime, 1000, timer_text,
+				"timer_multiple");
+		timer.start();
 	}
 }

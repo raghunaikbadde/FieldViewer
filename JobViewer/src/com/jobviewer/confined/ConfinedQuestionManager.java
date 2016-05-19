@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import android.content.Intent;
 import android.widget.Toast;
 
+import com.jobviewer.confined.fragment.ConfinedTimerWithMediaFragment;
+import com.jobviewer.confined.fragment.MultipleInputActivity;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.QuestionMaster;
@@ -24,6 +27,7 @@ public class ConfinedQuestionManager {
 	private Screen currentScreen;
 	private String nextScreenId;
 	private String WorkType;
+	private Screen multipleTypeScreen;
 	boolean isBackPressed = false;
 
 	public static ConfinedQuestionManager getInstance() {
@@ -135,8 +139,9 @@ public class ConfinedQuestionManager {
 					currentScreen = questionMaster.getScreens().getScreen()[i];
 					int questionType = SurveyUtil.getQuestionType(currentScreen
 							.get_type());
-					ConfinedAssessmentQuestionsActivity.loadNextFragment(SurveyUtil
-							.getConfinedFragment(questionType));
+					ConfinedAssessmentQuestionsActivity
+							.loadNextFragment(SurveyUtil
+									.getConfinedFragment(questionType));
 					if (!isBackPressed) {
 						addToBackStack(screenId);
 					} else {
@@ -211,5 +216,32 @@ public class ConfinedQuestionManager {
 			loadNextFragment(screen.get_number());
 		}
 
+	}
+
+	public void showOntimerCompleteScreen(int on_timer_complete) {
+		Screen screen = questionMaster.getScreens().getScreen()[on_timer_complete-1];
+		Intent intent = new Intent(BaseActivity.context,
+				MultipleInputActivity.class);
+		setMultipleTypeScreen(screen);
+		BaseActivity.context.startActivity(intent);
+	}
+
+	public void UpdateMultipleScreen(Screen screen) {
+		for (int i = 0; i < questionMaster.getScreens().getScreen().length; i++) {
+			if (screen.get_number().equalsIgnoreCase(
+					questionMaster.getScreens().getScreen()[i].get_number())) {
+				questionMaster.getScreens().getScreen()[i] = screen;
+				break;
+			}
+		}
+		ConfinedTimerWithMediaFragment.restartTimer();
+	}
+
+	public Screen getMultipleTypeScreen() {
+		return multipleTypeScreen;
+	}
+
+	public void setMultipleTypeScreen(Screen multipleTypeScreen) {
+		this.multipleTypeScreen = multipleTypeScreen;
 	}
 }

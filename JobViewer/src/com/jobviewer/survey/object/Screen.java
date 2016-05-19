@@ -19,6 +19,8 @@ public class Screen {
 
 	private Inputs[] inputs;
 
+	private Multipleinputs[] multipleinputs;
+
 	private String _progress;
 
 	private Buttons buttons;
@@ -30,8 +32,10 @@ public class Screen {
 	private String time;
 
 	private boolean allow_skip;
-	
+
 	private boolean timer_skipped;
+
+	private int on_timer_complete;
 
 	public String get_type() {
 		return _type;
@@ -169,5 +173,21 @@ public class Screen {
 
 	public void setTimer_skipped(boolean timer_skipped) {
 		this.timer_skipped = timer_skipped;
+	}
+
+	public int getOn_timer_complete() {
+		return on_timer_complete;
+	}
+
+	public void setOn_timer_complete(int on_timer_complete) {
+		this.on_timer_complete = on_timer_complete;
+	}
+
+	public Multipleinputs[] getMultipleinputs() {
+		return multipleinputs;
+	}
+
+	public void setMultipleinputs(Multipleinputs[] multipleinputs) {
+		this.multipleinputs = multipleinputs;
 	}
 }

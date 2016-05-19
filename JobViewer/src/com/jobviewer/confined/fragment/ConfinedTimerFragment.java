@@ -53,15 +53,14 @@ public class ConfinedTimerFragment extends Fragment implements OnClickListener {
 		updateData();
 		return mRootView;
 	}
-	
-	public void removePhoneKeypad() {
-	    InputMethodManager inputManager = (InputMethodManager) mRootView
-	            .getContext()
-	            .getSystemService(Context.INPUT_METHOD_SERVICE);
 
-	    IBinder binder = mRootView.getWindowToken();
-	    inputManager.hideSoftInputFromWindow(binder,
-	            InputMethodManager.HIDE_NOT_ALWAYS);
+	public void removePhoneKeypad() {
+		InputMethodManager inputManager = (InputMethodManager) mRootView
+				.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		IBinder binder = mRootView.getWindowToken();
+		inputManager.hideSoftInputFromWindow(binder,
+				InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
 	private void updateData() {
@@ -78,7 +77,7 @@ public class ConfinedTimerFragment extends Fragment implements OnClickListener {
 			skip_timer.setOnClickListener(null);
 		}
 		long startTime = getStartTimeForTimer();
-		timer = new CountdownTimer(startTime, 1000, timer_text,"timer");
+		timer = new CountdownTimer(startTime, 1000, timer_text, "timer");
 		timer.start();
 	}
 
@@ -95,7 +94,7 @@ public class ConfinedTimerFragment extends Fragment implements OnClickListener {
 
 	private long getStartTimeForTimer() {
 		Pattern pattern = Pattern.compile("(\\d{2}):(\\d{2}):(\\d{2})");
-		Matcher matcher = pattern.matcher("00:00:20");
+		Matcher matcher = pattern.matcher(currentScreen.getTime());
 		if (matcher.matches()) {
 			return Long.parseLong(matcher.group(1)) * 3600000L
 					+ Long.parseLong(matcher.group(2)) * 60000
@@ -125,6 +124,7 @@ public class ConfinedTimerFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.nextBtn:
+			timer.cancel();
 			ConfinedQuestionManager.getInstance().updateScreenOnQuestionMaster(
 					currentScreen);
 			ConfinedQuestionManager.getInstance().loadNextFragment(
@@ -132,13 +132,14 @@ public class ConfinedTimerFragment extends Fragment implements OnClickListener {
 							.getClick().getOnClick());
 			break;
 		case R.id.saveBtn:
+			timer.cancel();
 			ConfinedQuestionManager.getInstance().saveAssessment("Confined");
 			((BaseActivity) getActivity()).finish();
 			break;
 		case R.id.skip_timer:
 			if (currentScreen.isAllow_skip()) {
 				currentScreen.setTimer_skipped(true);
-				//timer.cancel();
+				timer.cancel();
 				enableNextButton(true);
 			}
 			break;

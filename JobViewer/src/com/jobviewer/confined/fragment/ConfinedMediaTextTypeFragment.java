@@ -43,14 +43,14 @@ import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
-import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.ImageUploadResponse;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 import com.vehicle.communicator.HttpConnection;
 
-public class ConfinedMediaTextTypeFragment extends Fragment implements OnClickListener {
+public class ConfinedMediaTextTypeFragment extends Fragment implements
+		OnClickListener {
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep, screenTitle, questionTitle, question;
@@ -65,8 +65,8 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements OnClickLi
 	static File file;
 	CheckOutObject checkOutRemember;
 	LinearLayout linearLayout;
-	
-	private String geoLocationOfUser;
+
+	// private String geoLocationOfUser;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,27 +82,28 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements OnClickLi
 		removePhoneKeypad();
 		initUI();
 		updateData();
-		geoLocationOfUser = Utils.getGeoLocationString(getActivity());
+		// geoLocationOfUser = Utils.getGeoLocationString(getActivity());
 		return mRootView;
 	}
-	
-	public void removePhoneKeypad() {
-	    InputMethodManager inputManager = (InputMethodManager) mRootView
-	            .getContext()
-	            .getSystemService(Context.INPUT_METHOD_SERVICE);
 
-	    IBinder binder = mRootView.getWindowToken();
-	    inputManager.hideSoftInputFromWindow(binder,
-	            InputMethodManager.HIDE_NOT_ALWAYS);
+	public void removePhoneKeypad() {
+		InputMethodManager inputManager = (InputMethodManager) mRootView
+				.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		IBinder binder = mRootView.getWindowToken();
+		inputManager.hideSoftInputFromWindow(binder,
+				InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
 	private void updateData() {
-		currentScreen = ConfinedQuestionManager.getInstance().getCurrentScreen();
+		currentScreen = ConfinedQuestionManager.getInstance()
+				.getCurrentScreen();
 		mProgressStep.setText(currentScreen.get_progress() + "%");
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());
 		question.setText(currentScreen.getText());
-		screenTitle.setText(getResources().getString(R.string.confined_space_str));
+		screenTitle.setText(getResources().getString(
+				R.string.confined_space_str));
 		checkAndEnableNextButton();
 		com.jobviewer.survey.object.Button[] buttons = currentScreen
 				.getButtons().getButton();
@@ -142,8 +143,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements OnClickLi
 	private void checkAndEnableNextButton() {
 		int count = 0;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getTemp_id())) {
+			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
 				count++;
 			}
 		}
@@ -167,8 +167,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements OnClickLi
 
 	private void checkAndLoadSavedImages() {
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			String image_string = currentScreen.getImages()[i]
-					.getTemp_id();
+			String image_string = currentScreen.getImages()[i].getTemp_id();
 			if (!Utils.isNullOrEmpty(image_string)) {
 				ImageObject imageById = JobViewerDBHandler.getImageById(
 						getActivity(), image_string);
@@ -211,8 +210,8 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements OnClickLi
 					}
 				}
 
-				ConfinedQuestionManager.getInstance().updateScreenOnQuestionMaster(
-						currentScreen);
+				ConfinedQuestionManager.getInstance()
+						.updateScreenOnQuestionMaster(currentScreen);
 
 				ConfinedQuestionManager.getInstance().saveAssessment(
 						checkOutRemember.getAssessmentSelected());
@@ -318,8 +317,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements OnClickLi
 	private void addPicObjectInScreenIfRequired() {
 		boolean isAllImagedAdded = false;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
-					.getTemp_id())) {
+			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
 				isAllImagedAdded = true;
 			} else {
 				isAllImagedAdded = false;
@@ -369,12 +367,12 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements OnClickLi
 				e.printStackTrace();
 			}
 			geoLocation = Utils.getGeoLocationString(getActivity());
-			
+
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 				if (Utils.isNullOrEmpty(currentScreen.getImages()[i]
 						.getTemp_id())) {
 					String image_exif = formatDate + "," + geoLocation;
-					//currentScreen.getImages()[i].setImage_exif(image_exif);
+					// currentScreen.getImages()[i].setImage_exif(image_exif);
 					ImageObject imageObject = new ImageObject();
 					String generateUniqueID = Utils
 							.generateUniqueID(getActivity());
@@ -384,8 +382,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements OnClickLi
 					imageObject.setImage_string(Utils
 							.bitmapToBase64String(rotateBitmap));
 					imageString = imageObject.getImage_string();
-					currentScreen.getImages()[i]
-							.setTemp_id(generateUniqueID);
+					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;
 				}
