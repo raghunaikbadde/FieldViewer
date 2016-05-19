@@ -102,7 +102,7 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener {
 		data.put("engineer_id", Utils.work_engineer_id);
 		data.put("status", Utils.work_status_stopped);
 		data.put("completed_at", Utils.getCurrentDateAndTime());
-		data.put("activity_type", "");
+		data.put("activity_type", "work");
 		if (Utils.isNullOrEmpty(Utils.work_flooding_status)) {
 			data.put("flooding_status", "");
 		} else

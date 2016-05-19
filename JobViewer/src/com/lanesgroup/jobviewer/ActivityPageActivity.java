@@ -35,6 +35,7 @@ import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.network.SendImageService;
 import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.provider.JobViewerProviderContract.CheckOutRemember;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.ConfirmDialog;
@@ -683,6 +684,70 @@ public class ActivityPageActivity extends BaseActivity implements
 		if (ConfirmDialog.eventType.contains(Constants.END_TRAINING)) {
 			sendEndTraining();
 		}
+		if (ConfirmDialog.eventType.contains(ActivityConstants.LEAVE_WORK_CONFIMRATION)) {
+			sendLeaveWorkToServer();
+		}
+	}
+
+	private void sendLeaveWorkToServer() {
+		GPSTracker gpsTracker = new GPSTracker(mContext);
+		Utils.startProgress(mContext);
+		CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(mContext);
+		User userProfile = JobViewerDBHandler.getUserProfile(mContext);
+		ContentValues values = new ContentValues();
+		values.put("started_at", checkOutRemember.getJobStartedTime());		
+		values.put("reference_id", checkOutRemember.getVistecId());
+		values.put("engineer_id", Utils.work_engineer_id);
+		values.put("status", Utils.work_status_stopped);
+		values.put("completed_at", Utils.getCurrentDateAndTime());
+		values.put("activity_type", "work");
+		values.put("flooding_status", "");
+		values.put("DA_call_out", Utils.work_DA_call_out);
+		values.put("is_redline_captured", "false");
+		values.put("location_latitude", gpsTracker.getLatitude());
+		values.put("location_longitude", gpsTracker.getLongitude());
+		Utils.work_id = JobViewerDBHandler.getCheckOutRemember(mContext).getWorkId();
+		/*Utils.SendHTTPRequest(mContext, CommsConstant.HOST
+				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, values,
+				getLeaveWorkHandler());*/
+		
+		JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(mContext);
+		Utils.StopProgress();
+		Intent intent = new Intent(mContext,ActivityPageActivity.class);
+		finish();
+		startActivity(intent);
+		
+	}
+
+	private Handler getLeaveWorkHandler() {
+		Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
+					
+					JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(mContext);
+					Utils.StopProgress();
+					Intent intent = new Intent(mContext,ActivityPageActivity.class);
+					finish();
+					startActivity(intent);
+					
+					break;
+				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
+					String error = (String) msg.obj;
+					VehicleException exception = GsonConverter
+							.getInstance()
+							.decodeFromJsonString(error, VehicleException.class);
+					ExceptionHandler.showException(mContext, exception, "Info");
+					break;
+				default:
+					break;
+				}
+			}
+		};
+		return handler;
 	}
 
 	private void sendEndTraining() {
