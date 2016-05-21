@@ -197,7 +197,11 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 			Utils.endShiftRequest.setOverride_timestamp(time);
 		} else if ("travel".equalsIgnoreCase(eventType)) {
 			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(context);
-			String timeToComparre = Utils.formattedDateFromMillis(breakShiftTravelCall.getCallStartTime());
+			String timeToComparre = "";
+			if(!Utils.isNullOrEmpty(breakShiftTravelCall.getCallStartTime()))
+				timeToComparre = Utils.formattedDateFromMillis(breakShiftTravelCall.getCallStartTime());
+			else
+				timeToComparre = Utils.formattedDateFromMillis(breakShiftTravelCall.getShiftStartTime());
 			if (!Utils.checkIfStartDateIsGreater(timeToComparre, time)) {
 				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+timeToComparre+")";
 				return false;
@@ -208,7 +212,13 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 			
 		} else if ("End Travel".equalsIgnoreCase(eventType)) {
 			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(context);
-			String timeToComparre = Utils.formattedDateFromMillis(breakShiftTravelCall.getTravelStartedTime());
+			String timeToComparre = "";
+			
+			if(Utils.isNullOrEmpty(breakShiftTravelCall.getTravelStartedTime())){
+				CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(context);
+				timeToComparre = checkOutObject.getTravelStartedTime();
+			} else
+				timeToComparre = Utils.formattedDateFromMillis(breakShiftTravelCall.getTravelStartedTime());
 			if (!Utils.checkIfStartDateIsGreater(timeToComparre, time)) {
 				errorMsg=context.getResources().getString(R.string.dateTimeShouldBeAfterTravelErrorMsg)+" ("+timeToComparre+")";
 				return false;

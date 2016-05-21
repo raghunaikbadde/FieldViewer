@@ -74,6 +74,7 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 				intent.putExtra(Constants.OVERRIDE_TIME,
 						Utils.startTravelTimeRequest.getOverride_timestamp());
 			}
+			insertStartTravelTimeRequestInDB();
 			startActivity(intent);
 		}
 	}
@@ -225,6 +226,7 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 					VehicleException exception = GsonConverter
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
+					insertStartTravelTimeRequestInDB();
 					ExceptionHandler.showException(mContext, exception, "Info");
 					Utils.saveTimeSheetInBackLogTable(
 							TravelToWorkSiteActivity.this,

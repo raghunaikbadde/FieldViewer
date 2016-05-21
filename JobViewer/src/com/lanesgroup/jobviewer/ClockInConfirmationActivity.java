@@ -182,6 +182,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 								.getEmail());
 						Utils.startShiftTimeRequest.setStarted_at(Utils
 								.getCurrentDateAndTime());
+						insertShiftStartTimeIntoHoursCalculator();
 						Utils.saveTimeSheetInBackLogTable(
 								ClockInConfirmationActivity.this,
 								Utils.startShiftTimeRequest,
@@ -209,6 +210,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 							.getEmail());
 					Utils.startShiftTimeRequest.setStarted_at(Utils
 							.getCurrentDateAndTime());
+					insertShiftStartTimeIntoHoursCalculator();
 					Utils.saveTimeSheetInBackLogTable(
 							ClockInConfirmationActivity.this,
 							Utils.startShiftTimeRequest,
@@ -587,20 +589,23 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					VehicleException exception = GsonConverter
 							.getInstance()
 							.decodeFromJsonString(error, VehicleException.class);
+
 					ExceptionHandler.showException(context, exception, "Info");
-					if (mCallingActivity.equalsIgnoreCase("WelcomeActivity"))
+					if (mCallingActivity.equalsIgnoreCase("WelcomeActivity")){
+						insertCallStartTimeIntoHoursCalculator();
 						Utils.saveTimeSheetInBackLogTable(
 								ClockInConfirmationActivity.this,
 								Utils.callStartTimeRequest,
 								CommsConstant.START_ON_CALL_API,
-								Utils.REQUEST_TYPE_TIMESHEET);
+								Utils.REQUEST_TYPE_TIMESHEET);}
 					else if (mCallingActivity
-							.equalsIgnoreCase("ClockInActivity"))
+							.equalsIgnoreCase("ClockInActivity")){
+						insertShiftStartTimeIntoHoursCalculator();
 						Utils.saveTimeSheetInBackLogTable(
 								ClockInConfirmationActivity.this,
 								Utils.startShiftTimeRequest,
 								CommsConstant.START_SHIFT_API,
-								Utils.REQUEST_TYPE_TIMESHEET);
+								Utils.REQUEST_TYPE_TIMESHEET);}
 					break;
 
 				default:

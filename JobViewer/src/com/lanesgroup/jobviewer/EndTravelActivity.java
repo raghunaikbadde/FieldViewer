@@ -61,12 +61,7 @@ public class EndTravelActivity extends BaseActivity implements
 		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(EndTravelActivity.this);
 		CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(this);
 		
-		String actualTime = "";
-		if(!checkOutObject.getJobSelected().equalsIgnoreCase("shift") && breakShiftTravelCall.getCallStartTime()!=null){
-			actualTime = Utils.formattedDateFromMillis(breakShiftTravelCall.getCallStartTime());
-		}else {
-			actualTime = Utils.formattedDateFromMillis(breakShiftTravelCall.getTravelStartedTime());
-		}
+		String actualTime = Utils.startTravelTimeRequest.getStarted_at();;
 		mTravelTime.setText(actualTime + " (System)");
 		mStartTravel.setText(END_TRAVEL);
 
