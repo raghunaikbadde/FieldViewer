@@ -151,6 +151,9 @@ public class CaptureVistecActivity extends BaseActivity implements
 				startActivity(intent);*/
 				sendVistecImageToServer(imageObject);
 			} else {
+				JobViewerDBHandler.saveAddPhotoImage(
+						CaptureVistecActivity.this, imageObject);
+
 				Utils.saveWorkImageInBackLogDb(CaptureVistecActivity.this, imageObject);
 				Intent intent = new Intent(CaptureVistecActivity.this,
 						RiskAssessmentActivity.class);

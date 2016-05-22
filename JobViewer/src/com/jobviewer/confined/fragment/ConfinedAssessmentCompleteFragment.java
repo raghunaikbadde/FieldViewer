@@ -102,8 +102,11 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 		JobViewerDBHandler.saveBackLog(getActivity(), backLogRequest);
 		Utils.StopProgress();
 		JobViewerDBHandler.deleteConfinedQuestionSet(getActivity());
+		JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(getActivity());
 		Utils.StopProgress();
 		((BaseActivity) getActivity()).finish();
+		Intent intent = new Intent(mRootView.getContext(),ActivityPageActivity.class);
+		startActivity(intent);
 
 	}
 
@@ -155,6 +158,7 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 					ConfinedEngineerFragment.gasLevel2 = null;
 					ConfinedEngineerFragment.gasLevel3 = null;
 					ConfinedEngineerFragment.gasLevel4 = null;
+					JobViewerDBHandler.deleteConfinedQuestionSet(getActivity());
 					JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(getActivity());
 					getActivity().finish();
 					Intent intent = new Intent(mRootView.getContext(),ActivityPageActivity.class);
