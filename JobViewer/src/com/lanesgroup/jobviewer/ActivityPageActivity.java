@@ -35,7 +35,6 @@ import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.network.SendImageService;
 import com.jobviewer.provider.JobViewerDBHandler;
-import com.jobviewer.provider.JobViewerProviderContract.CheckOutRemember;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.ConfirmDialog;
@@ -693,7 +692,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		GPSTracker gpsTracker = new GPSTracker(mContext);
 		Utils.startProgress(mContext);
 		CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(mContext);
-		User userProfile = JobViewerDBHandler.getUserProfile(mContext);
+		//User userProfile = JobViewerDBHandler.getUserProfile(mContext);
 		ContentValues values = new ContentValues();
 		values.put("started_at", checkOutRemember.getJobStartedTime());		
 		values.put("reference_id", checkOutRemember.getVistecId());
@@ -707,15 +706,15 @@ public class ActivityPageActivity extends BaseActivity implements
 		values.put("location_latitude", gpsTracker.getLatitude());
 		values.put("location_longitude", gpsTracker.getLongitude());
 		Utils.work_id = JobViewerDBHandler.getCheckOutRemember(mContext).getWorkId();
-		/*Utils.SendHTTPRequest(mContext, CommsConstant.HOST
+		Utils.SendHTTPRequest(mContext, CommsConstant.HOST
 				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, values,
-				getLeaveWorkHandler());*/
+				getLeaveWorkHandler());
 		
-		JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(mContext);
+		/*JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(mContext);
 		Utils.StopProgress();
 		Intent intent = new Intent(mContext,ActivityPageActivity.class);
 		finish();
-		startActivity(intent);
+		startActivity(intent);*/
 		
 	}
 

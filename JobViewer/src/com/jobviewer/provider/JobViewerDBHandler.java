@@ -6,8 +6,6 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteConstraintException;
 
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;

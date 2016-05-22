@@ -801,7 +801,7 @@ public class PollutionActivity extends BaseActivity implements
 		}
 
 		imageObject.setImageId(generateUniqueID);
-		imageObject.setCategory("work");
+		imageObject.setCategory("pollution");
 
 		Bitmap photo = Utils.decodeSampledBitmapFromFile(
 				file.getAbsolutePath(), 1000, 700);
@@ -1007,7 +1007,7 @@ public class PollutionActivity extends BaseActivity implements
 		if(imageObject != null){
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageObject.getImageId());
-		data.put("category", "WorkPhotoUpload");
+		data.put("category", imageObject.getCategory());
 		data.put("image_string", imageObject.getImage_string());
 		data.put("image_exif", imageObject.getImage_exif());
 		Log.d(Utils.LOG_TAG," pollutiion activity sendUpStreamWorkImageToServer");
