@@ -170,13 +170,13 @@ public class JobViewerDBHandler {
 		ContentValues values = new ContentValues();
 		values.put(JobViewerProviderContract.Image.IMAGE_ID, image.getImageId());
 		values.put(JobViewerProviderContract.Image.IMAGE_STRING,
-				image.getImage_string());
+				Constants.IMAGE_STRING_INITIAL+image.getImage_string());
 		values.put(JobViewerProviderContract.Image.IMAGE_URL,
 				image.getImage_url());
 		values.put(JobViewerProviderContract.Image.IMAGE_CATEGORY,
 				image.getCategory());
 		values.put(JobViewerProviderContract.Image.IMAGE_EXIF,
-				Constants.IMAGE_STRING_INITIAL+image.getImage_exif());
+				image.getImage_exif());
 		context.getContentResolver().insert(
 				JobViewerProviderContract.Image.CONTENT_URI, values);
 	}

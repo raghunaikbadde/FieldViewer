@@ -1009,11 +1009,11 @@ public class PollutionActivity extends BaseActivity implements
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageObject.getImageId());
 		data.put("category", imageObject.getCategory());
-		data.put("image_string", imageObject.getImage_string());
-		data.put("image_exif", Constants.IMAGE_STRING_INITIAL+imageObject.getImage_exif());
+		data.put("image_string", Constants.IMAGE_STRING_INITIAL+imageObject.getImage_string());
+		data.put("image_exif", imageObject.getImage_exif());
 		Log.d(Utils.LOG_TAG," pollutiion activity sendUpStreamWorkImageToServer");
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
-				+ CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id, data,
+				+ CommsConstant.SURVEY_PHOTO_UPLOAD, data,
 				getSendWorkUpImageHandler(imageObject));
 		} else{
 			return;
@@ -1025,12 +1025,12 @@ public class PollutionActivity extends BaseActivity implements
 		if(imageObject != null){
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageObject.getImageId());
-		data.put("category", "WorkPhotoUpload");
-		data.put("image_string", imageObject.getImage_string());
-		data.put("image_exif", Constants.IMAGE_STRING_INITIAL+imageObject.getImage_exif());
+		data.put("category", imageObject.getCategory());
+		data.put("image_string", Constants.IMAGE_STRING_INITIAL+imageObject.getImage_string());
+		data.put("image_exif", imageObject.getImage_exif());
 		Log.d(Utils.LOG_TAG," pollutiion activity sendDownStreamWorkImageToServer");
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
-				+ CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id, data,
+				+ CommsConstant.SURVEY_PHOTO_UPLOAD, data,
 				getSendWorkDownImageHandler(imageObject));
 		} else{
 			return;
