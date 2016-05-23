@@ -36,7 +36,10 @@ public class SyncAllData {
 			for (int i = 0; i < allBackLog.size(); i++) {
 				Data data = new Data();
 				data.setEntity(allBackLog.get(i).getRequestType());
-				data.setEntity("store");
+				String apiName = allBackLog.get(i).getRequestApi();
+				int length = apiName.split("/").length;
+				String action = apiName.split("/")[length-1];
+				data.setAction(action);
 				Payload payload = new Payload();
 				payload.setJsonString(allBackLog.get(i).getRequestJson());
 				data.setPayload(payload);

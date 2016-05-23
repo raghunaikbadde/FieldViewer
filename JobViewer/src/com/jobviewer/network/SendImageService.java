@@ -27,6 +27,16 @@ public class SendImageService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+	}
+
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
 		handler = new Handler();
 		handler.post(new Runnable() {
 
@@ -41,15 +51,6 @@ public class SendImageService extends Service {
 				Log.i("Andriod", "Service Started");
 			}
 		});
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
 		return android.app.Service.START_STICKY;
 	}
 
