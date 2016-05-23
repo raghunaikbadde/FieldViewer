@@ -43,6 +43,7 @@ import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.raghu.PollutionReportRequest;
@@ -1009,7 +1010,7 @@ public class PollutionActivity extends BaseActivity implements
 		data.put("temp_id", imageObject.getImageId());
 		data.put("category", imageObject.getCategory());
 		data.put("image_string", imageObject.getImage_string());
-		data.put("image_exif", imageObject.getImage_exif());
+		data.put("image_exif", Constants.IMAGE_STRING_INITIAL+imageObject.getImage_exif());
 		Log.d(Utils.LOG_TAG," pollutiion activity sendUpStreamWorkImageToServer");
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id, data,
@@ -1026,7 +1027,7 @@ public class PollutionActivity extends BaseActivity implements
 		data.put("temp_id", imageObject.getImageId());
 		data.put("category", "WorkPhotoUpload");
 		data.put("image_string", imageObject.getImage_string());
-		data.put("image_exif", imageObject.getImage_exif());
+		data.put("image_exif", Constants.IMAGE_STRING_INITIAL+imageObject.getImage_exif());
 		Log.d(Utils.LOG_TAG," pollutiion activity sendDownStreamWorkImageToServer");
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id, data,

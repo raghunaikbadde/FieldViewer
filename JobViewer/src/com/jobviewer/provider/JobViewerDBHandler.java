@@ -16,6 +16,7 @@ import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.db.objects.StartTrainingObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.db.objects.TimeSheet;
+import com.jobviewer.util.Constants;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 
@@ -175,7 +176,7 @@ public class JobViewerDBHandler {
 		values.put(JobViewerProviderContract.Image.IMAGE_CATEGORY,
 				image.getCategory());
 		values.put(JobViewerProviderContract.Image.IMAGE_EXIF,
-				image.getImage_exif());
+				Constants.IMAGE_STRING_INITIAL+image.getImage_exif());
 		context.getContentResolver().insert(
 				JobViewerProviderContract.Image.CONTENT_URI, values);
 	}
