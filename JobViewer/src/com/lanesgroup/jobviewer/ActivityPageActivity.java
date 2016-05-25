@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.confined.ConfinedAssessmentQuestionsActivity;
+import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ShoutAboutSafetyObject;
@@ -50,6 +51,7 @@ import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
 import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
+import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 
 public class ActivityPageActivity extends BaseActivity implements
@@ -445,14 +447,17 @@ public class ActivityPageActivity extends BaseActivity implements
 					ActivityConstants.JOB_SELECTED_SHIFT)) {
 				JobViewerDBHandler.saveTimeSheet(this, Utils.timeSheetRequest,
 						CommsConstant.START_BREAK_API);
+				Utils.saveTimeSheetInBackLogTable(this, Utils.timeSheetRequest, CommsConstant.START_BREAK_API, "TimeSheetServiceRequests");
 				startEndBreakActivity();
 
 			} else {
 				JobViewerDBHandler.saveTimeSheet(this,
 						Utils.startTravelTimeRequest,
 						CommsConstant.START_TRAVEL_API);
+				Utils.saveTimeSheetInBackLogTable(this, Utils.startTravelTimeRequest, CommsConstant.START_TRAVEL_API, "TimeSheetServiceRequests");
 				String time = new SimpleDateFormat("HH:mm:ss dd MMM yyyy")
 						.format(Calendar.getInstance().getTime());
+				insertStartTravelTimeRequestInDB();
 				startEndActvity(time);
 			}
 		} else {
@@ -543,6 +548,7 @@ public class ActivityPageActivity extends BaseActivity implements
 						ActivityConstants.JOB_SELECTED_SHIFT)) {
 					startEndBreakActivity();
 				} else {
+					insertStartTravelTimeRequestInDB();
 					startEndActvity(Utils.startTravelTimeRequest
 							.getOverride_timestamp());
 				}
@@ -595,6 +601,7 @@ public class ActivityPageActivity extends BaseActivity implements
 	}
 
 	private void executeStartBreakService() {
+		if(Utils.isInternetAvailable(mContext)){
 		ContentValues data = new ContentValues();
 		data.put("started_at", Utils.timeSheetRequest.getStarted_at());
 		data.put("record_for", Utils.timeSheetRequest.getRecord_for());
@@ -620,6 +627,9 @@ public class ActivityPageActivity extends BaseActivity implements
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.START_BREAK_API, data,
 				getStartBreakHandler(time));
+		}else{
+			Utils.saveTimeSheetInBackLogTable(mContext, Utils.timeSheetRequest, CommsConstant.START_BREAK_API, "TimeSheetServiceRequests");
+		}
 
 	}
 
@@ -690,25 +700,29 @@ public class ActivityPageActivity extends BaseActivity implements
 
 	private void sendLeaveWorkToServer() {
 		GPSTracker gpsTracker = new GPSTracker(mContext);
-		Utils.startProgress(mContext);
-		CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(mContext);
-		//User userProfile = JobViewerDBHandler.getUserProfile(mContext);
-		ContentValues values = new ContentValues();
-		values.put("started_at", checkOutRemember.getJobStartedTime());		
-		values.put("reference_id", checkOutRemember.getVistecId());
-		values.put("engineer_id", Utils.work_engineer_id);
-		values.put("status", Utils.work_status_stopped);
-		values.put("completed_at", Utils.getCurrentDateAndTime());
-		values.put("activity_type", "work");
-		values.put("flooding_status", "");
-		values.put("DA_call_out", Utils.work_DA_call_out);
-		values.put("is_redline_captured", "false");
-		values.put("location_latitude", gpsTracker.getLatitude());
-		values.put("location_longitude", gpsTracker.getLongitude());
-		Utils.work_id = JobViewerDBHandler.getCheckOutRemember(mContext).getWorkId();
-		Utils.SendHTTPRequest(mContext, CommsConstant.HOST
-				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, values,
-				getLeaveWorkHandler());
+		if(Utils.isInternetAvailable(gpsTracker)){
+			Utils.startProgress(mContext);
+			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(mContext);
+			//User userProfile = JobViewerDBHandler.getUserProfile(mContext);
+			ContentValues values = new ContentValues();
+			values.put("started_at", checkOutRemember.getJobStartedTime());		
+			values.put("reference_id", checkOutRemember.getVistecId());
+			values.put("engineer_id", Utils.work_engineer_id);
+			values.put("status", Utils.work_status_stopped);
+			values.put("completed_at", Utils.getCurrentDateAndTime());
+			values.put("activity_type", "work");
+			values.put("flooding_status", "");
+			values.put("DA_call_out", Utils.work_DA_call_out);
+			values.put("is_redline_captured", "false");
+			values.put("location_latitude", gpsTracker.getLatitude());
+			values.put("location_longitude", gpsTracker.getLongitude());
+			Utils.work_id = JobViewerDBHandler.getCheckOutRemember(mContext).getWorkId();
+			Utils.SendHTTPRequest(mContext, CommsConstant.HOST
+					+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, values,
+					getLeaveWorkHandler());
+		} else{
+			saveUpdateWorkInBackLogDb();
+		}
 		
 		/*JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(mContext);
 		Utils.StopProgress();
@@ -748,8 +762,39 @@ public class ActivityPageActivity extends BaseActivity implements
 		};
 		return handler;
 	}
-
+	private void saveUpdateWorkInBackLogDb() {
+		CheckOutObject checkOutRemember = JobViewerDBHandler
+				.getCheckOutRemember(getApplicationContext());
+		User userProfile = JobViewerDBHandler
+				.getUserProfile(mContext);
+		WorkRequest workRequest = new WorkRequest();
+		workRequest.setStarted_at(checkOutRemember.getJobStartedTime());
+		Utils.lastest_work_started_at = Utils.getCurrentDateAndTime();
+		if (checkOutRemember.getVistecId() != null) {
+			workRequest.setReference_id(checkOutRemember.getVistecId());
+		} else {
+			workRequest.setReference_id("");
+		}
+		workRequest.setEngineer_id(Utils.work_engineer_id);
+		workRequest.setStatus(Utils.work_status_stopped);
+		workRequest.setCompleted_at(Utils.getCurrentDateAndTime());
+		workRequest.setActivity_type("work");
+		workRequest.setFlooding_status(Utils.work_flooding_status);
+		workRequest.setDA_call_out(Utils.work_DA_call_out);
+		workRequest.setIs_redline_captured(Utils.work_is_redline_captured);
+		GPSTracker tracker = new GPSTracker(mContext);
+		workRequest.setLocation_latitude("" + tracker.getLatitude());
+		workRequest.setLocation_longitude("" + tracker.getLongitude());
+		workRequest.setCreated_by(userProfile.getEmail());
+		BackLogRequest backLogRequest = new BackLogRequest();
+		backLogRequest.setRequestApi(CommsConstant.WORK_UPDATE_API+"/"+Utils.work_id);
+		backLogRequest.setRequestClassName("WorkRequest");
+		backLogRequest.setRequestJson(workRequest.toString());
+		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
+		JobViewerDBHandler.saveBackLog(context, backLogRequest);
+	}
 	private void sendEndTraining() {
+		
 		Utils.startProgress(mContext);
 		ContentValues values = new ContentValues();
 		values.put("started_at", Utils.getCurrentDateAndTime());
@@ -814,22 +859,27 @@ public class ActivityPageActivity extends BaseActivity implements
 	}
 
 	private void executeStartTravelService() {
-		ContentValues data = new ContentValues();
-		data.put("started_at", Utils.startTravelTimeRequest.getStarted_at());
-		data.put("record_for", Utils.startTravelTimeRequest.getRecord_for());
-		data.put("is_inactive", Utils.startTravelTimeRequest.getIs_inactive());
-		data.put("is_overriden", Utils.startTravelTimeRequest.getIs_overriden());
-		data.put("override_reason",
-				Utils.startTravelTimeRequest.getOverride_reason());
-		data.put("override_comment",
-				Utils.startTravelTimeRequest.getOverride_comment());
-		data.put("override_timestamp",
-				Utils.startTravelTimeRequest.getOverride_timestamp());
-		data.put("reference_id", Utils.startTravelTimeRequest.getReference_id());
-		data.put("user_id", Utils.startTravelTimeRequest.getUser_id());
-		Utils.startProgress(this);
-		Utils.SendHTTPRequest(this, CommsConstant.HOST
-				+ CommsConstant.START_TRAVEL_API, data, getStartTravelHandler());
+		if(Utils.isInternetAvailable(mContext)){
+			ContentValues data = new ContentValues();
+			data.put("started_at", Utils.startTravelTimeRequest.getStarted_at());
+			data.put("record_for", Utils.startTravelTimeRequest.getRecord_for());
+			data.put("is_inactive", Utils.startTravelTimeRequest.getIs_inactive());
+			data.put("is_overriden", Utils.startTravelTimeRequest.getIs_overriden());
+			data.put("override_reason",
+					Utils.startTravelTimeRequest.getOverride_reason());
+			data.put("override_comment",
+					Utils.startTravelTimeRequest.getOverride_comment());
+			data.put("override_timestamp",
+					Utils.startTravelTimeRequest.getOverride_timestamp());
+			data.put("reference_id", Utils.startTravelTimeRequest.getReference_id());
+			data.put("user_id", Utils.startTravelTimeRequest.getUser_id());
+			Utils.startProgress(this);
+			Utils.SendHTTPRequest(this, CommsConstant.HOST
+					+ CommsConstant.START_TRAVEL_API, data, getStartTravelHandler());
+		} else{
+			insertStartTravelTimeRequestInDB();
+			Utils.saveTimeSheetInBackLogTable(mContext, Utils.startTravelTimeRequest, CommsConstant.START_TRAVEL_API, "TimeSheetServiceRequests");
+		}
 
 	}
 

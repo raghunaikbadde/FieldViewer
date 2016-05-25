@@ -6,7 +6,7 @@ public class Data
 
     private String action;
 
-    private Payload payload;
+    private String payload;
 
     public String getEntity ()
     {
@@ -28,12 +28,12 @@ public class Data
         this.action = action;
     }
 
-    public Payload getPayload ()
+    public String getPayload ()
     {
         return payload;
     }
 
-    public void setPayload (Payload payload)
+    public void setPayload(String payload)
     {
         this.payload = payload;
     }

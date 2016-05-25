@@ -146,42 +146,6 @@ public class EndTravelActivity extends BaseActivity implements
 			intent.putExtra(Constants.WORK_NO_PHOTOS, Constants.WORK_NO_PHOTOS);
 		}
 	}
-	/*
-	 * private void executeEndBreakService() { TimeSheetRequest endTimeRequest =
-	 * null; String api; if
-	 * (Constants.BREAK_STARTED.equalsIgnoreCase(eventType)) { endTimeRequest =
-	 * Utils.endTimeRequest; api = CommsConstant.END_BREAK_API; } else {
-	 * endTimeRequest = Utils.startTravelTimeRequest; api =
-	 * CommsConstant.END_TRAVEL_API; } ContentValues data = new ContentValues();
-	 * data.put("started_at", endTimeRequest.getStarted_at());
-	 * data.put("record_for", endTimeRequest.getRecord_for());
-	 * data.put("is_inactive", endTimeRequest.getIs_inactive());
-	 * data.put("is_overriden", endTimeRequest.getIs_overriden());
-	 * data.put("override_reason", endTimeRequest.getOverride_reason());
-	 * data.put("override_comment", endTimeRequest.getOverride_comment());
-	 * data.put("override_timestamp", endTimeRequest.getOverride_timestamp());
-	 * data.put("reference_id", endTimeRequest.getReference_id());
-	 * data.put("user_id", endTimeRequest.getUser_id());
-	 * 
-	 * Utils.SendHTTPRequest(this, CommsConstant.HOST + api, data,
-	 * getEndBreakHandler()); }
-	 * 
-	 * private Handler getEndBreakHandler() { Handler handler = new Handler() {
-	 * 
-	 * @Override public void handleMessage(Message msg) { switch (msg.what) {
-	 * case HttpConnection.DID_SUCCEED: Utils.StopProgress(); String result =
-	 * (String) msg.obj; CheckOutObject checkOutRemember = JobViewerDBHandler
-	 * .getCheckOutRemember(mContext); checkOutRemember.setIsTravelEnd("true");
-	 * JobViewerDBHandler.saveCheckOutRemember(mContext, checkOutRemember);
-	 * Intent intent = new Intent(EndTravelActivity.this,
-	 * ActivityPageActivity.class);
-	 * intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); startActivity(intent);
-	 * break; case HttpConnection.DID_ERROR: Utils.StopProgress(); String error
-	 * = (String) msg.obj; VehicleException exception = GsonConverter
-	 * .getInstance() .decodeFromJsonString(error, VehicleException.class);
-	 * ExceptionHandler.showException(mContext, exception, "Info"); break;
-	 * default: break; } } }; return handler; }
-	 */
 
 	@Override
 	public void onContinue() {

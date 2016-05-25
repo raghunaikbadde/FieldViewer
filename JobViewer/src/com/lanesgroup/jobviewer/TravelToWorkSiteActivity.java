@@ -176,22 +176,26 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 	}
 
 	private void executeStartTravelService() {
-		ContentValues data = new ContentValues();
-		data.put("started_at", Utils.startTravelTimeRequest.getStarted_at());
-		data.put("record_for", Utils.startTravelTimeRequest.getRecord_for());
-		data.put("is_inactive", Utils.startTravelTimeRequest.getIs_inactive());
-		data.put("is_overriden", Utils.startTravelTimeRequest.getIs_overriden());
-		data.put("override_reason",
-				Utils.startTravelTimeRequest.getOverride_reason());
-		data.put("override_comment",
-				Utils.startTravelTimeRequest.getOverride_comment());
-		data.put("override_timestamp",
-				Utils.startTravelTimeRequest.getOverride_timestamp());
-		data.put("reference_id", Utils.startTravelTimeRequest.getReference_id());
-		data.put("user_id", Utils.startTravelTimeRequest.getUser_id());
-		Utils.startProgress(this);
-		Utils.SendHTTPRequest(this, CommsConstant.HOST
-				+ CommsConstant.START_TRAVEL_API, data, getStartTravelHandler());
+		if(Utils.isInternetAvailable(TravelToWorkSiteActivity.this)){
+			ContentValues data = new ContentValues();
+			data.put("started_at", Utils.startTravelTimeRequest.getStarted_at());
+			data.put("record_for", Utils.startTravelTimeRequest.getRecord_for());
+			data.put("is_inactive", Utils.startTravelTimeRequest.getIs_inactive());
+			data.put("is_overriden", Utils.startTravelTimeRequest.getIs_overriden());
+			data.put("override_reason",
+					Utils.startTravelTimeRequest.getOverride_reason());
+			data.put("override_comment",
+					Utils.startTravelTimeRequest.getOverride_comment());
+			data.put("override_timestamp",
+					Utils.startTravelTimeRequest.getOverride_timestamp());
+			data.put("reference_id", Utils.startTravelTimeRequest.getReference_id());
+			data.put("user_id", Utils.startTravelTimeRequest.getUser_id());
+			Utils.startProgress(this);
+			Utils.SendHTTPRequest(this, CommsConstant.HOST
+					+ CommsConstant.START_TRAVEL_API, data, getStartTravelHandler());
+		} else {
+			Utils.saveTimeSheetInBackLogTable(TravelToWorkSiteActivity.this, Utils.startTravelTimeRequest, CommsConstant.START_TRAVEL_API, "TimeSheetServiceRequests");
+		}
 
 	}
 
