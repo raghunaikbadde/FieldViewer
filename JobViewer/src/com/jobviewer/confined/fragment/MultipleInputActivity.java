@@ -105,45 +105,99 @@ public class MultipleInputActivity extends BaseActivity implements
 
 	@Override
 	public void onClick(View v) {
-		Multipleinputs multipleinputs = currentScreen.getMultipleinputs()[0];
-		if (Utils.isNullOrEmpty(multipleinputs.getInputs()[0].getAnswer())) {
-			currentScreen.getMultipleinputs()[0].getInputs()[0]
-					.setAnswer(top_man_edittext.getText().toString());
-			currentScreen.getMultipleinputs()[0].getInputs()[1]
-					.setAnswer(bottom_man1_edittext.getText().toString());
-			currentScreen.getMultipleinputs()[0].getInputs()[2]
-					.setAnswer(bottom_man2_edittext.getText().toString());
-			currentScreen.getMultipleinputs()[0].getInputs()[3]
-					.setAnswer(bottom_man3_edittext.getText().toString());
-		} else {
-			int length = currentScreen.getMultipleinputs().length;
-			Multipleinputs[] multipleinputs2 = new Multipleinputs[length + 1];
 
-			for (int i = 0; i < length; i++) {
-				multipleinputs2[i] = currentScreen.getMultipleinputs()[i];
+		if (isValidGasLevel("CH4") && isValidGasLevel("O2")
+				&& isValidGasLevel("CO") && isValidGasLevel("H2S")) {
+
+			Multipleinputs multipleinputs = currentScreen.getMultipleinputs()[0];
+			if (Utils.isNullOrEmpty(multipleinputs.getInputs()[0].getAnswer())) {
+				currentScreen.getMultipleinputs()[0].getInputs()[0]
+						.setAnswer(top_man_edittext.getText().toString());
+				currentScreen.getMultipleinputs()[0].getInputs()[1]
+						.setAnswer(bottom_man1_edittext.getText().toString());
+				currentScreen.getMultipleinputs()[0].getInputs()[2]
+						.setAnswer(bottom_man2_edittext.getText().toString());
+				currentScreen.getMultipleinputs()[0].getInputs()[3]
+						.setAnswer(bottom_man3_edittext.getText().toString());
+			} else {
+				int length = currentScreen.getMultipleinputs().length;
+				Multipleinputs[] multipleinputs2 = new Multipleinputs[length + 1];
+
+				for (int i = 0; i < length; i++) {
+					multipleinputs2[i] = currentScreen.getMultipleinputs()[i];
+				}
+				multipleinputs2[length] = new Multipleinputs();
+				Inputs[] copyOf = new Inputs[4];
+				copyOf[0] = new Inputs();
+				copyOf[1] = new Inputs();
+				copyOf[2] = new Inputs();
+				copyOf[3] = new Inputs();
+				multipleinputs2[length].setInputs(copyOf);
+
+				currentScreen.setMultipleinputs(multipleinputs2);
+				currentScreen.getMultipleinputs()[length].getInputs()[0]
+						.setAnswer(top_man_edittext.getText().toString());
+				currentScreen.getMultipleinputs()[length].getInputs()[1]
+						.setAnswer(bottom_man1_edittext.getText().toString());
+				currentScreen.getMultipleinputs()[length].getInputs()[2]
+						.setAnswer(bottom_man2_edittext.getText().toString());
+				currentScreen.getMultipleinputs()[length].getInputs()[3]
+						.setAnswer(bottom_man3_edittext.getText().toString());
 			}
-			multipleinputs2[length] = new Multipleinputs();
-			Inputs[] copyOf = new Inputs[4];
-			copyOf[0] = new Inputs();
-			copyOf[1] = new Inputs();
-			copyOf[2] = new Inputs();
-			copyOf[3] = new Inputs();
-			multipleinputs2[length].setInputs(copyOf);
-
-			currentScreen.setMultipleinputs(multipleinputs2);
-			currentScreen.getMultipleinputs()[length].getInputs()[0]
-					.setAnswer(top_man_edittext.getText().toString());
-			currentScreen.getMultipleinputs()[length].getInputs()[1]
-					.setAnswer(bottom_man1_edittext.getText().toString());
-			currentScreen.getMultipleinputs()[length].getInputs()[2]
-					.setAnswer(bottom_man2_edittext.getText().toString());
-			currentScreen.getMultipleinputs()[length].getInputs()[3]
-					.setAnswer(bottom_man3_edittext.getText().toString());
+			ConfinedQuestionManager.getInstance().UpdateMultipleScreen(
+					currentScreen);
+			finish();
 		}
-		ConfinedQuestionManager.getInstance().UpdateMultipleScreen(
-				currentScreen);
-		finish();
+	}
 
+	private boolean isValidGasLevel(String label) {
+		boolean validGasLevel = true;
+		if ("CH4".equalsIgnoreCase(label)) {
+			double ch4Level = Double.parseDouble(top_man_edittext.getText()
+					.toString());
+			if (ch4Level <= 9.9) {
+				return true;
+			} else {
+				top_man_edittext.setError("CH4 should be 9.9 or below.");
+				// callStopFragment();
+				return false;
+			}
+		}
+		if ("O2".equalsIgnoreCase(label)) {
+			double ch4Level = Double.parseDouble(bottom_man1_edittext.getText()
+					.toString());
+			if (ch4Level >= 19.0) {
+				return true;
+			} else {
+				bottom_man1_edittext.setError("O2 should be 19.0 or above.");
+				// callStopFragment();
+				return false;
+			}
+		}
+		if ("CO".equalsIgnoreCase(label)) {
+			double ch4Level = Double.parseDouble(bottom_man2_edittext.getText()
+					.toString());
+			if (ch4Level <= 29.9) {
+				return true;
+			} else {
+				bottom_man2_edittext.setError("CO should be 29.9 or below.");
+				// callStopFragment();
+				return false;
+			}
+		}
+		if ("H2S".equalsIgnoreCase(label)) {
+			double ch4Level = Double.parseDouble(bottom_man3_edittext.getText()
+					.toString());
+			if (ch4Level <= 4.9) {
+				return true;
+			} else {
+				bottom_man3_edittext.setError("H2S should be 4.9 or below.");
+				// callStopFragment();
+				return false;
+			}
+		}
+
+		return validGasLevel;
 	}
 
 	@Override
