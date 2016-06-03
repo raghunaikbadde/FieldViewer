@@ -52,6 +52,7 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 					CommsConstant.START_TRAVEL_API);
 			executeStartTravelService();
 		} else {
+			Utils.saveTimeSheetInBackLogTable(TravelToWorkSiteActivity.this, Utils.startTravelTimeRequest, CommsConstant.START_TRAVEL_API, "TimeSheetServiceRequests");
 			JobViewerDBHandler.saveTimeSheet(mContext,
 					Utils.startTravelTimeRequest,
 					CommsConstant.START_TRAVEL_API);

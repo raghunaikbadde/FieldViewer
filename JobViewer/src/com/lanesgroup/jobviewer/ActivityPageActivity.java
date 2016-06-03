@@ -693,7 +693,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		if (ConfirmDialog.eventType.contains(Constants.END_TRAINING)) {
 			sendEndTraining();
 		}
-		if (ConfirmDialog.eventType.contains(ActivityConstants.LEAVE_WORK_CONFIMRATION)) {
+		else if (ConfirmDialog.eventType.contains(ActivityConstants.LEAVE_WORK_CONFIMRATION)) {
 			sendLeaveWorkToServer();
 		}
 	}
@@ -813,9 +813,29 @@ public class ActivityPageActivity extends BaseActivity implements
 			values.put("reference_id", checkOutRemember.getVistecId());
 		}
 		values.put("user_id", userProfile.getEmail());
-		Utils.SendHTTPRequest(mContext, CommsConstant.HOST
-				+ CommsConstant.END_TRAINING_API, values,
-				getTrainingEndHandler());
+		if(Utils.isInternetAvailable(mContext)){
+			Utils.SendHTTPRequest(mContext, CommsConstant.HOST
+					+ CommsConstant.END_TRAINING_API, values,
+					getTrainingEndHandler());
+		} else {
+			
+			TimeSheetRequest endTrainingTimeSheetRequest = new TimeSheetRequest();
+			endTrainingTimeSheetRequest.setIs_inactive("false");
+			endTrainingTimeSheetRequest.setIs_overriden("false");
+			endTrainingTimeSheetRequest.setOverride_comment("");
+			endTrainingTimeSheetRequest.setOverride_reason("");
+			endTrainingTimeSheetRequest.setOverride_timestamp("");
+			endTrainingTimeSheetRequest.setRecord_for(userProfile.getEmail());
+			endTrainingTimeSheetRequest.setReference_id(userProfile.getEmail());
+			endTrainingTimeSheetRequest.setStarted_at(Utils.getCurrentDateAndTime());
+			endTrainingTimeSheetRequest.setUser_id(userProfile.getEmail());
+			Utils.saveTimeSheetInBackLogTable(mContext, endTrainingTimeSheetRequest, CommsConstant.HOST
+					+ CommsConstant.END_TRAINING_API, "TimeSheetServiceRequests");
+			Utils.StopProgress();
+			JobViewerDBHandler.deleteStartTraining(mContext);
+			mStart.setText("Start...");
+			mStart.setTag("Start...");
+		}
 
 	}
 

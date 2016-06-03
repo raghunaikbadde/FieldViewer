@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import android.app.Fragment;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ExifInterface;
@@ -15,20 +14,15 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.v4.content.res.ResourcesCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.webkit.WebView.FindListener;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -54,10 +48,8 @@ import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallback;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
-import com.jobviewer.util.showTimeDialog.DialogCallback;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
-import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.WorkSuccessActivity;
 import com.raghu.WorkRequest;
@@ -112,8 +104,6 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 			}
 		});
 	}
-		
-        
 
 	private void initUI() {
 		mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
@@ -164,8 +154,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		radioGroup = (RadioGroup)mRootView.findViewById(R.id.radioGroup1);
 		radioOne = (RadioButton) mRootView.findViewById(R.id.radio1);
 		radioTwo  = (RadioButton) mRootView.findViewById(R.id.radio2);
-		radioButtonChangedListeners();
-		
+		radioButtonChangedListeners();		
 	}
 
 	@Override
@@ -176,13 +165,13 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		} else if (view == mLeaveSite) {
 			// Upload Photos here// if calling card available
 			
-			if (Utils.isInternetAvailable(getActivity())) {
+			//if (Utils.isInternetAvailable(getActivity())) {
 				sendWorkEndTimeSheetToServer();
-			} else {
+			//} else {
 				prepareWorkCompletedRequest();
 				storeWorkEndTimeSheetInBackLogDB();
 				startWorkSuccessActivity();
-			}
+			//}
 
 		} else if (view == mCaptureCallingCard) {
 			Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);
@@ -290,8 +279,8 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 			workRequest.setReference_id("");
 		}
 		workRequest.setEngineer_id(Utils.work_engineer_id);
-		workRequest.setStatus(Utils.work_status);
-		workRequest.setCompleted_at(Utils.work_completed_at);
+		workRequest.setStatus(Utils.work_status_completed);
+		workRequest.setCompleted_at(Utils.getCurrentDateAndTime());
 		workRequest.setActivity_type("work");
 		workRequest.setFlooding_status(Utils.work_flooding_status);
 		workRequest.setDA_call_out(Utils.work_DA_call_out);
@@ -305,7 +294,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		backLogRequest.setRequestApi(CommsConstant.HOST + "/"
 				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id);
 		backLogRequest.setRequestClassName("WorkRequest");
-		backLogRequest.setRequestJson(workRequest.toString());
+		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(workRequest));
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(getActivity(), backLogRequest);
 		return workRequest;
@@ -330,7 +319,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		data.put("started_at", checkOutRemember2.getJobStartedTime());
 		data.put("record_for", userProfile.getEmail());
 		data.put("is_inactive", "false");
-		
+			
 		if(Utils.isNullOrEmpty(Utils.workEndTimeSheetRequest.getOverride_reason())){
 			data.put("override_reason", "");
 		}else{			
@@ -341,16 +330,21 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		} else{
 			data.put("override_comment", Utils.workEndTimeSheetRequest.getOverride_comment());
 		}
-		
+			
 		data.put("override_timestamp",
-				Utils.workEndTimeSheetRequest.getOverride_timestamp());
+		Utils.workEndTimeSheetRequest.getOverride_timestamp());
 		data.put("reference_id", checkOutRemember.getVistecId());
 		data.put("user_id", userProfile.getEmail());
 		Utils.startProgress(getActivity());
-		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-				+ CommsConstant.END_WORK_API, data,
-				getWorkTimeSheetSubmitHandler());
-
+		if(Utils.isInternetAvailable(getActivity())){
+			Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
+					+ CommsConstant.END_WORK_API, data,
+					getWorkTimeSheetSubmitHandler());
+		} else {
+			prepareWorkCompletedRequest();
+			storeWorkEndTimeSheetInBackLogDB();
+			startWorkSuccessActivity();
+		}
 	}
 
 	private void sendWorkCompletedToServer() {

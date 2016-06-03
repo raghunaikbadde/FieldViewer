@@ -53,18 +53,4 @@ public class VehicleCheckInOut {
 		this.user_id = user_id;
 	}
 
-	@Override
-	public String toString() {
-		JSONObject jsonObject = new JSONObject();
-		try {
-			jsonObject.put("started_at", started_at);
-			jsonObject.put("record_for", started_at);
-			jsonObject.put("registration", started_at);
-			jsonObject.put("mileage", started_at);
-			jsonObject.put("user_id", started_at);
-		} catch (JSONException jse) {
-
-		}
-		return jsonObject.toString();
-	}
 }

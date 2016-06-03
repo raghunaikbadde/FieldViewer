@@ -78,7 +78,7 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 		shoutOutBackLogRequest.setRelated_type("Work");
 		shoutOutBackLogRequest.setRelated_type_reference(checkOutRemember2
 				.getVistecId());
-		shoutOutBackLogRequest.setStarted_at(ShoutOutActivity.getStartedAt());
+		shoutOutBackLogRequest.setStarted_at(checkOutRemember2.getJobStartedTime());
 		shoutOutBackLogRequest.setCompleted_at(Utils.getCurrentDateAndTime());
 		String encodeToJsonString = GsonConverter.getInstance()
 				.encodeToJsonString(

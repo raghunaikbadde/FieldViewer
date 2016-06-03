@@ -19,12 +19,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.nophotos.WorkWithNoPhotosQuestionManager;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
@@ -34,6 +36,7 @@ import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.NewWorkActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
+import com.raghu.ShoutOutBackLogRequest;
 import com.vehicle.communicator.HttpConnection;
 
 public class NoPhotosAssessmentCompleteFragment extends Fragment implements
@@ -130,6 +133,7 @@ public class NoPhotosAssessmentCompleteFragment extends Fragment implements
 					+ CommsConstant.SURVEY_STORE_API, values,
 					getSendSurveyHandler());
 		} else {
+			saveInBackLogDB();
 			Intent homeIntent = new Intent(getActivity(),
 					ActivityPageActivity.class);
 			homeIntent.putExtra(Constants.WORK_NO_PHOTOS_HOME, true);
@@ -173,5 +177,42 @@ public class NoPhotosAssessmentCompleteFragment extends Fragment implements
 		};
 		return handler;
 	}
+	
+	private void saveInBackLogDB() {
+		ShoutOutBackLogRequest shoutOutBackLogRequest = new ShoutOutBackLogRequest();
+		CheckOutObject checkOutRemember2 = JobViewerDBHandler
+				.getCheckOutRemember(getActivity());
+		User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
+		shoutOutBackLogRequest.setWork_id(checkOutRemember2.getWorkId());
+		shoutOutBackLogRequest.setSurvey_type("Personal Risk Assessment");
+		shoutOutBackLogRequest.setRelated_type("Work");
+		shoutOutBackLogRequest.setRelated_type_reference(checkOutRemember2
+				.getVistecId());
+		shoutOutBackLogRequest.setStarted_at(checkOutRemember2
+				.getJobStartedTime());
+		shoutOutBackLogRequest.setCompleted_at(Utils.getCurrentDateAndTime());
+		String encodeToJsonString =GsonConverter.getInstance()
+				.encodeToJsonString(
+						WorkWithNoPhotosQuestionManager.getInstance()
+								.getQuestionMaster());		
+		shoutOutBackLogRequest.setSurvey_json(encodeToJsonString);
+		shoutOutBackLogRequest.setCreated_by(userProfile.getEmail());
+		shoutOutBackLogRequest.setStatus("Completed");
+		GPSTracker gpsTracker = new GPSTracker(getActivity());
+		shoutOutBackLogRequest.setLocation_latitude(""
+				+ gpsTracker.getLatitude());
+		shoutOutBackLogRequest.setLocation_longitude(""
+				+ gpsTracker.getLongitude());
+		BackLogRequest backLogRequest = new BackLogRequest();
+		backLogRequest.setRequestApi(CommsConstant.HOST
+				+ CommsConstant.SURVEY_STORE_API);
+		backLogRequest.setRequestClassName("ShoutOutBackLogRequest");
+		backLogRequest.setRequestJson(GsonConverter.getInstance()
+				.encodeToJsonString(shoutOutBackLogRequest));
+		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
+		JobViewerDBHandler.saveBackLog(getActivity(), backLogRequest);
+
+	}	
+	
 
 }

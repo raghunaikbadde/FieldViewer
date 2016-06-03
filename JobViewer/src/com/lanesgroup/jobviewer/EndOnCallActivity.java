@@ -202,12 +202,38 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 	private void saveEndCallOrEndShiftInBackLogDB(){
 		if(checkOutRemember.getJobSelected().contains("shift")){
 			insertShiftEndTimeIntoHoursCalculator();
-			JobViewerDBHandler.saveTimeSheet(this, Utils.endShiftRequest,
+			Utils.endShiftRequest.setStarted_at(Utils
+					.getCurrentDateAndTime());
+
+			User userProfile = JobViewerDBHandler.getUserProfile(this);
+			CheckOutObject checkOutRemember = JobViewerDBHandler
+					.getCheckOutRemember(this);
+			Utils.endShiftRequest.setUser_id(userProfile
+					.getEmail());
+			Utils.endShiftRequest
+			.setReference_id(checkOutRemember.getVistecId());
+			Utils.endShiftRequest.setRecord_for(userProfile
+					.getEmail());
+			JobViewerDBHandler.saveTimeSheet(this, Utils.endShiftRequest,					
 					CommsConstant.HOST + CommsConstant.END_SHIFT_API);	
+			Utils.saveTimeSheetInBackLogTable(this, Utils.endShiftRequest, CommsConstant.END_SHIFT_API, "TimeSheetServiceRequests");
 		} else{
 			insertCallEndTimeIntoHoursCalculator();
+			Utils.callEndTimeRequest.setStarted_at(Utils
+					.getCurrentDateAndTime());
+
+			User userProfile = JobViewerDBHandler.getUserProfile(this);
+			CheckOutObject checkOutRemember = JobViewerDBHandler
+					.getCheckOutRemember(this);
+			Utils.callEndTimeRequest.setUser_id(userProfile
+					.getEmail());
+			Utils.callEndTimeRequest
+			.setReference_id(checkOutRemember.getVistecId());
+			Utils.callEndTimeRequest.setRecord_for(userProfile
+					.getEmail());
 			JobViewerDBHandler.saveTimeSheet(this, Utils.callEndTimeRequest,
 					CommsConstant.HOST + CommsConstant.END_ON_CALL_API);	
+			Utils.saveTimeSheetInBackLogTable(this, Utils.callEndTimeRequest, CommsConstant.END_ON_CALL_API, "TimeSheetServiceRequests");
 		}
 	}
 

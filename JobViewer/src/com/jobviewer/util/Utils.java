@@ -90,6 +90,7 @@ public class Utils {
 	public static final String REQUEST_TYPE_WORK = "WORK";
 	public static final String REQUEST_TYPE_UPLOAD = "UPLOAD";
 	public static final String REQUEST_TYPE_TIMESHEET = "TIMESHEET";
+	public static final String REQUEST_TYPE_POLLUTION = "POLLUTION";
 
 	public static String work_completed_at = "";
 	public static String work_engineer_id = "123322";

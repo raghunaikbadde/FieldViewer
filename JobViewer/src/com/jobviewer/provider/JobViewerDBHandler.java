@@ -3,10 +3,12 @@ package com.jobviewer.provider;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.integer;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;

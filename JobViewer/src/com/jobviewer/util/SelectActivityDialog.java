@@ -32,6 +32,7 @@ import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallback;
 import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallbackForNoPhotos;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
+import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.NewWorkActivity;
 import com.lanesgroup.jobviewer.R;
@@ -242,6 +243,8 @@ public class SelectActivityDialog extends Activity implements
 					Utils.REQUEST_TYPE_WORK);
 			saveTrainingTimeSheet(Utils.timeSheetRequest);
 			finish();
+			Intent intent = new Intent(mContext,ActivityPageActivity.class);
+			startActivity(intent);
 		}
 		setResult(RESULT_OK);
 		
@@ -269,6 +272,8 @@ public class SelectActivityDialog extends Activity implements
 									R.string.startedTrainingMsg),
 							Toast.LENGTH_SHORT).show();
 					finish();
+					Intent intent = new Intent(mContext,ActivityPageActivity.class);
+					startActivity(intent);
 					break;
 				case HttpConnection.DID_ERROR:
 					Utils.StopProgress();

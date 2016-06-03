@@ -209,7 +209,6 @@ public class WorkWithNoPhotosQuestionManager {
 		} else {
 			Screen screen = getFirstScreen();
 			loadNextFragment(screen.get_number());
-			
 		}
 
 	}

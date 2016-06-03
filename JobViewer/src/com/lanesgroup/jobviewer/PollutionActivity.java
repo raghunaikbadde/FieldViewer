@@ -146,7 +146,6 @@ public class PollutionActivity extends BaseActivity implements
 		for (int i = 0; i < additionalEPDArray.length; i++) {
 			additionEPDAdapter.add(additionalEPDArray[i]);
 		}
-
 		/*
 		 * stringOfAdditionalEPD = new ArrayList<String>();
 		 * additionalEDSpinner.setAdapter(additionEPDAdapter, false, new
@@ -418,6 +417,8 @@ public class PollutionActivity extends BaseActivity implements
 								
 				
 			} else {
+				Utils.saveWorkImageInBackLogDb(getApplicationContext(), upStreamImageObject);
+				Utils.saveWorkImageInBackLogDb(getApplicationContext(), downSteamIamgeObject);
 				savePollutionReportInBackLogDb();
 				Intent addPhotosActivityIntent = new Intent(
 						PollutionActivity.this, AddPhotosActivity.class);
@@ -701,12 +702,12 @@ public class PollutionActivity extends BaseActivity implements
 				+ CommsConstant.POLLUTION_REPORT_UPLOAD + "/" + Utils.work_id);
 		Log.d(Utils.LOG_TAG, " request "
 				+ GsonConverter.getInstance().encodeToJsonString(data));
-		try{
+		try {
 			CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(this);
 			if(checkOutObject!=null && Utils.isNullOrEmpty(checkOutObject.getWorkId())){
 				Utils.work_id = checkOutObject.getWorkId();
 			}
-		}catch(Exception e){
+		} catch(Exception e) {
 			
 		}
 		Utils.SendHTTPRequest(this, CommsConstant.HOST

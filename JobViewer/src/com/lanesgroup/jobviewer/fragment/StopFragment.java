@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
@@ -29,7 +30,9 @@ import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
+import com.lanesgroup.jobviewer.NewWorkActivity;
 import com.lanesgroup.jobviewer.R;
+import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 
 public class StopFragment extends Fragment implements OnClickListener,
@@ -84,7 +87,45 @@ public class StopFragment extends Fragment implements OnClickListener,
 	@Override
 	public void onConfirmStopWork(String reason) {
 		Log.d(Utils.LOG_TAG, "reason for stopping work " + reason);
-		sendWorkCompletedToServer();
+		if(Utils.isInternetAvailable(getActivity())){
+			sendWorkCompletedToServer();
+		} else {
+			insertWorkEndTimeIntoHoursCalculator();
+			saveCreatedWorkInBackLogDb();
+		}
+	}
+	
+	private void saveCreatedWorkInBackLogDb() {
+		CheckOutObject checkOutRemember = JobViewerDBHandler
+				.getCheckOutRemember(getActivity());
+		User userProfile = JobViewerDBHandler
+				.getUserProfile(getActivity());
+		WorkRequest workRequest = new WorkRequest();
+		workRequest.setStarted_at(checkOutRemember.getJobStartedTime());
+		Utils.lastest_work_started_at = Utils.getCurrentDateAndTime();
+		if (checkOutRemember.getVistecId() != null) {
+			workRequest.setReference_id(checkOutRemember.getVistecId());
+		} else {
+			workRequest.setReference_id("");
+		}
+		workRequest.setEngineer_id(Utils.work_engineer_id);
+		workRequest.setStatus(Utils.work_status_stopped);
+		workRequest.setCompleted_at(Utils.getCurrentDateAndTime());
+		workRequest.setActivity_type("work");
+		workRequest.setFlooding_status(Utils.work_flooding_status);
+		workRequest.setDA_call_out(Utils.work_DA_call_out);
+		workRequest.setIs_redline_captured(false);
+		GPSTracker tracker = new GPSTracker(getActivity());
+		workRequest.setLocation_latitude("" + tracker.getLatitude());
+		workRequest.setLocation_longitude("" + tracker.getLongitude());
+		workRequest.setCreated_by(userProfile.getEmail());
+		BackLogRequest backLogRequest = new BackLogRequest();
+		backLogRequest.setRequestApi(CommsConstant.HOST
+				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id);
+		backLogRequest.setRequestClassName("WorkRequest");
+		backLogRequest.setRequestJson(workRequest.toString());
+		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
+		JobViewerDBHandler.saveBackLog(getActivity(), backLogRequest);
 	}
 
 	@Override
@@ -109,7 +150,7 @@ public class StopFragment extends Fragment implements OnClickListener,
 		data.put("engineer_id", Utils.work_engineer_id);
 		data.put("status", Utils.work_status_stopped);
 		data.put("completed_at", Utils.getCurrentDateAndTime());
-		data.put("activity_type", "");
+		data.put("activity_type", "work");
 		if (Utils.isNullOrEmpty(Utils.work_flooding_status)) {
 			data.put("flooding_status", "");
 		} else

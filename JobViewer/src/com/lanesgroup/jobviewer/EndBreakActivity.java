@@ -159,6 +159,7 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 		} else {
 			JobViewerDBHandler.saveTimeSheet(mContext, Utils.endTimeRequest,
 					CommsConstant.END_BREAK_API);
+			Utils.saveTimeSheetInBackLogTable(mContext, Utils.endTimeRequest, CommsConstant.END_BREAK_API, "TimeSheetServiceRequests");
 			startHomePage();
 		}
 

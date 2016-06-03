@@ -1,5 +1,7 @@
 package com.jobviwer.request.object;
 
+import org.json.JSONObject;
+
 public class Data
 {
     private String entity;

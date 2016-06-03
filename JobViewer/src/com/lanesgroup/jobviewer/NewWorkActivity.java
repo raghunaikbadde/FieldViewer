@@ -334,7 +334,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 		workRequest.setEngineer_id(Utils.work_engineer_id);
 		workRequest.setStatus(Utils.work_status);
 		workRequest.setCompleted_at(Utils.work_completed_at);
-		workRequest.setActivity_type("work");
+		workRequest.setActivity_type("");
 		workRequest.setFlooding_status(Utils.work_flooding_status);
 		workRequest.setDA_call_out(Utils.work_DA_call_out);
 		workRequest.setIs_redline_captured(Utils.work_is_redline_captured);
@@ -345,7 +345,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 		BackLogRequest backLogRequest = new BackLogRequest();
 		backLogRequest.setRequestApi(CommsConstant.WORK_CREATE_API);
 		backLogRequest.setRequestClassName("WorkRequest");
-		backLogRequest.setRequestJson(workRequest.toString());
+		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(workRequest));
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(context, backLogRequest);
 	}

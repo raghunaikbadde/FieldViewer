@@ -18,6 +18,7 @@ import android.widget.Button;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.confined.ConfinedQuestionManager;
+import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
@@ -29,6 +30,7 @@ import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
+import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 
 public class ConfinedStopFragment extends Fragment implements OnClickListener {
@@ -86,41 +88,78 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener {
 	}
 
 	private void sendWorkCompletedToServer() {
-		ContentValues data = new ContentValues();
+		if(Utils.isInternetAvailable(getActivity())){
+			ContentValues data = new ContentValues();
+			CheckOutObject checkOutRemember = JobViewerDBHandler
+					.getCheckOutRemember(getActivity());
+			User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
+			CheckOutObject checkOutRemember2 = JobViewerDBHandler
+					.getCheckOutRemember(getActivity());
+			insertWorkEndTimeIntoHoursCalculator();
+			data.put("started_at", checkOutRemember2.getJobStartedTime());
+			if (checkOutRemember.getVistecId() != null) {
+				data.put("reference_id", checkOutRemember.getVistecId());
+			} else {
+				data.put("reference_id", "");
+			}
+			data.put("engineer_id", Utils.work_engineer_id);
+			data.put("status", Utils.work_status_stopped);
+			data.put("completed_at", Utils.getCurrentDateAndTime());
+			data.put("activity_type", "work");
+			if (Utils.isNullOrEmpty(Utils.work_flooding_status)) {
+				data.put("flooding_status", "");
+			} else
+				data.put("flooding_status", Utils.work_flooding_status);
+			data.put("DA_call_out", Utils.work_DA_call_out);
+			data.put("is_redline_captured", false);
+			GPSTracker tracker = new GPSTracker(getActivity());
+			data.put("location_latitude", tracker.getLatitude());
+			data.put("location_longitude", tracker.getLongitude());
+			data.put("created_by", userProfile.getEmail());
+			Utils.startProgress(getActivity());
+			try {
+				Utils.work_id = checkOutRemember.getWorkId();
+			} catch (Exception e) {
+			}
+			Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
+					+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, data,
+					getWorkCompletedHandler());
+		} else {
+			saveCreatedWorkInBackLogDb();
+		}
+	}
+	
+	private void saveCreatedWorkInBackLogDb() {
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getActivity());
-		User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
-		CheckOutObject checkOutRemember2 = JobViewerDBHandler
-				.getCheckOutRemember(getActivity());
-		insertWorkEndTimeIntoHoursCalculator();
-		data.put("started_at", checkOutRemember2.getJobStartedTime());
+		User userProfile = JobViewerDBHandler
+				.getUserProfile(getActivity());
+		WorkRequest workRequest = new WorkRequest();
+		workRequest.setStarted_at(checkOutRemember.getJobStartedTime());
+		Utils.lastest_work_started_at = Utils.getCurrentDateAndTime();
 		if (checkOutRemember.getVistecId() != null) {
-			data.put("reference_id", checkOutRemember.getVistecId());
+			workRequest.setReference_id(checkOutRemember.getVistecId());
 		} else {
-			data.put("reference_id", "");
+			workRequest.setReference_id("");
 		}
-		data.put("engineer_id", Utils.work_engineer_id);
-		data.put("status", Utils.work_status_stopped);
-		data.put("completed_at", Utils.getCurrentDateAndTime());
-		data.put("activity_type", "work");
-		if (Utils.isNullOrEmpty(Utils.work_flooding_status)) {
-			data.put("flooding_status", "");
-		} else
-			data.put("flooding_status", Utils.work_flooding_status);
-		data.put("DA_call_out", Utils.work_DA_call_out);
-		data.put("is_redline_captured", false);
+		workRequest.setEngineer_id(Utils.work_engineer_id);
+		workRequest.setStatus(Utils.work_status_stopped);
+		workRequest.setCompleted_at(Utils.getCurrentDateAndTime());
+		workRequest.setActivity_type("work");
+		workRequest.setFlooding_status(Utils.work_flooding_status);
+		workRequest.setDA_call_out(Utils.work_DA_call_out);
+		workRequest.setIs_redline_captured(false);
 		GPSTracker tracker = new GPSTracker(getActivity());
-		data.put("location_latitude", tracker.getLatitude());
-		data.put("location_longitude", tracker.getLongitude());
-		data.put("created_by", userProfile.getEmail());
-		Utils.startProgress(getActivity());
-		try {
-			Utils.work_id = checkOutRemember.getWorkId();
-		} catch (Exception e) {
-		}
-		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, data,
-				getWorkCompletedHandler());
+		workRequest.setLocation_latitude("" + tracker.getLatitude());
+		workRequest.setLocation_longitude("" + tracker.getLongitude());
+		workRequest.setCreated_by(userProfile.getEmail());
+		BackLogRequest backLogRequest = new BackLogRequest();
+		backLogRequest.setRequestApi(CommsConstant.HOST
+				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id);
+		backLogRequest.setRequestClassName("WorkRequest");
+		backLogRequest.setRequestJson(workRequest.toString());
+		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
+		JobViewerDBHandler.saveBackLog(getActivity(), backLogRequest);
 	}
 
 	private void insertWorkEndTimeIntoHoursCalculator() {

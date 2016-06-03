@@ -110,32 +110,6 @@ public class WorkRequest {
 		this.location_longitude = location_longitude;
 	}
 
-	@Override
-	public String toString() {
-		JSONObject jsonObject = new JSONObject();
-		try{
-			jsonObject.put("started_at",getStarted_at());
-			jsonObject.put("reference_id",getReference_id());
-			jsonObject.put("engineer_id",getEngineer_id());
-			jsonObject.put("status",getStatus());
-			jsonObject.put("completed_at",isCompleted_at());
-			jsonObject.put("activity_type",getActivity_type());
-			jsonObject.put("flooding_status",getFlooding_status());
-			jsonObject.put("DA_call_out",getDA_call_out());
-			jsonObject.put("is_redline_captured",isIs_redline_captured());
-			jsonObject.put("location_latitude",getLocation_latitude());
-			jsonObject.put("location_longitude",getLocation_longitude());
-		}catch(JSONException jse){}
-		return jsonObject.toString();
-	}
-	/*
-	 * "started_at": "01:02:20 01 Jan 2016", "reference_id": "1212ABCD",
-	 * "engineer_id": "123322", "status": "New", "completed_at": null,
-	 * "activity_type": "", "flooding_status": "No Flooding", "DA_call_out":
-	 * "No Call Made", "is_redline_captured": true, "location_latitude":
-	 * "12.42323", "location_longitude": "32.234321"
-	 */
-
 	public String getCreated_by() {
 		return created_by;
 	}
