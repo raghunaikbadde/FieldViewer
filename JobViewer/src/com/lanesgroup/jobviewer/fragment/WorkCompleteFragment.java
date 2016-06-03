@@ -70,6 +70,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 	private RadioGroup radioGroup;
 	static File file;	
 	private String mPipeDiameter,mPipeLength;
+	private String selectedActivityText = "";
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -164,14 +165,14 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 			
 		} else if (view == mLeaveSite) {
 			// Upload Photos here// if calling card available
-			
-			//if (Utils.isInternetAvailable(getActivity())) {
+			selectedActivityText = mSpinnerSelectedText.getText().toString();
+			if (Utils.isInternetAvailable(getActivity())) {
 				sendWorkEndTimeSheetToServer();
-			//} else {
+			} else {
 				prepareWorkCompletedRequest();
 				storeWorkEndTimeSheetInBackLogDB();
 				startWorkSuccessActivity();
-			//}
+			}
 
 		} else if (view == mCaptureCallingCard) {
 			Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);
@@ -185,6 +186,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 			mSpinnerSelectedText.addTextChangedListener(this);
 			Utils.dailogboxSelector(getActivity(), Utils.mActivityList,
 					R.layout.work_complete_dialog, mSpinnerSelectedText, header);
+			
 		} else if (view == mSpinnerLayoutFlooding) {
 			String header = getResources().getString(R.string.activity_type);
 			Utils.dailogboxSelector(getActivity(), Utils.mFloodingList,
@@ -281,7 +283,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		workRequest.setEngineer_id(Utils.work_engineer_id);
 		workRequest.setStatus(Utils.work_status_completed);
 		workRequest.setCompleted_at(Utils.getCurrentDateAndTime());
-		workRequest.setActivity_type("work");
+		workRequest.setActivity_type(selectedActivityText);
 		workRequest.setFlooding_status(Utils.work_flooding_status);
 		workRequest.setDA_call_out(Utils.work_DA_call_out);
 		workRequest.setIs_redline_captured(Utils.work_is_redline_captured);
@@ -364,7 +366,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		data.put("engineer_id", Utils.work_engineer_id);
 		data.put("status", Utils.work_status_completed);
 		data.put("completed_at", Utils.getCurrentDateAndTime());
-		data.put("activity_type", "work");
+		data.put("activity_type", selectedActivityText);
 		if (Utils.isNullOrEmpty(Utils.work_flooding_status)) {
 			data.put("flooding_status", "");
 		} else

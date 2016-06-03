@@ -229,7 +229,10 @@ public class SyncAllData {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
+					
 					String result = (String) msg.obj;
+					JobViewerDBHandler.deleteBackLog(context);
+					
 					Log.i("Android", result);
 					break;
 				case HttpConnection.DID_ERROR:

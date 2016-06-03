@@ -26,7 +26,11 @@ public class SendImagesOnBackground {
 	Context context;
 
 	public void getAndSendImagesToServer(Context context) {
-		allSavedImages = JobViewerDBHandler.getAllSavedImages(context);
+		try{
+			allSavedImages = JobViewerDBHandler.getAllSavedImages(context);
+		}catch(OutOfMemoryError oome){
+			
+		}
 		this.context = context;
 		Log.i("Android", ""+allSavedImages.size());
 		if (allSavedImages.size() != 0) {
@@ -41,7 +45,13 @@ public class SendImagesOnBackground {
 		Log.i("Android", imageObject.getImageId());
 		values.put("category", imageObject.getCategory());
 		Log.i("Android", imageObject.getCategory());
-		values.put("image_string", "data:image/png;base64,"+imageObject.getImage_string());
+		String str = "";
+		try{
+			str = imageObject.getImage_string();
+		}catch(OutOfMemoryError oome){
+			
+		}
+		values.put("image_string", "data:image/png;base64,"+str);
 		values.put("image_exif", imageObject.getImage_exif());
 		Utils.SendHTTPRequest(context, CommsConstant.HOST
 				+ CommsConstant.SURVEY_PHOTO_UPLOAD, values, getSaveImageHandler());
@@ -69,8 +79,12 @@ public class SendImagesOnBackground {
 						index++;
 						sendImage(allSavedImages.get(index));
 					} else {
+						try{
 						allSavedImages = JobViewerDBHandler
 								.getAllSavedImages(context);
+						}catch(OutOfMemoryError oome){
+							
+						}
 						index = 0;
 						if (allSavedImages.size() > 0) {
 							sendImage(allSavedImages.get(0));
