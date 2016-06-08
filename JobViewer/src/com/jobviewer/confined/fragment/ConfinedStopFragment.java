@@ -130,6 +130,8 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener {
 			Utils.startProgress(getActivity());
 			saveCreatedWorkInBackLogDb();
 			saveInBackLogDB();
+			JobViewerDBHandler.deleteConfinedQuestionSet(getActivity());
+			JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(getActivity());
 			Utils.StopProgress();
 			startEndMethod();
 		}
@@ -163,7 +165,7 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener {
 		backLogRequest.setRequestApi(CommsConstant.HOST
 				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id);
 		backLogRequest.setRequestClassName("WorkRequest");
-		backLogRequest.setRequestJson(workRequest.toString());
+		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(workRequest));
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(getActivity(), backLogRequest);
 	}

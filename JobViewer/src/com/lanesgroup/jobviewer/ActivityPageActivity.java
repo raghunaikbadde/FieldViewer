@@ -789,7 +789,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		BackLogRequest backLogRequest = new BackLogRequest();
 		backLogRequest.setRequestApi(CommsConstant.WORK_UPDATE_API+"/"+Utils.work_id);
 		backLogRequest.setRequestClassName("WorkRequest");
-		backLogRequest.setRequestJson(workRequest.toString());
+		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(workRequest));
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(context, backLogRequest);
 	}
