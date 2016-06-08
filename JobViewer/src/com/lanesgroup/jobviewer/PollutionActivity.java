@@ -72,8 +72,8 @@ public class PollutionActivity extends BaseActivity implements
 	TextView landPollution, landAffected, extentOfWater, waterBody, ammonia,
 			fishKill, indicativeCause, additionalED, landPollutantsText,waterPollutantsTextView;
 
-	ArrayList<String> stringOfLandPollutants;
-	ArrayList<String> stringOfWaterPollutants;
+	String stringOfLandPollutants;
+	String stringOfWaterPollutants;
 	ArrayList<String> stringOfAdditionalEPD;
 
 	ImageObject upStreamImageObject, downSteamIamgeObject;
@@ -408,18 +408,17 @@ public class PollutionActivity extends BaseActivity implements
 
 			pollutionReportRequest.setLand_pollutants(stringOfLandPollutants);
 			pollutionReportRequest.setWater_pollutants(stringOfWaterPollutants);
-
+			JobViewerDBHandler.saveImage(getApplicationContext(), upStreamImageObject);
+			JobViewerDBHandler.saveImage(getApplicationContext(), downSteamIamgeObject);
 			if (Utils.isInternetAvailable(PollutionActivity.this)) {
 				Utils.startProgress(PollutionActivity.this);
-				JobViewerDBHandler.saveImage(getApplicationContext(), upStreamImageObject);
-				JobViewerDBHandler.saveImage(getApplicationContext(), downSteamIamgeObject);
+				
 				sendUpStreamWorkImageToServer(upStreamImageObject);
 								
 				
 			} else {
-				Utils.saveWorkImageInBackLogDb(getApplicationContext(), upStreamImageObject);
-				Utils.saveWorkImageInBackLogDb(getApplicationContext(), downSteamIamgeObject);
-				savePollutionReportInBackLogDb();
+				//savePollutionReportInBackLogDb();
+				sendPollutionReportToServer();
 				Intent addPhotosActivityIntent = new Intent(
 						PollutionActivity.this, AddPhotosActivity.class);
 				startActivity(addPhotosActivityIntent);
@@ -607,15 +606,15 @@ public class PollutionActivity extends BaseActivity implements
 
 			if (pollutionReportRequest.getLand_pollutants() == null) {
 				pollutionReportRequest
-						.setLand_pollutants(new ArrayList<String>());
+						.setLand_pollutants("");
 			}
 
-			ArrayList<String> landpollutants = pollutionReportRequest
-					.getLand_pollutants();
-			String idList = landpollutants.toString();
+			String landpollutants = landPollutantsText.getText().toString();
+			pollutionReportRequest.setLand_pollutants(landpollutants);
+			/*String idList = landpollutants.toString();
 			String landPollutantsString = idList.substring(1,
-					idList.length() - 1).replace(", ", ",");
-			data.put("land_pollutants", landPollutantsString);
+					idList.length() - 1).replace(", ", ",");*/
+			data.put("land_pollutants", landpollutants);
 		}
 
 		if (ptwCheckbox.isChecked()) {
@@ -631,17 +630,9 @@ public class PollutionActivity extends BaseActivity implements
 					.setWater_body(waterBody.getText().toString());
 			data.put("water_body", pollutionReportRequest.getWater_body());
 
-			if (pollutionReportRequest.getWater_pollutants() == null) {
-				pollutionReportRequest
-						.setWater_pollutants(new ArrayList<String>());
-			}
-
-			ArrayList<String> waterpollutants = pollutionReportRequest
-					.getWater_pollutants();
-			String idList = waterpollutants.toString();
-			String waterPollutantsString = idList.substring(1,
-					idList.length() - 1).replace(", ", ",");
-			data.put("water_pollutants", waterPollutantsString);
+			String waterpts = waterPollutantsTextView.getText().toString();
+			pollutionReportRequest.setWater_pollutants(waterpts);
+			data.put("water_pollutants", waterpts);
 
 			pollutionReportRequest.setDo_upstream(mUpStreamEditText.getText()
 					.toString());
@@ -651,6 +642,7 @@ public class PollutionActivity extends BaseActivity implements
 					.getText().toString());
 			data.put("do_downstream", pollutionReportRequest.getDo_downstream());
 
+			
 			if (!Utils.isNullOrEmpty(upStreamImageObject.getImage_string())) {
 				pollutionReportRequest.setDo_upstream_image(upStreamImageObject
 						.getImageId());
@@ -685,18 +677,14 @@ public class PollutionActivity extends BaseActivity implements
 
 		
 		ArrayList<String> myList = new ArrayList<String>(Arrays.asList(additionalED.getText().toString().split(",")));
-		pollutionReportRequest.setEquipment_deployed(myList);
-		
-		ArrayList<String> eqDeployedArray = pollutionReportRequest
-				.getEquipment_deployed();
-		String idList = eqDeployedArray.toString();
-		String additionalEqDeployedString = idList.substring(1,
-				idList.length() - 1).replace(", ", ",");
-		if(additionalEqDeployedString.contains("Select"))
-		{
-			additionalEqDeployedString = null;
+		String equipmentdeployed = "";
+		for(int i=0;i<myList.size();i++){
+			equipmentdeployed += myList.get(i)+",";
 		}
-		data.put("equipment_deployed", additionalEqDeployedString);
+		equipmentdeployed = equipmentdeployed.substring(0, equipmentdeployed.length()-1);
+		pollutionReportRequest.setEquipment_deployed(equipmentdeployed);
+		
+		data.put("equipment_deployed", pollutionReportRequest.getEquipment_deployed());
 
 		Log.d(Utils.LOG_TAG, " url - : " + CommsConstant.HOST
 				+ CommsConstant.POLLUTION_REPORT_UPLOAD + "/" + Utils.work_id);
@@ -710,9 +698,13 @@ public class PollutionActivity extends BaseActivity implements
 		} catch(Exception e) {
 			
 		}
+		if (Utils.isInternetAvailable(PollutionActivity.this)) {
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.POLLUTION_REPORT_UPLOAD + "/" + Utils.work_id,
 				data, getPollutionReportHandler());
+		} else {
+			savePollutionReportInBackLogDb();
+		}
 	}
 
 	private Handler getPollutionReportHandler() {
@@ -754,8 +746,7 @@ public class PollutionActivity extends BaseActivity implements
 
 	private void savePollutionReportInBackLogDb() {
 		BackLogRequest backLogRequest = new BackLogRequest();
-		Utils.work_id = "1"; 
-		backLogRequest.setRequestApi(CommsConstant.HOST + "/"
+		backLogRequest.setRequestApi(CommsConstant.HOST
 				+ CommsConstant.POLLUTION_REPORT_UPLOAD + "/" + Utils.work_id);
 		backLogRequest.setRequestClassName("PollutionReportRequest");
 		backLogRequest.setRequestJson(GsonConverter.getInstance()
@@ -770,7 +761,7 @@ public class PollutionActivity extends BaseActivity implements
 		if (requestCode == com.jobviewer.util.Constants.UPSTREAM_RESULT_CODE
 				&& resultCode == RESULT_OK) {
 			upStreamImageObject = new ImageObject();
-			prepareImageObject(upStreamImageObject);
+			upStreamImageObject = prepareImageObject(upStreamImageObject);
 			
 			mTakePicUpStream.setText(null);
 			mTakePicUpStream.setCompoundDrawablesWithIntrinsicBounds(
@@ -781,7 +772,7 @@ public class PollutionActivity extends BaseActivity implements
 		} else if (requestCode == com.jobviewer.util.Constants.DOWNSTREAM_RESULT_CODE
 				&& resultCode == RESULT_OK) {
 			downSteamIamgeObject = new ImageObject();
-			prepareImageObject(downSteamIamgeObject);
+			downSteamIamgeObject = prepareImageObject(downSteamIamgeObject);
 			mTakePicDownStream.setText(null);
 			mTakePicDownStream.setCompoundDrawablesWithIntrinsicBounds(
 					null,ResourcesCompat.getDrawable(getResources(), R.drawable.pollution_camera_icon, null)
@@ -790,7 +781,7 @@ public class PollutionActivity extends BaseActivity implements
 		}
 	}
 
-	private void prepareImageObject(ImageObject imageObject) {
+	private ImageObject prepareImageObject(ImageObject imageObject) {
 		String generateUniqueID = Utils.generateUniqueID(this);
 		GPSTracker gpsTracker = new GPSTracker(this);
 		String geoLocation = "";
@@ -831,7 +822,8 @@ public class PollutionActivity extends BaseActivity implements
 		geoLocation = Utils.getGeoLocationString(this);
 		String image_exif = formatDate + "," + geoLocation;
 		imageObject.setImage_string(Utils.bitmapToBase64String(rotateBitmap));
-		imageObject.setImage_exif(image_exif);			
+		imageObject.setImage_exif(image_exif);
+		return imageObject;
 	}
 
 	public void enableNextButton(boolean isEnable) {
@@ -851,49 +843,31 @@ public class PollutionActivity extends BaseActivity implements
 		if (ptlCheckbox.isChecked() && ptwCheckbox.isChecked()) {
 			String extentOfLandPollution = landPollution.getText().toString();
 			String landEffected = landAffected.getText().toString();
-
-			ArrayList<String> myList = new ArrayList<String>(Arrays.asList(landPollutantsText.getText().toString().split(",")));
-			pollutionReportRequest.setLand_pollutants(myList);
+			String[] langpollutants = {};
+			if(!Utils.isNullOrEmpty(landPollutantsText.getText().toString())){
+				pollutionReportRequest.setLand_pollutants(landPollutantsText.getText().toString());
+				langpollutants = landPollutantsText.getText().toString().split(",");
+			}
 			
-			ArrayList<String> langpollutants = null;
-
-			try {
-				langpollutants = pollutionReportRequest.getLand_pollutants();
-			} catch (Exception e) {
-
-			}
-			if (langpollutants == null) {
-				langpollutants = new ArrayList<String>();
-			}
-
 			String indicativeCasueStr = indicativeCause.getText().toString();
 			pollutionReportRequest.setIndicative_cause(indicativeCasueStr);
 			String extentOfWaterPollution = extentOfWater.getText().toString();
 			String waterBoddyEffected = waterBody.getText().toString();
-			
-			ArrayList<String> waterPollutantList = new ArrayList<String>(Arrays.asList(waterPollutantsTextView.getText().toString().split(",")));
-			pollutionReportRequest.setWater_pollutants(waterPollutantList);
-			
-			ArrayList<String> waterPollutants = null;
+			String[] waterPollutants = {};
 
-			try {
-				waterPollutants = pollutionReportRequest.getWater_pollutants();
-			} catch (Exception e) {
-
+			if(!Utils.isNullOrEmpty(waterPollutantsTextView.getText().toString())){
+				pollutionReportRequest.setWater_pollutants(waterPollutantsTextView.getText().toString());
+				waterPollutants = waterPollutantsTextView.getText().toString().split(",");
 			}
-			if (waterPollutants == null) {
-				waterPollutants = new ArrayList<String>();
-			}
-			Log.d(Utils.LOG_TAG, "BothSelected");
 			String ammoniaStr = ammonia.getText().toString();
 			String fishKillStr = fishKill.getText().toString();
 			if (!extentOfLandPollution.contains("Select")
 					&& !landEffected.contains("Select")
-					&& langpollutants.size() != 0) {
+					&& langpollutants.length != 0) {
 				Log.d(Utils.LOG_TAG, "LandPollutionPassed");
 				if (!extentOfWaterPollution.contains("Select")
 						&& !waterBoddyEffected.contains("Select")
-						&& waterPollutants.size() != 0
+						&& waterPollutants.length != 0
 						&& !ammoniaStr.contains("Select")
 						&& !fishKillStr.contains("Select")) {
 					Log.d(Utils.LOG_TAG, "WaterPollutionPassed");
@@ -906,14 +880,14 @@ public class PollutionActivity extends BaseActivity implements
 			Log.d(Utils.LOG_TAG, " extentOfLandPollution "
 					+ extentOfLandPollution + " landEffected " + landEffected
 					+ "indicativeCasueStr " + indicativeCasueStr
-					+ " landPollutants Size " + langpollutants.size());
+					+ " landPollutants Size " + langpollutants.length);
 
 			Log.d(Utils.LOG_TAG, " extentOfWaterPollution "
 					+ extentOfWaterPollution + " waterBoddyEffected "
 					+ waterBoddyEffected + " ammoniaStr " + ammoniaStr
 					+ " fishKillStr " + fishKillStr + " indicativeCasueStr "
 					+ indicativeCasueStr + " size of water pollutatnat"
-					+ waterPollutants.size());
+					+ waterPollutants.length);
 
 		} else {
 			if (ptlCheckbox.isChecked()) {
@@ -921,26 +895,17 @@ public class PollutionActivity extends BaseActivity implements
 						.toString();
 				String landEffected = landAffected.getText().toString();
 				
-				ArrayList<String> myList = new ArrayList<String>(Arrays.asList(landPollutantsText.getText().toString().split(",")));
-				pollutionReportRequest.setLand_pollutants(myList);
-				
-				ArrayList<String> langpollutants = null;
-
-				try {
-					langpollutants = pollutionReportRequest
-							.getLand_pollutants();
-				} catch (Exception e) {
-
-				}
-				if (langpollutants == null) {
-					langpollutants = new ArrayList<String>();
+				String[] langpollutants = {};
+				if(!Utils.isNullOrEmpty(landPollutantsText.getText().toString())){
+					pollutionReportRequest.setLand_pollutants(landPollutantsText.getText().toString());
+					langpollutants = landPollutantsText.getText().toString().split(",");
 				}
 				String indicativeCasueStr = indicativeCause.getText()
 						.toString();
 				pollutionReportRequest.setIndicative_cause(indicativeCasueStr);
 				if (!extentOfLandPollution.contains("Select")
 						&& !landEffected.contains("Select")
-						&& langpollutants.size() != 0) {
+						&& langpollutants.length != 0) {
 					if (!indicativeCasueStr.contains("Select")) {
 						enableNextButton(true);
 					}
@@ -956,21 +921,13 @@ public class PollutionActivity extends BaseActivity implements
 						.toString();
 				String waterBoddyEffected = waterBody.getText().toString();
 				
-				ArrayList<String> myList = new ArrayList<String>(Arrays.asList(waterPollutantsTextView.getText().toString().split(",")));
-				pollutionReportRequest.setWater_pollutants(myList);
+				String[] waterPollutants = {};
+
+				if(!Utils.isNullOrEmpty(waterPollutantsTextView.getText().toString())){
+					pollutionReportRequest.setWater_pollutants(waterPollutantsTextView.getText().toString());
+					waterPollutants = waterPollutantsTextView.getText().toString().split(",");
+				}
 				
-				ArrayList<String> waterPollutants = null;
-
-				try {
-					waterPollutants = pollutionReportRequest
-							.getWater_pollutants();
-				} catch (Exception e) {
-
-				}
-				if (waterPollutants == null) {
-					waterPollutants = new ArrayList<String>();
-				}
-
 				String ammoniaStr = ammonia.getText().toString();
 				String fishKillStr = fishKill.getText().toString();
 				String indicativeCasueStr = indicativeCause.getText()
@@ -978,7 +935,7 @@ public class PollutionActivity extends BaseActivity implements
 				pollutionReportRequest.setIndicative_cause(indicativeCasueStr);
 				if (!extentOfWaterPollution.contains("Select")
 						&& !waterBoddyEffected.contains("Select")
-						&& waterPollutants.size() != 0
+						&& waterPollutants.length != 0
 						&& !ammoniaStr.contains("Select")
 						&& !fishKillStr.contains("Select")) {
 					if (!indicativeCasueStr.contains("Select")) {
@@ -991,7 +948,7 @@ public class PollutionActivity extends BaseActivity implements
 						+ waterBoddyEffected + " ammoniaStr " + ammoniaStr
 						+ " fishKillStr " + fishKillStr
 						+ " indicativeCasueStr " + indicativeCasueStr
-						+ " size of water pollutatnat" + waterPollutants.size());
+						+ " size of water pollutatnat" + waterPollutants.length);
 			}
 		}
 	}

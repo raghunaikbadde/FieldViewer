@@ -101,7 +101,7 @@ public class Utils {
 	public static String work_DA_call_out = "No Call Made";
 	public static boolean work_is_redline_captured = false;
 
-	public static String work_id = "22345";
+	public static String work_id = "";
 	public static String UPDATE_RISK_ASSESSMENT_ACTIVITY = "UPDATE_RISK_ASSESSMENT_ACTIVITY";
 
 	public static final String LOG_TAG = "JV";

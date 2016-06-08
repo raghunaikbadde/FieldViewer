@@ -1,17 +1,16 @@
 package com.raghu;
 
-import java.util.ArrayList;
 
 public class PollutionReportRequest {
  
 	private String land_polluted = "";
 	private String land_area = "";
 	private String land_type = "";
-	private ArrayList<String> land_pollutants;
+	private String land_pollutants;
 	private String water_polluted = "";
 	private String water_area = "";
 	private String water_body = "";
-	private ArrayList<String> water_pollutants;
+	private String water_pollutants;
 	private String do_upstream = "80.05";
 	private String do_downstream = "90.00";
 	private String do_upstream_image = "TMP1234";
@@ -20,7 +19,7 @@ public class PollutionReportRequest {
 	private String fish_kill = "1-10";
 	private String indicative_cause = "Failed asset";
 	private String failed_asset = "Pumping station";
-	private ArrayList<String> equipment_deployed = new ArrayList<String>();
+	private String equipment_deployed = "";
 	
 	public String getLand_polluted() {
 		return land_polluted;
@@ -40,10 +39,10 @@ public class PollutionReportRequest {
 	public void setLand_type(String land_type) {
 		this.land_type = land_type;
 	}
-	public ArrayList<String> getLand_pollutants() {
+	public String getLand_pollutants() {
 		return land_pollutants;
 	}
-	public void setLand_pollutants(ArrayList<String> land_pollutants) {
+	public void setLand_pollutants(String land_pollutants) {
 		this.land_pollutants = land_pollutants;
 	}
 	public String getWater_polluted() {
@@ -64,10 +63,10 @@ public class PollutionReportRequest {
 	public void setWater_body(String water_body) {
 		this.water_body = water_body;
 	}
-	public ArrayList<String> getWater_pollutants() {
+	public String getWater_pollutants() {
 		return water_pollutants;
 	}
-	public void setWater_pollutants(ArrayList<String> water_pollutants) {
+	public void setWater_pollutants(String water_pollutants) {
 		this.water_pollutants = water_pollutants;
 	}
 	public String getDo_upstream() {
@@ -118,13 +117,10 @@ public class PollutionReportRequest {
 	public void setFailed_asset(String failed_asset) {
 		this.failed_asset = failed_asset;
 	}
-	public ArrayList<String> getEquipment_deployed() {
+	public String getEquipment_deployed() {
 		return equipment_deployed;
 	}
-	public void setEquipment_deployed(ArrayList<String> equipment_deployed) {
+	public void setEquipment_deployed(String equipment_deployed) {
 		this.equipment_deployed = equipment_deployed;
 	}
-
-
-	
 }

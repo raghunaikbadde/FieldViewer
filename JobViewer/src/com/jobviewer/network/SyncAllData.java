@@ -6,14 +6,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.bool;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.google.gson.JsonIOException;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
@@ -21,9 +19,7 @@ import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.Data;
-import com.jobviwer.request.object.Payload;
 import com.jobviwer.request.object.SyncRequest;
-import com.jobviwer.response.object.JVResponse;
 import com.jobviwer.response.object.StartUpResponse;
 import com.vehicle.communicator.HttpConnection;
 
@@ -59,8 +55,19 @@ public class SyncAllData {
 				data.setAction(action);
 				String requestJson = allBackLog.get(i).getRequestJson();
 				data.setPayload(requestJson);
-				dataArray[i] = data;
 				if(apiName.contains(CommsConstant.STARTUP_API)){
+					data.setAction("");
+					data.setEntity("startup");
+				}
+				if(apiName.contains(CommsConstant.POLLUTION_REPORT_UPLOAD)){
+					data.setAction("store");
+					data.setEntity("pollution");
+				}
+				if(apiName.contains(CommsConstant.WORK_PHOTO_UPLOAD)){
+					data.setAction("upload");
+					data.setEntity("works");
+				}
+			/*	if(apiName.contains(CommsConstant.STARTUP_API)){
 					Data[] data1 = new Data[1];
 					data1[0] = data;
 					data.setAction("");
@@ -70,7 +77,7 @@ public class SyncAllData {
 					sendStartUpRequestStoreData(request);
 					
 					continue;
-				}/*else if(apiName.contains(CommsConstant.WORK_CREATE_API)){
+				}else if(apiName.contains(CommsConstant.WORK_CREATE_API)){
 					Data[] data1 = new Data[1];
 					data1[0] = data;
 					
@@ -78,15 +85,34 @@ public class SyncAllData {
 					sendWorkCreateData(request);
 					
 					continue;
-				}*/else {
-						
-				}			
+				}else {*/
+					dataArray[i] = data;		
+				//}			
 			}
+			//Data[] dataa = removeNullElementsInDataArray(dataArray);
 			request.setData(dataArray);
 			sendDataToServer(request);
 		}
 	}
 
+
+	private Data[] removeNullElementsInDataArray(Data[] dataArray) {
+		int length = 0;
+		for(int i=0;i<dataArray.length;i++){
+			if(dataArray[i]==null){
+				length++;
+			}
+		}
+		int j= 0;
+		Data[] dataArrayOfWithOutNull = new Data[dataArray.length-length];
+		for(int i=0;i<dataArray.length;i++){
+			if(dataArray[i] != null){
+				dataArrayOfWithOutNull[j] = dataArray[i];
+				j++;
+			}
+		}
+		return dataArrayOfWithOutNull;
+	}
 
 	private void sendStartUpRequestStoreData(SyncRequest request) {
 		
@@ -136,16 +162,24 @@ public class SyncAllData {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
 					String result = (String) msg.obj;
-					JVResponse decodeFromJsonString = GsonConverter
+					int id = 0;
+					try{
+						JSONObject jsonObject = new JSONObject(result);
+						id = jsonObject.getInt("id");
+						//result = ((JSONObject)jsonObject.get("data")).toString();
+					}catch (Exception e) {
+						// TODO: handle exception
+					}
+					/*JVResponse decodeFromJsonString = GsonConverter
 							.getInstance().decodeFromJsonString(result,
-									JVResponse.class);
+									JVResponse.class);*/
 					CheckOutObject checkOutRemember = JobViewerDBHandler
 							.getCheckOutRemember(context);
-					checkOutRemember.setIsStartedTravel("true");
-					checkOutRemember.setWorkId(decodeFromJsonString.getId());
+					//checkOutRemember.setIsStartedTravel("true");
+					checkOutRemember.setWorkId(String.valueOf(id));
 					JobViewerDBHandler.saveCheckOutRemember(context,
 							checkOutRemember);
-					Utils.work_id = decodeFromJsonString.getId();
+					Utils.work_id = String.valueOf(id);
 					Log.i("Android", result);
 					break;
 				case HttpConnection.DID_ERROR:
@@ -168,11 +202,22 @@ public class SyncAllData {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
 					String result = (String) msg.obj;
-					/*StartUpResponse decodeFromJsonString = GsonConverter
+					try{
+						JSONObject jsonObject = new JSONObject(result);
+						
+						JSONObject dataJsonObject = jsonObject.getJSONObject("data");
+						//result = dataJsonObject.toString();
+						JSONObject daa = new JSONObject();
+						daa.put("data", dataJsonObject);
+						result = daa.toString();
+					}catch (Exception e) {
+						// TODO: handle exception
+					}
+					StartUpResponse decodeFromJsonString = GsonConverter
 							.getInstance().decodeFromJsonString(result,
 									StartUpResponse.class);
 					JobViewerDBHandler.saveUserDetail(context,
-							decodeFromJsonString.getData().getUser());*/
+							decodeFromJsonString.getData().getUser());
 					Log.i("Android", result);
 					break;
 				case HttpConnection.DID_ERROR:
@@ -231,7 +276,49 @@ public class SyncAllData {
 				case HttpConnection.DID_SUCCEED:
 					
 					String result = (String) msg.obj;
+					
+					int id = 0;
+					try{
+						JSONObject jsonObject = new JSONObject(result);
+						id = jsonObject.getInt("id");
+						//result = ((JSONObject)jsonObject.get("data")).toString();
+					}catch (Exception e) {
+						// TODO: handle exception
+					}
+					/*JVResponse decodeFromJsonString = GsonConverter
+							.getInstance().decodeFromJsonString(result,
+									JVResponse.class);*/
+					try{
+					CheckOutObject checkOutRemember = JobViewerDBHandler
+							.getCheckOutRemember(context);
+					//checkOutRemember.setIsStartedTravel("true");
+					checkOutRemember.setWorkId(String.valueOf(id));
+					JobViewerDBHandler.saveCheckOutRemember(context,
+							checkOutRemember);
+					}catch (Exception e) {
+					}
+					Utils.work_id = String.valueOf(id);
+					
+					try{
+						JSONObject jsonObject = new JSONObject(result);
+						
+						JSONObject dataJsonObject = jsonObject.getJSONObject("data");
+						//result = dataJsonObject.toString();
+						JSONObject daa = new JSONObject();
+						daa.put("data", dataJsonObject);
+						result = daa.toString();
+					}catch (Exception e) {
+					}
+					try{
+					StartUpResponse decodeFromJsonString = GsonConverter
+							.getInstance().decodeFromJsonString(result,
+									StartUpResponse.class);
+					JobViewerDBHandler.saveUserDetail(context,
+							decodeFromJsonString.getData().getUser());
+					}catch (Exception e) {
+					}
 					JobViewerDBHandler.deleteBackLog(context);
+					
 					
 					Log.i("Android", result);
 					break;

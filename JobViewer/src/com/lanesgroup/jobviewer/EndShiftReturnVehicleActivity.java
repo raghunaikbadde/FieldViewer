@@ -166,7 +166,7 @@ public class EndShiftReturnVehicleActivity extends BaseActivity implements
 		BackLogRequest backLogRequest = new BackLogRequest();
 		backLogRequest.setRequestApi(CommsConstant.HOST+CommsConstant.CHECKIN_VEHICLE);
 		backLogRequest.setRequestClassName("VehicleCheckInOut");
-		backLogRequest.setRequestJson(vehicleCheckInOut.toString());
+		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(vehicleCheckInOut));
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(getApplicationContext(), backLogRequest);
 		

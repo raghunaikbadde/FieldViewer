@@ -3,6 +3,9 @@ package com.jobviewer.provider;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.R.integer;
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,6 +22,7 @@ import com.jobviewer.db.objects.StartTrainingObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.db.objects.TimeSheet;
 import com.jobviewer.util.Constants;
+import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 
@@ -509,8 +513,22 @@ public class JobViewerDBHandler {
 		ContentValues values = new ContentValues();
 		values.put(JobViewerProviderContract.BackLogTable.REQUEST_TYPE,
 				request.getRequestType());
+		
+		String str = request.getRequestJson();
+		if(!Utils.isNullOrEmpty(str)){
+			try{
+				JSONObject jsonObject = new JSONObject(str);
+				if(Utils.isNullOrEmpty(Utils.work_id))
+					jsonObject.put("id", "");
+				else
+					jsonObject.put("id", Utils.work_id);
+				str = jsonObject.toString();
+			}catch(JSONException jse){
+				
+			}
+		}
 		values.put(JobViewerProviderContract.BackLogTable.REQUEST_JSON,
-				request.getRequestJson());
+				str);
 		values.put(JobViewerProviderContract.BackLogTable.REQUEST_API,
 				request.getRequestApi());
 		values.put(JobViewerProviderContract.BackLogTable.REQUEST_CLASS_NAME,
