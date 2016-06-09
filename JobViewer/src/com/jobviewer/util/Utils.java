@@ -121,7 +121,7 @@ public class Utils {
 	public static String lastest_shift_started_at = "";
 
 	public static String[] mActivityList = { "Blockage", "CCTV", "Line Clean",
-			"Pumo Down", "SFOC", "Clean Up", "SROPR", "Enable", "Private",
+			"Pump Down", "SFOC", "Clean Up", "SROPR", "Enable", "Private",
 			"Cover", "Dig Down", "Make Safe", "Lining", "Well Clean" };
 
 	public static String[] mFloodingList = { "No Flooding", "Internal",

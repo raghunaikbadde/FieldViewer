@@ -31,13 +31,5 @@ public class ImageUpload {
 	public void setImage_exif(String image_exif) {
 		this.image_exif = image_exif;
 	}
-	
-/*	{
-	    "temp_id": "fd86ffc828a54",
-	    "category": "works",
-	    "image_string": "data:image/png;base64,iVBORw0KGgoAAAANS…",
-	    "image_exif": "2016-02-01 10:10:05;12.21154545;45.3424324"
-	}*/
-
 
 }

@@ -211,7 +211,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 							.decodeFromJsonString(error, VehicleException.class);
 					ExceptionHandler.showException(CaptureVistecActivity.this, exception, "Info");
 					Utils.saveWorkImageInBackLogDb(CaptureVistecActivity.this, imageObject);
-	//				saveVistecImageInBackLogDb();
+					//saveVistecImageInBackLogDb();
 					break;
 				default:
 					break;
