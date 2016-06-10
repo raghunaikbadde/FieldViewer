@@ -338,7 +338,11 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 		workRequest.setEngineer_id(Utils.work_engineer_id);
 		workRequest.setStatus(Utils.work_status);
 		workRequest.setCompleted_at(Utils.work_completed_at);
-		workRequest.setActivity_type("");
+		if(mPollutionCheckBox.isChecked()){
+			workRequest.setActivity_type("pollution");
+		} else {
+			workRequest.setActivity_type("");
+		}
 		workRequest.setFlooding_status(Utils.work_flooding_status);
 		workRequest.setDA_call_out(Utils.work_DA_call_out);
 		workRequest.setIs_redline_captured(Utils.work_is_redline_captured);

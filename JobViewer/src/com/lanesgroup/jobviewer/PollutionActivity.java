@@ -408,12 +408,17 @@ public class PollutionActivity extends BaseActivity implements
 
 			pollutionReportRequest.setLand_pollutants(stringOfLandPollutants);
 			pollutionReportRequest.setWater_pollutants(stringOfWaterPollutants);
-			JobViewerDBHandler.saveImage(getApplicationContext(), upStreamImageObject);
-			JobViewerDBHandler.saveImage(getApplicationContext(), downSteamIamgeObject);
+			if(ptwCheckbox.isChecked()){
+				JobViewerDBHandler.saveImage(getApplicationContext(), upStreamImageObject);
+				JobViewerDBHandler.saveImage(getApplicationContext(), downSteamIamgeObject);
+			}
 			if (Utils.isInternetAvailable(PollutionActivity.this)) {
 				Utils.startProgress(PollutionActivity.this);
-				
-				sendUpStreamWorkImageToServer(upStreamImageObject);
+				if(ptwCheckbox.isChecked()){
+					sendUpStreamWorkImageToServer(upStreamImageObject);
+				} else{
+					sendPollutionReportToServer();
+				}
 								
 				
 			} else {
@@ -682,6 +687,9 @@ public class PollutionActivity extends BaseActivity implements
 			equipmentdeployed += myList.get(i)+",";
 		}
 		equipmentdeployed = equipmentdeployed.substring(0, equipmentdeployed.length()-1);
+		if(equipmentdeployed.contains("elect")){
+			equipmentdeployed = "";
+		}
 		pollutionReportRequest.setEquipment_deployed(equipmentdeployed);
 		
 		data.put("equipment_deployed", pollutionReportRequest.getEquipment_deployed());

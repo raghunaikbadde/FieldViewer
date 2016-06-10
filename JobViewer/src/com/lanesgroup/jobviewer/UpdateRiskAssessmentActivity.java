@@ -129,7 +129,7 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 			Intent intent = new Intent(v.getContext(), QuestionsActivity.class);
 			intent.putExtra(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY,
 					selectedScreenId);
-			deleteAnsweredQuestionsFromQuestionSet(selectedScreenId);
+			//deleteAnsweredQuestionsFromQuestionSet(selectedScreenId);
 			startActivity(intent);
 		}
 	}

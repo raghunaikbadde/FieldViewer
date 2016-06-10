@@ -1,3 +1,4 @@
+
 package com.jobviewer.db.objects;
 
 public class SurveyJson {
