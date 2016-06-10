@@ -232,7 +232,11 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 		data.put("engineer_id", Utils.work_engineer_id);
 		data.put("status", Utils.work_status);
 		data.put("completed_at", Utils.work_completed_at);
-		data.put("activity_type", "");
+		if(mPollutionCheckBox.isChecked()){
+			data.put("activity_type", "Pollution");
+		}else{
+			data.put("activity_type", "");
+		}
 		if (Utils.isNullOrEmpty(Utils.work_flooding_status)) {
 			data.put("flooding_status", "");
 		} else
