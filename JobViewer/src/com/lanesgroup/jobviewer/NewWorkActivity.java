@@ -233,7 +233,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 		data.put("status", Utils.work_status);
 		data.put("completed_at", Utils.work_completed_at);
 		if(mPollutionCheckBox.isChecked()){
-			data.put("activity_type", "Pollution");
+			data.put("activity_type", "pollution");
 		}else{
 			data.put("activity_type", "");
 		}

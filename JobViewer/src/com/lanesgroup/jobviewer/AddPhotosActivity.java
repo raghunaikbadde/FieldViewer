@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -175,6 +177,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			finish();
 			
 			Intent confinedWorkintent = new Intent(AddPhotosActivity.this,ConfinedAssessmentQuestionsActivity.class);
+			setFlagConfinedStartedFromAddPhotos();
         	confinedWorkintent.putExtra(Constants.CALLING_ACTIVITY, AddPhotosActivity.this.getClass().getSimpleName());
         	startActivity(confinedWorkintent);
 		}
@@ -407,5 +410,24 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 				ActivityConstants.ADD_PHOTOS_ACTIVITY);
 		Utils.StopProgress();
 		startActivity(intent);		
+	}
+	
+	private void setFlagConfinedStartedFromAddPhotos(){
+		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
+		if(Utils.isNullOrEmpty(str)){
+			str = "{}";
+		}
+		try{
+			JSONObject jsonObject = new JSONObject(str);
+			if(jsonObject.has(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS)){
+				jsonObject.remove(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS);
+			}
+			
+			jsonObject.put(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS, true);
+			String jsonString = jsonObject.toString();
+			JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(), jsonString);
+		}catch(Exception e){
+			
+		}		
 	}
 }

@@ -11,6 +11,8 @@ import com.jobviewer.db.objects.TimeSheet;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
+import com.jobviewer.util.GPSDialog;
+import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 
 public class LauncherActivity extends BaseActivity {
@@ -19,6 +21,18 @@ public class LauncherActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		if(!Utils.isGPSEnabled(this)){
+			showGPSDialog();return;
+		}else{
+			//bug no 12: fix
+			//Implement the GPS check on app startup and to store the co-ordinates. If GPS is turned off/unavailable after the app starts up, 
+			//the GPS co-ordinates obtained at the startup should be sent to the server for images or for work location as appropriate. 
+			//This is similar to the fix provided in Vehicle Check application
+			GPSTracker gpsTracker = new GPSTracker(this);
+			gpsTracker.getLatitude();
+			gpsTracker.getLongitude();
+		}
 		
 		if(isBreakStartedShown()){
 			return;
@@ -73,5 +87,10 @@ public class LauncherActivity extends BaseActivity {
 			return false;
 			
 		}
+	}
+	
+	private void showGPSDialog(){
+		new GPSDialog(this).show();;
+		
 	}
 }

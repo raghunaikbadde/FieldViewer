@@ -161,7 +161,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		if(checkOutObject.getIsPollutionSelected().equalsIgnoreCase(ActivityConstants.TRUE)){
 			mSpinnerSelectedText.setText(getActivity().getResources().getString(R.string.activityTypePollution));
 			mSpinnerLayout.setClickable(false);
-			selectedActivityText = "Pollution";
+			selectedActivityText = "pollution";
 		}
 		
 		radioButtonChangedListeners();		
@@ -244,7 +244,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 			String generateUniqueID = Utils
 					.generateUniqueID(getActivity());
 			imageObject.setImageId(generateUniqueID);
-			imageObject.setCategory("Pollution");
+			imageObject.setCategory("work");
 			imageObject.setImage_exif(image_exif);
 			imageObject.setImage_string(Utils
 					.bitmapToBase64String(rotateBitmap));			

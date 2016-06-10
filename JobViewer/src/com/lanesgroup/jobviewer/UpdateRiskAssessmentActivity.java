@@ -3,17 +3,23 @@ package com.lanesgroup.jobviewer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONObject;
+
+import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.survey.object.Images;
 import com.jobviewer.survey.object.QuestionMaster;
 import com.jobviewer.survey.object.Screen;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -123,6 +129,7 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 			Intent intent = new Intent(v.getContext(), QuestionsActivity.class);
 			intent.putExtra(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY,
 					selectedScreenId);
+			deleteAnsweredQuestionsFromQuestionSet(selectedScreenId);
 			startActivity(intent);
 		}
 	}
@@ -222,5 +229,47 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 			mNext.setBackgroundResource(R.drawable.dark_grey_background);
 		}
 
+	}
+	
+	private void deleteAnsweredQuestionsFromQuestionSet(String screenId){
+		SurveyJson surveyJSON = null;
+		try{
+			surveyJSON = JobViewerDBHandler.getQuestionSet(this);
+		}catch(Exception e){
+			Log.d("JV","Question set cannot be accessed - "+e.toString());
+			e.printStackTrace();
+			return;
+		}
+		if(surveyJSON==null){
+			Log.d("JV","Question set is returned null");
+			return;
+		}
+		
+		QuestionMaster questionMaster = GsonConverter.getInstance()
+				.decodeFromJsonString(surveyJSON.getQuestionJson(),
+						QuestionMaster.class);
+		QuestionManager.getInstance().setQuestionMaster(questionMaster);
+		Screen[] screens = questionMaster.getScreens().getScreen();
+		
+		Log.d("JV", "number of screens" + screens.length);
+		CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(this);
+		boolean questionAttempted = false;
+		for (Screen screen : screens) {
+
+			if(screen.get_number().equalsIgnoreCase(screenId)){
+				questionAttempted = true;				
+			}
+			
+			if(questionAttempted){
+				screen.setAnswer("");
+				Images[] images = new Images[1];
+				Images image = new Images();
+				image.setTemp_id("");
+				images[0] = image;
+				screen.setImages(images);
+				QuestionManager.getInstance().updateScreenOnQuestionMaster(
+						screen);
+			}
+		}
 	}
 }

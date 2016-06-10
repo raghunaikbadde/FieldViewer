@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -802,5 +804,31 @@ public class Utils {
 		}
 		Log.d(Utils.LOG_TAG," getGeoLocationString "+geoLocation);
 		return geoLocation;
+	}
+	
+	public static boolean isGPSEnabled(Context context){
+		final LocationManager manager = (LocationManager) context.getSystemService( Context.LOCATION_SERVICE );
+
+	    if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+	        return false;
+	    }
+	    return true;
+	}
+	
+	public static boolean isConfinedStartedFromAddPhoto(Context context){
+		String jsonStr = JobViewerDBHandler.getJSONFlagObject(context);
+		boolean isStartedFromAddPhotos =  false;
+		if(Utils.isNullOrEmpty(jsonStr)){
+			jsonStr = "{}";
+		}
+		try{
+			JSONObject flagJSON = new JSONObject(jsonStr);
+			if(flagJSON.has(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS)){
+				isStartedFromAddPhotos = flagJSON.getBoolean(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS);
+			}
+		}catch(Exception e){
+			isStartedFromAddPhotos = false;
+		}
+		return isStartedFromAddPhotos;
 	}
 }

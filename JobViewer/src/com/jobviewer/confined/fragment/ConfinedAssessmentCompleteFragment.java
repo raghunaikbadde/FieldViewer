@@ -27,6 +27,7 @@ import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
+import com.lanesgroup.jobviewer.AddPhotosActivity;
 import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
@@ -161,8 +162,13 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 					JobViewerDBHandler.deleteConfinedQuestionSet(getActivity());
 					JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(getActivity());
 					getActivity().finish();
-					Intent intent = new Intent(mRootView.getContext(),ActivityPageActivity.class);
-					startActivity(intent);
+					if(Utils.isConfinedStartedFromAddPhoto(getActivity())){
+						Intent addPhotosIntent = new Intent(mRootView.getContext(),AddPhotosActivity.class);
+						startActivity(addPhotosIntent);
+					}else{
+						Intent intent = new Intent(mRootView.getContext(),ActivityPageActivity.class);
+						startActivity(intent);
+					}
 					Log.i("Android", "");
 					break;
 				case HttpConnection.DID_ERROR:

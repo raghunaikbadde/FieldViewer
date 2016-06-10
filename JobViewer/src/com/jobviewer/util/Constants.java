@@ -52,4 +52,8 @@ public class Constants {
 	public static final String IS_TRAVEL_OVERRIDEN_FLAG_JSON = "IS_TRAVEL_OVERRIDEN_FLAG_JSON";
 	public static final String OVERRIDE_TRAVEL_START_TIME_FLAG_JSON = "OVERRIDE_TRAVEL_START_TIME_FLAG_JSON";
 	
+	public static final String MOST_RECENT_SAVED_LAT = "MOST_RECENT_SAVED_LAT";
+	public static final String MOST_RECENT_SAVED_LON = "MOST_RECENT_SAVED_LON";
+	public static final String FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS = "FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS";
+	
 }

@@ -375,4 +375,10 @@
 	<string name="lelStr">%LEL</string>
 	<string name="PercentageStr">%</string>
 	<string name="ppmStr">ppm</string>
+	
+	<string name="gpsSwitchedOff">GPS is switched off:</string>
+	<string name="gpsSwitchedOffMessage">Tap settings to enable GPS on your device and then try again.</string>
+	<string name="exitButtonText">Exit</string>
+	<string name="settignsButtonText">Settings</string>
+	<string name="activityTypePollution">Pollution</string>
 </resources>
