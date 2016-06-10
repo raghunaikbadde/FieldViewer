@@ -45,6 +45,7 @@ import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ConfirmDialog;
 import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallback;
+import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
@@ -155,6 +156,14 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		radioGroup = (RadioGroup)mRootView.findViewById(R.id.radioGroup1);
 		radioOne = (RadioButton) mRootView.findViewById(R.id.radio1);
 		radioTwo  = (RadioButton) mRootView.findViewById(R.id.radio2);
+		
+		CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(getActivity());		
+		if(checkOutObject.getIsPollutionSelected().equalsIgnoreCase(ActivityConstants.TRUE)){
+			mSpinnerSelectedText.setText(getActivity().getResources().getString(R.string.activityTypePollution));
+			mSpinnerLayout.setClickable(false);
+			selectedActivityText = "Pollution";
+		}
+		
 		radioButtonChangedListeners();		
 	}
 
@@ -235,7 +244,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 			String generateUniqueID = Utils
 					.generateUniqueID(getActivity());
 			imageObject.setImageId(generateUniqueID);
-			imageObject.setCategory("work");
+			imageObject.setCategory("Pollution");
 			imageObject.setImage_exif(image_exif);
 			imageObject.setImage_string(Utils
 					.bitmapToBase64String(rotateBitmap));			
