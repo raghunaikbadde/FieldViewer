@@ -127,7 +127,7 @@ public class Utils {
 			"Cover", "Dig Down", "Make Safe", "Lining", "Well Clean" };
 
 	public static String[] mFloodingList = { "No Flooding", "Internal",
-			"External", "Internal & External" };
+			"External", "Internal and External" };
 
 	public static String[] mLandPollutionList = { "Less than 25m/sq",
 			"20-50m/sq", "50-100m/sq", "Greater than 100m/sq" };
