@@ -161,7 +161,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		if(checkOutObject.getIsPollutionSelected().equalsIgnoreCase(ActivityConstants.TRUE)){
 			mSpinnerSelectedText.setText(getActivity().getResources().getString(R.string.activityTypePollution));
 			mSpinnerLayout.setClickable(false);
-			selectedActivityText = "pollution";
+			selectedActivityText = "Pollution";
 		}
 		
 		radioButtonChangedListeners();		

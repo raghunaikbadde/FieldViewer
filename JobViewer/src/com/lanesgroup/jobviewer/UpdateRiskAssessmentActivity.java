@@ -147,7 +147,7 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 
 		@Override
 		public int getCount() {
-			return 20;
+			return questionsAndAnswers.size();
 		}
 
 		@Override

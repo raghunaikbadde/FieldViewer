@@ -233,7 +233,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 		data.put("status", Utils.work_status);
 		data.put("completed_at", Utils.work_completed_at);
 		if(mPollutionCheckBox.isChecked()){
-			data.put("activity_type", "pollution");
+			data.put("activity_type", "Pollution");
 		}else{
 			data.put("activity_type", "");
 		}
@@ -339,7 +339,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 		workRequest.setStatus(Utils.work_status);
 		workRequest.setCompleted_at(Utils.work_completed_at);
 		if(mPollutionCheckBox.isChecked()){
-			workRequest.setActivity_type("pollution");
+			workRequest.setActivity_type("Pollution");
 		} else {
 			workRequest.setActivity_type("");
 		}
