@@ -293,6 +293,7 @@ public class ActivityPageActivity extends BaseActivity implements
 					addPhotoScreenIntentBundle.putString(
 							Utils.CALLING_ACTIVITY,
 							ActivityConstants.ACTIVITY_PAGE_ACTIVITY);
+					addPhotoScreenIntent.putExtras(addPhotoScreenIntentBundle);
 					startActivity(addPhotoScreenIntent);
 				} else if (questionSet != null
 						&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {

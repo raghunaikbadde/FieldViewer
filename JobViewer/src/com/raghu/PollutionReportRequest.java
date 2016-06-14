@@ -11,14 +11,14 @@ public class PollutionReportRequest {
 	private String water_area = "";
 	private String water_body = "";
 	private String water_pollutants;
-	private String do_upstream = "80.05";
-	private String do_downstream = "90.00";
-	private String do_upstream_image = "TMP1234";
-	private String do_downstream_image = "TMP1235";
-	private String ammonia = "0 Mg/l";
-	private String fish_kill = "1-10";
-	private String indicative_cause = "Failed asset";
-	private String failed_asset = "Pumping station";
+	private String do_upstream = "";
+	private String do_downstream = "";
+	private String do_upstream_image = "";
+	private String do_downstream_image = "";
+	private String ammonia = "";
+	private String fish_kill = "";
+	private String indicative_cause = "";
+	private String failed_asset = "";
 	private String equipment_deployed = "";
 	
 	public String getLand_polluted() {
