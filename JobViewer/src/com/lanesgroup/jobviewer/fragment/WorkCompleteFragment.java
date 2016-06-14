@@ -175,13 +175,13 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		} else if (view == mLeaveSite) {
 			// Upload Photos here// if calling card available
 			selectedActivityText = mSpinnerSelectedText.getText().toString();
-			if (Utils.isInternetAvailable(getActivity())) {
+			
 				sendWorkEndTimeSheetToServer();
-			} else {
-				prepareWorkCompletedRequest();
-				storeWorkEndTimeSheetInBackLogDB();
-				startWorkSuccessActivity();
-			}
+			//} else {
+				//prepareWorkCompletedRequest();
+				//storeWorkEndTimeSheetInBackLogDB();
+				//startWorkSuccessActivity();
+			//}
 
 		} else if (view == mCaptureCallingCard) {
 			Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);

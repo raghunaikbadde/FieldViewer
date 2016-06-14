@@ -39,6 +39,7 @@ import com.jobviewer.util.EditTextFocusListener;
 import com.jobviewer.util.EditTextWatcher;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
+import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.JVResponse;
 import com.jobviwer.response.object.User;
 import com.raghu.WorkRequest;
@@ -173,8 +174,23 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 		} else {
 			insertWorkStartTimeIntoHoursCalculator();
 			saveCreatedWorkInBackLogDb();
+			saveWorkStartInBackLogDB();
 			startEndActvity();
 		}
+	}
+
+	private void saveWorkStartInBackLogDB() {
+		TimeSheetRequest workStartTimeRequest = new TimeSheetRequest();
+		/*Utils.workStartTimeSheetRequest = new TimeSheetRequest();*/
+		User userProfile = JobViewerDBHandler.getUserProfile(this);
+		CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(this);
+		workStartTimeRequest.setStarted_at(Utils.getCurrentDateAndTime());
+		workStartTimeRequest.setRecord_for(userProfile.getEmail());
+		workStartTimeRequest.setUser_id(userProfile.getEmail());
+		workStartTimeRequest.setReference_id(checkOutObject.getVistecId());
+		String api = CommsConstant.START_WORK_API;
+		Utils.workStartTimeSheetRequest = workStartTimeRequest;
+		Utils.saveTimeSheetInBackLogTable(this, Utils.workStartTimeSheetRequest, api, Utils.REQUEST_TYPE_TIMESHEET);
 	}
 
 	private boolean isValidUserInput() {
@@ -260,7 +276,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-					Utils.StopProgress();
+					
 					String result = (String) msg.obj;
 					JVResponse decodeFromJsonString = GsonConverter
 							.getInstance().decodeFromJsonString(result,
@@ -272,7 +288,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 					JobViewerDBHandler.saveCheckOutRemember(context,
 							checkOutRemember);
 					Utils.work_id = decodeFromJsonString.getId();
-					startEndActvity();
+					sendWorkStartTimeRequest();
 					break;
 				case HttpConnection.DID_ERROR:
 					Utils.StopProgress();
@@ -380,5 +396,62 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 	public void onBackPressed() {
 		super.onBackPressed();
 		closeApplication();
+	}
+	
+	private void sendWorkStartTimeRequest() {
+		 
+		TimeSheetRequest workStartTimeRequest = new TimeSheetRequest();
+		/*Utils.workStartTimeSheetRequest = new TimeSheetRequest();*/
+		User userProfile = JobViewerDBHandler.getUserProfile(this);
+		CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(this);
+		workStartTimeRequest.setStarted_at(Utils.getCurrentDateAndTime());
+		workStartTimeRequest.setRecord_for(userProfile.getEmail());
+		workStartTimeRequest.setUser_id(userProfile.getEmail());
+		workStartTimeRequest.setReference_id(checkOutObject.getVistecId());
+		String api = CommsConstant.START_WORK_API;
+		Utils.workStartTimeSheetRequest = workStartTimeRequest;
+		ContentValues data = new ContentValues();
+		data.put("started_at", workStartTimeRequest.getStarted_at());
+		data.put("record_for", workStartTimeRequest.getRecord_for());
+		data.put("is_inactive", workStartTimeRequest.getIs_inactive());
+		data.put("is_overriden", workStartTimeRequest.getIs_overriden());
+		data.put("override_reason", workStartTimeRequest.getOverride_reason());
+		data.put("override_comment", workStartTimeRequest.getOverride_comment());
+		data.put("override_timestamp", workStartTimeRequest.getOverride_timestamp());
+		data.put("reference_id", workStartTimeRequest.getReference_id());
+		data.put("user_id", workStartTimeRequest.getUser_id());
+		
+		Utils.SendHTTPRequest(this, CommsConstant.HOST + api, data,
+				getWorkStartHandler());
+		
+	}
+	
+	private Handler getWorkStartHandler() {
+
+		Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case HttpConnection.DID_SUCCEED:
+					Utils.StopProgress();
+					String result = (String) msg.obj;
+					startEndActvity();
+					break;
+				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
+					String error = (String) msg.obj;
+					VehicleException exception = GsonConverter
+							.getInstance()
+							.decodeFromJsonString(error, VehicleException.class);
+					ExceptionHandler.showException(context, exception, "Info");
+					saveCreatedWorkInBackLogDb();
+					break;
+				default:
+					break;
+				}
+			}
+
+		};
+		return handler;
 	}
 }
