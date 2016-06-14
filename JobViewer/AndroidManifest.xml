@@ -161,7 +161,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.jobviewer.confined.fragment.MultipleInputActivity"
+            android:name=".MultipleInputActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
 

@@ -1,4 +1,4 @@
-package com.jobviewer.confined.fragment;
+package com.lanesgroup.jobviewer;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,7 +15,6 @@ import com.jobviewer.survey.object.Inputs;
 import com.jobviewer.survey.object.Multipleinputs;
 import com.jobviewer.survey.object.Screen;
 import com.jobviewer.util.Utils;
-import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 
 public class MultipleInputActivity extends BaseActivity implements

@@ -175,8 +175,14 @@ public class JobViewerDBHandler {
 	public static void saveImage(Context context, ImageObject image) {
 		ContentValues values = new ContentValues();
 		values.put(JobViewerProviderContract.Image.IMAGE_ID, image.getImageId());
+		String imagestring=image.getImage_string();
+		if (imagestring.indexOf(Constants.IMAGE_STRING_INITIAL) >= 0) {
+			
+		}else{
+			imagestring=Constants.IMAGE_STRING_INITIAL+imagestring;
+		}
 		values.put(JobViewerProviderContract.Image.IMAGE_STRING,
-				Constants.IMAGE_STRING_INITIAL+image.getImage_string());
+				imagestring);
 		values.put(JobViewerProviderContract.Image.IMAGE_URL,
 				image.getImage_url());
 		values.put(JobViewerProviderContract.Image.IMAGE_CATEGORY,

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.jobviewer.confined.fragment.ConfinedTimerWithMediaFragment;
-import com.jobviewer.confined.fragment.MultipleInputActivity;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.QuestionMaster;
@@ -17,6 +16,7 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.SurveyUtil;
 import com.jobviewer.util.ActivityConstants;
 import com.lanesgroup.jobviewer.BaseActivity;
+import com.lanesgroup.jobviewer.MultipleInputActivity;
 import com.lanesgroup.jobviewer.R;
 
 public class ConfinedQuestionManager {

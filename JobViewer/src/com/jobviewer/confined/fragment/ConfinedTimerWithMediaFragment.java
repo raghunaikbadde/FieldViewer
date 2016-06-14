@@ -131,6 +131,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 	private static long getStartTimeForTimer() {
 		Pattern pattern = Pattern.compile("(\\d{2}):(\\d{2}):(\\d{2})");
 		Matcher matcher = pattern.matcher(currentScreen.getTime());
+		
 		if (matcher.matches()) {
 			return Long.parseLong(matcher.group(1)) * 3600000L
 					+ Long.parseLong(matcher.group(2)) * 60000

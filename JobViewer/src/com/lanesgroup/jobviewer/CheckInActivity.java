@@ -179,7 +179,7 @@ public class CheckInActivity extends BaseActivity implements
 		vehicleCheckInOut.setStarted_at(Utils.getCurrentDateAndTime());
 		vehicleCheckInOut.setRecord_for(userProfile.getEmail());
 		vehicleCheckInOut.setRegistration(checkOutRemember.getVehicleRegistration());
-		vehicleCheckInOut.setMileage(checkOutRemember.getMilage());
+		vehicleCheckInOut.setMileage(enter_mileage_edittext.getText().toString());
 		vehicleCheckInOut.setUser_id(userProfile.getEmail());
 		BackLogRequest backLogRequest = new BackLogRequest();
 		backLogRequest.setRequestApi(CommsConstant.HOST+CommsConstant.CHECKIN_VEHICLE);
