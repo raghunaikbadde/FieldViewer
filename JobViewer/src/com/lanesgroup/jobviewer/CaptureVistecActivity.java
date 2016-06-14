@@ -170,7 +170,22 @@ public class CaptureVistecActivity extends BaseActivity implements
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.WORK_PHOTO_UPLOAD+"/"+Utils.work_id, data, getSendVisecImageHandler(imageObject));
 	}
-	private Handler getSendVisecImageHandler(final ImageObject imageObject){
+	
+
+	private synchronized void sendWorkImageToServer(ImageObject imageObject) {
+		ContentValues data = new ContentValues();
+		data.put("temp_id", imageObject.getImageId());
+		data.put("category", "surveys");
+		data.put("image_string",
+				Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
+		data.put("image_exif", imageObject.getImage_exif());
+
+		Utils.SendHTTPRequest(this, CommsConstant.HOST
+				+ CommsConstant.SURVEY_PHOTO_UPLOAD, data,
+				getSendWorkImageHandler(imageObject));
+
+	}
+	private Handler getSendWorkImageHandler(final ImageObject imageObject) {
 		Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
@@ -212,6 +227,57 @@ public class CaptureVistecActivity extends BaseActivity implements
 					ExceptionHandler.showException(CaptureVistecActivity.this, exception, "Info");
 					Utils.saveWorkImageInBackLogDb(CaptureVistecActivity.this, imageObject);
 					//saveVistecImageInBackLogDb();
+					break;
+				default:
+					break;
+				}
+			}
+		};
+		return handler;
+	}
+
+	private Handler getSendVisecImageHandler(final ImageObject imageObject){
+		Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case HttpConnection.DID_SUCCEED:
+					sendWorkImageToServer(imageObject);
+					/*try{
+						Utils.StopProgress();
+					}catch (Exception e) {
+						
+					}
+					String str = JobViewerDBHandler.getJSONFlagObject(getApplicationContext());
+					if(Utils.isNullOrEmpty(str)){
+						str = "{}";
+					}
+					try{
+						JSONObject jsonObject = new JSONObject(str);
+						if(jsonObject.has(Constants.CAPTURE_VISTEC_SCREEN)){
+							jsonObject.remove(Constants.CAPTURE_VISTEC_SCREEN);
+						}
+						
+						jsonObject.put(Constants.CAPTURE_VISTEC_SCREEN, false);
+						String jsonString = jsonObject.toString();
+						JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(), jsonString);
+					}catch(Exception e){
+						
+					}
+					JobViewerDBHandler.saveAddPhotoImage(
+							CaptureVistecActivity.this, imageObject);
+					Intent intent = new Intent(CaptureVistecActivity.this,
+							RiskAssessmentActivity.class);
+					startActivity(intent);*/
+					break;
+				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
+					String error = (String) msg.obj;
+					VehicleException exception = GsonConverter
+							.getInstance()
+							.decodeFromJsonString(error, VehicleException.class);
+					ExceptionHandler.showException(CaptureVistecActivity.this, exception, "Info");
+					Utils.saveWorkImageInBackLogDb(CaptureVistecActivity.this, imageObject);
 					break;
 				default:
 					break;

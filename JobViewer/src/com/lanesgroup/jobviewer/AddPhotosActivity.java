@@ -309,7 +309,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-										
+					sendWorkImageToServer(imageObject);					
 					break;
 				case HttpConnection.DID_ERROR:
 					String error = (String) msg.obj;
@@ -429,5 +429,43 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		}catch(Exception e){
 			
 		}		
+	}
+	
+	private synchronized void sendWorkImageToServer(ImageObject imageObject) {
+		ContentValues data = new ContentValues();
+		data.put("temp_id", imageObject.getImageId());
+		data.put("category", "surveys");
+		data.put("image_string",
+				Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
+		data.put("image_exif", imageObject.getImage_exif());
+
+		Utils.SendHTTPRequest(this, CommsConstant.HOST
+				+ CommsConstant.SURVEY_PHOTO_UPLOAD, data,
+				getSendWorkImageHandler(imageObject));
+
+	}
+	private Handler getSendWorkImageHandler(final ImageObject imageObject) {
+		Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case HttpConnection.DID_SUCCEED:
+					
+					break;
+				case HttpConnection.DID_ERROR:
+					Utils.StopProgress();
+					String error = (String) msg.obj;
+					VehicleException exception = GsonConverter
+							.getInstance()
+							.decodeFromJsonString(error, VehicleException.class);					
+					Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this, imageObject);
+					//saveVistecImageInBackLogDb();
+					break;
+				default:
+					break;
+				}
+			}
+		};
+		return handler;
 	}
 }
