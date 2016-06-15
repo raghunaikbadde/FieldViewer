@@ -32,6 +32,8 @@ public class Constants {
 	public static final String SAVED_POLLUTION_DATA = "SAVED_POLLUTION_DATA";
 	public static final String UPSTREAM_IMAGE_OBJECT = "UPSTREAM_IMAGE_OBJECT";
 	public static final String DOWNSTREAM_IMAGE_OBJECT = "DOWNSTREAM_IMAGE_OBJECT";
+	public static final String ALARM_OVERTIME_COUNT = "ALARM_OVERTIME_COUNT";
+	public static final String ALARM_OVERTIME_NUMBER_OF_HOURS = "ALARM_OVERTIME_NUMBER_OF_HOURS";
 	public static final String WORK_NO_PHOTOS_HOME = "WORK_NO_PHOTOS_HOME";
 	public static final int TAP_DA_PHONE_CALL_REQUEST_CODE = 1005;
 	public static final String TAP_DA_PHONE_CALL = "TAP_DA_PHONE_CALL";

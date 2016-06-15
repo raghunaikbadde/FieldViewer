@@ -414,6 +414,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 					 * "Info");
 					 */
 					Utils.saveWorkImageInBackLogDb(getActivity(), imageObject);
+					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;
 				default:
 					break;

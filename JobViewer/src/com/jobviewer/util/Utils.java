@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -76,6 +77,7 @@ import com.raghu.WorkPhotoUpload;
 import com.vehicle.communicator.HttpConnection;
 
 public class Utils {
+	public static AlarmManager alarmMgr;
 	public static final String PROGRESS_1_TO_3 = "Step 1 of 3";
 	public static final String PROGRESS_2_TO_3 = "Step 2 of 3";
 	public static final String PROGRESS_1_TO_2 = "Step 1 of 2";
@@ -833,4 +835,7 @@ public class Utils {
 		}
 		return isStartedFromAddPhotos;
 	}
+	
+	public static long OVETTIME_ALERT_TOGGLE = 12*60*60*1000; //12 HOUR
+	public static long OVETTIME_ALERT_INTERVAL = 60*60*1000; //1HOUR
 }

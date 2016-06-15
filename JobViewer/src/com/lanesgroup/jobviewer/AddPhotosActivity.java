@@ -291,6 +291,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			sendWorkImageToServer(imageId,imageObject);
 		} else {
 			Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this, imageObject);
+			JobViewerDBHandler.saveImage(mContext, imageObject);
 		}
 	}
 

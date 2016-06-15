@@ -4,6 +4,8 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +42,7 @@ import com.jobviewer.util.showTimeDialog;
 import com.jobviewer.util.showTimeDialog.DialogCallback;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
+import com.jobviwer.service.OverTimeAlertService;
 import com.vehicle.communicator.HttpConnection;
 
 public class ClockInConfirmationActivity extends BaseActivity implements
@@ -53,7 +56,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 	private Button mBack, mClockIn;
 	private String mCallingActivity;
 	private Context mContext;
-
+	public static PendingIntent alarmIntent;
 	String eventType;
 	private final String CALLING_ACTIVITY = "callingActivity";
 	private boolean shouldCallActivityPageActivity = true;
@@ -67,6 +70,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		}
 		Log.d(Utils.LOG_TAG, "ClockInConfirmationActivity");
 		initUI();
+		initiateAlarm();
 	}
 
 	private void initUI() {
@@ -248,12 +252,14 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					Intent intent = new Intent(
 							ClockInConfirmationActivity.this,
 							ShiftOrCallEndActivity.class);
+					cancelAlarm();
 					startActivity(intent);
 				}
 				if (shouldCallActivityPageActivity) {
 					Intent intent = new Intent(
 							ClockInConfirmationActivity.this,
 							ActivityPageActivity.class);
+					setAlarmForOverTime();
 					putVehicleRegistrationNumberInIntent(intent);
 					startActivity(intent);
 				}
@@ -577,6 +583,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					Intent intent = new Intent(
 							ClockInConfirmationActivity.this,
 							ActivityPageActivity.class);
+					setAlarmForOverTime();
 					putVehicleRegistrationNumberInIntent(intent);
 					intent.putExtra(Utils.CALLING_ACTIVITY,
 							ClockInConfirmationActivity.this.getClass()
@@ -630,7 +637,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					intent.putExtra(Utils.CALLING_ACTIVITY,
 							ClockInConfirmationActivity.this.getClass()
 									.getSimpleName());
-
+					cancelAlarm();	
 					startActivity(intent);
 					break;
 				case HttpConnection.DID_ERROR:
@@ -659,6 +666,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					Intent shiftOrEndCallIntent = new Intent(
 							ClockInConfirmationActivity.this,
 							ShiftOrCallEndActivity.class);
+					cancelAlarm();
 					shiftOrEndCallIntent.putExtra(Utils.CALLING_ACTIVITY,
 							ClockInConfirmationActivity.this.getClass()
 									.getSimpleName());
@@ -684,5 +692,20 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 	public void onDismiss() {
 		// TODO Auto-generated method stub
 
+	}
+	private void initiateAlarm() {
+		Utils.alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		Intent intent = new Intent(context, OverTimeAlertService.class);
+		alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+	}
+	private void setAlarmForOverTime() {
+		Utils.alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+		        Utils.OVETTIME_ALERT_TOGGLE,
+		        Utils.OVETTIME_ALERT_INTERVAL, alarmIntent);		
+	}
+	private void cancelAlarm(){
+		if(Utils.alarmMgr!=null){
+			Utils.alarmMgr.cancel(ClockInConfirmationActivity.alarmIntent);
+		}
 	}
 }

@@ -239,6 +239,7 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 
 	private void callEndCallShiftActivity() {
 		Intent intent = new Intent(EndOnCallActivity.this,ShiftOrCallEndActivity.class);
+		cancelAlarm();
 		finish();
 		startActivity(intent);
 	}
@@ -423,5 +424,10 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 
 		}
 		
+	}
+	private void cancelAlarm(){
+		if(Utils.alarmMgr!=null){
+			Utils.alarmMgr.cancel(ClockInConfirmationActivity.alarmIntent);
+		}
 	}
 }

@@ -131,4 +131,5 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 		JobViewerDBHandler.deleteBreakTravelShiftCallTable(this);
 		closeApplication();
 	}
+
 }
