@@ -9,6 +9,7 @@ import com.jobviewer.db.objects.ImageSendStatusObject;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.ImageUploadResponse;
 import com.vehicle.communicator.HttpConnection;
@@ -52,6 +53,7 @@ public class SendImagesOnBackground {
 			
 		}
 		values.put("image_string", "data:image/png;base64,"+str);
+		Log.i("Android", "Image 20 :"+Constants.IMAGE_STRING_INITIAL +str);
 		values.put("image_exif", imageObject.getImage_exif());
 		Utils.SendHTTPRequest(context, CommsConstant.HOST
 				+ CommsConstant.SURVEY_PHOTO_UPLOAD, values, getSaveImageHandler());

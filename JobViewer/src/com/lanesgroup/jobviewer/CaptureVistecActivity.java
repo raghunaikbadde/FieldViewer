@@ -139,6 +139,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 			imageObject.setCategory("works");
 			imageObject.setImage_exif(mImage_exif_string);
 			imageObject.setImage_string(mImageBase64);
+			Log.i("Android", "Image 8 :"+imageObject.getImage_string());
 			JobViewerDBHandler.saveImage(this, imageObject);
 			CheckOutObject checkOutRemember = JobViewerDBHandler
 					.getCheckOutRemember(this);

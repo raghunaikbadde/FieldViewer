@@ -247,7 +247,8 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 			imageObject.setCategory("work");
 			imageObject.setImage_exif(image_exif);
 			imageObject.setImage_string(Utils
-					.bitmapToBase64String(rotateBitmap));			
+					.bitmapToBase64String(rotateBitmap));
+			Log.i("Android", "Image 13 :"+imageObject.getImage_string());
 			JobViewerDBHandler.saveImage(getActivity(), imageObject);
 			
 		}

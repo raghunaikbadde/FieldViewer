@@ -20,6 +20,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,6 +43,7 @@ import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.Images;
 import com.jobviewer.survey.object.Screen;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
@@ -176,6 +178,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 		data.put("temp_id", imageObject.getImageId());
 		data.put("category", "surveys");
 		data.put("image_string", imageObject.getImage_string());
+		Log.i("Android", "Image 19 :" +imageObject.getImage_string());
 		data.put("image_exif", imageObject.getImage_exif());
 
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
@@ -319,6 +322,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 						base64 = Base64.encodeToString(b, Base64.DEFAULT);
 					}
 					imageObject.setImage_string(base64);
+					Log.i("Android", "Image 3 :"+imageObject.getImage_string());
 					imageString = base64;
 					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);

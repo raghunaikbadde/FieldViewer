@@ -129,7 +129,7 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 			Intent intent = new Intent(v.getContext(), QuestionsActivity.class);
 			intent.putExtra(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY,
 					selectedScreenId);
-			//deleteAnsweredQuestionsFromQuestionSet(selectedScreenId);
+			deleteAnsweredQuestionsFromQuestionSet(selectedScreenId);
 			startActivity(intent);
 		}
 	}
@@ -262,14 +262,18 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 			
 			if(questionAttempted){
 				screen.setAnswer("");
-				Images[] images = new Images[1];
-				Images image = new Images();
-				image.setTemp_id("");
-				images[0] = image;
-				screen.setImages(images);
+				if (!"yesno".equalsIgnoreCase(screen.get_type())) {
+					Images[] images = new Images[1];
+					Images image = new Images();
+					image.setTemp_id("");
+					images[0] = image;
+					screen.setImages(images);
+				}
+				
 				QuestionManager.getInstance().updateScreenOnQuestionMaster(
 						screen);
 			}
 		}
+		QuestionManager.getInstance().saveAssessment(surveyJSON.getWorkType());
 	}
 }

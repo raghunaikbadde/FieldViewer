@@ -19,6 +19,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -140,6 +141,7 @@ public class ConfinedMediaTypeFragment extends Fragment implements
 				byte[] getbyteArrayFromBase64String = Utils
 						.getbyteArrayFromBase64String(imageById
 								.getImage_string());
+				Log.i("Android", "Image 17 :"+imageById.getImage_string());
 				loadImages(getbyteArrayFromBase64String);
 			}
 		}
@@ -337,6 +339,7 @@ public class ConfinedMediaTypeFragment extends Fragment implements
 						base64 = Base64.encodeToString(b, Base64.DEFAULT);
 					}
 					imageObject.setImage_string(base64);
+					Log.i("Android", "Image 2 :"+imageObject.getImage_string());
 					imageString = base64;
 					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
@@ -377,6 +380,7 @@ public class ConfinedMediaTypeFragment extends Fragment implements
 		data.put("category", "surveys");
 		data.put("image_string",
 				Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
+		Log.i("Android", "Image 18 :"+Constants.IMAGE_STRING_INITIAL +imageObject.getImage_string());
 		data.put("image_exif", imageObject.getImage_exif());
 
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST

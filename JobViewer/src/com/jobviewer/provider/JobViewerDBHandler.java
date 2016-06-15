@@ -6,12 +6,11 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.integer;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
-import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
@@ -183,6 +182,7 @@ public class JobViewerDBHandler {
 		}
 		values.put(JobViewerProviderContract.Image.IMAGE_STRING,
 				imagestring);
+		Log.i("Android", "Image 22 :"+imagestring);
 		values.put(JobViewerProviderContract.Image.IMAGE_URL,
 				image.getImage_url());
 		values.put(JobViewerProviderContract.Image.IMAGE_CATEGORY,
@@ -215,6 +215,7 @@ public class JobViewerDBHandler {
 			imageObject
 					.setImage_string(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.Image.IMAGE_STRING)));
+			Log.i("Android", "Image 6 :"+imageObject.getImage_string());
 			imageObject
 					.setImage_url(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.Image.IMAGE_URL)));
@@ -244,6 +245,7 @@ public class JobViewerDBHandler {
 				imageObject
 						.setImage_string(cursor.getString(cursor
 								.getColumnIndex(JobViewerProviderContract.Image.IMAGE_STRING)));
+				Log.i("Android", "Image 5 :"+imageObject.getImage_string());
 				imageObject
 						.setImage_url(cursor.getString(cursor
 								.getColumnIndex(JobViewerProviderContract.Image.IMAGE_URL)));
@@ -581,6 +583,7 @@ public class JobViewerDBHandler {
 			values.put(
 					JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_STRING,
 					image.getImage_string());
+			Log.i("Android", "Image 21 :"+image.getImage_string());
 			values.put(
 					JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_URL,
 					image.getImage_url());
@@ -614,6 +617,7 @@ public class JobViewerDBHandler {
 				imageObject
 						.setImage_string(cursor.getString(cursor
 								.getColumnIndex(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_STRING)));
+				Log.i("Android", "Image 4 :"+imageObject.getImage_string());
 				imageObject
 						.setImage_url(cursor.getString(cursor
 								.getColumnIndex(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_URL)));
