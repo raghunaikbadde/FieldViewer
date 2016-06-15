@@ -381,4 +381,7 @@
 	<string name="exitButtonText">Exit</string>
 	<string name="settignsButtonText">Settings</string>
 	<string name="activityTypePollution">Pollution</string>
+	<string name="alertOverTimeHeader">Stay Safe</string>
+	<string name="alertOverTimeMsgOne">You have worked over</string>
+	<string name="alertOverTimeMsgTwo">hours. If you feel unable to carry on please contact your field manager.</string>
 </resources>
