@@ -125,7 +125,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 				geoLocation = Utils.getGeoLocationString(this);
 				Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
 				Log.i("Android", "geoLocation   :" + geoLocation);
-				mImage_exif_string = formatDate + ";"+geoLocation;
+				mImage_exif_string = formatDate + ","+geoLocation;
 				mImageBase64 += Utils.bitmapToBase64String(rotateBitmap);
 						
 			} catch (IOException e) {
@@ -139,7 +139,6 @@ public class CaptureVistecActivity extends BaseActivity implements
 			imageObject.setCategory("works");
 			imageObject.setImage_exif(mImage_exif_string);
 			imageObject.setImage_string(mImageBase64);
-			Log.i("Android", "Image 8 :"+imageObject.getImage_string());
 			JobViewerDBHandler.saveImage(this, imageObject);
 			CheckOutObject checkOutRemember = JobViewerDBHandler
 					.getCheckOutRemember(this);
