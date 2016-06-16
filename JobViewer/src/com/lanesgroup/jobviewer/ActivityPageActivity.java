@@ -701,7 +701,7 @@ public class ActivityPageActivity extends BaseActivity implements
 
 	private void sendLeaveWorkToServer() {
 		GPSTracker gpsTracker = new GPSTracker(mContext);
-		if(Utils.isInternetAvailable(gpsTracker)){
+		if(Utils.isInternetAvailable(this)){
 			Utils.startProgress(mContext);
 			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(mContext);
 			//User userProfile = JobViewerDBHandler.getUserProfile(mContext);
