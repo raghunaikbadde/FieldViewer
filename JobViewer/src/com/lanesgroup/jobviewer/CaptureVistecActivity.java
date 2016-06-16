@@ -176,7 +176,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 	private synchronized void sendWorkImageToServer(ImageObject imageObject) {
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageObject.getImageId());
-		data.put("category", "surveys");
+		data.put("category", "works");
 		data.put("image_string",
 				Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
 		data.put("image_exif", imageObject.getImage_exif());

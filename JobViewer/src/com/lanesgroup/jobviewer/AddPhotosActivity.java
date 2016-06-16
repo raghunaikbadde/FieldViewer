@@ -66,8 +66,8 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	private AddPhotosAdapter mAdapter;
 	private Context mContext;
 	static File file;
-	private ArrayList<WorkPhotoUpload> arrayListOfWokImagesUpload = new ArrayList<WorkPhotoUpload>();
-
+	public static ArrayList<WorkPhotoUpload> arrayListOfWokImagesUpload = new ArrayList<WorkPhotoUpload>();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -194,6 +194,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void showWorkCompleteFragemnt() {
+		
 		getFragmentManager().beginTransaction()
 				.add(android.R.id.content, new WorkCompleteFragment()).commit();
 	}
@@ -298,6 +299,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	private void sendWorkImageToServer(String imageId,ImageObject imageObject) {
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageId);
+		Log.d(Utils.LOG_TAG,"Add Photos WORK PHOTO UPLOAD temp id"+imageObject.getImageId());
 
 		Utils.SendHTTPRequest(AddPhotosActivity.this, CommsConstant.HOST
 				+ CommsConstant.WORK_PHOTO_UPLOAD + "/" + Utils.work_id, data,
@@ -436,7 +438,8 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	private synchronized void sendWorkImageToServer(ImageObject imageObject) {
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageObject.getImageId());
-		data.put("category", "surveys");
+		Log.d(Utils.LOG_TAG,"Add Photos Image Temp Id"+imageObject.getImageId());
+		data.put("category", "works");
 		data.put("image_string",
 				Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
 		data.put("image_exif", imageObject.getImage_exif());

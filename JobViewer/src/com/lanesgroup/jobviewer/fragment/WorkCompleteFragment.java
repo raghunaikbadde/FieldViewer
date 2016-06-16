@@ -2,6 +2,7 @@ package com.lanesgroup.jobviewer.fragment;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import android.app.Fragment;
 import android.content.ContentValues;
@@ -33,6 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.util.Util;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
@@ -51,8 +53,10 @@ import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
+import com.lanesgroup.jobviewer.AddPhotosActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.WorkSuccessActivity;
+import com.raghu.WorkPhotoUpload;
 import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 
@@ -318,6 +322,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 				.getCheckOutRemember(getActivity());
 		User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
 		Utils.workEndTimeSheetRequest.setRecord_for(userProfile.getEmail());
+		
 		Utils.workEndTimeSheetRequest.setIs_inactive("false");
 		Utils.workEndTimeSheetRequest.setOverride_reason("");
 		Utils.workEndTimeSheetRequest.setOverride_comment("");
@@ -328,7 +333,13 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 		Utils.workEndTimeSheetRequest.setUser_id(userProfile.getEmail());
 		CheckOutObject checkOutRemember2 = JobViewerDBHandler
 				.getCheckOutRemember(getActivity());
-		data.put("started_at", checkOutRemember2.getJobStartedTime());
+		String jobStartedTime = checkOutRemember2.getJobStartedTime();
+		if(Utils.isNullOrEmpty(jobStartedTime)){
+			jobStartedTime = Utils.getCurrentDateAndTime();
+		}
+		
+		Utils.workEndTimeSheetRequest.setStarted_at(jobStartedTime);
+		data.put("started_at", jobStartedTime);
 		data.put("record_for", userProfile.getEmail());
 		data.put("is_inactive", "false");
 			
@@ -472,6 +483,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,Co
 
 	private void startWorkSuccessActivity() {
 		getActivity().finish();
+		AddPhotosActivity.arrayListOfWokImagesUpload = new ArrayList<WorkPhotoUpload>();
 		Intent workSuccessIntent = new Intent(getActivity(),
 				WorkSuccessActivity.class);
 		startActivity(workSuccessIntent);
