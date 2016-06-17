@@ -1,5 +1,8 @@
 package com.jobviewer.confined.fragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
@@ -26,6 +29,7 @@ import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
@@ -130,6 +134,7 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener {
 			Utils.startProgress(getActivity());
 			saveCreatedWorkInBackLogDb();
 			saveInBackLogDB();
+			removeConfinedSpaceAsessementStartedTime(getActivity());
 			JobViewerDBHandler.deleteConfinedQuestionSet(getActivity());
 			JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(getActivity());
 			Utils.StopProgress();
@@ -224,7 +229,12 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener {
 		} else
 			values.put("related_type_reference",
 					checkOutRemember2.getVistecId());
-		values.put("started_at", checkOutRemember2.getJobStartedTime());
+		try {
+			values.put("started_at", getConfinedSpaceAsessementStartedTime(getActivity()));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		values.put("completed_at", Utils.getCurrentDateAndTime());
 
 		values.put("created_by", userProfile.getEmail());
@@ -250,6 +260,7 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener {
 					JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(getActivity());
 
 					getActivity().finish();
+					removeConfinedSpaceAsessementStartedTime(getActivity());
 					startEndMethod();
 					break;
 				case HttpConnection.DID_ERROR:
@@ -304,5 +315,37 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener {
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(getActivity(), backLogRequest);
 
+	}
+	private String getConfinedSpaceAsessementStartedTime(Context mContext) throws JSONException{
+		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
+		if(Utils.isNullOrEmpty(str)){
+			str = "{}";
+		}
+		JSONObject jsonObject = new JSONObject(str);
+		if(jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)){
+			return  jsonObject.getString(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME);
+		}
+		CheckOutObject checkOutRemember2 = JobViewerDBHandler
+				.getCheckOutRemember(getActivity());
+		return checkOutRemember2.getJobStartedTime();
+		
+	}
+	
+	private void removeConfinedSpaceAsessementStartedTime(Context mContext){
+		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
+		if(Utils.isNullOrEmpty(str)){
+			str = "{}";
+		}
+		try{
+			JSONObject jsonObject = new JSONObject(str);
+			if(jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)){
+				jsonObject.remove(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME);
+				String jsonString = jsonObject.toString();
+				JobViewerDBHandler.saveFlaginJSONObject(getActivity(), jsonString);
+			}
+			
+		}catch(Exception e){
+			
+		}
 	}
 }

@@ -1,7 +1,10 @@
 package com.jobviewer.confined.fragment;
 
+import org.json.JSONObject;
+
 import android.app.Fragment;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +26,7 @@ import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
@@ -79,7 +83,7 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 		shoutOutBackLogRequest.setRelated_type("Work");
 		shoutOutBackLogRequest.setRelated_type_reference(checkOutRemember2
 				.getVistecId());
-		shoutOutBackLogRequest.setStarted_at(checkOutRemember2.getJobStartedTime());
+		shoutOutBackLogRequest.setStarted_at(getConfinedSpaceAsessementStartedTime(getActivity()));
 		shoutOutBackLogRequest.setCompleted_at(Utils.getCurrentDateAndTime());
 		String encodeToJsonString = GsonConverter.getInstance()
 				.encodeToJsonString(
@@ -127,7 +131,7 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 		} else
 			values.put("related_type_reference",
 					checkOutRemember2.getVistecId());
-		values.put("started_at", checkOutRemember2.getJobStartedTime());
+		values.put("started_at", getConfinedSpaceAsessementStartedTime(getActivity()));
 		values.put("completed_at", Utils.getCurrentDateAndTime());
 		values.put("created_by", userProfile.getEmail());
 		
@@ -169,6 +173,7 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 						Intent intent = new Intent(mRootView.getContext(),ActivityPageActivity.class);
 						startActivity(intent);
 					}
+					removeConfinedSpaceAsessementStartedTime(getActivity());
 					Log.i("Android", "");
 					break;
 				case HttpConnection.DID_ERROR:
@@ -189,5 +194,42 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 		return handler;
 
 	}
-
+	
+	private String getConfinedSpaceAsessementStartedTime(Context mContext){
+		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
+		if(Utils.isNullOrEmpty(str)){
+			str = "{}";
+		}
+		try{
+			JSONObject jsonObject = new JSONObject(str);
+			if(jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)){				
+				return  jsonObject.getString(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME);
+			}
+			CheckOutObject checkOutRemember2 = JobViewerDBHandler
+					.getCheckOutRemember(getActivity());
+			if(!Utils.isNullOrEmpty(checkOutRemember2.getJobStartedTime()))
+				return checkOutRemember2.getJobStartedTime();
+		}catch(Exception e){
+			
+		}
+		return Utils.getCurrentDateAndTime();
+	}
+	
+	private void removeConfinedSpaceAsessementStartedTime(Context mContext){
+		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
+		if(Utils.isNullOrEmpty(str)){
+			str = "{}";
+		}
+		try{
+			JSONObject jsonObject = new JSONObject(str);
+			if(jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)){
+				jsonObject.remove(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME);
+				String jsonString = jsonObject.toString();
+				JobViewerDBHandler.saveFlaginJSONObject(getActivity(), jsonString);
+			}
+			
+		}catch(Exception e){
+			
+		}
+	}
 }

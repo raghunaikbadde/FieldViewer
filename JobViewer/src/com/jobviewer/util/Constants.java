@@ -60,5 +60,6 @@ public class Constants {
 	public static final String MOST_RECENT_SAVED_LAT = "MOST_RECENT_SAVED_LAT";
 	public static final String MOST_RECENT_SAVED_LON = "MOST_RECENT_SAVED_LON";
 	public static final String FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS = "FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS";
+	public static final String CONFINED_ENTRY_ENTRY_STARTED_TIME = "CONFINED_ENTRY_ENTRY_STARTED_TIME";
 	
 }

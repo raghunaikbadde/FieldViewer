@@ -124,4 +124,5 @@ public class RiskAssessmentActivity extends BaseActivity implements
 		mNext.setBackgroundResource(R.drawable.red_background);
 		mNext.setOnClickListener(this);
 	}
+	
 }

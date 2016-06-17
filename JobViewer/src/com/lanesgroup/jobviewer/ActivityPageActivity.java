@@ -740,7 +740,7 @@ public class ActivityPageActivity extends BaseActivity implements
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
-					
+					removeConfinedSpaceAsessementStartedTime(ActivityPageActivity.this);
 					JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(mContext);
 					Utils.StopProgress();
 					Intent intent = new Intent(mContext,ActivityPageActivity.class);
@@ -793,6 +793,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(workRequest));
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(context, backLogRequest);
+		removeConfinedSpaceAsessementStartedTime(ActivityPageActivity.this);
 	}
 	private void sendEndTraining() {
 		
@@ -967,13 +968,14 @@ public class ActivityPageActivity extends BaseActivity implements
 		case 1:
 			Intent confinedWorkintent = new Intent(ActivityPageActivity.this,
 					ConfinedAssessmentQuestionsActivity.class);
+			insertConfinedSpaceEntryStartedTime();
 			confinedWorkintent.putExtra(Constants.CALLING_ACTIVITY,
 					ActivityPageActivity.this.getClass().getSimpleName());
 			startActivity(confinedWorkintent);
 			return true;
 		case 2:
 			ConfirmDialog confirmDialog = new ConfirmDialog(mContext, this,
-					ActivityConstants.LEAVE_WORK_CONFIMRATION);
+					ActivityConstants.LEAVE_WORK_CONFIMRATION);			
 			confirmDialog.show();
 
 			return true;
@@ -995,5 +997,41 @@ public class ActivityPageActivity extends BaseActivity implements
 		breakShiftTravelCall.setTravelStartedTime(timeToStore);
 		JobViewerDBHandler.saveBreakShiftTravelCall(ActivityPageActivity.this, breakShiftTravelCall);
 		
+	}
+	
+	private void insertConfinedSpaceEntryStartedTime(){
+		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
+		if(Utils.isNullOrEmpty(str)){
+			str = "{}";
+		}
+		try{
+			JSONObject jsonObject = new JSONObject(str);
+			if(jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)){
+				jsonObject.remove(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME);
+			}
+			
+			jsonObject.put(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME, Utils.getCurrentDateAndTime());
+			String jsonString = jsonObject.toString();
+			JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(), jsonString);
+		}catch(Exception e){
+			
+		}
+	}
+	private void removeConfinedSpaceAsessementStartedTime(Context mContext){
+		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
+		if(Utils.isNullOrEmpty(str)){
+			str = "{}";
+		}
+		try{
+			JSONObject jsonObject = new JSONObject(str);
+			if(jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)){
+				jsonObject.remove(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME);
+				String jsonString = jsonObject.toString();
+				JobViewerDBHandler.saveFlaginJSONObject(this, jsonString);
+			}
+			
+		}catch(Exception e){
+			
+		}
 	}
 }
