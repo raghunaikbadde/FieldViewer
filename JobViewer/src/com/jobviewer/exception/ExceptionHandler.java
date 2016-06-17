@@ -11,4 +11,11 @@ public class ExceptionHandler {
 		dialog.show();
 	}
 
+	public static void showException(final Context context,
+			VehicleException ex, String title, IDialogListener listener) {
+		CustomErrorDialog dialog = new CustomErrorDialog(context, title,
+				ex.getMessage(), "OK", listener);
+		dialog.show();
+	}
+
 }

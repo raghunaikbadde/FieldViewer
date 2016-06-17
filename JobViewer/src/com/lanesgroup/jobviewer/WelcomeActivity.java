@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ShoutAboutSafetyObject;
 import com.jobviewer.exception.ExceptionHandler;
+import com.jobviewer.exception.IDialogListener;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
@@ -141,12 +143,34 @@ public class WelcomeActivity extends BaseActivity {
 	}
 
 	private void executeStartUpApi() {
-		ContentValues data = new ContentValues();
-		data.put("imei", Utils.getIMEI(context));
-		data.put("email", Utils.getMailId(context));
-		Utils.startProgress(WelcomeActivity.this);
-		Utils.SendHTTPRequest(WelcomeActivity.this, CommsConstant.HOST
-				+ CommsConstant.STARTUP_API, data, getHandler());
+
+		if (!Utils.isNullOrEmpty(Utils.getMailId(context))) {
+			ContentValues data = new ContentValues();
+			data.put("imei", Utils.getIMEI(context));
+			data.put("email", Utils.getMailId(context));
+			Utils.startProgress(WelcomeActivity.this);
+			Utils.SendHTTPRequest(WelcomeActivity.this, CommsConstant.HOST
+					+ CommsConstant.STARTUP_API, data, getHandler());
+		} else {
+			VehicleException ex = new VehicleException();
+			ex.setMessage("Lanes group email id is not found in this device. Please configure in device settings.");
+			IDialogListener listener=new IDialogListener() {
+				
+				@Override
+				public void onPositiveButtonClick(AlertDialog dialog) {
+					closeApplication();
+					
+				}
+				
+				@Override
+				public void onNegativeButtonClick(AlertDialog dialog) {
+					// TODO Auto-generated method stub
+					
+				}
+			};
+			ExceptionHandler.showException(context, ex, "Info",listener);
+		}
+
 	}
 
 	public Handler getHandler() {
