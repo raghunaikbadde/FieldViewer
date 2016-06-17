@@ -253,6 +253,9 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 		
 		Log.d("JV", "number of screens" + screens.length);
 		CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(this);
+		checkOutRemember.setJobStartedTime(Utils.getCurrentDateAndTime());
+		JobViewerDBHandler.saveCheckOutRemember(context, checkOutRemember);
+		
 		boolean questionAttempted = false;
 		for (Screen screen : screens) {
 
