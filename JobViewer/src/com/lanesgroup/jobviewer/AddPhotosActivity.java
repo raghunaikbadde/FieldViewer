@@ -264,7 +264,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			imageObject.setCategory("work");
 			imageObject.setImage_exif(formatDate + "," + geoLocation);
 			imageObject.setImage_string(base64);
-			Log.i("Android", "Image 7 :"+imageObject.getImage_string());
+			Log.i("Android", "Image 7 :"+imageObject.getImage_string().substring(0, 50));
 			imageObjects.add(imageObject);
 			WorkPhotoUpload workPhotoUpload = new WorkPhotoUpload();
 			workPhotoUpload.setImage_id(imageObject.getImageId());

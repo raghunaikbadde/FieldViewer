@@ -215,7 +215,7 @@ public class JobViewerDBHandler {
 			imageObject
 					.setImage_string(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.Image.IMAGE_STRING)));
-			Log.i("Android", "Image 6 :"+imageObject.getImage_string());
+			Log.i("Android", "Image 6 :"+imageObject.getImage_string().substring(0, 50));
 			imageObject
 					.setImage_url(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.Image.IMAGE_URL)));
@@ -245,7 +245,7 @@ public class JobViewerDBHandler {
 				imageObject
 						.setImage_string(cursor.getString(cursor
 								.getColumnIndex(JobViewerProviderContract.Image.IMAGE_STRING)));
-				Log.i("Android", "Image 5 :"+imageObject.getImage_string());
+				Log.i("Android", "Image 5 :"+imageObject.getImage_string().substring(0, 50));
 				imageObject
 						.setImage_url(cursor.getString(cursor
 								.getColumnIndex(JobViewerProviderContract.Image.IMAGE_URL)));
@@ -583,7 +583,7 @@ public class JobViewerDBHandler {
 			values.put(
 					JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_STRING,
 					image.getImage_string());
-			Log.i("Android", "Image 21 :"+image.getImage_string());
+			Log.i("Android", "Image 21 :"+image.getImage_string().substring(0, 50));
 			values.put(
 					JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_URL,
 					image.getImage_url());
@@ -617,7 +617,7 @@ public class JobViewerDBHandler {
 				imageObject
 						.setImage_string(cursor.getString(cursor
 								.getColumnIndex(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_STRING)));
-				Log.i("Android", "Image 4 :"+imageObject.getImage_string());
+				Log.i("Android", "Image 4 :"+imageObject.getImage_string().substring(0, 50));
 				imageObject
 						.setImage_url(cursor.getString(cursor
 								.getColumnIndex(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_URL)));

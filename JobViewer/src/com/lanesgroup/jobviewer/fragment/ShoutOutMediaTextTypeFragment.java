@@ -439,7 +439,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 					imageString = Utils.bitmapToBase64String(rotateBitmap);
 					imageObject.setImage_string(Constants.IMAGE_STRING_INITIAL
 							+ imageString);
-					Log.i("Android", "Image 12 :"+imageObject.getImage_string());
+					Log.i("Android", "Image 12 :"+imageObject.getImage_string().substring(0, 50));
 					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;

@@ -178,7 +178,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
 				byte[] getbyteArrayFromBase64String = Utils
 						.getbyteArrayFromBase64String(imageById
 								.getImage_string());
-				Log.i("Android", "Image 15 :"+imageById.getImage_string());
+				Log.i("Android", "Image 15 :"+imageById.getImage_string().substring(0, 50));
 				loadImages(getbyteArrayFromBase64String);
 			}
 		}
@@ -269,7 +269,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
 		values.put("temp_id", imageObject.getImageId());
 		values.put("category", imageObject.getCategory());
 		values.put("image_string", imageObject.getImage_string());
-		Log.i("Android", "Image 16 :"+imageObject.getImage_string());
+		Log.i("Android", "Image 16 :"+imageObject.getImage_string().substring(0, 50));
 		values.put("image_exif", imageObject.getImage_exif());
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
 				+ CommsConstant.SURVEY_PHOTO_UPLOAD, values,
@@ -384,7 +384,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
 					imageObject.setImage_string(Utils
 							.bitmapToBase64String(rotateBitmap));
 					Log.i("Android", "Image 14 :"+imageObject.getImage_string());
-					Log.i("Android", "Image 1 :"+imageObject.getImage_string());
+					Log.i("Android", "Image 1 :"+imageObject.getImage_string().substring(0, 50));
 					imageString = imageObject.getImage_string();
 					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);

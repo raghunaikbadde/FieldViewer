@@ -52,8 +52,8 @@ public class SendImagesOnBackground {
 		}catch(OutOfMemoryError oome){
 			
 		}
-		values.put("image_string", "data:image/png;base64,"+str);
-		Log.i("Android", "Image 20 :"+Constants.IMAGE_STRING_INITIAL +str);
+		values.put("image_string", str);
+		Log.i("Android", "Image 20 :" +str);
 		values.put("image_exif", imageObject.getImage_exif());
 		Utils.SendHTTPRequest(context, CommsConstant.HOST
 				+ CommsConstant.SURVEY_PHOTO_UPLOAD, values, getSaveImageHandler());

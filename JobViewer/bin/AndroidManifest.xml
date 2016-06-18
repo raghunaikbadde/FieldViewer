@@ -9,6 +9,8 @@
         android:targetSdkVersion="23" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.intent.action.CALL_PRIVILEGED" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -26,6 +28,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.lanesgroup.jobviewer.MainActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
@@ -45,6 +48,7 @@
         </activity>
         <activity
             android:name="com.lanesgroup.jobviewer.WelcomeActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -52,24 +56,31 @@
         </activity>
         <activity
             android:name="com.lanesgroup.jobviewer.ClockInActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.lanesgroup.jobviewer.ClockInConfirmationActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.lanesgroup.jobviewer.CheckoutVehicleActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.lanesgroup.jobviewer.CheckInActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.lanesgroup.jobviewer.ActivityPageActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.lanesgroup.jobviewer.PollutionActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.lanesgroup.jobviewer.AddPhotosActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -86,51 +97,71 @@
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".NewWorkActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".EndTravelActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.lanesgroup.jobviewer.fragment.QuestionsActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.jobviewer.confined.ConfinedAssessmentQuestionsActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.jobviewer.nophotos.WorkWithNoPhotosQuestionActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CaptureVistecActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".TravelToWorkSiteActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".RiskAssessmentActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UpdateRiskAssessmentActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ShoutOptionsActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".WorkSuccessActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.lanesgroup.jobviewer.fragment.ShoutOutActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ShiftOrCallEndActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".EndBreakActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".EndShiftReturnVehicleActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".EndOnCallActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MultipleInputActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
 
         <receiver

@@ -133,7 +133,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				byte[] getbyteArrayFromBase64String = Utils
 						.getbyteArrayFromBase64String(imageById
 								.getImage_string());
-				Log.i("Android", "Image 28 :"+imageById.getImage_string());
+				Log.i("Android", "Image 28 :"+imageById.getImage_string().substring(0, 50));
 				loadImages(getbyteArrayFromBase64String);
 			}
 		}
@@ -340,7 +340,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 						base64 = Base64.encodeToString(b, Base64.DEFAULT);
 					}
 					imageObject.setImage_string(base64);
-					Log.i("Android", "Image 11 :"+imageObject.getImage_string());
+					Log.i("Android", "Image 11 :"+imageObject.getImage_string().substring(0, 50));
 					imageString = base64;
 					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);

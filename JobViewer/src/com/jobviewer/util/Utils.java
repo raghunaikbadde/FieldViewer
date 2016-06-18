@@ -756,7 +756,7 @@ public class Utils {
 		values.put("temp_id", imageObject.getImageId());
 		values.put("category", imageObject.getCategory());
 		values.put("image_string", imageObject.getImage_string());
-		Log.i("Android", "Image 23 :"+imageObject.getImage_string());
+		Log.i("Android", "Image 23 :"+imageObject.getImage_string().substring(0, 50));
 		values.put("image_exif", imageObject.getImage_exif());
 		Utils.SendHTTPRequest(BaseActivity.context, CommsConstant.HOST
 				+ CommsConstant.SURVEY_PHOTO_UPLOAD, values,
