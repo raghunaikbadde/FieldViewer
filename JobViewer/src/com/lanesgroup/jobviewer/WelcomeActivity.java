@@ -94,10 +94,31 @@ public class WelcomeActivity extends BaseActivity {
 			if (Utils.isInternetAvailable(context) && !Utils.isExitApplication) {
 				executeStartUpApi();
 			} else {
-				User user = new User();
-				user.setEmail(Utils.getMailId(context));
-				JobViewerDBHandler.saveUserDetail(context, user);
-				saveStartUpObjectInBackLogDb();
+				if (!Utils.isNullOrEmpty(Utils.getMailId(context))) {
+					User user = new User();
+					user.setEmail(Utils.getMailId(context));
+					JobViewerDBHandler.saveUserDetail(context, user);
+					saveStartUpObjectInBackLogDb();
+				} else {
+					VehicleException ex = new VehicleException();
+					ex.setMessage("Lanes group email id is not found in this device. Please configure in device settings.");
+					IDialogListener listener = new IDialogListener() {
+
+						@Override
+						public void onPositiveButtonClick(AlertDialog dialog) {
+							closeApplication();
+
+						}
+
+						@Override
+						public void onNegativeButtonClick(AlertDialog dialog) {
+							// TODO Auto-generated method stub
+
+						}
+					};
+					ExceptionHandler.showException(context, ex, "Info",
+							listener);
+				}
 			}
 
 			Utils.startNotification(this);
@@ -144,32 +165,32 @@ public class WelcomeActivity extends BaseActivity {
 
 	private void executeStartUpApi() {
 
-		//if (!Utils.isNullOrEmpty(Utils.getMailId(context))) {
+		if (!Utils.isNullOrEmpty(Utils.getMailId(context))) {
 			ContentValues data = new ContentValues();
 			data.put("imei", Utils.getIMEI(context));
 			data.put("email", Utils.getMailId(context));
 			Utils.startProgress(WelcomeActivity.this);
 			Utils.SendHTTPRequest(WelcomeActivity.this, CommsConstant.HOST
 					+ CommsConstant.STARTUP_API, data, getHandler());
-		/*} else {
+		} else {
 			VehicleException ex = new VehicleException();
 			ex.setMessage("Lanes group email id is not found in this device. Please configure in device settings.");
-			IDialogListener listener=new IDialogListener() {
-				
+			IDialogListener listener = new IDialogListener() {
+
 				@Override
 				public void onPositiveButtonClick(AlertDialog dialog) {
 					closeApplication();
-					
+
 				}
-				
+
 				@Override
 				public void onNegativeButtonClick(AlertDialog dialog) {
 					// TODO Auto-generated method stub
-					
+
 				}
 			};
-			ExceptionHandler.showException(context, ex, "Info",listener);
-		}*/
+			ExceptionHandler.showException(context, ex, "Info", listener);
+		}
 
 	}
 

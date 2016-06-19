@@ -203,8 +203,8 @@ public class Utils {
 				break;
 			}
 		}
-		// return strGmail;
-		return "richard.stenson@lanesgroup.com";
+		 return strGmail;
+		//return "richard.stenson@lanesgroup.com";
 	}
 
 	public static String getIMEI(Context context) {

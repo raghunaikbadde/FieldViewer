@@ -380,8 +380,6 @@ public class ConfinedMediaTypeFragment extends Fragment implements
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageObject.getImageId());
 		data.put("category", "surveys");
-		data.put("image_string",
-				Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
 		if (imageObject.getImage_string().contains(
 				Constants.IMAGE_STRING_INITIAL)) {
 			data.put("image_string", imageObject.getImage_string());
