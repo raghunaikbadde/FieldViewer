@@ -18,6 +18,8 @@ public class CheckOutObject {
 	private String isAssessmentCompleted;
 	private String workId;
 	private String travelStartedTime;
+	private String isSavedOnWorkCompleteScreen = "false";
+	private String isSavedOnAddPhotoScreen="false";
 
 	public String getJobSelected() {
 		return jobSelected;
@@ -154,6 +156,23 @@ public class CheckOutObject {
 
 	public void setTravelStartedTime(String travelStartedTime) {
 		this.travelStartedTime = travelStartedTime;
+	}
+
+	public String getIsSavedOnWorkCompleteScreen() {
+		return isSavedOnWorkCompleteScreen;
+	}
+
+	public void setIsSavedOnWorkCompleteScreen(
+			String isSavedOnWorkCompleteScreen) {
+		this.isSavedOnWorkCompleteScreen = isSavedOnWorkCompleteScreen;
+	}
+
+	public String getIsSavedOnAddPhotoScreen() {
+		return isSavedOnAddPhotoScreen;
+	}
+
+	public void setIsSavedOnAddPhotoScreen(String isSavedOnAddPhotoScreen) {
+		this.isSavedOnAddPhotoScreen = isSavedOnAddPhotoScreen;
 	}
 
 }

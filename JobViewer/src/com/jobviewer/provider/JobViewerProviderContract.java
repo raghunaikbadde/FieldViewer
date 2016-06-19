@@ -104,6 +104,8 @@ public class JobViewerProviderContract {
 		public static final String VISTEC_IMAGE_ID="vistecImageId";
 		public static final String IS_ASSESSMENT_COMPLETED="isAssessmentCompleted";
 		public static final String WORK_ID="workId";
+		public static final String IS_SAVED_ON_WORK_COMPLETE_SCREEN="isSavedOnWorkCompleteScreen";
+		public static final String  IS_SAVED_ON_ADD_PHOTO_SCREEN="isSavedOnAddPhotoScreen";
 	}
 	
 	public static final class BackLogTable implements BaseColumns {

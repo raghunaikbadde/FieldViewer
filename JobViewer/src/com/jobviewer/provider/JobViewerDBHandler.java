@@ -174,15 +174,14 @@ public class JobViewerDBHandler {
 	public static void saveImage(Context context, ImageObject image) {
 		ContentValues values = new ContentValues();
 		values.put(JobViewerProviderContract.Image.IMAGE_ID, image.getImageId());
-		String imagestring=image.getImage_string();
+		String imagestring = image.getImage_string();
 		if (imagestring.indexOf(Constants.IMAGE_STRING_INITIAL) >= 0) {
-			
-		}else{
-			imagestring=Constants.IMAGE_STRING_INITIAL+imagestring;
+
+		} else {
+			imagestring = Constants.IMAGE_STRING_INITIAL + imagestring;
 		}
-		values.put(JobViewerProviderContract.Image.IMAGE_STRING,
-				imagestring);
-		Log.i("Android", "Image 22 :"+imagestring);
+		values.put(JobViewerProviderContract.Image.IMAGE_STRING, imagestring);
+		Log.i("Android", "Image 22 :" + imagestring);
 		values.put(JobViewerProviderContract.Image.IMAGE_URL,
 				image.getImage_url());
 		values.put(JobViewerProviderContract.Image.IMAGE_CATEGORY,
@@ -215,7 +214,8 @@ public class JobViewerDBHandler {
 			imageObject
 					.setImage_string(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.Image.IMAGE_STRING)));
-			Log.i("Android", "Image 6 :"+imageObject.getImage_string().substring(0, 50));
+			Log.i("Android", "Image 6 :"
+					+ imageObject.getImage_string().substring(0, 50));
 			imageObject
 					.setImage_url(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.Image.IMAGE_URL)));
@@ -245,7 +245,8 @@ public class JobViewerDBHandler {
 				imageObject
 						.setImage_string(cursor.getString(cursor
 								.getColumnIndex(JobViewerProviderContract.Image.IMAGE_STRING)));
-				Log.i("Android", "Image 5 :"+imageObject.getImage_string().substring(0, 50));
+				Log.i("Android", "Image 5 :"
+						+ imageObject.getImage_string().substring(0, 50));
 				imageObject
 						.setImage_url(cursor.getString(cursor
 								.getColumnIndex(JobViewerProviderContract.Image.IMAGE_URL)));
@@ -310,6 +311,12 @@ public class JobViewerDBHandler {
 				checkOutObject.getIsAssessmentCompleted());
 		values.put(JobViewerProviderContract.CheckOutRemember.WORK_ID,
 				checkOutObject.getWorkId());
+		values.put(
+				JobViewerProviderContract.CheckOutRemember.IS_SAVED_ON_WORK_COMPLETE_SCREEN,
+				checkOutObject.getIsSavedOnWorkCompleteScreen());
+		values.put(
+				JobViewerProviderContract.CheckOutRemember.IS_SAVED_ON_ADD_PHOTO_SCREEN,
+				checkOutObject.getIsSavedOnAddPhotoScreen());
 		context.getContentResolver().insert(
 				JobViewerProviderContract.CheckOutRemember.CONTENT_URI, values);
 	}
@@ -379,6 +386,12 @@ public class JobViewerDBHandler {
 			checkOutObject
 					.setWorkId(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.CheckOutRemember.WORK_ID)));
+			checkOutObject
+					.setIsSavedOnWorkCompleteScreen(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.CheckOutRemember.IS_SAVED_ON_WORK_COMPLETE_SCREEN)));
+			checkOutObject
+			.setIsSavedOnAddPhotoScreen(cursor.getString(cursor
+					.getColumnIndex(JobViewerProviderContract.CheckOutRemember.IS_SAVED_ON_ADD_PHOTO_SCREEN)));
 		}
 		cursor.close();
 		return checkOutObject;
@@ -470,7 +483,7 @@ public class JobViewerDBHandler {
 		cursor.close();
 		return surveyJson;
 	}
-	
+
 	public static void saveWorkWithNoPhotosQuestionSet(Context context,
 			SurveyJson surveyJson) {
 		deleteWorkWithNoPhotosQuestionSet(context);
@@ -484,21 +497,22 @@ public class JobViewerDBHandler {
 		values.put(
 				JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.WORK_TYPE,
 				surveyJson.getWorkType());
-		context.getContentResolver().insert(
-				JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.CONTENT_URI,
-				values);
+		context.getContentResolver()
+				.insert(JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.CONTENT_URI,
+						values);
 	}
-	
+
 	public static void deleteWorkWithNoPhotosQuestionSet(Context context) {
-		context.getContentResolver().delete(
-				JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.CONTENT_URI,
-				null, null);
+		context.getContentResolver()
+				.delete(JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.CONTENT_URI,
+						null, null);
 	}
-	
+
 	public static SurveyJson getWorkWithNoPhotosQuestionSet(Context context) {
-		Cursor cursor = context.getContentResolver().query(
-				JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.CONTENT_URI,
-				null, null, null, null);
+		Cursor cursor = context
+				.getContentResolver()
+				.query(JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable.CONTENT_URI,
+						null, null, null, null);
 		SurveyJson surveyJson = null;
 		if (cursor != null && cursor.moveToFirst()) {
 			surveyJson = new SurveyJson();
@@ -516,27 +530,26 @@ public class JobViewerDBHandler {
 		cursor.close();
 		return surveyJson;
 	}
-	
+
 	public static void saveBackLog(Context context, BackLogRequest request) {
 		ContentValues values = new ContentValues();
 		values.put(JobViewerProviderContract.BackLogTable.REQUEST_TYPE,
 				request.getRequestType());
-		
+
 		String str = request.getRequestJson();
-		if(!Utils.isNullOrEmpty(str)){
-			try{
+		if (!Utils.isNullOrEmpty(str)) {
+			try {
 				JSONObject jsonObject = new JSONObject(str);
-				if(Utils.isNullOrEmpty(Utils.work_id))
+				if (Utils.isNullOrEmpty(Utils.work_id))
 					jsonObject.put("id", "");
 				else
 					jsonObject.put("id", Utils.work_id);
 				str = jsonObject.toString();
-			}catch(JSONException jse){
-				
+			} catch (JSONException jse) {
+
 			}
 		}
-		values.put(JobViewerProviderContract.BackLogTable.REQUEST_JSON,
-				str);
+		values.put(JobViewerProviderContract.BackLogTable.REQUEST_JSON, str);
 		values.put(JobViewerProviderContract.BackLogTable.REQUEST_API,
 				request.getRequestApi());
 		values.put(JobViewerProviderContract.BackLogTable.REQUEST_CLASS_NAME,
@@ -575,7 +588,7 @@ public class JobViewerDBHandler {
 	}
 
 	public static void saveAddPhotoImage(Context context, ImageObject image) {
-		try{
+		try {
 			ContentValues values = new ContentValues();
 			values.put(
 					JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_ID,
@@ -583,7 +596,8 @@ public class JobViewerDBHandler {
 			values.put(
 					JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_STRING,
 					image.getImage_string());
-			Log.i("Android", "Image 21 :"+image.getImage_string().substring(0, 50));
+			Log.i("Android",
+					"Image 21 :" + image.getImage_string().substring(0, 50));
 			values.put(
 					JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_URL,
 					image.getImage_url());
@@ -596,7 +610,7 @@ public class JobViewerDBHandler {
 			context.getContentResolver()
 					.insert(JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI,
 							values);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -608,7 +622,7 @@ public class JobViewerDBHandler {
 				.getContentResolver()
 				.query(JobViewerProviderContract.AddPhotosScreenSavedImages.CONTENT_URI,
 						null, null, null, null);
-		if (cursor != null && cursor.moveToFirst() && cursor.getCount()>0) {
+		if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0) {
 			do {
 				ImageObject imageObject = new ImageObject();
 				imageObject
@@ -617,7 +631,8 @@ public class JobViewerDBHandler {
 				imageObject
 						.setImage_string(cursor.getString(cursor
 								.getColumnIndex(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_STRING)));
-				Log.i("Android", "Image 4 :"+imageObject.getImage_string().substring(0, 50));
+				Log.i("Android", "Image 4 :"
+						+ imageObject.getImage_string().substring(0, 50));
 				imageObject
 						.setImage_url(cursor.getString(cursor
 								.getColumnIndex(JobViewerProviderContract.AddPhotosScreenSavedImages.IMAGE_URL)));
@@ -893,39 +908,60 @@ public class JobViewerDBHandler {
 
 	}
 
-	public static void saveFlaginJSONObject(Context context, String jsonString){
+	public static ImageSendStatusObject getImageStatusById(Context context,
+			String id) {
+		ImageSendStatusObject imageSendStatusObject = null;
+		String selection = JobViewerProviderContract.ImageSendStatusTable.IMAGE_ID
+				+ "=" + "?";
+		String[] selectionArgs = new String[] { id };
+		Cursor cursor = context.getContentResolver().query(
+				JobViewerProviderContract.ImageSendStatusTable.CONTENT_URI,
+				null, selection, selectionArgs, null);
+
+		if (cursor != null && cursor.moveToFirst()) {
+			imageSendStatusObject = new ImageSendStatusObject();
+			imageSendStatusObject
+					.setImageId(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.ImageSendStatusTable.IMAGE_ID)));
+			imageSendStatusObject
+					.setStatus(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.ImageSendStatusTable.IMAGE_SEND_SATTUS)));
+		}
+		cursor.close();
+
+		return imageSendStatusObject;
+
+	}
+
+	public static void saveFlaginJSONObject(Context context, String jsonString) {
 		deleteJSONFlagObject(context);
 		ContentValues values = new ContentValues();
-		values.put(JobViewerProviderContract.FlagJSON.FLAG_JSON,
-				jsonString);
-		
+		values.put(JobViewerProviderContract.FlagJSON.FLAG_JSON, jsonString);
+
 		context.getContentResolver().insert(
-				JobViewerProviderContract.FlagJSON.CONTENT_URI,
-				values);
+				JobViewerProviderContract.FlagJSON.CONTENT_URI, values);
 	}
-	
-	public static String getJSONFlagObject(Context context){
+
+	public static String getJSONFlagObject(Context context) {
 		String jsonStr = "{}";
-		try{
-		Cursor cursor = context.getContentResolver().query(
-				JobViewerProviderContract.FlagJSON.CONTENT_URI, null, null, null,
-				null);
-		jsonStr = "{}";
-		if(cursor != null && cursor.moveToFirst()){
-			
-			jsonStr = cursor.getString(1);
-		}
-		}catch(Exception e){
-			
+		try {
+			Cursor cursor = context.getContentResolver().query(
+					JobViewerProviderContract.FlagJSON.CONTENT_URI, null, null,
+					null, null);
+			jsonStr = "{}";
+			if (cursor != null && cursor.moveToFirst()) {
+
+				jsonStr = cursor.getString(1);
+			}
+		} catch (Exception e) {
+
 		}
 		return jsonStr;
 	}
-	
+
 	public static void deleteJSONFlagObject(Context context) {
-		context.getContentResolver()
-				.delete(JobViewerProviderContract.FlagJSON.CONTENT_URI,
-						null, null);
+		context.getContentResolver().delete(
+				JobViewerProviderContract.FlagJSON.CONTENT_URI, null, null);
 	}
-	
-	
+
 }

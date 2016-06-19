@@ -137,7 +137,7 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 	public void onClick(View view) {
 		if (view == mTimeCancel) {
 			this.dismiss();
-			if(eventType.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)){
+			if(eventType.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)||eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)){
 				mCallback.onConfirmDismiss();
 			}
 			if(eventType.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)){

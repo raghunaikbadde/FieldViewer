@@ -238,7 +238,7 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener {
 		values.put("completed_at", Utils.getCurrentDateAndTime());
 
 		values.put("created_by", userProfile.getEmail());
-		GPSTracker gpsTracker = new GPSTracker(getActivity());
+		//GPSTracker gpsTracker = new GPSTracker(getActivity());
 		String encodeToJsonString = GsonConverter.getInstance()
 				.encodeToJsonString(
 						ConfinedQuestionManager.getInstance().getQuestionMaster());

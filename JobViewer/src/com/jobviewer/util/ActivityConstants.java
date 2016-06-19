@@ -30,4 +30,8 @@ public class ActivityConstants {
 	public static final String IMAGE_SEND_STATUS="send";
 	public static final String JOB_SELECTED_SHIFT = "shift";
 	public static final String JOB_SELECTED_ON_CALL = "onCall";
+	
+	public static final String DA_NO_CALL_MADE="No Call Made";
+	public static final String DA_CALL_SUCCESSFUL="Call Successful";
+	public static final String DA_CALL_UNSUCCESSFUL="Call Unsuccessful";
 }

@@ -260,8 +260,13 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 		ContentValues values = new ContentValues();
 		values.put("temp_id", imageObject.getImageId());
 		values.put("category", imageObject.getCategory());
-		values.put("image_string",
-				Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
+		if (imageObject.getImage_string().contains(Constants.IMAGE_STRING_INITIAL)) {
+			values.put("image_string",
+					imageObject.getImage_string());
+		}else{
+			values.put("image_string",
+					Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
+		}
 		Log.i("Android", "Image 27 :"+Constants.IMAGE_STRING_INITIAL +imageObject.getImage_string().substring(0, 50));
 		values.put("image_exif", imageObject.getImage_exif());
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST

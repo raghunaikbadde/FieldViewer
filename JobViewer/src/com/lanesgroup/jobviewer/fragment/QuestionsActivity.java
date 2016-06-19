@@ -1,10 +1,15 @@
 package com.lanesgroup.jobviewer.fragment;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 
@@ -82,8 +87,27 @@ public class QuestionsActivity extends Activity implements
 						QuestionMaster.class));
 		Screen screenToShow = manager.getScreenById(screenId);
 		manager.setCurrentScreen(screenToShow);
+
+		setBackStack(questionSet.getBackStack(), screenId);
 		int questionType = SurveyUtil.getQuestionType(screenToShow.get_type());
 		loadFragment(SurveyUtil.getFragment(questionType));
+
+	}
+
+	private void setBackStack(String backStack, String screenId) {
+		ArrayList<String> arrayList = new ArrayList<String>(
+				Arrays.asList(backStack.split(",")));
+		List<String> updated = new ArrayList<String>();
+		for (int i = 0; i < arrayList.size(); i++) {
+			if (arrayList.get(i).equalsIgnoreCase(screenId)) {
+				updated.add(arrayList.get(i));
+				break;
+			} else {
+				updated.add(arrayList.get(i));
+			}
+		}
+
+		manager.setBackStack(TextUtils.join(",", updated));
 
 	}
 

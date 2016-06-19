@@ -34,7 +34,6 @@ import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.AddPhotosActivity;
 import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
-import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
 import com.raghu.ShoutOutBackLogRequest;
 import com.vehicle.communicator.HttpConnection;
 

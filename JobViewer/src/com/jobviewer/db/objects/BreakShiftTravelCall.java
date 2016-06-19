@@ -1,6 +1,5 @@
 package com.jobviewer.db.objects;
 
-import java.util.Date;
 
 public class BreakShiftTravelCall {
 	private String isBreakStarted;

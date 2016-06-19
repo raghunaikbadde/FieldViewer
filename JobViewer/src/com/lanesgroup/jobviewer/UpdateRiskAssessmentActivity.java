@@ -1,9 +1,22 @@
 package com.lanesgroup.jobviewer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
-import org.json.JSONObject;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.SurveyJson;
@@ -13,25 +26,8 @@ import com.jobviewer.survey.object.QuestionMaster;
 import com.jobviewer.survey.object.Screen;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
-import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
-
-import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.TextView;
 
 public class UpdateRiskAssessmentActivity extends BaseActivity implements
 		OnClickListener {
@@ -43,6 +39,7 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 	private String AnswerTag = "answer";
 	private String ScreenId = "ScreenId";
 	private String selectedScreenId = "";
+	List<String> backStackList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +51,19 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 
 	private void updateData() {
 		SurveyJson questionSet = null;
-		try{
+		try {
 			questionSet = JobViewerDBHandler.getQuestionSet(this);
-		}catch(Exception e){
-			Log.d("JV","Question set cannot be accessed - "+e.toString());
+		} catch (Exception e) {
+			Log.d("JV", "Question set cannot be accessed - " + e.toString());
 			e.printStackTrace();
 			return;
 		}
-		if(questionSet==null){
-			Log.d("JV","Question set is returned null");
+		if (questionSet == null) {
+			Log.d("JV", "Question set is returned null");
 			return;
 		}
-		
+		backStackList = new ArrayList<String>(Arrays.asList(questionSet
+				.getBackStack().split(",")));
 		QuestionMaster questionMaster = GsonConverter.getInstance()
 				.decodeFromJsonString(questionSet.getQuestionJson(),
 						QuestionMaster.class);
@@ -75,24 +73,26 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 		Log.d("JV", "number of screens" + screens.length);
 		for (Screen screen : screens) {
 			try {
-				String type = screen.get_type();
-				String question = screen.getText();
-				String screenId = screen.get_number();
-				if (type.equalsIgnoreCase("yesno")) {
-					HashMap<String, String> hashMap = new HashMap<String, String>();
-					hashMap.put(QuestionTAG, question);
-					String answer = screen.getAnswer();
-					hashMap.put(AnswerTag, answer);
-					hashMap.put(ScreenId, screenId);
-					questionsAndAnswers.add(hashMap);
-				} else {
-					HashMap<String, String> hashMap = new HashMap<String, String>();
-					hashMap.put(QuestionTAG, question);
-					hashMap.put(AnswerTag, "N/A");
-					hashMap.put(ScreenId, screenId);
-					questionsAndAnswers.add(hashMap);
+				if (isScreenDisplayed(screen.get_number())) {
+					String type = screen.get_type();
+					String question = screen.getText();
+					String screenId = screen.get_number();
+					if (type.equalsIgnoreCase("yesno")) {
+						HashMap<String, String> hashMap = new HashMap<String, String>();
+						hashMap.put(QuestionTAG, question);
+						String answer = screen.getAnswer();
+						hashMap.put(AnswerTag, answer);
+						hashMap.put(ScreenId, screenId);
+						questionsAndAnswers.add(hashMap);
+					} else {
+						HashMap<String, String> hashMap = new HashMap<String, String>();
+						hashMap.put(QuestionTAG, question);
+						hashMap.put(AnswerTag, "N/A");
+						hashMap.put(ScreenId, screenId);
+						questionsAndAnswers.add(hashMap);
+					}
+					Log.d("JV", "type " + type + " question " + question);
 				}
-				Log.d("JV", "type " + type + " question " + question);
 			} catch (Exception e) {
 
 			}
@@ -102,6 +102,15 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 		QuestionSetAdapter questionSetAdapter = new QuestionSetAdapter(this,
 				questionsAndAnswers);
 		listView.setAdapter(questionSetAdapter);
+	}
+
+	private boolean isScreenDisplayed(String get_number) {
+		for (int i = 0; i < backStackList.size(); i++) {
+			if (backStackList.get(i).equalsIgnoreCase(get_number)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void initUI() {
@@ -230,40 +239,41 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 		}
 
 	}
-	
-	private void deleteAnsweredQuestionsFromQuestionSet(String screenId){
+
+	private void deleteAnsweredQuestionsFromQuestionSet(String screenId) {
 		SurveyJson surveyJSON = null;
-		try{
+		try {
 			surveyJSON = JobViewerDBHandler.getQuestionSet(this);
-		}catch(Exception e){
-			Log.d("JV","Question set cannot be accessed - "+e.toString());
+		} catch (Exception e) {
+			Log.d("JV", "Question set cannot be accessed - " + e.toString());
 			e.printStackTrace();
 			return;
 		}
-		if(surveyJSON==null){
-			Log.d("JV","Question set is returned null");
+		if (surveyJSON == null) {
+			Log.d("JV", "Question set is returned null");
 			return;
 		}
-		
+
 		QuestionMaster questionMaster = GsonConverter.getInstance()
 				.decodeFromJsonString(surveyJSON.getQuestionJson(),
 						QuestionMaster.class);
 		QuestionManager.getInstance().setQuestionMaster(questionMaster);
 		Screen[] screens = questionMaster.getScreens().getScreen();
-		
+
 		Log.d("JV", "number of screens" + screens.length);
-		CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(this);
+		CheckOutObject checkOutRemember = JobViewerDBHandler
+				.getCheckOutRemember(this);
 		checkOutRemember.setJobStartedTime(Utils.getCurrentDateAndTime());
 		JobViewerDBHandler.saveCheckOutRemember(context, checkOutRemember);
-		
+
 		boolean questionAttempted = false;
 		for (Screen screen : screens) {
 
-			if(screen.get_number().equalsIgnoreCase(screenId)){
-				questionAttempted = true;				
+			if (screen.get_number().equalsIgnoreCase(screenId)) {
+				questionAttempted = true;
 			}
-			
-			if(questionAttempted){
+
+			if (questionAttempted) {
 				screen.setAnswer("");
 				if (!"yesno".equalsIgnoreCase(screen.get_type())) {
 					Images[] images = new Images[1];
@@ -272,7 +282,7 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 					images[0] = image;
 					screen.setImages(images);
 				}
-				
+
 				QuestionManager.getInstance().updateScreenOnQuestionMaster(
 						screen);
 			}

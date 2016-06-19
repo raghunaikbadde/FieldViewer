@@ -96,6 +96,10 @@ public interface JobViewerSchema {
 			+ " text,"
 			+ CheckOutRemember.WORK_ID
 			+ " text,"
+			+ CheckOutRemember.IS_SAVED_ON_WORK_COMPLETE_SCREEN
+			+ " text,"
+			+ CheckOutRemember.IS_SAVED_ON_ADD_PHOTO_SCREEN
+			+ " text,"
 			+ CheckOutRemember.TRAVEL_STARTED_TIME
 			+ " text,"
 			+ CheckOutRemember.CLOCKIN_CHECKOUT_SELECTED_TEXT + " text);";
@@ -206,9 +210,9 @@ public interface JobViewerSchema {
 			+ BreakTravelShiftCallTable.WORK_START_TIME
 			+ " text,"
 			+ BreakTravelShiftCallTable.WORK_END_TIME + " text);";
-	
+
 	public static final String CREATE_TABLE_FLAG_JSON = "create table "
 			+ TABLE_FLAG_JSON + "(" + FlagJSON._ID
-			+ " integer primary key autoincrement,"
-			+ FlagJSON.FLAG_JSON + " text);";
+			+ " integer primary key autoincrement," + FlagJSON.FLAG_JSON
+			+ " text);";
 }

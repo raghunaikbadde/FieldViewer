@@ -21,28 +21,34 @@ public class LauncherActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		if(!Utils.isGPSEnabled(this)){
-			showGPSDialog();return;
-		}else{
-			//bug no 12: fix
-			//Implement the GPS check on app startup and to store the co-ordinates. If GPS is turned off/unavailable after the app starts up, 
-			//the GPS co-ordinates obtained at the startup should be sent to the server for images or for work location as appropriate. 
-			//This is similar to the fix provided in Vehicle Check application
+
+		if (!Utils.isGPSEnabled(this)) {
+			showGPSDialog();
+			return;
+		} else {
+			// bug no 12: fix
+			// Implement the GPS check on app startup and to store the
+			// co-ordinates. If GPS is turned off/unavailable after the app
+			// starts up,
+			// the GPS co-ordinates obtained at the startup should be sent to
+			// the server for images or for work location as appropriate.
+			// This is similar to the fix provided in Vehicle Check application
 			GPSTracker gpsTracker = new GPSTracker(this);
 			gpsTracker.getLatitude();
 			gpsTracker.getLongitude();
 		}
-		
-		if(isBreakStartedShown()){
+
+		if (isBreakStartedShown()) {
 			return;
 		}
-		
+
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(this);
 		if (checkOutRemember != null
 				&& !Utils.isNullOrEmpty(checkOutRemember
-						.getIsAssessmentCompleted())) {
+						.getIsAssessmentCompleted())
+				&& !Utils.isNullOrEmpty(checkOutRemember
+						.getIsPollutionSelected())) {
 			Utils.checkOutObject = checkOutRemember;
 			launcherIntent = new Intent(this, PollutionActivity.class);
 		} else if (checkOutRemember != null
@@ -54,7 +60,7 @@ public class LauncherActivity extends BaseActivity {
 						.getIsStartedTravel())) {
 			launcherIntent = new Intent(this, EndTravelActivity.class);
 			launcherIntent
-					.putExtra(Constants.STARTED, Constants.TRAVEL_STARTED);		
+					.putExtra(Constants.STARTED, Constants.TRAVEL_STARTED);
 		} else if (checkOutRemember != null
 				&& ActivityConstants.TRUE.equalsIgnoreCase(checkOutRemember
 						.getIsTravelEnd())) {
@@ -72,25 +78,29 @@ public class LauncherActivity extends BaseActivity {
 	}
 
 	private boolean isBreakStartedShown() {
-		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(this);
-		try{
-			if(breakShiftTravelCall.isBreakStarted().equalsIgnoreCase(Constants.YES_CONSTANT)){
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler
+				.getBreakShiftTravelCall(this);
+		try {
+			if (breakShiftTravelCall.isBreakStarted().equalsIgnoreCase(
+					Constants.YES_CONSTANT)) {
 				launcherIntent = new Intent(this, EndBreakActivity.class);
-				launcherIntent.putExtra(Constants.TIME, breakShiftTravelCall.getBreakStartedTime());
+				launcherIntent.putExtra(Constants.TIME,
+						breakShiftTravelCall.getBreakStartedTime());
 				launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(launcherIntent);
 				return true;
 			} else {
 				return false;
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			return false;
-			
+
 		}
 	}
-	
-	private void showGPSDialog(){
-		new GPSDialog(this).show();;
-		
+
+	private void showGPSDialog() {
+		new GPSDialog(this).show();
+		;
+
 	}
 }

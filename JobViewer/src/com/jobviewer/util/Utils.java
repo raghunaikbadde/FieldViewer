@@ -203,8 +203,8 @@ public class Utils {
 				break;
 			}
 		}
-		 return strGmail;
-		//return "richard.stenson@lanesgroup.com";
+		// return strGmail;
+		return "richard.stenson@lanesgroup.com";
 	}
 
 	public static String getIMEI(Context context) {
@@ -239,16 +239,17 @@ public class Utils {
 		String formattedDate = df.format(c.getTime());
 		return formattedDate;
 	}
-	
-	public static String formattedDateFromMillis(String millis){
+
+	public static String formattedDateFromMillis(String millis) {
 		long milliSec = Long.valueOf(millis);
-		
-		SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss dd MMM yyyy");;
+
+		SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss dd MMM yyyy");
+		;
 		String formattedDate = df.format(milliSec);
 		return formattedDate;
 	}
-	
-	public static String getMillisFromFormattedDate(String dateToBeConverted){
+
+	public static String getMillisFromFormattedDate(String dateToBeConverted) {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd MMM yyyy");
 		Date date = new Date();
 		try {
@@ -635,7 +636,7 @@ public class Utils {
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				seleTextView.setText(list[position]);
-				if(activity instanceof PollutionActivity){
+				if (activity instanceof PollutionActivity) {
 					((PollutionActivity) activity).validateUserInputs();
 				}
 				dialog.dismiss();
@@ -646,8 +647,7 @@ public class Utils {
 	public static void createMultiSelectDialog(final Context context,
 			List<MultiChoiceItem> multiChoiceItems, String title,
 			final TextView multiChoiceTextView) {
-		
-		
+
 		View view = ((Activity) context).getLayoutInflater().inflate(
 				R.layout.multichoice_dialog_screen, null);
 		final MultiChoiceAdapter adapter = new MultiChoiceAdapter(context,
@@ -714,56 +714,62 @@ public class Utils {
 					multiChoiceTextView.setText(sb);
 				}
 				dialog.dismiss();
-				if(((Activity) context) instanceof PollutionActivity){			
-					PollutionActivity pollutionActivity = (PollutionActivity)((Activity) context);
+				if (((Activity) context) instanceof PollutionActivity) {
+					PollutionActivity pollutionActivity = (PollutionActivity) ((Activity) context);
 					pollutionActivity.validateUserInputs();
 				}
-				
+
 			}
 		});
 	}
+
 	/**
-	 * Returns number of Hours and Minutes from number of milliseconds
-	 * Ex:long millis = 876738162L; 
-	 * getTimeInHHMMFromNumberOfMillis(millis)
-	 * gives output of 243h 32 m
+	 * Returns number of Hours and Minutes from number of milliseconds Ex:long
+	 * millis = 876738162L; getTimeInHHMMFromNumberOfMillis(millis) gives output
+	 * of 243h 32 m
+	 * 
 	 * @param milliseconds
 	 * @return
 	 */
-	public static String getTimeInHHMMFromNumberOfMillis(long milliseconds){
+	public static String getTimeInHHMMFromNumberOfMillis(long milliseconds) {
 		String HHMMString = "";
-		if (milliseconds >= 1000){
-	        int seconds = (int) (milliseconds / 1000) % 60;
-	        int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
-	        int hours = (int) ((milliseconds / (1000 * 60 * 60)));
-	        HHMMString = hours + "h "+minutes +" m";
-	    } else{
-	    	HHMMString = "Less than a second ago.";
-	    }
+		if (milliseconds >= 1000) {
+			int seconds = (int) (milliseconds / 1000) % 60;
+			int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
+			int hours = (int) ((milliseconds / (1000 * 60 * 60)));
+			HHMMString = hours + "h " + minutes + " m";
+		} else {
+			HHMMString = "Less than a second ago.";
+		}
 		return HHMMString;
 	}
-	
-	
-	public static void sendCapturedImageToServer(
-			ImageObject imageObject) {
+
+	public static void sendCapturedImageToServer(ImageObject imageObject) {
 		if (Utils.isInternetAvailable(BaseActivity.context)) {
 			sendWorkImageToServer(imageObject);
 		}
 	}
-	
+
 	public static void sendWorkImageToServer(ImageObject imageObject) {
 		ContentValues values = new ContentValues();
 		values.put("temp_id", imageObject.getImageId());
 		values.put("category", imageObject.getCategory());
-		values.put("image_string", imageObject.getImage_string());
-		Log.i("Android", "Image 23 :"+imageObject.getImage_string().substring(0, 50));
+		if (imageObject.getImage_string().contains(
+				Constants.IMAGE_STRING_INITIAL)) {
+			values.put("image_string", imageObject.getImage_string());
+		} else {
+			values.put("image_string", Constants.IMAGE_STRING_INITIAL
+					+ imageObject.getImage_string());
+		}
+		Log.i("Android", "Image 23 :"
+				+ imageObject.getImage_string().substring(0, 50));
 		values.put("image_exif", imageObject.getImage_exif());
 		Utils.SendHTTPRequest(BaseActivity.context, CommsConstant.HOST
 				+ CommsConstant.SURVEY_PHOTO_UPLOAD, values,
 				getSaveImageHandler(imageObject));
 
 	}
-	
+
 	public static Handler getSaveImageHandler(final ImageObject imageObject) {
 		Handler handler = new Handler() {
 			@Override
@@ -786,8 +792,8 @@ public class Utils {
 					break;
 				case HttpConnection.DID_ERROR:
 					if (!Utils.isNullOrEmpty(imageObject.getImage_string())) {
-						JobViewerDBHandler
-								.saveImage(BaseActivity.context, imageObject);
+						JobViewerDBHandler.saveImage(BaseActivity.context,
+								imageObject);
 					}
 					break;
 				default:
@@ -797,45 +803,47 @@ public class Utils {
 		};
 		return handler;
 	}
-	
-	public static String getGeoLocationString(Context context){
+
+	public static String getGeoLocationString(Context context) {
 		String geoLocation = "";
 		GPSTracker gpsTracker = new GPSTracker(context);
 		Double lat = gpsTracker.getLatitude();
 		Double lon = gpsTracker.getLongitude();
-		if(lat!=null && lon !=null && lat != 0.0 && lon != 0.0){
-			geoLocation = String.valueOf(lat) +";"+String.valueOf(lon);	
+		if (lat != null && lon != null && lat != 0.0 && lon != 0.0) {
+			geoLocation = String.valueOf(lat) + ";" + String.valueOf(lon);
 		}
-		Log.d(Utils.LOG_TAG," getGeoLocationString "+geoLocation);
+		Log.d(Utils.LOG_TAG, " getGeoLocationString " + geoLocation);
 		return geoLocation;
 	}
-	
-	public static boolean isGPSEnabled(Context context){
-		final LocationManager manager = (LocationManager) context.getSystemService( Context.LOCATION_SERVICE );
 
-	    if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-	        return false;
-	    }
-	    return true;
+	public static boolean isGPSEnabled(Context context) {
+		final LocationManager manager = (LocationManager) context
+				.getSystemService(Context.LOCATION_SERVICE);
+
+		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			return false;
+		}
+		return true;
 	}
-	
-	public static boolean isConfinedStartedFromAddPhoto(Context context){
+
+	public static boolean isConfinedStartedFromAddPhoto(Context context) {
 		String jsonStr = JobViewerDBHandler.getJSONFlagObject(context);
-		boolean isStartedFromAddPhotos =  false;
-		if(Utils.isNullOrEmpty(jsonStr)){
+		boolean isStartedFromAddPhotos = false;
+		if (Utils.isNullOrEmpty(jsonStr)) {
 			jsonStr = "{}";
 		}
-		try{
+		try {
 			JSONObject flagJSON = new JSONObject(jsonStr);
-			if(flagJSON.has(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS)){
-				isStartedFromAddPhotos = flagJSON.getBoolean(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS);
+			if (flagJSON.has(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS)) {
+				isStartedFromAddPhotos = flagJSON
+						.getBoolean(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS);
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			isStartedFromAddPhotos = false;
 		}
 		return isStartedFromAddPhotos;
 	}
-	
-	public static long OVETTIME_ALERT_TOGGLE = 12*60*60*1000; //12 HOUR
-	public static long OVETTIME_ALERT_INTERVAL = 60*60*1000; //1HOUR
+
+	public static long OVETTIME_ALERT_TOGGLE = 12 * 60 * 60 * 1000; // 12 HOUR
+	public static long OVETTIME_ALERT_INTERVAL = 60 * 60 * 1000; // 1HOUR
 }

@@ -270,7 +270,16 @@ public class ActivityPageActivity extends BaseActivity implements
 						.getCheckOutRemember(mContext);
 				SurveyJson questionSet = JobViewerDBHandler
 						.getQuestionSet(mContext);
-				if (bundle != null
+				if ("true".equalsIgnoreCase(checkOutRemember
+						.getIsSavedOnAddPhotoScreen())) {
+					Intent addPhotoScreenIntent = new Intent(mContext,
+							AddPhotosActivity.class);
+					Bundle addPhotoScreenIntentBundle = new Bundle();
+					addPhotoScreenIntentBundle.putString(
+							Utils.CALLING_ACTIVITY,
+							ActivityConstants.ACTIVITY_PAGE_ACTIVITY);
+					startActivity(addPhotoScreenIntent);
+				} else if (bundle != null
 						&& bundle.containsKey(Utils.CALLING_ACTIVITY)
 						&& bundle.getString(Utils.CALLING_ACTIVITY)
 								.equalsIgnoreCase(
@@ -448,14 +457,19 @@ public class ActivityPageActivity extends BaseActivity implements
 					ActivityConstants.JOB_SELECTED_SHIFT)) {
 				JobViewerDBHandler.saveTimeSheet(this, Utils.timeSheetRequest,
 						CommsConstant.START_BREAK_API);
-				Utils.saveTimeSheetInBackLogTable(this, Utils.timeSheetRequest, CommsConstant.START_BREAK_API, "TimeSheetServiceRequests");
+				Utils.saveTimeSheetInBackLogTable(this, Utils.timeSheetRequest,
+						CommsConstant.START_BREAK_API,
+						"TimeSheetServiceRequests");
 				startEndBreakActivity();
 
 			} else {
 				JobViewerDBHandler.saveTimeSheet(this,
 						Utils.startTravelTimeRequest,
 						CommsConstant.START_TRAVEL_API);
-				Utils.saveTimeSheetInBackLogTable(this, Utils.startTravelTimeRequest, CommsConstant.START_TRAVEL_API, "TimeSheetServiceRequests");
+				Utils.saveTimeSheetInBackLogTable(this,
+						Utils.startTravelTimeRequest,
+						CommsConstant.START_TRAVEL_API,
+						"TimeSheetServiceRequests");
 				String time = new SimpleDateFormat("HH:mm:ss dd MMM yyyy")
 						.format(Calendar.getInstance().getTime());
 				insertStartTravelTimeRequestInDB();
@@ -588,48 +602,53 @@ public class ActivityPageActivity extends BaseActivity implements
 			intent.putExtra(Constants.OVERRIDE_TIME,
 					Utils.startTravelTimeRequest.getOverride_timestamp());
 		}
-		
+
 		startActivity(intent);
 	}
 
 	private void startEndBreakActivity() {
 		Intent intent = new Intent(this, EndBreakActivity.class);
 		intent.putExtra("eventType", "End Break");
-		intent.putExtra(Constants.OVERRIDE_TIME, Utils.timeSheetRequest.getOverride_timestamp());
-		intent.putExtra(Constants.IS_OVERRIDEN, Utils.timeSheetRequest.getIs_overriden());
+		intent.putExtra(Constants.OVERRIDE_TIME,
+				Utils.timeSheetRequest.getOverride_timestamp());
+		intent.putExtra(Constants.IS_OVERRIDEN,
+				Utils.timeSheetRequest.getIs_overriden());
 		intent.putExtra(Constants.TIME, Utils.timeSheetRequest.getStarted_at());
 		startActivity(intent);
 	}
 
 	private void executeStartBreakService() {
-		if(Utils.isInternetAvailable(mContext)){
-		ContentValues data = new ContentValues();
-		data.put("started_at", Utils.timeSheetRequest.getStarted_at());
-		data.put("record_for", Utils.timeSheetRequest.getRecord_for());
-		data.put("is_inactive", Utils.timeSheetRequest.getIs_inactive());
-		data.put("is_overriden", Utils.timeSheetRequest.getIs_overriden());
-		data.put("override_reason", Utils.timeSheetRequest.getOverride_reason());
-		data.put("override_comment",
-				Utils.timeSheetRequest.getOverride_comment());
-		data.put("override_timestamp",
-				Utils.timeSheetRequest.getOverride_timestamp());
-		data.put("reference_id", Utils.timeSheetRequest.getReference_id());
-		data.put("user_id", Utils.timeSheetRequest.getUser_id());
-		String time = "";
-		if (Utils.isNullOrEmpty(Utils.timeSheetRequest.getOverride_timestamp())) {
-			time = Utils.timeSheetRequest.getOverride_timestamp();
+		if (Utils.isInternetAvailable(mContext)) {
+			ContentValues data = new ContentValues();
+			data.put("started_at", Utils.timeSheetRequest.getStarted_at());
+			data.put("record_for", Utils.timeSheetRequest.getRecord_for());
+			data.put("is_inactive", Utils.timeSheetRequest.getIs_inactive());
+			data.put("is_overriden", Utils.timeSheetRequest.getIs_overriden());
+			data.put("override_reason",
+					Utils.timeSheetRequest.getOverride_reason());
+			data.put("override_comment",
+					Utils.timeSheetRequest.getOverride_comment());
+			data.put("override_timestamp",
+					Utils.timeSheetRequest.getOverride_timestamp());
+			data.put("reference_id", Utils.timeSheetRequest.getReference_id());
+			data.put("user_id", Utils.timeSheetRequest.getUser_id());
+			String time = "";
+			if (Utils.isNullOrEmpty(Utils.timeSheetRequest
+					.getOverride_timestamp())) {
+				time = Utils.timeSheetRequest.getOverride_timestamp();
+			} else {
+				time = Utils.timeSheetRequest.getStarted_at();
+			}
+			Log.d(Utils.LOG_TAG,
+					"executeStartBreakService "
+							+ GsonConverter.getInstance().encodeToJsonString(
+									Utils.timeSheetRequest));
+			Utils.SendHTTPRequest(this, CommsConstant.HOST
+					+ CommsConstant.START_BREAK_API, data,
+					getStartBreakHandler(time));
 		} else {
-			time = Utils.timeSheetRequest.getStarted_at();
-		}
-		Log.d(Utils.LOG_TAG,
-				"executeStartBreakService "
-						+ GsonConverter.getInstance().encodeToJsonString(
-								Utils.timeSheetRequest));
-		Utils.SendHTTPRequest(this, CommsConstant.HOST
-				+ CommsConstant.START_BREAK_API, data,
-				getStartBreakHandler(time));
-		}else{
-			Utils.saveTimeSheetInBackLogTable(mContext, Utils.timeSheetRequest, CommsConstant.START_BREAK_API, "TimeSheetServiceRequests");
+			Utils.saveTimeSheetInBackLogTable(mContext, Utils.timeSheetRequest,
+					CommsConstant.START_BREAK_API, "TimeSheetServiceRequests");
 		}
 
 	}
@@ -693,20 +712,21 @@ public class ActivityPageActivity extends BaseActivity implements
 	public void onConfirmStartTraining() {
 		if (ConfirmDialog.eventType.contains(Constants.END_TRAINING)) {
 			sendEndTraining();
-		}
-		else if (ConfirmDialog.eventType.contains(ActivityConstants.LEAVE_WORK_CONFIMRATION)) {
+		} else if (ConfirmDialog.eventType
+				.contains(ActivityConstants.LEAVE_WORK_CONFIMRATION)) {
 			sendLeaveWorkToServer();
 		}
 	}
 
 	private void sendLeaveWorkToServer() {
 		GPSTracker gpsTracker = new GPSTracker(mContext);
-		if(Utils.isInternetAvailable(this)){
+		if (Utils.isInternetAvailable(this)) {
 			Utils.startProgress(mContext);
-			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(mContext);
-			//User userProfile = JobViewerDBHandler.getUserProfile(mContext);
+			CheckOutObject checkOutRemember = JobViewerDBHandler
+					.getCheckOutRemember(mContext);
+			// User userProfile = JobViewerDBHandler.getUserProfile(mContext);
 			ContentValues values = new ContentValues();
-			values.put("started_at", checkOutRemember.getJobStartedTime());		
+			values.put("started_at", checkOutRemember.getJobStartedTime());
 			values.put("reference_id", checkOutRemember.getVistecId());
 			values.put("engineer_id", Utils.work_engineer_id);
 			values.put("status", Utils.work_status_stopped);
@@ -717,20 +737,22 @@ public class ActivityPageActivity extends BaseActivity implements
 			values.put("is_redline_captured", "false");
 			values.put("location_latitude", gpsTracker.getLatitude());
 			values.put("location_longitude", gpsTracker.getLongitude());
-			Utils.work_id = JobViewerDBHandler.getCheckOutRemember(mContext).getWorkId();
+			Utils.work_id = JobViewerDBHandler.getCheckOutRemember(mContext)
+					.getWorkId();
 			Utils.SendHTTPRequest(mContext, CommsConstant.HOST
-					+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, values,
-					getLeaveWorkHandler());
-		} else{
+					+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id,
+					values, getLeaveWorkHandler());
+		} else {
 			saveUpdateWorkInBackLogDb();
 		}
-		
-		/*JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(mContext);
-		Utils.StopProgress();
-		Intent intent = new Intent(mContext,ActivityPageActivity.class);
-		finish();
-		startActivity(intent);*/
-		
+
+		/*
+		 * JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(mContext);
+		 * Utils.StopProgress(); Intent intent = new
+		 * Intent(mContext,ActivityPageActivity.class); finish();
+		 * startActivity(intent);
+		 */
+
 	}
 
 	private Handler getLeaveWorkHandler() {
@@ -741,12 +763,14 @@ public class ActivityPageActivity extends BaseActivity implements
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
 					removeConfinedSpaceAsessementStartedTime(ActivityPageActivity.this);
-					JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(mContext);
+					JobViewerDBHandler
+							.deleteWorkWithNoPhotosQuestionSet(mContext);
 					Utils.StopProgress();
-					Intent intent = new Intent(mContext,ActivityPageActivity.class);
+					Intent intent = new Intent(mContext,
+							ActivityPageActivity.class);
 					finish();
 					startActivity(intent);
-					
+
 					break;
 				case HttpConnection.DID_ERROR:
 					Utils.StopProgress();
@@ -763,11 +787,11 @@ public class ActivityPageActivity extends BaseActivity implements
 		};
 		return handler;
 	}
+
 	private void saveUpdateWorkInBackLogDb() {
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getApplicationContext());
-		User userProfile = JobViewerDBHandler
-				.getUserProfile(mContext);
+		User userProfile = JobViewerDBHandler.getUserProfile(mContext);
 		WorkRequest workRequest = new WorkRequest();
 		workRequest.setStarted_at(checkOutRemember.getJobStartedTime());
 		Utils.lastest_work_started_at = Utils.getCurrentDateAndTime();
@@ -788,15 +812,18 @@ public class ActivityPageActivity extends BaseActivity implements
 		workRequest.setLocation_longitude("" + tracker.getLongitude());
 		workRequest.setCreated_by(userProfile.getEmail());
 		BackLogRequest backLogRequest = new BackLogRequest();
-		backLogRequest.setRequestApi(CommsConstant.WORK_UPDATE_API+"/"+Utils.work_id);
+		backLogRequest.setRequestApi(CommsConstant.WORK_UPDATE_API + "/"
+				+ Utils.work_id);
 		backLogRequest.setRequestClassName("WorkRequest");
-		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(workRequest));
+		backLogRequest.setRequestJson(GsonConverter.getInstance()
+				.encodeToJsonString(workRequest));
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(context, backLogRequest);
 		removeConfinedSpaceAsessementStartedTime(ActivityPageActivity.this);
 	}
+
 	private void sendEndTraining() {
-		
+
 		Utils.startProgress(mContext);
 		ContentValues values = new ContentValues();
 		values.put("started_at", Utils.getCurrentDateAndTime());
@@ -815,12 +842,12 @@ public class ActivityPageActivity extends BaseActivity implements
 			values.put("reference_id", checkOutRemember.getVistecId());
 		}
 		values.put("user_id", userProfile.getEmail());
-		if(Utils.isInternetAvailable(mContext)){
+		if (Utils.isInternetAvailable(mContext)) {
 			Utils.SendHTTPRequest(mContext, CommsConstant.HOST
 					+ CommsConstant.END_TRAINING_API, values,
 					getTrainingEndHandler());
 		} else {
-			
+
 			TimeSheetRequest endTrainingTimeSheetRequest = new TimeSheetRequest();
 			endTrainingTimeSheetRequest.setIs_inactive("false");
 			endTrainingTimeSheetRequest.setIs_overriden("false");
@@ -829,10 +856,13 @@ public class ActivityPageActivity extends BaseActivity implements
 			endTrainingTimeSheetRequest.setOverride_timestamp("");
 			endTrainingTimeSheetRequest.setRecord_for(userProfile.getEmail());
 			endTrainingTimeSheetRequest.setReference_id(userProfile.getEmail());
-			endTrainingTimeSheetRequest.setStarted_at(Utils.getCurrentDateAndTime());
+			endTrainingTimeSheetRequest.setStarted_at(Utils
+					.getCurrentDateAndTime());
 			endTrainingTimeSheetRequest.setUser_id(userProfile.getEmail());
-			Utils.saveTimeSheetInBackLogTable(mContext, endTrainingTimeSheetRequest, CommsConstant.HOST
-					+ CommsConstant.END_TRAINING_API, "TimeSheetServiceRequests");
+			Utils.saveTimeSheetInBackLogTable(mContext,
+					endTrainingTimeSheetRequest, CommsConstant.HOST
+							+ CommsConstant.END_TRAINING_API,
+					"TimeSheetServiceRequests");
 			Utils.StopProgress();
 			JobViewerDBHandler.deleteStartTraining(mContext);
 			mStart.setText("Start...");
@@ -881,26 +911,32 @@ public class ActivityPageActivity extends BaseActivity implements
 	}
 
 	private void executeStartTravelService() {
-		if(Utils.isInternetAvailable(mContext)){
+		if (Utils.isInternetAvailable(mContext)) {
 			ContentValues data = new ContentValues();
 			data.put("started_at", Utils.startTravelTimeRequest.getStarted_at());
 			data.put("record_for", Utils.startTravelTimeRequest.getRecord_for());
-			data.put("is_inactive", Utils.startTravelTimeRequest.getIs_inactive());
-			data.put("is_overriden", Utils.startTravelTimeRequest.getIs_overriden());
+			data.put("is_inactive",
+					Utils.startTravelTimeRequest.getIs_inactive());
+			data.put("is_overriden",
+					Utils.startTravelTimeRequest.getIs_overriden());
 			data.put("override_reason",
 					Utils.startTravelTimeRequest.getOverride_reason());
 			data.put("override_comment",
 					Utils.startTravelTimeRequest.getOverride_comment());
 			data.put("override_timestamp",
 					Utils.startTravelTimeRequest.getOverride_timestamp());
-			data.put("reference_id", Utils.startTravelTimeRequest.getReference_id());
+			data.put("reference_id",
+					Utils.startTravelTimeRequest.getReference_id());
 			data.put("user_id", Utils.startTravelTimeRequest.getUser_id());
 			Utils.startProgress(this);
 			Utils.SendHTTPRequest(this, CommsConstant.HOST
-					+ CommsConstant.START_TRAVEL_API, data, getStartTravelHandler());
-		} else{
+					+ CommsConstant.START_TRAVEL_API, data,
+					getStartTravelHandler());
+		} else {
 			insertStartTravelTimeRequestInDB();
-			Utils.saveTimeSheetInBackLogTable(mContext, Utils.startTravelTimeRequest, CommsConstant.START_TRAVEL_API, "TimeSheetServiceRequests");
+			Utils.saveTimeSheetInBackLogTable(mContext,
+					Utils.startTravelTimeRequest,
+					CommsConstant.START_TRAVEL_API, "TimeSheetServiceRequests");
 		}
 
 	}
@@ -975,7 +1011,7 @@ public class ActivityPageActivity extends BaseActivity implements
 			return true;
 		case 2:
 			ConfirmDialog confirmDialog = new ConfirmDialog(mContext, this,
-					ActivityConstants.LEAVE_WORK_CONFIMRATION);			
+					ActivityConstants.LEAVE_WORK_CONFIMRATION);
 			confirmDialog.show();
 
 			return true;
@@ -988,50 +1024,60 @@ public class ActivityPageActivity extends BaseActivity implements
 		}
 	}
 
-	private void insertStartTravelTimeRequestInDB(){
-		String timeToStore = Utils.getMillisFromFormattedDate(Utils.startTravelTimeRequest.getStarted_at());
-		if(Utils.startTravelTimeRequest.getIs_overriden().equalsIgnoreCase(ActivityConstants.TRUE))
-			timeToStore = Utils.getMillisFromFormattedDate(Utils.startTravelTimeRequest.getOverride_timestamp());
-		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(ActivityPageActivity.this);
+	private void insertStartTravelTimeRequestInDB() {
+		String timeToStore = Utils
+				.getMillisFromFormattedDate(Utils.startTravelTimeRequest
+						.getStarted_at());
+		if (Utils.startTravelTimeRequest.getIs_overriden().equalsIgnoreCase(
+				ActivityConstants.TRUE))
+			timeToStore = Utils
+					.getMillisFromFormattedDate(Utils.startTravelTimeRequest
+							.getOverride_timestamp());
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler
+				.getBreakShiftTravelCall(ActivityPageActivity.this);
 		breakShiftTravelCall.setTravelStarted(Constants.YES_CONSTANT);
 		breakShiftTravelCall.setTravelStartedTime(timeToStore);
-		JobViewerDBHandler.saveBreakShiftTravelCall(ActivityPageActivity.this, breakShiftTravelCall);
-		
+		JobViewerDBHandler.saveBreakShiftTravelCall(ActivityPageActivity.this,
+				breakShiftTravelCall);
+
 	}
-	
-	private void insertConfinedSpaceEntryStartedTime(){
+
+	private void insertConfinedSpaceEntryStartedTime() {
 		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
-		if(Utils.isNullOrEmpty(str)){
+		if (Utils.isNullOrEmpty(str)) {
 			str = "{}";
 		}
-		try{
+		try {
 			JSONObject jsonObject = new JSONObject(str);
-			if(jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)){
+			if (jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)) {
 				jsonObject.remove(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME);
 			}
-			
-			jsonObject.put(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME, Utils.getCurrentDateAndTime());
+
+			jsonObject.put(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME,
+					Utils.getCurrentDateAndTime());
 			String jsonString = jsonObject.toString();
-			JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(), jsonString);
-		}catch(Exception e){
-			
+			JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(),
+					jsonString);
+		} catch (Exception e) {
+
 		}
 	}
-	private void removeConfinedSpaceAsessementStartedTime(Context mContext){
+
+	private void removeConfinedSpaceAsessementStartedTime(Context mContext) {
 		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
-		if(Utils.isNullOrEmpty(str)){
+		if (Utils.isNullOrEmpty(str)) {
 			str = "{}";
 		}
-		try{
+		try {
 			JSONObject jsonObject = new JSONObject(str);
-			if(jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)){
+			if (jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)) {
 				jsonObject.remove(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME);
 				String jsonString = jsonObject.toString();
 				JobViewerDBHandler.saveFlaginJSONObject(this, jsonString);
 			}
-			
-		}catch(Exception e){
-			
+
+		} catch (Exception e) {
+
 		}
 	}
 }

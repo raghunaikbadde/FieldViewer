@@ -55,8 +55,8 @@ import com.vehicle.communicator.HttpConnection;
 public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
 	private TextView mVistecNumber;
-	private ImageButton mClickPhoto,
-			mCaptureCallingCard, mUpdateRiskActivity,mConfinedSpaceRiskActivity;
+	private ImageButton mClickPhoto, mCaptureCallingCard, mUpdateRiskActivity,
+			mConfinedSpaceRiskActivity;
 	private Button mSave, mLeaveSite;
 	private ListView mListView;
 	private ArrayList<HashMap<String, Object>> mPhotoList;
@@ -67,7 +67,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	private Context mContext;
 	static File file;
 	public static ArrayList<WorkPhotoUpload> arrayListOfWokImagesUpload = new ArrayList<WorkPhotoUpload>();
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -101,7 +101,6 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mSave.setOnClickListener(this);
 		mCaptureCallingCard.setOnClickListener(this);
 
-		
 		List<ImageObject> imageObjects = JobViewerDBHandler
 				.getAllAddCardSavedImages(mContext);
 		for (ImageObject imageObject : imageObjects) {
@@ -113,7 +112,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
 		mAdapter = new AddPhotosAdapter(mContext, photosArrays, photosTimeStamp);
 		mListView.setAdapter(mAdapter);
-		
+
 		if (photosArrays.size() >= 4) {
 			enableLeaveSiteButton(true);
 		} else {
@@ -125,7 +124,9 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View view) {
 		if (view == mSave) {
 			for (ImageObject imageObjectToSave : imageObjects) {
-				if(imageObjectToSave == null || Utils.isNullOrEmpty(imageObjectToSave.getImage_string())){
+				if (imageObjectToSave == null
+						|| Utils.isNullOrEmpty(imageObjectToSave
+								.getImage_string())) {
 					continue;
 				}
 				JobViewerDBHandler.saveAddPhotoImage(mContext,
@@ -137,25 +138,29 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			intent.putExtra(Utils.SHOULD_SHOW_WORK_IN_PROGRESS, true);
 			intent.putExtra(Utils.CALLING_ACTIVITY,
 					ActivityConstants.ADD_PHOTOS_ACTIVITY);
+			CheckOutObject checkOutRemember = JobViewerDBHandler
+					.getCheckOutRemember(mContext);
+			checkOutRemember.setIsSavedOnAddPhotoScreen("true");
+			JobViewerDBHandler.saveCheckOutRemember(mContext, checkOutRemember);
 			startActivity(intent);
 
-		} else if (view == mUpdateRiskActivity) {			
+		} else if (view == mUpdateRiskActivity) {
 			Intent intent = new Intent(view.getContext(),
 					UpdateRiskAssessmentActivity.class);
 			startActivity(intent);
 		} else if (view == mLeaveSite) {
 			Utils.startProgress(mContext);
-						
-			for(ImageObject imageObject : imageObjects){
-				JobViewerDBHandler.saveAddPhotoImage(AddPhotosActivity.this, imageObject);
+
+			for (ImageObject imageObject : imageObjects) {
+				JobViewerDBHandler.saveAddPhotoImage(AddPhotosActivity.this,
+						imageObject);
 			}
-			
-			if(sendWorkUploadImagesToServer()){
+
+			if (sendWorkUploadImagesToServer()) {
 				Utils.StopProgress();
-				showWorkCompleteFragemnt();	
+				showWorkCompleteFragemnt();
 			}
-			
-			
+
 		} else if (view == mClickPhoto || view == mCaptureCallingCard) {
 			if (view == mCaptureCallingCard) {
 				Toast.makeText(
@@ -173,28 +178,31 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 					com.jobviewer.util.Constants.RESULT_CODE);
 			// Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);
 			// startActivityForResult(intent, Constants.RESULT_CODE);
-		} else if(view == mConfinedSpaceRiskActivity){
+		} else if (view == mConfinedSpaceRiskActivity) {
 			finish();
-			
-			Intent confinedWorkintent = new Intent(AddPhotosActivity.this,ConfinedAssessmentQuestionsActivity.class);
+
+			Intent confinedWorkintent = new Intent(AddPhotosActivity.this,
+					ConfinedAssessmentQuestionsActivity.class);
 			setFlagConfinedStartedFromAddPhotos();
-        	confinedWorkintent.putExtra(Constants.CALLING_ACTIVITY, AddPhotosActivity.this.getClass().getSimpleName());
-        	startActivity(confinedWorkintent);
+			confinedWorkintent.putExtra(Constants.CALLING_ACTIVITY,
+					AddPhotosActivity.this.getClass().getSimpleName());
+			startActivity(confinedWorkintent);
 		}
 	}
 
 	private boolean sendWorkUploadImagesToServer() {
 		int count = 0;
 		for (WorkPhotoUpload workPhotoToUpload : arrayListOfWokImagesUpload) {
-			
-			sendDetailsOrSaveCapturedImageInBacklogDb(workPhotoToUpload.getImage_id(),imageObjects.get(count));
+
+			sendDetailsOrSaveCapturedImageInBacklogDb(
+					workPhotoToUpload.getImage_id(), imageObjects.get(count));
 			count++;
 		}
 		return true;
 	}
 
 	private void showWorkCompleteFragemnt() {
-		
+
 		getFragmentManager().beginTransaction()
 				.add(android.R.id.content, new WorkCompleteFragment()).commit();
 	}
@@ -203,10 +211,10 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 500 && resultCode == RESULT_OK) {
 			Bitmap photo = null;
-			try{
+			try {
 				photo = Utils.decodeSampledBitmapFromFile(
-					file.getAbsolutePath(), 1000, 700);
-			}catch(OutOfMemoryError oome){
+						file.getAbsolutePath(), 1000, 700);
+			} catch (OutOfMemoryError oome) {
 				photo = Utils.decodeSampledBitmapFromFile(
 						file.getAbsolutePath(), 100, 70);
 			}
@@ -233,27 +241,29 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			geoLocation = Utils.getGeoLocationString(this);
 			String base64 = "";
-			try{
+			try {
 				base64 = Utils.bitmapToBase64String(rotateBitmap);
 				Log.d(Utils.LOG_TAG, "base 64 captured first time");
-			}catch(OutOfMemoryError oome){
-				try{
-				 	ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-				 	rotateBitmap.compress(Bitmap.CompressFormat.JPEG,10, baos);
-	                byte[] b =baos.toByteArray();
-	                base64=Base64.encodeToString(b, Base64.DEFAULT);
-	                Log.e(Utils.LOG_TAG, "Out of memory error catched");
-				}catch(OutOfMemoryError oomme){
-					Log.e(Utils.LOG_TAG, "Out of memory error catched seocnd time");
+			} catch (OutOfMemoryError oome) {
+				try {
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					rotateBitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+					byte[] b = baos.toByteArray();
+					base64 = Base64.encodeToString(b, Base64.DEFAULT);
+					Log.e(Utils.LOG_TAG, "Out of memory error catched");
+				} catch (OutOfMemoryError oomme) {
+					Log.e(Utils.LOG_TAG,
+							"Out of memory error catched seocnd time");
 				}
 			}
 			photosArrays.add(Utils.getbyteArrayFromBase64String(base64));
 			photosTimeStamp.add(formatDate + "," + geoLocation);
-			Log.d(Utils.LOG_TAG, "Add photo activity no. of photos "+mPhotoList.size());
-			
+			Log.d(Utils.LOG_TAG, "Add photo activity no. of photos "
+					+ mPhotoList.size());
+
 			mAdapter.notifyDataSetChanged();
 			if (photosArrays.size() >= 4) {
 				enableLeaveSiteButton(true);
@@ -264,7 +274,8 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			imageObject.setCategory("work");
 			imageObject.setImage_exif(formatDate + "," + geoLocation);
 			imageObject.setImage_string(base64);
-			Log.i("Android", "Image 7 :"+imageObject.getImage_string().substring(0, 50));
+			Log.i("Android", "Image 7 :"
+					+ imageObject.getImage_string().substring(0, 50));
 			imageObjects.add(imageObject);
 			WorkPhotoUpload workPhotoUpload = new WorkPhotoUpload();
 			workPhotoUpload.setImage_id(imageObject.getImageId());
@@ -286,34 +297,37 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
 	}
 
-	private void sendDetailsOrSaveCapturedImageInBacklogDb(String imageId, ImageObject imageObject) {
-		
+	private void sendDetailsOrSaveCapturedImageInBacklogDb(String imageId,
+			ImageObject imageObject) {
+
 		if (Utils.isInternetAvailable(this)) {
-			sendWorkImageToServer(imageId,imageObject);
+			sendWorkImageToServer(imageId, imageObject);
 		} else {
 			Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this, imageObject);
 			JobViewerDBHandler.saveImage(mContext, imageObject);
 		}
 	}
 
-	private void sendWorkImageToServer(String imageId,ImageObject imageObject) {
+	private void sendWorkImageToServer(String imageId, ImageObject imageObject) {
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageId);
-		Log.d(Utils.LOG_TAG,"Add Photos WORK PHOTO UPLOAD temp id"+imageObject.getImageId());
+		Log.d(Utils.LOG_TAG, "Add Photos WORK PHOTO UPLOAD temp id"
+				+ imageObject.getImageId());
 
 		Utils.SendHTTPRequest(AddPhotosActivity.this, CommsConstant.HOST
 				+ CommsConstant.WORK_PHOTO_UPLOAD + "/" + Utils.work_id, data,
-				getSendWorkImageHandler(imageId,imageObject));
+				getSendWorkImageHandler(imageId, imageObject));
 
 	}
-	
-	private Handler getSendWorkImageHandler(final String imageId,final ImageObject imageObject) {
+
+	private Handler getSendWorkImageHandler(final String imageId,
+			final ImageObject imageObject) {
 		Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-					sendWorkImageToServer(imageObject);					
+					sendWorkImageToServer(imageObject);
 					break;
 				case HttpConnection.DID_ERROR:
 					String error = (String) msg.obj;
@@ -322,7 +336,8 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 							.decodeFromJsonString(error, VehicleException.class);
 					ExceptionHandler.showException(AddPhotosActivity.this,
 							exception, "Info");
-					Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this, imageObject);
+					Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this,
+							imageObject);
 					break;
 				default:
 					break;
@@ -337,8 +352,9 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		ArrayList<HashMap<String, Object>> hashMapOfCapturedIamges;
 		ArrayList<byte[]> photosArrays;
 		ArrayList<String> photosTimeStamp;
-		public AddPhotosAdapter(Context mContext,
-				ArrayList<byte[]> photos, ArrayList<String> timeStamps) {
+
+		public AddPhotosAdapter(Context mContext, ArrayList<byte[]> photos,
+				ArrayList<String> timeStamps) {
 			this.mContext = mContext;
 			this.photosArrays = photos;
 			this.photosTimeStamp = timeStamps;
@@ -367,16 +383,22 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 						R.layout.add_photo_list, null);
 				ViewHolder vh = new ViewHolder(convertView);
 				vh.dateTime.setText(photosTimeStamp.get(position));
-				Glide.with(mContext).load(photosArrays.get(position)).asBitmap().into(vh.imageView);
-				/*vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
-						.get(position).get("photo"));*/
+				Glide.with(mContext).load(photosArrays.get(position))
+						.asBitmap().into(vh.imageView);
+				/*
+				 * vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
+				 * .get(position).get("photo"));
+				 */
 				convertView.setTag(vh);
 			} else {
 				ViewHolder vh = (ViewHolder) convertView.getTag();
 				vh.dateTime.setText(photosTimeStamp.get(position));
-				Glide.with(mContext).load(photosArrays.get(position)).asBitmap().into(vh.imageView);
-				/*vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
-						.get(position).get("photo"));*/
+				Glide.with(mContext).load(photosArrays.get(position))
+						.asBitmap().into(vh.imageView);
+				/*
+				 * vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
+				 * .get(position).get("photo"));
+				 */
 				convertView.setTag(vh);
 			}
 
@@ -395,50 +417,54 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			}
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 
 		Utils.startProgress(this);
 		for (ImageObject imageObjectToSave : imageObjects) {
-			if(imageObjectToSave == null || Utils.isNullOrEmpty(imageObjectToSave.getImage_string())){
+			if (imageObjectToSave == null
+					|| Utils.isNullOrEmpty(imageObjectToSave.getImage_string())) {
 				continue;
 			}
-			JobViewerDBHandler.saveAddPhotoImage(mContext,
-					imageObjectToSave);
+			JobViewerDBHandler.saveAddPhotoImage(mContext, imageObjectToSave);
 		}
-		
+
 		Intent intent = new Intent(this, ActivityPageActivity.class);
 		intent.putExtra(Utils.SHOULD_SHOW_WORK_IN_PROGRESS, true);
 		intent.putExtra(Utils.CALLING_ACTIVITY,
 				ActivityConstants.ADD_PHOTOS_ACTIVITY);
 		Utils.StopProgress();
-		startActivity(intent);		
+		startActivity(intent);
 	}
-	
-	private void setFlagConfinedStartedFromAddPhotos(){
+
+	private void setFlagConfinedStartedFromAddPhotos() {
 		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
-		if(Utils.isNullOrEmpty(str)){
+		if (Utils.isNullOrEmpty(str)) {
 			str = "{}";
 		}
-		try{
+		try {
 			JSONObject jsonObject = new JSONObject(str);
-			if(jsonObject.has(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS)){
-				jsonObject.remove(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS);
+			if (jsonObject.has(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS)) {
+				jsonObject
+						.remove(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS);
 			}
-			
-			jsonObject.put(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS, true);
+
+			jsonObject.put(Constants.FLAG_CONFINED_STARTED_FROM_ADD_PHOTOS,
+					true);
 			String jsonString = jsonObject.toString();
-			JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(), jsonString);
-		}catch(Exception e){
-			
-		}		
+			JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(),
+					jsonString);
+		} catch (Exception e) {
+
+		}
 	}
-	
+
 	private synchronized void sendWorkImageToServer(ImageObject imageObject) {
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageObject.getImageId());
-		Log.d(Utils.LOG_TAG,"Add Photos Image Temp Id"+imageObject.getImageId());
+		Log.d(Utils.LOG_TAG,
+				"Add Photos Image Temp Id" + imageObject.getImageId());
 		data.put("category", "works");
 		data.put("image_string",
 				Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
@@ -449,22 +475,24 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 				getSendWorkImageHandler(imageObject));
 
 	}
+
 	private Handler getSendWorkImageHandler(final ImageObject imageObject) {
 		Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-					
+
 					break;
 				case HttpConnection.DID_ERROR:
 					Utils.StopProgress();
 					String error = (String) msg.obj;
 					VehicleException exception = GsonConverter
 							.getInstance()
-							.decodeFromJsonString(error, VehicleException.class);					
-					Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this, imageObject);
-					//saveVistecImageInBackLogDb();
+							.decodeFromJsonString(error, VehicleException.class);
+					Utils.saveWorkImageInBackLogDb(AddPhotosActivity.this,
+							imageObject);
+					// saveVistecImageInBackLogDb();
 					break;
 				default:
 					break;

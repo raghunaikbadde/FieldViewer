@@ -26,16 +26,13 @@ import com.jobviewer.exception.VehicleException;
 import com.jobviewer.nophotos.WorkWithNoPhotosQuestionManager;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
-import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
-import com.lanesgroup.jobviewer.NewWorkActivity;
 import com.lanesgroup.jobviewer.R;
-import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
 import com.raghu.ShoutOutBackLogRequest;
 import com.vehicle.communicator.HttpConnection;
 
@@ -121,7 +118,7 @@ public class NoPhotosAssessmentCompleteFragment extends Fragment implements
 
 			values.put("created_by", userProfile.getEmail());
 			
-			GPSTracker gpsTracker = new GPSTracker(getActivity());
+			//GPSTracker gpsTracker = new GPSTracker(getActivity());
 			
 			
 			String encodeToJsonString = GsonConverter.getInstance()
