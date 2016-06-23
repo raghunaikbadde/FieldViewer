@@ -418,9 +418,14 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 			if(checkOutRemember.getJobSelected().contains("shift")){
 				mOverrideStartTime.setText(Utils.endShiftRequest
 						.getOverride_timestamp() + " (User)");
-			}else
+				mEndTime.append(" (System)");
+				mEndTime.setTextColor(this.getResources().getColor(R.color.grey));
+			}else{
 				mOverrideStartTime.setText(Utils.callEndTimeRequest
 					.getOverride_timestamp() + " (User)");
+				mEndTime.append(" (System)");
+				mEndTime.setTextColor(this.getResources().getColor(R.color.grey));
+			}
 			
 
 		}

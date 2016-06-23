@@ -89,7 +89,7 @@ public class EndTravelActivity extends BaseActivity implements
 				mTravelTime.setText(actualTravelStartTime + " (System)");
 				mOverrideText.setVisibility(View.VISIBLE);
 				mOverrideText.setText(overrrideTime + " (User)");
-
+				mTravelTime.setTextColor(this.getResources().getColor(R.color.light_grey));
 			} catch (JSONException jse) {
 
 			}
@@ -102,6 +102,7 @@ public class EndTravelActivity extends BaseActivity implements
 				mOverrideText.setVisibility(View.VISIBLE);
 				mTravelTime.setText(actualTravelStartTime + " (System)");
 				mOverrideText.setText(overtime + " (User)");
+				mTravelTime.setTextColor(this.getResources().getColor(R.color.grey));
 				saveOverrideAndActualTravelStartTimeInFlagDB(
 						actualTravelStartTime, overtime, ActivityConstants.TRUE);
 			} else {

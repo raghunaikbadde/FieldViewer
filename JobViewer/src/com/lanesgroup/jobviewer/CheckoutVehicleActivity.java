@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
+import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
@@ -123,6 +124,12 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 
 					}
 				});
+		CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(this);
+		if(!Utils.isNullOrEmpty(checkOutRemember.getVehicleRegistration())){
+			mRegistration.setText(checkOutRemember.getVehicleRegistration());
+			mMileage.requestFocus();
+		}
+		
 	}
 
 	private void enableNextAction() {

@@ -131,6 +131,7 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 						.getString(Constants.OVERRIDE_BREAK_START_TIME_FLAG_JSON);
 				overriddenBreakStartTime.setVisibility(View.VISIBLE);
 				overriddenBreakStartTime.setText(overiddenTime + " (User)");
+				mBreakTime.setTextColor(this.getResources().getColor(R.color.grey));
 			}
 
 		} catch (JSONException jse) {

@@ -93,7 +93,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		mMileage = (TextView) findViewById(R.id.mileage_text);
 		mProgress.setMax(8);
 		mProgress.setProgress(7);
-		mShiftStartTime.setText(Utils.getCurrentDateAndTime() + " (System)");
+		mShiftStartTime.setText(Utils.getCurrentDateAndTime() + " (System)");		
 		Utils.checkOutObject.setJobStartedTime(Utils.getCurrentDateAndTime());
 		User userProfile = JobViewerDBHandler.getUserProfile(this);
 
@@ -430,15 +430,18 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 			if (Utils.SHIFT_START.equalsIgnoreCase(eventType1)) {
 				mOverrideStartTime.setText(Utils.startShiftTimeRequest
 						.getOverride_timestamp() + " (User)");
+				mShiftStartTime.setTextColor(this.getResources().getColor(R.color.grey));
 			} else {
 				mOverrideStartTime.setText(Utils.callStartTimeRequest
 						.getOverride_timestamp() + " (User)");
+				mShiftStartTime.setTextColor(this.getResources().getColor(R.color.grey));
 			}
 
 		} else if (requestCode == Constants.RESULT_CODE_CLOCK_IN
 				&& resultCode == RESULT_OK) {
 			String time = data.getExtras().get(Constants.TIME).toString();
 			mOverrideStartTime.setVisibility(View.VISIBLE);
+			mShiftStartTime.setTextColor(this.getResources().getColor(R.color.grey));
 			mOverrideStartTime.setText(time + " (User)");
 		}
 	}
