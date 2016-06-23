@@ -22,7 +22,7 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 	private TextView mHeading;
 	private LinearLayout mHoursCalculationLayout, mShiftCompleteThankYouLayout;
 	private TextView mNumberOfBreaks, mShiftHours, mWorkHours, mNumberOfWork;
-
+	private final String CALLING_ACTIVITY = "callingActivity";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -123,9 +123,9 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 			Intent intent;
 			intent = new Intent(ShiftOrCallEndActivity.this,
 					ClockInConfirmationActivity.class);
+			intent.putExtra(CALLING_ACTIVITY, "WelcomeActivity");
 			Utils.callStartTimeRequest = new TimeSheetRequest();
-			intent.putExtra(Utils.CALLING_ACTIVITY, ShiftOrCallEndActivity.this
-					.getClass().getSimpleName());
+			intent.putExtra(Utils.CALLING_ACTIVITY, "WelcomeActivity");
 			Utils.checkOutObject
 					.setJobSelected(ActivityConstants.JOB_SELECTED_ON_CALL);
 			JobViewerDBHandler.saveCheckOutRemember(ShiftOrCallEndActivity.this,
