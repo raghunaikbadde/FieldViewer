@@ -2,6 +2,7 @@ package com.jobviewer.util;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -46,6 +47,7 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		mHeader.setText(Constants.END_TRAINING_HEADER);
 		mMessage = (TextView) findViewById(R.id.cofirmation_msg_text);
 		String vistecId = "";
+		getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		CheckOutObject checkOutObject = JobViewerDBHandler
 				.getCheckOutRemember(context);
 		if (checkOutObject != null
