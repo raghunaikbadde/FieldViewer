@@ -90,6 +90,7 @@ public class Utils {
 	public static final String CALL_START = "CALL_START";
 	public static final String SHIFT_END = "SHIFT_END";
 	public static final String END_CALL = "END_CALL";
+	public static final String TITLE_FLAG = "titleFlag";
 
 	public static final String REQUEST_TYPE_WORK = "WORK";
 	public static final String REQUEST_TYPE_UPLOAD = "UPLOAD";
@@ -455,7 +456,7 @@ public class Utils {
 	public static void startNotification(Context context) {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 				context);
-		mBuilder.setContentTitle("FieldViewer is running");
+		mBuilder.setContentTitle("Job Viewer is running");
 		mBuilder.setContentText("Data can be sent to the Lanes office");
 		// mBuilder.setTicker("Explicit: New Message Received!");
 		mBuilder.setSmallIcon(R.drawable.ic_launcher);

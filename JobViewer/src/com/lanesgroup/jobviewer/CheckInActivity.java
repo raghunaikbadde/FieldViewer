@@ -29,11 +29,11 @@ import com.vehicle.communicator.HttpConnection;
 
 public class CheckInActivity extends BaseActivity implements
 		View.OnClickListener {
-	ProgressBar progressBar;
-	TextView vehicle_registration_text_value;
-	EditText enter_mileage_edittext;
-	Button cancel_button, next_button;
-	CheckOutObject checkOutRemember;
+	private ProgressBar progressBar;
+	private TextView vehicle_registration_text_value;
+	private EditText enter_mileage_edittext;
+	private Button cancel_button, next_button;
+	private CheckOutObject checkOutRemember;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class CheckInActivity extends BaseActivity implements
 
 			}
 		});
-		
+
 		next_button.setOnClickListener(this);
 	}
 
@@ -127,7 +127,8 @@ public class CheckInActivity extends BaseActivity implements
 		data.put("registration", checkOutRemember.getVehicleRegistration());
 		data.put("mileage", enter_mileage_edittext.getText().toString());
 		data.put("user_id", userProfile.getEmail());
-		Log.d(Utils.LOG_TAG, "executeCheckInService : "+GsonConverter.getInstance().encodeToJsonString(data));
+		Log.d(Utils.LOG_TAG, "executeCheckInService : "
+				+ GsonConverter.getInstance().encodeToJsonString(data));
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.CHECKIN_VEHICLE, data, getCheckInHandler());
 
@@ -135,10 +136,10 @@ public class CheckInActivity extends BaseActivity implements
 
 	private void loadHomeActivity() {
 		checkOutRemember.setMilage("");
-		
+
 		JobViewerDBHandler.saveCheckOutRemember(CheckInActivity.this,
 				checkOutRemember);
-		
+
 		Intent intent = new Intent(CheckInActivity.this,
 				ActivityPageActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -171,20 +172,24 @@ public class CheckInActivity extends BaseActivity implements
 		};
 		return handler;
 	}
-	
-	public void saveCheckInVehicleInBackLogDB(){
+
+	public void saveCheckInVehicleInBackLogDB() {
 		User userProfile = JobViewerDBHandler
-				.getUserProfile(CheckInActivity.this);		
+				.getUserProfile(CheckInActivity.this);
 		VehicleCheckInOut vehicleCheckInOut = new VehicleCheckInOut();
 		vehicleCheckInOut.setStarted_at(Utils.getCurrentDateAndTime());
 		vehicleCheckInOut.setRecord_for(userProfile.getEmail());
-		vehicleCheckInOut.setRegistration(checkOutRemember.getVehicleRegistration());
-		vehicleCheckInOut.setMileage(enter_mileage_edittext.getText().toString());
+		vehicleCheckInOut.setRegistration(checkOutRemember
+				.getVehicleRegistration());
+		vehicleCheckInOut.setMileage(enter_mileage_edittext.getText()
+				.toString());
 		vehicleCheckInOut.setUser_id(userProfile.getEmail());
 		BackLogRequest backLogRequest = new BackLogRequest();
-		backLogRequest.setRequestApi(CommsConstant.HOST+CommsConstant.CHECKIN_VEHICLE);
+		backLogRequest.setRequestApi(CommsConstant.HOST
+				+ CommsConstant.CHECKIN_VEHICLE);
 		backLogRequest.setRequestClassName("VehicleCheckInOut");
-		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(vehicleCheckInOut));
+		backLogRequest.setRequestJson(GsonConverter.getInstance()
+				.encodeToJsonString(vehicleCheckInOut));
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(getApplicationContext(), backLogRequest);
 	}

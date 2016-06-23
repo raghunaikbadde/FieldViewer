@@ -62,12 +62,12 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	private LinearLayout mLinearLayout;
 	private View mRootView;
 	private ImageView mCapturedImage;
-	int imageCount = 0;
+	private int imageCount = 0;
 	public static final int RESULT_OK = -1;
-	Screen currentScreen;
-	static File file;
-	CheckOutObject checkOutRemember;
-	LinearLayout linearLayout;
+	private Screen currentScreen;
+	private static File file;
+	private CheckOutObject checkOutRemember;
+	private LinearLayout linearLayout;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -284,9 +284,9 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 			values.put("completed_at", Utils.getCurrentDateAndTime());
 
 			values.put("created_by", userProfile.getEmail());
-			
+
 			GPSTracker gpsTracker = new GPSTracker(getActivity());
-			
+
 			values.put("survey_json", obj.getQuestionSet());
 			Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
 					+ CommsConstant.SURVEY_STORE_API, values,
@@ -439,7 +439,8 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 					imageString = Utils.bitmapToBase64String(rotateBitmap);
 					imageObject.setImage_string(Constants.IMAGE_STRING_INITIAL
 							+ imageString);
-					Log.i("Android", "Image 12 :"+imageObject.getImage_string().substring(0, 50));
+					Log.i("Android", "Image 12 :"
+							+ imageObject.getImage_string().substring(0, 50));
 					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
 					break;

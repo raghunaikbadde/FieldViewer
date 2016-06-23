@@ -3,8 +3,6 @@ package com.lanesgroup.jobviewer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -44,7 +42,6 @@ import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.JVResponse;
 import com.jobviwer.response.object.User;
-import com.jobviwer.service.OverTimeAlertService;
 import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 

@@ -52,22 +52,22 @@ import com.vehicle.communicator.HttpConnection;
 public class ConfinedTimerWithMediaFragment extends Fragment implements
 		OnClickListener {
 	private View mRootView;
-	ProgressBar progressBar;
-	TextView screenTitle, progress_step_text, overhead_text, question_text,
-			next_update_text;
-	static TextView timer_text;
-	LinearLayout skip_timer;
-	Button saveBtn;
-	static Button nextBtn;
-	static Screen currentScreen;
-	String time;
-	static CountdownTimer timer;
-	LinearLayout linearLayout;
-	ImageButton capture_imageButton;
-	static File file;
+	private ProgressBar progressBar;
+	private TextView screenTitle, progress_step_text, overhead_text,
+			question_text, next_update_text;
+	private static TextView timer_text;
+	private LinearLayout skip_timer;
+	private Button saveBtn;
+	private static Button nextBtn;
+	private static Screen currentScreen;
+	private String time;
+	private static CountdownTimer timer;
+	private LinearLayout linearLayout;
+	private ImageButton capture_imageButton;
+	private static File file;
 	public static final int RESULT_OK = -1;
 	private ImageView mCapturedImage;
-	int imageCount = 0;
+	private int imageCount = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -133,7 +133,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 	private static long getStartTimeForTimer() {
 		Pattern pattern = Pattern.compile("(\\d{2}):(\\d{2}):(\\d{2})");
 		Matcher matcher = pattern.matcher(currentScreen.getTime());
-		
+
 		if (matcher.matches()) {
 			return Long.parseLong(matcher.group(1)) * 3600000L
 					+ Long.parseLong(matcher.group(2)) * 60000
@@ -177,14 +177,15 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageObject.getImageId());
 		data.put("category", "surveys");
-		if (imageObject.getImage_string().contains(Constants.IMAGE_STRING_INITIAL)) {
-			data.put("image_string",
-					imageObject.getImage_string());
-		}else{
-			data.put("image_string",
-					Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
+		if (imageObject.getImage_string().contains(
+				Constants.IMAGE_STRING_INITIAL)) {
+			data.put("image_string", imageObject.getImage_string());
+		} else {
+			data.put("image_string", Constants.IMAGE_STRING_INITIAL
+					+ imageObject.getImage_string());
 		}
-		Log.i("Android", "Image 19 :" +imageObject.getImage_string().substring(0, 50));
+		Log.i("Android", "Image 19 :"
+				+ imageObject.getImage_string().substring(0, 50));
 		data.put("image_exif", imageObject.getImage_exif());
 
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
@@ -257,7 +258,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 		case R.id.skip_timer:
 			if (currentScreen.isAllow_skip()) {
 				currentScreen.setTimer_skipped(true);
-				//timer.cancel();
+				// timer.cancel();
 				showMultipleTypeScreen();
 				enableNextButton(true);
 			}
@@ -329,7 +330,8 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 						base64 = Base64.encodeToString(b, Base64.DEFAULT);
 					}
 					imageObject.setImage_string(base64);
-					Log.i("Android", "Image 3 :"+imageObject.getImage_string().substring(0, 50));
+					Log.i("Android", "Image 3 :"
+							+ imageObject.getImage_string().substring(0, 50));
 					imageString = base64;
 					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);

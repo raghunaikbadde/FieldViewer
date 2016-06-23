@@ -28,11 +28,11 @@ public class CheckTypeFragment extends Fragment implements OnClickListener {
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep, questionTitle, question, screenTitle;
-	CheckBox radio_yes;
+	private CheckBox radio_yes;
 	private Button mCancel, mNext;
 	private View mRootView;
-	Screen currentScreen;
-	CheckOutObject checkOutRemember;
+	private Screen currentScreen;
+	private CheckOutObject checkOutRemember;
 
 	public interface onClicksEnterJobNumber {
 		public void onNextClick();
@@ -88,7 +88,7 @@ public class CheckTypeFragment extends Fragment implements OnClickListener {
 				.getAnswer())) {
 			enableNextButton(true);
 			radio_yes.setChecked(true);
-		}else{
+		} else {
 			radio_yes.setChecked(false);
 		}
 		radio_yes.setOnCheckedChangeListener(new OnCheckedChangeListener() {

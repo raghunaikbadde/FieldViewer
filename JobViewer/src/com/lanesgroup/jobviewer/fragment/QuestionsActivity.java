@@ -31,8 +31,8 @@ public class QuestionsActivity extends Activity implements
 		onClicksRiskAssessment, onClicksEnterJobNumber {
 
 	private static FragmentManager mFragmentManager;
-	QuestionManager manager;
-	QuestionMaster loadJsonFromAssets;
+	private QuestionManager manager;
+	private QuestionMaster loadJsonFromAssets;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

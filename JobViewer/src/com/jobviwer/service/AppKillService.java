@@ -1,7 +1,5 @@
 package com.jobviwer.service;
 
-import com.jobviewer.provider.JobViewerDBHandler;
-
 import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
@@ -25,7 +23,7 @@ public class AppKillService extends Service {
 	public void onTaskRemoved(Intent rootIntent) {
 		// TODO Auto-generated method stub
 		System.out.println("onTaskRemoved");
-		//JobViewerDBHandler.deleteQuestionSet(getApplicationContext());
+		// JobViewerDBHandler.deleteQuestionSet(getApplicationContext());
 		super.onTaskRemoved(rootIntent);
 
 	}

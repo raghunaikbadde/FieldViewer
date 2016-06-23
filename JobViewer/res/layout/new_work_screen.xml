@@ -8,8 +8,9 @@
 
     <ScrollView
         android:id="@+id/scrollView1"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:isScrollContainer="false" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,17 +26,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/progressbar_top_margin58"
                     android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:drawableLeft="@drawable/logo_top"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
                     android:text="@string/new_work_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/title_text_size70" />
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/check_out_text"
+                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:background="#CCCCCC" />
 
                 <LinearLayout
                     android:id="@+id/progress_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/check_out_text"
+                    android:layout_below="@+id/line1"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:orientation="horizontal" >
@@ -44,6 +58,7 @@
                         android:id="@+id/progress_step_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="@string/progress_step"
                         android:textColor="@color/black"
                         android:textSize="@dimen/white_lato_bold_small50"
@@ -54,7 +69,7 @@
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dialog_button_top_margin70"
-                        android:layout_marginLeft="@dimen/edit_error_stroke10"
+                        android:layout_marginLeft="@dimen/spinner_top_margin25"
                         android:progress="70"
                         android:progressDrawable="@drawable/progressbar" />
                 </LinearLayout>
@@ -100,11 +115,11 @@
                         android:layout_height="@dimen/edit_text_height130"
                         android:layout_below="@+id/district_text"
                         android:background="@drawable/grey_background"
+                        android:focusable="false"
                         android:gravity="center_vertical|center_horizontal"
                         android:hint="@string/tmp_number"
-                        android:maxLength="2"
-                        android:focusable="false"
                         android:inputType="number"
+                        android:maxLength="2"
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
@@ -120,13 +135,12 @@
                         android:background="@drawable/grey_background"
                         android:gravity="center_vertical|center_horizontal"
                         android:hint="@string/tmp_number"
-                        android:maxLength="2"
                         android:inputType="number"
+                        android:maxLength="2"
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
                         android:textSize="@dimen/black_lato_regular_big66" >
-                        
                     </EditText>
                 </LinearLayout>
 
@@ -162,8 +176,8 @@
                         android:background="@drawable/grey_background"
                         android:gravity="center_vertical|center_horizontal"
                         android:hint="@string/tmp_number"
-                        android:maxLength="2"
                         android:inputType="number"
+                        android:maxLength="2"
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
@@ -179,9 +193,10 @@
                         android:background="@drawable/grey_background"
                         android:gravity="center_vertical|center_horizontal"
                         android:hint="@string/district_four_tmp_number"
-                        android:maxLength="4" android:textAllCaps="true" 
                         android:inputType="textCapCharacters"
+                        android:maxLength="4"
                         android:singleLine="true"
+                        android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
                         android:textSize="@dimen/black_lato_regular_big66" >
@@ -193,21 +208,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/district2_layout"
-                    android:layout_marginLeft="@dimen/checkbox_left_margin145"
-                    android:layout_marginRight="@dimen/checkout_checkbox_left_margin158"
-                    android:text="@string/is_this_pollution_str"
-                    android:textColor="@color/black"
+                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
+                    android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:button="@drawable/checkbox_selector"
                     android:paddingLeft="@dimen/template_spacing27"
+                    android:text="@string/is_this_pollution_str"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/white_lato_bold_small50" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/pollutionCheckBox"
+                    android:layout_marginBottom="@dimen/white_lato_regular_big79"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
-                    android:layout_marginBottom="@dimen/white_lato_regular_big79"
                     android:layout_marginTop="@dimen/button_top_margin345" >
 
                     <Button
@@ -217,8 +232,8 @@
                         android:layout_weight="20"
                         android:background="@drawable/grey_background"
                         android:text="@string/cancel"
-                        android:textColor="@color/black"
                         android:textAllCaps="false"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
                     <Button
@@ -235,8 +250,8 @@
                         android:layout_weight="20"
                         android:background="@drawable/dark_grey_background"
                         android:text="@string/next"
-                        android:textColor="@color/white"
                         android:textAllCaps="false"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/dialog_black_lato_regular_small60" />
                 </LinearLayout>
             </RelativeLayout>

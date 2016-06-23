@@ -24,9 +24,9 @@ import com.jobviwer.response.object.StartUpResponse;
 import com.vehicle.communicator.HttpConnection;
 
 public class SyncAllData {
-	List<BackLogRequest> allBackLog;
-	Context context;
-	boolean isStartUpResponseArrived = true;
+	private List<BackLogRequest> allBackLog;
+	private Context context;
+	private boolean isStartUpResponseArrived = true;
 
 	public void sendAllData(Context context) {
 		this.context = context;

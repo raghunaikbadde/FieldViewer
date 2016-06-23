@@ -1,15 +1,15 @@
 package com.jobviwer.request.object;
 
 public class TimeSheetRequest {
-	private String started_at="";
-	private String record_for="";
-	private String is_inactive="";
-	private String is_overriden="";
-	private String override_reason="";
-	private String override_comment="";
-	private String override_timestamp="";
-	private String reference_id="";
-	private String user_id="";
+	private String started_at = "";
+	private String record_for = "";
+	private String is_inactive = "";
+	private String is_overriden = "";
+	private String override_reason = "";
+	private String override_comment = "";
+	private String override_timestamp = "";
+	private String reference_id = "";
+	private String user_id = "";
 
 	public String getStarted_at() {
 		return started_at;

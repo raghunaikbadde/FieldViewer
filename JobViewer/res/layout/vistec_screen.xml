@@ -9,9 +9,10 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottombutton"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/bottombutton" >
+        android:isScrollContainer="false" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,26 +28,38 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/progressbar_top_margin58"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:drawableLeft="@drawable/logo_top"
+                    android:drawablePadding="5dp"
                     android:gravity="center_horizontal"
                     android:text="@string/vistec_screen_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/title_text_size70" />
 
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/title_text"
+                    android:layout_marginBottom="@dimen/progressbar_top_margin58"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="@dimen/progressbar_top_margin58"
+                    android:background="#CCCCCC" />
+
                 <TextView
                     android:id="@+id/number_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/title_text"
+                    android:layout_below="@+id/line1"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/black_lato_regular_small55"
                     android:text="@string/vistec_number"
                     android:textColor="@color/black"
                     android:textSize="@dimen/progressbar_top_margin58" />
-               
+
                 <LinearLayout
                     android:id="@+id/progress_layout"
                     android:layout_width="match_parent"
@@ -60,6 +73,7 @@
                         android:id="@+id/progress_step_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="@string/progress_step"
                         android:textColor="@color/black"
                         android:textSize="@dimen/white_lato_bold_small50"
@@ -70,7 +84,7 @@
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dialog_button_top_margin70"
-                        android:layout_marginLeft="@dimen/edit_error_stroke10"
+                        android:layout_marginLeft="@dimen/spinner_top_margin25"
                         android:progress="70"
                         android:progressDrawable="@drawable/progressbar" />
                 </LinearLayout>
@@ -81,37 +95,37 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/progress_layout"
                     android:layout_centerHorizontal="true"
-                    android:gravity="center_horizontal"
                     android:layout_marginBottom="@dimen/red_lato_bold_big90"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:layout_marginTop="@dimen/red_lato_bold_big90"
+                    android:gravity="center_horizontal"
                     android:text="@string/take_a_picture"
                     android:textColor="@color/black"
                     android:textSize="@dimen/white_lato_bold_small50" />
-			<Button
-                android:id="@+id/capture_vistec"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/copyright_right_margin212"
-                android:layout_gravity="center_horizontal"
-                android:layout_below="@+id/take_a_pic_text"
-                android:layout_marginLeft="@dimen/user_detail_left_spacing140"
-                android:layout_marginRight="@dimen/user_detail_left_spacing140"
-                android:layout_marginTop="@dimen/dialog_edit_top_margin35"
-                android:background="@drawable/red_background"
-                android:text="@string/capture_vistec_screen"
-                android:textColor="@color/white"
-                android:textAllCaps="false"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
-                
+
+                <Button
+                    android:id="@+id/capture_vistec"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/copyright_right_margin212"
+                    android:layout_below="@+id/take_a_pic_text"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/user_detail_left_spacing140"
+                    android:layout_marginRight="@dimen/user_detail_left_spacing140"
+                    android:layout_marginTop="@dimen/dialog_edit_top_margin35"
+                    android:background="@drawable/red_background"
+                    android:text="@string/capture_vistec_screen"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dialog_black_lato_regular_small60" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/bottombutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/bottombutton"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/white_lato_regular_big79"
         android:layout_marginLeft="@dimen/white_lato_regular_big79"
@@ -124,8 +138,8 @@
             android:layout_weight="20"
             android:background="@drawable/grey_background"
             android:text="@string/save"
-            android:textColor="@color/black"
             android:textAllCaps="false"
+            android:textColor="@color/black"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
         <Button
@@ -142,8 +156,8 @@
             android:layout_weight="20"
             android:background="@drawable/red_background"
             android:text="@string/next"
-            android:textColor="@color/white"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 

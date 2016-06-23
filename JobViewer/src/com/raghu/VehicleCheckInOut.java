@@ -1,9 +1,5 @@
 package com.raghu;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.google.gson.GsonBuilder;
 
 public class VehicleCheckInOut {
 

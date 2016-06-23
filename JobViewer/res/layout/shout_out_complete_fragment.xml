@@ -9,9 +9,10 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/bottombutton"
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:isScrollContainer="false" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,8 +82,8 @@
             android:layout_height="@dimen/button_height150"
             android:background="@drawable/red_background"
             android:text="@string/done"
-            android:textColor="@color/white"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 

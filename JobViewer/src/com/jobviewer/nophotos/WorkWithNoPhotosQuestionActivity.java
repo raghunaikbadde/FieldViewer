@@ -24,8 +24,8 @@ public class WorkWithNoPhotosQuestionActivity extends BaseActivity implements
 		onClicksRiskAssessment, onClicksEnterJobNumber {
 
 	private static FragmentManager mFragmentManager;
-	WorkWithNoPhotosQuestionManager manager;
-	QuestionMaster loadJsonFromAssets;
+	private WorkWithNoPhotosQuestionManager manager;
+	private QuestionMaster loadJsonFromAssets;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

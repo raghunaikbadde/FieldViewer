@@ -42,16 +42,17 @@ import com.vehicle.communicator.HttpConnection;
 public class SelectActivityDialog extends Activity implements
 		ConfirmDialogCallback, ConfirmDialogCallbackForNoPhotos {
 
-	/*private CheckBox mWork, mWorkNoPhotos, mTraining;
-	private String selected;
-	private OnCheckedChangeListener checkChangedListner;
-	private Button start, cancel;*/
+	/*
+	 * private CheckBox mWork, mWorkNoPhotos, mTraining; private String
+	 * selected; private OnCheckedChangeListener checkChangedListner; private
+	 * Button start, cancel;
+	 */
 	private Context mContext;
 
 	private final String WORK = "Work";
 	private final String WORK_NO_PHOTOS = "WorkNoPhotos";
 	private final String TRAINING = "Training";
-	final ArrayList<HashMap<String, Object>> m_data = new ArrayList<HashMap<String, Object>>();
+	private final ArrayList<HashMap<String, Object>> m_data = new ArrayList<HashMap<String, Object>>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class SelectActivityDialog extends Activity implements
 		this.getWindow().setBackgroundDrawableResource(
 				android.R.color.transparent);
 		setContentView(R.layout.select_dialog);
-		mContext=this;
+		mContext = this;
 		HashMap<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("maintext", R.drawable.work_camera_icon);
 		map1.put("subtext", "Work");
@@ -225,14 +226,14 @@ public class SelectActivityDialog extends Activity implements
 		}
 		if (userProfile != null)
 			data.put("user_id", userProfile.getEmail());
-		else{
+		else {
 			data.put("user_id", "");
 		}
 
 		String time = Utils.getCurrentDateAndTime();
 
 		if (Utils.isInternetAvailable(this)) {
-			//finish();
+			// finish();
 			Utils.startProgress(this);
 			Utils.SendHTTPRequest(this, CommsConstant.HOST
 					+ CommsConstant.START_TRAINING_API, data,
@@ -243,11 +244,11 @@ public class SelectActivityDialog extends Activity implements
 					Utils.REQUEST_TYPE_WORK);
 			saveTrainingTimeSheet(Utils.timeSheetRequest);
 			finish();
-			Intent intent = new Intent(mContext,ActivityPageActivity.class);
+			Intent intent = new Intent(mContext, ActivityPageActivity.class);
 			startActivity(intent);
 		}
 		setResult(RESULT_OK);
-		
+
 	}
 
 	private void saveTrainingTimeSheet(TimeSheetRequest timeSheetRequest) {
@@ -272,7 +273,8 @@ public class SelectActivityDialog extends Activity implements
 									R.string.startedTrainingMsg),
 							Toast.LENGTH_SHORT).show();
 					finish();
-					Intent intent = new Intent(mContext,ActivityPageActivity.class);
+					Intent intent = new Intent(mContext,
+							ActivityPageActivity.class);
 					startActivity(intent);
 					break;
 				case HttpConnection.DID_ERROR:

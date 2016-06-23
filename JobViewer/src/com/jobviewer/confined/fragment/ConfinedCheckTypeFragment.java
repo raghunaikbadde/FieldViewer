@@ -25,15 +25,16 @@ import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 
-public class ConfinedCheckTypeFragment extends Fragment implements OnClickListener {
+public class ConfinedCheckTypeFragment extends Fragment implements
+		OnClickListener {
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep, questionTitle, question, screenTitle;
-	CheckBox radio_yes;
+	private CheckBox radio_yes;
 	private Button mCancel, mNext;
 	private View mRootView;
-	Screen currentScreen;
-	CheckOutObject checkOutRemember;
+	private Screen currentScreen;
+	private CheckOutObject checkOutRemember;
 
 	public interface onClicksEnterJobNumber {
 		public void onNextClick();
@@ -56,26 +57,27 @@ public class ConfinedCheckTypeFragment extends Fragment implements OnClickListen
 		updateData();
 		return mRootView;
 	}
-	
-	 public void removePhoneKeypad() {
-		    InputMethodManager inputManager = (InputMethodManager) mRootView
-		            .getContext()
-		            .getSystemService(Context.INPUT_METHOD_SERVICE);
 
-		    IBinder binder = mRootView.getWindowToken();
-		    inputManager.hideSoftInputFromWindow(binder,
-		            InputMethodManager.HIDE_NOT_ALWAYS);
-		}
+	public void removePhoneKeypad() {
+		InputMethodManager inputManager = (InputMethodManager) mRootView
+				.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		IBinder binder = mRootView.getWindowToken();
+		inputManager.hideSoftInputFromWindow(binder,
+				InputMethodManager.HIDE_NOT_ALWAYS);
+	}
 
 	private void updateData() {
-		currentScreen = ConfinedQuestionManager.getInstance().getCurrentScreen();
-		screenTitle.setText(getResources().getString(R.string.confined_space_str));
+		currentScreen = ConfinedQuestionManager.getInstance()
+				.getCurrentScreen();
+		screenTitle.setText(getResources().getString(
+				R.string.confined_space_str));
 		questionTitle.setText(currentScreen.getTitle());
 		question.setText(currentScreen.getText());
 		radio_yes.setText(currentScreen.getCheckbox().getLabel());
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		mProgressStep.setText(currentScreen.get_progress() + "%");
-		
+
 		if (ActivityConstants.TRUE.equalsIgnoreCase(currentScreen.getCheckbox()
 				.getRequired())
 				&& !ActivityConstants.SELECTED.equalsIgnoreCase(currentScreen
@@ -90,7 +92,7 @@ public class ConfinedCheckTypeFragment extends Fragment implements OnClickListen
 				.getAnswer())) {
 			enableNextButton(true);
 			radio_yes.setChecked(true);
-		}else{
+		} else {
 			radio_yes.setChecked(false);
 		}
 		radio_yes.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -150,8 +152,8 @@ public class ConfinedCheckTypeFragment extends Fragment implements OnClickListen
 	public void onClick(View view) {
 		if (view == mCancel) {
 			if ("save".equalsIgnoreCase(mCancel.getText().toString())) {
-				ConfinedQuestionManager.getInstance().saveAssessment(
-						"Confined");
+				ConfinedQuestionManager.getInstance()
+						.saveAssessment("Confined");
 				Intent intent = new Intent(view.getContext(),
 						ActivityPageActivity.class);
 				intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);

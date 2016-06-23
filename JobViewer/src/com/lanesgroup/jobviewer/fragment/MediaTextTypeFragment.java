@@ -55,12 +55,12 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 	private LinearLayout mLinearLayout;
 	private View mRootView;
 	private ImageView mCapturedImage;
-	int imageCount = 0;
+	private int imageCount = 0;
 	public static final int RESULT_OK = -1;
-	Screen currentScreen;
-	static File file;
-	CheckOutObject checkOutRemember;
-	LinearLayout linearLayout;
+	private Screen currentScreen;
+	private static File file;
+	private CheckOutObject checkOutRemember;
+	private LinearLayout linearLayout;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -170,7 +170,8 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 				byte[] getbyteArrayFromBase64String = Utils
 						.getbyteArrayFromBase64String(imageById
 								.getImage_string());
-				Log.i("Android", "Image 26 :"+imageById.getImage_string().substring(0, 50));
+				Log.i("Android", "Image 26 :"
+						+ imageById.getImage_string().substring(0, 50));
 				loadImages(getbyteArrayFromBase64String);
 			}
 		}
@@ -260,14 +261,15 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 		ContentValues values = new ContentValues();
 		values.put("temp_id", imageObject.getImageId());
 		values.put("category", imageObject.getCategory());
-		if (imageObject.getImage_string().contains(Constants.IMAGE_STRING_INITIAL)) {
-			values.put("image_string",
-					imageObject.getImage_string());
-		}else{
-			values.put("image_string",
-					Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
+		if (imageObject.getImage_string().contains(
+				Constants.IMAGE_STRING_INITIAL)) {
+			values.put("image_string", imageObject.getImage_string());
+		} else {
+			values.put("image_string", Constants.IMAGE_STRING_INITIAL
+					+ imageObject.getImage_string());
 		}
-		Log.i("Android", "Image 27 :"+Constants.IMAGE_STRING_INITIAL +imageObject.getImage_string().substring(0, 50));
+		Log.i("Android", "Image 27 :" + Constants.IMAGE_STRING_INITIAL
+				+ imageObject.getImage_string().substring(0, 50));
 		values.put("image_exif", imageObject.getImage_exif());
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
 				+ CommsConstant.SURVEY_PHOTO_UPLOAD, values,
@@ -380,7 +382,8 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 					imageObject.setImage_exif(image_exif);
 					imageObject.setImage_string(Utils
 							.bitmapToBase64String(rotateBitmap));
-					Log.i("Android", "Image 10 :"+imageObject.getImage_string().substring(0, 50));
+					Log.i("Android", "Image 10 :"
+							+ imageObject.getImage_string().substring(0, 50));
 					imageString = imageObject.getImage_string();
 					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);

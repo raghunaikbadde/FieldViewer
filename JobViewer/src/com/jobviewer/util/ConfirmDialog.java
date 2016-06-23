@@ -18,7 +18,7 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 
 	private Button mTimeContinue, mTimeCancel;
 	private ConfirmDialogCallback mCallback;
-	ConfirmDialogCallbackForNoPhotos mCallbackForNoPhotos;
+	private ConfirmDialogCallbackForNoPhotos mCallbackForNoPhotos;
 	private Context mContext;
 	private TextView mHeader, mMessage;
 	public static String eventType;
@@ -34,7 +34,7 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 
 		public void onConfirmDismissWithNoPhotos();
 	}
-	
+
 	public ConfirmDialog(Context context, ConfirmDialogCallback callback,
 			String eventType) {
 		super(context);
@@ -46,34 +46,47 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		mHeader.setText(Constants.END_TRAINING_HEADER);
 		mMessage = (TextView) findViewById(R.id.cofirmation_msg_text);
 		String vistecId = "";
-		CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(context);
-		if(checkOutObject!=null && Utils.isNullOrEmpty(checkOutObject.getVistecId())){
+		CheckOutObject checkOutObject = JobViewerDBHandler
+				.getCheckOutRemember(context);
+		if (checkOutObject != null
+				&& Utils.isNullOrEmpty(checkOutObject.getVistecId())) {
 			vistecId = checkOutObject.getVistecId();
 		}
-		Log.d(Utils.LOG_TAG, "vistecId "+vistecId);
-		if(Utils.isNullOrEmpty(vistecId)){
-			Log.d(Utils.LOG_TAG, "confirm dialog utils vistecId "+vistecId);
+		Log.d(Utils.LOG_TAG, "vistecId " + vistecId);
+		if (Utils.isNullOrEmpty(vistecId)) {
+			Log.d(Utils.LOG_TAG, "confirm dialog utils vistecId " + vistecId);
 			vistecId = Utils.checkOutObject.getVistecId();
 		}
-		Log.d(Utils.LOG_TAG, "vistecId "+vistecId);
-		if(this.eventType.equalsIgnoreCase(Constants.START_TRAINING)){
+		Log.d(Utils.LOG_TAG, "vistecId " + vistecId);
+		if (this.eventType.equalsIgnoreCase(Constants.START_TRAINING)) {
 			mMessage.setText(Constants.START_TRAINING_MESSAGE);
-		} else if(this.eventType.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)){
-			mMessage.setText(context.getResources().getString(R.string.pollution_cofirmation_msg));
-			mHeader.setText(context.getResources().getString(R.string.pollution_confirmation));
-		} else if(this.eventType.equalsIgnoreCase(Constants.WORK_NO_PHOTOS_CONFIRMATION)){
-			mMessage.setText(context.getResources().getString(R.string.workWithNoPhotosConfirmation));
+		} else if (this.eventType
+				.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)) {
+			mMessage.setText(context.getResources().getString(
+					R.string.pollution_cofirmation_msg));
+			mHeader.setText(context.getResources().getString(
+					R.string.pollution_confirmation));
+		} else if (this.eventType
+				.equalsIgnoreCase(Constants.WORK_NO_PHOTOS_CONFIRMATION)) {
+			mMessage.setText(context.getResources().getString(
+					R.string.workWithNoPhotosConfirmation));
 			mHeader.setText(context.getResources().getString(R.string.confirm));
-		} else if(this.eventType.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)){
-			mMessage.setText(context.getResources().getString(R.string.workEndConfirmationMsg)+" "+vistecId);
-			mHeader.setText(context.getResources().getString(R.string.workEndConfirmation));
-		} else if(this.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)){
-			mMessage.setText(context.getResources().getString(R.string.DACallConfimrationMsg));
-			mHeader.setText(context.getResources().getString(R.string.DACallConfirmation));
+		} else if (this.eventType
+				.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)) {
+			mMessage.setText(context.getResources().getString(
+					R.string.workEndConfirmationMsg)
+					+ " " + vistecId);
+			mHeader.setText(context.getResources().getString(
+					R.string.workEndConfirmation));
+		} else if (this.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)) {
+			mMessage.setText(context.getResources().getString(
+					R.string.DACallConfimrationMsg));
+			mHeader.setText(context.getResources().getString(
+					R.string.DACallConfirmation));
 		} else {
 			mMessage.setText(Constants.END_TRAINING_MESSAGE);
 		}
-		
+
 		mContext = context;
 		mCallback = callback;
 		mCallbackForNoPhotos = null;
@@ -82,9 +95,10 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		mTimeContinue = (Button) findViewById(R.id.dialog_ok);
 		mTimeContinue.setOnClickListener(this);
 	}
-	
-	public ConfirmDialog(Context context, ConfirmDialogCallbackForNoPhotos callback,
-			String eventType,String extra) {
+
+	public ConfirmDialog(Context context,
+			ConfirmDialogCallbackForNoPhotos callback, String eventType,
+			String extra) {
 		super(context);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.eventType = eventType;
@@ -93,36 +107,49 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		mHeader = (TextView) findViewById(R.id.dialog_header);
 		mHeader.setText(Constants.END_TRAINING_HEADER);
 		mMessage = (TextView) findViewById(R.id.cofirmation_msg_text);
-		
+
 		String vistecId = "";
-		CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(context);
-		if(checkOutObject!=null && Utils.isNullOrEmpty(checkOutObject.getVistecId())){
-			vistecId = checkOutObject.getVistecId();			
+		CheckOutObject checkOutObject = JobViewerDBHandler
+				.getCheckOutRemember(context);
+		if (checkOutObject != null
+				&& Utils.isNullOrEmpty(checkOutObject.getVistecId())) {
+			vistecId = checkOutObject.getVistecId();
 		}
-		Log.d(Utils.LOG_TAG, "vistecId "+vistecId);
-		if(Utils.isNullOrEmpty(vistecId)){
-			Log.d(Utils.LOG_TAG, "confirm dialog utils vistecId "+vistecId);
+		Log.d(Utils.LOG_TAG, "vistecId " + vistecId);
+		if (Utils.isNullOrEmpty(vistecId)) {
+			Log.d(Utils.LOG_TAG, "confirm dialog utils vistecId " + vistecId);
 			vistecId = Utils.checkOutObject.getVistecId();
 		}
-		Log.d(Utils.LOG_TAG, "vistecId "+vistecId);
-		if(this.eventType.equalsIgnoreCase(Constants.START_TRAINING)){
+		Log.d(Utils.LOG_TAG, "vistecId " + vistecId);
+		if (this.eventType.equalsIgnoreCase(Constants.START_TRAINING)) {
 			mMessage.setText(Constants.START_TRAINING_MESSAGE);
-		} else if(this.eventType.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)){
-			mMessage.setText(context.getResources().getString(R.string.pollution_cofirmation_msg));
-			mHeader.setText(context.getResources().getString(R.string.pollution_confirmation));
-		} else if(this.eventType.equalsIgnoreCase(Constants.WORK_NO_PHOTOS_CONFIRMATION)){
-			mMessage.setText(context.getResources().getString(R.string.workWithNoPhotosConfirmation));
+		} else if (this.eventType
+				.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)) {
+			mMessage.setText(context.getResources().getString(
+					R.string.pollution_cofirmation_msg));
+			mHeader.setText(context.getResources().getString(
+					R.string.pollution_confirmation));
+		} else if (this.eventType
+				.equalsIgnoreCase(Constants.WORK_NO_PHOTOS_CONFIRMATION)) {
+			mMessage.setText(context.getResources().getString(
+					R.string.workWithNoPhotosConfirmation));
 			mHeader.setText(context.getResources().getString(R.string.confirm));
-		}  else if(this.eventType.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)){
-			mMessage.setText(context.getResources().getString(R.string.workEndConfirmationMsg)+" "+vistecId);
-			mHeader.setText(context.getResources().getString(R.string.workEndConfirmation));
-		} else if(this.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)){
-			mMessage.setText(context.getResources().getString(R.string.DACallConfimrationMsg));
-			mHeader.setText(context.getResources().getString(R.string.DACallConfirmation));
+		} else if (this.eventType
+				.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)) {
+			mMessage.setText(context.getResources().getString(
+					R.string.workEndConfirmationMsg)
+					+ " " + vistecId);
+			mHeader.setText(context.getResources().getString(
+					R.string.workEndConfirmation));
+		} else if (this.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)) {
+			mMessage.setText(context.getResources().getString(
+					R.string.DACallConfimrationMsg));
+			mHeader.setText(context.getResources().getString(
+					R.string.DACallConfirmation));
 		} else {
 			mMessage.setText(Constants.END_TRAINING_MESSAGE);
 		}
-		
+
 		mContext = context;
 		mCallbackForNoPhotos = callback;
 		mCallback = null;
@@ -131,27 +158,28 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		mTimeContinue = (Button) findViewById(R.id.dialog_ok);
 		mTimeContinue.setOnClickListener(this);
 	}
-	
-	
+
 	@Override
 	public void onClick(View view) {
 		if (view == mTimeCancel) {
 			this.dismiss();
-			if(eventType.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)||eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)){
+			if (eventType.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)
+					|| eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)) {
 				mCallback.onConfirmDismiss();
 			}
-			if(eventType.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)){
+			if (eventType
+					.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)) {
 				mCallback.onConfirmDismiss();
 			}
 		} else if (view == mTimeContinue) {
-			this.dismiss();			
-			if(mCallback != null)
+			this.dismiss();
+			if (mCallback != null)
 				mCallback.onConfirmStartTraining();
-			else 
+			else
 				mCallbackForNoPhotos.onConfirmStartWithNoPhotos();
 		}
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		this.dismiss();

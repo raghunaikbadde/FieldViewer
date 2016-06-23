@@ -1,14 +1,14 @@
 package com.lanesgroup.jobviewer;
 
-import com.jobviewer.db.objects.CheckOutObject;
-import com.jobviewer.provider.JobViewerDBHandler;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.provider.JobViewerDBHandler;
 
 public class WorkSuccessActivity extends BaseActivity implements
 		OnClickListener {

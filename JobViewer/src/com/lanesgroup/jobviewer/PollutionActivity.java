@@ -43,7 +43,6 @@ import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
-import com.jobviewer.provider.JobViewerProviderContract.FlagJSON;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
@@ -55,38 +54,42 @@ import com.vehicle.communicator.HttpConnection;
 
 public class PollutionActivity extends BaseActivity implements
 		View.OnClickListener {
-	TextView title_text, number_text, progress_step_text;
-	ProgressBar progressBar;
-	CheckBox ptlCheckbox, ptwCheckbox;
-	LinearLayout ptlExpandLayout, ptwExpandLayout;
-	Spinner extentOfLandSpinner, landAffectedSpinner, extentOfWaterSpinner,
-			waterBodyAffectedSpinner, indicativeCauseSpinner;
+	private TextView title_text, number_text, progress_step_text;
+	private ProgressBar progressBar;
+	private CheckBox ptlCheckbox, ptwCheckbox;
+	private LinearLayout ptlExpandLayout, ptwExpandLayout;
+	private Spinner extentOfLandSpinner, landAffectedSpinner,
+			extentOfWaterSpinner, waterBodyAffectedSpinner,
+			indicativeCauseSpinner;
 	private boolean savedButtonPressed = false;
-	//MultiSelectSpinner waterPollutantsSpinner;
+	// MultiSelectSpinner waterPollutantsSpinner;
 	// additionalEDSpinner;
-	Button nextButton, mTakePicUpStream, mTakePicDownStream, mSaveButton;
-	PollutionReportRequest pollutionReportRequest;
+	private Button nextButton, mTakePicUpStream, mTakePicDownStream,
+			mSaveButton;
+	private PollutionReportRequest pollutionReportRequest;
 
-	EditText mUpStreamEditText, mDownStreamEdiText;
+	private EditText mUpStreamEditText, mDownStreamEdiText;
 
-	RelativeLayout spinnerLayout, landAffectedLayout,
+	private RelativeLayout spinnerLayout, landAffectedLayout,
 			spinnerLayoutExtentOfWater, spinnerLayoutWaterBody,
 			spinnerLayoutAmmonia, spinnerLayoutFishKill,
 			spinnerLayoutIndicative, spinnerLayoutadditionalED,
-			landPollutantsSpinnerLayout,spinnerLayoutWaterPollutants;
-	TextView landPollution, landAffected, extentOfWater, waterBody, ammonia,
-			fishKill, indicativeCause, additionalED, landPollutantsText,waterPollutantsTextView;
+			landPollutantsSpinnerLayout, spinnerLayoutWaterPollutants;
+	private TextView landPollution, landAffected, extentOfWater, waterBody,
+			ammonia, fishKill, indicativeCause, additionalED,
+			landPollutantsText, waterPollutantsTextView;
 
-	String stringOfLandPollutants;
-	String stringOfWaterPollutants;
-	ArrayList<String> stringOfAdditionalEPD;
+	private String stringOfLandPollutants;
+	private String stringOfWaterPollutants;
+	private ArrayList<String> stringOfAdditionalEPD;
 
-	ImageObject upStreamImageObject, downSteamIamgeObject;
+	private ImageObject upStreamImageObject, downSteamIamgeObject;
 	static File file;
-	String[] additionalEPDSelectedText = null;
-	String[] landPollutantSelectedText = null;
-	String[] waterPollutantSelectedText = null;
+	private String[] additionalEPDSelectedText = null;
+	private String[] landPollutantSelectedText = null;
+	private String[] waterPollutantSelectedText = null;
 	private JSONObject jsonObject;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,9 +97,10 @@ public class PollutionActivity extends BaseActivity implements
 		initUI();
 		updateData();
 		Bundle bundle = getIntent().getExtras();
-		if(bundle != null && bundle.containsKey(Utils.CALLING_ACTIVITY)){
-			if(bundle.getString(Utils.CALLING_ACTIVITY).equalsIgnoreCase(ActivityConstants.ACTIVITY_PAGE_ACTIVITY)){
-				updateUIAsperSavedPollutionReport();				
+		if (bundle != null && bundle.containsKey(Utils.CALLING_ACTIVITY)) {
+			if (bundle.getString(Utils.CALLING_ACTIVITY).equalsIgnoreCase(
+					ActivityConstants.ACTIVITY_PAGE_ACTIVITY)) {
+				updateUIAsperSavedPollutionReport();
 			}
 		}
 
@@ -212,14 +216,14 @@ public class PollutionActivity extends BaseActivity implements
 
 		landPollutantsSpinnerLayout = (RelativeLayout) findViewById(R.id.landPollutantsSpinnerLayout);
 		landPollutantsSpinnerLayout.setOnClickListener(this);
-		
-		spinnerLayoutWaterPollutants=(RelativeLayout) findViewById(R.id.spinnerLayoutWaterPollutants);
+
+		spinnerLayoutWaterPollutants = (RelativeLayout) findViewById(R.id.spinnerLayoutWaterPollutants);
 		spinnerLayoutWaterPollutants.setOnClickListener(this);
 
 		indicativeCause = (TextView) findViewById(R.id.indicativeCause);
 		additionalED = (TextView) findViewById(R.id.additionalED);
 		landPollutantsText = (TextView) findViewById(R.id.landPollutantsText);
-		waterPollutantsTextView=(TextView) findViewById(R.id.waterPollutantsTextView);
+		waterPollutantsTextView = (TextView) findViewById(R.id.waterPollutantsTextView);
 		enableNextButton(false);
 	}
 
@@ -227,13 +231,13 @@ public class PollutionActivity extends BaseActivity implements
 	public void onClick(View v) {
 		savedButtonPressed = false;
 		switch (v.getId()) {
-		
+
 		case R.id.button1:
 			Intent homeIntent = new Intent(this, ActivityPageActivity.class);
 			homeIntent.putExtra(Utils.SHOULD_SHOW_WORK_IN_PROGRESS, true);
 			homeIntent.putExtra(Utils.CALLING_ACTIVITY,
 					ActivityConstants.POLLUTION_ACTIVITY);
-			
+
 			savedButtonPressed = true;
 			sendPollutionReportToServer();
 			startActivity(homeIntent);
@@ -242,26 +246,27 @@ public class PollutionActivity extends BaseActivity implements
 
 			pollutionReportRequest.setLand_pollutants(stringOfLandPollutants);
 			pollutionReportRequest.setWater_pollutants(stringOfWaterPollutants);
-			if(ptwCheckbox.isChecked()){
-				JobViewerDBHandler.saveImage(getApplicationContext(), upStreamImageObject);
-				JobViewerDBHandler.saveImage(getApplicationContext(), downSteamIamgeObject);
+			if (ptwCheckbox.isChecked()) {
+				JobViewerDBHandler.saveImage(getApplicationContext(),
+						upStreamImageObject);
+				JobViewerDBHandler.saveImage(getApplicationContext(),
+						downSteamIamgeObject);
 			}
 			if (Utils.isInternetAvailable(PollutionActivity.this)) {
 				Utils.startProgress(PollutionActivity.this);
-				if(ptwCheckbox.isChecked()){
+				if (ptwCheckbox.isChecked()) {
 					sendUpStreamWorkImageToServer(upStreamImageObject);
-				} else{
+				} else {
 					sendPollutionReportToServer();
 				}
-								
-				
+
 			} else {
 				sendPollutionReportToServer();
 				Intent addPhotosActivityIntent = new Intent(
 						PollutionActivity.this, AddPhotosActivity.class);
 				startActivity(addPhotosActivityIntent);
 			}
-			
+
 			break;
 		case R.id.spinnerLayout:
 			String landPollutionHeader = "Extent of land pollution";
@@ -326,7 +331,7 @@ public class PollutionActivity extends BaseActivity implements
 					R.array.additionalEquipmentDeployed);
 			String text = additionalED.getText().toString();
 			boolean isSelctedBefore = false;
-			
+
 			if (!getResources().getString(R.string.select_spinner_str)
 					.equalsIgnoreCase(text)) {
 				isSelctedBefore = true;
@@ -360,7 +365,7 @@ public class PollutionActivity extends BaseActivity implements
 					R.array.landPollutantsArray);
 			String landPollutanttext = landPollutantsText.getText().toString();
 			boolean islandPollutantSelctedBefore = false;
-			
+
 			if (!getResources().getString(R.string.select_spinner_str)
 					.equalsIgnoreCase(landPollutanttext)) {
 				islandPollutantSelctedBefore = true;
@@ -392,13 +397,14 @@ public class PollutionActivity extends BaseActivity implements
 			String waterPollutantTitle = "Water Pollutants";
 			String[] waterPollutantArray = getResources().getStringArray(
 					R.array.waterPollutantsArray);
-			String waterPollutanttext = waterPollutantsTextView.getText().toString();
+			String waterPollutanttext = waterPollutantsTextView.getText()
+					.toString();
 			boolean iswaterPollutantSelctedBefore = false;
-			
+
 			if (!getResources().getString(R.string.select_spinner_str)
 					.equalsIgnoreCase(waterPollutanttext)) {
 				iswaterPollutantSelctedBefore = true;
-				waterPollutantSelectedText = waterPollutanttext.split(",");				
+				waterPollutantSelectedText = waterPollutanttext.split(",");
 			}
 
 			List<MultiChoiceItem> multiChoiceItems2 = new ArrayList<MultiChoiceItem>();
@@ -443,15 +449,16 @@ public class PollutionActivity extends BaseActivity implements
 			data.put("land_type", pollutionReportRequest.getLand_type());
 
 			if (pollutionReportRequest.getLand_pollutants() == null) {
-				pollutionReportRequest
-						.setLand_pollutants("");
+				pollutionReportRequest.setLand_pollutants("");
 			}
 
 			String landpollutants = landPollutantsText.getText().toString();
 			pollutionReportRequest.setLand_pollutants(landpollutants);
-			/*String idList = landpollutants.toString();
-			String landPollutantsString = idList.substring(1,
-					idList.length() - 1).replace(", ", ",");*/
+			/*
+			 * String idList = landpollutants.toString(); String
+			 * landPollutantsString = idList.substring(1, idList.length() -
+			 * 1).replace(", ", ",");
+			 */
 			data.put("land_pollutants", landpollutants);
 		}
 
@@ -480,7 +487,6 @@ public class PollutionActivity extends BaseActivity implements
 					.getText().toString());
 			data.put("do_downstream", pollutionReportRequest.getDo_downstream());
 
-			
 			if (!Utils.isNullOrEmpty(upStreamImageObject.getImage_string())) {
 				pollutionReportRequest.setDo_upstream_image(upStreamImageObject
 						.getImageId());
@@ -513,38 +519,43 @@ public class PollutionActivity extends BaseActivity implements
 		data.put("indicative_cause",
 				pollutionReportRequest.getIndicative_cause());
 
-		
-		ArrayList<String> myList = new ArrayList<String>(Arrays.asList(additionalED.getText().toString().split(",")));
+		ArrayList<String> myList = new ArrayList<String>(
+				Arrays.asList(additionalED.getText().toString().split(",")));
 		String equipmentdeployed = "";
-		for(int i=0;i<myList.size();i++){
-			equipmentdeployed += myList.get(i)+",";
+		for (int i = 0; i < myList.size(); i++) {
+			equipmentdeployed += myList.get(i) + ",";
 		}
-		equipmentdeployed = equipmentdeployed.substring(0, equipmentdeployed.length()-1);
-		if(equipmentdeployed.contains("elect")){
+		equipmentdeployed = equipmentdeployed.substring(0,
+				equipmentdeployed.length() - 1);
+		if (equipmentdeployed.contains("elect")) {
 			equipmentdeployed = "";
 		}
 		pollutionReportRequest.setEquipment_deployed(equipmentdeployed);
-		
-		data.put("equipment_deployed", pollutionReportRequest.getEquipment_deployed());
+
+		data.put("equipment_deployed",
+				pollutionReportRequest.getEquipment_deployed());
 
 		Log.d(Utils.LOG_TAG, " url - : " + CommsConstant.HOST
 				+ CommsConstant.POLLUTION_REPORT_UPLOAD + "/" + Utils.work_id);
 		Log.d(Utils.LOG_TAG, " request "
 				+ GsonConverter.getInstance().encodeToJsonString(data));
 		try {
-			CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(this);
-			if(checkOutObject!=null && Utils.isNullOrEmpty(checkOutObject.getWorkId())){
+			CheckOutObject checkOutObject = JobViewerDBHandler
+					.getCheckOutRemember(this);
+			if (checkOutObject != null
+					&& Utils.isNullOrEmpty(checkOutObject.getWorkId())) {
 				Utils.work_id = checkOutObject.getWorkId();
 			}
-		} catch(Exception e) {
-			
+		} catch (Exception e) {
+
 		}
-		if (Utils.isInternetAvailable(PollutionActivity.this) && !savedButtonPressed) {
-		Utils.SendHTTPRequest(this, CommsConstant.HOST
-				+ CommsConstant.POLLUTION_REPORT_UPLOAD + "/" + Utils.work_id,
-				data, getPollutionReportHandler());
+		if (Utils.isInternetAvailable(PollutionActivity.this)
+				&& !savedButtonPressed) {
+			Utils.SendHTTPRequest(this, CommsConstant.HOST
+					+ CommsConstant.POLLUTION_REPORT_UPLOAD + "/"
+					+ Utils.work_id, data, getPollutionReportHandler());
 		} else {
-			if(!savedButtonPressed)
+			if (!savedButtonPressed)
 				savePollutionReportInBackLogDb();
 			else
 				savePollutionReport();
@@ -558,9 +569,8 @@ public class PollutionActivity extends BaseActivity implements
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
-					Log.d(Utils.LOG_TAG,"pollution report success");
-					
-					
+					Log.d(Utils.LOG_TAG, "pollution report success");
+
 					Intent addPhotosActivityIntent = new Intent(
 							PollutionActivity.this, AddPhotosActivity.class);
 					startActivity(addPhotosActivityIntent);
@@ -606,22 +616,28 @@ public class PollutionActivity extends BaseActivity implements
 				&& resultCode == RESULT_OK) {
 			upStreamImageObject = new ImageObject();
 			upStreamImageObject = prepareImageObject(upStreamImageObject);
-			
+
 			mTakePicUpStream.setText(null);
-			mTakePicUpStream.setCompoundDrawablesWithIntrinsicBounds(
-					null,
-					ResourcesCompat.getDrawable(getResources(), R.drawable.pollution_camera_icon, null), null, null);
-			mTakePicUpStream.setBackgroundColor(ContextCompat.getColor(context, R.color.red));
-			
+			mTakePicUpStream
+					.setCompoundDrawablesWithIntrinsicBounds(null,
+							ResourcesCompat.getDrawable(getResources(),
+									R.drawable.pollution_camera_icon, null),
+							null, null);
+			mTakePicUpStream.setBackgroundColor(ContextCompat.getColor(context,
+					R.color.red));
+
 		} else if (requestCode == com.jobviewer.util.Constants.DOWNSTREAM_RESULT_CODE
 				&& resultCode == RESULT_OK) {
 			downSteamIamgeObject = new ImageObject();
 			downSteamIamgeObject = prepareImageObject(downSteamIamgeObject);
 			mTakePicDownStream.setText(null);
-			mTakePicDownStream.setCompoundDrawablesWithIntrinsicBounds(
-					null,ResourcesCompat.getDrawable(getResources(), R.drawable.pollution_camera_icon, null)
-					, null, null);
-			mTakePicDownStream.setBackgroundColor(ContextCompat.getColor(context, R.color.red));
+			mTakePicDownStream
+					.setCompoundDrawablesWithIntrinsicBounds(null,
+							ResourcesCompat.getDrawable(getResources(),
+									R.drawable.pollution_camera_icon, null),
+							null, null);
+			mTakePicDownStream.setBackgroundColor(ContextCompat.getColor(
+					context, R.color.red));
 		}
 	}
 
@@ -655,7 +671,7 @@ public class PollutionActivity extends BaseActivity implements
 			String picDateTime = exif.getAttribute(ExifInterface.TAG_DATETIME);
 			formatDate = Utils.formatDate(picDateTime);
 			GeoLocationCamera geoLocationCamera = new GeoLocationCamera(exif);
-			//geoLocation = geoLocationCamera.toString();
+			// geoLocation = geoLocationCamera.toString();
 
 			Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
 			Log.i("Android", "geoLocation   :" + geoLocation);
@@ -688,20 +704,26 @@ public class PollutionActivity extends BaseActivity implements
 			String extentOfLandPollution = landPollution.getText().toString();
 			String landEffected = landAffected.getText().toString();
 			String[] langpollutants = {};
-			if(!Utils.isNullOrEmpty(landPollutantsText.getText().toString())){
-				pollutionReportRequest.setLand_pollutants(landPollutantsText.getText().toString());
-				langpollutants = landPollutantsText.getText().toString().split(",");
+			if (!Utils.isNullOrEmpty(landPollutantsText.getText().toString())) {
+				pollutionReportRequest.setLand_pollutants(landPollutantsText
+						.getText().toString());
+				langpollutants = landPollutantsText.getText().toString()
+						.split(",");
 			}
-			
+
 			String indicativeCasueStr = indicativeCause.getText().toString();
 			pollutionReportRequest.setIndicative_cause(indicativeCasueStr);
 			String extentOfWaterPollution = extentOfWater.getText().toString();
 			String waterBoddyEffected = waterBody.getText().toString();
 			String[] waterPollutants = {};
 
-			if(!Utils.isNullOrEmpty(waterPollutantsTextView.getText().toString())){
-				pollutionReportRequest.setWater_pollutants(waterPollutantsTextView.getText().toString());
-				waterPollutants = waterPollutantsTextView.getText().toString().split(",");
+			if (!Utils.isNullOrEmpty(waterPollutantsTextView.getText()
+					.toString())) {
+				pollutionReportRequest
+						.setWater_pollutants(waterPollutantsTextView.getText()
+								.toString());
+				waterPollutants = waterPollutantsTextView.getText().toString()
+						.split(",");
 			}
 			String ammoniaStr = ammonia.getText().toString();
 			String fishKillStr = fishKill.getText().toString();
@@ -738,11 +760,15 @@ public class PollutionActivity extends BaseActivity implements
 				String extentOfLandPollution = landPollution.getText()
 						.toString();
 				String landEffected = landAffected.getText().toString();
-				
+
 				String[] langpollutants = {};
-				if(!Utils.isNullOrEmpty(landPollutantsText.getText().toString())){
-					pollutionReportRequest.setLand_pollutants(landPollutantsText.getText().toString());
-					langpollutants = landPollutantsText.getText().toString().split(",");
+				if (!Utils.isNullOrEmpty(landPollutantsText.getText()
+						.toString())) {
+					pollutionReportRequest
+							.setLand_pollutants(landPollutantsText.getText()
+									.toString());
+					langpollutants = landPollutantsText.getText().toString()
+							.split(",");
 				}
 				String indicativeCasueStr = indicativeCause.getText()
 						.toString();
@@ -764,14 +790,18 @@ public class PollutionActivity extends BaseActivity implements
 				String extentOfWaterPollution = extentOfWater.getText()
 						.toString();
 				String waterBoddyEffected = waterBody.getText().toString();
-				
+
 				String[] waterPollutants = {};
 
-				if(!Utils.isNullOrEmpty(waterPollutantsTextView.getText().toString())){
-					pollutionReportRequest.setWater_pollutants(waterPollutantsTextView.getText().toString());
-					waterPollutants = waterPollutantsTextView.getText().toString().split(",");
+				if (!Utils.isNullOrEmpty(waterPollutantsTextView.getText()
+						.toString())) {
+					pollutionReportRequest
+							.setWater_pollutants(waterPollutantsTextView
+									.getText().toString());
+					waterPollutants = waterPollutantsTextView.getText()
+							.toString().split(",");
 				}
-				
+
 				String ammoniaStr = ammonia.getText().toString();
 				String fishKillStr = fishKill.getText().toString();
 				String indicativeCasueStr = indicativeCause.getText()
@@ -805,67 +835,78 @@ public class PollutionActivity extends BaseActivity implements
 				ActivityConstants.POLLUTION_ACTIVITY);
 		startActivity(homeIntent);
 	}
-	
-	private synchronized void sendUpStreamWorkImageToServer(ImageObject imageObject) {
-		if(imageObject != null){
-		ContentValues data = new ContentValues();
-		data.put("temp_id", imageObject.getImageId());
-		data.put("category", imageObject.getCategory());
-		data.put("image_string", Constants.IMAGE_STRING_INITIAL+imageObject.getImage_string());
-		data.put("image_exif", imageObject.getImage_exif());
-		Log.d(Utils.LOG_TAG," pollutiion activity sendUpStreamWorkImageToServer");
-		Utils.SendHTTPRequest(this, CommsConstant.HOST
-				+ CommsConstant.SURVEY_PHOTO_UPLOAD, data,
-				getSendWorkUpImageHandler(imageObject));
-		} else{
+
+	private synchronized void sendUpStreamWorkImageToServer(
+			ImageObject imageObject) {
+		if (imageObject != null) {
+			ContentValues data = new ContentValues();
+			data.put("temp_id", imageObject.getImageId());
+			data.put("category", imageObject.getCategory());
+			data.put("image_string", Constants.IMAGE_STRING_INITIAL
+					+ imageObject.getImage_string());
+			data.put("image_exif", imageObject.getImage_exif());
+			Log.d(Utils.LOG_TAG,
+					" pollutiion activity sendUpStreamWorkImageToServer");
+			Utils.SendHTTPRequest(this, CommsConstant.HOST
+					+ CommsConstant.SURVEY_PHOTO_UPLOAD, data,
+					getSendWorkUpImageHandler(imageObject));
+		} else {
 			return;
 		}
 
 	}
-	
-	private synchronized void sendDownStreamWorkImageToServer(ImageObject imageObject) {
-		if(imageObject != null){
-		ContentValues data = new ContentValues();
-		data.put("temp_id", imageObject.getImageId());
-		data.put("category", imageObject.getCategory());
-		data.put("image_string", Constants.IMAGE_STRING_INITIAL+imageObject.getImage_string());
-		data.put("image_exif", imageObject.getImage_exif());
-		Log.d(Utils.LOG_TAG," pollutiion activity sendDownStreamWorkImageToServer");
-		Utils.SendHTTPRequest(this, CommsConstant.HOST
-				+ CommsConstant.SURVEY_PHOTO_UPLOAD, data,
-				getSendWorkDownImageHandler(imageObject));
-		} else{
+
+	private synchronized void sendDownStreamWorkImageToServer(
+			ImageObject imageObject) {
+		if (imageObject != null) {
+			ContentValues data = new ContentValues();
+			data.put("temp_id", imageObject.getImageId());
+			data.put("category", imageObject.getCategory());
+			data.put("image_string", Constants.IMAGE_STRING_INITIAL
+					+ imageObject.getImage_string());
+			data.put("image_exif", imageObject.getImage_exif());
+			Log.d(Utils.LOG_TAG,
+					" pollutiion activity sendDownStreamWorkImageToServer");
+			Utils.SendHTTPRequest(this, CommsConstant.HOST
+					+ CommsConstant.SURVEY_PHOTO_UPLOAD, data,
+					getSendWorkDownImageHandler(imageObject));
+		} else {
 			return;
 		}
 
 	}
-	
+
 	private Handler getSendWorkUpImageHandler(final ImageObject imageObject) {
 		Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-					Log.d(Utils.LOG_TAG," pollutiion activity getSendWorkUpImageHandler handleMessage DID_SUCCEED");
+					Log.d(Utils.LOG_TAG,
+							" pollutiion activity getSendWorkUpImageHandler handleMessage DID_SUCCEED");
 					/*
 					 * Intent intent = new Intent(getActivity(),
 					 * RiskAssessmentActivity.class); startActivity(intent);
 					 */
-					
+
 					sendDownStreamWorkImageToServer(downSteamIamgeObject);
 					break;
 				case HttpConnection.DID_ERROR:
-					
-					  String error = (String) msg.obj; 
-					   /* VehicleException
-					  exception = GsonConverter .getInstance()
-					  .decodeFromJsonString(error, VehicleException.class);
-					  ExceptionHandler.showException(getApplicationContext(), exception,
-					  "Info");*/
-					Log.d(Utils.LOG_TAG," pollutiion activity getSendWorkUpImageHandler handleMessage DID_ERROR "+ error);
+
+					String error = (String) msg.obj;
+					/*
+					 * VehicleException exception = GsonConverter .getInstance()
+					 * .decodeFromJsonString(error, VehicleException.class);
+					 * ExceptionHandler.showException(getApplicationContext(),
+					 * exception, "Info");
+					 */
+					Log.d(Utils.LOG_TAG,
+							" pollutiion activity getSendWorkUpImageHandler handleMessage DID_ERROR "
+									+ error);
 					sendDownStreamWorkImageToServer(downSteamIamgeObject);
-					 
-					Utils.saveWorkImageInBackLogDb(getApplicationContext(), upStreamImageObject);
+
+					Utils.saveWorkImageInBackLogDb(getApplicationContext(),
+							upStreamImageObject);
 					break;
 				default:
 					break;
@@ -874,30 +915,36 @@ public class PollutionActivity extends BaseActivity implements
 		};
 		return handler;
 	}
-	
+
 	private Handler getSendWorkDownImageHandler(final ImageObject imageObject) {
 		Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-					Log.d(Utils.LOG_TAG," pollutiion activity getSendWorkDownImageHandler handleMessage DID_SUCCEED");
+					Log.d(Utils.LOG_TAG,
+							" pollutiion activity getSendWorkDownImageHandler handleMessage DID_SUCCEED");
 					/*
 					 * Intent intent = new Intent(getActivity(),
 					 * RiskAssessmentActivity.class); startActivity(intent);
 					 */
-					
+
 					sendPollutionReportToServer();
 					break;
 				case HttpConnection.DID_ERROR:
-					
-					  String error = (String) msg.obj; 
-					  /*VehicleException exception = GsonConverter .getInstance()
-					  .decodeFromJsonString(error, VehicleException.class);
-					  ExceptionHandler.showException(getApplicationContext(), exception,
-					  "Info");*/
-					  Log.d(Utils.LOG_TAG," pollutiion activity getSendWorkDownImageHandler handleMessage DID_ERROR "+error);
-					Utils.saveWorkImageInBackLogDb(getApplicationContext(), downSteamIamgeObject);
+
+					String error = (String) msg.obj;
+					/*
+					 * VehicleException exception = GsonConverter .getInstance()
+					 * .decodeFromJsonString(error, VehicleException.class);
+					 * ExceptionHandler.showException(getApplicationContext(),
+					 * exception, "Info");
+					 */
+					Log.d(Utils.LOG_TAG,
+							" pollutiion activity getSendWorkDownImageHandler handleMessage DID_ERROR "
+									+ error);
+					Utils.saveWorkImageInBackLogDb(getApplicationContext(),
+							downSteamIamgeObject);
 					break;
 				default:
 					break;
@@ -906,167 +953,195 @@ public class PollutionActivity extends BaseActivity implements
 		};
 		return handler;
 	}
-	
-	private void savePollutionReport(){
-		
+
+	private void savePollutionReport() {
+
 		String jsonFlagObject = JobViewerDBHandler.getJSONFlagObject(this);
-		
-		if(Utils.isNullOrEmpty(jsonFlagObject)){
+
+		if (Utils.isNullOrEmpty(jsonFlagObject)) {
 			jsonFlagObject = "{}";
 		}
-			try{
-				JSONObject jsonObject = new JSONObject(jsonFlagObject);
-				if(jsonObject.has(Constants.SAVED_POLLUTION_DATA)){
-					jsonObject.remove(Constants.SAVED_POLLUTION_DATA);					
-				}
-				if(jsonObject.has(Constants.UPSTREAM_IMAGE_OBJECT)){
-					jsonObject.remove(Constants.UPSTREAM_IMAGE_OBJECT);					
-				}
-				if(jsonObject.has(Constants.DOWNSTREAM_IMAGE_OBJECT)){
-					jsonObject.remove(Constants.DOWNSTREAM_IMAGE_OBJECT);					
-				}
-				jsonObject.put(Constants.SAVED_POLLUTION_DATA, GsonConverter.getInstance().encodeToJsonString(pollutionReportRequest));
-				jsonObject.put(Constants.UPSTREAM_IMAGE_OBJECT, GsonConverter.getInstance().encodeToJsonString(upStreamImageObject));
-				jsonObject.put(Constants.DOWNSTREAM_IMAGE_OBJECT, GsonConverter.getInstance().encodeToJsonString(downSteamIamgeObject));
-				String jsonString = jsonObject.toString();
-				JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(), jsonString);
-			}catch(JSONException jsoe){
-				
+		try {
+			JSONObject jsonObject = new JSONObject(jsonFlagObject);
+			if (jsonObject.has(Constants.SAVED_POLLUTION_DATA)) {
+				jsonObject.remove(Constants.SAVED_POLLUTION_DATA);
 			}
-			
+			if (jsonObject.has(Constants.UPSTREAM_IMAGE_OBJECT)) {
+				jsonObject.remove(Constants.UPSTREAM_IMAGE_OBJECT);
+			}
+			if (jsonObject.has(Constants.DOWNSTREAM_IMAGE_OBJECT)) {
+				jsonObject.remove(Constants.DOWNSTREAM_IMAGE_OBJECT);
+			}
+			jsonObject.put(Constants.SAVED_POLLUTION_DATA, GsonConverter
+					.getInstance().encodeToJsonString(pollutionReportRequest));
+			jsonObject.put(Constants.UPSTREAM_IMAGE_OBJECT, GsonConverter
+					.getInstance().encodeToJsonString(upStreamImageObject));
+			jsonObject.put(Constants.DOWNSTREAM_IMAGE_OBJECT, GsonConverter
+					.getInstance().encodeToJsonString(downSteamIamgeObject));
+			String jsonString = jsonObject.toString();
+			JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(),
+					jsonString);
+		} catch (JSONException jsoe) {
+
+		}
+
 	}
-	private void updateUIAsperSavedPollutionReport(){
+
+	private void updateUIAsperSavedPollutionReport() {
 		String jsonFlagObject = JobViewerDBHandler.getJSONFlagObject(this);
 		PollutionReportRequest savedPollutionReportRequest = new PollutionReportRequest();
-		if(Utils.isNullOrEmpty(jsonFlagObject)){
+		if (Utils.isNullOrEmpty(jsonFlagObject)) {
 			jsonFlagObject = "{}";
 		}
-		try{
+		try {
 			JSONObject pollutionObject = new JSONObject(jsonFlagObject);
-				if(pollutionObject.has(Constants.SAVED_POLLUTION_DATA)){
-					String pollutionObjectString = pollutionObject.getString(Constants.SAVED_POLLUTION_DATA);
-					if(!Utils.isNullOrEmpty(pollutionObjectString)){
-						savedPollutionReportRequest = GsonConverter.getInstance().decodeFromJsonString(pollutionObjectString, PollutionReportRequest.class);
-					}
+			if (pollutionObject.has(Constants.SAVED_POLLUTION_DATA)) {
+				String pollutionObjectString = pollutionObject
+						.getString(Constants.SAVED_POLLUTION_DATA);
+				if (!Utils.isNullOrEmpty(pollutionObjectString)) {
+					savedPollutionReportRequest = GsonConverter.getInstance()
+							.decodeFromJsonString(pollutionObjectString,
+									PollutionReportRequest.class);
 				}
-				if(pollutionObject.has(Constants.UPSTREAM_IMAGE_OBJECT)){
-					String upstreamImageObjectString = pollutionObject.getString(Constants.UPSTREAM_IMAGE_OBJECT);
-					if(!Utils.isNullOrEmpty(upstreamImageObjectString)){
-						upStreamImageObject = GsonConverter.getInstance().decodeFromJsonString(upstreamImageObjectString, ImageObject.class);
-					}
-				}	
-				if(pollutionObject.has(Constants.DOWNSTREAM_IMAGE_OBJECT)){
-					String downStreamImageObjectString = pollutionObject.getString(Constants.DOWNSTREAM_IMAGE_OBJECT);
-					if(!Utils.isNullOrEmpty(downStreamImageObjectString)){
-						downSteamIamgeObject = GsonConverter.getInstance().decodeFromJsonString(downStreamImageObjectString, ImageObject.class);
-					}
-				}	
-		}catch(JSONException jsoe){
-				
+			}
+			if (pollutionObject.has(Constants.UPSTREAM_IMAGE_OBJECT)) {
+				String upstreamImageObjectString = pollutionObject
+						.getString(Constants.UPSTREAM_IMAGE_OBJECT);
+				if (!Utils.isNullOrEmpty(upstreamImageObjectString)) {
+					upStreamImageObject = GsonConverter.getInstance()
+							.decodeFromJsonString(upstreamImageObjectString,
+									ImageObject.class);
+				}
+			}
+			if (pollutionObject.has(Constants.DOWNSTREAM_IMAGE_OBJECT)) {
+				String downStreamImageObjectString = pollutionObject
+						.getString(Constants.DOWNSTREAM_IMAGE_OBJECT);
+				if (!Utils.isNullOrEmpty(downStreamImageObjectString)) {
+					downSteamIamgeObject = GsonConverter.getInstance()
+							.decodeFromJsonString(downStreamImageObjectString,
+									ImageObject.class);
+				}
+			}
+		} catch (JSONException jsoe) {
+
 		}
-		if(savedPollutionReportRequest.getLand_polluted().equalsIgnoreCase("Yes")){
+		if (savedPollutionReportRequest.getLand_polluted().equalsIgnoreCase(
+				"Yes")) {
 			ptlCheckbox.setChecked(true);
 			ptlExpandLayout.setVisibility(View.VISIBLE);
 			String land_area = savedPollutionReportRequest.getLand_area();
-			String land_pollutants = savedPollutionReportRequest.getLand_pollutants();
+			String land_pollutants = savedPollutionReportRequest
+					.getLand_pollutants();
 			String land_type = savedPollutionReportRequest.getLand_type();
-			
-			if(!Utils.isNullOrEmpty(land_area)){
+
+			if (!Utils.isNullOrEmpty(land_area)) {
 				landPollution.setText(land_area);
 			}
-			if(!Utils.isNullOrEmpty(land_pollutants)){
+			if (!Utils.isNullOrEmpty(land_pollutants)) {
 				landPollutantsText.setText(land_pollutants);
 			}
-			if(!Utils.isNullOrEmpty(land_type)){
+			if (!Utils.isNullOrEmpty(land_type)) {
 				landAffected.setText(land_type);
 			}
-			
+
 		}
-		if(savedPollutionReportRequest.getWater_polluted().equalsIgnoreCase("Yes")){
+		if (savedPollutionReportRequest.getWater_polluted().equalsIgnoreCase(
+				"Yes")) {
 			ptwCheckbox.setChecked(true);
 			ptwExpandLayout.setVisibility(View.VISIBLE);
 			String water_area = savedPollutionReportRequest.getWater_area();
 			String water_body = savedPollutionReportRequest.getWater_body();
-			String water_pollutants = savedPollutionReportRequest.getWater_pollutants();			
+			String water_pollutants = savedPollutionReportRequest
+					.getWater_pollutants();
 			String ammonia1 = savedPollutionReportRequest.getAmmonia();
 			String fish_kill = savedPollutionReportRequest.getFish_kill();
 			String do_upstream = savedPollutionReportRequest.getDo_upstream();
-			String do_downstream = savedPollutionReportRequest.getDo_downstream();
-			String do_downstream_image = savedPollutionReportRequest.getDo_downstream_image();
-			String do_upstream_image = savedPollutionReportRequest.getDo_upstream_image();
-			if(!Utils.isNullOrEmpty(water_area)){
+			String do_downstream = savedPollutionReportRequest
+					.getDo_downstream();
+			String do_downstream_image = savedPollutionReportRequest
+					.getDo_downstream_image();
+			String do_upstream_image = savedPollutionReportRequest
+					.getDo_upstream_image();
+			if (!Utils.isNullOrEmpty(water_area)) {
 				extentOfWater.setText(water_area);
 			}
-			if(!Utils.isNullOrEmpty(water_body)){
+			if (!Utils.isNullOrEmpty(water_body)) {
 				waterBody.setText(water_body);
 			}
-			if(!Utils.isNullOrEmpty(water_pollutants)){
+			if (!Utils.isNullOrEmpty(water_pollutants)) {
 				waterPollutantsTextView.setText(water_pollutants);
 			}
-			if(!Utils.isNullOrEmpty(ammonia1)){
+			if (!Utils.isNullOrEmpty(ammonia1)) {
 				ammonia.setText(ammonia1);
 			}
-			if(!Utils.isNullOrEmpty(fish_kill)){
+			if (!Utils.isNullOrEmpty(fish_kill)) {
 				fishKill.setText(fish_kill);
 			}
-			if(!Utils.isNullOrEmpty(do_upstream)){
+			if (!Utils.isNullOrEmpty(do_upstream)) {
 				mUpStreamEditText.setText(do_upstream);
 			}
-			if(!Utils.isNullOrEmpty(do_downstream)){
+			if (!Utils.isNullOrEmpty(do_downstream)) {
 				mDownStreamEdiText.setText(do_downstream);
 			}
-			if(!Utils.isNullOrEmpty(do_upstream_image)){
+			if (!Utils.isNullOrEmpty(do_upstream_image)) {
 				mTakePicUpStream.setText(null);
-				mTakePicUpStream.setCompoundDrawablesWithIntrinsicBounds(
-						null,
-						ResourcesCompat.getDrawable(getResources(), R.drawable.pollution_camera_icon, null), null, null);
-				mTakePicUpStream.setBackgroundColor(ContextCompat.getColor(context, R.color.red));
-				
+				mTakePicUpStream.setCompoundDrawablesWithIntrinsicBounds(null,
+						ResourcesCompat.getDrawable(getResources(),
+								R.drawable.pollution_camera_icon, null), null,
+						null);
+				mTakePicUpStream.setBackgroundColor(ContextCompat.getColor(
+						context, R.color.red));
+
 			}
-			if(!Utils.isNullOrEmpty(do_downstream_image)){
+			if (!Utils.isNullOrEmpty(do_downstream_image)) {
 				mTakePicDownStream.setText(null);
 				mTakePicDownStream.setCompoundDrawablesWithIntrinsicBounds(
-						null,ResourcesCompat.getDrawable(getResources(), R.drawable.pollution_camera_icon, null)
-						, null, null);
-				mTakePicDownStream.setBackgroundColor(ContextCompat.getColor(context, R.color.red));
+						null, ResourcesCompat.getDrawable(getResources(),
+								R.drawable.pollution_camera_icon, null), null,
+						null);
+				mTakePicDownStream.setBackgroundColor(ContextCompat.getColor(
+						context, R.color.red));
 			}
-			
+
 		}
-		String equipment_deployed = savedPollutionReportRequest.getEquipment_deployed();
-		if(!Utils.isNullOrEmpty(equipment_deployed)){
+		String equipment_deployed = savedPollutionReportRequest
+				.getEquipment_deployed();
+		if (!Utils.isNullOrEmpty(equipment_deployed)) {
 			additionalED.setText(equipment_deployed);
 		}
-		String indicative_cause = savedPollutionReportRequest.getIndicative_cause();
-		if(!Utils.isNullOrEmpty(indicative_cause)){
+		String indicative_cause = savedPollutionReportRequest
+				.getIndicative_cause();
+		if (!Utils.isNullOrEmpty(indicative_cause)) {
 			indicativeCause.setText(indicative_cause);
-			
+
 		}
-		
+
 		validateUserInputs();
 		removeSavedPollutionFlags();
 	}
-	
-	private void removeSavedPollutionFlags(){
+
+	private void removeSavedPollutionFlags() {
 		String jsonFlagObject = JobViewerDBHandler.getJSONFlagObject(this);
-		
-		if(Utils.isNullOrEmpty(jsonFlagObject)){
+
+		if (Utils.isNullOrEmpty(jsonFlagObject)) {
 			jsonFlagObject = "{}";
 		}
-			try{
-				JSONObject jsonObject = new JSONObject(jsonFlagObject);
-				if(jsonObject.has(Constants.SAVED_POLLUTION_DATA)){
-					jsonObject.remove(Constants.SAVED_POLLUTION_DATA);					
-				}
-				if(jsonObject.has(Constants.UPSTREAM_IMAGE_OBJECT)){
-					jsonObject.remove(Constants.UPSTREAM_IMAGE_OBJECT);					
-				}
-				if(jsonObject.has(Constants.DOWNSTREAM_IMAGE_OBJECT)){
-					jsonObject.remove(Constants.DOWNSTREAM_IMAGE_OBJECT);					
-				}				
-				String jsonString = jsonObject.toString();
-				JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(), jsonString);
-			}catch(JSONException jsoe){
-				
+		try {
+			JSONObject jsonObject = new JSONObject(jsonFlagObject);
+			if (jsonObject.has(Constants.SAVED_POLLUTION_DATA)) {
+				jsonObject.remove(Constants.SAVED_POLLUTION_DATA);
 			}
+			if (jsonObject.has(Constants.UPSTREAM_IMAGE_OBJECT)) {
+				jsonObject.remove(Constants.UPSTREAM_IMAGE_OBJECT);
+			}
+			if (jsonObject.has(Constants.DOWNSTREAM_IMAGE_OBJECT)) {
+				jsonObject.remove(Constants.DOWNSTREAM_IMAGE_OBJECT);
+			}
+			String jsonString = jsonObject.toString();
+			JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(),
+					jsonString);
+		} catch (JSONException jsoe) {
+
+		}
 	}
 }

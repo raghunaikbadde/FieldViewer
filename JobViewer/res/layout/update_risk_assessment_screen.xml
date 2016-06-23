@@ -18,10 +18,11 @@
 
             <ScrollView
                 android:id="@+id/scrollView1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/white_lato_regular_big79"
-                android:layout_marginRight="@dimen/white_lato_regular_big79" >
+                android:layout_marginRight="@dimen/white_lato_regular_big79"
+                android:isScrollContainer="false" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -55,8 +56,7 @@
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                
+                android:layout_height="match_parent" >
             </ListView>
         </LinearLayout>
 
@@ -65,9 +65,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/white_lato_regular_big79"
             android:layout_marginLeft="@dimen/white_lato_regular_big79"
-            android:layout_marginRight="@dimen/white_lato_regular_big79"
-            android:layout_marginBottom="@dimen/white_lato_regular_big79">
+            android:layout_marginRight="@dimen/white_lato_regular_big79" >
 
             <Button
                 android:id="@+id/button1"
@@ -77,8 +77,8 @@
                 android:background="@drawable/grey_background"
                 android:text="@string/cancel"
                 android:textAllCaps="false"
-                android:textSize="@dimen/dialog_black_lato_regular_small60"
-                android:textColor="@color/dark_grey" />
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
             <Button
                 android:id="@+id/space"
@@ -95,8 +95,8 @@
                 android:background="@drawable/dark_grey_background"
                 android:text="@string/next"
                 android:textAllCaps="false"
-                android:textSize="@dimen/dialog_black_lato_regular_small60"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/dialog_black_lato_regular_small60" />
         </LinearLayout>
     </RelativeLayout>
 

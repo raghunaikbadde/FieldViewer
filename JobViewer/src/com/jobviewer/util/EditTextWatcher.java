@@ -8,10 +8,10 @@ import android.widget.EditText;
 import com.lanesgroup.jobviewer.NewWorkActivity;
 
 public class EditTextWatcher implements TextWatcher {
-	int maxLenght;
-	EditText editText;
-	Context context;
-	EditText nextFocusEditText;
+	private int maxLenght;
+	private EditText editText;
+	private Context context;
+	private EditText nextFocusEditText;
 
 	public EditTextWatcher(Context context, EditText editText, int length,
 			EditText nextFocusEditText) {

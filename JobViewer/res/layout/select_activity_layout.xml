@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
     <TextView
         android:id="@+id/dialog_info"
         android:layout_width="match_parent"
@@ -13,6 +13,5 @@
         android:text="@string/activity_type"
         android:textColor="@color/white"
         android:textSize="@dimen/title_text_size70" />
-    
-    
+
 </LinearLayout>

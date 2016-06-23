@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -36,13 +35,13 @@ public class EndTravelActivity extends BaseActivity implements
 	private Button mStartTravel;
 	private TextView mTravelTime, mTitleText, mOverrideText;
 	private String TRAVEL_STARTED = "Travel started: ";
-	//private String ON_BREAK = "On Break";
+	// private String ON_BREAK = "On Break";
 	private String ENROUTE = "Enroute to Work";
-	//private String BREAK_TIME = "Break started: ";
-	//private String END_BREAK = "End Break";
+	// private String BREAK_TIME = "Break started: ";
+	// private String END_BREAK = "End Break";
 	private String END_TRAVEL = "End Travel";
-	//private boolean isBreakStarted;
-	Context mContext;
+	// private boolean isBreakStarted;
+	private Context mContext;
 	private String eventType;
 
 	@Override
@@ -54,14 +53,17 @@ public class EndTravelActivity extends BaseActivity implements
 		mTitleText = (TextView) findViewById(R.id.enroute_to_work_text);
 		mTravelTime = (TextView) findViewById(R.id.travel_start_time_text);
 		mOverrideText = (TextView) findViewById(R.id.travel_override_time_text);
-		
+
 		mStartTravel = (Button) findViewById(R.id.end_travel);
 		eventType = (String) getIntent().getExtras().get(Constants.STARTED);
 		mTitleText.setText(ENROUTE);
-		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(EndTravelActivity.this);
-		CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(this);
-		
-		String actualTime = Utils.startTravelTimeRequest.getStarted_at();;
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler
+				.getBreakShiftTravelCall(EndTravelActivity.this);
+		CheckOutObject checkOutObject = JobViewerDBHandler
+				.getCheckOutRemember(this);
+
+		String actualTime = Utils.startTravelTimeRequest.getStarted_at();
+		;
 		mTravelTime.setText(actualTime + " (System)");
 		mStartTravel.setText(END_TRAVEL);
 
@@ -75,33 +77,42 @@ public class EndTravelActivity extends BaseActivity implements
 						"End Travel").show();
 			}
 		});
-		
-		if(isAlreadyOveridden()){
-			String jsonStr = JobViewerDBHandler.getJSONFlagObject(EndTravelActivity.this);
-			try{
+
+		if (isAlreadyOveridden()) {
+			String jsonStr = JobViewerDBHandler
+					.getJSONFlagObject(EndTravelActivity.this);
+			try {
 				JSONObject flagJSON = new JSONObject(jsonStr);
-				String actualTravelStartTime = flagJSON.getString(Constants.ACTUAL_TRAVEL_START_TIME_FLAG_JSON);
-				String overrrideTime = flagJSON.getString(Constants.OVERRIDE_TRAVEL_START_TIME_FLAG_JSON);
+				String actualTravelStartTime = flagJSON
+						.getString(Constants.ACTUAL_TRAVEL_START_TIME_FLAG_JSON);
+				String overrrideTime = flagJSON
+						.getString(Constants.OVERRIDE_TRAVEL_START_TIME_FLAG_JSON);
 				mTravelTime.setText(actualTravelStartTime + " (System)");
 				mOverrideText.setVisibility(View.VISIBLE);
 				mOverrideText.setText(overrrideTime + " (User)");
-				
-			}catch(JSONException jse){
-				
+
+			} catch (JSONException jse) {
+
 			}
 		} else {
-			if(getIntent().getExtras().get(Constants.OVERRIDE_TIME) != null){
-				String overtime = getIntent().getExtras().get(Constants.OVERRIDE_TIME).toString();
-				String actualTravelStartTime = getIntent().getExtras().get(Constants.TIME).toString();
+			if (getIntent().getExtras().get(Constants.OVERRIDE_TIME) != null) {
+				String overtime = getIntent().getExtras()
+						.get(Constants.OVERRIDE_TIME).toString();
+				String actualTravelStartTime = getIntent().getExtras()
+						.get(Constants.TIME).toString();
 				mOverrideText.setVisibility(View.VISIBLE);
 				mTravelTime.setText(actualTravelStartTime + " (System)");
 				mOverrideText.setText(overtime + " (User)");
-				saveOverrideAndActualTravelStartTimeInFlagDB(actualTravelStartTime, overtime, ActivityConstants.TRUE);
-			}else{
-				saveOverrideAndActualTravelStartTimeInFlagDB(getIntent().getExtras().getString(Constants.TIME), getIntent().getExtras().getString(Constants.TIME), ActivityConstants.FALSE);
+				saveOverrideAndActualTravelStartTimeInFlagDB(
+						actualTravelStartTime, overtime, ActivityConstants.TRUE);
+			} else {
+				saveOverrideAndActualTravelStartTimeInFlagDB(getIntent()
+						.getExtras().getString(Constants.TIME), getIntent()
+						.getExtras().getString(Constants.TIME),
+						ActivityConstants.FALSE);
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -109,7 +120,9 @@ public class EndTravelActivity extends BaseActivity implements
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == Constants.RESULT_CODE_CHANGE_TIME
 				&& resultCode == RESULT_OK) {
-			if (ActivityConstants.TRUE.equalsIgnoreCase(Utils.endTravelTimeRequest.getIs_overriden())){
+			if (ActivityConstants.TRUE
+					.equalsIgnoreCase(Utils.endTravelTimeRequest
+							.getIs_overriden())) {
 				Intent intent = new Intent(this, OverrideReasoneDialog.class);
 				intent.putExtra("eventType", eventType);
 				startActivityForResult(intent,
@@ -118,31 +131,33 @@ public class EndTravelActivity extends BaseActivity implements
 		} else if (requestCode == Constants.RESULT_CODE_OVERRIDE_COMMENT
 				&& resultCode == RESULT_OK) {
 
-				if (Utils.isInternetAvailable(mContext)) {					
-					executeEndTravelService();
-				} else {
-					Utils.saveTimeSheetInBackLogTable(EndTravelActivity.this,Utils.endTravelTimeRequest,CommsConstant.END_TRAVEL_API,Utils.REQUEST_TYPE_WORK);
-					//savePaidEndTravelinBackLogDb();
-					JobViewerDBHandler.saveTimeSheet(this,
-							Utils.endTravelTimeRequest, CommsConstant.HOST
-									+ CommsConstant.END_TRAVEL_API);
-					CheckOutObject checkOutRemember = JobViewerDBHandler
-							.getCheckOutRemember(mContext);
-					checkOutRemember.setIsStartedTravel("");
-					checkOutRemember.setIsTravelEnd("true");
-					JobViewerDBHandler.saveCheckOutRemember(mContext,
-							checkOutRemember);
-					
-					Intent intent = new Intent(this, NewWorkActivity.class);
-					CheckAndCcontinueNoWork(intent);
-					startActivity(intent);
-				}
+			if (Utils.isInternetAvailable(mContext)) {
+				executeEndTravelService();
+			} else {
+				Utils.saveTimeSheetInBackLogTable(EndTravelActivity.this,
+						Utils.endTravelTimeRequest,
+						CommsConstant.END_TRAVEL_API, Utils.REQUEST_TYPE_WORK);
+				// savePaidEndTravelinBackLogDb();
+				JobViewerDBHandler.saveTimeSheet(this,
+						Utils.endTravelTimeRequest, CommsConstant.HOST
+								+ CommsConstant.END_TRAVEL_API);
+				CheckOutObject checkOutRemember = JobViewerDBHandler
+						.getCheckOutRemember(mContext);
+				checkOutRemember.setIsStartedTravel("");
+				checkOutRemember.setIsTravelEnd("true");
+				JobViewerDBHandler.saveCheckOutRemember(mContext,
+						checkOutRemember);
+
+				Intent intent = new Intent(this, NewWorkActivity.class);
+				CheckAndCcontinueNoWork(intent);
+				startActivity(intent);
 			}
+		}
 	}
 
 	private void CheckAndCcontinueNoWork(Intent intent) {
 		Bundle bundle = getIntent().getExtras();
-		if(bundle!=null && bundle.containsKey(Constants.WORK_NO_PHOTOS)){
+		if (bundle != null && bundle.containsKey(Constants.WORK_NO_PHOTOS)) {
 			intent.putExtra(Constants.WORK_NO_PHOTOS, Constants.WORK_NO_PHOTOS);
 		}
 	}
@@ -185,19 +200,23 @@ public class EndTravelActivity extends BaseActivity implements
 					checkOutRemember.setIsTravelEnd("true");
 					JobViewerDBHandler.saveCheckOutRemember(mContext,
 							checkOutRemember);
-					
-					String jsonStr = JobViewerDBHandler.getJSONFlagObject(mContext);
-					try{
-					JSONObject jsonObject = new JSONObject(jsonStr);
-					jsonObject.remove(Constants.ACTUAL_TRAVEL_START_TIME_FLAG_JSON);
-					jsonObject.remove(Constants.IS_TRAVEL_OVERRIDEN_FLAG_JSON);
-					jsonObject.remove(Constants.OVERRIDE_TRAVEL_START_TIME_FLAG_JSON);
-					JobViewerDBHandler.saveFlaginJSONObject(mContext, jsonObject.toString());
-					}catch (JSONException e) {
+
+					String jsonStr = JobViewerDBHandler
+							.getJSONFlagObject(mContext);
+					try {
+						JSONObject jsonObject = new JSONObject(jsonStr);
+						jsonObject
+								.remove(Constants.ACTUAL_TRAVEL_START_TIME_FLAG_JSON);
+						jsonObject
+								.remove(Constants.IS_TRAVEL_OVERRIDEN_FLAG_JSON);
+						jsonObject
+								.remove(Constants.OVERRIDE_TRAVEL_START_TIME_FLAG_JSON);
+						JobViewerDBHandler.saveFlaginJSONObject(mContext,
+								jsonObject.toString());
+					} catch (JSONException e) {
 						// TODO: handle exception
 					}
-					
-					
+
 					Intent intent = new Intent(mContext, NewWorkActivity.class);
 					CheckAndCcontinueNoWork(intent);
 					startActivity(intent);
@@ -242,7 +261,7 @@ public class EndTravelActivity extends BaseActivity implements
 				+ CommsConstant.END_TRAVEL_API, data, getEndTravelHandler());
 
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		closeApplication();
@@ -260,29 +279,35 @@ public class EndTravelActivity extends BaseActivity implements
 
 	}
 
-	private void saveOverrideAndActualTravelStartTimeInFlagDB(String actualTime,String overridenTime, String isOVeridden) {
+	private void saveOverrideAndActualTravelStartTimeInFlagDB(
+			String actualTime, String overridenTime, String isOVeridden) {
 		String flagJSON = JobViewerDBHandler.getJSONFlagObject(mContext);
-		try{
+		try {
 			JSONObject jsonObject = new JSONObject(flagJSON);
-			jsonObject.put(Constants.ACTUAL_TRAVEL_START_TIME_FLAG_JSON, actualTime);
-			jsonObject.put(Constants.OVERRIDE_TRAVEL_START_TIME_FLAG_JSON, overridenTime);
-			jsonObject.put(Constants.IS_TRAVEL_OVERRIDEN_FLAG_JSON, isOVeridden);
-			JobViewerDBHandler.saveFlaginJSONObject(mContext, jsonObject.toString());
-		}catch(JSONException jse){
-			
+			jsonObject.put(Constants.ACTUAL_TRAVEL_START_TIME_FLAG_JSON,
+					actualTime);
+			jsonObject.put(Constants.OVERRIDE_TRAVEL_START_TIME_FLAG_JSON,
+					overridenTime);
+			jsonObject
+					.put(Constants.IS_TRAVEL_OVERRIDEN_FLAG_JSON, isOVeridden);
+			JobViewerDBHandler.saveFlaginJSONObject(mContext,
+					jsonObject.toString());
+		} catch (JSONException jse) {
+
 		}
-		
+
 	}
-	
-	private boolean isAlreadyOveridden(){
+
+	private boolean isAlreadyOveridden() {
 		String flagJSON = JobViewerDBHandler.getJSONFlagObject(mContext);
 		String isOveridden = "";
-		try{
-			JSONObject jsonObject = new JSONObject(flagJSON);		
-			isOveridden = jsonObject.getString(Constants.IS_TRAVEL_OVERRIDEN_FLAG_JSON);
-			
-		}catch(JSONException jse){
-			
+		try {
+			JSONObject jsonObject = new JSONObject(flagJSON);
+			isOveridden = jsonObject
+					.getString(Constants.IS_TRAVEL_OVERRIDEN_FLAG_JSON);
+
+		} catch (JSONException jse) {
+
 		}
 		return isOveridden.equalsIgnoreCase(ActivityConstants.TRUE);
 	}

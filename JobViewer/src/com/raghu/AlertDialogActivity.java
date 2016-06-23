@@ -1,20 +1,16 @@
 package com.raghu;
 
-import java.util.Calendar;
-import java.util.Date;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.Window;
 
 import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
-import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
-
-import android.os.Bundle;
-import android.view.Window;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 
 public class AlertDialogActivity extends Activity {
 

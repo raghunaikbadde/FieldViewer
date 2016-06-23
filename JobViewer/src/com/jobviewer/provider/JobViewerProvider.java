@@ -19,8 +19,8 @@ import com.jobviewer.provider.JobViewerProviderContract.Image;
 import com.jobviewer.provider.JobViewerProviderContract.ImageSendStatusTable;
 import com.jobviewer.provider.JobViewerProviderContract.QuestionSetTable;
 import com.jobviewer.provider.JobViewerProviderContract.ShoutAboutSafetyTable;
-import com.jobviewer.provider.JobViewerProviderContract.TimeSheet;
 import com.jobviewer.provider.JobViewerProviderContract.StartTrainingTable;
+import com.jobviewer.provider.JobViewerProviderContract.TimeSheet;
 import com.jobviewer.provider.JobViewerProviderContract.User;
 import com.jobviewer.provider.JobViewerProviderContract.WorkWithNoPhotosQuestionSetTable;
 

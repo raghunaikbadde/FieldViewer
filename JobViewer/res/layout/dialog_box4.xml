@@ -35,7 +35,7 @@
                 android:layout_marginLeft="@dimen/white_lato_regular_small40"
                 android:layout_marginRight="@dimen/white_lato_regular_small40"
                 android:gravity="center_vertical"
-                android:src="@drawable/info_image" />
+                android:src="@drawable/info_image_rubine_red" />
 
             <TextView
                 android:id="@+id/your_break_text"
@@ -57,7 +57,7 @@
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/tmp_date_time"
             android:textColor="@color/black"
-            android:textSize="@dimen/dialog_clock_icon_left_right_margin40" />
+            android:textSize="@dimen/black_lato_regular_small55" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,21 +71,22 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                android:layout_marginRight="@dimen/white_lato_regular_small40" 
-                android:text="@string/check_here_if_you_need"
-                android:textColor="@color/black"
+                android:layout_marginRight="@dimen/white_lato_regular_small40"
                 android:button="@drawable/checkbox_selector"
                 android:paddingLeft="@dimen/template_spacing27"
-                android:textSize="@dimen/white_lato_regular_small40"/>
+                android:text="@string/check_here_if_you_need"
+                android:textColor="@color/black"
+                android:textSize="@dimen/white_lato_regular_small40" />
 
-            <!-- <TextView
+            <!--
+                 <TextView
                 android:id="@+id/check_here_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="@string/check_here_if_you_need"
                 android:textColor="@color/black"
-                android:textSize="@dimen/white_lato_regular_small40" /> -->
+                android:textSize="@dimen/white_lato_regular_small40" />            -->
         </LinearLayout>
     </LinearLayout>
 
@@ -101,8 +102,8 @@
             android:layout_weight="1"
             android:background="@drawable/dialog_grey_button"
             android:text="@string/cancel"
-            android:textColor="@color/lighter_grey"
             android:textAllCaps="false"
+            android:textColor="@color/lighter_grey"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
         <Button
@@ -112,8 +113,8 @@
             android:layout_weight="1"
             android:background="@drawable/dialog_red_button"
             android:text="@string/confirm"
-            android:textColor="@color/white"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 

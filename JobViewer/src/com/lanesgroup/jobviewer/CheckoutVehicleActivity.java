@@ -40,6 +40,7 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 	private Button mBack, mNext;
 	private boolean isRegistraionEntered, isMileageEntered;
 	private String callingFrom = "";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,10 +61,14 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 		mNext = (Button) findViewById(R.id.next_button);
 		mRegistration = (EditText) findViewById(R.id.enter_registration_edittext);
 		Bundle bundle = getIntent().getExtras();
-		if(bundle!=null && bundle.containsKey(Utils.CALLING_ACTIVITY)){
-			callingFrom = bundle.getString(Utils.CALLING_ACTIVITY);	
+		if (bundle != null && bundle.containsKey(Utils.CALLING_ACTIVITY)) {
+			callingFrom = bundle.getString(Utils.CALLING_ACTIVITY);
 		}
-		 
+		
+		if (callingFrom.contains("ActivityPageActivity")) {
+			mProgressSteps.setText(getResources().getString(R.string.checkOutVehicleProcess));
+		}
+
 		mRegistration.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence characters, int start,
@@ -130,6 +135,7 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 				});
 	}
 
+	@SuppressWarnings("deprecation")
 	private void enableNextAction() {
 		mNext.setBackgroundDrawable(ResourcesCompat.getDrawable(getResources(),
 				R.drawable.red_background, null));
@@ -141,41 +147,42 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 		if (view == mBack) {
 			finish();
 		} else if (view == mNext) {
-			if(Utils.isInternetAvailable(view.getContext())){
+			if (Utils.isInternetAvailable(view.getContext())) {
 				Utils.startProgress(view.getContext());
 				excuteCheckOutVehicle();
 			} else {
 				saveVechicleCheckOutInDB();
-				
-				JobViewerDBHandler.saveCheckOutRemember(CheckoutVehicleActivity.this,
-						Utils.checkOutObject);
+
+				JobViewerDBHandler.saveCheckOutRemember(
+						CheckoutVehicleActivity.this, Utils.checkOutObject);
 				Intent intent = null;
-				if(callingFrom.contains("ActivityPageActivity")){
-					Utils.checkOutObject.setVehicleRegistration(mRegistration.getText().toString());
-					Utils.checkOutObject.setMilage(mMileage.getText().toString());
-					JobViewerDBHandler.saveCheckOutRemember(CheckoutVehicleActivity.this,
-							Utils.checkOutObject);
+				if (callingFrom.contains("ActivityPageActivity")) {
+					Utils.checkOutObject.setVehicleRegistration(mRegistration
+							.getText().toString());
+					Utils.checkOutObject.setMilage(mMileage.getText()
+							.toString());
+					JobViewerDBHandler.saveCheckOutRemember(
+							CheckoutVehicleActivity.this, Utils.checkOutObject);
 					intent = new Intent(CheckoutVehicleActivity.this,
 							ActivityPageActivity.class);
-				}else{
+				} else {
 					intent = new Intent(CheckoutVehicleActivity.this,
-						ClockInConfirmationActivity.class);
+							ClockInConfirmationActivity.class);
 				}
 				putVehcielRegNoAndMileageInIntent(intent);
 				intent.putExtra(Utils.CALLING_ACTIVITY,
-						CheckoutVehicleActivity.this.getClass()
-								.getSimpleName());
+						CheckoutVehicleActivity.this.getClass().getSimpleName());
 				startActivity(intent);
-				//finish();
+				// finish();
 			}
 		}
 	}
 
 	private void putVehcielRegNoAndMileageInIntent(Intent intent) {
-		intent.putExtra(ActivityConstants.VEHICLE_REGISTRATION_NUMBER, mRegistration
-				.getText().toString());
-		intent.putExtra(ActivityConstants.VEHICLE_MILEAGE, mMileage
-				.getText().toString());
+		intent.putExtra(ActivityConstants.VEHICLE_REGISTRATION_NUMBER,
+				mRegistration.getText().toString());
+		intent.putExtra(ActivityConstants.VEHICLE_MILEAGE, mMileage.getText()
+				.toString());
 	}
 
 	private void excuteCheckOutVehicle() {
@@ -200,17 +207,21 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 				case HttpConnection.DID_SUCCEED:
 					Utils.StopProgress();
 					// String result = (String) msg.obj;
-					Intent intent =null;
-					if(callingFrom.contains("ActivityPageActivity")){
-						Utils.checkOutObject.setVehicleRegistration(mRegistration.getText().toString());
-						Utils.checkOutObject.setMilage(mMileage.getText().toString());
-						JobViewerDBHandler.saveCheckOutRemember(CheckoutVehicleActivity.this,
+					Intent intent = null;
+					if (callingFrom.contains("ActivityPageActivity")) {
+						Utils.checkOutObject
+								.setVehicleRegistration(mRegistration.getText()
+										.toString());
+						Utils.checkOutObject.setMilage(mMileage.getText()
+								.toString());
+						JobViewerDBHandler.saveCheckOutRemember(
+								CheckoutVehicleActivity.this,
 								Utils.checkOutObject);
 						intent = new Intent(CheckoutVehicleActivity.this,
 								ActivityPageActivity.class);
-					}else{
+					} else {
 						intent = new Intent(CheckoutVehicleActivity.this,
-							ClockInConfirmationActivity.class);
+								ClockInConfirmationActivity.class);
 					}
 					putVehcielRegNoAndMileageInIntent(intent);
 					intent.putExtra(Utils.CALLING_ACTIVITY,
@@ -235,7 +246,8 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 		};
 		return handler;
 	}
-	public void saveVechicleCheckOutInDB(){
+
+	public void saveVechicleCheckOutInDB() {
 		User userProfile = JobViewerDBHandler
 				.getUserProfile(CheckoutVehicleActivity.this);
 		VehicleCheckInOut vehicleCheckInOut = new VehicleCheckInOut();
@@ -245,9 +257,11 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 		vehicleCheckInOut.setMileage(mMileage.getText().toString());
 		vehicleCheckInOut.setUser_id(userProfile.getEmail());
 		BackLogRequest backLogRequest = new BackLogRequest();
-		backLogRequest.setRequestApi(CommsConstant.HOST+CommsConstant.CHECKOUT_VEHICLE);
+		backLogRequest.setRequestApi(CommsConstant.HOST
+				+ CommsConstant.CHECKOUT_VEHICLE);
 		backLogRequest.setRequestClassName("VehicleCheckInOut");
-		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(vehicleCheckInOut));
+		backLogRequest.setRequestJson(GsonConverter.getInstance()
+				.encodeToJsonString(vehicleCheckInOut));
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(getApplicationContext(), backLogRequest);
 	}

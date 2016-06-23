@@ -22,8 +22,8 @@
     <dimen name="lanes_logo_left_margin63">21dp</dimen>
     <dimen name="lanes_logo_bottom_margin23">7.66dp</dimen>
     <dimen name="copyright_right_margin212">70.66dp</dimen>
-    
-    
+    <dimen name="welcomeTextSize">40dp</dimen>
+
     <!-- Font size Home screen1 -->
     <dimen name="white_lato_bold_small50">16.66dp</dimen>
     <dimen name="white_lato_regular_small40">13.33dp</dimen>
@@ -36,12 +36,11 @@
     <dimen name="dialog_black_lato_regular_small60">20dp</dimen>
     <dimen name="black_lato_regular_big66">22dp</dimen>
     <dimen name="grey_lato_regular_small35">11.66dp</dimen>
-	<dimen name="black_lato_regular_big71">23.66dp</dimen>    
+    <dimen name="black_lato_regular_big71">23.66dp</dimen>
     <dimen name="grey_lato_regular_medium47">15.66dp</dimen>
-	<dimen name="red_lato_regular_extra_large176">58.66dp</dimen>
-	<dimen name="grey_lato_regular_small36">12dp</dimen>
-	
-    
+    <dimen name="red_lato_regular_extra_large176">58.66dp</dimen>
+    <dimen name="grey_lato_regular_small36">12dp</dimen>
+
     <!-- spacing dialog 2 -->
     <dimen name="dialog_width920">306.66dp</dimen>
     <dimen name="dialog_header_height242">80.66dp</dimen>
@@ -51,14 +50,13 @@
     <dimen name="dialog_list_height200">66.66dp</dimen>
     <dimen name="dialog_button_height152">50.66dp</dimen>
     <dimen name="dialog_phone_icon_left_right_margin57">19dp</dimen>
-    
+
     <!-- spacing dialog 3 -->
     <dimen name="dialog_detail_top_margin80">26.66dp</dimen>
     <dimen name="dialog_detail_bottom_margin95">31.66dp</dimen>
     <dimen name="dialog_edit_top_margin35">11.66dp</dimen>
     <dimen name="dialog_edit_bottom_margin90">30dp</dimen>
     <dimen name="dialog_button_top_margin70">23.33dp</dimen>
-    
     <dimen name="progressbar_top_margin58">19.33dp</dimen>
     <dimen name="checkout_progressbar_top_margin110">36.66dp</dimen>
     <dimen name="checkout_checkbox_left_margin158">52.66dp</dimen>
@@ -86,7 +84,8 @@
     <dimen name="capture_button_width840">280dp</dimen>
     <dimen name="captured_image_width310">103.33dp</dimen>
     <dimen name="captured_image_height300">100dp</dimen>
-    <dimen name="captured_image_widtht420">140dp</dimen><!-- Seems to be an error in specification -->
+    <dimen name="captured_image_widtht420">140dp</dimen>
+ <!-- Seems to be an error in specification -->
     <dimen name="success_bottom_margin135">45dp</dimen>
     <dimen name="done_button_left_right_margin225">75dp</dimen>
     <dimen name="shift_complete_detail_height410">136.66dp</dimen>
@@ -104,7 +103,6 @@
     <dimen name="clock_in_button_width628">209.33dp</dimen>
     <dimen name="dialog_icon_image_163">54.33dp</dimen>
     <dimen name="imagebutton_spacing20">6.66dp</dimen>
-    
     <dimen name="template_spacing15">5dp</dimen>
     <dimen name="email_top_margin21">7dp</dimen>
     <dimen name="template_spacing27">9dp</dimen>
@@ -112,4 +110,5 @@
     <dimen name="dialog_text_width510">170dp</dimen>
     <dimen name="button_top_margin345">115dp</dimen>
     <dimen name="clockin_button_spacing460">153.33dp</dimen>
+
 </resources>

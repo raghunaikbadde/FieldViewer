@@ -2,14 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context="com.jobviewer.MainActivity" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:background="@color/red">
+        android:layout_height="wrap_content"
+        android:background="@color/red" >
 
         <ImageView
             android:id="@+id/imageView1"
@@ -22,39 +22,38 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/risk_ques_top_margin105"
-                android:layout_marginLeft="@dimen/logo_right_margin127"
                 android:layout_marginBottom="@dimen/template_spacing15"
+                android:layout_marginLeft="@dimen/title_top_margin115"
+                android:text="@string/lance_group_plc"
                 android:textColor="@color/white"
-                android:textSize="@dimen/white_lato_bold_small50"
-                android:text="@string/lance_group_plc"/>
+                android:textSize="@dimen/white_lato_bold_small50" />
 
             <TextView
                 android:id="@+id/subtitle_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/logo_right_margin127"
                 android:layout_marginBottom="@dimen/email_top_margin21"
+                android:layout_marginLeft="@dimen/title_top_margin115"
+                android:text="@string/job_viewer"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dialog_detail_top_margin80"
-                android:text="@string/job_viewer"/>
-            
+                android:textSize="@dimen/dialog_detail_top_margin80" />
+
             <TextView
                 android:id="@+id/title_detail_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/white_lato_bold_small50"
-                android:layout_marginLeft="@dimen/dialog_edit_bottom_margin90"
+                android:layout_marginLeft="@dimen/title_top_margin115"
+                android:text="@string/working_with_thames"
                 android:textColor="@color/white"
-                android:textSize="@dimen/white_lato_regular_small40"
-                android:text="@string/working_with_thames" />
-		</LinearLayout>
-
+                android:textSize="@dimen/white_lato_regular_small40" />
+        </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

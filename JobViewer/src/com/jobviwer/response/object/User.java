@@ -1,13 +1,13 @@
 package com.jobviwer.response.object;
 
 public class User {
-	private String email="";
+	private String email = "";
 
-	private String userid="";
+	private String userid = "";
 
-	private String lastname="";
+	private String lastname = "";
 
-	private String firstname="";
+	private String firstname = "";
 
 	public String getEmail() {
 		return email;

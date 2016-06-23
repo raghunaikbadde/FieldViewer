@@ -8,10 +8,11 @@
 
     <ScrollView
         android:id="@+id/scrollView1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@+id/bottombutton"
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:isScrollContainer="false" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,16 +32,29 @@
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:layout_marginTop="@dimen/white_lato_bold_small50"
-                    android:gravity="center_horizontal"
+                    android:drawableLeft="@drawable/logo_top"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
                     android:text="@string/confined_space_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/title_text_size70" />
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/risk_assess_text"
+                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:background="#CCCCCC" />
 
                 <LinearLayout
                     android:id="@+id/progress_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/risk_assess_text"
+                    android:layout_below="@+id/line1"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:orientation="horizontal" >
@@ -49,6 +63,7 @@
                         android:id="@+id/progress_step_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="@string/tmp_progress_step"
                         android:textColor="@color/black"
                         android:textSize="@dimen/white_lato_bold_small50"
@@ -59,7 +74,7 @@
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dialog_button_top_margin70"
-                        android:layout_marginLeft="@dimen/edit_error_stroke10"
+                        android:layout_marginLeft="@dimen/spinner_top_margin25"
                         android:progress="5"
                         android:progressDrawable="@drawable/progressbar" />
                 </LinearLayout>
@@ -98,36 +113,41 @@
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
-				<LinearLayout android:layout_width="match_parent"					    
-				    android:id="@+id/topManEditTextLayout"
-				    android:layout_height="wrap_content"
-				    android:layout_marginLeft="@dimen/white_lato_regular_big79"
-				    android:layout_marginRight="@dimen/white_lato_regular_big79"
-				    android:layout_below="@+id/top_man_text">
-	                <EditText
-	                    android:id="@+id/top_man_edittext"
-	                    android:layout_width="0dp"
-	                    android:layout_height="@dimen/checkout_edit_height160"	                    
-	                    android:background="@drawable/grey_background"
-	                    android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
-	                    android:paddingBottom="@dimen/grey_lato_regular_small35"
-	                    android:paddingLeft="@dimen/grey_lato_regular_small35"
-	                    android:paddingRight="@dimen/grey_lato_regular_small35"
-	                    android:paddingTop="@dimen/grey_lato_regular_small35"
-	                    android:singleLine="true"
-	                    android:layout_weight="8"
-	                    android:textColor="@color/dark_grey"
-	                    android:textColorHint="@color/dark_grey"
-	                    android:textSize="@dimen/black_lato_regular_medium45" >
-	                </EditText>
-	                <TextView android:layout_width="0dp"
-	                    android:layout_height="wrap_content"
-	                    android:layout_weight="2"
-	                    android:paddingLeft="5dp"
-	                    android:textColor="@color/blackColor"
-	                    android:layout_gravity="center_vertical"
-	                    android:textSize="@dimen/black_lato_regular_medium45"
-	                    android:text="@string/lelStr"/>
+
+                <LinearLayout
+                    android:id="@+id/topManEditTextLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/top_man_text"
+                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
+                    android:layout_marginRight="@dimen/white_lato_regular_big79" >
+
+                    <EditText
+                        android:id="@+id/top_man_edittext"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/checkout_edit_height160"
+                        android:layout_weight="8"
+                        android:background="@drawable/grey_background"
+                        android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
+                        android:paddingBottom="@dimen/grey_lato_regular_small35"
+                        android:paddingLeft="@dimen/grey_lato_regular_small35"
+                        android:paddingRight="@dimen/grey_lato_regular_small35"
+                        android:paddingTop="@dimen/grey_lato_regular_small35"
+                        android:singleLine="true"
+                        android:textColor="@color/dark_grey"
+                        android:textColorHint="@color/dark_grey"
+                        android:textSize="@dimen/black_lato_regular_medium45" >
+                    </EditText>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:paddingLeft="5dp"
+                        android:text="@string/lelStr"
+                        android:textColor="@color/blackColor"
+                        android:textSize="@dimen/black_lato_regular_medium45" />
                 </LinearLayout>
 
                 <TextView
@@ -141,38 +161,42 @@
                     android:layout_marginTop="@dimen/white_lato_regular_small40"
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
-                
-				<LinearLayout android:layout_width="match_parent"
-				    android:id="@+id/bottomManEditTextLayout"
-				    android:layout_height="wrap_content"
-				    android:orientation="horizontal"
-				    android:layout_marginLeft="@dimen/white_lato_regular_big79"
-				    android:layout_marginRight="@dimen/white_lato_regular_big79"
-				    android:layout_below="@+id/bottom_man1_text">
-		                <EditText
-		                    android:id="@+id/bottom_man1_edittext"
-		                    android:layout_width="0dp"
-		                    android:layout_height="@dimen/checkout_edit_height160"                    
-		                    android:background="@drawable/grey_background"
-		                    android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
-		                    android:paddingBottom="@dimen/grey_lato_regular_small35"
-		                    android:paddingLeft="@dimen/grey_lato_regular_small35"
-		                    android:paddingRight="@dimen/grey_lato_regular_small35"
-		                    android:paddingTop="@dimen/grey_lato_regular_small35"
-		                    android:singleLine="true"
-		                    android:textColor="@color/dark_grey"
-		                    android:layout_weight="8"
-		                    android:textColorHint="@color/dark_grey"
-		                    android:textSize="@dimen/black_lato_regular_medium45" >
-		                </EditText>
-		                <TextView android:layout_width="0dp"
-	                    	android:layout_height="wrap_content"
-	                    	android:layout_weight="2"
-	                    	android:paddingLeft="5dp"
-	                    	android:textColor="@color/blackColor"
-	                    	android:layout_gravity="center_vertical"
-	                    	android:textSize="@dimen/black_lato_regular_medium45"
-	                    	android:text="@string/PercentageStr"/>
+
+                <LinearLayout
+                    android:id="@+id/bottomManEditTextLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bottom_man1_text"
+                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
+                    android:layout_marginRight="@dimen/white_lato_regular_big79"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/bottom_man1_edittext"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/checkout_edit_height160"
+                        android:layout_weight="8"
+                        android:background="@drawable/grey_background"
+                        android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
+                        android:paddingBottom="@dimen/grey_lato_regular_small35"
+                        android:paddingLeft="@dimen/grey_lato_regular_small35"
+                        android:paddingRight="@dimen/grey_lato_regular_small35"
+                        android:paddingTop="@dimen/grey_lato_regular_small35"
+                        android:singleLine="true"
+                        android:textColor="@color/dark_grey"
+                        android:textColorHint="@color/dark_grey"
+                        android:textSize="@dimen/black_lato_regular_medium45" >
+                    </EditText>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:paddingLeft="5dp"
+                        android:text="@string/PercentageStr"
+                        android:textColor="@color/blackColor"
+                        android:textSize="@dimen/black_lato_regular_medium45" />
                 </LinearLayout>
 
                 <TextView
@@ -186,40 +210,46 @@
                     android:layout_marginTop="@dimen/white_lato_regular_small40"
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
-				<LinearLayout android:layout_width="match_parent"
-				    android:id="@+id/bottomManTwoEditTextLayout"
-				    android:layout_height="wrap_content"
-				    android:orientation="horizontal"
-				    android:layout_marginLeft="@dimen/white_lato_regular_big79"
-				    android:layout_marginRight="@dimen/white_lato_regular_big79"
-				    android:layout_below="@+id/bottom_man2_text">
-		                <EditText
-		                    android:id="@+id/bottom_man2_edittext"
-		                    android:layout_width="0dp"
-		                    android:layout_height="@dimen/checkout_edit_height160"
-		                    android:layout_below="@+id/bottom_man2_text"
-		                    android:background="@drawable/grey_background"
-		                    android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
-		                    android:paddingBottom="@dimen/grey_lato_regular_small35"
-		                    android:paddingLeft="@dimen/grey_lato_regular_small35"
-		                    android:paddingRight="@dimen/grey_lato_regular_small35"
-		                    android:paddingTop="@dimen/grey_lato_regular_small35"
-		                    android:singleLine="true"
-		                    android:textColor="@color/dark_grey"
-		                    android:layout_weight="8"
-		                    android:textColorHint="@color/dark_grey"
-		                    android:textSize="@dimen/black_lato_regular_medium45" >
-		                </EditText>
-		                <TextView android:layout_width="0dp"
-	                    	android:layout_height="wrap_content"
-	                    	android:layout_weight="2"
-	                    	android:paddingLeft="5dp"
-	                    	android:textColor="@color/blackColor"
-	                    	android:layout_gravity="center_vertical"
-	                    	android:textSize="@dimen/black_lato_regular_medium45"
-	                    	android:text="@string/ppmStr"/>
+
+                <LinearLayout
+                    android:id="@+id/bottomManTwoEditTextLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bottom_man2_text"
+                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
+                    android:layout_marginRight="@dimen/white_lato_regular_big79"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/bottom_man2_edittext"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/checkout_edit_height160"
+                        android:layout_below="@+id/bottom_man2_text"
+                        android:layout_weight="8"
+                        android:background="@drawable/grey_background"
+                        android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
+                        android:paddingBottom="@dimen/grey_lato_regular_small35"
+                        android:paddingLeft="@dimen/grey_lato_regular_small35"
+                        android:paddingRight="@dimen/grey_lato_regular_small35"
+                        android:paddingTop="@dimen/grey_lato_regular_small35"
+                        android:singleLine="true"
+                        android:textColor="@color/dark_grey"
+                        android:textColorHint="@color/dark_grey"
+                        android:textSize="@dimen/black_lato_regular_medium45" >
+                    </EditText>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:paddingLeft="5dp"
+                        android:text="@string/ppmStr"
+                        android:textColor="@color/blackColor"
+                        android:textSize="@dimen/black_lato_regular_medium45" />
                 </LinearLayout>
-                 <TextView
+
+                <TextView
                     android:id="@+id/bottom_man3_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -230,38 +260,43 @@
                     android:layout_marginTop="@dimen/white_lato_regular_small40"
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
-				<LinearLayout android:layout_width="match_parent"
-				    android:id="@+id/bottomManThreeEditTextLayout"
-				    android:layout_height="wrap_content"
-				    android:orientation="horizontal"
-				    android:layout_marginLeft="@dimen/white_lato_regular_big79"
-				    android:layout_marginRight="@dimen/white_lato_regular_big79"
-				    android:layout_below="@+id/bottom_man3_text">
-		                <EditText
-		                    android:id="@+id/bottom_man3_edittext"
-		                    android:layout_width="0dp"
-		                    android:layout_height="@dimen/checkout_edit_height160"
-		                    android:layout_below="@+id/bottom_man3_text"		                    
-		                    android:background="@drawable/grey_background"
-		                    android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
-		                    android:paddingBottom="@dimen/grey_lato_regular_small35"
-		                    android:paddingLeft="@dimen/grey_lato_regular_small35"
-		                    android:paddingRight="@dimen/grey_lato_regular_small35"
-		                    android:paddingTop="@dimen/grey_lato_regular_small35"
-		                    android:singleLine="true"
-		                    android:layout_weight="8"
-		                    android:textColor="@color/dark_grey"
-		                    android:textColorHint="@color/dark_grey"
-		                    android:textSize="@dimen/black_lato_regular_medium45" >
-		                </EditText>
-		                <TextView android:layout_width="0dp"
-	                    	android:layout_height="wrap_content"
-	                    	android:layout_weight="2"
-	                    	android:paddingLeft="5dp"
-	                    	android:textColor="@color/blackColor"
-	                    	android:layout_gravity="center_vertical"
-	                    	android:textSize="@dimen/black_lato_regular_medium45"
-	                    	android:text="@string/ppmStr"/>
+
+                <LinearLayout
+                    android:id="@+id/bottomManThreeEditTextLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bottom_man3_text"
+                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
+                    android:layout_marginRight="@dimen/white_lato_regular_big79"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/bottom_man3_edittext"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/checkout_edit_height160"
+                        android:layout_below="@+id/bottom_man3_text"
+                        android:layout_weight="8"
+                        android:background="@drawable/grey_background"
+                        android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
+                        android:paddingBottom="@dimen/grey_lato_regular_small35"
+                        android:paddingLeft="@dimen/grey_lato_regular_small35"
+                        android:paddingRight="@dimen/grey_lato_regular_small35"
+                        android:paddingTop="@dimen/grey_lato_regular_small35"
+                        android:singleLine="true"
+                        android:textColor="@color/dark_grey"
+                        android:textColorHint="@color/dark_grey"
+                        android:textSize="@dimen/black_lato_regular_medium45" >
+                    </EditText>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:paddingLeft="5dp"
+                        android:text="@string/ppmStr"
+                        android:textColor="@color/blackColor"
+                        android:textSize="@dimen/black_lato_regular_medium45" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

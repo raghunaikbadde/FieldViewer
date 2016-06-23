@@ -28,18 +28,19 @@ import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 
-public class ConfinedYesNoTypeFragment extends Fragment implements OnClickListener {
+public class ConfinedYesNoTypeFragment extends Fragment implements
+		OnClickListener {
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep, questionTitle, question, errorMessage,
 			screenTitle;
-	RadioButton radio_yes, radio_no;
-	LinearLayout errorView;
+	private RadioButton radio_yes, radio_no;
+	private LinearLayout errorView;
 	private Button mCancel, mNext;
 	private View mRootView;
-	Screen currentScreen;
-	RadioGroup radioGroup1;
-	CheckOutObject checkOutRemember;
+	private Screen currentScreen;
+	private RadioGroup radioGroup1;
+	private CheckOutObject checkOutRemember;
 
 	public interface onClicksEnterJobNumber {
 		public void onNextClick();
@@ -64,42 +65,43 @@ public class ConfinedYesNoTypeFragment extends Fragment implements OnClickListen
 		updateData();
 		return mRootView;
 	}
-	
-	public void removePhoneKeypad() {
-	    InputMethodManager inputManager = (InputMethodManager) mRootView
-	            .getContext()
-	            .getSystemService(Context.INPUT_METHOD_SERVICE);
 
-	    IBinder binder = mRootView.getWindowToken();
-	    inputManager.hideSoftInputFromWindow(binder,
-	            InputMethodManager.HIDE_NOT_ALWAYS);
+	public void removePhoneKeypad() {
+		InputMethodManager inputManager = (InputMethodManager) mRootView
+				.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		IBinder binder = mRootView.getWindowToken();
+		inputManager.hideSoftInputFromWindow(binder,
+				InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
 	private void updateData() {
-		currentScreen = ConfinedQuestionManager.getInstance().getCurrentScreen();
+		currentScreen = ConfinedQuestionManager.getInstance()
+				.getCurrentScreen();
 		mProgressStep.setText(currentScreen.get_progress() + "%");
-		screenTitle.setText(getResources().getString(R.string.confined_space_str));
+		screenTitle.setText(getResources().getString(
+				R.string.confined_space_str));
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());
 		question.setText(currentScreen.getText());
 		radio_yes.setText(currentScreen.getOptions().getOption()[0].getLabel());
 		radio_no.setText(currentScreen.getOptions().getOption()[1].getLabel());
-		
+
 		if (ActivityConstants.YES.equalsIgnoreCase(currentScreen.getAnswer())) {
 			radio_yes.setChecked(true);
 			mNext.setEnabled(true);
 			mNext.setBackgroundResource(R.drawable.red_background);
-		}else if(ActivityConstants.NO.equalsIgnoreCase(currentScreen.getAnswer())){
+		} else if (ActivityConstants.NO.equalsIgnoreCase(currentScreen
+				.getAnswer())) {
 			radio_no.setChecked(true);
 			mNext.setEnabled(true);
 			mNext.setBackgroundResource(R.drawable.red_background);
-		}else{
+		} else {
 			radio_yes.setChecked(false);
 			radio_no.setChecked(false);
 			mNext.setEnabled(false);
 			mNext.setBackgroundResource(R.drawable.dark_grey_background);
 		}
-		
 
 		radioGroup1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -133,9 +135,10 @@ public class ConfinedYesNoTypeFragment extends Fragment implements OnClickListen
 							.getOption()[i].getActions().getClick()
 							.getVibrate())) {
 						Utils.shakeAnimation(getActivity(), errorView);
-						Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-						 // Vibrate for 500 milliseconds
-						 v.vibrate(500);
+						Vibrator v = (Vibrator) getActivity().getSystemService(
+								Context.VIBRATOR_SERVICE);
+						// Vibrate for 500 milliseconds
+						v.vibrate(500);
 					}
 				} else {
 					errorView.setVisibility(View.GONE);

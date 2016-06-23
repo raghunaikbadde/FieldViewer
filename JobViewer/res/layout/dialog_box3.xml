@@ -1,97 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dialog_width920"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/dialog_info"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_header_height242"
+        android:background="@drawable/dialog_header_background"
+        android:gravity="center_vertical|center_horizontal"
         android:paddingLeft="@dimen/black_lato_regular_small55"
         android:paddingRight="@dimen/black_lato_regular_small55"
+        android:text="@string/confirm_work_stop"
         android:textColor="@color/white"
-        android:gravity="center_vertical|center_horizontal"
-        android:textSize="@dimen/dialog_detail_top_margin80"
-        android:background="@drawable/dialog_header_background"
-        android:text="@string/confirm_work_stop"/>
-    <LinearLayout 
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:textSize="@dimen/dialog_detail_top_margin80" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dialog_detail_top_margin80"
-        android:layout_marginBottom="@dimen/dialog_detail_bottom_margin95">
+        android:background="@color/white"
+        android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/camera_image"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/white_lato_regular_small40"
-            android:layout_marginRight="@dimen/white_lato_regular_small40"
-            android:src="@drawable/alert_confirm_image" />
+            android:layout_marginBottom="@dimen/dialog_detail_bottom_margin95"
+            android:layout_marginTop="@dimen/dialog_detail_top_margin80" >
+
+            <ImageView
+                android:id="@+id/camera_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                android:layout_marginRight="@dimen/white_lato_regular_small40"
+                android:gravity="center_vertical"
+                android:src="@drawable/alert_confirm_image" />
+
+            <TextView
+                android:id="@+id/shift_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/white_lato_regular_small40"
+                android:gravity="center_vertical"
+                android:text="@string/you_must_have_confirmation"
+                android:textColor="@color/black"
+                android:textSize="@dimen/black_lato_regular_medium45" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/shift_text"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/white_lato_regular_small40"
-            android:textColor="@color/black"
-            android:gravity="center_vertical"
-            android:textSize="@dimen/black_lato_regular_medium45"
-            android:text="@string/you_must_have_confirmation" />
-
-    </LinearLayout>
-    
-    <TextView
             android:id="@+id/work_no_photos_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/white_lato_regular_small40"
             android:layout_marginBottom="@dimen/grey_lato_regular_small35"
-            android:textColor="@color/black"
+            android:layout_marginLeft="@dimen/white_lato_regular_small40"
             android:gravity="center_vertical"
-            android:textSize="@dimen/black_lato_regular_small55"
-            android:text="@string/name" />
+            android:text="@string/name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/black_lato_regular_small55" />
 
-    <EditText
-        android:id="@+id/manager_name_edittext"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/checkout_edit_height160"
-        android:layout_marginLeft="@dimen/white_lato_regular_small40"
-        android:layout_marginRight="@dimen/white_lato_regular_small40"
-        android:paddingLeft="@dimen/grey_lato_regular_small35"
-        android:paddingRight="@dimen/grey_lato_regular_small35"
-        android:hint="@string/enter_manager_name"
-        android:textSize="@dimen/black_lato_regular_medium45"
-        android:background="@drawable/grey_background"
-        android:textColor="@color/dark_grey"
-        android:singleLine="true"
-        android:textColorHint="@color/dark_grey">
-    </EditText>
+        <EditText
+            android:id="@+id/manager_name_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/checkout_edit_height160"
+            android:layout_marginLeft="@dimen/white_lato_regular_small40"
+            android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:background="@drawable/grey_background"
+            android:hint="@string/enter_manager_name"
+            android:paddingLeft="@dimen/grey_lato_regular_small35"
+            android:paddingRight="@dimen/grey_lato_regular_small35"
+            android:singleLine="true"
+            android:textColor="@color/dark_grey"
+            android:textColorHint="@color/dark_grey"
+            android:textSize="@dimen/black_lato_regular_medium45" >
+        </EditText>
 
-    <TextView
-        android:id="@+id/tap_confirm_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="@color/black"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/white_lato_regular_small40"
-        android:layout_marginRight="@dimen/white_lato_regular_small40"
-        android:layout_marginTop="@dimen/dialog_edit_bottom_margin90"
-        android:layout_marginBottom="@dimen/dialog_button_top_margin70"
-        android:textSize="@dimen/black_lato_regular_medium45"
-        android:text="@string/tap_confirm_to_close" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/tap_confirm_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/dialog_button_top_margin70"
+            android:layout_marginLeft="@dimen/white_lato_regular_small40"
+            android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:layout_marginTop="@dimen/dialog_edit_bottom_margin90"
+            android:text="@string/tap_confirm_to_close"
+            android:textColor="@color/black"
+            android:textSize="@dimen/black_lato_regular_medium45" />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_button_height152"
-        android:layout_below="@id/dialog_info">
+        android:layout_below="@id/dialog_info" >
 
         <Button
             android:id="@+id/dialog_cancel"
@@ -99,10 +100,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/dialog_grey_button"
-            android:textColor="@color/lighter_grey"
-            android:textSize="@dimen/dialog_black_lato_regular_small60"
+            android:text="@string/back"
             android:textAllCaps="false"
-            android:text="@string/back"/>
+            android:textColor="@color/lighter_grey"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
         <Button
             android:id="@+id/dialog_ok"
@@ -110,9 +111,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/dialog_red_button"
-            android:textColor="@color/white"
-            android:textSize="@dimen/dialog_black_lato_regular_small60"
+            android:text="@string/confirm"
             android:textAllCaps="false"
-            android:text="@string/confirm"/>
+            android:textColor="@color/white"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
+
 </LinearLayout>

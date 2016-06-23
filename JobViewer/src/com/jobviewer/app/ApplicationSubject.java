@@ -16,8 +16,8 @@ public class ApplicationSubject extends Subject {
 	public String getScreenAtTop() {
 		return getTopActivity();
 	}
-	
-	public void goToStartUpScreenFromShoutOut(){
+
+	public void goToStartUpScreenFromShoutOut() {
 		goToStartUpScreen();
 	}
 }

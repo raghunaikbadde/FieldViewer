@@ -34,12 +34,12 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
 
 	private Button mCancel, mNext;
 	private boolean mCancelButtonClicked = false;
-	ListView listView;
+	private ListView listView;
 	private String QuestionTAG = "question";
 	private String AnswerTag = "answer";
 	private String ScreenId = "ScreenId";
 	private String selectedScreenId = "";
-	List<String> backStackList;
+	private List<String> backStackList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

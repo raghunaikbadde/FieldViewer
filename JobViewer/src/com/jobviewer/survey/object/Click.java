@@ -6,7 +6,7 @@ public class Click {
 	private String vibrate;
 
 	private String type;
-	
+
 	private String onClick;
 
 	public String getText() {

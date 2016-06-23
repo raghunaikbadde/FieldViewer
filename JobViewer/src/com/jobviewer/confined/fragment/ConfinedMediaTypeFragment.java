@@ -57,12 +57,12 @@ public class ConfinedMediaTypeFragment extends Fragment implements
 	private LinearLayout mLinearLayout;
 	private View mRootView;
 	private ImageView mCapturedImage;
-	LinearLayout linearLayout;
-	int imageCount = 0;
+	private LinearLayout linearLayout;
+	private int imageCount = 0;
 	public static final int RESULT_OK = -1;
-	static File file;
-	Screen currentScreen;
-	CheckOutObject checkOutRemember;
+	private static File file;
+	private Screen currentScreen;
+	private CheckOutObject checkOutRemember;
 	private boolean formwardIamgeToAddPhotosActivity = false;
 	public static ArrayList<ImageObject> addPhotoActivityimageObject;
 	public static ArrayList<String> timeCapturedForAddPhotosActivity = new ArrayList<String>();

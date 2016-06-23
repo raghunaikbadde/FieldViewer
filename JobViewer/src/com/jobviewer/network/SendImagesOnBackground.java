@@ -21,9 +21,9 @@ import com.jobviwer.response.object.ImageUploadResponse;
 import com.vehicle.communicator.HttpConnection;
 
 public class SendImagesOnBackground {
-	static int index = 0;
-	static List<ImageObject> allSavedImages = new ArrayList<ImageObject>();
-	Context context;
+	private static int index = 0;
+	private static List<ImageObject> allSavedImages = new ArrayList<ImageObject>();
+	private Context context;
 
 	public void getAndSendImagesToServer(Context context) {
 		try {

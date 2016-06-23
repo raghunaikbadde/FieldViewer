@@ -13,7 +13,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,7 +46,6 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
-import com.lanesgroup.jobviewer.fragment.MediaTypeFragment;
 import com.lanesgroup.jobviewer.fragment.WorkCompleteFragment;
 import com.raghu.WorkPhotoUpload;
 import com.vehicle.communicator.HttpConnection;
@@ -65,7 +63,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 	private ArrayList<ImageObject> imageObjects;
 	private AddPhotosAdapter mAdapter;
 	private Context mContext;
-	static File file;
+	private	static File file;
 	public static ArrayList<WorkPhotoUpload> arrayListOfWokImagesUpload = new ArrayList<WorkPhotoUpload>();
 
 	@Override

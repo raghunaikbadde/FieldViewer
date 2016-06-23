@@ -23,7 +23,7 @@ public class QuestionManager {
 	private Screen currentScreen;
 	private String nextScreenId;
 	private String WorkType;
-	boolean isBackPressed = false;
+	private boolean isBackPressed = false;
 
 	public static QuestionManager getInstance() {
 		if (questionManager == null) {

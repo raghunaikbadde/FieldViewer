@@ -1,13 +1,11 @@
 package com.lanesgroup.jobviewer;
 
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
-import com.jobviewer.db.objects.TimeSheet;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
@@ -16,11 +14,34 @@ import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 
 public class LauncherActivity extends BaseActivity {
-	Intent launcherIntent;
+	private Intent launcherIntent;
+
+	// Splash screen timer
+	private static int SPLASH_TIME_OUT = 2000;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.splash_screen);
+
+		new Handler().postDelayed(new Runnable() {
+
+			/*
+			 * Showing splash screen with a timer. This will be useful when you
+			 * want to show case your app logo / company
+			 */
+
+			@Override
+			public void run() {
+				// This method will be executed once the timer is over
+				// Start your app main activity
+				launchNextActivity();
+
+			}
+		}, SPLASH_TIME_OUT);
+	}
+
+	private void launchNextActivity() {
 
 		if (!Utils.isGPSEnabled(this)) {
 			showGPSDialog();

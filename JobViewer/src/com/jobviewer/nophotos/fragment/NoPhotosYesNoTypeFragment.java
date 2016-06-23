@@ -26,19 +26,21 @@ import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 
-public class NoPhotosYesNoTypeFragment extends Fragment implements OnClickListener {
+public class NoPhotosYesNoTypeFragment extends Fragment implements
+		OnClickListener {
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep, questionTitle, question, errorMessage,
 			screenTitle;
-	RadioButton radio_yes, radio_no;
-	LinearLayout errorView;
+	private RadioButton radio_yes, radio_no;
+	private LinearLayout errorView;
 	private Button mCancel, mNext;
 	private View mRootView;
-	Screen currentScreen;
-	RadioGroup radioGroup1;
-	CheckOutObject checkOutRemember;
-	TextView mScreenTitle;
+	private Screen currentScreen;
+	private RadioGroup radioGroup1;
+	private CheckOutObject checkOutRemember;
+	private TextView mScreenTitle;
+
 	public interface onClicksEnterJobNumber {
 		public void onNextClick();
 
@@ -63,7 +65,8 @@ public class NoPhotosYesNoTypeFragment extends Fragment implements OnClickListen
 	}
 
 	private void updateData() {
-		currentScreen = WorkWithNoPhotosQuestionManager.getInstance().getCurrentScreen();
+		currentScreen = WorkWithNoPhotosQuestionManager.getInstance()
+				.getCurrentScreen();
 		mProgressStep.setText(currentScreen.get_progress() + "%");
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());
@@ -71,22 +74,23 @@ public class NoPhotosYesNoTypeFragment extends Fragment implements OnClickListen
 		radio_yes.setText(currentScreen.getOptions().getOption()[0].getLabel());
 		radio_no.setText(currentScreen.getOptions().getOption()[1].getLabel());
 		mScreenTitle = (TextView) mRootView.findViewById(R.id.screenTitle);
-		mScreenTitle.setText(getResources().getString(R.string.personalRiskAssesmentHeading));
+		mScreenTitle.setText(getResources().getString(
+				R.string.personalRiskAssesmentHeading));
 		if (ActivityConstants.YES.equalsIgnoreCase(currentScreen.getAnswer())) {
 			radio_yes.setChecked(true);
 			mNext.setEnabled(true);
 			mNext.setBackgroundResource(R.drawable.red_background);
-		}else if(ActivityConstants.NO.equalsIgnoreCase(currentScreen.getAnswer())){
+		} else if (ActivityConstants.NO.equalsIgnoreCase(currentScreen
+				.getAnswer())) {
 			radio_no.setChecked(true);
 			mNext.setEnabled(true);
 			mNext.setBackgroundResource(R.drawable.red_background);
-		}else{
+		} else {
 			radio_yes.setChecked(false);
 			radio_no.setChecked(false);
 			mNext.setEnabled(false);
 			mNext.setBackgroundResource(R.drawable.dark_grey_background);
 		}
-		
 
 		radioGroup1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -120,9 +124,10 @@ public class NoPhotosYesNoTypeFragment extends Fragment implements OnClickListen
 							.getOption()[i].getActions().getClick()
 							.getVibrate())) {
 						Utils.shakeAnimation(getActivity(), errorView);
-						Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-						 // Vibrate for 500 milliseconds
-						 v.vibrate(500);
+						Vibrator v = (Vibrator) getActivity().getSystemService(
+								Context.VIBRATOR_SERVICE);
+						// Vibrate for 500 milliseconds
+						v.vibrate(500);
 					}
 				} else {
 					errorView.setVisibility(View.GONE);
@@ -173,8 +178,8 @@ public class NoPhotosYesNoTypeFragment extends Fragment implements OnClickListen
 	}
 
 	private void loadFragment(int i) {
-		WorkWithNoPhotosQuestionManager.getInstance().updateScreenOnQuestionMaster(
-				currentScreen);
+		WorkWithNoPhotosQuestionManager.getInstance()
+				.updateScreenOnQuestionMaster(currentScreen);
 		WorkWithNoPhotosQuestionManager.getInstance().loadNextFragment(
 				currentScreen.getOptions().getOption()[i].getActions()
 						.getSubmit().getOnClick());

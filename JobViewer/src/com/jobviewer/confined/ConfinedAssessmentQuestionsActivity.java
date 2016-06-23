@@ -24,8 +24,8 @@ public class ConfinedAssessmentQuestionsActivity extends BaseActivity implements
 		onClicksRiskAssessment, onClicksEnterJobNumber {
 
 	private static FragmentManager mFragmentManager;
-	ConfinedQuestionManager manager;
-	QuestionMaster loadJsonFromAssets;
+	private ConfinedQuestionManager manager;
+	private QuestionMaster loadJsonFromAssets;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

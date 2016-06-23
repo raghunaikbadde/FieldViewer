@@ -24,7 +24,7 @@ import com.lanesgroup.jobviewer.R;
 
 public class showTimeDialog extends Dialog implements OnClickListener {
 
-	private TextView mTitle,mDesc;
+	private TextView mTitle, mDesc;
 	private TextView mTime;
 	private CheckBox mCheckOverride;
 	private Button mTimeContinue, mTimeCancel;
@@ -32,7 +32,7 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 	private String mCurrentTime;
 	private DialogCallback mCallback;
 	private Context mContext;
-	String eventType;
+	private String eventType;
 
 	public interface DialogCallback {
 		public void onContinue();
@@ -52,33 +52,41 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 		mTime = (TextView) findViewById(R.id.time);
 		mTitle = (TextView) findViewById(R.id.dialog_info);
 		mDesc = (TextView) findViewById(R.id.your_break_text);
-		
+
 		mCurrentTime = new SimpleDateFormat("HH:mm:ss dd MMM yyyy")
 				.format(Calendar.getInstance().getTime());
 		if ("start".equalsIgnoreCase(eventType)) {
 			Utils.timeSheetRequest.setStarted_at(mCurrentTime);
 		} else if ("travel".equalsIgnoreCase(eventType)) {
-			mTitle.setText(mContext.getResources().getString(R.string.start_travel));
-			mDesc.setText(mContext.getResources().getString(R.string.your_travel_start_time));
+			mTitle.setText(mContext.getResources().getString(
+					R.string.start_travel));
+			mDesc.setText(mContext.getResources().getString(
+					R.string.your_travel_start_time));
 			Utils.startTravelTimeRequest.setStarted_at(mCurrentTime);
-		} else if("End Travel".equalsIgnoreCase(eventType)) {
-			mTitle.setText(mContext.getResources().getString(R.string.end_travel_str));
-			mDesc.setText(mContext.getResources().getString(R.string.your_travel_end_time));
+		} else if ("End Travel".equalsIgnoreCase(eventType)) {
+			mTitle.setText(mContext.getResources().getString(
+					R.string.end_travel_str));
+			mDesc.setText(mContext.getResources().getString(
+					R.string.your_travel_end_time));
 			Utils.endTravelTimeRequest.setStarted_at(mCurrentTime);
-		} else if("ClockIn".equalsIgnoreCase(eventType)) {
-			mTitle.setText(mContext.getResources().getString(R.string.shiftStartStr));
-			mDesc.setText(mContext.getResources().getString(R.string.shiftStartStrDesc));
+		} else if ("ClockIn".equalsIgnoreCase(eventType)) {
+			mTitle.setText(mContext.getResources().getString(
+					R.string.shiftStartStr));
+			mDesc.setText(mContext.getResources().getString(
+					R.string.shiftStartStrDesc));
 			Utils.startShiftTimeRequest.setStarted_at(mCurrentTime);
 		} else {
-			mTitle.setText(mContext.getResources().getString(R.string.end_break_str));
-			mDesc.setText(mContext.getResources().getString(R.string.your_break_end_time));
+			mTitle.setText(mContext.getResources().getString(
+					R.string.end_break_str));
+			mDesc.setText(mContext.getResources().getString(
+					R.string.your_break_end_time));
 			Utils.endTimeRequest.setStarted_at(mCurrentTime);
 		}
 		User userProfile = JobViewerDBHandler.getUserProfile(mContext);
 		CheckOutObject checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getContext());
 		if (!Utils.isNullOrEmpty(userProfile.getUserid())) {
-			if ("start".equalsIgnoreCase(eventType)) {				
+			if ("start".equalsIgnoreCase(eventType)) {
 				Utils.timeSheetRequest.setUser_id(userProfile.getEmail());
 				if (!Utils.isNullOrEmpty(checkOutRemember.getVistecId())) {
 					Utils.timeSheetRequest.setReference_id(checkOutRemember
@@ -96,11 +104,11 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 			} else if ("End Travel".equalsIgnoreCase(eventType)) {
 				Utils.endTravelTimeRequest.setUser_id(userProfile.getEmail());
 				if (!Utils.isNullOrEmpty(checkOutRemember.getVistecId())) {
-					Utils.endTravelTimeRequest
-							.setReference_id(checkOutRemember.getVistecId());
+					Utils.endTravelTimeRequest.setReference_id(checkOutRemember
+							.getVistecId());
 				}
-				Utils.endTravelTimeRequest.setRecord_for(userProfile
-						.getEmail());
+				Utils.endTravelTimeRequest
+						.setRecord_for(userProfile.getEmail());
 			} else if ("ClockIn".equalsIgnoreCase(eventType)) {
 				Utils.startShiftTimeRequest.setUser_id(userProfile.getEmail());
 				if (!Utils.isNullOrEmpty(checkOutRemember.getVistecId())) {
@@ -152,7 +160,7 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 					Utils.startTravelTimeRequest.setIs_overriden("true");
 				} else if ("End Travel".equalsIgnoreCase(eventType)) {
 					Utils.endTravelTimeRequest.setIs_overriden("true");
-				}  else if ("ClockIn".equalsIgnoreCase(eventType)) {
+				} else if ("ClockIn".equalsIgnoreCase(eventType)) {
 					Utils.startShiftTimeRequest.setIs_overriden("true");
 				} else {
 					Utils.endTimeRequest.setIs_overriden("true");
@@ -167,7 +175,7 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		this.dismiss();

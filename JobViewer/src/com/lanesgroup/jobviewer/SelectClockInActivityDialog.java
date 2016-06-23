@@ -17,15 +17,13 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
 
-import com.lanesgroup.jobviewer.R;
-
 public class SelectClockInActivityDialog extends Activity {
 
 	private Button start, cancel;
 
 	private final String SHIFT = "Shift";
 	private final String ON_CALL = "OnCall";
-	final ArrayList<HashMap<String, Object>> m_data = new ArrayList<HashMap<String, Object>>();
+	private final ArrayList<HashMap<String, Object>> m_data = new ArrayList<HashMap<String, Object>>();
 	private Context mContext;
 
 	@Override

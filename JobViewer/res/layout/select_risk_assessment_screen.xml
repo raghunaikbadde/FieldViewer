@@ -8,8 +8,9 @@
 
     <ScrollView
         android:id="@+id/scrollView1"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:isScrollContainer="false" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,17 +26,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/title_number_spacing65"
                     android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:drawableLeft="@drawable/logo_top"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
                     android:text="@string/risk_assessment_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/title_text_size70" />
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/risk_assess_text"
+                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:background="#CCCCCC" />
 
                 <TextView
                     android:id="@+id/number_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/risk_assess_text"
+                    android:layout_below="@+id/line1"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/black_lato_regular_small55"
                     android:text="@string/vistec_number"
@@ -55,6 +69,7 @@
                         android:id="@+id/progress_step_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="@string/progress_step"
                         android:textColor="@color/black"
                         android:textSize="@dimen/white_lato_bold_small50"
@@ -65,7 +80,7 @@
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dialog_button_top_margin70"
-                        android:layout_marginLeft="@dimen/edit_error_stroke10"
+                        android:layout_marginLeft="@dimen/spinner_top_margin25"
                         android:progress="5"
                         android:progressDrawable="@drawable/progressbar" />
                 </LinearLayout>
@@ -96,10 +111,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/screen_border_margin80"
                         android:layout_marginLeft="@dimen/checkout_checkbox_left_margin158"
+                        android:button="@drawable/checkbox_selector"
+                        android:paddingLeft="@dimen/template_spacing27"
                         android:text="@string/non_excavation_str"
                         android:textColor="@color/black"
-                        android:paddingLeft="@dimen/template_spacing27"
-                        android:button="@drawable/checkbox_selector"
                         android:textSize="@dimen/progressbar_top_margin58" />
 
                     <RadioButton
@@ -107,24 +122,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/checkout_checkbox_left_margin158"
+                        android:button="@drawable/checkbox_selector"
+                        android:paddingLeft="@dimen/template_spacing27"
                         android:text="@string/excavation_str"
                         android:textColor="@color/black"
-                        android:paddingLeft="@dimen/template_spacing27"
-                        android:button="@drawable/checkbox_selector"
                         android:textSize="@dimen/progressbar_top_margin58" />
                 </RadioGroup>
-
-                <!-- Pending from here -->
 
                 <TextView
                     android:id="@+id/user_email_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/riskAssessmentOption"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/button_top_margin345"
                     android:layout_marginLeft="@dimen/risk_buttons_top_margin253"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
-                    android:text="@string/breaking_ground" android:layout_centerHorizontal="true"
+                    android:text="@string/breaking_ground"
                     android:textColor="@color/shallow_grey"
                     android:textSize="@dimen/dialog_edit_top_margin35" />
 
@@ -139,12 +153,12 @@
                         android:id="@+id/checkBox3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/checkout_checkbox_left_margin158"
-                        android:layout_marginRight="@dimen/checkout_checkbox_left_margin158"
-                        android:text="@string/remember_my_selection"
-                        android:textColor="@color/black"
+                        android:layout_marginLeft="@dimen/white_lato_regular_big79"
+                        android:layout_marginRight="@dimen/white_lato_regular_big79"
                         android:button="@drawable/checkbox_selector"
                         android:paddingLeft="@dimen/template_spacing27"
+                        android:text="@string/remember_my_selection"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/progressbar_top_margin58" />
 
                     <LinearLayout
@@ -160,8 +174,8 @@
                             android:layout_weight="20"
                             android:background="@drawable/grey_background"
                             android:text="@string/save"
-                            android:textColor="@color/black"
                             android:textAllCaps="false"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
                         <Button
@@ -178,8 +192,8 @@
                             android:layout_weight="20"
                             android:background="@drawable/red_background"
                             android:text="@string/next"
-                            android:textColor="@color/white"
                             android:textAllCaps="false"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/dialog_black_lato_regular_small60" />
                     </LinearLayout>
                 </RelativeLayout>

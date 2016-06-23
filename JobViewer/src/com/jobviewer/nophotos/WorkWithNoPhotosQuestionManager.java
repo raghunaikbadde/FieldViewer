@@ -24,7 +24,7 @@ public class WorkWithNoPhotosQuestionManager {
 	private Screen currentScreen;
 	private String nextScreenId;
 	private String WorkType;
-	boolean isBackPressed = false;
+	private boolean isBackPressed = false;
 
 	public static WorkWithNoPhotosQuestionManager getInstance() {
 		if (questionManager == null) {
@@ -135,8 +135,9 @@ public class WorkWithNoPhotosQuestionManager {
 					currentScreen = questionMaster.getScreens().getScreen()[i];
 					int questionType = SurveyUtil.getQuestionType(currentScreen
 							.get_type());
-					WorkWithNoPhotosQuestionActivity.loadNextFragment(SurveyUtil
-							.getNoPhotosFragment(questionType));
+					WorkWithNoPhotosQuestionActivity
+							.loadNextFragment(SurveyUtil
+									.getNoPhotosFragment(questionType));
 					if (!isBackPressed) {
 						addToBackStack(screenId);
 					} else {
@@ -156,7 +157,8 @@ public class WorkWithNoPhotosQuestionManager {
 		json.setQuestionJson(encodeToJsonString);
 		json.setWorkType(workType);
 		json.setBackStack(getBackStackAsString());
-		JobViewerDBHandler.saveWorkWithNoPhotosQuestionSet(BaseActivity.context, json);
+		JobViewerDBHandler.saveWorkWithNoPhotosQuestionSet(
+				BaseActivity.context, json);
 	}
 
 	public void reloadAssessment(SurveyJson surveyJson) {
@@ -203,7 +205,7 @@ public class WorkWithNoPhotosQuestionManager {
 
 	public void loadPreviousFragmentOnResume() {
 		if (backStack != null && backStack.size() >= 1) {
-			String screenId = backStack.get(backStack.size() - 1);			
+			String screenId = backStack.get(backStack.size() - 1);
 			isBackPressed = true;
 			loadNextFragment(screenId);
 		} else {

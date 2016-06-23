@@ -72,8 +72,8 @@ public class JobViewerProviderContract {
 		public static final String IMAGE_ID = "image_id";
 		public static final String IMAGE_STRING = "image_string";
 		public static final String IMAGE_URL = "image_url";
-		public static final String IMAGE_CATEGORY="category";
-		public static final String IMAGE_EXIF="image_exif";
+		public static final String IMAGE_CATEGORY = "category";
+		public static final String IMAGE_EXIF = "image_exif";
 
 	}
 
@@ -95,19 +95,19 @@ public class JobViewerProviderContract {
 		public static final String REMEMBER_MY_SELECTION = "rememberMySelection";
 		public static final String JOB_STARTED_TIME = "jobStartedTime";
 		public static final String ASSESSMENT_SELECTED = "assessmentSelected";
-		public static final String ASSESSMENT_REMEMBER_SELECTED="isAssessmentRemember";
+		public static final String ASSESSMENT_REMEMBER_SELECTED = "isAssessmentRemember";
 		public static final String IS_TRAVEL_STARTED = "isStartedTravel";
-		public static final String TRAVEL_STARTED_TIME="travelStartedTime";
+		public static final String TRAVEL_STARTED_TIME = "travelStartedTime";
 		public static final String IS_TRAVEL_END = "isTravelEnd";
 		public static final String IS_POLLUTION_SELECTED = "isPollutionSelected";
 		public static final String VISTEC_ID = "vistecId";
-		public static final String VISTEC_IMAGE_ID="vistecImageId";
-		public static final String IS_ASSESSMENT_COMPLETED="isAssessmentCompleted";
-		public static final String WORK_ID="workId";
-		public static final String IS_SAVED_ON_WORK_COMPLETE_SCREEN="isSavedOnWorkCompleteScreen";
-		public static final String  IS_SAVED_ON_ADD_PHOTO_SCREEN="isSavedOnAddPhotoScreen";
+		public static final String VISTEC_IMAGE_ID = "vistecImageId";
+		public static final String IS_ASSESSMENT_COMPLETED = "isAssessmentCompleted";
+		public static final String WORK_ID = "workId";
+		public static final String IS_SAVED_ON_WORK_COMPLETE_SCREEN = "isSavedOnWorkCompleteScreen";
+		public static final String IS_SAVED_ON_ADD_PHOTO_SCREEN = "isSavedOnAddPhotoScreen";
 	}
-	
+
 	public static final class BackLogTable implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(
 				JobViewerProviderContract.CONTENT_URI, "BackLogTable");
@@ -123,7 +123,7 @@ public class JobViewerProviderContract {
 		public static final String REQUEST_API = "requestApi";
 		public static final String REQUEST_CLASS_NAME = "requestClassName";
 	}
-	
+
 	public static final class QuestionSetTable implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(
 				JobViewerProviderContract.CONTENT_URI, "QuestionSetTable");
@@ -134,14 +134,15 @@ public class JobViewerProviderContract {
 		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
 				+ "/vnd.jobviewer.questionSetTable";
 
-		public static final String WORK_TYPE ="wokType";
-		public static final String QUESTION_SET="questionJson";
-		public static final String BACK_STACK="backStack";
+		public static final String WORK_TYPE = "wokType";
+		public static final String QUESTION_SET = "questionJson";
+		public static final String BACK_STACK = "backStack";
 	}
-	
+
 	public static final class ConfinedQuestionSetTable implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(
-				JobViewerProviderContract.CONTENT_URI, "ConfinedQuestionSetTable");
+				JobViewerProviderContract.CONTENT_URI,
+				"ConfinedQuestionSetTable");
 		public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
 				+ "/vnd.jobviewer";
 		public static final String CONTENT_WALLET_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
@@ -149,14 +150,16 @@ public class JobViewerProviderContract {
 		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
 				+ "/vnd.jobviewer.ConfinedQuestionSetTable";
 
-		public static final String WORK_TYPE ="wokType";
-		public static final String QUESTION_SET="questionJson";
-		public static final String BACK_STACK="backStack";
+		public static final String WORK_TYPE = "wokType";
+		public static final String QUESTION_SET = "questionJson";
+		public static final String BACK_STACK = "backStack";
 	}
-	
-	public static final class WorkWithNoPhotosQuestionSetTable implements BaseColumns {
+
+	public static final class WorkWithNoPhotosQuestionSetTable implements
+			BaseColumns {
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(
-				JobViewerProviderContract.CONTENT_URI, "WorkWithNoPhotosQuestionSetTable");
+				JobViewerProviderContract.CONTENT_URI,
+				"WorkWithNoPhotosQuestionSetTable");
 		public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
 				+ "/vnd.jobviewer";
 		public static final String CONTENT_WALLET_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
@@ -164,14 +167,15 @@ public class JobViewerProviderContract {
 		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
 				+ "/vnd.jobviewer.WorkWithNoPhotosQuestionSetTable";
 
-		public static final String WORK_TYPE ="wokType";
-		public static final String QUESTION_SET="questionJson";
-		public static final String BACK_STACK="backStack";
+		public static final String WORK_TYPE = "wokType";
+		public static final String QUESTION_SET = "questionJson";
+		public static final String BACK_STACK = "backStack";
 	}
-	
+
 	public static final class AddPhotosScreenSavedImages implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(
-				JobViewerProviderContract.CONTENT_URI, "AddPhotosScreenSavedImages");
+				JobViewerProviderContract.CONTENT_URI,
+				"AddPhotosScreenSavedImages");
 		public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
 				+ "/vnd.jobviewer";
 		public static final String CONTENT_WALLET_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
@@ -179,13 +183,13 @@ public class JobViewerProviderContract {
 		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
 				+ "/vnd.jobviewer.addPhotosScreenSavedImages";
 
-		public static final String IMAGE_ID ="imageId";
-		public static final String IMAGE_STRING="image_string";
-		public static final String IMAGE_URL="image_url";
-		public static final String IMAGE_CATEGORY="category";
-		public static final String IMAGE_EXIF="image_exif";
+		public static final String IMAGE_ID = "imageId";
+		public static final String IMAGE_STRING = "image_string";
+		public static final String IMAGE_URL = "image_url";
+		public static final String IMAGE_CATEGORY = "category";
+		public static final String IMAGE_EXIF = "image_exif";
 	}
-	
+
 	public static final class ShoutAboutSafetyTable implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(
 				JobViewerProviderContract.CONTENT_URI, "ShoutAboutSafetyTable");
@@ -196,11 +200,11 @@ public class JobViewerProviderContract {
 		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
 				+ "/vnd.jobviewer.ShoutAboutSafetyTable";
 
-		public static final String OPTION_SELECTED ="optionSelected";
-		public static final String QUESTION_SET="questionSet";
-		public static final String STARTEDAT="StartedAt";
+		public static final String OPTION_SELECTED = "optionSelected";
+		public static final String QUESTION_SET = "questionSet";
+		public static final String STARTEDAT = "StartedAt";
 	}
-	
+
 	public static final class StartTrainingTable implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(
 				JobViewerProviderContract.CONTENT_URI, "StartTrainingTable");
@@ -211,11 +215,11 @@ public class JobViewerProviderContract {
 		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
 				+ "/vnd.jobviewer.StartTrainingTable";
 
-		public static final String IS_TRAINING_STARTED ="isTrainingStarted";
-		public static final String TRAINING_START_TIME="trainingStartTime";
-		public static final String TRAINING_END_TIME="trainingEndTime";
+		public static final String IS_TRAINING_STARTED = "isTrainingStarted";
+		public static final String TRAINING_START_TIME = "trainingStartTime";
+		public static final String TRAINING_END_TIME = "trainingEndTime";
 	}
-	
+
 	public static final class ImageSendStatusTable implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(
 				JobViewerProviderContract.CONTENT_URI, "ImageSendStatusTable");
@@ -226,13 +230,14 @@ public class JobViewerProviderContract {
 		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
 				+ "/vnd.jobviewer.ImageSendStatusTable";
 
-		public static final String IMAGE_ID ="imageId";
-		public static final String IMAGE_SEND_SATTUS="imageSendStatus";
+		public static final String IMAGE_ID = "imageId";
+		public static final String IMAGE_SEND_SATTUS = "imageSendStatus";
 	}
 
 	public static final class BreakTravelShiftCallTable implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(
-				JobViewerProviderContract.CONTENT_URI, "BreakTravelShiftCallTable");
+				JobViewerProviderContract.CONTENT_URI,
+				"BreakTravelShiftCallTable");
 		public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
 				+ "/vnd.jobviewer";
 		public static final String CONTENT_WALLET_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
@@ -240,28 +245,28 @@ public class JobViewerProviderContract {
 		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
 				+ "/vnd.jobviewer.BreakTravelShiftCallTable";
 
-		public static final String IS_BREAK_STARTED ="isBreakStarted";
-		public static final String BREAK_START_TIME ="breakStartedTime";		
-		public static final String BREAK_END_TIME ="breakEndTime";
-		
-		public static final String IS_SHIFT_STARTED ="isShiftStarted";
-		public static final String SHIFT_START_TIME ="shiftStartTime";
-		public static final String SHIFT_END_TIME ="shiftEndTime";
-		
-		public static final String IS_CALL_STARTED ="isCallStarted";
-		public static final String CALL_START_TIME ="callStartTime";
-		public static final String CALL_END_TIME ="callEndTime";
-		
-		public static final String NUMBER_OF_BREAKS ="noOfBreaks";
-		
-		public static final String IS_TRAVEL_STARTED="isTravelStarted";
-		public static final String TRAVEL_START_TIME ="travelStartedTime";		
-		public static final String TRAVEL_END_TIME ="travelEndTime";
-		
-		public static final String WORK_START_TIME ="workStartedTime";
-		public static final String WORK_END_TIME ="workEndTime";
+		public static final String IS_BREAK_STARTED = "isBreakStarted";
+		public static final String BREAK_START_TIME = "breakStartedTime";
+		public static final String BREAK_END_TIME = "breakEndTime";
+
+		public static final String IS_SHIFT_STARTED = "isShiftStarted";
+		public static final String SHIFT_START_TIME = "shiftStartTime";
+		public static final String SHIFT_END_TIME = "shiftEndTime";
+
+		public static final String IS_CALL_STARTED = "isCallStarted";
+		public static final String CALL_START_TIME = "callStartTime";
+		public static final String CALL_END_TIME = "callEndTime";
+
+		public static final String NUMBER_OF_BREAKS = "noOfBreaks";
+
+		public static final String IS_TRAVEL_STARTED = "isTravelStarted";
+		public static final String TRAVEL_START_TIME = "travelStartedTime";
+		public static final String TRAVEL_END_TIME = "travelEndTime";
+
+		public static final String WORK_START_TIME = "workStartedTime";
+		public static final String WORK_END_TIME = "workEndTime";
 	}
-	
+
 	public static final class FlagJSON implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.withAppendedPath(
 				JobViewerProviderContract.CONTENT_URI, "FlagJSON");
@@ -272,6 +277,6 @@ public class JobViewerProviderContract {
 		public static final String CONTENT_USER_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
 				+ "/vnd.jobviewer.FlagJSON";
 
-		public static final String FLAG_JSON ="flagJSON";		
+		public static final String FLAG_JSON = "flagJSON";
 	}
 }

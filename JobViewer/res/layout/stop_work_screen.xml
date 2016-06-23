@@ -2,114 +2,117 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context="com.jobviewer.MainActivity" >
-    
- <ScrollView
+
+    <ScrollView
         android:id="@+id/scrollView1"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/bottombutton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        
-	<LinearLayout 
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:orientation="vertical">
-       
-    <TextView
-        android:id="@+id/risk_assessment_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/white_lato_bold_small50"
-        android:layout_marginBottom="@dimen/dialog_button_top_margin70"
-        android:textColor="@color/black"
-        android:textSize="@dimen/title_text_size70"
-        android:text="@string/risk_assessment"/>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottombutton"
+        android:layout_alignParentTop="true"
+        android:isScrollContainer="false" >
 
-    <TextView
-        android:id="@+id/stop_work_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/white_lato_bold_small50"
-        android:textColor="@color/saffron"
-        android:textSize="@dimen/title_text_size70"
-        android:text="@string/stop_work"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/stop_image"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/stop_work_icon_height350"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/stop_work_image" />
+            <TextView
+                android:id="@+id/risk_assessment_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/dialog_button_top_margin70"
+                android:layout_marginTop="@dimen/white_lato_bold_small50"
+                android:text="@string/risk_assessment"
+                android:textColor="@color/black"
+                android:textSize="@dimen/title_text_size70" />
 
-    <TextView
-        android:id="@+id/you_response_indicates_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dialog_edit_bottom_margin90"
-        android:layout_marginBottom="@dimen/dialog_edit_bottom_margin90"
-        android:textColor="@color/black"
-        android:textSize="@dimen/black_lato_regular_small55"
-        android:text="@string/you_response_indicates"/>
-    
-    <TextView
-        android:id="@+id/after_contacting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:textColor="@color/black"
-        android:textSize="@dimen/black_lato_regular_medium45"
-        android:layout_marginLeft="@dimen/white_lato_regular_big79"
-        android:layout_marginRight="@dimen/white_lato_regular_big79"
-        android:layout_marginTop="@dimen/black_lato_regular_medium45"
-        android:layout_marginBottom="@dimen/text_label_vertical_spacing100"
-        android:text="@string/after_contacting" />
+            <TextView
+                android:id="@+id/stop_work_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                android:text="@string/stop_work"
+                android:textColor="@color/saffron"
+                android:textSize="@dimen/title_text_size70" />
 
+            <ImageView
+                android:id="@+id/stop_image"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/stop_work_icon_height350"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/stop_work_image" />
+
+            <TextView
+                android:id="@+id/you_response_indicates_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/dialog_edit_bottom_margin90"
+                android:layout_marginTop="@dimen/dialog_edit_bottom_margin90"
+                android:gravity="center_horizontal"
+                android:text="@string/you_response_indicates"
+                android:textColor="@color/black"
+                android:textSize="@dimen/black_lato_regular_small55" />
+
+            <TextView
+                android:id="@+id/after_contacting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/text_label_vertical_spacing100"
+                android:layout_marginLeft="@dimen/white_lato_regular_big79"
+                android:layout_marginRight="@dimen/white_lato_regular_big79"
+                android:layout_marginTop="@dimen/black_lato_regular_medium45"
+                android:gravity="center_horizontal"
+                android:text="@string/after_contacting"
+                android:textColor="@color/black"
+                android:textSize="@dimen/black_lato_regular_medium45" />
         </LinearLayout>
-</ScrollView>
-    
+    </ScrollView>
+
     <LinearLayout
         android:id="@+id/bottombutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/white_lato_regular_big79"
-        android:layout_marginRight="@dimen/white_lato_regular_big79"
-        android:layout_marginBottom="@dimen/white_lato_regular_big79"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center_horizontal"
-        android:layout_alignParentBottom="true">
+        android:layout_marginBottom="@dimen/white_lato_regular_big79"
+        android:layout_marginLeft="@dimen/white_lato_regular_big79"
+        android:layout_marginRight="@dimen/white_lato_regular_big79" >
 
         <Button
             android:id="@+id/button1"
             android:layout_width="0dp"
-            android:layout_weight="20"
             android:layout_height="@dimen/start_break_button_height168"
+            android:layout_weight="20"
             android:background="@drawable/grey_background"
-            android:textColor="@color/black"
+            android:text="@string/stop"
             android:textAllCaps="false"
-            android:textSize="@dimen/dialog_black_lato_regular_small60"
-            android:text="@string/stop" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
         <Button
             android:id="@+id/space"
             android:layout_width="0dp"
-            android:layout_weight="4"
             android:layout_height="wrap_content"
-            android:visibility="invisible"/>
+            android:layout_weight="4"
+            android:visibility="invisible" />
+
         <Button
             android:id="@+id/button2"
             android:layout_width="0dp"
-            android:layout_weight="20"
             android:layout_height="@dimen/start_break_button_height168"
-            android:textColor="@color/white"
+            android:layout_weight="20"
             android:background="@drawable/red_background"
+            android:text="@string/resume"
             android:textAllCaps="false"
-            android:textSize="@dimen/dialog_black_lato_regular_small60"
-            android:text="@string/resume" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
+
 </RelativeLayout>

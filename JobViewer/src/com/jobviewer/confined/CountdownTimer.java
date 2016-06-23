@@ -1,14 +1,14 @@
 package com.jobviewer.confined;
 
-import com.jobviewer.confined.fragment.ConfinedTimerFragment;
-import com.jobviewer.confined.fragment.ConfinedTimerWithMediaFragment;
-
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
+import com.jobviewer.confined.fragment.ConfinedTimerFragment;
+import com.jobviewer.confined.fragment.ConfinedTimerWithMediaFragment;
+
 public class CountdownTimer extends CountDownTimer {
-	TextView textView;
-	String calledFrom;
+	private TextView textView;
+	private String calledFrom;
 
 	public CountdownTimer(long startTime, long interval, TextView textView,
 			String calledFrom) {
@@ -22,7 +22,7 @@ public class CountdownTimer extends CountDownTimer {
 		textView.setText("00:00:00");
 		if (calledFrom.equalsIgnoreCase("timer")) {
 			ConfinedTimerFragment.enableNextButton(true);
-		}else if("timer_multiple".equalsIgnoreCase(calledFrom)){
+		} else if ("timer_multiple".equalsIgnoreCase(calledFrom)) {
 			ConfinedTimerWithMediaFragment.showMultipleTypeScreen();
 		}
 		// ExamActivity.this.submitresult();

@@ -8,10 +8,11 @@
 
     <ScrollView
         android:id="@+id/scrollView1"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_button"
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:isScrollContainer="false" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,8 +58,8 @@
                     android:layout_marginTop="@dimen/dialog_edit_top_margin35"
                     android:background="@drawable/red_background"
                     android:text="@string/start_travel"
-                    android:textColor="@color/white"
                     android:textAllCaps="false"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
                 <TextView
@@ -130,8 +131,8 @@
             android:layout_weight="20"
             android:background="@drawable/grey_background"
             android:text="@string/cancel"
-            android:textColor="@color/black"
             android:textAllCaps="false"
+            android:textColor="@color/black"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
         <Button
@@ -148,8 +149,8 @@
             android:layout_weight="20"
             android:background="@drawable/dark_grey_background"
             android:text="@string/next"
-            android:textColor="@color/white"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 

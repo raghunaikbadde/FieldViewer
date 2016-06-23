@@ -26,15 +26,15 @@ import com.lanesgroup.jobviewer.R;
 
 public class ConfinedTimerFragment extends Fragment implements OnClickListener {
 	private View mRootView;
-	ProgressBar progressBar;
-	TextView screenTitle, progress_step_text, overhead_text, question_text,
-			next_update_text, timer_text;
-	LinearLayout skip_timer;
-	Button saveBtn;
-	static Button nextBtn;
-	Screen currentScreen;
-	String time;
-	CountdownTimer timer;
+	private ProgressBar progressBar;
+	private TextView screenTitle, progress_step_text, overhead_text,
+			question_text, next_update_text, timer_text;
+	private LinearLayout skip_timer;
+	private Button saveBtn;
+	private static Button nextBtn;
+	private Screen currentScreen;
+	private String time;
+	private CountdownTimer timer;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -1,16 +1,5 @@
 package com.lanesgroup.jobviewer;
 
-import com.jobviewer.comms.CommsConstant;
-import com.jobviewer.db.objects.BackLogRequest;
-import com.jobviewer.exception.ExceptionHandler;
-import com.jobviewer.exception.VehicleException;
-import com.jobviewer.provider.JobViewerDBHandler;
-import com.jobviewer.survey.object.util.GsonConverter;
-import com.jobviewer.util.Utils;
-import com.jobviwer.response.object.User;
-import com.raghu.VehicleCheckInOut;
-import com.vehicle.communicator.HttpConnection;
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,45 +14,68 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.jobviewer.comms.CommsConstant;
+import com.jobviewer.db.objects.BackLogRequest;
+import com.jobviewer.exception.ExceptionHandler;
+import com.jobviewer.exception.VehicleException;
+import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.util.Utils;
+import com.jobviwer.response.object.User;
+import com.raghu.VehicleCheckInOut;
+import com.vehicle.communicator.HttpConnection;
+
 public class EndShiftReturnVehicleActivity extends BaseActivity implements
 		OnClickListener {
 
-	Button mCancel, mNext;
-	EditText mMileage;
-	TextView mVehicleRegNo;
-	ProgressBar mProgressBar;
+	private Button mCancel, mNext;
+	private EditText mMileage;
+	private TextView mVehicleRegNo;
+	private ProgressBar mProgressBar;
+	private TextView check_out_text;
+	String titleFlag;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.end_shift_layout);
+		titleFlag=(String) getIntent().getExtras().get(Utils.TITLE_FLAG);
 		initUI();
-
 	}
 
 	private void initUI() {
 		mCancel = (Button) findViewById(R.id.cancel_button);
+		check_out_text = (TextView) findViewById(R.id.check_out_text);
 		mNext = (Button) findViewById(R.id.next_button);
-		mMileage = (EditText)findViewById(R.id.enter_mileage_edittext);
-		mVehicleRegNo = (TextView)findViewById(R.id.vehicle_registration_text_value);
+		mMileage = (EditText) findViewById(R.id.enter_mileage_edittext);
+		mVehicleRegNo = (TextView) findViewById(R.id.vehicle_registration_text_value);
 		mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 		mProgressBar.setMax(2);
 		mProgressBar.setProgress(1);
+		if (Utils.END_CALL.equalsIgnoreCase(titleFlag)) {
+			check_out_text.setText(getResources().getString(
+					R.string.end_on_call_str));
+		} else {
+			check_out_text.setText(getResources().getString(
+					R.string.end_shift_screen_title));
+		}
 		mMileage.addTextChangedListener(new TextWatcher() {
-			
+
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+
 			}
-			
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				
+
 			}
-			
+
 			@Override
 			public void afterTextChanged(Editable s) {
-				if(s.toString().length()>0){
+				if (s.toString().length() > 0) {
 					enableNextButton(true);
 				} else {
 					enableNextButton(false);
@@ -71,7 +83,8 @@ public class EndShiftReturnVehicleActivity extends BaseActivity implements
 			}
 		});
 		mCancel.setOnClickListener(this);
-		mVehicleRegNo.setText(JobViewerDBHandler.getCheckOutRemember(EndShiftReturnVehicleActivity.this).getVehicleRegistration());
+		mVehicleRegNo.setText(JobViewerDBHandler.getCheckOutRemember(
+				EndShiftReturnVehicleActivity.this).getVehicleRegistration());
 	}
 
 	@Override
@@ -82,10 +95,10 @@ public class EndShiftReturnVehicleActivity extends BaseActivity implements
 		} else if (v == mNext) {
 			Utils.startProgress(EndShiftReturnVehicleActivity.this);
 			if (Utils.isInternetAvailable(EndShiftReturnVehicleActivity.this)) {
-				
+
 				executeCheckInVehicleService();
 			} else {
-				saveCheckInVehicleInBackLogDB();			
+				saveCheckInVehicleInBackLogDB();
 				Utils.StopProgress();
 				launchEndOnCallActivity();
 			}
@@ -96,10 +109,12 @@ public class EndShiftReturnVehicleActivity extends BaseActivity implements
 		finish();
 		Intent endOnCallActivity = new Intent(
 				EndShiftReturnVehicleActivity.this, EndOnCallActivity.class);
-		endOnCallActivity.putExtra("mileage",mMileage.getText().toString());
-		endOnCallActivity.putExtra(Utils.CALLING_ACTIVITY,EndShiftReturnVehicleActivity.this.getClass().getSimpleName());
+		endOnCallActivity.putExtra("mileage", mMileage.getText().toString());
+		endOnCallActivity.putExtra(Utils.CALLING_ACTIVITY,
+				EndShiftReturnVehicleActivity.this.getClass().getSimpleName());
 		startActivity(endOnCallActivity);
 	}
+
 	public void enableNextButton(boolean isEnable) {
 		if (isEnable) {
 			mNext.setEnabled(isEnable);
@@ -111,7 +126,7 @@ public class EndShiftReturnVehicleActivity extends BaseActivity implements
 			mNext.setOnClickListener(null);
 		}
 	}
-	
+
 	private void executeCheckInVehicleService() {
 		User userProfile = JobViewerDBHandler
 				.getUserProfile(EndShiftReturnVehicleActivity.this);
@@ -121,11 +136,12 @@ public class EndShiftReturnVehicleActivity extends BaseActivity implements
 		data.put("registration", mVehicleRegNo.getText().toString());
 		data.put("mileage", mMileage.getText().toString());
 		data.put("user_id", userProfile.getEmail());
-		Utils.SendHTTPRequest(EndShiftReturnVehicleActivity.this, CommsConstant.HOST+
-				CommsConstant.CHECKIN_VEHICLE, data, getCheckOutHandler());
+		Utils.SendHTTPRequest(EndShiftReturnVehicleActivity.this,
+				CommsConstant.HOST + CommsConstant.CHECKIN_VEHICLE, data,
+				getCheckOutHandler());
 
 	}
-	
+
 	private Handler getCheckOutHandler() {
 		Handler handler = new Handler() {
 			@Override
@@ -152,11 +168,10 @@ public class EndShiftReturnVehicleActivity extends BaseActivity implements
 		};
 		return handler;
 	}
-	
-	
-	public void saveCheckInVehicleInBackLogDB(){
+
+	public void saveCheckInVehicleInBackLogDB() {
 		User userProfile = JobViewerDBHandler
-				.getUserProfile(EndShiftReturnVehicleActivity.this);		
+				.getUserProfile(EndShiftReturnVehicleActivity.this);
 		VehicleCheckInOut vehicleCheckInOut = new VehicleCheckInOut();
 		vehicleCheckInOut.setStarted_at(Utils.getCurrentDateAndTime());
 		vehicleCheckInOut.setRecord_for(userProfile.getEmail());
@@ -164,11 +179,13 @@ public class EndShiftReturnVehicleActivity extends BaseActivity implements
 		vehicleCheckInOut.setMileage(mMileage.getText().toString());
 		vehicleCheckInOut.setUser_id(userProfile.getEmail());
 		BackLogRequest backLogRequest = new BackLogRequest();
-		backLogRequest.setRequestApi(CommsConstant.HOST+CommsConstant.CHECKIN_VEHICLE);
+		backLogRequest.setRequestApi(CommsConstant.HOST
+				+ CommsConstant.CHECKIN_VEHICLE);
 		backLogRequest.setRequestClassName("VehicleCheckInOut");
-		backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(vehicleCheckInOut));
+		backLogRequest.setRequestJson(GsonConverter.getInstance()
+				.encodeToJsonString(vehicleCheckInOut));
 		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
 		JobViewerDBHandler.saveBackLog(getApplicationContext(), backLogRequest);
-		
+
 	}
 }

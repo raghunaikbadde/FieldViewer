@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
@@ -35,12 +36,12 @@ import com.raghu.StartUpRequest;
 import com.vehicle.communicator.HttpConnection;
 
 public class WelcomeActivity extends BaseActivity {
-	CheckBox shift, onCall;
-	String selected;
-	Button cancel, start;
-	OnCheckedChangeListener checkChangedListner;
-	Context context;
-	ImageView mShout;
+	private CheckBox shift, onCall;
+	private String selected;
+	private Button cancel, start;
+	private OnCheckedChangeListener checkChangedListner;
+	private Context context;
+	private ImageView shout_about_image;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,31 +56,17 @@ public class WelcomeActivity extends BaseActivity {
 				GPSTracker tracker = new GPSTracker(context);
 				tracker.getLocation();
 			}
-			mShout = (ImageView) findViewById(R.id.shout_about_image);
-			mShout.setOnClickListener(new OnClickListener() {
+			shout_about_image = (ImageView) findViewById(R.id.shout_about_image);
+			shout_about_image.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
-							.getShoutAboutSafety(v.getContext());
-					Intent intent = new Intent();
-					if (shoutAboutSafety != null
-							&& !Utils.isNullOrEmpty(shoutAboutSafety
-									.getQuestionSet())) {
-						intent.setClass(v.getContext(), ShoutOutActivity.class);
-						intent.putExtra(ActivityConstants.SHOUT_OPTION,
-								shoutAboutSafety.getOptionSelected());
-						intent.putExtra(ActivityConstants.IS_SHOUT_SAVED,
-								ActivityConstants.TRUE);
-						startActivity(intent);
-					} else {
-						intent.setClass(v.getContext(),
-								ShoutOptionsActivity.class);
-						startActivity(intent);
-					}
+					launchShoutAboutSafetyScreen(v);
 				}
 			});
+
 			Button clockIn = (Button) findViewById(R.id.clock_in);
+
 			clockIn.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -192,6 +179,24 @@ public class WelcomeActivity extends BaseActivity {
 			ExceptionHandler.showException(context, ex, "Info", listener);
 		}
 
+	}
+
+	private void launchShoutAboutSafetyScreen(View v) {
+		ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
+				.getShoutAboutSafety(v.getContext());
+		Intent intent = new Intent();
+		if (shoutAboutSafety != null
+				&& !Utils.isNullOrEmpty(shoutAboutSafety.getQuestionSet())) {
+			intent.setClass(v.getContext(), ShoutOutActivity.class);
+			intent.putExtra(ActivityConstants.SHOUT_OPTION,
+					shoutAboutSafety.getOptionSelected());
+			intent.putExtra(ActivityConstants.IS_SHOUT_SAVED,
+					ActivityConstants.TRUE);
+			startActivity(intent);
+		} else {
+			intent.setClass(v.getContext(), ShoutOptionsActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	public Handler getHandler() {

@@ -30,13 +30,13 @@ import com.lanesgroup.jobviewer.R;
 public class ConfinedEngineerFragment extends Fragment implements
 		OnClickListener, TextWatcher {
 	private View mRootView;
-	Screen currentScreen;
-	ProgressBar progressBar;
-	TextView progress_step_text, overhead_text, question_text, top_man_text,
-			bottom_man1_text, bottom_man2_text, bottom_man3_text;
-	EditText top_man_edittext, bottom_man1_edittext, bottom_man2_edittext,
-			bottom_man3_edittext;
-	Button saveBtn, nextBtn;
+	private Screen currentScreen;
+	private ProgressBar progressBar;
+	private TextView progress_step_text, overhead_text, question_text,
+			top_man_text, bottom_man1_text, bottom_man2_text, bottom_man3_text;
+	private EditText top_man_edittext, bottom_man1_edittext,
+			bottom_man2_edittext, bottom_man3_edittext;
+	private Button saveBtn, nextBtn;
 	public static String engineerName1, engineerName2, engineerName3;
 	public static String gasLevel1, gasLevel2, gasLevel3, gasLevel4;
 

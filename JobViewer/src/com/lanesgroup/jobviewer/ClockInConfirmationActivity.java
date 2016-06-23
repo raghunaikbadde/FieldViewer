@@ -31,14 +31,12 @@ import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
-import com.jobviewer.provider.JobViewerProviderContract.CheckOutRemember;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.ChangeTimeDialog;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.OverrideReasoneDialog;
 import com.jobviewer.util.Utils;
-import com.jobviewer.util.showTimeDialog;
 import com.jobviewer.util.showTimeDialog.DialogCallback;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
@@ -57,7 +55,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 	private String mCallingActivity;
 	private Context mContext;
 	public static PendingIntent alarmIntent;
-	String eventType;
+	private String eventType;
 	private final String CALLING_ACTIVITY = "callingActivity";
 	private boolean shouldCallActivityPageActivity = true;
 
@@ -264,7 +262,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					startActivity(intent);
 				}
 			} else {
-				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity")) {
+				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity")||mCallingActivity.equalsIgnoreCase("ShiftOrCallEndActivity")) {
 					if (bundle != null && bundle.containsKey(Utils.CALL_START)) {
 						executeOnCallStartService();
 					} else if (bundle != null
@@ -345,14 +343,18 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 			breakShiftTravelCall = new BreakShiftTravelCall();
 		}
 		String isOVerridden = Utils.startShiftTimeRequest.getIs_overriden();
-		String timeToStore = Utils.getMillisFromFormattedDate( Utils.startShiftTimeRequest.getStarted_at()); 		
-		if(isOVerridden.equalsIgnoreCase(ActivityConstants.TRUE)){
-			Log.d(Utils.LOG_TAG,"shift start time overriden");
-			timeToStore = Utils.getMillisFromFormattedDate(Utils.startShiftTimeRequest.getOverride_timestamp());
-		} 
-		Log.d(Utils.LOG_TAG,"shift start time "+timeToStore);
+		String timeToStore = Utils
+				.getMillisFromFormattedDate(Utils.startShiftTimeRequest
+						.getStarted_at());
+		if (isOVerridden.equalsIgnoreCase(ActivityConstants.TRUE)) {
+			Log.d(Utils.LOG_TAG, "shift start time overriden");
+			timeToStore = Utils
+					.getMillisFromFormattedDate(Utils.startShiftTimeRequest
+							.getOverride_timestamp());
+		}
+		Log.d(Utils.LOG_TAG, "shift start time " + timeToStore);
 		breakShiftTravelCall.setShiftStartTime(timeToStore);
-		
+
 		JobViewerDBHandler.saveBreakShiftTravelCall(
 				ClockInConfirmationActivity.this, breakShiftTravelCall);
 	}
@@ -364,13 +366,18 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		if (breakShiftTravelCall == null) {
 			breakShiftTravelCall = new BreakShiftTravelCall();
 		}
-		String timeToStore = Utils.getMillisFromFormattedDate(Utils.callStartTimeRequest.getStarted_at());
-		if(Utils.callStartTimeRequest.getIs_overriden().equalsIgnoreCase(ActivityConstants.TRUE)){
-			Log.d(Utils.LOG_TAG,"call Start Time Overriden");
-			timeToStore = Utils.getMillisFromFormattedDate(Utils.callStartTimeRequest.getOverride_timestamp());
+		String timeToStore = Utils
+				.getMillisFromFormattedDate(Utils.callStartTimeRequest
+						.getStarted_at());
+		if (Utils.callStartTimeRequest.getIs_overriden().equalsIgnoreCase(
+				ActivityConstants.TRUE)) {
+			Log.d(Utils.LOG_TAG, "call Start Time Overriden");
+			timeToStore = Utils
+					.getMillisFromFormattedDate(Utils.callStartTimeRequest
+							.getOverride_timestamp());
 		}
 		breakShiftTravelCall.setCallStartTime(timeToStore);
-		Log.d(Utils.LOG_TAG,"call start time "+timeToStore);
+		Log.d(Utils.LOG_TAG, "call start time " + timeToStore);
 		JobViewerDBHandler.saveBreakShiftTravelCall(
 				ClockInConfirmationActivity.this, breakShiftTravelCall);
 	}
@@ -598,21 +605,22 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 							.decodeFromJsonString(error, VehicleException.class);
 
 					ExceptionHandler.showException(context, exception, "Info");
-					if (mCallingActivity.equalsIgnoreCase("WelcomeActivity")){
+					if (mCallingActivity.equalsIgnoreCase("WelcomeActivity")) {
 						insertCallStartTimeIntoHoursCalculator();
 						Utils.saveTimeSheetInBackLogTable(
 								ClockInConfirmationActivity.this,
 								Utils.callStartTimeRequest,
 								CommsConstant.START_ON_CALL_API,
-								Utils.REQUEST_TYPE_TIMESHEET);}
-					else if (mCallingActivity
-							.equalsIgnoreCase("ClockInActivity")){
+								Utils.REQUEST_TYPE_TIMESHEET);
+					} else if (mCallingActivity
+							.equalsIgnoreCase("ClockInActivity")) {
 						insertShiftStartTimeIntoHoursCalculator();
 						Utils.saveTimeSheetInBackLogTable(
 								ClockInConfirmationActivity.this,
 								Utils.startShiftTimeRequest,
 								CommsConstant.START_SHIFT_API,
-								Utils.REQUEST_TYPE_TIMESHEET);}
+								Utils.REQUEST_TYPE_TIMESHEET);
+					}
 					break;
 
 				default:
@@ -637,7 +645,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					intent.putExtra(Utils.CALLING_ACTIVITY,
 							ClockInConfirmationActivity.this.getClass()
 									.getSimpleName());
-					cancelAlarm();	
+					cancelAlarm();
 					startActivity(intent);
 					break;
 				case HttpConnection.DID_ERROR:
@@ -693,18 +701,23 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 
 	}
+
 	private void initiateAlarm() {
-		Utils.alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		Utils.alarmMgr = (AlarmManager) context
+				.getSystemService(Context.ALARM_SERVICE);
 		Intent intent = new Intent(context, OverTimeAlertService.class);
 		alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 	}
+
 	private void setAlarmForOverTime() {
-		Utils.alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-		        Utils.OVETTIME_ALERT_TOGGLE,
-		        Utils.OVETTIME_ALERT_INTERVAL, alarmIntent);		
+		Utils.alarmMgr.setInexactRepeating(
+				AlarmManager.ELAPSED_REALTIME_WAKEUP,
+				Utils.OVETTIME_ALERT_TOGGLE, Utils.OVETTIME_ALERT_INTERVAL,
+				alarmIntent);
 	}
-	private void cancelAlarm(){
-		if(Utils.alarmMgr!=null){
+
+	private void cancelAlarm() {
+		if (Utils.alarmMgr != null) {
 			Utils.alarmMgr.cancel(ClockInConfirmationActivity.alarmIntent);
 		}
 	}

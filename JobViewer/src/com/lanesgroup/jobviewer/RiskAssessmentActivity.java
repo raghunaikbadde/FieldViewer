@@ -10,7 +10,6 @@ import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.jobviewer.db.objects.CheckOutObject;
@@ -29,7 +28,7 @@ public class RiskAssessmentActivity extends BaseActivity implements
 	private RadioGroup riskAssessmentOption;
 	private Button mSave, mNext;
 	private View mRootView;
-	int progress = 0;
+	private int progress = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +86,7 @@ public class RiskAssessmentActivity extends BaseActivity implements
 		mSave = (Button) findViewById(R.id.button1);
 		mSave.setOnClickListener(this);
 		mNext = (Button) findViewById(R.id.button2);
-		//mNext.setOnClickListener(this);
+		// mNext.setOnClickListener(this);
 	}
 
 	@Override
@@ -124,5 +123,5 @@ public class RiskAssessmentActivity extends BaseActivity implements
 		mNext.setBackgroundResource(R.drawable.red_background);
 		mNext.setOnClickListener(this);
 	}
-	
+
 }

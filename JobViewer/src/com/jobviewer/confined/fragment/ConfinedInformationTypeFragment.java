@@ -31,12 +31,13 @@ public class ConfinedInformationTypeFragment extends Fragment implements
 
 	private ProgressBar mProgress;
 	private TextView mProgressStep, screenTitle, questionTitle, question;
-	CheckBox radio_yes;
+	private CheckBox radio_yes;
 	private Button mCancel, mNext;
 	private View mRootView;
 	private Screen currentScreen;
-	CheckOutObject checkOutRemember;
+	private CheckOutObject checkOutRemember;
 	private TextView mTapNextToContinue;
+
 	public interface onClicksEnterJobNumber {
 		public void onNextClick();
 
@@ -60,15 +61,14 @@ public class ConfinedInformationTypeFragment extends Fragment implements
 		updateData();
 		return mRootView;
 	}
-	
-	public void removePhoneKeypad() {
-	    InputMethodManager inputManager = (InputMethodManager) mRootView
-	            .getContext()
-	            .getSystemService(Context.INPUT_METHOD_SERVICE);
 
-	    IBinder binder = mRootView.getWindowToken();
-	    inputManager.hideSoftInputFromWindow(binder,
-	            InputMethodManager.HIDE_NOT_ALWAYS);
+	public void removePhoneKeypad() {
+		InputMethodManager inputManager = (InputMethodManager) mRootView
+				.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		IBinder binder = mRootView.getWindowToken();
+		inputManager.hideSoftInputFromWindow(binder,
+				InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
 	public void enableNextButton(boolean isEnable) {
@@ -83,9 +83,11 @@ public class ConfinedInformationTypeFragment extends Fragment implements
 	}
 
 	private void updateData() {
-		currentScreen = ConfinedQuestionManager.getInstance().getCurrentScreen();
+		currentScreen = ConfinedQuestionManager.getInstance()
+				.getCurrentScreen();
 		questionTitle.setText(currentScreen.getTitle());
-		screenTitle.setText(getResources().getString(R.string.confined_space_str));
+		screenTitle.setText(getResources().getString(
+				R.string.confined_space_str));
 		question.setText(currentScreen.getText());
 		radio_yes.setText(currentScreen.getCheckbox().getLabel());
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
@@ -126,7 +128,7 @@ public class ConfinedInformationTypeFragment extends Fragment implements
 	}
 
 	private void checkAndUpdateUIOnCommunciationQuestion() {
-		if(updateUIOnCommunciationQuestion()){
+		if (updateUIOnCommunciationQuestion()) {
 			mTapNextToContinue.setVisibility(View.VISIBLE);
 			radio_yes.setVisibility(View.GONE);
 			enableNextButton(true);
@@ -141,7 +143,8 @@ public class ConfinedInformationTypeFragment extends Fragment implements
 		questionTitle = (TextView) mRootView.findViewById(R.id.questionTitle);
 		question = (TextView) mRootView.findViewById(R.id.question);
 		radio_yes = (CheckBox) mRootView.findViewById(R.id.radio_yes);
-		mTapNextToContinue = (TextView) mRootView.findViewById(R.id.tapNextToContinue);
+		mTapNextToContinue = (TextView) mRootView
+				.findViewById(R.id.tapNextToContinue);
 		mCancel = (Button) mRootView.findViewById(R.id.button1);
 		mNext = (Button) mRootView.findViewById(R.id.button2);
 		mNext.setOnClickListener(this);
@@ -169,8 +172,8 @@ public class ConfinedInformationTypeFragment extends Fragment implements
 							.getClick().getOnClick());
 		}
 	}
-	
-	private boolean updateUIOnCommunciationQuestion(){
+
+	private boolean updateUIOnCommunciationQuestion() {
 		String maintainComm = "maintain communication";
 		return currentScreen.getText().contains(maintainComm);
 	}

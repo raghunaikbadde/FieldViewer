@@ -4,9 +4,6 @@ import java.util.HashMap;
 
 import org.json.JSONObject;
 
-import com.jobviewer.provider.JobViewerDBHandler;
-import com.lanesgroup.jobviewer.EndTravelActivity;
-
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -20,21 +17,23 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.jobviewer.provider.JobViewerDBHandler;
+
 public class GPSTracker extends Service implements LocationListener {
 	private final Context mContext;
 
 	// flag for GPS status
-	boolean isGPSEnabled = false;
+	private boolean isGPSEnabled = false;
 
 	// flag for network status
-	boolean isNetworkEnabled = false;
+	private boolean isNetworkEnabled = false;
 
 	// flag for GPS status
-	boolean canGetLocation = false;
+	private boolean canGetLocation = false;
 
-	Location location; // location
-	double latitude; // latitude
-	double longitude; // longitude
+	private Location location; // location
+	private double latitude; // latitude
+	private double longitude; // longitude
 
 	// The minimum distance to change Updates in meters
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
@@ -147,17 +146,19 @@ public class GPSTracker extends Service implements LocationListener {
 			latitude = location.getLatitude();
 		}
 		// return latitude
-		//bug no 12: fix
-		//Implement the GPS check on app startup and to store the co-ordinates. If GPS is turned off/unavailable after the app starts up, 
-		//the GPS co-ordinates obtained at the startup should be sent to the server for images or for work location as appropriate. 
-		//This is similar to the fix provided in Vehicle Check application
-		if(latitude == 0.0){
+		// bug no 12: fix
+		// Implement the GPS check on app startup and to store the co-ordinates.
+		// If GPS is turned off/unavailable after the app starts up,
+		// the GPS co-ordinates obtained at the startup should be sent to the
+		// server for images or for work location as appropriate.
+		// This is similar to the fix provided in Vehicle Check application
+		if (latitude == 0.0) {
 			String lat = getMostRecentLat();
-			if(!Utils.isNullOrEmpty(lat)){
+			if (!Utils.isNullOrEmpty(lat)) {
 				try {
 					latitude = Double.valueOf(lat);
-				} catch(Exception e) {
-					
+				} catch (Exception e) {
+
 				}
 			}
 		} else {
@@ -173,17 +174,19 @@ public class GPSTracker extends Service implements LocationListener {
 		if (location != null) {
 			longitude = location.getLongitude();
 		}
-		//bug no 12: fix
-		//Implement the GPS check on app startup and to store the co-ordinates. If GPS is turned off/unavailable after the app starts up, 
-		//the GPS co-ordinates obtained at the startup should be sent to the server for images or for work location as appropriate. 
-		//This is similar to the fix provided in Vehicle Check application
-		if(longitude == 0.0){
+		// bug no 12: fix
+		// Implement the GPS check on app startup and to store the co-ordinates.
+		// If GPS is turned off/unavailable after the app starts up,
+		// the GPS co-ordinates obtained at the startup should be sent to the
+		// server for images or for work location as appropriate.
+		// This is similar to the fix provided in Vehicle Check application
+		if (longitude == 0.0) {
 			String lon = getMostRecentLon();
-			if(!Utils.isNullOrEmpty(lon)){
+			if (!Utils.isNullOrEmpty(lon)) {
 				try {
 					longitude = Double.valueOf(lon);
-				} catch(Exception e) {
-					
+				} catch (Exception e) {
+
 				}
 			}
 		} else {
@@ -270,80 +273,87 @@ public class GPSTracker extends Service implements LocationListener {
 	public float getAccurecy() {
 		return location.getAccuracy();
 	}
-	//bug no 12: fix
-	//Implement the GPS check on app startup and to store the co-ordinates. If GPS is turned off/unavailable after the app starts up, 
-	//the GPS co-ordinates obtained at the startup should be sent to the server for images or for work location as appropriate. 
-	//This is similar to the fix provided in Vehicle Check application
-	private void saveLattitude(String lat){
+
+	// bug no 12: fix
+	// Implement the GPS check on app startup and to store the co-ordinates. If
+	// GPS is turned off/unavailable after the app starts up,
+	// the GPS co-ordinates obtained at the startup should be sent to the server
+	// for images or for work location as appropriate.
+	// This is similar to the fix provided in Vehicle Check application
+	private void saveLattitude(String lat) {
 		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
-		if(Utils.isNullOrEmpty(str)){
+		if (Utils.isNullOrEmpty(str)) {
 			str = "{}";
 		}
-		try{
+		try {
 			JSONObject jsonObject = new JSONObject(str);
-			if(jsonObject.has(Constants.MOST_RECENT_SAVED_LAT)){
+			if (jsonObject.has(Constants.MOST_RECENT_SAVED_LAT)) {
 				jsonObject.remove(Constants.MOST_RECENT_SAVED_LAT);
 			}
-			
+
 			jsonObject.put(Constants.MOST_RECENT_SAVED_LAT, lat);
 			String jsonString = jsonObject.toString();
-			JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(), jsonString);
-		}catch(Exception e){
-			
+			JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(),
+					jsonString);
+		} catch (Exception e) {
+
 		}
 	}
-	
-	private void saveLongitude(String lon){
+
+	private void saveLongitude(String lon) {
 		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
-		if(Utils.isNullOrEmpty(str)){
+		if (Utils.isNullOrEmpty(str)) {
 			str = "{}";
 		}
-		try{
+		try {
 			JSONObject jsonObject = new JSONObject(str);
-			if(jsonObject.has(Constants.MOST_RECENT_SAVED_LON)){
+			if (jsonObject.has(Constants.MOST_RECENT_SAVED_LON)) {
 				jsonObject.remove(Constants.MOST_RECENT_SAVED_LON);
 			}
-			
+
 			jsonObject.put(Constants.MOST_RECENT_SAVED_LON, lon);
 			String jsonString = jsonObject.toString();
-			JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(), jsonString);
-		}catch(Exception e){
-			
+			JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(),
+					jsonString);
+		} catch (Exception e) {
+
 		}
 	}
-	
-	private String getMostRecentLat(){
+
+	private String getMostRecentLat() {
 		String jsonStr = JobViewerDBHandler.getJSONFlagObject(mContext);
-		String mostRecentLat =  "0.0";
-		if(Utils.isNullOrEmpty(jsonStr)){
+		String mostRecentLat = "0.0";
+		if (Utils.isNullOrEmpty(jsonStr)) {
 			jsonStr = "{}";
 		}
-		try{
+		try {
 			JSONObject flagJSON = new JSONObject(jsonStr);
-			if(flagJSON.has(Constants.MOST_RECENT_SAVED_LAT)){
-				mostRecentLat = flagJSON.getString(Constants.MOST_RECENT_SAVED_LAT);
+			if (flagJSON.has(Constants.MOST_RECENT_SAVED_LAT)) {
+				mostRecentLat = flagJSON
+						.getString(Constants.MOST_RECENT_SAVED_LAT);
 			}
-		}catch(Exception e){
-			
+		} catch (Exception e) {
+
 		}
 		return mostRecentLat;
 	}
-	
-	private String getMostRecentLon(){
+
+	private String getMostRecentLon() {
 		String jsonStr = JobViewerDBHandler.getJSONFlagObject(mContext);
-		String mostRecentLon =  "0.0";
-		if(Utils.isNullOrEmpty(jsonStr)){
+		String mostRecentLon = "0.0";
+		if (Utils.isNullOrEmpty(jsonStr)) {
 			jsonStr = "{}";
 		}
-		try{
+		try {
 			JSONObject flagJSON = new JSONObject(jsonStr);
-			if(flagJSON.has(Constants.MOST_RECENT_SAVED_LON)){
-				mostRecentLon = flagJSON.getString(Constants.MOST_RECENT_SAVED_LON);
+			if (flagJSON.has(Constants.MOST_RECENT_SAVED_LON)) {
+				mostRecentLon = flagJSON
+						.getString(Constants.MOST_RECENT_SAVED_LON);
 			}
-		}catch(Exception e){
-			
+		} catch (Exception e) {
+
 		}
 		return mostRecentLon;
 	}
-	
+
 }

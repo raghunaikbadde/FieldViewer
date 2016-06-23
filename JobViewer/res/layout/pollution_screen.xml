@@ -7,79 +7,92 @@
     android:orientation="vertical"
     tools:context="com.jobviewer.MainActivity" >
 
-         <TextView
-                    android:id="@+id/title_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginBottom="@dimen/progressbar_top_margin58"
-                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginTop="@dimen/white_lato_bold_small50"
-                    android:gravity="center_horizontal"
-                    android:text="@string/pollutionScreenTitle"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/title_text_size70" />
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dialog_detail_top_margin80"
+        android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+        android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+        android:layout_marginTop="@dimen/white_lato_bold_small50"
+        android:drawableLeft="@drawable/logo_top"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="@string/pollutionScreenTitle"
+        android:textColor="@color/black"
+        android:textSize="@dimen/title_text_size70" />
 
-                <TextView
-                    android:id="@+id/number_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/title_text"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/black_lato_regular_small55"
-                    android:text="@string/vistec_number"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/progressbar_top_margin58" />
+    <TextView
+        android:id="@+id/number_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_text"
+        android:layout_centerHorizontal="true"
+        android:text="@string/vistec_number"
+        android:textColor="@color/black"
+        android:textSize="@dimen/progressbar_top_margin58" />
 
-                <LinearLayout
-                    android:id="@+id/progress_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/number_text"
-                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:orientation="horizontal" >
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/number_text"
+        android:layout_marginBottom="@dimen/white_lato_bold_small50"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="@dimen/white_lato_bold_small50"
+        android:background="#CCCCCC" />
 
-                    <TextView
-                        android:id="@+id/progress_step_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/pollution_progress"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/white_lato_bold_small50"
-                        android:textStyle="bold" />
+    <LinearLayout
+        android:id="@+id/progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line1"
+        android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+        android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+        android:orientation="horizontal" >
 
-                    <ProgressBar
-                        android:id="@+id/progressBar"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dialog_button_top_margin70"
-                        android:layout_marginLeft="@dimen/edit_error_stroke10"
-                        android:progress="70"
-                        android:progressDrawable="@drawable/progressbar" />
-                </LinearLayout>
-                
-                <TextView
-                       android:id="@+id/pollutionTitle"
-                       android:layout_width="fill_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_below="@+id/progress_layout"
-                       android:gravity="center_horizontal"
-                       android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                       android:layout_marginRight="@dimen/white_lato_regular_small40"
-                       android:text="@string/pollution_detail"
-                       android:textColor="@color/blackColor"
-                       android:textSize="@dimen/progressbar_top_margin58" />
-    
-    
+        <TextView
+            android:id="@+id/progress_step_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/pollution_progress"
+            android:textColor="@color/black"
+            android:textSize="@dimen/white_lato_bold_small50"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_button_top_margin70"
+            android:layout_marginLeft="@dimen/spinner_top_margin25"
+            android:progress="70"
+            android:progressDrawable="@drawable/progressbar" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/pollutionTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progress_layout"
+        android:layout_marginLeft="@dimen/white_lato_regular_small40"
+        android:layout_marginRight="@dimen/white_lato_regular_small40"
+        android:gravity="center_horizontal"
+        android:text="@string/pollution_detail"
+        android:textColor="@color/blackColor"
+        android:textSize="@dimen/progressbar_top_margin58" />
+
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/bottombutton"
-        android:layout_below="@+id/pollutionTitle">
+        android:layout_below="@+id/pollutionTitle"
+        android:isScrollContainer="false" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -104,9 +117,9 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:button="@drawable/checkbox_selector"
+                        android:paddingLeft="@dimen/template_spacing27"
                         android:text="@string/pollution_to_land"
                         android:textColor="@color/black"
-                        android:paddingLeft="@dimen/template_spacing27"
                         android:textSize="@dimen/progressbar_top_margin58" />
 
                     <LinearLayout
@@ -127,36 +140,37 @@
                             android:textSize="@dimen/white_lato_bold_small50" />
 
                         <RelativeLayout
-		                    android:id="@+id/spinnerLayout"
-		                    android:layout_width="match_parent"
-		                    android:layout_height="@dimen/actionbar_height125"
-		                    android:layout_below="@+id/activity_type_text"
-		                    android:background="@drawable/grey_background"
-		                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                            android:id="@+id/spinnerLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/actionbar_height125"
+                            android:layout_below="@+id/activity_type_text"
+                            android:layout_marginBottom="@dimen/template_spacing15"
+                            android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
-		                    android:layout_marginTop="@dimen/template_spacing15"
-		                    android:layout_marginBottom="@dimen/template_spacing15">
-		                    <TextView
-			                    android:id="@+id/landPollution"
-			                    android:layout_width="wrap_content"
-			                    android:layout_height="wrap_content"
-			                    android:layout_centerVertical="true"
-			                    android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
-			                    android:text="@string/select_spinner_str"
-			                    android:textColor="@color/black"
-			                    android:textSize="@dimen/black_lato_regular_small55" />
-		                    
-		                    <ImageView 
-		                        android:layout_width="wrap_content"
-		                        android:layout_height="wrap_content"
-		                        android:layout_alignParentRight="true"
-		                        android:layout_centerVertical="true"
-		                        android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
-		                        android:src="@drawable/down_arrow_image"/>
-		                </RelativeLayout>
-                        
-                        
-                        <!-- <Spinner
+                            android:layout_marginTop="@dimen/template_spacing15"
+                            android:background="@drawable/grey_background" >
+
+                            <TextView
+                                android:id="@+id/landPollution"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
+                                android:text="@string/select_spinner_str"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/black_lato_regular_small55" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:src="@drawable/down_arrow_image" />
+                        </RelativeLayout>
+
+                        <!--
+                             <Spinner
                             android:id="@+id/extentOfLandSpinner"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -165,7 +179,8 @@
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:text="@string/newtimestamp"
                             android:textColor="@color/blackColor"
-                            android:textSize="@dimen/white_lato_regular_small40" /> -->
+                            android:textSize="@dimen/white_lato_regular_small40" />
+                        -->
 
                         <TextView
                             android:id="@+id/landAffectedTitle"
@@ -177,7 +192,8 @@
                             android:textColor="@color/blackColor"
                             android:textSize="@dimen/white_lato_bold_small50" />
 
-                        <!-- <Spinner
+                        <!--
+                             <Spinner
                             android:id="@+id/landAffectedSpinner"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -186,36 +202,38 @@
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:text="@string/newtimestamp"
                             android:textColor="@color/blackColor"
-                            android:textSize="@dimen/white_lato_regular_small40" /> -->
-                            
-                       <RelativeLayout
-		                    android:id="@+id/spinnerLayout1"
-		                    android:layout_width="match_parent"
-		                    android:layout_height="@dimen/actionbar_height125"
-		                    android:layout_below="@+id/activity_type_text"
-		                    android:background="@drawable/grey_background"
-		                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                            android:textSize="@dimen/white_lato_regular_small40" />
+                        -->
+
+                        <RelativeLayout
+                            android:id="@+id/spinnerLayout1"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/actionbar_height125"
+                            android:layout_below="@+id/activity_type_text"
+                            android:layout_marginBottom="@dimen/template_spacing15"
+                            android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
-		                    android:layout_marginTop="@dimen/template_spacing15"
-		                    android:layout_marginBottom="@dimen/template_spacing15">
-		                    <TextView
-			                    android:id="@+id/landAffected"
-			                    android:layout_width="wrap_content"
-			                    android:layout_height="wrap_content"
-			                    android:layout_centerVertical="true"
-			                    android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
-			                    android:text="@string/select_spinner_str"
-			                    android:textColor="@color/black"
-			                    android:textSize="@dimen/black_lato_regular_small55" />
-		                    
-		                    <ImageView 
-		                        android:layout_width="wrap_content"
-		                        android:layout_height="wrap_content"
-		                        android:layout_alignParentRight="true"
-		                        android:layout_centerVertical="true"
-		                        android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
-		                        android:src="@drawable/down_arrow_image"/>
-		                </RelativeLayout>
+                            android:layout_marginTop="@dimen/template_spacing15"
+                            android:background="@drawable/grey_background" >
+
+                            <TextView
+                                android:id="@+id/landAffected"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
+                                android:text="@string/select_spinner_str"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/black_lato_regular_small55" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:src="@drawable/down_arrow_image" />
+                        </RelativeLayout>
 
                         <TextView
                             android:id="@+id/landPollutantsTitle"
@@ -226,34 +244,35 @@
                             android:text="@string/landPollutants"
                             android:textColor="@color/blackColor"
                             android:textSize="@dimen/white_lato_bold_small50" />
-                        
+
                         <RelativeLayout
-		                    android:id="@+id/landPollutantsSpinnerLayout"
-		                    android:layout_width="match_parent"
-		                    android:layout_height="@dimen/actionbar_height125"
-		                    android:background="@drawable/grey_background"
-		                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                            android:id="@+id/landPollutantsSpinnerLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/actionbar_height125"
+                            android:layout_marginBottom="@dimen/template_spacing15"
+                            android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
-		                    android:layout_marginTop="@dimen/template_spacing15"
-		                    android:layout_marginBottom="@dimen/template_spacing15">
-		                    <TextView
-			                    android:id="@+id/landPollutantsText"
-			                    android:layout_width="wrap_content"
-			                    android:layout_height="wrap_content"
-			                    android:layout_centerVertical="true"
-			                    android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
-			                    android:text="@string/select_spinner_str"
-			                    android:textColor="@color/black"
-			                    android:textSize="@dimen/black_lato_regular_small55" />
-		                    
-		                    <ImageView 
-		                        android:layout_width="wrap_content"
-		                        android:layout_height="wrap_content"
-		                        android:layout_alignParentRight="true"
-		                        android:layout_centerVertical="true"
-		                        android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
-		                        android:src="@drawable/down_arrow_image"/>
-		                </RelativeLayout>
+                            android:layout_marginTop="@dimen/template_spacing15"
+                            android:background="@drawable/grey_background" >
+
+                            <TextView
+                                android:id="@+id/landPollutantsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
+                                android:text="@string/select_spinner_str"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/black_lato_regular_small55" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:src="@drawable/down_arrow_image" />
+                        </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -272,9 +291,9 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:button="@drawable/checkbox_selector"
+                        android:paddingLeft="@dimen/template_spacing27"
                         android:text="@string/pollution_to_water"
                         android:textColor="@color/black"
-                        android:paddingLeft="@dimen/template_spacing27"
                         android:textSize="@dimen/progressbar_top_margin58" />
 
                     <LinearLayout
@@ -294,7 +313,8 @@
                             android:textColor="@color/blackColor"
                             android:textSize="@dimen/white_lato_bold_small50" />
 
-                        <!-- <Spinner
+                        <!--
+                             <Spinner
                             android:id="@+id/extentOfWaterSpinner"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -302,36 +322,38 @@
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:textColor="@color/blackColor"
-                            android:textSize="@dimen/white_lato_regular_small40" /> -->
-                            
-                            <RelativeLayout
-		                    android:id="@+id/spinnerLayoutExtentOfWater"
-		                    android:layout_width="match_parent"
-		                    android:layout_height="@dimen/actionbar_height125"
-		                    android:layout_below="@+id/activity_type_text"
-		                    android:background="@drawable/grey_background"
-		                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                            android:textSize="@dimen/white_lato_regular_small40" />
+                        -->
+
+                        <RelativeLayout
+                            android:id="@+id/spinnerLayoutExtentOfWater"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/actionbar_height125"
+                            android:layout_below="@+id/activity_type_text"
+                            android:layout_marginBottom="@dimen/template_spacing15"
+                            android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
-		                    android:layout_marginTop="@dimen/template_spacing15"
-		                    android:layout_marginBottom="@dimen/template_spacing15">
-		                    <TextView
-			                    android:id="@+id/extentOfWater"
-			                    android:layout_width="wrap_content"
-			                    android:layout_height="wrap_content"
-			                    android:layout_centerVertical="true"
-			                    android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
-			                    android:text="@string/select_spinner_str"
-			                    android:textColor="@color/black"
-			                    android:textSize="@dimen/black_lato_regular_small55" />
-		                    
-		                    <ImageView 
-		                        android:layout_width="wrap_content"
-		                        android:layout_height="wrap_content"
-		                        android:layout_alignParentRight="true"
-		                        android:layout_centerVertical="true"
-		                        android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
-		                        android:src="@drawable/down_arrow_image"/>
-		                </RelativeLayout>
+                            android:layout_marginTop="@dimen/template_spacing15"
+                            android:background="@drawable/grey_background" >
+
+                            <TextView
+                                android:id="@+id/extentOfWater"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
+                                android:text="@string/select_spinner_str"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/black_lato_regular_small55" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:src="@drawable/down_arrow_image" />
+                        </RelativeLayout>
 
                         <TextView
                             android:id="@+id/waterBodyAffectedTitle"
@@ -343,7 +365,8 @@
                             android:textColor="@color/blackColor"
                             android:textSize="@dimen/white_lato_bold_small50" />
 
-<!--                         <Spinner
+                        <!--
+                             <Spinner
                             android:id="@+id/waterBodyAffectedSpinner"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -351,37 +374,38 @@
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:textColor="@color/blackColor"
-                            android:textSize="@dimen/white_lato_regular_small40" /> -->
-                            
-                            <RelativeLayout
-		                    android:id="@+id/spinnerLayoutWaterBody"
-		                    android:layout_width="match_parent"
-		                    android:layout_height="@dimen/actionbar_height125"
-		                    android:layout_below="@+id/activity_type_text"
-		                    android:background="@drawable/grey_background"
-		                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                            android:textSize="@dimen/white_lato_regular_small40" />
+                        -->
+
+                        <RelativeLayout
+                            android:id="@+id/spinnerLayoutWaterBody"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/actionbar_height125"
+                            android:layout_below="@+id/activity_type_text"
+                            android:layout_marginBottom="@dimen/template_spacing15"
+                            android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
-		                    android:layout_marginTop="@dimen/template_spacing15"
-		                    android:layout_marginBottom="@dimen/template_spacing15">
-		                    <TextView
-			                    android:id="@+id/waterBody"
-			                    android:layout_width="wrap_content"
-			                    android:layout_height="wrap_content"
-			                    android:layout_centerVertical="true"
-			                    android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
-			                    android:text="@string/select_spinner_str"
-			                    android:textColor="@color/black"
-			                    android:textSize="@dimen/black_lato_regular_small55" />
-		                    
-		                    <ImageView 
-		                        android:layout_width="wrap_content"
-		                        android:layout_height="wrap_content"
-		                        android:layout_alignParentRight="true"
-		                        android:layout_centerVertical="true"
-		                        android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
-		                        android:src="@drawable/down_arrow_image"/>
-		                </RelativeLayout>
-                            
+                            android:layout_marginTop="@dimen/template_spacing15"
+                            android:background="@drawable/grey_background" >
+
+                            <TextView
+                                android:id="@+id/waterBody"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
+                                android:text="@string/select_spinner_str"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/black_lato_regular_small55" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:src="@drawable/down_arrow_image" />
+                        </RelativeLayout>
 
                         <TextView
                             android:id="@+id/waterPollutantsTitle"
@@ -392,37 +416,39 @@
                             android:text="@string/waterPollutants"
                             android:textColor="@color/blackColor"
                             android:textSize="@dimen/white_lato_bold_small50" />
-                        
-                         <RelativeLayout
-		                    android:id="@+id/spinnerLayoutWaterPollutants"
-		                    android:layout_width="match_parent"
-		                    android:layout_height="@dimen/actionbar_height125"
-		                    android:layout_below="@+id/activity_type_text"
-		                    android:background="@drawable/grey_background"
-		                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                            android:layout_marginRight="@dimen/white_lato_regular_small40"
-		                    android:layout_marginTop="@dimen/template_spacing15"
-		                    android:layout_marginBottom="@dimen/template_spacing15">
-		                    <TextView
-			                    android:id="@+id/waterPollutantsTextView"
-			                    android:layout_width="wrap_content"
-			                    android:layout_height="wrap_content"
-			                    android:layout_centerVertical="true"
-			                    android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
-			                    android:text="@string/select_spinner_str"
-			                    android:textColor="@color/black"
-			                    android:textSize="@dimen/black_lato_regular_small55" />
-		                    
-		                    <ImageView 
-		                        android:layout_width="wrap_content"
-		                        android:layout_height="wrap_content"
-		                        android:layout_alignParentRight="true"
-		                        android:layout_centerVertical="true"
-		                        android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
-		                        android:src="@drawable/down_arrow_image"/>
-		                </RelativeLayout>
 
-                        <!-- <com.jobviewer.custom.view.MultiSelectSpinner
+                        <RelativeLayout
+                            android:id="@+id/spinnerLayoutWaterPollutants"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/actionbar_height125"
+                            android:layout_below="@+id/activity_type_text"
+                            android:layout_marginBottom="@dimen/template_spacing15"
+                            android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                            android:layout_marginRight="@dimen/white_lato_regular_small40"
+                            android:layout_marginTop="@dimen/template_spacing15"
+                            android:background="@drawable/grey_background" >
+
+                            <TextView
+                                android:id="@+id/waterPollutantsTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
+                                android:text="@string/select_spinner_str"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/black_lato_regular_small55" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:src="@drawable/down_arrow_image" />
+                        </RelativeLayout>
+
+                        <!--
+                             <com.jobviewer.custom.view.MultiSelectSpinner
                             android:id="@+id/waterPollutantsSpinner"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -430,8 +456,9 @@
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:textColor="@color/blackColor"
-                            android:textSize="@dimen/white_lato_regular_small40" /> -->
-                        
+                            android:textSize="@dimen/white_lato_regular_small40" />
+                        -->
+
                         <TextView
                             android:id="@+id/dissolvedOxygen"
                             android:layout_width="fill_parent"
@@ -440,14 +467,14 @@
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:text="@string/dissolvedOxygen"
                             android:textColor="@color/blackColor"
-                            android:textSize="@dimen/white_lato_bold_small50"/>
-                        
+                            android:textSize="@dimen/white_lato_bold_small50" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                            android:layout_marginRight="@dimen/white_lato_regular_small40">
+                            android:layout_marginRight="@dimen/white_lato_regular_small40"
+                            android:orientation="horizontal" >
 
                             <TextView
                                 android:id="@+id/upstream"
@@ -465,11 +492,11 @@
                                 android:layout_height="@dimen/edit_text_height130"
                                 android:layout_marginLeft="@dimen/template_spacing15"
                                 android:layout_marginRight="@dimen/template_spacing15"
-                                android:background="@drawable/grey_background"                                
+                                android:background="@drawable/grey_background"
+                                android:gravity="center"
                                 android:hint="@string/tmp_number"
                                 android:inputType="number"
                                 android:maxLength="8"
-                                android:gravity="center"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/black"
@@ -487,14 +514,14 @@
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/white_lato_bold_small50" />
                         </LinearLayout>
-                        
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="@dimen/template_spacing15"
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                            android:layout_marginRight="@dimen/white_lato_regular_small40">
+                            android:layout_marginRight="@dimen/white_lato_regular_small40"
+                            android:layout_marginTop="@dimen/template_spacing15"
+                            android:orientation="horizontal" >
 
                             <TextView
                                 android:id="@+id/downstream"
@@ -512,11 +539,11 @@
                                 android:layout_height="@dimen/edit_text_height130"
                                 android:layout_marginLeft="@dimen/template_spacing15"
                                 android:layout_marginRight="@dimen/template_spacing15"
-                                android:background="@drawable/grey_background"                                
+                                android:background="@drawable/grey_background"
+                                android:gravity="center"
                                 android:hint="@string/tmp_number"
                                 android:inputType="number"
                                 android:maxLength="8"
-                                android:gravity="center"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/black"
@@ -534,7 +561,8 @@
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/white_lato_bold_small50" />
                         </LinearLayout>
-                       	<TextView
+
+                        <TextView
                             android:id="@+id/ammoniaTitle"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
@@ -574,6 +602,7 @@
                                 android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
                                 android:src="@drawable/down_arrow_image" />
                         </RelativeLayout>
+
                         <TextView
                             android:id="@+id/fishKillTitle"
                             android:layout_width="fill_parent"
@@ -614,10 +643,10 @@
                                 android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
                                 android:src="@drawable/down_arrow_image" />
                         </RelativeLayout>
-					</LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
-                
-				<LinearLayout
+
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/pollutionToWaterParent"
@@ -625,18 +654,20 @@
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:layout_marginTop="@dimen/white_lato_bold_small50"
                     android:orientation="vertical" >
-                <TextView
-                    android:id="@+id/indicativeCauseTitle"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/pollutionToWaterParent"
-                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                    android:layout_marginRight="@dimen/white_lato_regular_small40"
-                    android:text="@string/indicativeCause"
-                    android:textColor="@color/blackColor"
-                    android:textSize="@dimen/white_lato_bold_small50" />
 
-                <!-- <Spinner
+                    <TextView
+                        android:id="@+id/indicativeCauseTitle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/pollutionToWaterParent"
+                        android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                        android:layout_marginRight="@dimen/white_lato_regular_small40"
+                        android:text="@string/indicativeCause"
+                        android:textColor="@color/blackColor"
+                        android:textSize="@dimen/white_lato_bold_small50" />
+
+                    <!--
+                     <Spinner
                     android:id="@+id/indicativeCauseSpinner"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -645,80 +676,82 @@
                     android:layout_marginLeft="@dimen/white_lato_regular_small40"
                     android:layout_marginRight="@dimen/white_lato_regular_small40"
                     android:textColor="@color/blackColor"
-                    android:textSize="@dimen/white_lato_regular_small40" /> -->
-                    
+                    android:textSize="@dimen/white_lato_regular_small40" />
+                    -->
+
                     <RelativeLayout
-		                    android:id="@+id/spinnerLayoutIndicative"
-		                    android:layout_width="match_parent"
-		                    android:layout_height="@dimen/actionbar_height125"
-		                    android:layout_below="@+id/indicativeCauseTitle"
-		                    android:background="@drawable/grey_background"
-		                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                            android:layout_marginRight="@dimen/white_lato_regular_small40"
-		                    android:layout_marginTop="@dimen/template_spacing15"
-		                    android:layout_marginBottom="@dimen/template_spacing15">
-		                    <TextView
-			                    android:id="@+id/indicativeCause"
-			                    android:layout_width="wrap_content"
-			                    android:layout_height="wrap_content"
-			                    android:layout_centerVertical="true"
-			                    android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
-			                    android:text="@string/select_spinner_str"
-			                    android:textColor="@color/black"
-			                    android:textSize="@dimen/black_lato_regular_small55" />
-		                    
-		                    <ImageView 
-		                        android:layout_width="wrap_content"
-		                        android:layout_height="wrap_content"
-		                        android:layout_alignParentRight="true"
-		                        android:layout_centerVertical="true"
-		                        android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
-		                        android:src="@drawable/down_arrow_image"/>
-		                </RelativeLayout>
+                        android:id="@+id/spinnerLayoutIndicative"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/actionbar_height125"
+                        android:layout_below="@+id/indicativeCauseTitle"
+                        android:layout_marginBottom="@dimen/template_spacing15"
+                        android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                        android:layout_marginRight="@dimen/white_lato_regular_small40"
+                        android:layout_marginTop="@dimen/template_spacing15"
+                        android:background="@drawable/grey_background" >
 
-                <TextView
-                    android:id="@+id/additionalEDTitle"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/spinnerLayoutIndicative"
-                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                    android:layout_marginRight="@dimen/white_lato_regular_small40"
-                    android:text="@string/additionalED"
-                    android:textColor="@color/blackColor"
-                    android:textSize="@dimen/white_lato_bold_small50" />
-                
-                 <RelativeLayout
-		                    android:id="@+id/spinnerLayoutadditionalED"
-		                    android:layout_width="match_parent"
-		                    android:layout_height="@dimen/actionbar_height125"
-		                    android:layout_below="@+id/additionalEDTitle"
-		                    android:background="@drawable/grey_background"
-		                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                            android:layout_marginRight="@dimen/white_lato_regular_small40"
-		                    android:layout_marginTop="@dimen/template_spacing15"
-		                    android:layout_marginBottom="@dimen/template_spacing15">
-		                    <TextView
-			                    android:id="@+id/additionalED"
-			                    android:layout_width="wrap_content"
-			                    android:layout_height="wrap_content"
-			                    android:layout_centerVertical="true"
-			                    android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
-			                    android:text="@string/select_spinner_str"
-			                    android:textColor="@color/black"
-			                    android:textSize="@dimen/black_lato_regular_small55" />
-		                    
-		                    <ImageView 
-		                        android:layout_width="wrap_content"
-		                        android:layout_height="wrap_content"
-		                        android:layout_alignParentRight="true"
-		                        android:layout_centerVertical="true"
-		                        android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
-		                        android:src="@drawable/down_arrow_image"/>
-		                </RelativeLayout>
-                
-                
+                        <TextView
+                            android:id="@+id/indicativeCause"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
+                            android:text="@string/select_spinner_str"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/black_lato_regular_small55" />
 
-                <!-- <com.jobviewer.custom.view.MultiSelectSpinner
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                            android:src="@drawable/down_arrow_image" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/additionalEDTitle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/spinnerLayoutIndicative"
+                        android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                        android:layout_marginRight="@dimen/white_lato_regular_small40"
+                        android:text="@string/additionalED"
+                        android:textColor="@color/blackColor"
+                        android:textSize="@dimen/white_lato_bold_small50" />
+
+                    <RelativeLayout
+                        android:id="@+id/spinnerLayoutadditionalED"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/actionbar_height125"
+                        android:layout_below="@+id/additionalEDTitle"
+                        android:layout_marginBottom="@dimen/template_spacing15"
+                        android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                        android:layout_marginRight="@dimen/white_lato_regular_small40"
+                        android:layout_marginTop="@dimen/template_spacing15"
+                        android:background="@drawable/grey_background" >
+
+                        <TextView
+                            android:id="@+id/additionalED"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/lanes_logo_bottom_margin23"
+                            android:text="@string/select_spinner_str"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/black_lato_regular_small55" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                            android:src="@drawable/down_arrow_image" />
+                    </RelativeLayout>
+
+                    <!--
+                     <com.jobviewer.custom.view.MultiSelectSpinner
                     android:id="@+id/additionalEDSpinner"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -727,7 +760,8 @@
                     android:layout_marginLeft="@dimen/white_lato_regular_small40"
                     android:layout_marginRight="@dimen/white_lato_regular_small40"
                     android:textColor="@color/blackColor"
-                    android:textSize="@dimen/white_lato_regular_small40" /> -->
+                    android:textSize="@dimen/white_lato_regular_small40" />
+                    -->
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
@@ -749,8 +783,8 @@
             android:layout_weight="20"
             android:background="@drawable/grey_background"
             android:text="@string/save"
-            android:textColor="@color/black"
             android:textAllCaps="false"
+            android:textColor="@color/black"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
         <Button
@@ -767,8 +801,8 @@
             android:layout_weight="20"
             android:background="@drawable/red_background"
             android:text="@string/next"
-            android:textColor="@color/white"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 

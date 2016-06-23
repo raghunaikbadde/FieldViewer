@@ -25,8 +25,8 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 	private Button mCancel, mContinue;
 	private TextView timeStampValue;
 	private Spinner overrideReasonSpinner;
-	String eventType;
-	String eventType1;
+	private String eventType;
+	private String eventType1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,25 +59,25 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 		} else if (eventType.equalsIgnoreCase("End Travel")) {
 			timeStampValue.setText(Utils.endTravelTimeRequest
 					.getOverride_timestamp());
-		} else if(eventType.equalsIgnoreCase("ClockIn")){
+		} else if (eventType.equalsIgnoreCase("ClockIn")) {
 			eventType1 = getIntent().getExtras().getString("eventType1");
 			if (eventType1.equalsIgnoreCase(Utils.SHIFT_START)) {
 				timeStampValue.setText(Utils.startShiftTimeRequest
 						.getOverride_timestamp());
-			}else{
+			} else {
 				timeStampValue.setText(Utils.callStartTimeRequest
 						.getOverride_timestamp());
 			}
-			
-		} else if(eventType.equalsIgnoreCase("EndOnCall")){
+
+		} else if (eventType.equalsIgnoreCase("EndOnCall")) {
 			timeStampValue.setText(Utils.callEndTimeRequest
 					.getOverride_timestamp());
-		} else if(eventType.equalsIgnoreCase("EndShift")){
+		} else if (eventType.equalsIgnoreCase("EndShift")) {
 			timeStampValue.setText(Utils.endShiftRequest
 					.getOverride_timestamp());
-		}else {
-			timeStampValue.setText(Utils.endTimeRequest
-					.getOverride_timestamp());
+		} else {
+			timeStampValue
+					.setText(Utils.endTimeRequest.getOverride_timestamp());
 		}
 
 		mCancel.setOnClickListener(this);
@@ -110,29 +110,29 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 		if ("start".equalsIgnoreCase(eventType)) {
 			Utils.timeSheetRequest.setOverride_comment(item);
 			Utils.timeSheetRequest.setOverride_reason(item);
-		} else  if ("travel".equalsIgnoreCase(eventType)) {
+		} else if ("travel".equalsIgnoreCase(eventType)) {
 			Utils.startTravelTimeRequest.setOverride_comment(item);
 			Utils.startTravelTimeRequest.setOverride_reason(item);
-		} else  if ("End Travel".equalsIgnoreCase(eventType)) {
+		} else if ("End Travel".equalsIgnoreCase(eventType)) {
 			Utils.endTravelTimeRequest.setOverride_comment(item);
 			Utils.endTravelTimeRequest.setOverride_reason(item);
-		}  else if(eventType.equalsIgnoreCase("ClockIn")){
+		} else if (eventType.equalsIgnoreCase("ClockIn")) {
 			String eventType1 = getIntent().getExtras().getString("eventType1");
 			if (eventType1.equalsIgnoreCase(Utils.SHIFT_START)) {
 				Utils.startShiftTimeRequest.setOverride_comment(item);
 				Utils.startShiftTimeRequest.setOverride_reason(item);
-			}else{
+			} else {
 				Utils.callStartTimeRequest.setOverride_comment(item);
 				Utils.callStartTimeRequest.setOverride_reason(item);
 			}
-			
-		} else if(eventType.equalsIgnoreCase("EndOnCall")){
+
+		} else if (eventType.equalsIgnoreCase("EndOnCall")) {
 			Utils.callEndTimeRequest.setOverride_comment(item);
 			Utils.callEndTimeRequest.setOverride_reason(item);
-		}else if(eventType.equalsIgnoreCase("EndShift")){
+		} else if (eventType.equalsIgnoreCase("EndShift")) {
 			Utils.endShiftRequest.setOverride_comment(item);
 			Utils.endShiftRequest.setOverride_reason(item);
-		}else {
+		} else {
 			Utils.endTimeRequest.setOverride_comment(item);
 			Utils.endTimeRequest.setOverride_reason(item);
 		}

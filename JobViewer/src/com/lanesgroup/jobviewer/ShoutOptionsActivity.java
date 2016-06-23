@@ -18,7 +18,7 @@ public class ShoutOptionsActivity extends BaseActivity implements
 		OnClickListener, OnCheckedChangeListener {
 
 	private Button mSave, mNext;
-	RadioGroup radioGroup1;
+	private RadioGroup radioGroup1;
 	private String mOption;
 
 	@Override

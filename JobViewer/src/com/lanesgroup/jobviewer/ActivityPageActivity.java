@@ -56,14 +56,15 @@ import com.vehicle.communicator.HttpConnection;
 
 public class ActivityPageActivity extends BaseActivity implements
 		View.OnClickListener, DialogCallback, ConfirmDialogCallback {
-	TextView user_email_text, date_time_text, vehicleRegistrationNumber;
-	LinearLayout checked_out_layout;
+	private TextView user_email_text, date_time_text,
+			vehicleRegistrationNumber;
+	private LinearLayout checked_out_layout;
 
 	private ImageView mShoutAbout;
 
 	private Button mStart, mCheckOutVehicle, mStartTravel, mEndOnCall;
-	Context mContext;
-	Bundle bundle;
+	private Context mContext;
+	private Bundle bundle;
 	private String vehicleRegNo = "";
 
 	@Override
@@ -411,6 +412,7 @@ public class ActivityPageActivity extends BaseActivity implements
 						.getMilage());
 			}
 			intent.putExtra(Utils.END_CALL, Utils.END_CALL);
+			intent.putExtra(Utils.TITLE_FLAG, Utils.END_CALL);
 			intent.putExtra(Utils.CALLING_ACTIVITY, ActivityPageActivity.this
 					.getClass().getSimpleName());
 			startActivity(intent);
@@ -438,6 +440,7 @@ public class ActivityPageActivity extends BaseActivity implements
 			}
 			Utils.endShiftRequest = new TimeSheetRequest();
 			intent.putExtra(Utils.SHIFT_END, Utils.SHIFT_END);
+			intent.putExtra(Utils.TITLE_FLAG, Utils.SHIFT_END);
 			intent.putExtra(Utils.CALLING_ACTIVITY, ActivityPageActivity.this
 					.getClass().getSimpleName());
 			startActivity(intent);

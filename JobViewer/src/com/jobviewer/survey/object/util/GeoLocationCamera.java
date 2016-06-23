@@ -4,7 +4,7 @@ import android.media.ExifInterface;
 
 public class GeoLocationCamera {
 	private boolean valid = false;
-	Double Latitude, Longitude;
+	private Double Latitude, Longitude;
 
 	public GeoLocationCamera(ExifInterface exif) {
 		String attrLATITUDE = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);

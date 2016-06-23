@@ -21,8 +21,9 @@
         android:orientation="vertical" >
 
         <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:isScrollContainer="false" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -39,15 +40,16 @@
                         android:id="@+id/info_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center|top"
                         android:layout_marginLeft="@dimen/white_lato_regular_small40"
                         android:layout_marginRight="@dimen/white_lato_regular_small40"
-                        android:gravity="center_vertical"
                         android:src="@drawable/big_error_icon" />
 
                     <TextView
                         android:id="@+id/info_message_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center|top"
                         android:layout_marginRight="@dimen/white_lato_regular_small40"
                         android:text="@string/you_should_only"
                         android:textColor="@color/black"
@@ -83,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:calendarViewShown="false"/>
+                    android:calendarViewShown="false" />
 
                 <TextView
                     android:id="@+id/new_time_text"
@@ -119,8 +121,8 @@
             android:layout_weight="1"
             android:background="@drawable/dialog_grey_button"
             android:text="@string/cancel"
-            android:textColor="@color/lighter_grey"
             android:textAllCaps="false"
+            android:textColor="@color/lighter_grey"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
         <Button
@@ -130,8 +132,8 @@
             android:layout_weight="1"
             android:background="@drawable/dialog_red_button"
             android:text="@string/confirm"
-            android:textColor="@color/white"
             android:textAllCaps="false"
+            android:textColor="@color/white"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 

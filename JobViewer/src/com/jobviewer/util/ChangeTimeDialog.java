@@ -32,11 +32,11 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 	private TimePicker mTimePicker;
 	private DatePicker mDatePicker;
 	private CheckBox mCheckOverride;
-	String eventType;
-	String eventTypeValue;
-	String errorMsg;
+	private String eventType;
+	private String eventTypeValue;
+	private String errorMsg;
 	private boolean mIsChecked;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,7 +64,7 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View view) {
-		String eventType1=null;
+		String eventType1 = null;
 		if (view == mCancel) {
 			finish();
 		} else if (view == mContinue) {
@@ -77,61 +77,72 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 			String formattedDate = dateFormat.format(date);
 			Integer currentMinute = mTimePicker.getCurrentMinute();
 			String minute = "";
-			if(currentMinute < 10){
-				minute = "0"+String.valueOf(currentMinute);
+			if (currentMinute < 10) {
+				minute = "0" + String.valueOf(currentMinute);
 			} else {
 				minute = String.valueOf(currentMinute);
 			}
 			Integer currentHour = mTimePicker.getCurrentHour();
 			String hour = "";
-			if(currentHour < 10){
-				hour = "0"+String.valueOf(currentHour);
-						
-			} else{
+			if (currentHour < 10) {
+				hour = "0" + String.valueOf(currentHour);
+
+			} else {
 				hour = String.valueOf(currentHour);
 			}
-			String time = hour + ":"
-					+ minute + ":" + "00 "
-					+ formattedDate;
+			String time = hour + ":" + minute + ":" + "00 " + formattedDate;
 
-			boolean isValidTime = validateTime(view.getContext(),time);
+			boolean isValidTime = validateTime(view.getContext(), time);
 			if (isValidTime) {
 				if ("start".equalsIgnoreCase(eventType)) {
-					Utils.timeSheetRequest.setIs_overriden(ActivityConstants.TRUE);
+					Utils.timeSheetRequest
+							.setIs_overriden(ActivityConstants.TRUE);
 					Utils.timeSheetRequest.setOverride_timestamp(time);
 					eventTypeValue = "start";
 				} else if ("travel".equalsIgnoreCase(eventType)) {
-					Utils.startTravelTimeRequest.setIs_overriden(ActivityConstants.TRUE);
+					Utils.startTravelTimeRequest
+							.setIs_overriden(ActivityConstants.TRUE);
 					Utils.startTravelTimeRequest.setOverride_timestamp(time);
-					Log.d(Utils.LOG_TAG," override start travel time stamp "+time);
+					Log.d(Utils.LOG_TAG, " override start travel time stamp "
+							+ time);
 					eventTypeValue = "travel";
 				} else if ("End Travel".equalsIgnoreCase(eventType)) {
-					Utils.endTravelTimeRequest.setIs_overriden(ActivityConstants.TRUE);
+					Utils.endTravelTimeRequest
+							.setIs_overriden(ActivityConstants.TRUE);
 					Utils.endTravelTimeRequest.setOverride_timestamp(time);
-					Log.d(Utils.LOG_TAG," override end travel time stamp "+time);					
+					Log.d(Utils.LOG_TAG, " override end travel time stamp "
+							+ time);
 					eventTypeValue = eventType;
-				} else if("ClockIn".equalsIgnoreCase(eventType)){
-					eventType1=(String) getIntent().getExtras().get("eventType1");
+				} else if ("ClockIn".equalsIgnoreCase(eventType)) {
+					eventType1 = (String) getIntent().getExtras().get(
+							"eventType1");
 					if (eventType1.equalsIgnoreCase(Utils.SHIFT_START)) {
-						Utils.startShiftTimeRequest.setIs_overriden(ActivityConstants.TRUE);
+						Utils.startShiftTimeRequest
+								.setIs_overriden(ActivityConstants.TRUE);
 						Utils.startShiftTimeRequest.setOverride_timestamp(time);
-					}else{
-						Utils.callStartTimeRequest.setIs_overriden(ActivityConstants.TRUE);
+					} else {
+						Utils.callStartTimeRequest
+								.setIs_overriden(ActivityConstants.TRUE);
 						Utils.callStartTimeRequest.setOverride_timestamp(time);
 					}
-					eventTypeValue=eventType;
-				} else if("EndOnCall".equalsIgnoreCase(eventType)){
-					eventTypeValue=eventType;
-					eventType1=(String) getIntent().getExtras().get("eventType1");
-					Utils.callEndTimeRequest.setIs_overriden(ActivityConstants.TRUE);
+					eventTypeValue = eventType;
+				} else if ("EndOnCall".equalsIgnoreCase(eventType)) {
+					eventTypeValue = eventType;
+					eventType1 = (String) getIntent().getExtras().get(
+							"eventType1");
+					Utils.callEndTimeRequest
+							.setIs_overriden(ActivityConstants.TRUE);
 					Utils.callEndTimeRequest.setOverride_timestamp(time);
-				} else if("EndShift".equalsIgnoreCase(eventType)){
-					eventTypeValue=eventType;
-					eventType1=(String) getIntent().getExtras().get("eventType1");
-					Utils.endShiftRequest.setIs_overriden(ActivityConstants.TRUE);
+				} else if ("EndShift".equalsIgnoreCase(eventType)) {
+					eventTypeValue = eventType;
+					eventType1 = (String) getIntent().getExtras().get(
+							"eventType1");
+					Utils.endShiftRequest
+							.setIs_overriden(ActivityConstants.TRUE);
 					Utils.endShiftRequest.setOverride_timestamp(time);
-				}else {
-					Utils.endTimeRequest.setIs_overriden(ActivityConstants.TRUE);
+				} else {
+					Utils.endTimeRequest
+							.setIs_overriden(ActivityConstants.TRUE);
 					Utils.endTimeRequest.setOverride_timestamp(time);
 					eventTypeValue = "endtravel";
 				}
@@ -149,110 +160,152 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 			}
 
 		}
-		
-		
 
 	}
 
 	private boolean validateTime(Context context, String time) {
 		if ("start".equalsIgnoreCase(eventType)) {
-			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(context);
-			String shiftStartTime = Utils.formattedDateFromMillis( breakShiftTravelCall.getShiftStartTime());
+			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler
+					.getBreakShiftTravelCall(context);
+			String shiftStartTime = Utils
+					.formattedDateFromMillis(breakShiftTravelCall
+							.getShiftStartTime());
 			String presentTime = Utils.getCurrentDateAndTime();
-			
+
 			if (!Utils.checkIfStartDateIsGreater(shiftStartTime, time)) {
-				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+shiftStartTime+")";
+				errorMsg = context.getResources().getString(
+						R.string.dateAndTimeMustAfterShiftStart)
+						+ " (" + shiftStartTime + ")";
 				return false;
-			}else if(!Utils.checkIfStartDateIsGreater(time,presentTime)){
-				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
+			} else if (!Utils.checkIfStartDateIsGreater(time, presentTime)) {
+				errorMsg = context.getResources().getString(
+						R.string.pastDateValidationErrorMsg);
 				return false;
-			}			
+			}
 			Utils.timeSheetRequest.setOverride_timestamp(time);
-		} else if("End Break".equalsIgnoreCase(eventType)){
-			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(context);
+		} else if ("End Break".equalsIgnoreCase(eventType)) {
+			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler
+					.getBreakShiftTravelCall(context);
 			String breakStartTime = breakShiftTravelCall.getBreakStartedTime();
 			String presentTime = Utils.getCurrentDateAndTime();
-				
+
 			if (!Utils.checkIfStartDateIsGreater(breakStartTime, time)) {
-				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterBreakStart)+" ("+breakStartTime+")";
+				errorMsg = context.getResources().getString(
+						R.string.dateAndTimeMustAfterBreakStart)
+						+ " (" + breakStartTime + ")";
 				return false;
-			}else if(!Utils.checkIfStartDateIsGreater(time,presentTime)){
-				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
+			} else if (!Utils.checkIfStartDateIsGreater(time, presentTime)) {
+				errorMsg = context.getResources().getString(
+						R.string.pastDateValidationErrorMsg);
 				return false;
 			}
 			Utils.timeSheetRequest.setOverride_timestamp(time);
 		} else if ("EndShift".equalsIgnoreCase(eventType)) {
-			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(context);
-			
-			String shiftStartTime =checkOutRemember.getJobStartedTime();
+			CheckOutObject checkOutRemember = JobViewerDBHandler
+					.getCheckOutRemember(context);
+
+			String shiftStartTime = checkOutRemember.getJobStartedTime();
 			String presentTime = Utils.getCurrentDateAndTime();
-			if (!Utils.checkIfStartDateIsGreater(checkOutRemember.getJobStartedTime(), time)) {
-				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+checkOutRemember.getJobStartedTime()+")";
+			if (!Utils.checkIfStartDateIsGreater(
+					checkOutRemember.getJobStartedTime(), time)) {
+				errorMsg = context.getResources().getString(
+						R.string.dateAndTimeMustAfterShiftStart)
+						+ " (" + checkOutRemember.getJobStartedTime() + ")";
 				return false;
-			}else if(!Utils.checkIfStartDateIsGreater(time,presentTime)){
-				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
+			} else if (!Utils.checkIfStartDateIsGreater(time, presentTime)) {
+				errorMsg = context.getResources().getString(
+						R.string.pastDateValidationErrorMsg);
 				return false;
 			}
-			
+
 			Utils.endShiftRequest.setOverride_timestamp(time);
 		} else if ("travel".equalsIgnoreCase(eventType)) {
-			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(context);
+			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler
+					.getBreakShiftTravelCall(context);
 			String timeToComparre = "";
-			if(!Utils.isNullOrEmpty(breakShiftTravelCall.getCallStartTime()))
-				timeToComparre = Utils.formattedDateFromMillis(breakShiftTravelCall.getCallStartTime());
+			if (!Utils.isNullOrEmpty(breakShiftTravelCall.getCallStartTime()))
+				timeToComparre = Utils
+						.formattedDateFromMillis(breakShiftTravelCall
+								.getCallStartTime());
 			else
-				timeToComparre = Utils.formattedDateFromMillis(breakShiftTravelCall.getShiftStartTime());
+				timeToComparre = Utils
+						.formattedDateFromMillis(breakShiftTravelCall
+								.getShiftStartTime());
 			if (!Utils.checkIfStartDateIsGreater(timeToComparre, time)) {
-				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterShiftStart)+" ("+timeToComparre+")";
+				errorMsg = context.getResources().getString(
+						R.string.dateAndTimeMustAfterShiftStart)
+						+ " (" + timeToComparre + ")";
 				return false;
-			}else if(!Utils.checkIfStartDateIsGreater(time,Utils.getCurrentDateAndTime())){
-				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
+			} else if (!Utils.checkIfStartDateIsGreater(time,
+					Utils.getCurrentDateAndTime())) {
+				errorMsg = context.getResources().getString(
+						R.string.pastDateValidationErrorMsg);
 				return false;
 			}
-			
+
 		} else if ("End Travel".equalsIgnoreCase(eventType)) {
-			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(context);
+			BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler
+					.getBreakShiftTravelCall(context);
 			String timeToComparre = "";
-			
-			if(Utils.isNullOrEmpty(breakShiftTravelCall.getTravelStartedTime())){
-				CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(context);
+
+			if (Utils
+					.isNullOrEmpty(breakShiftTravelCall.getTravelStartedTime())) {
+				CheckOutObject checkOutObject = JobViewerDBHandler
+						.getCheckOutRemember(context);
 				timeToComparre = checkOutObject.getTravelStartedTime();
 			} else
-				timeToComparre = Utils.formattedDateFromMillis(breakShiftTravelCall.getTravelStartedTime());
+				timeToComparre = Utils
+						.formattedDateFromMillis(breakShiftTravelCall
+								.getTravelStartedTime());
 			if (!Utils.checkIfStartDateIsGreater(timeToComparre, time)) {
-				errorMsg=context.getResources().getString(R.string.dateTimeShouldBeAfterTravelErrorMsg)+" ("+timeToComparre+")";
+				errorMsg = context.getResources().getString(
+						R.string.dateTimeShouldBeAfterTravelErrorMsg)
+						+ " (" + timeToComparre + ")";
 				return false;
-			}else if(!Utils.checkIfStartDateIsGreater(time,Utils.getCurrentDateAndTime())){
-				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
+			} else if (!Utils.checkIfStartDateIsGreater(time,
+					Utils.getCurrentDateAndTime())) {
+				errorMsg = context.getResources().getString(
+						R.string.pastDateValidationErrorMsg);
 				return false;
 			}
 		} else if ("ClockIn".equalsIgnoreCase(eventType)) {
-			if(!Utils.checkIfStartDateIsGreater(time,Utils.getCurrentDateAndTime())){
-				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
+			if (!Utils.checkIfStartDateIsGreater(time,
+					Utils.getCurrentDateAndTime())) {
+				errorMsg = context.getResources().getString(
+						R.string.pastDateValidationErrorMsg);
 				return false;
-			} else{
-				String eventType1=(String) getIntent().getExtras().get("eventType1");
-				if(!Utils.isNullOrEmpty(eventType1)){
+			} else {
+				String eventType1 = (String) getIntent().getExtras().get(
+						"eventType1");
+				if (!Utils.isNullOrEmpty(eventType1)) {
 					if (eventType1.equalsIgnoreCase(Utils.SHIFT_START)) {
-						Utils.startShiftTimeRequest.setIs_overriden(ActivityConstants.TRUE);
+						Utils.startShiftTimeRequest
+								.setIs_overriden(ActivityConstants.TRUE);
 						Utils.startShiftTimeRequest.setOverride_timestamp(time);
-					}else{
-						Utils.callStartTimeRequest.setIs_overriden(ActivityConstants.TRUE);
+					} else {
+						Utils.callStartTimeRequest
+								.setIs_overriden(ActivityConstants.TRUE);
 						Utils.callStartTimeRequest.setOverride_timestamp(time);
 					}
 				}
-				
+
 			}
 		} else if ("EndOnCall".equalsIgnoreCase(eventType)) {
-			String timeToCompare = Utils.formattedDateFromMillis(JobViewerDBHandler.getBreakShiftTravelCall(context).getCallStartTime());
+			String timeToCompare = Utils
+					.formattedDateFromMillis(JobViewerDBHandler
+							.getBreakShiftTravelCall(context)
+							.getCallStartTime());
 			String presentTime = Utils.getCurrentDateAndTime();
 			if (!Utils.checkIfStartDateIsGreater(timeToCompare, time)) {
-				errorMsg=context.getResources().getString(R.string.dateAndTimeMustAfterCallStart)+" ("+timeToCompare+")";
+				errorMsg = context.getResources().getString(
+						R.string.dateAndTimeMustAfterCallStart)
+						+ " (" + timeToCompare + ")";
 				return false;
-			} else if(!Utils.checkIfStartDateIsGreater(time,presentTime)){
-				errorMsg=context.getResources().getString(R.string.pastDateValidationErrorMsg);
+			} else if (!Utils.checkIfStartDateIsGreater(time, presentTime)) {
+				errorMsg = context.getResources().getString(
+						R.string.pastDateValidationErrorMsg);
 				return false;
-			}			
+			}
 		} else {
 			Utils.endTimeRequest.setOverride_timestamp(time);
 			eventTypeValue = "endtravel";

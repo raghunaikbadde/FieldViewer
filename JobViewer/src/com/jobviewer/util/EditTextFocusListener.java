@@ -8,9 +8,9 @@ import android.widget.EditText;
 import com.lanesgroup.jobviewer.NewWorkActivity;
 
 public class EditTextFocusListener implements OnFocusChangeListener {
-	int maxLenght;
-	EditText editText;
-	Context context;
+	private int maxLenght;
+	private EditText editText;
+	private Context context;
 
 	public EditTextFocusListener(Context context, EditText editText, int length) {
 		maxLenght = length;

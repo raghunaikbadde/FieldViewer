@@ -15,17 +15,16 @@ import com.jobviewer.survey.object.Inputs;
 import com.jobviewer.survey.object.Multipleinputs;
 import com.jobviewer.survey.object.Screen;
 import com.jobviewer.util.Utils;
-import com.lanesgroup.jobviewer.R;
 
 public class MultipleInputActivity extends BaseActivity implements
 		View.OnClickListener, TextWatcher {
-	ProgressBar progressBar;
-	TextView progress_step_text, overhead_text, question_text, top_man_text,
-			bottom_man1_text, bottom_man2_text, bottom_man3_text;
-	EditText top_man_edittext, bottom_man1_edittext, bottom_man2_edittext,
-			bottom_man3_edittext;
-	Button saveBtn, nextBtn;
-	Screen currentScreen;
+	private ProgressBar progressBar;
+	private TextView progress_step_text, overhead_text, question_text,
+			top_man_text, bottom_man1_text, bottom_man2_text, bottom_man3_text;
+	private EditText top_man_edittext, bottom_man1_edittext,
+			bottom_man2_edittext, bottom_man3_edittext;
+	private Button saveBtn, nextBtn;
+	private Screen currentScreen;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

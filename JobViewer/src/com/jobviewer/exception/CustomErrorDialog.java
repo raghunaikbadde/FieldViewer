@@ -14,21 +14,22 @@ import com.lanesgroup.jobviewer.R;
  */
 public class CustomErrorDialog implements View.OnClickListener {
 
-	AlertDialog.Builder alertDialog;
-	AlertDialog dialog;
-	IDialogListener myListener;
-	Button negativeButton, positiveButton;
+	private AlertDialog.Builder alertDialog;
+	private AlertDialog dialog;
+	private IDialogListener myListener;
+	private Button negativeButton, positiveButton;
 
 	public CustomErrorDialog(Context context, String title, String message,
 			String buttonText, IDialogListener listener) {
 		myListener = listener;
-		alertDialog = new AlertDialog.Builder(context,R.style.AppCompatDialogStyle);
+		alertDialog = new AlertDialog.Builder(context,
+				R.style.AppCompatDialogStyle);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.custom_error_dialog, null);
 		TextView txtTitle = (TextView) view.findViewById(R.id.dialog_title);
 		TextView txtMessage = (TextView) view.findViewById(R.id.dialog_message);
-		
+
 		txtTitle.setText(title);
 		txtMessage.setText(message);
 		Button btnClose = (Button) view.findViewById(R.id.btn_close);
@@ -50,7 +51,7 @@ public class CustomErrorDialog implements View.OnClickListener {
 		if (dialog != null) {
 			dialog.dismiss();
 		}
-		
+
 		dialog = alertDialog.show();
 	}
 

@@ -8,10 +8,11 @@
 
     <ScrollView
         android:id="@+id/scrollView1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@+id/bottombutton"
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:isScrollContainer="false" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,17 +28,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/progressbar_top_margin58"
                     android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:drawableLeft="@drawable/logo_top"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
                     android:text="@string/check_out_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/title_text_size70" />
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/check_out_text"
+                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:background="#CCCCCC" />
 
                 <LinearLayout
                     android:id="@+id/progress_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/check_out_text"
+                    android:layout_below="@+id/line1"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:orientation="horizontal" >
@@ -46,6 +60,7 @@
                         android:id="@+id/progress_step_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:text="@string/progress_step"
                         android:textColor="@color/black"
                         android:textSize="@dimen/white_lato_bold_small50"
@@ -56,7 +71,7 @@
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dialog_button_top_margin70"
-                        android:layout_marginLeft="@dimen/edit_error_stroke10"
+                        android:layout_marginLeft="@dimen/spinner_top_margin25"
                         android:progress="5"
                         android:progressDrawable="@drawable/progressbar" />
                 </LinearLayout>
@@ -95,16 +110,16 @@
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:background="@drawable/grey_background"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                     android:hint="@string/enter_registration"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
                     android:paddingBottom="@dimen/grey_lato_regular_small35"
                     android:paddingLeft="@dimen/grey_lato_regular_small35"
                     android:paddingRight="@dimen/grey_lato_regular_small35"
                     android:paddingTop="@dimen/grey_lato_regular_small35"
                     android:singleLine="true"
                     android:textColor="@color/dark_grey"
-                    android:inputType="textCapCharacters"
-                    android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"                    
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                     android:textColorHint="@color/dark_grey"
                     android:textSize="@dimen/black_lato_regular_medium45" >
                 </EditText>
@@ -130,15 +145,15 @@
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:background="@drawable/grey_background"
+                    android:digits="0123456789"
                     android:hint="@string/enter_mileage"
                     android:inputType="number|none"
-                    android:digits="0123456789"
+                    android:maxLength="@integer/max_vehicle_mileage_length"
                     android:paddingBottom="@dimen/grey_lato_regular_small35"
                     android:paddingLeft="@dimen/grey_lato_regular_small35"
                     android:paddingRight="@dimen/grey_lato_regular_small35"
                     android:paddingTop="@dimen/grey_lato_regular_small35"
                     android:singleLine="true"
-                    android:maxLength="@integer/max_vehicle_mileage_length"
                     android:textColor="@color/dark_grey"
                     android:textColorHint="@color/dark_grey"
                     android:textSize="@dimen/black_lato_regular_medium45" >
@@ -158,12 +173,13 @@
             android:id="@+id/checkBox3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/checkout_checkbox_left_margin158"
+            android:layout_marginLeft="@dimen/white_lato_regular_big79"
             android:button="@drawable/checkbox_selector"
             android:paddingLeft="@dimen/template_spacing27"
-            android:text="@string/remember_my_selection"
+            android:text="@string/remember_vehicle_registration"
             android:textColor="@color/black"
             android:textSize="@dimen/white_lato_bold_small50" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

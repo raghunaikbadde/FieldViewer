@@ -28,7 +28,7 @@ public class ConfinedQuestionManager {
 	private String nextScreenId;
 	private String WorkType;
 	private Screen multipleTypeScreen;
-	boolean isBackPressed = false;
+	private boolean isBackPressed = false;
 
 	public static ConfinedQuestionManager getInstance() {
 		if (questionManager == null) {
@@ -219,7 +219,7 @@ public class ConfinedQuestionManager {
 	}
 
 	public void showOntimerCompleteScreen(int on_timer_complete) {
-		Screen screen = questionMaster.getScreens().getScreen()[on_timer_complete-1];
+		Screen screen = questionMaster.getScreens().getScreen()[on_timer_complete - 1];
 		Intent intent = new Intent(BaseActivity.context,
 				MultipleInputActivity.class);
 		setMultipleTypeScreen(screen);

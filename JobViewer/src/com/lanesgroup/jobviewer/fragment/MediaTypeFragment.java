@@ -52,15 +52,19 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 	private LinearLayout mLinearLayout;
 	private View mRootView;
 	private ImageView mCapturedImage;
-	LinearLayout linearLayout;
-	int imageCount = 0;
+	private LinearLayout linearLayout;
+	private int imageCount = 0;
 	public static final int RESULT_OK = -1;
-	static File file;
-	Screen currentScreen;
-	CheckOutObject checkOutRemember;
-	/*private boolean formwardImageToAddPhotosActivity = false;
-	public static ArrayList<ImageObject> addPhotoActivityimageObject;
-	public static ArrayList<String> timeCapturedForAddPhotosActivity = new ArrayList<String>();*/
+	private static File file;
+	private Screen currentScreen;
+	private CheckOutObject checkOutRemember;
+
+	/*
+	 * private boolean formwardImageToAddPhotosActivity = false; public static
+	 * ArrayList<ImageObject> addPhotoActivityimageObject; public static
+	 * ArrayList<String> timeCapturedForAddPhotosActivity = new
+	 * ArrayList<String>();
+	 */
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -95,13 +99,11 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());
 		question.setText(currentScreen.getText());
-		/*if (currentScreen
-				.getText()
-				.toString()
-				.equalsIgnoreCase(
-						getResources().getString(R.string.capture_safe_zone))) {
-			formwardImageToAddPhotosActivity = true;
-		}*/
+		/*
+		 * if (currentScreen .getText() .toString() .equalsIgnoreCase(
+		 * getResources().getString(R.string.capture_safe_zone))) {
+		 * formwardImageToAddPhotosActivity = true; }
+		 */
 		try {
 			checkAndLoadSavedImages();
 		} catch (Exception e) {
@@ -133,7 +135,8 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				byte[] getbyteArrayFromBase64String = Utils
 						.getbyteArrayFromBase64String(imageById
 								.getImage_string());
-				Log.i("Android", "Image 28 :"+imageById.getImage_string().substring(0, 50));
+				Log.i("Android", "Image 28 :"
+						+ imageById.getImage_string().substring(0, 50));
 				loadImages(getbyteArrayFromBase64String);
 			}
 		}
@@ -198,13 +201,17 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 							ImageObject imageObject = JobViewerDBHandler
 									.getImageById(getActivity(), currentScreen
 											.getImages()[i].getTemp_id());
-							/*Log.d(Utils.LOG_TAG,
-									"formwardImageToAddPhotosActivity "
-											+ formwardImageToAddPhotosActivity);*/
-							//if (formwardImageToAddPhotosActivity) {
-								/*JobViewerDBHandler.saveAddPhotoImage(
-										getActivity(), imageObject);*/
-							//}
+							/*
+							 * Log.d(Utils.LOG_TAG,
+							 * "formwardImageToAddPhotosActivity " +
+							 * formwardImageToAddPhotosActivity);
+							 */
+							// if (formwardImageToAddPhotosActivity) {
+							/*
+							 * JobViewerDBHandler.saveAddPhotoImage(
+							 * getActivity(), imageObject);
+							 */
+							// }
 							sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -224,7 +231,7 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 				startActivity(intent);
 			}
 		} else if (view == mNext) {
-			/*addPhotoActivityimageObject = new ArrayList<ImageObject>();*/
+			/* addPhotoActivityimageObject = new ArrayList<ImageObject>(); */
 			for (int i = 0; i < currentScreen.getImages().length; i++) {
 
 				if (!Utils.isNullOrEmpty(currentScreen.getImages()[i]
@@ -233,13 +240,16 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 						ImageObject imageObject = JobViewerDBHandler
 								.getImageById(getActivity(), currentScreen
 										.getImages()[i].getTemp_id());
-						/*Log.d(Utils.LOG_TAG,
-								"formwardImageToAddPhotosActivity "
-										+ formwardImageToAddPhotosActivity);*/
-						/*if (formwardImageToAddPhotosActivity) {
-							JobViewerDBHandler.saveAddPhotoImage(getActivity(),
-									imageObject);
-						}*/
+						/*
+						 * Log.d(Utils.LOG_TAG,
+						 * "formwardImageToAddPhotosActivity " +
+						 * formwardImageToAddPhotosActivity);
+						 */
+						/*
+						 * if (formwardImageToAddPhotosActivity) {
+						 * JobViewerDBHandler.saveAddPhotoImage(getActivity(),
+						 * imageObject); }
+						 */
 
 						sendDetailsOrSaveCapturedImageInBacklogDb(imageObject);
 					} catch (Exception e) {
@@ -311,8 +321,10 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 						exif);
 				geoLocation = geoLocationCamera.toString();
 
-/*				if (formwardImageToAddPhotosActivity)
-					timeCapturedForAddPhotosActivity.add(formatDate);*/
+				/*
+				 * if (formwardImageToAddPhotosActivity)
+				 * timeCapturedForAddPhotosActivity.add(formatDate);
+				 */
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -340,7 +352,8 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 						base64 = Base64.encodeToString(b, Base64.DEFAULT);
 					}
 					imageObject.setImage_string(base64);
-					Log.i("Android", "Image 11 :"+imageObject.getImage_string().substring(0, 50));
+					Log.i("Android", "Image 11 :"
+							+ imageObject.getImage_string().substring(0, 50));
 					imageString = base64;
 					currentScreen.getImages()[i].setTemp_id(generateUniqueID);
 					JobViewerDBHandler.saveImage(getActivity(), imageObject);
@@ -378,13 +391,13 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 		ContentValues data = new ContentValues();
 		data.put("temp_id", imageObject.getImageId());
 		data.put("category", "surveys");
-		
-		if (imageObject.getImage_string().contains(Constants.IMAGE_STRING_INITIAL)) {
-			data.put("image_string",
-					imageObject.getImage_string());
-		}else{
-			data.put("image_string",
-					Constants.IMAGE_STRING_INITIAL + imageObject.getImage_string());
+
+		if (imageObject.getImage_string().contains(
+				Constants.IMAGE_STRING_INITIAL)) {
+			data.put("image_string", imageObject.getImage_string());
+		} else {
+			data.put("image_string", Constants.IMAGE_STRING_INITIAL
+					+ imageObject.getImage_string());
 		}
 		data.put("image_exif", imageObject.getImage_exif());
 
