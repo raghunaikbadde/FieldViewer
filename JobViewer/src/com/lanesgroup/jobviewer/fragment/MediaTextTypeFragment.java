@@ -319,11 +319,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 	private void addPicObjectInScreenIfRequired() {
 		boolean isAllImagedAdded = false;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
-				isAllImagedAdded = true;
-			} else {
-				isAllImagedAdded = false;
-			}
+			isAllImagedAdded = !Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id());
 		}
 
 		if (isAllImagedAdded) {

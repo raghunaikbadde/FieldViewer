@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.lanesgroup.jobviewer.R;
 
 public class MultiChoiceAdapter extends ArrayAdapter<MultiChoiceItem> {
+	
 	private List<MultiChoiceItem> list;
 	private LayoutInflater inflator;
 

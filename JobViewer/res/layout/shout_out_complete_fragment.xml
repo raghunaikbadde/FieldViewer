@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    tools:context="com.jobviewer.MainActivity" >
+    android:orientation="vertical"  >
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -48,18 +47,31 @@
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:text="@string/survey_complete"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/white_lato_bold_small50" />
+                    android:textSize="@dimen/title_text_size70" />
 
                 <TextView
                     android:id="@+id/question"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="wrap_content" android:gravity="center"
                     android:layout_below="@+id/questionTitle"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/actionbar_bottom_margin85"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:text="@string/shout_msg"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/white_lato_bold_small50" />
+                
+                <TextView
+                    android:id="@+id/doneText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:gravity="center"
+                    android:layout_below="@+id/question"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/actionbar_bottom_margin85"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:text="@string/tap_done_to_continue_1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/white_lato_bold_small50" />
             </RelativeLayout>

@@ -338,10 +338,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,Con
 
 	private boolean CheckAndCcontinueNoWork() {
 		Bundle bundle = getIntent().getExtras();
-		if(bundle!=null && bundle.containsKey(Constants.WORK_NO_PHOTOS)){
-			return true;
-		}
-		return false;
+		return bundle != null && bundle.containsKey(Constants.WORK_NO_PHOTOS);
 	}
 	private void saveCreatedWorkInBackLogDb() {
 		CheckOutObject checkOutRemember = JobViewerDBHandler

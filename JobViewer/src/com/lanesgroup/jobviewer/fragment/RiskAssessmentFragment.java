@@ -23,8 +23,8 @@ public class RiskAssessmentFragment extends Fragment implements OnClickListener 
 	private View mRootView;
 	
 	public interface onClicksRiskAssessment{
-		public void onNextClick();
-		public void onCancelClick();
+		void onNextClick();
+		void onCancelClick();
 	}
 	
 	@Override

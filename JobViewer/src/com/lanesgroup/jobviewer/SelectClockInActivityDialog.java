@@ -79,7 +79,7 @@ public class SelectClockInActivityDialog extends Activity {
 		});
 
 		// show result
-		((Button) findViewById(R.id.dialog_ok))
+		findViewById(R.id.dialog_ok)
 				.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -109,7 +109,7 @@ public class SelectClockInActivityDialog extends Activity {
 					}
 				});
 
-		((Button) findViewById(R.id.dialog_cancel))
+		findViewById(R.id.dialog_cancel)
 				.setOnClickListener(new OnClickListener() {
 
 					@Override

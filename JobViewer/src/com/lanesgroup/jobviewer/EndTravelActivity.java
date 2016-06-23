@@ -63,7 +63,6 @@ public class EndTravelActivity extends BaseActivity implements
 				.getCheckOutRemember(this);
 
 		String actualTime = Utils.startTravelTimeRequest.getStarted_at();
-		;
 		mTravelTime.setText(actualTime + " (System)");
 		mStartTravel.setText(END_TRAVEL);
 

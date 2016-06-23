@@ -91,9 +91,6 @@ public class AlertDialogActivity extends Activity {
 		long minutes = seconds/60;
 		int hours = (int)(minutes/60);
 		int thresHold = (int)(Utils.OVETTIME_ALERT_TOGGLE/1000);
-		if(seconds >= thresHold){
-			return true;
-		}
-		return false;
+		return seconds >= thresHold;
 	}
 }

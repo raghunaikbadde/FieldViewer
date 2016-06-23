@@ -121,7 +121,6 @@ public class LauncherActivity extends BaseActivity {
 
 	private void showGPSDialog() {
 		new GPSDialog(this).show();
-		;
 
 	}
 }

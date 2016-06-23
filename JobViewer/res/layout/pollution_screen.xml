@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    tools:context="com.jobviewer.MainActivity" >
+    android:orientation="vertical"  >
 
     <TextView
         android:id="@+id/title_text"
@@ -169,19 +168,6 @@
                                 android:src="@drawable/down_arrow_image" />
                         </RelativeLayout>
 
-                        <!--
-                             <Spinner
-                            android:id="@+id/extentOfLandSpinner"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
-                            android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                            android:layout_marginRight="@dimen/white_lato_regular_small40"
-                            android:text="@string/newtimestamp"
-                            android:textColor="@color/blackColor"
-                            android:textSize="@dimen/white_lato_regular_small40" />
-                        -->
-
                         <TextView
                             android:id="@+id/landAffectedTitle"
                             android:layout_width="fill_parent"
@@ -191,19 +177,6 @@
                             android:text="@string/landAffected"
                             android:textColor="@color/blackColor"
                             android:textSize="@dimen/white_lato_bold_small50" />
-
-                        <!--
-                             <Spinner
-                            android:id="@+id/landAffectedSpinner"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
-                            android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                            android:layout_marginRight="@dimen/white_lato_regular_small40"
-                            android:text="@string/newtimestamp"
-                            android:textColor="@color/blackColor"
-                            android:textSize="@dimen/white_lato_regular_small40" />
-                        -->
 
                         <RelativeLayout
                             android:id="@+id/spinnerLayout1"
@@ -313,18 +286,6 @@
                             android:textColor="@color/blackColor"
                             android:textSize="@dimen/white_lato_bold_small50" />
 
-                        <!--
-                             <Spinner
-                            android:id="@+id/extentOfWaterSpinner"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
-                            android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                            android:layout_marginRight="@dimen/white_lato_regular_small40"
-                            android:textColor="@color/blackColor"
-                            android:textSize="@dimen/white_lato_regular_small40" />
-                        -->
-
                         <RelativeLayout
                             android:id="@+id/spinnerLayoutExtentOfWater"
                             android:layout_width="match_parent"
@@ -364,18 +325,6 @@
                             android:text="@string/waterBodyAffected"
                             android:textColor="@color/blackColor"
                             android:textSize="@dimen/white_lato_bold_small50" />
-
-                        <!--
-                             <Spinner
-                            android:id="@+id/waterBodyAffectedSpinner"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
-                            android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                            android:layout_marginRight="@dimen/white_lato_regular_small40"
-                            android:textColor="@color/blackColor"
-                            android:textSize="@dimen/white_lato_regular_small40" />
-                        -->
 
                         <RelativeLayout
                             android:id="@+id/spinnerLayoutWaterBody"
@@ -446,18 +395,6 @@
                                 android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
                                 android:src="@drawable/down_arrow_image" />
                         </RelativeLayout>
-
-                        <!--
-                             <com.jobviewer.custom.view.MultiSelectSpinner
-                            android:id="@+id/waterPollutantsSpinner"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
-                            android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                            android:layout_marginRight="@dimen/white_lato_regular_small40"
-                            android:textColor="@color/blackColor"
-                            android:textSize="@dimen/white_lato_regular_small40" />
-                        -->
 
                         <TextView
                             android:id="@+id/dissolvedOxygen"
@@ -666,19 +603,6 @@
                         android:textColor="@color/blackColor"
                         android:textSize="@dimen/white_lato_bold_small50" />
 
-                    <!--
-                     <Spinner
-                    android:id="@+id/indicativeCauseSpinner"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/indicativeCauseTitle"
-                    android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
-                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                    android:layout_marginRight="@dimen/white_lato_regular_small40"
-                    android:textColor="@color/blackColor"
-                    android:textSize="@dimen/white_lato_regular_small40" />
-                    -->
-
                     <RelativeLayout
                         android:id="@+id/spinnerLayoutIndicative"
                         android:layout_width="match_parent"
@@ -749,19 +673,6 @@
                             android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
                             android:src="@drawable/down_arrow_image" />
                     </RelativeLayout>
-
-                    <!--
-                     <com.jobviewer.custom.view.MultiSelectSpinner
-                    android:id="@+id/additionalEDSpinner"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/additionalEDTitle"
-                    android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
-                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
-                    android:layout_marginRight="@dimen/white_lato_regular_small40"
-                    android:textColor="@color/blackColor"
-                    android:textSize="@dimen/white_lato_regular_small40" />
-                    -->
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

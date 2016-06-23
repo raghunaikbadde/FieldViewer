@@ -35,9 +35,9 @@ public class CheckTypeFragment extends Fragment implements OnClickListener {
 	private CheckOutObject checkOutRemember;
 
 	public interface onClicksEnterJobNumber {
-		public void onNextClick();
+		void onNextClick();
 
-		public void onCancelClick();
+		void onCancelClick();
 	}
 
 	@Override

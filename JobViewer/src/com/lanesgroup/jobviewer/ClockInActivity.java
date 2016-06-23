@@ -49,13 +49,19 @@ public class ClockInActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				if (group.getCheckedRadioButtonId() == R.id.radio_yes) {
-					Utils.checkOutObject
-							.setClockInCheckOutSelectedText(ActivityConstants.YES);
+					if (Utils.checkOutObject != null) {
+						Utils.checkOutObject
+								.setClockInCheckOutSelectedText(ActivityConstants.YES);
+					}
 					mProgressSteps.setText(Utils.PROGRESS_1_TO_3);
+					mProgress.setProgress(1);
 				} else {
-					Utils.checkOutObject
-							.setClockInCheckOutSelectedText(ActivityConstants.NO);
+					if (Utils.checkOutObject != null) {
+						Utils.checkOutObject
+								.setClockInCheckOutSelectedText(ActivityConstants.NO);
+					}
 					mProgressSteps.setText(Utils.PROGRESS_1_TO_2);
+					mProgress.setProgress(2);
 				}
 
 				enableNextClick();

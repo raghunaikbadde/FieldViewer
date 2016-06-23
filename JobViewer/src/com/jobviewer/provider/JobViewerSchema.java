@@ -17,35 +17,35 @@ import com.jobviewer.provider.JobViewerProviderContract.WorkWithNoPhotosQuestion
 
 public interface JobViewerSchema {
 
-	public static final int DATABASE_VERSION = 1;
-	public static final String DATABASE_NAME = "jobviewerdb";
+	int DATABASE_VERSION = 1;
+	String DATABASE_NAME = "jobviewerdb";
 
-	public static final String TABLE_USER = "User";
-	public static final String TABLE_TIMESHEET = "Timesheet";
-	public static final String TABLE_IMAGE = "Images";
-	public static final String TABLE_CHECK_OUT_REMEMBER = "CheckOutRemember";
-	public static final String TABLE_QUESTION_SET = "QuestionSetTable";
-	public static final String TABLE_BACK_LOG = "BackLogTable";
-	public static final String TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = "AddPhotosScreenSavedImages";
-	public static final String TABLE_SHOUT_ABOUT_SAFETY = "ShoutAboutSafetyTable";
-	public static final String TABLE_START_TRAINING = "StartTrainingTable";
-	public static final String TABLE_BREAK_TRAVEL_SHIFT_CALL = "BreakTravelShiftCallTable";
-	public static final String TABLE_IMAGE_SEND_STATUS = "ImageSendStatusTable";
-	public static final String TABLE_CONFINED_QUESTION_SET = "ConfinedQuestionSetTable";
-	public static final String TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET = "WorkWithNoPhotosQuestionSetTable";
-	public static final String TABLE_FLAG_JSON = "FlagJSON";
+	String TABLE_USER = "User";
+	String TABLE_TIMESHEET = "Timesheet";
+	String TABLE_IMAGE = "Images";
+	String TABLE_CHECK_OUT_REMEMBER = "CheckOutRemember";
+	String TABLE_QUESTION_SET = "QuestionSetTable";
+	String TABLE_BACK_LOG = "BackLogTable";
+	String TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = "AddPhotosScreenSavedImages";
+	String TABLE_SHOUT_ABOUT_SAFETY = "ShoutAboutSafetyTable";
+	String TABLE_START_TRAINING = "StartTrainingTable";
+	String TABLE_BREAK_TRAVEL_SHIFT_CALL = "BreakTravelShiftCallTable";
+	String TABLE_IMAGE_SEND_STATUS = "ImageSendStatusTable";
+	String TABLE_CONFINED_QUESTION_SET = "ConfinedQuestionSetTable";
+	String TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET = "WorkWithNoPhotosQuestionSetTable";
+	String TABLE_FLAG_JSON = "FlagJSON";
 
-	public static final String CREATE_TABLE_USER = "create table " + TABLE_USER
+	String CREATE_TABLE_USER = "create table " + TABLE_USER
 			+ "(" + User._ID + " integer primary key autoincrement,"
 			+ User.FIRST_NAME + " text," + User.LAST_NAME + " text,"
 			+ User.EMAIL + " text," + User.USER_ID + " text);";
 
-	public static final String CREATE_TABLE_IMAGE_SEND_STATUS = "create table "
+	String CREATE_TABLE_IMAGE_SEND_STATUS = "create table "
 			+ TABLE_IMAGE_SEND_STATUS + "(" + ImageSendStatusTable._ID
 			+ " integer primary key autoincrement,"
 			+ ImageSendStatusTable.IMAGE_ID + " text,"
 			+ ImageSendStatusTable.IMAGE_SEND_SATTUS + " text);";
-	public static final String CREATE_TABLE_TIMESHEET = "create table "
+	String CREATE_TABLE_TIMESHEET = "create table "
 			+ TABLE_TIMESHEET + "(" + TimeSheet._ID
 			+ " integer primary key autoincrement," + TimeSheet.STARTED_AT
 			+ " text," + TimeSheet.RECORD_FOR + " text,"
@@ -55,13 +55,13 @@ public interface JobViewerSchema {
 			+ TimeSheet.OVERRIDE_TIMESTAMP + " text," + TimeSheet.REFERENCE_ID
 			+ " text," + TimeSheet.USER_ID + " text," + TimeSheet.API_URL
 			+ " text);";
-	public static final String CREATE_TABLE_IMAGES = "create table "
+	String CREATE_TABLE_IMAGES = "create table "
 			+ TABLE_IMAGE + "(" + Image._ID
 			+ " integer primary key autoincrement," + Image.IMAGE_ID + " text,"
 			+ Image.IMAGE_STRING + " text," + Image.IMAGE_CATEGORY + " text,"
 			+ Image.IMAGE_EXIF + " text," + Image.IMAGE_URL + " text);";
 
-	public static final String CREATE_TABLE_CHECK_OUT_REMEMBER = "create table "
+	String CREATE_TABLE_CHECK_OUT_REMEMBER = "create table "
 			+ TABLE_CHECK_OUT_REMEMBER
 			+ "("
 			+ CheckOutRemember._ID
@@ -104,14 +104,14 @@ public interface JobViewerSchema {
 			+ " text,"
 			+ CheckOutRemember.CLOCKIN_CHECKOUT_SELECTED_TEXT + " text);";
 
-	public static final String CREATE_TABLE_QUESTION_SET = "create table "
+	String CREATE_TABLE_QUESTION_SET = "create table "
 			+ TABLE_QUESTION_SET + "(" + QuestionSetTable._ID
 			+ " integer primary key autoincrement,"
 			+ QuestionSetTable.WORK_TYPE + " text,"
 			+ QuestionSetTable.QUESTION_SET + " text,"
 			+ QuestionSetTable.BACK_STACK + " text);";
 
-	public static final String CREATE_TABLE_CONFINED_QUESTION_SET = "create table "
+	String CREATE_TABLE_CONFINED_QUESTION_SET = "create table "
 			+ TABLE_CONFINED_QUESTION_SET
 			+ "("
 			+ ConfinedQuestionSetTable._ID
@@ -122,7 +122,7 @@ public interface JobViewerSchema {
 			+ " text,"
 			+ ConfinedQuestionSetTable.BACK_STACK + " text);";
 
-	public static final String CREATE_TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET = "create table "
+	String CREATE_TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET = "create table "
 			+ TABLE_WORK_WITH_NO_PHOTOS_QUESTION_SET
 			+ "("
 			+ WorkWithNoPhotosQuestionSetTable._ID
@@ -133,14 +133,14 @@ public interface JobViewerSchema {
 			+ " text,"
 			+ WorkWithNoPhotosQuestionSetTable.BACK_STACK + " text);";
 
-	public static final String CREATE_TABLE_BACK_LOG = "create table "
+	String CREATE_TABLE_BACK_LOG = "create table "
 			+ TABLE_BACK_LOG + "(" + QuestionSetTable._ID
 			+ " integer primary key autoincrement," + BackLogTable.REQUEST_TYPE
 			+ " text," + BackLogTable.REQUEST_JSON + " text,"
 			+ BackLogTable.REQUEST_API + " text,"
 			+ BackLogTable.REQUEST_CLASS_NAME + " text);";
 
-	public static final String CREATE_TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = "create table "
+	String CREATE_TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES = "create table "
 			+ TABLE_ADD_PHOTOS_SCREEN_SAVED_IMAGES
 			+ "("
 			+ AddPhotosScreenSavedImages._ID
@@ -155,7 +155,7 @@ public interface JobViewerSchema {
 			+ " text,"
 			+ AddPhotosScreenSavedImages.IMAGE_EXIF + " text);";
 
-	public static final String CREATE_TABLE_SHOUT_ABOUT_SAFETY = "create table "
+	String CREATE_TABLE_SHOUT_ABOUT_SAFETY = "create table "
 			+ TABLE_SHOUT_ABOUT_SAFETY
 			+ "("
 			+ ShoutAboutSafetyTable._ID
@@ -166,14 +166,14 @@ public interface JobViewerSchema {
 			+ " text,"
 			+ ShoutAboutSafetyTable.QUESTION_SET + " text);";
 
-	public static final String CREATE_TABLE_START_TRAINING = "create table "
+	String CREATE_TABLE_START_TRAINING = "create table "
 			+ TABLE_START_TRAINING + "(" + StartTrainingTable._ID
 			+ " integer primary key autoincrement,"
 			+ StartTrainingTable.IS_TRAINING_STARTED + " text,"
 			+ StartTrainingTable.TRAINING_START_TIME + " text,"
 			+ StartTrainingTable.TRAINING_END_TIME + " text);";
 
-	public static final String CREATE_TABLE_BREAK_TRAVEL_SHIFT_CALL = "create table "
+	String CREATE_TABLE_BREAK_TRAVEL_SHIFT_CALL = "create table "
 			+ TABLE_BREAK_TRAVEL_SHIFT_CALL
 			+ "("
 			+ User._ID
@@ -211,7 +211,7 @@ public interface JobViewerSchema {
 			+ " text,"
 			+ BreakTravelShiftCallTable.WORK_END_TIME + " text);";
 
-	public static final String CREATE_TABLE_FLAG_JSON = "create table "
+	String CREATE_TABLE_FLAG_JSON = "create table "
 			+ TABLE_FLAG_JSON + "(" + FlagJSON._ID
 			+ " integer primary key autoincrement," + FlagJSON.FLAG_JSON
 			+ " text);";

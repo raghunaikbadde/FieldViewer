@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    tools:context="com.jobviewer.MainActivity" >
+    android:orientation="vertical" >
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -32,7 +31,7 @@
                     android:drawableLeft="@drawable/logo_top"
                     android:drawablePadding="5dp"
                     android:gravity="center"
-                    android:text="@string/clock_in_str"
+                    android:text="@string/start_shift"
                     android:textColor="@color/black"
                     android:textSize="@dimen/title_text_size70" />
 

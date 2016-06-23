@@ -52,6 +52,7 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 		mTimePicker = (TimePicker) findViewById(R.id.timePicker);
 		mDatePicker = (DatePicker) findViewById(R.id.datePicker);
 		mCheckOverride = (CheckBox) findViewById(R.id.checkBox1);
+		mTimePicker.setIs24HourView(true);
 		Calendar c = Calendar.getInstance();
 		int year = c.get(Calendar.YEAR);
 		int month = c.get(Calendar.MONTH);

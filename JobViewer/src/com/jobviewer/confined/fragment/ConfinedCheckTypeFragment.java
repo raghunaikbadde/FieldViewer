@@ -37,9 +37,9 @@ public class ConfinedCheckTypeFragment extends Fragment implements
 	private CheckOutObject checkOutRemember;
 
 	public interface onClicksEnterJobNumber {
-		public void onNextClick();
+		void onNextClick();
 
-		public void onCancelClick();
+		void onCancelClick();
 	}
 
 	@Override

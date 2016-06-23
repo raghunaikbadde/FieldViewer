@@ -42,9 +42,9 @@ public class NoPhotosYesNoTypeFragment extends Fragment implements
 	private TextView mScreenTitle;
 
 	public interface onClicksEnterJobNumber {
-		public void onNextClick();
+		void onNextClick();
 
-		public void onCancelClick();
+		void onCancelClick();
 	}
 
 	@Override

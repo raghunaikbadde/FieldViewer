@@ -24,7 +24,6 @@ import com.jobviewer.survey.object.Inputs;
 import com.jobviewer.survey.object.Screen;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Utils;
-import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 
 public class ConfinedEngineerFragment extends Fragment implements
@@ -252,7 +251,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 		case R.id.saveBtn:
 			saveEngineerNames();
 			ConfinedQuestionManager.getInstance().saveAssessment("Confined");
-			((BaseActivity) getActivity()).finish();
+			getActivity().finish();
 
 			break;
 		default:

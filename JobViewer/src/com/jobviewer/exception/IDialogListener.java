@@ -5,8 +5,8 @@ import android.support.v7.app.AlertDialog;
 /**
  * Created by e050027 on 10/29/2015.
  */
-public abstract interface IDialogListener {
-    public abstract void onPositiveButtonClick(AlertDialog dialog);
+public interface IDialogListener {
+    void onPositiveButtonClick(AlertDialog dialog);
 
-    public abstract void onNegativeButtonClick(AlertDialog dialog);
+    void onNegativeButtonClick(AlertDialog dialog);
 }

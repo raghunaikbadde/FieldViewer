@@ -3,9 +3,11 @@
     android:id="@+id/progres"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp"
     android:background="@color/whiteColor"
     android:gravity="center"
-    android:orientation="horizontal" android:layout_marginLeft="50dp" android:layout_marginRight="50dp">
+    android:orientation="horizontal">
 
     <ProgressBar
         android:id="@+id/progressCircle"

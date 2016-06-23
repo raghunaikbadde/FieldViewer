@@ -11,12 +11,12 @@ public class JobViewerProviderContract {
 	public static final String SELECTION_SOURCE_ID_BASED = SourceIdAware.SOURCE_ID
 			+ " = ? ";
 
-	public static interface SourceIdAware extends BaseColumns {
+	public interface SourceIdAware extends BaseColumns {
 
 		/**
 		 * The unique source id for an entity.
 		 */
-		public static final String SOURCE_ID = "sourceid";
+		String SOURCE_ID = "sourceid";
 	}
 
 	public static final class User implements BaseColumns {

@@ -12,7 +12,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/black_lato_regular_small55"
         android:paddingRight="@dimen/black_lato_regular_small55"
-        android:text="@string/select_the_activity"
+        android:text="@string/select_how_you_will_clock_in"
         android:textColor="@color/white"
         android:textSize="@dimen/white_lato_bold_small50" />
 

@@ -97,18 +97,18 @@ public class ActivityPageActivity extends BaseActivity implements
 			}
 		}
 
-		String dateText = "Shift Started: "
+		String dateText = "Shift started: "
 				+ Utils.checkOutObject.getJobStartedTime()
-				+ "  .  Breaks: None taken";
+				+ "  Breaks: None taken";
 		date_time_text.setText(dateText);
 		date_time_text.setSelected(true);
 
 		vehicleRegistrationNumber.setText(vehicleRegNo);
 		if (ActivityConstants.JOB_SELECTED_SHIFT
 				.equalsIgnoreCase(Utils.checkOutObject.getJobSelected())) {
-			mEndOnCall.setText("End Shift");
+			mEndOnCall.setText("End shift");
 		} else {
-			mEndOnCall.setText("End Call");
+			mEndOnCall.setText("End on-call");
 		}
 
 		StartTrainingObject trainingToolBox = JobViewerDBHandler
@@ -166,7 +166,7 @@ public class ActivityPageActivity extends BaseActivity implements
 		if (Utils.checkOutObject.getJobSelected().equalsIgnoreCase(
 				ActivityConstants.JOB_SELECTED_SHIFT)) {
 			mStartTravel
-					.setText(getResources().getString(R.string.start_break));
+					.setText(getResources().getString(R.string.start_break_1));
 		}
 
 		String flagStr = JobViewerDBHandler.getJSONFlagObject(this);
@@ -343,7 +343,7 @@ public class ActivityPageActivity extends BaseActivity implements
 					.contains(getResources().getString(R.string.start_travel))) {
 				new showTimeDialog(this, this, "travel").show();
 			} else if (mStartTravel.getText().toString()
-					.contains(getResources().getString(R.string.start_break))) {
+					.contains(getResources().getString(R.string.start_break_1))) {
 				Utils.timeSheetRequest = new TimeSheetRequest();
 				new showTimeDialog(this, this, "start").show();
 			} else if (mStartTravel
@@ -396,7 +396,7 @@ public class ActivityPageActivity extends BaseActivity implements
 
 	private void endShiftOrCall() {
 		Intent intent;
-		if (mEndOnCall.getText().toString().equals("End Call")) {
+		if (mEndOnCall.getText().toString().equals("End on-call")) {
 
 			Utils.callEndTimeRequest = new TimeSheetRequest();
 			if (mCheckOutVehicle.getVisibility() != View.VISIBLE) {
@@ -416,7 +416,7 @@ public class ActivityPageActivity extends BaseActivity implements
 			intent.putExtra(Utils.CALLING_ACTIVITY, ActivityPageActivity.this
 					.getClass().getSimpleName());
 			startActivity(intent);
-		} else if (mEndOnCall.getText().toString().equals("End Shift")) {
+		} else if (mEndOnCall.getText().toString().equals("End shift")) {
 			String tag = (String) mStart.getTag();
 			if (tag.contains(Constants.END_TRAINING)) {
 				Toast.makeText(

@@ -56,6 +56,6 @@ public class Subject {
 	}
 
 	public interface Observer {
-		public void update(Subject subject);
+		void update(Subject subject);
 	}
 }

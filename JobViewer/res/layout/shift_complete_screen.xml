@@ -1,10 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    tools:context=".ShiftOrCallEndActivity" >
+    android:orientation="vertical">
 
     <include layout="@layout/job_viewer_title_template" />
 
@@ -13,12 +11,12 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:isScrollContainer="false" >
+        android:isScrollContainer="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/shift_complete_text"
@@ -37,8 +35,8 @@
                 android:layout_height="@dimen/shout_logo_right_margin388"
                 android:layout_marginLeft="@dimen/white_lato_regular_big79"
                 android:layout_marginRight="@dimen/white_lato_regular_big79"
-                android:background="@drawable/grey_background"
-                android:orientation="vertical" >
+                android:background="@drawable/light_gray_background"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/shift_summary_text"
@@ -183,7 +181,7 @@
                     android:layout_height="@dimen/start_break_button_height168"
                     android:layout_weight="20"
                     android:background="@drawable/dark_grey_background"
-                    android:text="@string/close_app"
+                    android:text="@string/close_app_1"
                     android:textAllCaps="false"
                     android:textSize="@dimen/dialog_black_lato_regular_small60" />
 
@@ -200,7 +198,7 @@
                     android:layout_height="@dimen/start_break_button_height168"
                     android:layout_weight="20"
                     android:background="@drawable/red_background"
-                    android:text="@string/go_on_call"
+                    android:text="@string/go_on_call_1"
                     android:textAllCaps="false"
                     android:textSize="@dimen/dialog_black_lato_regular_small60" />
             </LinearLayout>
@@ -212,7 +210,8 @@
                 android:layout_marginBottom="@dimen/dialog_clock_icon_left_right_margin40"
                 android:layout_marginLeft="@dimen/white_lato_regular_big79"
                 android:layout_marginRight="@dimen/white_lato_regular_big79"
-                android:background="@drawable/grey_background" >
+                android:background="@drawable/grey_background"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/imageView1"

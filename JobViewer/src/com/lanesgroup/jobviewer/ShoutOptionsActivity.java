@@ -42,7 +42,7 @@ public class ShoutOptionsActivity extends BaseActivity implements
 		Intent intent = new Intent();
 
 		if (view == mSave) {
-
+			finish();
 		} else if (view == mNext) {
 			ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
 					.getShoutAboutSafety(view.getContext());

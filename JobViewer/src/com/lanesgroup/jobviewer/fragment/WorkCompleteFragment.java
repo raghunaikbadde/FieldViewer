@@ -107,11 +107,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 
 					@Override
 					public void onCheckedChanged(RadioGroup group, int checkedId) {
-						if (R.id.radio1==checkedId) {
-							Utils.work_is_redline_captured=false;
-						}else{
-							Utils.work_is_redline_captured=true;
-						}
+						Utils.work_is_redline_captured = R.id.radio1 != checkedId;
 						if (validateUserInputs()) {
 							enableNextButton(true);
 						} else {

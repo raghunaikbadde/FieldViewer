@@ -41,6 +41,7 @@ public class EndShiftReturnVehicleActivity extends BaseActivity implements
 		setContentView(R.layout.end_shift_layout);
 		titleFlag=(String) getIntent().getExtras().get(Utils.TITLE_FLAG);
 		initUI();
+
 	}
 
 	private void initUI() {
@@ -95,7 +96,6 @@ public class EndShiftReturnVehicleActivity extends BaseActivity implements
 		} else if (v == mNext) {
 			Utils.startProgress(EndShiftReturnVehicleActivity.this);
 			if (Utils.isInternetAvailable(EndShiftReturnVehicleActivity.this)) {
-
 				executeCheckInVehicleService();
 			} else {
 				saveCheckInVehicleInBackLogDB();

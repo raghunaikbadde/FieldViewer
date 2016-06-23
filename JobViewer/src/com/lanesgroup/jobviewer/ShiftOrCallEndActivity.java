@@ -94,7 +94,7 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 
 				mNumberOfWork.setText("1");
 			} catch (Exception e) {
-				mWorkHours.setText("0h om");
+				mWorkHours.setText("0h 0m");
 				mNumberOfWork.setText("0");
 				e.printStackTrace();
 			}

@@ -35,9 +35,9 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 	private String eventType;
 
 	public interface DialogCallback {
-		public void onContinue();
+		void onContinue();
 
-		public void onDismiss();
+		void onDismiss();
 	}
 
 	public showTimeDialog(Context context, DialogCallback callback,

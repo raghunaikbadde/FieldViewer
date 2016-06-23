@@ -32,7 +32,6 @@ import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.AddPhotosActivity;
-import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.raghu.ShoutOutBackLogRequest;
 import com.vehicle.communicator.HttpConnection;
@@ -108,7 +107,7 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 		JobViewerDBHandler.deleteConfinedQuestionSet(getActivity());
 		JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(getActivity());
 		Utils.StopProgress();
-		((BaseActivity) getActivity()).finish();
+		getActivity().finish();
 		Intent intent = new Intent(mRootView.getContext(),ActivityPageActivity.class);
 		startActivity(intent);
 

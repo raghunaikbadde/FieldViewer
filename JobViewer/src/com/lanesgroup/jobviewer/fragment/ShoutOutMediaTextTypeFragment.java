@@ -91,7 +91,12 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 				.getScreen()[0];
 		checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getActivity());
-		mProgressStep.setText(currentScreen.get_progress() + "%");
+		if (currentScreen.getTitle().equals("Report a hazard or near miss")) {
+			mProgressStep
+					.setText(getString(R.string.progress_step_end_on_call));
+		} else {
+			mProgressStep.setText(currentScreen.get_progress() + "%");
+		}
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());
 		question.setText(currentScreen.getText());
@@ -135,8 +140,8 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 
 	private void loadImages(byte[] getbyteArrayFromBase64String) {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-				310, 220);
-		layoutParams.setMargins(0, 30, 0, 0);
+				500, 420);
+		layoutParams.setMargins(0, 30, 0, 30);
 		mCapturedImage = new ImageView(getActivity());
 		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
 				.into(mCapturedImage);
@@ -185,13 +190,15 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	}
 
 	private void checkAndEnableNextButton() {
+		Log.e("TAG", "checkAndEnableNextButton");
 		int count = 0;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
 			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
 				count++;
 			}
 		}
-		if (count >= Integer.parseInt(currentScreen.getRequired_images())
+		if ((count != 0 && count >= Integer.parseInt(currentScreen
+				.getRequired_images()))
 				|| !Utils.isNullOrEmpty(mDescribe.getText().toString())) {
 			enableNextButton(true);
 		} else {
@@ -375,11 +382,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	private void addPicObjectInScreenIfRequired() {
 		boolean isAllImagedAdded = false;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
-				isAllImagedAdded = true;
-			} else {
-				isAllImagedAdded = false;
-			}
+			isAllImagedAdded = !Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id());
 		}
 
 		if (isAllImagedAdded) {

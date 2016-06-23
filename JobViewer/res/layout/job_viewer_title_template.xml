@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical"
-    tools:context="com.jobviewer.MainActivity" >
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,8 +14,10 @@
             android:id="@+id/imageView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/screen_border_margin80"
             android:layout_marginLeft="@dimen/screen_border_margin80"
+            android:layout_marginTop="@dimen/screen_border_margin80"
             android:src="@drawable/lance_group_header_icon" />
 
         <LinearLayout

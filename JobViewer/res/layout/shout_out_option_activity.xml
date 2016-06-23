@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    tools:context="com.jobviewer.MainActivity" >
+    android:orientation="vertical"  >
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -63,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/tmp_progress_step"
+                        android:text="@string/progress_step_return_vehicle"
                         android:textColor="@color/black"
                         android:textSize="@dimen/white_lato_bold_small50"
                         android:textStyle="bold" />
@@ -74,7 +73,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dialog_button_top_margin70"
                         android:layout_marginLeft="@dimen/spinner_top_margin25"
-                        android:progress="20"
+                        android:progress="33"
                         android:progressDrawable="@drawable/progressbar" />
                 </LinearLayout>
 

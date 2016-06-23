@@ -24,22 +24,22 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 	public static String eventType;
 
 	public interface ConfirmDialogCallback {
-		public void onConfirmStartTraining();
+		void onConfirmStartTraining();
 
-		public void onConfirmDismiss();
+		void onConfirmDismiss();
 	}
 
 	public interface ConfirmDialogCallbackForNoPhotos {
-		public void onConfirmStartWithNoPhotos();
+		void onConfirmStartWithNoPhotos();
 
-		public void onConfirmDismissWithNoPhotos();
+		void onConfirmDismissWithNoPhotos();
 	}
 
 	public ConfirmDialog(Context context, ConfirmDialogCallback callback,
 			String eventType) {
 		super(context);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.eventType = eventType;
+		ConfirmDialog.eventType = eventType;
 		this.setCancelable(false);
 		setContentView(R.layout.confirm_dialog);
 		mHeader = (TextView) findViewById(R.id.dialog_header);
@@ -58,27 +58,27 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 			vistecId = Utils.checkOutObject.getVistecId();
 		}
 		Log.d(Utils.LOG_TAG, "vistecId " + vistecId);
-		if (this.eventType.equalsIgnoreCase(Constants.START_TRAINING)) {
+		if (ConfirmDialog.eventType.equalsIgnoreCase(Constants.START_TRAINING)) {
 			mMessage.setText(Constants.START_TRAINING_MESSAGE);
-		} else if (this.eventType
+		} else if (ConfirmDialog.eventType
 				.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)) {
 			mMessage.setText(context.getResources().getString(
 					R.string.pollution_cofirmation_msg));
 			mHeader.setText(context.getResources().getString(
 					R.string.pollution_confirmation));
-		} else if (this.eventType
+		} else if (ConfirmDialog.eventType
 				.equalsIgnoreCase(Constants.WORK_NO_PHOTOS_CONFIRMATION)) {
 			mMessage.setText(context.getResources().getString(
 					R.string.workWithNoPhotosConfirmation));
 			mHeader.setText(context.getResources().getString(R.string.confirm));
-		} else if (this.eventType
+		} else if (ConfirmDialog.eventType
 				.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)) {
 			mMessage.setText(context.getResources().getString(
 					R.string.workEndConfirmationMsg)
 					+ " " + vistecId);
 			mHeader.setText(context.getResources().getString(
 					R.string.workEndConfirmation));
-		} else if (this.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)) {
+		} else if (ConfirmDialog.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)) {
 			mMessage.setText(context.getResources().getString(
 					R.string.DACallConfimrationMsg));
 			mHeader.setText(context.getResources().getString(
@@ -101,7 +101,7 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 			String extra) {
 		super(context);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.eventType = eventType;
+		ConfirmDialog.eventType = eventType;
 		this.setCancelable(false);
 		setContentView(R.layout.confirm_dialog);
 		mHeader = (TextView) findViewById(R.id.dialog_header);
@@ -121,27 +121,27 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 			vistecId = Utils.checkOutObject.getVistecId();
 		}
 		Log.d(Utils.LOG_TAG, "vistecId " + vistecId);
-		if (this.eventType.equalsIgnoreCase(Constants.START_TRAINING)) {
+		if (ConfirmDialog.eventType.equalsIgnoreCase(Constants.START_TRAINING)) {
 			mMessage.setText(Constants.START_TRAINING_MESSAGE);
-		} else if (this.eventType
+		} else if (ConfirmDialog.eventType
 				.equalsIgnoreCase(Constants.POLLUTION_CONFIRMATION)) {
 			mMessage.setText(context.getResources().getString(
 					R.string.pollution_cofirmation_msg));
 			mHeader.setText(context.getResources().getString(
 					R.string.pollution_confirmation));
-		} else if (this.eventType
+		} else if (ConfirmDialog.eventType
 				.equalsIgnoreCase(Constants.WORK_NO_PHOTOS_CONFIRMATION)) {
 			mMessage.setText(context.getResources().getString(
 					R.string.workWithNoPhotosConfirmation));
 			mHeader.setText(context.getResources().getString(R.string.confirm));
-		} else if (this.eventType
+		} else if (ConfirmDialog.eventType
 				.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)) {
 			mMessage.setText(context.getResources().getString(
 					R.string.workEndConfirmationMsg)
 					+ " " + vistecId);
 			mHeader.setText(context.getResources().getString(
 					R.string.workEndConfirmation));
-		} else if (this.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)) {
+		} else if (ConfirmDialog.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)) {
 			mMessage.setText(context.getResources().getString(
 					R.string.DACallConfimrationMsg));
 			mHeader.setText(context.getResources().getString(

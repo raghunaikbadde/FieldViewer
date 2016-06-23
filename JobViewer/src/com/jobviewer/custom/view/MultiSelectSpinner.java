@@ -143,7 +143,7 @@ public class MultiSelectSpinner extends TextView implements
 	}
 
 	public interface MultiSpinnerListener {
-		public void onItemsSelected(boolean[] selected);
+		void onItemsSelected(boolean[] selected);
 	}
 
 	public boolean[] getSelected() {

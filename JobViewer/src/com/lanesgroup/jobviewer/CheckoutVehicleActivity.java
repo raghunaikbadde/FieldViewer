@@ -64,19 +64,12 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 		if (bundle != null && bundle.containsKey(Utils.CALLING_ACTIVITY)) {
 			callingFrom = bundle.getString(Utils.CALLING_ACTIVITY);
 		}
-		
-		if (callingFrom.contains("ActivityPageActivity")) {
-			mProgressSteps.setText(getResources().getString(R.string.checkOutVehicleProcess));
-		}
 
 		mRegistration.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence characters, int start,
 					int before, int count) {
-				if (characters.length() > 0)
-					isRegistraionEntered = true;
-				else
-					isRegistraionEntered = false;
+				isRegistraionEntered = characters.length() > 0;
 				if (isRegistraionEntered && isMileageEntered)
 					enableNextAction();
 			}
@@ -95,10 +88,7 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 			@Override
 			public void onTextChanged(CharSequence characters, int start,
 					int before, int count) {
-				if (characters.length() > 0)
-					isMileageEntered = true;
-				else
-					isMileageEntered = false;
+				isMileageEntered = characters.length() > 0;
 				if (isMileageEntered && isRegistraionEntered)
 					enableNextAction();
 			}
@@ -135,7 +125,6 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 				});
 	}
 
-	@SuppressWarnings("deprecation")
 	private void enableNextAction() {
 		mNext.setBackgroundDrawable(ResourcesCompat.getDrawable(getResources(),
 				R.drawable.red_background, null));

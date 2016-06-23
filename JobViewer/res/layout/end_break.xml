@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    tools:context="com.jobviewer.MainActivity" >
+    android:orientation="vertical"  >
 
     <include
         android:id="@+id/header"
@@ -28,20 +27,10 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/questionTitle"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/red_lato_bold_big90"
-                android:gravity="center_horizontal"
-                android:text="@string/onBreak"
-                android:textColor="@color/red"
-                android:textSize="@dimen/title_text_size70" />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/red_lato_bold_big90"
+                android:layout_marginTop="@dimen/dialog_detail_top_margin80"
                 android:text="@string/break_start_time_text"
                 android:textColor="@color/black"
                 android:textSize="@dimen/black_lato_regular_small55" />

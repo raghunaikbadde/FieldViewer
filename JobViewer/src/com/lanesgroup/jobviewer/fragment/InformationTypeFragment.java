@@ -37,9 +37,9 @@ public class InformationTypeFragment extends Fragment implements
 	private TextView mTapNextToContinue;
 
 	public interface onClicksEnterJobNumber {
-		public void onNextClick();
+		void onNextClick();
 
-		public void onCancelClick();
+		void onCancelClick();
 	}
 
 	@Override

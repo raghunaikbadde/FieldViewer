@@ -45,7 +45,6 @@ import com.jobviewer.survey.object.Screen;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
-import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.vehicle.communicator.HttpConnection;
 
@@ -253,7 +252,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 		case R.id.saveBtn:
 			timer.cancel();
 			ConfinedQuestionManager.getInstance().saveAssessment("Confined");
-			((BaseActivity) getActivity()).finish();
+			getActivity().finish();
 			break;
 		case R.id.skip_timer:
 			if (currentScreen.isAllow_skip()) {
@@ -360,11 +359,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 	private void addPicObjectInScreenIfRequired() {
 		boolean isAllImagedAdded = false;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			if (!Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id())) {
-				isAllImagedAdded = true;
-			} else {
-				isAllImagedAdded = false;
-			}
+			isAllImagedAdded = !Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id());
 		}
 
 		if (isAllImagedAdded) {

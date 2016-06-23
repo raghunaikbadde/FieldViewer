@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.jobviewer.confined.ConfinedQuestionManager;
 import com.jobviewer.confined.CountdownTimer;
 import com.jobviewer.survey.object.Screen;
-import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 
 public class ConfinedTimerFragment extends Fragment implements OnClickListener {
@@ -134,7 +133,7 @@ public class ConfinedTimerFragment extends Fragment implements OnClickListener {
 		case R.id.saveBtn:
 			timer.cancel();
 			ConfinedQuestionManager.getInstance().saveAssessment("Confined");
-			((BaseActivity) getActivity()).finish();
+			getActivity().finish();
 			break;
 		case R.id.skip_timer:
 			if (currentScreen.isAllow_skip()) {

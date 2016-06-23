@@ -15,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
@@ -113,7 +112,7 @@ public class SelectActivityDialog extends Activity implements
 		});
 
 		// show result
-		((Button) findViewById(R.id.dialog_ok))
+		findViewById(R.id.dialog_ok)
 				.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -173,7 +172,7 @@ public class SelectActivityDialog extends Activity implements
 					}
 				});
 
-		((Button) findViewById(R.id.dialog_cancel))
+		findViewById(R.id.dialog_cancel)
 				.setOnClickListener(new OnClickListener() {
 
 					@Override

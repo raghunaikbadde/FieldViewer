@@ -83,6 +83,7 @@ public class Utils {
 	public static final String PROGRESS_1_TO_2 = "Step 1 of 2";
 	public static final String PROGRESS_2_TO_2 = "Step 2 of 2";
 	public static final String PROGRESS_1_TO_1 = "Step 1 of 1";
+	public static final String PROGRESS_3_TO_3 = "Step 3 of 3";
 	public static final String CALLING_ACTIVITY = "callingActivity";
 	public static final String SHOULD_SHOW_WORK_IN_PROGRESS = "souldShowWorkInProgress";
 
@@ -126,33 +127,33 @@ public class Utils {
 	public static String lastest_call_started_at = "";
 	public static String lastest_shift_started_at = "";
 
-	public static String[] mActivityList = { "Blockage", "CCTV", "Line Clean",
+	public static String[] mActivityList = {"Blockage", "CCTV", "Line Clean",
 			"Pump Down", "SFOC", "Clean Up", "SROPR", "Enable", "Private",
-			"Cover", "Dig Down", "Make Safe", "Lining", "Well Clean" };
+			"Cover", "Dig Down", "Make Safe", "Lining", "Well Clean"};
 
-	public static String[] mFloodingList = { "No Flooding", "Internal",
-			"External", "Internal and External" };
+	public static String[] mFloodingList = {"No Flooding", "Internal",
+			"External", "Internal and External"};
 
-	public static String[] mLandPollutionList = { "Less than 25m/sq",
-			"20-50m/sq", "50-100m/sq", "Greater than 100m/sq" };
+	public static String[] mLandPollutionList = {"Less than 25m/sq",
+			"20-50m/sq", "50-100m/sq", "Greater than 100m/sq"};
 
-	public static String[] mLandAffectedList = { "Park", "Gardens",
-			"Dry ditch", "Highway" };
+	public static String[] mLandAffectedList = {"Park", "Gardens",
+			"Dry ditch", "Highway"};
 
-	public static String[] mExtentOfWaterList = { "Less than 10m", "10-50m",
-			"50-100m", "Greater than 100m" };
+	public static String[] mExtentOfWaterList = {"Less than 10m", "10-50m",
+			"50-100m", "Greater than 100m"};
 
-	public static String[] mWaterBodyList = { "Pond", "Ditch", "Stream/Brook",
-			"River", "Reservoir" };
+	public static String[] mWaterBodyList = {"Pond", "Ditch", "Stream/Brook",
+			"River", "Reservoir"};
 
-	public static String[] mIndicativeCause = { "3rd Party", "Blockage",
-			"Hydraulic overload", "Failed asset" };
+	public static String[] mIndicativeCause = {"3rd Party", "Blockage",
+			"Hydraulic overload", "Failed asset"};
 
-	public static String[] mAmmonia = { "0 Mg/l", "1-3 Mg/l", "3-6 Mg/l",
-			"Greater than 6 Mg/l" };
+	public static String[] mAmmonia = {"0 Mg/l", "1-3 Mg/l", "3-6 Mg/l",
+			"Greater than 6 Mg/l"};
 
-	public static String[] mFishKill = { "None", "1-10", "10-50", "50-100",
-			"Greater than 100" };
+	public static String[] mFishKill = {"None", "1-10", "10-50", "50-100",
+			"Greater than 100"};
 
 	public static TimeSheetRequest callStartTimeRequest = null;
 	public static TimeSheetRequest callEndTimeRequest = null;
@@ -161,7 +162,7 @@ public class Utils {
 	public static boolean isExitApplication = false;
 
 	public static void SendHTTPRequest(Context context, String url,
-			ContentValues data, Handler handler) {
+									   ContentValues data, Handler handler) {
 		new HttpConnection(handler).post(url, data);
 	}
 
@@ -245,7 +246,6 @@ public class Utils {
 		long milliSec = Long.valueOf(millis);
 
 		SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss dd MMM yyyy");
-		;
 		String formattedDate = df.format(milliSec);
 		return formattedDate;
 	}
@@ -262,7 +262,7 @@ public class Utils {
 	}
 
 	public static String convertTimeOneToAnotherFormat(String time,
-			String fromFormat, String resultFormat) {
+													   String fromFormat, String resultFormat) {
 		SimpleDateFormat sdf = new SimpleDateFormat(fromFormat);
 		Date fromDate = null;
 		try {
@@ -327,7 +327,7 @@ public class Utils {
 	}
 
 	public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth,
-			int reqHeight) { // BEST QUALITY MATCH
+													 int reqHeight) { // BEST QUALITY MATCH
 
 		// First decode with inJustDecodeBounds=true to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -508,7 +508,7 @@ public class Utils {
 	}
 
 	public static void saveTimeSheetInBackLogTable(Context mContext,
-			TimeSheetRequest timeSheetRequest, String api, String requestType) {
+												   TimeSheetRequest timeSheetRequest, String api, String requestType) {
 		TimeSheetServiceRequests startOrEndPaidTravel = new TimeSheetServiceRequests();
 		startOrEndPaidTravel.setStarted_at(timeSheetRequest.getStarted_at());
 		startOrEndPaidTravel.setRecord_for(timeSheetRequest.getRecord_for());
@@ -535,7 +535,7 @@ public class Utils {
 	}
 
 	public static void saveWorkImageInBackLogDb(Context mContext,
-			ImageObject imageObject) {
+												ImageObject imageObject) {
 		WorkPhotoUpload workPhotoUpload = new WorkPhotoUpload();
 		workPhotoUpload.setImage_id(imageObject.getImageId());
 
@@ -556,12 +556,13 @@ public class Utils {
 
 		LocationManager locationManager = (LocationManager) context
 				.getSystemService(context.LOCATION_SERVICE);
+
 		locationManager.requestLocationUpdates(
 				locationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
 
 					@Override
 					public void onStatusChanged(String provider, int status,
-							Bundle extras) {
+												Bundle extras) {
 						// TODO Auto-generated method stub
 
 					}
@@ -738,7 +739,7 @@ public class Utils {
 			int seconds = (int) (milliseconds / 1000) % 60;
 			int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
 			int hours = (int) ((milliseconds / (1000 * 60 * 60)));
-			HHMMString = hours + "h " + minutes + " m";
+			HHMMString = hours + "h " + minutes + "m";
 		} else {
 			HHMMString = "Less than a second ago.";
 		}

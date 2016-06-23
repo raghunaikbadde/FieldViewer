@@ -21,9 +21,9 @@ public class ConfirmStopDialog extends Dialog implements OnClickListener {
 	private EditText mReasonEditText;
 
 	public interface ConfirmStopWork {
-		public void onConfirmStopWork(String reason);
+		void onConfirmStopWork(String reason);
 
-		public void onDismissStopWork();
+		void onDismissStopWork();
 	}
 
 	public ConfirmStopDialog(Context context, ConfirmStopWork callback,

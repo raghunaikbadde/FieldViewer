@@ -58,6 +58,8 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 	private String eventType;
 	private final String CALLING_ACTIVITY = "callingActivity";
 	private boolean shouldCallActivityPageActivity = true;
+	private TextView clockin_text;
+	private TextView shift_start_time_text;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 
 	private void initUI() {
 		mContext = this;
+		clockin_text = (TextView) findViewById(R.id.clockin_text);
+		shift_start_time_text = (TextView) findViewById(R.id.shift_start_time_text);
 		mCallingActivity = getIntent().getExtras().get(CALLING_ACTIVITY)
 				.toString();
 		mProgress = (ProgressBar) findViewById(R.id.progressBar);
@@ -103,7 +107,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 			mProgressStep.setText(Utils.PROGRESS_1_TO_1);
 
 		} else {
-			mProgressStep.setText(Utils.PROGRESS_2_TO_3);
+			mProgressStep.setText(Utils.PROGRESS_3_TO_3);
 			mVehicleUsed.setVisibility(View.VISIBLE);
 			mMileage.setVisibility(View.VISIBLE);
 			Bundle extras = getIntent().getExtras();
@@ -117,10 +121,10 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				mileage = numberFormat.format(Double.valueOf(mileage));
 				mMileage.setText(extras
 						.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER)
-						+ "(mileage " + mileage + ")");
+						+ " (mileage " + mileage + ")");
 			} else {
 				mMileage.setText(Utils.checkOutObject.getVehicleRegistration()
-						+ "(mileage " + Utils.checkOutObject.getMilage() + ")");
+						+ " (mileage " + Utils.checkOutObject.getMilage() + ")");
 				mDivider.setVisibility(View.VISIBLE);
 			}
 		}
@@ -135,6 +139,19 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		mBack = (Button) findViewById(R.id.back);
 		mBack.setOnClickListener(this);
 		mClockIn = (Button) findViewById(R.id.clockin);
+
+		if (Utils.checkOutObject != null
+				&& Utils.checkOutObject.getJobSelected() != null
+				&& !Utils.checkOutObject.getJobSelected().equals("")) {
+			if (Utils.checkOutObject.getJobSelected().equals(
+					ActivityConstants.JOB_SELECTED_ON_CALL)) {
+				clockin_text.setText(context.getString(R.string.start_on_call));
+				shift_start_time_text.setText(context.getString(R.string.on_call_start_time));
+				mClockIn.setText(context.getString(R.string.start_on_call));
+			} else {
+
+			}
+		}
 	}
 
 	private void updatesOnChecked(boolean isChecked) {
@@ -262,7 +279,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					startActivity(intent);
 				}
 			} else {
-				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity")||mCallingActivity.equalsIgnoreCase("ShiftOrCallEndActivity")) {
+				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity")) {
 					if (bundle != null && bundle.containsKey(Utils.CALL_START)) {
 						executeOnCallStartService();
 					} else if (bundle != null
