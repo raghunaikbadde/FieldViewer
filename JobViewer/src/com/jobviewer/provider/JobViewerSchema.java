@@ -184,6 +184,8 @@ public interface JobViewerSchema {
 			+ " text,"
 			+ BreakTravelShiftCallTable.BREAK_END_TIME
 			+ " text,"
+			+ BreakTravelShiftCallTable.TOTAL_BREAK_TIME
+			+ " text,"
 			+ BreakTravelShiftCallTable.NUMBER_OF_BREAKS
 			+ " INT,"
 			+ BreakTravelShiftCallTable.IS_CALL_STARTED

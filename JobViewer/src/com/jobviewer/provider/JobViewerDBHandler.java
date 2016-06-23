@@ -758,6 +758,9 @@ public class JobViewerDBHandler {
 				JobViewerProviderContract.BreakTravelShiftCallTable.BREAK_END_TIME,
 				breakShiftTravelCall.getBreakEndTime());
 		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.TOTAL_BREAK_TIME,
+				breakShiftTravelCall.getTotalBreakTime());
+		values.put(
 				JobViewerProviderContract.BreakTravelShiftCallTable.NUMBER_OF_BREAKS,
 				breakShiftTravelCall.getNoOfBreaks());
 
@@ -821,6 +824,10 @@ public class JobViewerDBHandler {
 			breakShiftTravelCall
 					.setBreakEndTime(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.BREAK_END_TIME)));
+			
+			breakShiftTravelCall
+			.setTotalBreakTime(cursor.getString(cursor
+					.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.TOTAL_BREAK_TIME)));
 
 			breakShiftTravelCall
 					.setNoOfBreaks(cursor.getInt(cursor

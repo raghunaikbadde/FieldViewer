@@ -96,10 +96,36 @@ public class ActivityPageActivity extends BaseActivity implements
 				user_email_text.setText(userProfile.getFirstname());
 			}
 		}
-
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(this);
+		String numberOfBreaks = String.valueOf(breakShiftTravelCall.getNoOfBreaks());
+		if(Utils.isNullOrEmpty(numberOfBreaks)){
+			numberOfBreaks = "None taken";
+		}
+		if(numberOfBreaks.equalsIgnoreCase("0")){
+			numberOfBreaks = "None taken";
+		}
+		String totalBreakTime = breakShiftTravelCall.getTotalBreakTime();
+		long minutes = 0L;
+		if(!Utils.isNullOrEmpty(totalBreakTime)){
+			long millis = Long.valueOf(totalBreakTime);
+			long seconds =  millis/1000;
+			minutes =  seconds/60;	
+		}
+		if(minutes < 1){
+			if(!numberOfBreaks.equalsIgnoreCase("None taken")){
+				numberOfBreaks = numberOfBreaks +" totalling less than 1 minute";
+			}			
+		}
+		if(minutes > 1){
+			if(!numberOfBreaks.equalsIgnoreCase("None taken")){
+				numberOfBreaks = numberOfBreaks +" totalling "+minutes + " minutes";
+				
+			}			
+		}
+		
 		String dateText = "Shift started: "
 				+ Utils.checkOutObject.getJobStartedTime()
-				+ "  Breaks: None taken";
+				+ "  Breaks: "+numberOfBreaks;
 		date_time_text.setText(dateText);
 		date_time_text.setSelected(true);
 

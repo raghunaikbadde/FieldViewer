@@ -1,10 +1,12 @@
 package com.jobviewer.db.objects;
 
 
-public class BreakShiftTravelCall {
+	
+	public class BreakShiftTravelCall {
 	private String isBreakStarted;
 	private String breakStartedTime;		
 	private String breakEndTime;
+	private String totalBreakTime;
 	
 	private String isShiftStarted;
 	private String shiftStartTime;
@@ -41,6 +43,13 @@ public class BreakShiftTravelCall {
 	public void setBreakEndTime(String breakEndTime) {
 		this.breakEndTime = breakEndTime;
 	}
+	public String getTotalBreakTime() {
+		return totalBreakTime;
+	}
+	public void setTotalBreakTime(String totalBreakTime) {
+		this.totalBreakTime = totalBreakTime;
+	}
+
 	public String isShiftStarted() {
 		return isShiftStarted;
 	}

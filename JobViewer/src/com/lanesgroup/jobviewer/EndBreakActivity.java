@@ -288,7 +288,23 @@ public class EndBreakActivity extends BaseActivity implements OnClickListener,
 		breakTravelShiftCallTable.setBreakEndTime(Utils
 				.getMillisFromFormattedDate(Utils.endTimeRequest
 						.getStarted_at()));
+		
+		long breakStartedTime = 0L;
+		try{
+			breakStartedTime = Long.valueOf(breakTravelShiftCallTable.getBreakStartedTime());
+		}catch(Exception e){
+			breakStartedTime = Long.valueOf(Utils.getMillisFromFormattedDate(breakTravelShiftCallTable.getBreakStartedTime()));
+		}
+		
+		long totalPresentBreakTime = Long.valueOf(breakTravelShiftCallTable.getBreakEndTime()) - breakStartedTime;
+		String storedDBTotalBreakTime = breakTravelShiftCallTable.getTotalBreakTime();
+		long totalBreakTime = 0L;
+		if(!Utils.isNullOrEmpty(storedDBTotalBreakTime)){
+			totalBreakTime = Long.valueOf(storedDBTotalBreakTime);
+		}
 
+		totalBreakTime = totalBreakTime+totalPresentBreakTime;
+		breakTravelShiftCallTable.setTotalBreakTime(String.valueOf(totalBreakTime));
 		if (Utils.endTimeRequest.getIs_overriden().equalsIgnoreCase(
 				ActivityConstants.TRUE)) {
 			breakTravelShiftCallTable.setBreakEndTime(Utils

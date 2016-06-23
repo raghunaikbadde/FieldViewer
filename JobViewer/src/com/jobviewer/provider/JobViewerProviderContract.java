@@ -248,6 +248,7 @@ public class JobViewerProviderContract {
 		public static final String IS_BREAK_STARTED = "isBreakStarted";
 		public static final String BREAK_START_TIME = "breakStartedTime";
 		public static final String BREAK_END_TIME = "breakEndTime";
+		public static final String TOTAL_BREAK_TIME = "totalBreakTime";
 
 		public static final String IS_SHIFT_STARTED = "isShiftStarted";
 		public static final String SHIFT_START_TIME = "shiftStartTime";
