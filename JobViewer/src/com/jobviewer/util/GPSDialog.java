@@ -3,6 +3,7 @@ package com.jobviewer.util;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.provider.Settings;
 import android.view.View;
 import android.view.Window;
@@ -26,6 +27,7 @@ public class GPSDialog extends Dialog implements
 		this.mContext = context;
 		initUI(context);
 		updateDetailsOnUI(context);
+		getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 	}
 
 	private void initUI(Context context) {

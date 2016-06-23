@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,6 +48,7 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 		this.eventType = eventType;
 		this.setCancelable(false);
 		setContentView(R.layout.dialog_box4);
+		getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		mContext = context;
 		mCallback = callback;
 		mTime = (TextView) findViewById(R.id.time);

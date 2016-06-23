@@ -2,6 +2,7 @@ package com.jobviewer.util;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -34,7 +35,7 @@ public class ConfirmStopDialog extends Dialog implements OnClickListener {
 		this.mCallback = callback;
 		this.setCancelable(false);
 		setContentView(R.layout.dialog_box3);
-
+		getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		mReasonEditText = (EditText) findViewById(R.id.manager_name_edittext);
 
 		mWorkStop = (Button) findViewById(R.id.dialog_ok);
