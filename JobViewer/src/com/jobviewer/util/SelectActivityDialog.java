@@ -16,6 +16,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
@@ -50,6 +51,7 @@ public class SelectActivityDialog extends Activity implements
     private final String TRAINING = "Training";
     private final ArrayList<HashMap<String, Object>> m_data = new ArrayList<HashMap<String, Object>>();
     private Button dialog_ok;
+    private LinearLayout dialogBoxLayout;
     /*
      * private CheckBox mWork, mWorkNoPhotos, mTraining; private String
      * selected; private OnCheckedChangeListener checkChangedListner; private
@@ -67,7 +69,7 @@ public class SelectActivityDialog extends Activity implements
         setContentView(R.layout.select_dialog);
         mContext = this;
         dialog_ok = (Button) findViewById(R.id.dialog_ok);
-
+        dialogBoxLayout = (LinearLayout)findViewById(R.id.select_dialog_layout);
         HashMap<String, Object> map1 = new HashMap<String, Object>();
         map1.put("maintext", R.drawable.work_camera_icon);
         map1.put("subtext", "Work");
@@ -174,6 +176,8 @@ public class SelectActivityDialog extends Activity implements
 
                     return;
                 } else if (selected == 2) {
+                	 	
+                	dialogBoxLayout.setVisibility(View.INVISIBLE);
                     new ConfirmDialog(mContext, SelectActivityDialog.this,
                             Constants.START_TRAINING).show();
                     result = TRAINING;
@@ -315,12 +319,13 @@ public class SelectActivityDialog extends Activity implements
 
     @Override
     public void onConfirmDismiss() {
-
+    	dialogBoxLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onConfirmStartWithNoPhotos() {
         int selected = -1;
+        
         Intent workWithNoPhotosintent = new Intent();
         for (int i = 0; i < m_data.size(); i++) // clean
         // previous
@@ -358,7 +363,7 @@ public class SelectActivityDialog extends Activity implements
 
     @Override
     public void onConfirmDismissWithNoPhotos() {
-
+    	 
     }
 
 

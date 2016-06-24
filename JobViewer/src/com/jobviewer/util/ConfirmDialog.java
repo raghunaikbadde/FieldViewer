@@ -176,7 +176,9 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 				mCallback.onConfirmDismiss();
 			}
 			if (eventType
-					.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)) {
+					.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)||
+					eventType
+					.equalsIgnoreCase(Constants.START_TRAINING)) {
 				mCallback.onConfirmDismiss();
 			}
 		} else if (view == mTimeContinue) {
