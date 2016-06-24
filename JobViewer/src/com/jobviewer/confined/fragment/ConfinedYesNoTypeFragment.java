@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.jobviewer.confined.ConfinedQuestionManager;
 import com.jobviewer.db.objects.CheckOutObject;
+import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.Screen;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Utils;
@@ -145,7 +146,9 @@ public class ConfinedYesNoTypeFragment extends Fragment implements
 				}
 			}
 		});
-
+		if(ConfinedQuestionManager.getInstance().isFirstScreen(currentScreen)){
+			mCancel.setText(getResources().getString(R.string.cancel));
+		}
 	}
 
 	private void initUI() {
@@ -171,6 +174,7 @@ public class ConfinedYesNoTypeFragment extends Fragment implements
 	@Override
 	public void onClick(View view) {
 		if (view == mCancel) {
+			CheckOutObject checkOutRemember = JobViewerDBHandler.getCheckOutRemember(getActivity());
 			ConfinedQuestionManager.getInstance().saveAssessment(
 					checkOutRemember.getAssessmentSelected());
 			Intent intent = new Intent(view.getContext(),
