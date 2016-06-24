@@ -47,12 +47,12 @@
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:text="@string/assessmentCompleteTitle"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/dialog_black_lato_regular_small60" />
+                    android:textSize="@dimen/title_text_size70" />
 
                 <TextView
                     android:id="@+id/question"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="wrap_content" android:gravity="center"
                     android:layout_below="@+id/questionTitle"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/actionbar_bottom_margin85"
@@ -60,7 +60,7 @@
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:text="@string/assessmentCompleteMsg"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/white_lato_bold_small50" />
+                    android:textSize="@dimen/black_lato_regular_small55" />
 
                 <TextView
                     android:id="@+id/tapDone"
@@ -73,7 +73,7 @@
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:text="@string/tap_done_str"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/white_lato_regular_small40" />
+                    android:textSize="@dimen/black_lato_regular_small55" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

@@ -1,13 +1,12 @@
 package com.jobviewer.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
@@ -39,310 +39,337 @@ import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.TravelToWorkSiteActivity;
 import com.vehicle.communicator.HttpConnection;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class SelectActivityDialog extends Activity implements
-		ConfirmDialogCallback, ConfirmDialogCallbackForNoPhotos {
+        ConfirmDialogCallback, ConfirmDialogCallbackForNoPhotos {
 
-	/*
-	 * private CheckBox mWork, mWorkNoPhotos, mTraining; private String
-	 * selected; private OnCheckedChangeListener checkChangedListner; private
-	 * Button start, cancel;
-	 */
-	private Context mContext;
+    private final String WORK = "Work";
+    private final String WORK_NO_PHOTOS = "WorkNoPhotos";
+    private final String TRAINING = "Training";
+    private final ArrayList<HashMap<String, Object>> m_data = new ArrayList<HashMap<String, Object>>();
+    private Button dialog_ok;
+    /*
+     * private CheckBox mWork, mWorkNoPhotos, mTraining; private String
+     * selected; private OnCheckedChangeListener checkChangedListner; private
+     * Button start, cancel;
+     */
+    private Context mContext;
 
-	private final String WORK = "Work";
-	private final String WORK_NO_PHOTOS = "WorkNoPhotos";
-	private final String TRAINING = "Training";
-	private final ArrayList<HashMap<String, Object>> m_data = new ArrayList<HashMap<String, Object>>();
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setBackgroundDrawable(
+                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        setContentView(R.layout.select_dialog);
+        mContext = this;
+        dialog_ok = (Button) findViewById(R.id.dialog_ok);
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.getWindow().setBackgroundDrawable(
-				new ColorDrawable(android.graphics.Color.TRANSPARENT));
-		setContentView(R.layout.select_dialog);
-		mContext = this;
-		HashMap<String, Object> map1 = new HashMap<String, Object>();
-		map1.put("maintext", R.drawable.work_camera_icon);
-		map1.put("subtext", "Work");
-		m_data.add(map1);
+        HashMap<String, Object> map1 = new HashMap<String, Object>();
+        map1.put("maintext", R.drawable.work_camera_icon);
+        map1.put("subtext", "Work");
+        m_data.add(map1);
 
-		HashMap<String, Object> map2 = new HashMap<String, Object>();
-		map2.put("maintext", R.drawable.work_nophotos_user_icon);
-		map2.put("subtext", "Work (no photos or data)");// no small text of this
-														// item!
-		m_data.add(map2);
+        HashMap<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("maintext", R.drawable.work_nophotos_user_icon);
+        map2.put("subtext", "Work (no photos or data)");// no small text of this
+        // item!
+        m_data.add(map2);
 
-		HashMap<String, Object> map3 = new HashMap<String, Object>();
-		map3.put("maintext", R.drawable.training_book_icon);
-		map3.put("subtext", "Training / Toolbox Talk");
-		m_data.add(map3);
+        HashMap<String, Object> map3 = new HashMap<String, Object>();
+        map3.put("maintext", R.drawable.training_book_icon);
+        map3.put("subtext", "Training / Toolbox Talk");
+        m_data.add(map3);
 
-		for (HashMap<String, Object> m : m_data)
-			// make data of this view should not be null (hide )
-			m.put("checked", false);
-		// end init data
+        for (HashMap<String, Object> m : m_data)
+            // make data of this view should not be null (hide )
+            m.put("checked", false);
+        // end init data
 
-		final ListView lv = (ListView) findViewById(R.id.listview);
-		lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        final ListView lv = (ListView) findViewById(R.id.listview);
+        lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-		final SimpleAdapter adapter = new SimpleAdapter(this, m_data,
-				R.layout.dialog_list_layout, new String[] { "maintext",
-						"subtext", "checked" }, new int[] { R.id.oncall_image,
-						R.id.oncall_text, R.id.checkBox2 });
+        final SimpleAdapter adapter = new SimpleAdapter(this, m_data,
+                R.layout.dialog_list_layout, new String[]{"maintext",
+                "subtext", "checked"}, new int[]{R.id.oncall_image,
+                R.id.oncall_text, R.id.checkBox2});
 
-		lv.setAdapter(adapter);
+        lv.setAdapter(adapter);
 
-		lv.setOnItemClickListener(new OnItemClickListener() {
+        lv.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				RadioButton rb = (RadioButton) view
-						.findViewById(R.id.checkBox2);
-				if (!rb.isChecked()) // OFF->ON
-				{
-					for (HashMap<String, Object> m : m_data)
-						// clean previous selected
-						m.put("checked", false);
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                RadioButton rb = (RadioButton) view
+                        .findViewById(R.id.checkBox2);
 
-					m_data.get(position).put("checked", true);
-					adapter.notifyDataSetChanged();
-				}
-			}
-		});
+                if (!rb.isChecked()) // OFF->ON
+                {
+                    for (HashMap<String, Object> m : m_data)
+                        // clean previous selected
+                        m.put("checked", false);
 
-		// show result
-		findViewById(R.id.dialog_ok).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				int selected = -1;
-				Intent intent = new Intent();
-				for (int i = 0; i < m_data.size(); i++) // clean
-														// previous
-														// selected
-				{
-					HashMap<String, Object> m = m_data.get(i);
-					Boolean x = (Boolean) m.get("checked");
-					if (x == true) {
-						selected = i;
-						break; // break, since it's a single choice list
-					}
-				}
-				String result = "";
-				if (selected == -1)
-					return;
-				else if (selected == 0) {
-					CheckOutObject checkOutRemember = JobViewerDBHandler
-							.getCheckOutRemember(v.getContext());
-					if (checkOutRemember != null
-							&& ActivityConstants.TRUE
-									.equalsIgnoreCase(checkOutRemember
-											.getIsTravelEnd())) {
-						intent.setClass(SelectActivityDialog.this,
-								NewWorkActivity.class);
-					} else {
-						intent.setClass(SelectActivityDialog.this,
-								TravelToWorkSiteActivity.class);
-					}
-					result = WORK;
-					startActivity(intent);
-					finish();
+                    m_data.get(position).put("checked",true);
+                    adapter.notifyDataSetChanged();
+                    updateOkButtonDrawable(true);
+                } else {
+                    for (HashMap<String, Object> m : m_data)
+                        // clean previous selected
+                        m.put("checked", false);
 
-				} else if (selected == 1) {
+//                    m_data.get(position).put("checked", rb.isChecked());
+                    adapter.notifyDataSetChanged();
+                    updateOkButtonDrawable(false);
+                }
+            }
+        });
+        updateOkButtonDrawable(false);
 
-					new ConfirmDialog(mContext, SelectActivityDialog.this,
-							Constants.WORK_NO_PHOTOS_CONFIRMATION, "").show();
-					result = WORK_NO_PHOTOS;
+        // show result
+        findViewById(R.id.dialog_ok).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int selected = -1;
+                Intent intent = new Intent();
+                for (int i = 0; i < m_data.size(); i++) // clean
+                // previous
+                // selected
+                {
+                    HashMap<String, Object> m = m_data.get(i);
+                    Boolean x = (Boolean) m.get("checked");
+                    if (x == true) {
+                        selected = i;
+                        break; // break, since it's a single choice list
+                    }
+                }
+                String result = "";
+                if (selected == -1)
+                    return;
+                else if (selected == 0) {
+                    CheckOutObject checkOutRemember = JobViewerDBHandler
+                            .getCheckOutRemember(v.getContext());
+                    if (checkOutRemember != null
+                            && ActivityConstants.TRUE
+                            .equalsIgnoreCase(checkOutRemember
+                                    .getIsTravelEnd())) {
+                        intent.setClass(SelectActivityDialog.this,
+                                NewWorkActivity.class);
+                    } else {
+                        intent.setClass(SelectActivityDialog.this,
+                                TravelToWorkSiteActivity.class);
+                    }
+                    result = WORK;
+                    startActivity(intent);
+                    finish();
 
-					return;
-				}
+                } else if (selected == 1) {
 
-				else if (selected == 2) {
-					new ConfirmDialog(mContext, SelectActivityDialog.this,
-							Constants.START_TRAINING).show();
-					result = TRAINING;
+                    new ConfirmDialog(mContext, SelectActivityDialog.this,
+                            Constants.WORK_NO_PHOTOS_CONFIRMATION, "").show();
+                    result = WORK_NO_PHOTOS;
 
-					return;
-				}
-				/*
-				 * intent.putExtra("Selected", result); setResult(RESULT_OK,
+                    return;
+                } else if (selected == 2) {
+                    new ConfirmDialog(mContext, SelectActivityDialog.this,
+                            Constants.START_TRAINING).show();
+                    result = TRAINING;
+
+                    return;
+                }
+                /*
+                 * intent.putExtra("Selected", result); setResult(RESULT_OK,
 				 * intent);
 				 */
-				finish();
-			}
-		});
+                finish();
+            }
+        });
 
-		findViewById(R.id.dialog_cancel).setOnClickListener(
-				new OnClickListener() {
+        findViewById(R.id.dialog_cancel).setOnClickListener(
+                new OnClickListener() {
 
-					@Override
-					public void onClick(View v) {
-						finish();
-					}
-				});
-	}
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+    }
 
-	@Override
-	public void onConfirmStartTraining() {
+    @Override
+    public void onConfirmStartTraining() {
 
-		ContentValues data = new ContentValues();
-		Utils.timeSheetRequest = new TimeSheetRequest();
+        ContentValues data = new ContentValues();
+        Utils.timeSheetRequest = new TimeSheetRequest();
 
-		Utils.timeSheetRequest.setStarted_at(Utils.getCurrentDateAndTime());
+        Utils.timeSheetRequest.setStarted_at(Utils.getCurrentDateAndTime());
 
-		data.put("started_at", Utils.getCurrentDateAndTime());
+        data.put("started_at", Utils.getCurrentDateAndTime());
 
-		User userProfile = JobViewerDBHandler.getUserProfile(this);
-		if (userProfile != null) {
-			Utils.timeSheetRequest.setRecord_for(userProfile.getEmail());
-			data.put("record_for", userProfile.getEmail());
-		}
+        User userProfile = JobViewerDBHandler.getUserProfile(this);
+        if (userProfile != null) {
+            Utils.timeSheetRequest.setRecord_for(userProfile.getEmail());
+            data.put("record_for", userProfile.getEmail());
+        }
 
-		Utils.timeSheetRequest.setIs_inactive("");
-		data.put("is_inactive", "");
+        Utils.timeSheetRequest.setIs_inactive("");
+        data.put("is_inactive", "");
 
-		Utils.timeSheetRequest.setIs_overriden("");
-		data.put("is_overriden", "");
+        Utils.timeSheetRequest.setIs_overriden("");
+        data.put("is_overriden", "");
 
-		Utils.timeSheetRequest.setOverride_reason("");
-		data.put("override_reason", "");
+        Utils.timeSheetRequest.setOverride_reason("");
+        data.put("override_reason", "");
 
-		Utils.timeSheetRequest.setOverride_comment("");
-		data.put("override_comment", "");
+        Utils.timeSheetRequest.setOverride_comment("");
+        data.put("override_comment", "");
 
-		Utils.timeSheetRequest.setOverride_timestamp("");
-		data.put("override_timestamp", "");
+        Utils.timeSheetRequest.setOverride_timestamp("");
+        data.put("override_timestamp", "");
 
-		CheckOutObject checkOutObject = JobViewerDBHandler
-				.getCheckOutRemember(this);
-		if (checkOutObject.getVistecId() != null) {
-			Utils.timeSheetRequest
-					.setReference_id(checkOutObject.getVistecId());
-			data.put("reference_id", checkOutObject.getVistecId());
-		} else {
-			Utils.timeSheetRequest.setReference_id("");
-			data.put("reference_id", "");
-		}
-		if (userProfile != null)
-			data.put("user_id", userProfile.getEmail());
-		else {
-			data.put("user_id", "");
-		}
+        CheckOutObject checkOutObject = JobViewerDBHandler
+                .getCheckOutRemember(this);
+        if (checkOutObject.getVistecId() != null) {
+            Utils.timeSheetRequest
+                    .setReference_id(checkOutObject.getVistecId());
+            data.put("reference_id", checkOutObject.getVistecId());
+        } else {
+            Utils.timeSheetRequest.setReference_id("");
+            data.put("reference_id", "");
+        }
+        if (userProfile != null)
+            data.put("user_id", userProfile.getEmail());
+        else {
+            data.put("user_id", "");
+        }
 
-		String time = Utils.getCurrentDateAndTime();
+        String time = Utils.getCurrentDateAndTime();
 
-		if (Utils.isInternetAvailable(this)) {
-			// finish();
-			Utils.startProgress(this);
-			Utils.SendHTTPRequest(this, CommsConstant.HOST
-					+ CommsConstant.START_TRAINING_API, data,
-					getStartTrainingHandler(time));
-		} else {
-			Utils.saveTimeSheetInBackLogTable(SelectActivityDialog.this,
-					Utils.timeSheetRequest, CommsConstant.START_TRAINING_API,
-					Utils.REQUEST_TYPE_WORK);
-			saveTrainingTimeSheet(Utils.timeSheetRequest);
-			finish();
-			Intent intent = new Intent(mContext, ActivityPageActivity.class);
-			startActivity(intent);
-		}
-		setResult(RESULT_OK);
+        if (Utils.isInternetAvailable(this)) {
+            // finish();
+            Utils.startProgress(this);
+            Utils.SendHTTPRequest(this, CommsConstant.HOST
+                            + CommsConstant.START_TRAINING_API, data,
+                    getStartTrainingHandler(time));
+        } else {
+            Utils.saveTimeSheetInBackLogTable(SelectActivityDialog.this,
+                    Utils.timeSheetRequest, CommsConstant.START_TRAINING_API,
+                    Utils.REQUEST_TYPE_WORK);
+            saveTrainingTimeSheet(Utils.timeSheetRequest);
+            finish();
+            Intent intent = new Intent(mContext, ActivityPageActivity.class);
+            startActivity(intent);
+        }
+        setResult(RESULT_OK);
 
-	}
+    }
 
-	private void saveTrainingTimeSheet(TimeSheetRequest timeSheetRequest) {
-		StartTrainingObject startTraining = new StartTrainingObject();
-		startTraining.setIsTrainingStarted("true");
-		startTraining.setStartTime(timeSheetRequest.getStarted_at());
-		JobViewerDBHandler.saveStartTraining(this, startTraining);
+    private void saveTrainingTimeSheet(TimeSheetRequest timeSheetRequest) {
+        StartTrainingObject startTraining = new StartTrainingObject();
+        startTraining.setIsTrainingStarted("true");
+        startTraining.setStartTime(timeSheetRequest.getStarted_at());
+        JobViewerDBHandler.saveStartTraining(this, startTraining);
 
-	}
+    }
 
-	private Handler getStartTrainingHandler(final String time) {
-		Handler handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case HttpConnection.DID_SUCCEED:
-					Utils.StopProgress();
-					saveTrainingTimeSheet(Utils.timeSheetRequest);
-					Toast.makeText(
-							BaseActivity.context,
-							BaseActivity.context.getResources().getString(
-									R.string.startedTrainingMsg),
-							Toast.LENGTH_SHORT).show();
-					finish();
-					Intent intent = new Intent(mContext,
-							ActivityPageActivity.class);
-					startActivity(intent);
-					break;
-				case HttpConnection.DID_ERROR:
-					Utils.StopProgress();
-					String error = (String) msg.obj;
-					VehicleException exception = GsonConverter
-							.getInstance()
-							.decodeFromJsonString(error, VehicleException.class);
-					ExceptionHandler.showException(mContext, exception, "Info");
-					Utils.saveTimeSheetInBackLogTable(
-							SelectActivityDialog.this, Utils.timeSheetRequest,
-							CommsConstant.START_TRAINING_API,
-							Utils.REQUEST_TYPE_WORK);
-					saveTrainingTimeSheet(Utils.timeSheetRequest);
-					break;
-				default:
-					break;
-				}
-			}
-		};
-		return handler;
-	}
+    private Handler getStartTrainingHandler(final String time) {
+        Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case HttpConnection.DID_SUCCEED:
+                        Utils.StopProgress();
+                        saveTrainingTimeSheet(Utils.timeSheetRequest);
+                        Toast.makeText(
+                                BaseActivity.context,
+                                BaseActivity.context.getResources().getString(
+                                        R.string.startedTrainingMsg),
+                                Toast.LENGTH_SHORT).show();
+                        finish();
+                        Intent intent = new Intent(mContext,
+                                ActivityPageActivity.class);
+                        startActivity(intent);
+                        break;
+                    case HttpConnection.DID_ERROR:
+                        Utils.StopProgress();
+                        String error = (String) msg.obj;
+                        VehicleException exception = GsonConverter
+                                .getInstance()
+                                .decodeFromJsonString(error, VehicleException.class);
+                        ExceptionHandler.showException(mContext, exception, "Info");
+                        Utils.saveTimeSheetInBackLogTable(
+                                SelectActivityDialog.this, Utils.timeSheetRequest,
+                                CommsConstant.START_TRAINING_API,
+                                Utils.REQUEST_TYPE_WORK);
+                        saveTrainingTimeSheet(Utils.timeSheetRequest);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        return handler;
+    }
 
-	@Override
-	public void onConfirmDismiss() {
+    @Override
+    public void onConfirmDismiss() {
 
-	}
+    }
 
-	@Override
-	public void onConfirmStartWithNoPhotos() {
-		int selected = -1;
-		Intent workWithNoPhotosintent = new Intent();
-		for (int i = 0; i < m_data.size(); i++) // clean
-												// previous
-												// selected
-		{
-			HashMap<String, Object> m = m_data.get(i);
-			Boolean x = (Boolean) m.get("checked");
-			if (x == true) {
-				selected = i;
-				break; // break, since it's a single choice list
-			}
-		}
-		String result = "";
-		if (selected == -1)
-			return;
-		else if (selected == 0 || selected == 1) {
-			CheckOutObject checkOutRemember = JobViewerDBHandler
-					.getCheckOutRemember(this);
-			if (checkOutRemember != null
-					&& ActivityConstants.TRUE.equalsIgnoreCase(checkOutRemember
-							.getIsTravelEnd())) {
-				workWithNoPhotosintent.setClass(SelectActivityDialog.this,
-						NewWorkActivity.class);
-			} else {
-				workWithNoPhotosintent.setClass(SelectActivityDialog.this,
-						TravelToWorkSiteActivity.class);
-			}
-			result = WORK_NO_PHOTOS;
-			workWithNoPhotosintent.putExtra(Constants.WORK_NO_PHOTOS,
-					Constants.WORK_NO_PHOTOS);
-			startActivity(workWithNoPhotosintent);
-		}
-		finish();
-	}
+    @Override
+    public void onConfirmStartWithNoPhotos() {
+        int selected = -1;
+        Intent workWithNoPhotosintent = new Intent();
+        for (int i = 0; i < m_data.size(); i++) // clean
+        // previous
+        // selected
+        {
+            HashMap<String, Object> m = m_data.get(i);
+            Boolean x = (Boolean) m.get("checked");
+            if (x == true) {
+                selected = i;
+                break; // break, since it's a single choice list
+            }
+        }
+        String result = "";
+        if (selected == -1)
+            return;
+        else if (selected == 0 || selected == 1) {
+            CheckOutObject checkOutRemember = JobViewerDBHandler
+                    .getCheckOutRemember(this);
+            if (checkOutRemember != null
+                    && ActivityConstants.TRUE.equalsIgnoreCase(checkOutRemember
+                    .getIsTravelEnd())) {
+                workWithNoPhotosintent.setClass(SelectActivityDialog.this,
+                        NewWorkActivity.class);
+            } else {
+                workWithNoPhotosintent.setClass(SelectActivityDialog.this,
+                        TravelToWorkSiteActivity.class);
+            }
+            result = WORK_NO_PHOTOS;
+            workWithNoPhotosintent.putExtra(Constants.WORK_NO_PHOTOS,
+                    Constants.WORK_NO_PHOTOS);
+            startActivity(workWithNoPhotosintent);
+        }
+        finish();
+    }
 
-	@Override
-	public void onConfirmDismissWithNoPhotos() {
+    @Override
+    public void onConfirmDismissWithNoPhotos() {
 
-	}
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void updateOkButtonDrawable(boolean isEnable) {
+        if (isEnable) {
+            dialog_ok.setBackground(mContext.getResources().getDrawable(R.drawable.dialog_red_button));
+            dialog_ok.setEnabled(true);
+        } else {
+            dialog_ok.setBackground(mContext.getResources().getDrawable(R.drawable.dialog_dark_grey_button));
+            dialog_ok.setEnabled(false);
+        }
+    }
 }

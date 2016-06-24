@@ -109,11 +109,12 @@
                     android:layout_below="@+id/capture_info_text"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:background="@drawable/grey_background"
+                    android:background="@drawable/edit_text_background"
                     android:hint="@string/describe_hint"
                     android:paddingLeft="@dimen/grey_lato_regular_small35"
                     android:paddingRight="@dimen/grey_lato_regular_small35"
                     android:singleLine="true"
+                    android:textColor="@color/black"
                     android:textColorHint="@color/lighter_grey"
                     android:textSize="@dimen/black_lato_regular_medium45"></EditText>
 

@@ -110,5 +110,6 @@
     <dimen name="dialog_text_width510">170dp</dimen>
     <dimen name="button_top_margin345">115dp</dimen>
     <dimen name="clockin_button_spacing460">153.33dp</dimen>
+    <dimen name="left_margin_150dp">142dp</dimen>
 
 </resources>

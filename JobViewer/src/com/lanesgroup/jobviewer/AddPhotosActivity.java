@@ -1,14 +1,5 @@
 package com.lanesgroup.jobviewer;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.json.JSONObject;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +20,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,11 +42,21 @@ import com.lanesgroup.jobviewer.fragment.WorkCompleteFragment;
 import com.raghu.WorkPhotoUpload;
 import com.vehicle.communicator.HttpConnection;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
 	private TextView mVistecNumber;
-	private ImageButton mClickPhoto, mCaptureCallingCard, mUpdateRiskActivity,
+	private ImageButton   mCaptureCallingCard, mUpdateRiskActivity,
 			mConfinedSpaceRiskActivity;
+	private LinearLayout capture_layout;
 	private Button mSave, mLeaveSite;
 	private ListView mListView;
 	private ArrayList<HashMap<String, Object>> mPhotoList;
@@ -89,10 +91,10 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
 		mUpdateRiskActivity = (ImageButton) findViewById(R.id.video_imageButton);
 		mUpdateRiskActivity.setOnClickListener(this);
-		mClickPhoto = (ImageButton) findViewById(R.id.capture_imageButton);
+		capture_layout = (LinearLayout) findViewById(R.id.capture_layout);
 		mConfinedSpaceRiskActivity = (ImageButton) findViewById(R.id.user_imageButton);
 		mConfinedSpaceRiskActivity.setOnClickListener(this);
-		mClickPhoto.setOnClickListener(this);
+		capture_layout.setOnClickListener(this);
 		mSave = (Button) findViewById(R.id.button1);
 		mLeaveSite = (Button) findViewById(R.id.button2);
 		mLeaveSite.setOnClickListener(this);
@@ -159,7 +161,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 				showWorkCompleteFragemnt();
 			}
 
-		} else if (view == mClickPhoto || view == mCaptureCallingCard) {
+		} else if (view == capture_layout || view == mCaptureCallingCard) {
 			if (view == mCaptureCallingCard) {
 				Toast.makeText(
 						view.getContext(),

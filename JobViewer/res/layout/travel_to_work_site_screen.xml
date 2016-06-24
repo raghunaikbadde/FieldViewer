@@ -83,7 +83,7 @@
                     android:layout_marginTop="@dimen/dialog_edit_top_margin35"
                     android:text="@string/all_jobs_must_str"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/black_lato_regular_small55" />
+                    android:textSize="@dimen/black_lato_regular_medium45" />
 
                 <TextView
                     android:id="@+id/question_text2"
@@ -108,7 +108,7 @@
                     android:layout_marginTop="@dimen/dialog_edit_top_margin35"
                     android:text="@string/if_you_have_str"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/black_lato_regular_small55" />
+                    android:textSize="@dimen/black_lato_regular_medium45" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

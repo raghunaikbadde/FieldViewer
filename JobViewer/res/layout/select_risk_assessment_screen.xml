@@ -133,13 +133,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/riskAssessmentOption"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/button_top_margin345"
-                    android:layout_marginLeft="@dimen/risk_buttons_top_margin253"
-                    android:layout_marginRight="@dimen/white_lato_regular_big79"
+                    android:layout_marginLeft="@dimen/left_margin_150dp"
                     android:text="@string/breaking_ground"
                     android:textColor="@color/shallow_grey"
-                    android:textSize="@dimen/dialog_edit_top_margin35" />
+                    android:textSize="@dimen/user_icon_left_padding46" />
 
 
             </RelativeLayout>

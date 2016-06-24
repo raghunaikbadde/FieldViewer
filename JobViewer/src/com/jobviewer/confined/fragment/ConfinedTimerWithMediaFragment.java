@@ -1,11 +1,5 @@
 package com.jobviewer.confined.fragment;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
@@ -28,7 +22,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -48,6 +41,12 @@ import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.R;
 import com.vehicle.communicator.HttpConnection;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ConfinedTimerWithMediaFragment extends Fragment implements
 		OnClickListener {
 	private View mRootView;
@@ -62,7 +61,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 	private String time;
 	private static CountdownTimer timer;
 	private LinearLayout linearLayout;
-	private ImageButton capture_imageButton;
+ 	private LinearLayout capture_layout;
 	private static File file;
 	public static final int RESULT_OK = -1;
 	private ImageView mCapturedImage;
@@ -153,9 +152,9 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 				.findViewById(R.id.next_update_text);
 		timer_text = (TextView) mRootView.findViewById(R.id.timer_text);
 		skip_timer = (LinearLayout) mRootView.findViewById(R.id.skip_timer);
-		capture_imageButton = (ImageButton) mRootView
-				.findViewById(R.id.capture_imageButton);
-		capture_imageButton.setOnClickListener(this);
+		capture_layout = (LinearLayout) mRootView
+				.findViewById(R.id.capture_layout);
+		capture_layout.setOnClickListener(this);
 		saveBtn = (Button) mRootView.findViewById(R.id.saveBtn);
 		saveBtn.setOnClickListener(this);
 		nextBtn = (Button) mRootView.findViewById(R.id.nextBtn);
@@ -262,7 +261,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 				enableNextButton(true);
 			}
 			break;
-		case R.id.capture_imageButton:
+		case R.id.capture_layout:
 			addPicObjectInScreenIfRequired();
 			file = new File(Environment.getExternalStorageDirectory()
 					+ File.separator + "image.jpg");

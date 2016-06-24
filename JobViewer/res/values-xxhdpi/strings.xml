@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="enter_ending_mileage_str">Enter ending mileage</string>
+    <string name="end_shift">End Shift</string>
+    <string name="on_call_end_time">On-call end time:</string>
+    <string name="user_ending_on_call">User ending on-call:</string>
+    <string name="end_on_call_str_1">End on-call</string>
     <string name="app_name">JobViewer</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -37,7 +42,7 @@
     <string name="risk_assessment">Risk Assessment</string>
     <string name="stop_work">Stop Work</string>
     <string name="you_response_indicates">Your response indicates it may not be\nsafe to continue work at this site.\nPlease contact your field manager to\ndiscuss available options as soon as possible.</string>
-    <string name="after_contacting">After contacting your field manager, tap\n\'Stop\' to close the job or \'Resume\' to contiune\nfrom the previous question.</string>
+    <string name="after_contacting">After contacting your field manager, tap \'Stop\' to close or \'Resume\' to continue from the previous question.</string>
     <string name="success">Success!</string>
     <string name="vistec_job_number">Vistec Job Number</string>
     <string name="vistec_number">001212QWER</string>
@@ -60,12 +65,12 @@
     <string name="next">Next</string>
     <string name="start">Start</string>
     <string name="select_the_activity">Select the activity you are starting...</string>
-     <string name="work">Work</string>
+    <string name="work">Work</string>
     <string name="work_no_photos">Work (no photos or data)</string>
     <string name="training">Training/Toolbox Talk</string>
     <string name="you_must_have_confirmation">You must have confirmation from a manager before stopping this job - enter their name below:</string>
     <string name="name">Name:</string>
-    <string name="enter_manager_name">Enter Managers name</string>
+    <string name="enter_manager_name">Enter manager\'s name</string>
     <string name="tap_confirm_to_close">Tap Confirm to close the job. You will no longer be able to edit data for this record.</string>
     <string name="confirm">Confirm</string>
     <string name="confirm_work_stop">Confirm Work Stop</string>
@@ -96,7 +101,6 @@
     <string name="make_safe">Make Safe</string>
     <string name="lining">Lining</string>
     <string name="wet_well_clean">wet Well Clean</string>
-
     <string name="tmp_user_email_str">demonstration2</string>
     <string name="would_you_like_to_str">Would you like to check-out a vehicle at the start of your shift?</string>
     <string name="tmp_user_group_str">lanesgroup.com</string>
@@ -118,7 +122,7 @@
     <string name="tmp_vehicle_number">GJ065PPP</string>
     <string name="i_confirm_the_info_str">I confirm the information above is correct (required to continue)</string>
     <string name="risk_assessment_str">Risk Assessment</string>
-    <string name="select_the_type_str">Select the type of work to be carried out from the choices below:</string>
+    <string name="select_the_type_str">Select the type of work to be carried out from the choices below</string>
     <string name="non_excavation_str">Non Excavation</string>
     <string name="excavation_str">Excavation</string>
     <string name="breaking_ground">(Breaking ground)</string>
@@ -126,13 +130,13 @@
     <string name="non_excavation_risk_assessment_str">Non-Excavation Risk Assessment</string>
     <string name="overhead_cables_str">Overhead Cables</string>
     <string name="question_are_ther_any_str">Are there any overhead cables at this location that present a risk?</string>
-    <string name="error_msg_str">Ensure that your vehicle is a safe height to continue. If in doubt contact your field</string>
+    <string name="error_msg_str">Ensure that your vehicle is a safe height to continue. If in doubt contact your field manager.</string>
     <string name="pollution_confirmation">Pollution Confirmation</string>
-    <string name="pollution_cofirmation_msg">You have marked this job as a pollution, is the correct?</string>
+    <string name="pollution_cofirmation_msg">You have marked this job as a pollution, is this correct?</string>
     <string name="da_confirmation">DA Call Confirmation</string>
     <string name="da_cofirmation_msg">Did you get through to DA?</string>
     <string name="new_work_str">New Work</string>
-    <string name="enter_the_vistec_str">Enter the Vistec Job Number</string>
+    <string name="enter_the_vistec_str">Enter the Vistec job number</string>
     <string name="progress_step_return_vehicle">Step 1 of 2</string>
     <string name="checkinVehicleProcess">Step 1 of 1</string>
     <string name="checkOutVehicleProcess">Step 1 of 1</string>
@@ -146,44 +150,45 @@
     <string name="district_str">District:</string>
     <string name="tmp_number">00</string>
     <string name="district_four_tmp_number">0000</string>
-    <string name="task_number_str">Task Number:</string>
+    <string name="task_number_str">Task number:</string>
     <string name="is_this_pollution_str">Is this a pollution?</string>
     <string name="non_excavation_risk_str">Non-Excavation Risk Assessment</string>
     <string name="excavation_risk_str">Excavation Risk Assessment</string>
     <string name="tmp_progress_step">20%</string>
-    <string name="set_up_on_arrival_str">Set-up on Arrival</string>
+    <string name="set_up_on_arrival_str">Set-up on arrival</string>
     <string name="capture_the_setup_str">Capture the set-up in front of, and behind, the vehicle. At least two photos are required.</string>
     <string name="capture_image_str">Capture image</string>
     <string name="location_awareness_str">Location Awareness</string>
     <string name="capture_info_str">Capture an image or add a description of how you will control the risk at this location?</string>
-    <string name="describe_hint">Describe...</string>
+    <string name="describe_hint">Describe</string>
     <string name="add_photos_str">Add photos as you complete work</string>
-    <string name="minimum_photos_str">Minium of 4 required to continue</string>
+    <string name="minimum_photos_str">Minimum of 4 required to continue</string>
     <string name="captured_str">Captured:</string>
     <string name="save_2">Save(2)</string>
     <string name="leave_site_complete">Leave Site/-Complete</string>
     <string name="leave_site_str">Leave Site/ Work Complete</string>
-    <string name="enter_detail_str">Enter details of work carried out:</string>
-    <string name="activity_type_str">Activity Type:</string>
+    <string name="enter_detail_str">Enter details of work carried out</string>
+    <string name="activity_type_str">Activity type:</string>
     <string name="select_spinner_str">- Select -</string>
     <string name="capture_calling_str">Capture calling card (if required):</string>
     <string name="have_you_captured_str">Have you captured a redline?</string>
     <string name="tap_to_call_str">Tap to call DA line</string>
-    <string name="customer_calling_card_str">Customer Calling Card</string>
+    <string name="customer_calling_card_str">Customer calling card</string>
     <string name="submit">Submit</string>
     <string name="enter_pipe_diameter">Enter Pipe diameter (mm)</string>
     <string name="length_str">Length (m)</string>
     <string name="vehicle_user_str">Vehicle used:</string>
     <string name="tmp_mileage_str">TH10 (mileage 2)</string>
     <string name="travel_to_work">Travel To Work Site</string>
-    <string name="tap_start_travel">Tap "Start Travel" to record travel to the work location</string>
+    <string name="tap_start_travel">Tap \'Start travel\' to record travel to the work location</string>
     <string name="why_am_i_str">Why am I seeing this?</string>
-    <string name="all_jobs_must_str">All jobs must now log travel time, that means you should tap "Start Travel" when you set-off to the work location. Once you arrive you can end travel and continue the normal work process.</string>
+    <string name="all_jobs_must_str">All jobs must now log travel time, that means you should tap \"Start travel\" when you set-off to the work location. Once you arrive you can end travel and continue the normal work process.</string>
     <string name="what_if_i_str">What if I have already travelled to site?</string>
-    <string name="if_you_have_str">If you have already arrived at your work location, tap "Start Travel" and then override the time to when you started travel to this work location.</string>
+    <string name="if_you_have_str">If you have already arrived at your work location, tap \"Start travel\" and then override the time to when you started travel to this work location.</string>
     <string name="start_travel">Start travel</string>
+    <string name="start_travel_str">\"Start travel\"</string>
     <string name="capture_vistec_screen">Capture Vistec Screen</string>
-    <string name="take_a_picture">Take a picture of the Toughbook screen showing the Vistec Job Number</string>
+    <string name="take_a_picture">Take a picture of the Toughbook screen showing the Vistec job number</string>
     <string name="vistec_screen_str">Vistec Screen</string>
     <string name="setup_complete">Set-up complete</string>
     <string name="enroute_to_work">Enroute to work</string>
@@ -205,8 +210,8 @@
     <string name="extentOfLandPollution">Extent of land pollution</string>
     <string name="landAffected">Land affected</string>
     <string name="landPollutants">Land pollutants</string>
-    <string name="indicativeCause">Indicative cause</string>
-    <string name="additionalED">Additional equipment deployed</string>
+    <string name="indicativeCause">Indicative cause:</string>
+    <string name="additionalED">Additional equipment deployed:</string>
     <string name="pollution_to_water">Pollution to water</string>
     <string name="extentOfWaterPollution">Extent of water pollution</string>
     <string name="waterBodyAffected">Water body affected</string>
@@ -214,7 +219,7 @@
     <string name="dissolvedOxygen">Dissolved Oxygen (DO)%:</string>
     <string name="upstream">Upstream:</string>
     <string name="downstream">Downstream:</string>
-    <string name="noPreviousQuestionMessage">There are no previous questions. Tap \'Save\' or to cancel. press the phone menu button and tap cancel.</string>
+    <string name="noPreviousQuestionMessage">There are no previous questions. Tap \'Save\' or to cancel, press the phone menu button and tap cancel.</string>
     <string name="returnVehicleMsg">Enter details for the vehicle you are returning</string>
     <string name="i_want_to_str">I want to...</string>
     <string name="report_hazard">Report a hazard or near miss</string>
@@ -226,16 +231,15 @@
     <string name="tap_done_to_continue_1">Tap done to continue</string>
     <string name="site_photo">Site Photo</string>
     <string name="pollution_detail">Provide all details below</string>
-    
+
     <string-array name="override_reason_comment">
         <item>Forgot to clock in/out on time</item>
         <item>Busy with customer</item>
         <item>No battery at clock in/out time</item>
         <item>Other</item>
     </string-array>
-    
-    
-    <!--Land pollution array-->
+
+    <!-- Land pollution array -->
     <string-array name="extentOfLandPollutionArray">
         <item>-- Select --</item>
         <item>Less then 25m/sq</item>
@@ -258,8 +262,8 @@
         <item>Sewage</item>
         <item>Unknown</item>
     </string-array>
-    
-    <!--Water pollution array-->
+
+    <!-- Water pollution array -->
     <string-array name="waterBodyArray">
         <item>-- Select --</item>
         <item>Pond</item>
@@ -276,38 +280,38 @@
         <item>Petrol/Diesel</item>
         <item>Unknown</item>
     </string-array>
-   
     <string-array name="paymentcard_bank_info_month">
         <item>- Select -</item>
         <item>Blockage</item>
         <item>CCTV</item>
-        <item>Line Clean</item>
-        <item>Pump Down</item>
+        <item>Line clean</item>
+        <item>Pump down</item>
         <item>SFOC</item>
-        <item>Clean Up</item>
+        <item>Clean up</item>
         <item>SROPR</item>
         <item>Enable</item>
         <item>Private</item>
         <item>Cover</item>
-        <item>Dig Down</item>
-        <item>Make Safe</item>
+        <item>Dig down</item>
+        <item>Make safe</item>
         <item>Lining</item>
-        <item>Well Clean</item>
+        <item>Wet well clean</item>
     </string-array>
-    
     <string-array name="additionalEquipmentDeployed">
         <item>Jetting</item>
         <item>Tanker</item>
     </string-array>
+
     <string name="ammonia">Ammonia:</string>
     <string name="fish_kill">Fish kill:</string>
-	<!--Raghu Strings -->
+    <!-- Raghu Strings -->
     <string name="your_travel_start_time">Your travel start time will be logged as:</string>
     <string name="your_travel_end_time">Your travel end time will be logged as:</string>
-    <string name="capture_calling_Card">Capture Image Of an Calling Card</string>
+    <string name="capture_calling_Card">Capture image of a calling card</string>
     <string name="capture_safe_zone">Capture the safe zone</string>
-    <string name="was_property_flooded">Was Property Flooded</string>
+    <string name="was_property_flooded">Was property flooded:</string>
     <string name="spinner_prompt_flood">Was Property Flooded?</string>
+
     <string-array name="property_flooding_array">
         <item>- Select -</item>
         <item>No Flooding</item>
@@ -315,21 +319,17 @@
         <item>External</item>
         <item>Internal &amp; External</item>
     </string-array>
+
     <string name="break_start_time_text">Break started:</string>
     <string name="end_break_str">End break</string>
     <string name="end_shift_screen_title">End shift</string>
-    <string name="end_shift">End Shift</string>
     <string name="enter_mileage_for_vehicle">Enter the ending mileage for the vehicle below</string>
     <string name="ending_mileage_str">Ending mileage</string>
-    <string name="enter_ending_mileage_str">Enter ending mileage</string>
     <string name="end_on_call_str">End On-Call</string>
-    <string name="end_on_call_str_1">End on-call</string>
     <string name="confirm_all_details">Confirm all details below are correct to continue</string>
     <string name="shift_end_time">Shift end time:</string>
-    <string name="on_call_end_time">On-call end time:</string>
     <string name="user_ending_shift">User ending shift:</string>
-    <string name="user_ending_on_call">User ending on-call:</string>
-    <string name="vehicle_used">Vehicle used:</string>
+    <string name="vehicle_used">Vehicle Used:</string>
     <string name="call_complete_str">on-call time complete</string>
     <string name="pastDateValidationErrorMsg">Please enter a past date and time</string>
     <string name="dateTimeShouldBeAfterTravelErrorMsg">Date and time must be after you started travel</string>
@@ -337,10 +337,10 @@
     <string name="dateAndTimeMustAfterCallStart">Date and time must be after on-call start</string>
     <string name="dateAndTimeMustAfterBreakStart">Date and time must be after Break start</string>
     <string name="btn_ok">Ok</string>
-	<string name="workWithNoPhotosConfirmation">You should only select this option if someone else in your gang is capturing work and photo data. Do you want to continue?</string>    
+    <string name="workWithNoPhotosConfirmation">You should only select this option if someone else in your gang is capturing work and photo data. Do you want to continue?</string>
     <string name="next_update_str">Next update required in...</string>
     <string name="tmp_timer">00:04:48</string>
-    <string name="skip_timer_str">Skip timer?</string>
+    <string name="skip_timer_str">Skip Timer?</string>
     <string name="confined_space_str">Confined Space\n Risk Assessment</string>
     <string name="gas_level_updates">Gas Level Updates</string>
     <string name="entry_complete">Entry\nComplete</string>
@@ -363,47 +363,42 @@
     <string name="manhole_ventilation">Manhole Ventilation</string>
     <string name="open_manhole_str">Open manhole to allow adequate ventilation and lower gas monitor to lowest point leaving for at least 5 minutes</string>
     <string name="wait_before_str">Wait before continuing</string>
-    
     <string name="persoal_risk_assement_str">Perosnal Risk Assessment</string>
     <string name="persoal_risk_assement_complete_str">Perosnal Risk Assessment Complete</string>
     <string name="persoal_riskassement_continue_str">You may now continue with the required work</string>
     <string name="tap_done_str">Tap Done to continue</string>
-    <string name="work_in_progree_str">Work in progress</string>
-
+    <string name="work_in_progree_str">Work In Progress...</string>
     <string name="context_work_options">Work Options</string>
     <string name="context_menu_start_confined_space_entry">Start Confined Space Entry</string>
     <string name="context_menu_leave_work">Leave Work</string>
     <string name="context_menu_back">Back</string>
-    
     <string name="topManEditTextError">is required.</string>
     <string name="shiftStartStr">Shift Start</string>
     <string name="shiftStartStrDesc">Your Shift start time will be logged as:</string>
     <string name="closeWorkInProgressToastMsg">Please close work in progress before ending your shift.</string>
-	<string name="tapNextToContinueStr">Tap Next to continue</string>
-	<string name="workEndConfirmation">Work Confirmation</string>
-	<string name="workEndConfirmationMsg">Are you ready to end work with reference</string>
-	<string name="callDAMobileNumber">1234567890</string>
-	<string name="DACallConfirmation">DA Call Confirmation</string>
-	<string name="DACallConfimrationMsg">Did you get through to DA?</string>
-	<string name="callingCardToastMessage">Capture an image of the Calling Card</string>
-	<string name="diameterRequired">Diameter required</string>
-	<string name="length">Length required</string>
-	<string name="traningendmsg">Training complete.</string>
-	<string name="endTrainingWarningMsg">Please end training before ending your shift</string>
-	<string name="startedTrainingMsg">Training started</string>
-	<string name="personalRiskAssesmentHeading">Personal Risk Assessment</string>
-	
-	<string name="lelStr">%LEL</string>
-	<string name="PercentageStr">%</string>
-	<string name="ppmStr">ppm</string>
-	
-	<string name="gpsSwitchedOff">GPS is switched off:</string>
-	<string name="gpsSwitchedOffMessage">Tap settings to enable GPS on your device and then try again.</string>
-	<string name="exitButtonText">Exit</string>
-	<string name="settignsButtonText">Settings</string>
-	<string name="activityTypePollution">Pollution</string>
-	<string name="alertOverTimeHeader">Stay Safe</string>
-	<string name="alertOverTimeMsgOne">You have worked over</string>
-	<string name="alertOverTimeMsgTwo">hours. If you feel unable to carry on please contact your field manager.</string>
-	<string name="onBreak">On break</string>
+    <string name="tapNextToContinueStr">Tap \'Next\' to continue</string>
+    <string name="workEndConfirmation">Work Confirmation</string>
+    <string name="workEndConfirmationMsg">Are you ready to end work with reference</string>
+    <string name="callDAMobileNumber">1234567890</string>
+    <string name="DACallConfirmation">DA Call Confirmation</string>
+    <string name="DACallConfimrationMsg">Did you get through to DA?</string>
+    <string name="callingCardToastMessage">Capture an image of the Calling Card</string>
+    <string name="diameterRequired">Diameter required</string>
+    <string name="length">Length required</string>
+    <string name="traningendmsg">Training complete.</string>
+    <string name="endTrainingWarningMsg">Please end training before ending your shift</string>
+    <string name="startedTrainingMsg">Training Started</string>
+    <string name="personalRiskAssesmentHeading">Personal Risk Assessment</string>
+    <string name="lelStr">%LEL</string>
+    <string name="PercentageStr">%</string>
+    <string name="ppmStr">ppm</string>
+    <string name="gpsSwitchedOff">GPS is switched off:</string>
+    <string name="gpsSwitchedOffMessage">Tap settings to enable GPS on your device and then try again.</string>
+    <string name="exitButtonText">Exit</string>
+    <string name="settignsButtonText">Settings</string>
+    <string name="activityTypePollution">Pollution</string>
+    <string name="alertOverTimeHeader">Stay Safe</string>
+    <string name="alertOverTimeMsgOne">You have worked over</string>
+    <string name="alertOverTimeMsgTwo">hours. If you feel unable to carry on please contact your field manager.</string>
+
 </resources>

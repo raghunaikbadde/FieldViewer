@@ -65,12 +65,12 @@
             android:layout_height="@dimen/checkout_edit_height160"
             android:layout_marginLeft="@dimen/white_lato_regular_small40"
             android:layout_marginRight="@dimen/white_lato_regular_small40"
-            android:background="@drawable/grey_background"
+            android:background="@drawable/edit_text_background"
             android:hint="@string/enter_manager_name"
             android:paddingLeft="@dimen/grey_lato_regular_small35"
             android:paddingRight="@dimen/grey_lato_regular_small35"
             android:singleLine="true"
-            android:textColor="@color/dark_grey"
+            android:textColor="@color/black"
             android:textColorHint="@color/dark_grey"
             android:textSize="@dimen/black_lato_regular_medium45" >
         </EditText>

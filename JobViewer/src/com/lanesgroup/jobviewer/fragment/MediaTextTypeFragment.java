@@ -1,8 +1,5 @@
 package com.lanesgroup.jobviewer.fragment;
 
-import java.io.File;
-import java.io.IOException;
-
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -45,6 +42,9 @@ import com.jobviwer.response.object.ImageUploadResponse;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 import com.vehicle.communicator.HttpConnection;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 
@@ -139,7 +139,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 				count++;
 			}
 		}
-		if (count >= Integer.parseInt(currentScreen.getRequired_images())) {
+		if (count !=0 && count >= Integer.parseInt(currentScreen.getRequired_images())) {
 			enableNextButton(true);
 		} else {
 			enableNextButton(false);
