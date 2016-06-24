@@ -88,6 +88,11 @@ public class WorkWithNoPhotosQuestionManager {
 		addToBackStack(questionMaster.getScreens().getScreen()[0].get_number());
 		return questionMaster.getScreens().getScreen()[0];
 	}
+	
+	public boolean isFirstScreen(Screen screen) {
+		Screen firstScreen = questionMaster.getScreens().getScreen()[0];
+		return screen.equals(firstScreen);
+	}
 
 	public void setQuestionMaster(QuestionMaster master) {
 		questionMaster = master;

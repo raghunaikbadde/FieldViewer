@@ -134,6 +134,10 @@ public class NoPhotosYesNoTypeFragment extends Fragment implements
 				}
 			}
 		});
+		
+		if(WorkWithNoPhotosQuestionManager.getInstance().isFirstScreen(currentScreen)){
+			mCancel.setText(getResources().getString(R.string.cancel));
+		}
 
 	}
 
