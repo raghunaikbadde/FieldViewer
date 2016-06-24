@@ -100,7 +100,7 @@
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:text="@string/enter_the_initial_str"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/black_lato_regular_small55" />
+                    android:textSize="@dimen/white_lato_bold_small50" />
 
                 <LinearLayout
                     android:id="@+id/ch4_layout"

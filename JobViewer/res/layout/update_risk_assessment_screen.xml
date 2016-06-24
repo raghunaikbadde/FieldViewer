@@ -1,19 +1,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"  >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/bottom_buttons"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ScrollView
                 android:id="@+id/scrollView1"
@@ -21,12 +20,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/white_lato_regular_big79"
                 android:layout_marginRight="@dimen/white_lato_regular_big79"
-                android:isScrollContainer="false" >
+                android:isScrollContainer="false">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/update_previous_text"
@@ -55,8 +54,7 @@
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </ListView>
+                android:layout_height="match_parent"></ListView>
         </LinearLayout>
 
         <LinearLayout
@@ -64,9 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/white_lato_regular_big79"
-            android:layout_marginLeft="@dimen/white_lato_regular_big79"
-            android:layout_marginRight="@dimen/white_lato_regular_big79" >
+            android:layout_margin="@dimen/white_lato_regular_big79">
 
             <Button
                 android:id="@+id/button1"

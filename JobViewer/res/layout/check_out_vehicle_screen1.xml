@@ -1,9 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -11,16 +10,16 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottombutton"
         android:layout_alignParentTop="true"
-        android:isScrollContainer="false" >
+        android:isScrollContainer="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/risk_assessment_text"
@@ -53,7 +52,7 @@
                     android:layout_below="@+id/line1"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/progress_step_text"
@@ -101,7 +100,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/user_group_text"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/dialog_detail_bottom_margin95"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
@@ -115,13 +113,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/question_text"
-                    android:layout_centerHorizontal="true" >
+                    android:layout_centerHorizontal="true">
 
                     <RadioGroup
                         android:id="@+id/radioGroup1"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal">
 
                         <RadioButton
                             android:id="@+id/radio_yes"
@@ -158,7 +156,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/dialog_clock_icon_left_right_margin40" >
+        android:layout_marginBottom="@dimen/dialog_clock_icon_left_right_margin40">
 
         <CheckBox
             android:id="@+id/checkBox3"
@@ -175,7 +173,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/checkBox3"
-            android:layout_margin="@dimen/white_lato_regular_big79" >
+            android:layout_margin="@dimen/white_lato_regular_big79">
 
             <Button
                 android:id="@+id/back"

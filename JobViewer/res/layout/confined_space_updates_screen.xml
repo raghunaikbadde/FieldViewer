@@ -128,7 +128,7 @@
 
                 <LinearLayout
                     android:id="@+id/skip_timer"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/welcome_bottom_margin113"
                     android:layout_below="@+id/timer_text"
                     android:layout_centerHorizontal="true"
@@ -137,18 +137,19 @@
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:background="@drawable/grey_stroke_back"
                     android:gravity="center_vertical|center_horizontal"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
+
 
                     <TextView
                         android:id="@+id/tap_to_call_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/text_label_vertical_spacing100"
-                        android:paddingRight="@dimen/text_label_vertical_spacing100"
+                        android:layout_marginLeft="@dimen/actionbar_bottom_margin85"
                         android:text="@string/skip_timer_str"
                         android:textColor="@color/grey"
-                        android:textSize="@dimen/black_lato_regular_small55" />
+                        android:textSize="@dimen/grey_lato_regular_small36" />
                 </LinearLayout>
+
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

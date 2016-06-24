@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,8 +33,8 @@ public class OverrideReasoneDialog extends Activity implements OnClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.getWindow().setBackgroundDrawableResource(
-				android.R.color.transparent);
+		this.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		setContentView(R.layout.override_reason_dialog);
 		mCancel = (Button) findViewById(R.id.dialog_cancel);
 		overrideReasonSpinner = (Spinner) findViewById(R.id.overrideReasonSpinner);

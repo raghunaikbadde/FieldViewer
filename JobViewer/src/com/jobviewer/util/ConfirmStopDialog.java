@@ -31,11 +31,13 @@ public class ConfirmStopDialog extends Dialog implements OnClickListener {
 			String eventType) {
 		super(context);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		this.eventType = eventType;
 		this.mCallback = callback;
 		this.setCancelable(false);
 		setContentView(R.layout.dialog_box3);
-		getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
 		mReasonEditText = (EditText) findViewById(R.id.manager_name_edittext);
 
 		mWorkStop = (Button) findViewById(R.id.dialog_ok);

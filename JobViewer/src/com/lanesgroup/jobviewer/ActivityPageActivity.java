@@ -1,10 +1,5 @@
 package com.lanesgroup.jobviewer;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import org.json.JSONObject;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -53,6 +48,11 @@ import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
 import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
 import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
+
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class ActivityPageActivity extends BaseActivity implements
 		View.OnClickListener, DialogCallback, ConfirmDialogCallback {
@@ -167,11 +167,11 @@ public class ActivityPageActivity extends BaseActivity implements
 					.getQuestionSet(mContext);
 			if (questionSet != null
 					&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
-				mStart.setText("Continue Work In Progress");
-				mStart.setTag("Continue Work In Progress");
+				mStart.setText("Continue work in progress");
+				mStart.setTag("Continue work in progress");
 			} else if (shouldShowWorkInProgress) {
-				mStart.setText("Continue Work In Progress");
-				mStart.setTag("Continue Work In Progress");
+				mStart.setText("Continue work in progress");
+				mStart.setTag("Continue work in progress");
 			} else if (shouldShowWorkInProgressWithNoPhotos
 					|| (WorkWithNoPhotosSurveryJSON != null && !Utils
 							.isNullOrEmpty(WorkWithNoPhotosSurveryJSON
@@ -200,7 +200,7 @@ public class ActivityPageActivity extends BaseActivity implements
 			JSONObject jsonObject = new JSONObject(flagStr);
 			if (jsonObject.has(Constants.CAPTURE_VISTEC_SCREEN)) {
 				if (jsonObject.getBoolean(Constants.CAPTURE_VISTEC_SCREEN)) {
-					mStart.setText("Continue Work In Progress");
+					mStart.setText("Continue work in progress");
 					mStart.setTag("captureVisTecScreen");
 					return;
 				}
@@ -289,10 +289,10 @@ public class ActivityPageActivity extends BaseActivity implements
 					}
 				}
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 
-			if ("Continue Work In Progress".equalsIgnoreCase(tag)) {
+			if ("Continue work in progress".equalsIgnoreCase(tag)) {
 				CheckOutObject checkOutRemember = JobViewerDBHandler
 						.getCheckOutRemember(mContext);
 				SurveyJson questionSet = JobViewerDBHandler
@@ -381,7 +381,7 @@ public class ActivityPageActivity extends BaseActivity implements
 			}
 		} else if (view == mEndOnCall) {
 			if (!mStart.getTag().toString()
-					.contains("Continue Work In Progress")
+					.contains("Continue work in progress")
 					&& !mStart
 							.getTag()
 							.toString()
@@ -894,8 +894,8 @@ public class ActivityPageActivity extends BaseActivity implements
 					"TimeSheetServiceRequests");
 			Utils.StopProgress();
 			JobViewerDBHandler.deleteStartTraining(mContext);
-			mStart.setText("Start...");
-			mStart.setTag("Start...");
+			mStart.setText("Start");
+			mStart.setTag("Start");
 		}
 
 	}
@@ -910,7 +910,7 @@ public class ActivityPageActivity extends BaseActivity implements
 					Log.i("Android", result);
 					Utils.StopProgress();
 					JobViewerDBHandler.deleteStartTraining(mContext);
-					mStart.setText("Start...");
+					mStart.setText("Start");
 					mStart.setTag(Constants.START_TRAINING);
 					Toast.makeText(
 							BaseActivity.context,

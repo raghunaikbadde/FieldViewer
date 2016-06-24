@@ -37,12 +37,15 @@ import com.vehicle.communicator.HttpConnection;
 
 public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 
-	Button mCancel,mEndOnCall;
-	TextView mUserEmail,mVehileUsedHeading,mVehicleUsed,mMileage,mProgressText,mEndTime,mStrokeText,mHeading, mOverrideStartTime;
-	ProgressBar progressBar;
+	private Button mCancel, mEndOnCall;
+	private TextView mUserEmail, mVehileUsedHeading, mVehicleUsed, mMileage,
+			mProgressText, mEndTime, mStrokeText, mHeading, mOverrideStartTime;
+	private ProgressBar progressBar;
 	private ImageView mEditTime;
-	CheckBox mConfirmCheckBox;
-	CheckOutObject checkOutRemember;
+	private CheckBox mConfirmCheckBox;
+	private CheckOutObject checkOutRemember;
+	private TextView shift_end_time_text,user_text;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

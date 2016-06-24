@@ -13,8 +13,8 @@
     <string name="shout_about_safety_h">shout about safety</string>
     <string name="travel_started">Travel started: </string>
     <string name="clock_in_str">Clock-in</string>
-    <string name="start_shift">Start shift</string>
-    <string name="start_on_call">Start on-call</string>
+    <string name="start_shift">Start Shift</string>
+    <string name="start_on_call">Start On-Call</string>
     <string name="start_shift_1">Start shift</string>
     <string name="tmp_date_time">11/06/2015 12:12PM</string>
     <string name="tmp_email_address">tarun@yopmail.com</string>
@@ -36,8 +36,8 @@
     <string name="shift_complete_thank_you">Shift complete - thank you</string>
     <string name="risk_assessment">Risk Assessment</string>
     <string name="stop_work">Stop Work</string>
-    <string name="you_response_indicates">Your response indicates it may not be\nsafe to continue work at this site.\nPlease contact your field manager to\ndiscuss available options as soon as possible</string>
-    <string name="after_contacting">After contacting your field manager, tap\nStop to close the job or Resume to contiune\nfrom the previous question.</string>
+    <string name="you_response_indicates">Your response indicates it may not be\nsafe to continue work at this site.\nPlease contact your field manager to\ndiscuss available options as soon as possible.</string>
+    <string name="after_contacting">After contacting your field manager, tap\n\'Stop\' to close the job or \'Resume\' to contiune\nfrom the previous question.</string>
     <string name="success">Success!</string>
     <string name="vistec_job_number">Vistec Job Number</string>
     <string name="vistec_number">001212QWER</string>
@@ -214,7 +214,7 @@
     <string name="dissolvedOxygen">Dissolved Oxygen (DO)%:</string>
     <string name="upstream">Upstream:</string>
     <string name="downstream">Downstream:</string>
-    <string name="noPreviousQuestionMessage">There are no previous questions. Tap Save or to cancel, press the phone menu button and tap cancel.</string>
+    <string name="noPreviousQuestionMessage">There are no previous questions. Tap \'Save\' or to cancel. press the phone menu button and tap cancel.</string>
     <string name="returnVehicleMsg">Enter details for the vehicle you are returning</string>
     <string name="i_want_to_str">I want to...</string>
     <string name="report_hazard">Report a hazard or near miss</string>
@@ -340,7 +340,7 @@
 	<string name="workWithNoPhotosConfirmation">You should only select this option if someone else in your gang is capturing work and photo data. Do you want to continue?</string>    
     <string name="next_update_str">Next update required in...</string>
     <string name="tmp_timer">00:04:48</string>
-    <string name="skip_timer_str">Skip Timer?</string>
+    <string name="skip_timer_str">Skip timer?</string>
     <string name="confined_space_str">Confined Space\n Risk Assessment</string>
     <string name="gas_level_updates">Gas Level Updates</string>
     <string name="entry_complete">Entry\nComplete</string>
@@ -368,8 +368,8 @@
     <string name="persoal_risk_assement_complete_str">Perosnal Risk Assessment Complete</string>
     <string name="persoal_riskassement_continue_str">You may now continue with the required work</string>
     <string name="tap_done_str">Tap Done to continue</string>
-    <string name="work_in_progree_str">Work In Progress...</string>
-    
+    <string name="work_in_progree_str">Work in progress</string>
+
     <string name="context_work_options">Work Options</string>
     <string name="context_menu_start_confined_space_entry">Start Confined Space Entry</string>
     <string name="context_menu_leave_work">Leave Work</string>
@@ -390,7 +390,7 @@
 	<string name="length">Length required</string>
 	<string name="traningendmsg">Training complete.</string>
 	<string name="endTrainingWarningMsg">Please end training before ending your shift</string>
-	<string name="startedTrainingMsg">Training Started</string>
+	<string name="startedTrainingMsg">Training started</string>
 	<string name="personalRiskAssesmentHeading">Personal Risk Assessment</string>
 	
 	<string name="lelStr">%LEL</string>

@@ -8,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.jobviewer.db.objects.CheckOutObject;
@@ -17,7 +16,7 @@ import com.lanesgroup.jobviewer.R;
 
 public class ConfirmDialog extends Dialog implements OnClickListener {
 
-	private Button mTimeContinue, mTimeCancel;
+	private TextView mTimeContinue, mTimeCancel;
 	private ConfirmDialogCallback mCallback;
 	private ConfirmDialogCallbackForNoPhotos mCallbackForNoPhotos;
 	private Context mContext;
@@ -40,6 +39,9 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 			String eventType) {
 		super(context);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
 		ConfirmDialog.eventType = eventType;
 		this.setCancelable(false);
 		setContentView(R.layout.confirm_dialog);
@@ -47,7 +49,6 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		mHeader.setText(Constants.END_TRAINING_HEADER);
 		mMessage = (TextView) findViewById(R.id.cofirmation_msg_text);
 		String vistecId = "";
-		getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		CheckOutObject checkOutObject = JobViewerDBHandler
 				.getCheckOutRemember(context);
 		if (checkOutObject != null
@@ -77,10 +78,11 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 				.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)) {
 			mMessage.setText(context.getResources().getString(
 					R.string.workEndConfirmationMsg)
-					+ " " + vistecId);
+					+ " " + vistecId +"?");
 			mHeader.setText(context.getResources().getString(
 					R.string.workEndConfirmation));
-		} else if (ConfirmDialog.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)) {
+		} else if (ConfirmDialog.eventType
+				.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)) {
 			mMessage.setText(context.getResources().getString(
 					R.string.DACallConfimrationMsg));
 			mHeader.setText(context.getResources().getString(
@@ -92,9 +94,9 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		mContext = context;
 		mCallback = callback;
 		mCallbackForNoPhotos = null;
-		mTimeCancel = (Button) findViewById(R.id.dialog_cancel);
+		mTimeCancel = (TextView) findViewById(R.id.dialog_cancel);
 		mTimeCancel.setOnClickListener(this);
-		mTimeContinue = (Button) findViewById(R.id.dialog_ok);
+		mTimeContinue = (TextView) findViewById(R.id.dialog_ok);
 		mTimeContinue.setOnClickListener(this);
 	}
 
@@ -103,6 +105,9 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 			String extra) {
 		super(context);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
 		ConfirmDialog.eventType = eventType;
 		this.setCancelable(false);
 		setContentView(R.layout.confirm_dialog);
@@ -140,10 +145,11 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 				.equalsIgnoreCase(ActivityConstants.LEAVE_WORK_CONFIMRATION)) {
 			mMessage.setText(context.getResources().getString(
 					R.string.workEndConfirmationMsg)
-					+ " " + vistecId);
+					+ " " + vistecId +"?");
 			mHeader.setText(context.getResources().getString(
 					R.string.workEndConfirmation));
-		} else if (ConfirmDialog.eventType.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)) {
+		} else if (ConfirmDialog.eventType
+				.equalsIgnoreCase(Constants.TAP_DA_PHONE_CALL)) {
 			mMessage.setText(context.getResources().getString(
 					R.string.DACallConfimrationMsg));
 			mHeader.setText(context.getResources().getString(
@@ -155,9 +161,9 @@ public class ConfirmDialog extends Dialog implements OnClickListener {
 		mContext = context;
 		mCallbackForNoPhotos = callback;
 		mCallback = null;
-		mTimeCancel = (Button) findViewById(R.id.dialog_cancel);
+		mTimeCancel = (TextView) findViewById(R.id.dialog_cancel);
 		mTimeCancel.setOnClickListener(this);
-		mTimeContinue = (Button) findViewById(R.id.dialog_ok);
+		mTimeContinue = (TextView) findViewById(R.id.dialog_ok);
 		mTimeContinue.setOnClickListener(this);
 	}
 

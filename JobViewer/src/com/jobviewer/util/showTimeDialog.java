@@ -45,10 +45,11 @@ public class showTimeDialog extends Dialog implements OnClickListener {
 			String eventType) {
 		super(context);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		this.eventType = eventType;
 		this.setCancelable(false);
 		setContentView(R.layout.dialog_box4);
-		getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		mContext = context;
 		mCallback = callback;
 		mTime = (TextView) findViewById(R.id.time);

@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -57,8 +58,8 @@ public class SelectActivityDialog extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.getWindow().setBackgroundDrawableResource(
-				android.R.color.transparent);
+		this.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		setContentView(R.layout.select_dialog);
 		mContext = this;
 		HashMap<String, Object> map1 = new HashMap<String, Object>();
@@ -112,68 +113,68 @@ public class SelectActivityDialog extends Activity implements
 		});
 
 		// show result
-		findViewById(R.id.dialog_ok)
-				.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						int selected = -1;
-						Intent intent = new Intent();
-						for (int i = 0; i < m_data.size(); i++) // clean
-																// previous
-																// selected
-						{
-							HashMap<String, Object> m = m_data.get(i);
-							Boolean x = (Boolean) m.get("checked");
-							if (x == true) {
-								selected = i;
-								break; // break, since it's a single choice list
-							}
-						}
-						String result = "";
-						if (selected == -1)
-							return;
-						else if (selected == 0) {
-							CheckOutObject checkOutRemember = JobViewerDBHandler
-									.getCheckOutRemember(v.getContext());
-							if (checkOutRemember != null
-									&& ActivityConstants.TRUE
-											.equalsIgnoreCase(checkOutRemember
-													.getIsTravelEnd())) {
-								intent.setClass(SelectActivityDialog.this,
-										NewWorkActivity.class);
-							} else {
-								intent.setClass(SelectActivityDialog.this,
-										TravelToWorkSiteActivity.class);
-							}
-							result = WORK;
-							startActivity(intent);
-						} else if (selected == 1) {
-
-							new ConfirmDialog(v.getContext(),
-									SelectActivityDialog.this,
-									Constants.WORK_NO_PHOTOS_CONFIRMATION, "")
-									.show();
-							result = WORK_NO_PHOTOS;
-							return;
-						}
-
-						else if (selected == 2) {
-							new ConfirmDialog(v.getContext(),
-									SelectActivityDialog.this,
-									Constants.START_TRAINING).show();
-							result = TRAINING;
-							return;
-						}
-						/*
-						 * intent.putExtra("Selected", result);
-						 * setResult(RESULT_OK, intent);
-						 */
-						finish();
+		findViewById(R.id.dialog_ok).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				int selected = -1;
+				Intent intent = new Intent();
+				for (int i = 0; i < m_data.size(); i++) // clean
+														// previous
+														// selected
+				{
+					HashMap<String, Object> m = m_data.get(i);
+					Boolean x = (Boolean) m.get("checked");
+					if (x == true) {
+						selected = i;
+						break; // break, since it's a single choice list
 					}
-				});
+				}
+				String result = "";
+				if (selected == -1)
+					return;
+				else if (selected == 0) {
+					CheckOutObject checkOutRemember = JobViewerDBHandler
+							.getCheckOutRemember(v.getContext());
+					if (checkOutRemember != null
+							&& ActivityConstants.TRUE
+									.equalsIgnoreCase(checkOutRemember
+											.getIsTravelEnd())) {
+						intent.setClass(SelectActivityDialog.this,
+								NewWorkActivity.class);
+					} else {
+						intent.setClass(SelectActivityDialog.this,
+								TravelToWorkSiteActivity.class);
+					}
+					result = WORK;
+					startActivity(intent);
+					finish();
 
-		findViewById(R.id.dialog_cancel)
-				.setOnClickListener(new OnClickListener() {
+				} else if (selected == 1) {
+
+					new ConfirmDialog(mContext, SelectActivityDialog.this,
+							Constants.WORK_NO_PHOTOS_CONFIRMATION, "").show();
+					result = WORK_NO_PHOTOS;
+
+					return;
+				}
+
+				else if (selected == 2) {
+					new ConfirmDialog(mContext, SelectActivityDialog.this,
+							Constants.START_TRAINING).show();
+					result = TRAINING;
+
+					return;
+				}
+				/*
+				 * intent.putExtra("Selected", result); setResult(RESULT_OK,
+				 * intent);
+				 */
+				finish();
+			}
+		});
+
+		findViewById(R.id.dialog_cancel).setOnClickListener(
+				new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {

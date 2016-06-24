@@ -23,8 +23,8 @@ public class Constants {
 	public static final String STARTED = "STARTED";
 	public static final String BREAK_STARTED = "BREAK_STARTED";
 	public static final String TRAVEL_STARTED = "TRAVEL_STARTED";
-	public static final String END_TRAINING = "End Training";
-	public static final String START_TRAINING = "Start Training";
+	public static final String END_TRAINING = "End training";
+	public static final String START_TRAINING = "Start training";
 	public static final String POLLUTION_CONFIRMATION = "pollutionConfirmation";
 	public static final String WORK_NO_PHOTOS_CONFIRMATION = "WORK_NO_PHOTOS_CONFIRMATION";
 	public static final String WORK_NO_PHOTOS = "WORK_NO_PHOTOS";
