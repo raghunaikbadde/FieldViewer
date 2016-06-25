@@ -133,8 +133,11 @@ public class ConfinedEngineerFragment extends Fragment implements
 					bottom_man3_edittext.setText(gasLevel4);
 				}
 			}
-
-			enableNextButton(true);
+			top_man_edittext.addTextChangedListener(this);
+			bottom_man1_edittext.addTextChangedListener(this);
+			bottom_man2_edittext.addTextChangedListener(this);
+			bottom_man3_edittext.addTextChangedListener(this);
+			//enableNextButton(true);
 		}
 		setDataInEditText();
 	}
@@ -454,12 +457,23 @@ public class ConfinedEngineerFragment extends Fragment implements
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		if (!Utils.isNullOrEmpty(top_man_edittext.getText().toString())
-				&& !Utils.isNullOrEmpty(bottom_man1_edittext.getText()
-						.toString())) {
-			enableNextButton(true);
+		if (currentScreen.getInputs().length < 4) {
+			if (!Utils.isNullOrEmpty(top_man_edittext.getText().toString())
+					&& !Utils.isNullOrEmpty(bottom_man1_edittext.getText()
+							.toString())) {
+				enableNextButton(true);
+			} else {
+				enableNextButton(false);
+			}
 		} else {
-			enableNextButton(false);
+			if (!Utils.isNullOrEmpty(top_man_edittext.getText().toString())
+					&& !Utils.isNullOrEmpty(bottom_man1_edittext.getText().toString())
+					&&!Utils.isNullOrEmpty(bottom_man2_edittext.getText().toString())
+					&&!Utils.isNullOrEmpty(bottom_man3_edittext.getText().toString())) {
+				enableNextButton(true);
+			} else {
+				enableNextButton(false);
+			}
 		}
 
 	}
