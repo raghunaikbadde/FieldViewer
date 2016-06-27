@@ -76,8 +76,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/progress_layout"
-        android:layout_margin="@dimen/white_lato_regular_small40"
-        android:gravity="center_horizontal"
+        android:layout_margin="@dimen/red_lato_bold_big90"
         android:text="@string/pollution_detail"
         android:textColor="@color/blackColor"
         android:textSize="@dimen/progressbar_top_margin58" />
@@ -162,6 +161,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:contentDescription="@string/desc"
                                 android:src="@drawable/down_arrow_image" />
                         </RelativeLayout>
 
@@ -202,6 +202,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:contentDescription="@string/desc"
                                 android:src="@drawable/down_arrow_image" />
                         </RelativeLayout>
 
@@ -241,6 +242,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:contentDescription="@string/desc"
                                 android:src="@drawable/down_arrow_image" />
                         </RelativeLayout>
                     </LinearLayout>
@@ -310,6 +312,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:contentDescription="@string/desc"
                                 android:src="@drawable/down_arrow_image" />
                         </RelativeLayout>
 
@@ -350,6 +353,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:contentDescription="@string/desc"
                                 android:src="@drawable/down_arrow_image" />
                         </RelativeLayout>
 
@@ -390,6 +394,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:contentDescription="@string/desc"
                                 android:src="@drawable/down_arrow_image" />
                         </RelativeLayout>
 
@@ -426,7 +431,7 @@
                                 android:layout_height="@dimen/edit_text_height130"
                                 android:layout_marginLeft="@dimen/template_spacing15"
                                 android:layout_marginRight="@dimen/template_spacing15"
-                                android:background="@drawable/grey_background"
+                                android:background="@drawable/edit_text_background"
                                 android:gravity="center"
                                 android:hint="@string/tmp_number"
                                 android:inputType="number"
@@ -434,7 +439,7 @@
                                 android:singleLine="true"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/black"
-                                android:textSize="@dimen/white_lato_bold_small50"></EditText>
+                                android:textSize="@dimen/white_lato_bold_small50" />
 
                             <Button
                                 android:id="@+id/takePicture_upstream"
@@ -472,7 +477,7 @@
                                 android:layout_height="@dimen/edit_text_height130"
                                 android:layout_marginLeft="@dimen/template_spacing15"
                                 android:layout_marginRight="@dimen/template_spacing15"
-                                android:background="@drawable/grey_background"
+                                android:background="@drawable/edit_text_background"
                                 android:gravity="center"
                                 android:hint="@string/tmp_number"
                                 android:inputType="number"
@@ -480,7 +485,7 @@
                                 android:singleLine="true"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/black"
-                                android:textSize="@dimen/white_lato_bold_small50"></EditText>
+                                android:textSize="@dimen/white_lato_bold_small50" />
 
                             <Button
                                 android:id="@+id/takePicture_downstream"
@@ -532,6 +537,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:contentDescription="@string/desc"
                                 android:src="@drawable/down_arrow_image" />
                         </RelativeLayout>
 
@@ -573,6 +579,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                                android:contentDescription="@string/desc"
                                 android:src="@drawable/down_arrow_image" />
                         </RelativeLayout>
                     </LinearLayout>
@@ -607,7 +614,7 @@
                         android:layout_marginLeft="@dimen/white_lato_regular_small40"
                         android:layout_marginRight="@dimen/white_lato_regular_small40"
                         android:layout_marginTop="@dimen/template_spacing15"
-                        android:background="@drawable/grey_background">
+                        android:background="@drawable/edit_text_background">
 
                         <TextView
                             android:id="@+id/indicativeCause"
@@ -625,6 +632,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                            android:contentDescription="@string/desc"
                             android:src="@drawable/down_arrow_image" />
                     </RelativeLayout>
 
@@ -648,7 +656,7 @@
                         android:layout_marginLeft="@dimen/white_lato_regular_small40"
                         android:layout_marginRight="@dimen/white_lato_regular_small40"
                         android:layout_marginTop="@dimen/template_spacing15"
-                        android:background="@drawable/grey_background">
+                        android:background="@drawable/edit_text_background">
 
                         <TextView
                             android:id="@+id/additionalED"
@@ -666,6 +674,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/lanes_logo_bottom_margin23"
+                            android:contentDescription="@string/desc"
                             android:src="@drawable/down_arrow_image" />
                     </RelativeLayout>
                 </LinearLayout>

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dialog_width920"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialog_info"
@@ -20,13 +20,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dialog_detail_bottom_margin95"
-            android:layout_marginTop="@dimen/dialog_edit_bottom_margin90" >
+            android:layout_marginTop="@dimen/dialog_edit_bottom_margin90">
 
             <ImageView
                 android:id="@+id/info_image"
@@ -34,6 +34,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/white_lato_regular_small40"
                 android:layout_marginRight="@dimen/white_lato_regular_small40"
+                android:contentDescription="@string/desc"
                 android:gravity="center_vertical"
                 android:src="@drawable/info_image_rubine_red" />
 
@@ -63,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/screen_border_margin80"
-            android:layout_marginTop="@dimen/dialog_detail_bottom_margin95" >
+            android:layout_marginTop="@dimen/dialog_detail_bottom_margin95">
 
             <CheckBox
                 android:id="@+id/checkBox1"
@@ -93,7 +94,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_button_height152"
-        android:layout_below="@id/dialog_info" >
+        android:layout_below="@id/dialog_info">
 
         <Button
             android:id="@+id/dialog_cancel"

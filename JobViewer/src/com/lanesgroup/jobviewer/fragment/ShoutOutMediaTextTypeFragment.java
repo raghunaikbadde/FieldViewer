@@ -1,8 +1,5 @@
 package com.lanesgroup.jobviewer.fragment;
 
-import java.io.File;
-import java.io.IOException;
-
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -51,6 +48,9 @@ import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.raghu.ShoutOutBackLogRequest;
 import com.vehicle.communicator.HttpConnection;
+
+import java.io.File;
+import java.io.IOException;
 
 public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		OnClickListener {
@@ -109,12 +109,12 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		com.jobviewer.survey.object.Button[] buttons = currentScreen
 				.getButtons().getButton();
 
-		for (int i = 0; i < buttons.length; i++) {
+		for (com.jobviewer.survey.object.Button button: buttons) {
 			if (ActivityConstants.TRUE
-					.equalsIgnoreCase(buttons[i].getDisplay())
-					&& !"next".equalsIgnoreCase(buttons[i].getName())) {
+					.equalsIgnoreCase(button.getDisplay())
+					&& !"next".equalsIgnoreCase(button.getName())) {
 				mSave.setText(getResources().getString(
-						Utils.getButtonText(buttons[i].getName())));
+						Utils.getButtonText(button.getName())));
 				break;
 			}
 		}
@@ -141,9 +141,9 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	private void loadImages(byte[] getbyteArrayFromBase64String) {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				500, 420);
-		layoutParams.setMargins(0, 30, 0, 30);
+		layoutParams.setMargins(15, 15, 15, 15);
 		mCapturedImage = new ImageView(getActivity());
-		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
+		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap().override(350, 420)
 				.into(mCapturedImage);
 		linearLayout.addView(mCapturedImage, layoutParams);
 	}
@@ -292,7 +292,6 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 
 			values.put("created_by", userProfile.getEmail());
 
-			GPSTracker gpsTracker = new GPSTracker(getActivity());
 
 			values.put("survey_json", obj.getQuestionSet());
 			Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST

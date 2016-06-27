@@ -125,16 +125,16 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/checkout_edit_height160"
                         android:layout_weight="8"
-                        android:background="@drawable/grey_background"
+                        android:background="@drawable/edit_text_background"
                         android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
                         android:paddingBottom="@dimen/grey_lato_regular_small35"
                         android:paddingLeft="@dimen/grey_lato_regular_small35"
                         android:paddingRight="@dimen/grey_lato_regular_small35"
                         android:paddingTop="@dimen/grey_lato_regular_small35"
                         android:singleLine="true"
-                        android:textColor="@color/dark_grey"
+                        android:textColor="@color/black"
                         android:textColorHint="@color/dark_grey"
-                        android:textSize="@dimen/black_lato_regular_medium45"></EditText>
+                        android:textSize="@dimen/black_lato_regular_medium45"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -173,16 +173,16 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/checkout_edit_height160"
                         android:layout_weight="8"
-                        android:background="@drawable/grey_background"
+                        android:background="@drawable/edit_text_background"
                         android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
                         android:paddingBottom="@dimen/grey_lato_regular_small35"
                         android:paddingLeft="@dimen/grey_lato_regular_small35"
                         android:paddingRight="@dimen/grey_lato_regular_small35"
                         android:paddingTop="@dimen/grey_lato_regular_small35"
                         android:singleLine="true"
-                        android:textColor="@color/dark_grey"
+                        android:textColor="@color/black"
                         android:textColorHint="@color/dark_grey"
-                        android:textSize="@dimen/black_lato_regular_medium45"></EditText>
+                        android:textSize="@dimen/black_lato_regular_medium45"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -222,16 +222,16 @@
                         android:layout_height="@dimen/checkout_edit_height160"
                         android:layout_below="@+id/bottom_man2_text"
                         android:layout_weight="8"
-                        android:background="@drawable/grey_background"
+                        android:background="@drawable/edit_text_background"
                         android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
                         android:paddingBottom="@dimen/grey_lato_regular_small35"
                         android:paddingLeft="@dimen/grey_lato_regular_small35"
                         android:paddingRight="@dimen/grey_lato_regular_small35"
                         android:paddingTop="@dimen/grey_lato_regular_small35"
                         android:singleLine="true"
-                        android:textColor="@color/dark_grey"
+                        android:textColor="@color/black"
                         android:textColorHint="@color/dark_grey"
-                        android:textSize="@dimen/black_lato_regular_medium45"></EditText>
+                        android:textSize="@dimen/black_lato_regular_medium45"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -271,16 +271,16 @@
                         android:layout_height="@dimen/checkout_edit_height160"
                         android:layout_below="@+id/bottom_man3_text"
                         android:layout_weight="8"
-                        android:background="@drawable/grey_background"
+                        android:background="@drawable/edit_text_background"
                         android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
                         android:paddingBottom="@dimen/grey_lato_regular_small35"
                         android:paddingLeft="@dimen/grey_lato_regular_small35"
                         android:paddingRight="@dimen/grey_lato_regular_small35"
                         android:paddingTop="@dimen/grey_lato_regular_small35"
                         android:singleLine="true"
-                        android:textColor="@color/dark_grey"
+                        android:textColor="@color/black"
                         android:textColorHint="@color/dark_grey"
-                        android:textSize="@dimen/black_lato_regular_medium45"></EditText>
+                        android:textSize="@dimen/black_lato_regular_medium45"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -301,10 +301,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/white_lato_regular_big79"
-        android:layout_marginLeft="@dimen/white_lato_regular_big79"
-        android:layout_marginRight="@dimen/white_lato_regular_big79"
-        android:layout_marginTop="@dimen/title_bottom_margin27">
+        android:layout_margin="@dimen/white_lato_regular_big79">
 
         <Button
             android:id="@+id/saveBtn"

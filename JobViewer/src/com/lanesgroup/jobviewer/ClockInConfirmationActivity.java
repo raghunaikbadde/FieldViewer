@@ -1,8 +1,5 @@
 package com.lanesgroup.jobviewer;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -25,7 +22,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
-import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
@@ -42,6 +38,9 @@ import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 import com.jobviwer.service.OverTimeAlertService;
 import com.vehicle.communicator.HttpConnection;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class ClockInConfirmationActivity extends BaseActivity implements
 		OnClickListener, DialogCallback {
@@ -148,8 +147,6 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				clockin_text.setText(context.getString(R.string.start_on_call));
 				shift_start_time_text.setText(context.getString(R.string.on_call_start_time));
 				mClockIn.setText(context.getString(R.string.start_on_call));
-			} else {
-
 			}
 		}
 	}
@@ -175,7 +172,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		} else if (view == mClockIn) {
 			JobViewerDBHandler.saveCheckOutRemember(this, Utils.checkOutObject);
 			Bundle bundle = getIntent().getExtras();
-			BackLogRequest backLogRequest = new BackLogRequest();
+//			BackLogRequest backLogRequest = new BackLogRequest();
 			User userProfile = JobViewerDBHandler.getUserProfile(view
 					.getContext());
 			if (!Utils.isInternetAvailable(ClockInConfirmationActivity.this)) {
@@ -487,13 +484,13 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				Utils.startShiftTimeRequest.getOverride_timestamp());
 		data.put("reference_id", Utils.startShiftTimeRequest.getReference_id());
 		data.put("user_id", Utils.startShiftTimeRequest.getUser_id());
-		String time = "";
-		if (Utils.isNullOrEmpty(Utils.startShiftTimeRequest
-				.getOverride_timestamp())) {
-			time = Utils.startShiftTimeRequest.getOverride_timestamp();
-		} else {
-			time = Utils.startShiftTimeRequest.getStarted_at();
-		}
+//		String time = "";
+//		if (Utils.isNullOrEmpty(Utils.startShiftTimeRequest
+//				.getOverride_timestamp())) {
+//			time = Utils.startShiftTimeRequest.getOverride_timestamp();
+//		} else {
+//			time = Utils.startShiftTimeRequest.getStarted_at();
+//		}
 
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.START_SHIFT_API, data, getStartShiftHandler());
@@ -521,13 +518,13 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				Utils.callStartTimeRequest.getOverride_timestamp());
 		data.put("reference_id", Utils.callStartTimeRequest.getReference_id());
 		data.put("user_id", Utils.callStartTimeRequest.getUser_id());
-		String time = "";
-		if (Utils.isNullOrEmpty(Utils.callStartTimeRequest
-				.getOverride_timestamp())) {
-			time = Utils.callStartTimeRequest.getOverride_timestamp();
-		} else {
-			time = Utils.callStartTimeRequest.getStarted_at();
-		}
+//		String time = "";
+//		if (Utils.isNullOrEmpty(Utils.callStartTimeRequest
+//				.getOverride_timestamp())) {
+//			time = Utils.callStartTimeRequest.getOverride_timestamp();
+//		} else {
+//			time = Utils.callStartTimeRequest.getStarted_at();
+//		}
 
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.START_ON_CALL_API, data, getStartShiftHandler());
@@ -554,13 +551,13 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				Utils.callEndTimeRequest.getOverride_timestamp());
 		data.put("reference_id", Utils.callEndTimeRequest.getReference_id());
 		data.put("user_id", Utils.callEndTimeRequest.getUser_id());
-		String time = "";
-		if (Utils.isNullOrEmpty(Utils.callEndTimeRequest
-				.getOverride_timestamp())) {
-			time = Utils.callEndTimeRequest.getOverride_timestamp();
-		} else {
-			time = Utils.callEndTimeRequest.getStarted_at();
-		}
+//		String time = "";
+//		if (Utils.isNullOrEmpty(Utils.callEndTimeRequest
+//				.getOverride_timestamp())) {
+//			time = Utils.callEndTimeRequest.getOverride_timestamp();
+//		} else {
+//			time = Utils.callEndTimeRequest.getStarted_at();
+//		}
 
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.END_ON_CALL_API, data,
@@ -587,12 +584,12 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				Utils.endShiftRequest.getOverride_timestamp());
 		data.put("reference_id", Utils.endShiftRequest.getReference_id());
 		data.put("user_id", Utils.endShiftRequest.getUser_id());
-		String time = "";
-		if (Utils.isNullOrEmpty(Utils.endShiftRequest.getOverride_timestamp())) {
-			time = Utils.endShiftRequest.getOverride_timestamp();
-		} else {
-			time = Utils.endShiftRequest.getStarted_at();
-		}
+//		String time = "";
+//		if (Utils.isNullOrEmpty(Utils.endShiftRequest.getOverride_timestamp())) {
+//			time = Utils.endShiftRequest.getOverride_timestamp();
+//		} else {
+//			time = Utils.endShiftRequest.getStarted_at();
+//		}
 
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.END_SHIFT_API, data, getEndCallOrShiftHandler());

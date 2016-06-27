@@ -27,253 +27,253 @@ import com.jobviwer.request.object.TimeSheetRequest;
 import com.vehicle.communicator.HttpConnection;
 
 public class TravelToWorkSiteActivity extends BaseActivity implements
-		OnClickListener, DialogCallback {
+        OnClickListener, DialogCallback {
 
-	private Button mStartTravel, mCancel;
-	private Context mContext;
+    private Button mStartTravel, mCancel;
+    private Context mContext;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mContext = this;
-		Utils.startTravelTimeRequest = new TimeSheetRequest();
-		setContentView(R.layout.travel_to_work_site_screen);
-		mStartTravel = (Button) findViewById(R.id.start);
-		mStartTravel.setOnClickListener(this);
-		mCancel = (Button) findViewById(R.id.button1);
-		mCancel.setOnClickListener(this);
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = this;
+        Utils.startTravelTimeRequest = new TimeSheetRequest();
+        setContentView(R.layout.travel_to_work_site_screen);
+        mStartTravel = (Button) findViewById(R.id.start);
+        mStartTravel.setOnClickListener(this);
+        mCancel = (Button) findViewById(R.id.button1);
+        mCancel.setOnClickListener(this);
+    }
 
-	@Override
-	public void onContinue() {
-		if (Utils.isInternetAvailable(mContext)) {
-			JobViewerDBHandler.saveTimeSheet(mContext,
-					Utils.startTravelTimeRequest,
-					CommsConstant.START_TRAVEL_API);
-			executeStartTravelService();
-		} else {
-			Utils.saveTimeSheetInBackLogTable(TravelToWorkSiteActivity.this, Utils.startTravelTimeRequest, CommsConstant.START_TRAVEL_API, "TimeSheetServiceRequests");
-			JobViewerDBHandler.saveTimeSheet(mContext,
-					Utils.startTravelTimeRequest,
-					CommsConstant.START_TRAVEL_API);
-			CheckOutObject checkOutRemember = JobViewerDBHandler
-					.getCheckOutRemember(mContext);
-			checkOutRemember.setIsStartedTravel("true");
-			checkOutRemember.setTravelStartedTime(Utils.startTravelTimeRequest.getStarted_at());
-			JobViewerDBHandler.saveCheckOutRemember(mContext, checkOutRemember);
-			Intent intent = new Intent(TravelToWorkSiteActivity.this,
-					EndTravelActivity.class);
-			CheckAndCcontinueNoWork(intent);
-			intent.putExtra("eventType", "End Travel");
-			if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
-					.getOverride_timestamp())) {
-				intent.putExtra(Constants.TIME,
-						Utils.startTravelTimeRequest.getStarted_at());
-			} else {
-				intent.putExtra(Constants.TIME,
-						Utils.startTravelTimeRequest.getStarted_at());
-				intent.putExtra(Constants.OVERRIDE_TIME,
-						Utils.startTravelTimeRequest.getOverride_timestamp());
-			}
-			insertStartTravelTimeRequestInDB();
-			startActivity(intent);
-		}
-	}
+    @Override
+    public void onContinue() {
+        if (Utils.isInternetAvailable(mContext)) {
+            JobViewerDBHandler.saveTimeSheet(mContext,
+                    Utils.startTravelTimeRequest,
+                    CommsConstant.START_TRAVEL_API);
+            executeStartTravelService();
+        } else {
+            Utils.saveTimeSheetInBackLogTable(TravelToWorkSiteActivity.this, Utils.startTravelTimeRequest, CommsConstant.START_TRAVEL_API, "TimeSheetServiceRequests");
+            JobViewerDBHandler.saveTimeSheet(mContext,
+                    Utils.startTravelTimeRequest,
+                    CommsConstant.START_TRAVEL_API);
+            CheckOutObject checkOutRemember = JobViewerDBHandler
+                    .getCheckOutRemember(mContext);
+            checkOutRemember.setIsStartedTravel("true");
+            checkOutRemember.setTravelStartedTime(Utils.startTravelTimeRequest.getStarted_at());
+            JobViewerDBHandler.saveCheckOutRemember(mContext, checkOutRemember);
+            Intent intent = new Intent(TravelToWorkSiteActivity.this,
+                    EndTravelActivity.class);
+            CheckAndCcontinueNoWork(intent);
+            intent.putExtra("eventType", "End Travel");
+            if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
+                    .getOverride_timestamp())) {
+                intent.putExtra(Constants.TIME,
+                        Utils.startTravelTimeRequest.getStarted_at());
+            } else {
+                intent.putExtra(Constants.TIME,
+                        Utils.startTravelTimeRequest.getStarted_at());
+                intent.putExtra(Constants.OVERRIDE_TIME,
+                        Utils.startTravelTimeRequest.getOverride_timestamp());
+            }
+            insertStartTravelTimeRequestInDB();
+            startActivity(intent);
+        }
+    }
 
-	private void CheckAndCcontinueNoWork(Intent intent) {
-		Bundle bundle = getIntent().getExtras();
-		if(bundle!=null && bundle.containsKey(Constants.WORK_NO_PHOTOS)){
-			intent.putExtra(Constants.WORK_NO_PHOTOS, Constants.WORK_NO_PHOTOS);
-		}
-	}
+    private void CheckAndCcontinueNoWork(Intent intent) {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null && bundle.containsKey(Constants.WORK_NO_PHOTOS)) {
+            intent.putExtra(Constants.WORK_NO_PHOTOS, Constants.WORK_NO_PHOTOS);
+        }
+    }
 
-	@Override
-	public void onDismiss() {
-		// TODO Auto-generated method stub
+    @Override
+    public void onDismiss() {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void onClick(View view) {
-		if (view == mStartTravel)
-			new showTimeDialog(this, this, "travel").show();
-		else if (view == mCancel)
-			finish();
-	}
+    @Override
+    public void onClick(View view) {
+        if (view == mStartTravel)
+            new showTimeDialog(this, this, "travel").show();
+        else if (view == mCancel)
+            finish();
+    }
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == Constants.RESULT_CODE_CHANGE_TIME
-				&& resultCode == RESULT_OK) {
-			if (Utils.timeSheetRequest != null
-					&& ActivityConstants.TRUE
-							.equalsIgnoreCase(Utils.timeSheetRequest
-									.getIs_overriden())) {
-				Intent intent = new Intent(this, OverrideReasoneDialog.class);
-				intent.putExtra("eventType", "start");
-				startActivityForResult(intent,
-						Constants.RESULT_CODE_OVERRIDE_COMMENT);
-			} else if (Utils.startTravelTimeRequest != null
-					&& ActivityConstants.TRUE
-							.equalsIgnoreCase(Utils.startTravelTimeRequest
-									.getIs_overriden())) {
-				Intent intent = new Intent(this, OverrideReasoneDialog.class);
-				intent.putExtra("eventType", "travel");
-				startActivityForResult(intent,
-						Constants.RESULT_CODE_OVERRIDE_COMMENT);
-			} else {
-				startEndActvity();
-				String time = data.getExtras().get(Constants.TIME).toString();
-				Intent intent = new Intent(this, EndTravelActivity.class);
-				CheckAndCcontinueNoWork(intent);
-				intent.putExtra(Constants.STARTED, "End Travel");
-				if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
-						.getOverride_timestamp())) {
-					intent.putExtra(Constants.TIME,
-							Utils.startTravelTimeRequest.getStarted_at());
-				} else {
-					intent.putExtra(Constants.TIME,
-							Utils.startTravelTimeRequest.getStarted_at());
-					intent.putExtra(Constants.OVERRIDE_TIME,
-							Utils.startTravelTimeRequest.getOverride_timestamp());
-				}
-				startActivity(intent);
-			}
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.RESULT_CODE_CHANGE_TIME
+                && resultCode == RESULT_OK) {
+            if (Utils.timeSheetRequest != null
+                    && ActivityConstants.TRUE
+                    .equalsIgnoreCase(Utils.timeSheetRequest
+                            .getIs_overriden())) {
+                Intent intent = new Intent(this, OverrideReasoneDialog.class);
+                intent.putExtra("eventType", "start");
+                startActivityForResult(intent,
+                        Constants.RESULT_CODE_OVERRIDE_COMMENT);
+            } else if (Utils.startTravelTimeRequest != null
+                    && ActivityConstants.TRUE
+                    .equalsIgnoreCase(Utils.startTravelTimeRequest
+                            .getIs_overriden())) {
+                Intent intent = new Intent(this, OverrideReasoneDialog.class);
+                intent.putExtra("eventType", "travel");
+                startActivityForResult(intent,
+                        Constants.RESULT_CODE_OVERRIDE_COMMENT);
+            } else {
+                startEndActvity();
+//				String time = data.getExtras().get(Constants.TIME).toString();
+                Intent intent = new Intent(this, EndTravelActivity.class);
+                CheckAndCcontinueNoWork(intent);
+                intent.putExtra(Constants.STARTED, "End Travel");
+                if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
+                        .getOverride_timestamp())) {
+                    intent.putExtra(Constants.TIME,
+                            Utils.startTravelTimeRequest.getStarted_at());
+                } else {
+                    intent.putExtra(Constants.TIME,
+                            Utils.startTravelTimeRequest.getStarted_at());
+                    intent.putExtra(Constants.OVERRIDE_TIME,
+                            Utils.startTravelTimeRequest.getOverride_timestamp());
+                }
+                startActivity(intent);
+            }
 
-		} else if (requestCode == Constants.RESULT_CODE_OVERRIDE_COMMENT
-				&& resultCode == RESULT_OK) {
+        } else if (requestCode == Constants.RESULT_CODE_OVERRIDE_COMMENT
+                && resultCode == RESULT_OK) {
 
-			if (!Utils.isInternetAvailable(this)) {
-				JobViewerDBHandler.saveTimeSheet(this,
-						Utils.startTravelTimeRequest,
-						CommsConstant.START_TRAVEL_API);
-				JobViewerDBHandler.getAllTimeSheet(mContext);
-				Utils.saveTimeSheetInBackLogTable(
-						TravelToWorkSiteActivity.this,
-						Utils.startTravelTimeRequest,
-						CommsConstant.START_TRAVEL_API, Utils.REQUEST_TYPE_WORK);
-				CheckOutObject checkOutRemember = JobViewerDBHandler
-						.getCheckOutRemember(mContext);
-				checkOutRemember.setIsStartedTravel("true");
-				if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
-						.getOverride_timestamp())) {
-					checkOutRemember
-							.setTravelStartedTime(Utils.startTravelTimeRequest
-									.getStarted_at());
-				} else {
-					checkOutRemember
-							.setTravelStartedTime(Utils.startTravelTimeRequest
-									.getOverride_timestamp());
-				}
-				JobViewerDBHandler.saveCheckOutRemember(mContext,
-						checkOutRemember);
-				startEndActvity();
-			} else {
-				executeStartTravelService();
-			}
-		}
-	}
+            if (!Utils.isInternetAvailable(this)) {
+                JobViewerDBHandler.saveTimeSheet(this,
+                        Utils.startTravelTimeRequest,
+                        CommsConstant.START_TRAVEL_API);
+                JobViewerDBHandler.getAllTimeSheet(mContext);
+                Utils.saveTimeSheetInBackLogTable(
+                        TravelToWorkSiteActivity.this,
+                        Utils.startTravelTimeRequest,
+                        CommsConstant.START_TRAVEL_API, Utils.REQUEST_TYPE_WORK);
+                CheckOutObject checkOutRemember = JobViewerDBHandler
+                        .getCheckOutRemember(mContext);
+                checkOutRemember.setIsStartedTravel("true");
+                if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
+                        .getOverride_timestamp())) {
+                    checkOutRemember
+                            .setTravelStartedTime(Utils.startTravelTimeRequest
+                                    .getStarted_at());
+                } else {
+                    checkOutRemember
+                            .setTravelStartedTime(Utils.startTravelTimeRequest
+                                    .getOverride_timestamp());
+                }
+                JobViewerDBHandler.saveCheckOutRemember(mContext,
+                        checkOutRemember);
+                startEndActvity();
+            } else {
+                executeStartTravelService();
+            }
+        }
+    }
 
-	private void executeStartTravelService() {
-		if(Utils.isInternetAvailable(TravelToWorkSiteActivity.this)){
-			ContentValues data = new ContentValues();
-			data.put("started_at", Utils.startTravelTimeRequest.getStarted_at());
-			data.put("record_for", Utils.startTravelTimeRequest.getRecord_for());
-			data.put("is_inactive", Utils.startTravelTimeRequest.getIs_inactive());
-			data.put("is_overriden", Utils.startTravelTimeRequest.getIs_overriden());
-			data.put("override_reason",
-					Utils.startTravelTimeRequest.getOverride_reason());
-			data.put("override_comment",
-					Utils.startTravelTimeRequest.getOverride_comment());
-			data.put("override_timestamp",
-					Utils.startTravelTimeRequest.getOverride_timestamp());
-			data.put("reference_id", Utils.startTravelTimeRequest.getReference_id());
-			data.put("user_id", Utils.startTravelTimeRequest.getUser_id());
-			Utils.startProgress(this);
-			Utils.SendHTTPRequest(this, CommsConstant.HOST
-					+ CommsConstant.START_TRAVEL_API, data, getStartTravelHandler());
-		} else {
-			Utils.saveTimeSheetInBackLogTable(TravelToWorkSiteActivity.this, Utils.startTravelTimeRequest, CommsConstant.START_TRAVEL_API, "TimeSheetServiceRequests");
-		}
+    private void executeStartTravelService() {
+        if (Utils.isInternetAvailable(TravelToWorkSiteActivity.this)) {
+            ContentValues data = new ContentValues();
+            data.put("started_at", Utils.startTravelTimeRequest.getStarted_at());
+            data.put("record_for", Utils.startTravelTimeRequest.getRecord_for());
+            data.put("is_inactive", Utils.startTravelTimeRequest.getIs_inactive());
+            data.put("is_overriden", Utils.startTravelTimeRequest.getIs_overriden());
+            data.put("override_reason",
+                    Utils.startTravelTimeRequest.getOverride_reason());
+            data.put("override_comment",
+                    Utils.startTravelTimeRequest.getOverride_comment());
+            data.put("override_timestamp",
+                    Utils.startTravelTimeRequest.getOverride_timestamp());
+            data.put("reference_id", Utils.startTravelTimeRequest.getReference_id());
+            data.put("user_id", Utils.startTravelTimeRequest.getUser_id());
+            Utils.startProgress(this);
+            Utils.SendHTTPRequest(this, CommsConstant.HOST
+                    + CommsConstant.START_TRAVEL_API, data, getStartTravelHandler());
+        } else {
+            Utils.saveTimeSheetInBackLogTable(TravelToWorkSiteActivity.this, Utils.startTravelTimeRequest, CommsConstant.START_TRAVEL_API, "TimeSheetServiceRequests");
+        }
 
-	}
+    }
 
-	private Handler getStartTravelHandler() {
-		Handler handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case HttpConnection.DID_SUCCEED:
-					Utils.StopProgress();
-					CheckOutObject checkOutRemember = JobViewerDBHandler
-							.getCheckOutRemember(mContext);
-					checkOutRemember.setIsStartedTravel("true");
-					if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
-							.getOverride_timestamp())) {
-						checkOutRemember
-								.setTravelStartedTime(Utils.startTravelTimeRequest
-										.getStarted_at());
-					} else {
-						checkOutRemember
-								.setTravelStartedTime(Utils.startTravelTimeRequest
-										.getOverride_timestamp());
-					}
-					insertStartTravelTimeRequestInDB();
-					JobViewerDBHandler.saveCheckOutRemember(mContext,
-							checkOutRemember);
-					startEndActvity();
-					break;
-				case HttpConnection.DID_ERROR:
-					Utils.StopProgress();
-					String error = (String) msg.obj;
-					VehicleException exception = GsonConverter
-							.getInstance()
-							.decodeFromJsonString(error, VehicleException.class);
-					insertStartTravelTimeRequestInDB();
-					ExceptionHandler.showException(mContext, exception, "Info");
-					Utils.saveTimeSheetInBackLogTable(
-							TravelToWorkSiteActivity.this,
-							Utils.startTravelTimeRequest,
-							CommsConstant.START_TRAVEL_API,
-							Utils.REQUEST_TYPE_WORK);
-					// saveStartTravelInBackLogDb();
-					break;
-				default:
-					break;
-				}
-			}
-		};
-		return handler;
-	}
+    private Handler getStartTravelHandler() {
+        Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case HttpConnection.DID_SUCCEED:
+                        Utils.StopProgress();
+                        CheckOutObject checkOutRemember = JobViewerDBHandler
+                                .getCheckOutRemember(mContext);
+                        checkOutRemember.setIsStartedTravel("true");
+                        if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
+                                .getOverride_timestamp())) {
+                            checkOutRemember
+                                    .setTravelStartedTime(Utils.startTravelTimeRequest
+                                            .getStarted_at());
+                        } else {
+                            checkOutRemember
+                                    .setTravelStartedTime(Utils.startTravelTimeRequest
+                                            .getOverride_timestamp());
+                        }
+                        insertStartTravelTimeRequestInDB();
+                        JobViewerDBHandler.saveCheckOutRemember(mContext,
+                                checkOutRemember);
+                        startEndActvity();
+                        break;
+                    case HttpConnection.DID_ERROR:
+                        Utils.StopProgress();
+                        String error = (String) msg.obj;
+                        VehicleException exception = GsonConverter
+                                .getInstance()
+                                .decodeFromJsonString(error, VehicleException.class);
+                        insertStartTravelTimeRequestInDB();
+                        ExceptionHandler.showException(mContext, exception, "Info");
+                        Utils.saveTimeSheetInBackLogTable(
+                                TravelToWorkSiteActivity.this,
+                                Utils.startTravelTimeRequest,
+                                CommsConstant.START_TRAVEL_API,
+                                Utils.REQUEST_TYPE_WORK);
+                        // saveStartTravelInBackLogDb();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        return handler;
+    }
 
-	private void startEndActvity() {
-		Intent intent = new Intent(this, EndTravelActivity.class);
-		CheckAndCcontinueNoWork(intent);
-		intent.putExtra("eventType", "End Travel");
-		if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
-				.getOverride_timestamp())) {
-			intent.putExtra(Constants.TIME,
-					Utils.startTravelTimeRequest.getStarted_at());
-		} else {
-			intent.putExtra(Constants.TIME,
-					Utils.startTravelTimeRequest.getStarted_at());
-			intent.putExtra(Constants.OVERRIDE_TIME,
-					Utils.startTravelTimeRequest.getOverride_timestamp());
-		}
-		startActivity(intent);
+    private void startEndActvity() {
+        Intent intent = new Intent(this, EndTravelActivity.class);
+        CheckAndCcontinueNoWork(intent);
+        intent.putExtra("eventType", "End Travel");
+        if (Utils.isNullOrEmpty(Utils.startTravelTimeRequest
+                .getOverride_timestamp())) {
+            intent.putExtra(Constants.TIME,
+                    Utils.startTravelTimeRequest.getStarted_at());
+        } else {
+            intent.putExtra(Constants.TIME,
+                    Utils.startTravelTimeRequest.getStarted_at());
+            intent.putExtra(Constants.OVERRIDE_TIME,
+                    Utils.startTravelTimeRequest.getOverride_timestamp());
+        }
+        startActivity(intent);
 
-	}
+    }
 
-	private void insertStartTravelTimeRequestInDB(){
-		String timeToStore = Utils.getMillisFromFormattedDate(Utils.startTravelTimeRequest.getStarted_at());
-		if(Utils.startTravelTimeRequest.getIs_overriden().equalsIgnoreCase(ActivityConstants.TRUE))
-			timeToStore = Utils.getMillisFromFormattedDate(Utils.startTravelTimeRequest.getOverride_timestamp());
-		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(TravelToWorkSiteActivity.this);
-		breakShiftTravelCall.setTravelStarted(Constants.YES_CONSTANT);
-		breakShiftTravelCall.setTravelStartedTime(timeToStore);
-		JobViewerDBHandler.saveBreakShiftTravelCall(TravelToWorkSiteActivity.this, breakShiftTravelCall);
-		
-	}
+    private void insertStartTravelTimeRequestInDB() {
+        String timeToStore = Utils.getMillisFromFormattedDate(Utils.startTravelTimeRequest.getStarted_at());
+        if (Utils.startTravelTimeRequest.getIs_overriden().equalsIgnoreCase(ActivityConstants.TRUE))
+            timeToStore = Utils.getMillisFromFormattedDate(Utils.startTravelTimeRequest.getOverride_timestamp());
+        BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(TravelToWorkSiteActivity.this);
+        breakShiftTravelCall.setTravelStarted(Constants.YES_CONSTANT);
+        breakShiftTravelCall.setTravelStartedTime(timeToStore);
+        JobViewerDBHandler.saveBreakShiftTravelCall(TravelToWorkSiteActivity.this, breakShiftTravelCall);
+
+    }
 }

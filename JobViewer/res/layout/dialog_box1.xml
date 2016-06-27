@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dialog_width920"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialog_info"
@@ -19,7 +19,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_list_height200"
-        android:background="@color/white" >
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/clock_image"
@@ -28,6 +28,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/white_lato_regular_small40"
             android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:contentDescription="@string/desc"
             android:gravity="center_vertical"
             android:src="@drawable/shift_clock_icon" />
 
@@ -59,7 +60,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_list_height200"
-        android:background="@color/white" >
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/oncall_image"
@@ -68,6 +69,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/white_lato_regular_small40"
             android:layout_marginRight="@dimen/white_lato_regular_small40"
+            android:contentDescription="@string/desc"
             android:gravity="center_vertical"
             android:src="@drawable/oncall_phone_icon" />
 
@@ -94,7 +96,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_button_height152"
-        android:layout_below="@id/dialog_info" >
+        android:layout_below="@id/dialog_info">
 
         <Button
             android:id="@+id/dialog_cancel"

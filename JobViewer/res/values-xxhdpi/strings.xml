@@ -2,6 +2,7 @@
 <resources>
 
     <string name="enter_ending_mileage_str">Enter ending mileage</string>
+    <string name="desc">DESC</string>
     <string name="end_shift">End Shift</string>
     <string name="on_call_end_time">On-call end time:</string>
     <string name="user_ending_on_call">User ending on-call:</string>
@@ -47,7 +48,7 @@
     <string name="vistec_job_number">Vistec Job Number</string>
     <string name="vistec_number">001212QWER</string>
     <string name="work_and_photos">Work and photos for this job have been\ncompleted. All data will be sent to the office\nautomatically as long as you have an internet\nconnection.</string>
-    <string name="tap_done_to_continue">Tap Done to continue to the main\nscreen</string>
+    <string name="tap_done_to_continue">Tap \'Done\' to continue to the main\nscreen</string>
     <string name="done">Done</string>
     <string name="update_previous">Update Previous\nRisk</string>
     <string name="review_your_risk">Review your last risk assessment\nbelow. Select a question to continue a\nnew risk assessment from that point.</string>
@@ -87,6 +88,7 @@
     <string name="new_date">New Date</string>
     <string name="new_time">New Time</string>
     <string name="activity_type">Activity Type</string>
+    <string name="flooding_status">Flooding Status</string>
     <string name="blockage">Blockage</string>
     <string name="cctv">CCTV</string>
     <string name="line_clean">Line Clean</string>
@@ -100,7 +102,7 @@
     <string name="dig_down">Dig Down</string>
     <string name="make_safe">Make Safe</string>
     <string name="lining">Lining</string>
-    <string name="wet_well_clean">wet Well Clean</string>
+    <string name="wet_well_clean">Wet well clean</string>
     <string name="tmp_user_email_str">demonstration2</string>
     <string name="would_you_like_to_str">Would you like to check-out a vehicle at the start of your shift?</string>
     <string name="tmp_user_group_str">lanesgroup.com</string>
@@ -228,7 +230,7 @@
     <string name="shout_about_safety">Shout About Safety</string>
     <string name="survey_complete">Survey Complete</string>
     <string name="shout_msg">Thank you for helping to make our workplace safer</string>
-    <string name="tap_done_to_continue_1">Tap done to continue</string>
+    <string name="tap_done_to_continue_1">Tap \'done\' to continue</string>
     <string name="site_photo">Site Photo</string>
     <string name="pollution_detail">Provide all details below</string>
 

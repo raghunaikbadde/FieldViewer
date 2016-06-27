@@ -156,13 +156,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/dialog_clock_icon_left_right_margin40">
+        android:layout_margin="@dimen/white_lato_regular_big79">
 
         <CheckBox
             android:id="@+id/checkBox3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/white_lato_regular_big79"
             android:button="@drawable/checkbox_selector"
             android:paddingLeft="@dimen/template_spacing27"
             android:text="@string/remember_my_selection"
@@ -173,7 +172,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/checkBox3"
-            android:layout_margin="@dimen/white_lato_regular_big79">
+            android:layout_marginTop="@dimen/white_lato_regular_big79">
 
             <Button
                 android:id="@+id/back"

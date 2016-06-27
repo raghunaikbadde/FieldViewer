@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lanesgroup.jobviewer"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -25,14 +25,13 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name="com.lanesgroup.jobviewer.MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".SelectClockInActivityDialog"
             android:screenOrientation="portrait"
@@ -42,7 +41,7 @@
             android:name="com.lanesgroup.jobviewer.LauncherActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,13 +52,18 @@
             android:name="com.lanesgroup.jobviewer.WelcomeActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.lanesgroup.jobviewer.ClockInActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.raghu.AlertDialogActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
@@ -92,8 +96,7 @@
             android:name="com.lanesgroup.jobviewer.AddPhotosActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name="com.jobviewer.util.SelectActivityDialog"
             android:screenOrientation="portrait"
@@ -197,7 +200,7 @@
 
         <receiver
             android:name="com.jobviewer.network.NetworkChangeReceiver"
-            android:label="NetworkChangeReceiver" >
+            android:label="NetworkChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
@@ -214,6 +217,7 @@
             android:name="com.jobviwer.service.AppKillService"
             android:stopWithTask="false" />
         <service android:name="com.jobviewer.network.SendImageService" />
+        <service android:name="com.jobviewer.util.GPSTracker" />
     </application>
 
 </manifest>

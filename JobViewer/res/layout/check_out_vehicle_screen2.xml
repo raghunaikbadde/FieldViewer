@@ -106,7 +106,7 @@
                     android:layout_below="@+id/vehicle_registration_text"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
-                    android:background="@drawable/grey_background"
+                    android:background="@drawable/edit_text_background"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                     android:hint="@string/enter_registration_1"
                     android:inputType="textCapCharacters"
@@ -116,9 +116,9 @@
                     android:paddingRight="@dimen/grey_lato_regular_small35"
                     android:paddingTop="@dimen/grey_lato_regular_small35"
                     android:singleLine="true"
-                    android:textColor="@color/dark_grey"
+                    android:textColor="@color/black"
                     android:textColorHint="@color/dark_grey"
-                    android:textSize="@dimen/black_lato_regular_medium45"></EditText>
+                    android:textSize="@dimen/black_lato_regular_medium45"/>
 
                 <TextView
                     android:id="@+id/vehicle_mileage_text"
@@ -140,7 +140,7 @@
                     android:layout_below="@+id/vehicle_mileage_text"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
-                    android:background="@drawable/grey_background"
+                    android:background="@drawable/edit_text_background"
                     android:digits="0123456789"
                     android:hint="@string/enter_mileage_1"
                     android:inputType="number|none"
@@ -150,9 +150,9 @@
                     android:paddingRight="@dimen/grey_lato_regular_small35"
                     android:paddingTop="@dimen/grey_lato_regular_small35"
                     android:singleLine="true"
-                    android:textColor="@color/dark_grey"
+                    android:textColor="@color/black"
                     android:textColorHint="@color/dark_grey"
-                    android:textSize="@dimen/black_lato_regular_medium45"></EditText>
+                    android:textSize="@dimen/black_lato_regular_medium45"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
@@ -162,14 +162,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/dialog_clock_icon_left_right_margin40"
-        android:layout_marginTop="@dimen/dialog_clock_icon_left_right_margin40">
+        android:layout_margin="@dimen/white_lato_regular_big79">
 
         <CheckBox
             android:id="@+id/checkBox3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/white_lato_regular_big79"
             android:button="@drawable/checkbox_selector"
             android:paddingLeft="@dimen/template_spacing27"
             android:text="@string/remember_vehicle_registration"
@@ -180,7 +178,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/checkBox3"
-            android:layout_margin="@dimen/white_lato_regular_big79">
+            android:layout_marginTop="@dimen/white_lato_regular_big79">
 
             <Button
                 android:id="@+id/back_button"

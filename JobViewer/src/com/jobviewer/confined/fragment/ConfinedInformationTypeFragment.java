@@ -27,154 +27,154 @@ import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 
 public class ConfinedInformationTypeFragment extends Fragment implements
-		OnClickListener {
+        OnClickListener {
 
-	private ProgressBar mProgress;
-	private TextView mProgressStep, screenTitle, questionTitle, question;
-	private CheckBox radio_yes;
-	private Button mCancel, mNext;
-	private View mRootView;
-	private Screen currentScreen;
-	private CheckOutObject checkOutRemember;
-	private TextView mTapNextToContinue;
+    private ProgressBar mProgress;
+    private TextView mProgressStep, screenTitle, questionTitle, question;
+    private CheckBox radio_yes;
+    private Button mCancel, mNext;
+    private View mRootView;
+    private Screen currentScreen;
+    private CheckOutObject checkOutRemember;
+    private TextView mTapNextToContinue;
 
-	public interface onClicksEnterJobNumber {
-		void onNextClick();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-		void onCancelClick();
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        mRootView = inflater.inflate(R.layout.question_check_fragment,
+                container, false);
+        removePhoneKeypad();
+        initUI();
+        updateData();
+        return mRootView;
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+    public void removePhoneKeypad() {
+        InputMethodManager inputManager = (InputMethodManager) mRootView
+                .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		getActivity().getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		mRootView = inflater.inflate(R.layout.question_check_fragment,
-				container, false);
-		removePhoneKeypad();
-		initUI();
-		updateData();
-		return mRootView;
-	}
+        IBinder binder = mRootView.getWindowToken();
+        inputManager.hideSoftInputFromWindow(binder,
+                InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 
-	public void removePhoneKeypad() {
-		InputMethodManager inputManager = (InputMethodManager) mRootView
-				.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    public void enableNextButton(boolean isEnable) {
+        if (isEnable) {
+            mNext.setEnabled(true);
+            mNext.setBackgroundResource(R.drawable.red_background);
+        } else {
+            mNext.setEnabled(false);
+            mNext.setBackgroundResource(R.drawable.dark_grey_background);
+        }
 
-		IBinder binder = mRootView.getWindowToken();
-		inputManager.hideSoftInputFromWindow(binder,
-				InputMethodManager.HIDE_NOT_ALWAYS);
-	}
+    }
 
-	public void enableNextButton(boolean isEnable) {
-		if (isEnable) {
-			mNext.setEnabled(true);
-			mNext.setBackgroundResource(R.drawable.red_background);
-		} else {
-			mNext.setEnabled(false);
-			mNext.setBackgroundResource(R.drawable.dark_grey_background);
-		}
+    private void updateData() {
+        currentScreen = ConfinedQuestionManager.getInstance()
+                .getCurrentScreen();
+        questionTitle.setText(currentScreen.getTitle());
+        screenTitle.setText(getResources().getString(
+                R.string.confined_space_str));
+        question.setText(currentScreen.getText());
+        radio_yes.setText(currentScreen.getCheckbox().getLabel());
+        mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
+        mProgressStep.setText(currentScreen.get_progress() + "%");
 
-	}
+        if (ActivityConstants.TRUE.equalsIgnoreCase(currentScreen.getCheckbox()
+                .getRequired())) {
+            enableNextButton(false);
 
-	private void updateData() {
-		currentScreen = ConfinedQuestionManager.getInstance()
-				.getCurrentScreen();
-		questionTitle.setText(currentScreen.getTitle());
-		screenTitle.setText(getResources().getString(
-				R.string.confined_space_str));
-		question.setText(currentScreen.getText());
-		radio_yes.setText(currentScreen.getCheckbox().getLabel());
-		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
-		mProgressStep.setText(currentScreen.get_progress() + "%");
+        }
+        radio_yes.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-		if (ActivityConstants.TRUE.equalsIgnoreCase(currentScreen.getCheckbox()
-				.getRequired())) {
-			enableNextButton(false);
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if (isChecked) {
+                    enableNextButton(isChecked);
+                } else {
+                    enableNextButton(false);
+                }
 
-		}
-		radio_yes.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            }
+        });
 
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (isChecked) {
-					enableNextButton(isChecked);
-				} else {
-					enableNextButton(false);
-				}
+        com.jobviewer.survey.object.Button[] buttons = currentScreen
+                .getButtons().getButton();
 
-			}
-		});
+        for (com.jobviewer.survey.object.Button button : buttons) {
+            if (ActivityConstants.TRUE
+                    .equalsIgnoreCase(button.getDisplay())
+                    && !"next".equalsIgnoreCase(button.getName())) {
+                mCancel.setText(getResources().getString(
+                        Utils.getButtonText(button.getName())));
+                break;
+            }
+        }
+        checkAndUpdateUIOnCommunciationQuestion();
+    }
 
-		com.jobviewer.survey.object.Button[] buttons = currentScreen
-				.getButtons().getButton();
+    private void checkAndUpdateUIOnCommunciationQuestion() {
+        if (updateUIOnCommunciationQuestion()) {
+            mTapNextToContinue.setVisibility(View.VISIBLE);
+            radio_yes.setVisibility(View.GONE);
+            enableNextButton(true);
+        }
+    }
 
-		for (int i = 0; i < buttons.length; i++) {
-			if (ActivityConstants.TRUE
-					.equalsIgnoreCase(buttons[i].getDisplay())
-					&& !"next".equalsIgnoreCase(buttons[i].getName())) {
-				mCancel.setText(getResources().getString(
-						Utils.getButtonText(buttons[i].getName())));
-				break;
-			}
-		}
-		checkAndUpdateUIOnCommunciationQuestion();
-	}
+    private void initUI() {
+        mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
+        mProgressStep = (TextView) mRootView
+                .findViewById(R.id.progress_step_text);
+        screenTitle = (TextView) mRootView.findViewById(R.id.screenTitle);
+        questionTitle = (TextView) mRootView.findViewById(R.id.questionTitle);
+        question = (TextView) mRootView.findViewById(R.id.question);
+        radio_yes = (CheckBox) mRootView.findViewById(R.id.radio_yes);
+        mTapNextToContinue = (TextView) mRootView
+                .findViewById(R.id.tapNextToContinue);
+        mCancel = (Button) mRootView.findViewById(R.id.button1);
+        mNext = (Button) mRootView.findViewById(R.id.button2);
+        mNext.setOnClickListener(this);
+        mCancel.setOnClickListener(this);
+    }
 
-	private void checkAndUpdateUIOnCommunciationQuestion() {
-		if (updateUIOnCommunciationQuestion()) {
-			mTapNextToContinue.setVisibility(View.VISIBLE);
-			radio_yes.setVisibility(View.GONE);
-			enableNextButton(true);
-		}
-	}
+    @SuppressWarnings("static-access")
+    @Override
+    public void onClick(View view) {
+        if (view == mCancel) {
+            if ("save".equalsIgnoreCase(mCancel.getText().toString())) {
+                ConfinedQuestionManager.getInstance().saveAssessment(
+                        checkOutRemember.getAssessmentSelected());
+                Intent intent = new Intent(view.getContext(),
+                        ActivityPageActivity.class);
+                intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        } else if (view == mNext) {
+            currentScreen.setAnswer(ActivityConstants.SELECTED);
+            ConfinedQuestionManager.getInstance().updateScreenOnQuestionMaster(
+                    currentScreen);
+            ConfinedQuestionManager.getInstance().loadNextFragment(
+                    currentScreen.getButtons().getButton()[2].getActions()
+                            .getClick().getOnClick());
+        }
+    }
 
-	private void initUI() {
-		mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
-		mProgressStep = (TextView) mRootView
-				.findViewById(R.id.progress_step_text);
-		screenTitle = (TextView) mRootView.findViewById(R.id.screenTitle);
-		questionTitle = (TextView) mRootView.findViewById(R.id.questionTitle);
-		question = (TextView) mRootView.findViewById(R.id.question);
-		radio_yes = (CheckBox) mRootView.findViewById(R.id.radio_yes);
-		mTapNextToContinue = (TextView) mRootView
-				.findViewById(R.id.tapNextToContinue);
-		mCancel = (Button) mRootView.findViewById(R.id.button1);
-		mNext = (Button) mRootView.findViewById(R.id.button2);
-		mNext.setOnClickListener(this);
-		mCancel.setOnClickListener(this);
-	}
+    private boolean updateUIOnCommunciationQuestion() {
+        String maintainComm = "maintain communication";
+        return currentScreen.getText().contains(maintainComm);
+    }
 
-	@SuppressWarnings("static-access")
-	@Override
-	public void onClick(View view) {
-		if (view == mCancel) {
-			if ("save".equalsIgnoreCase(mCancel.getText().toString())) {
-				ConfinedQuestionManager.getInstance().saveAssessment(
-						checkOutRemember.getAssessmentSelected());
-				Intent intent = new Intent(view.getContext(),
-						ActivityPageActivity.class);
-				intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
-			}
-		} else if (view == mNext) {
-			currentScreen.setAnswer(ActivityConstants.SELECTED);
-			ConfinedQuestionManager.getInstance().updateScreenOnQuestionMaster(
-					currentScreen);
-			ConfinedQuestionManager.getInstance().loadNextFragment(
-					currentScreen.getButtons().getButton()[2].getActions()
-							.getClick().getOnClick());
-		}
-	}
+    public interface onClicksEnterJobNumber {
+        void onNextClick();
 
-	private boolean updateUIOnCommunciationQuestion() {
-		String maintainComm = "maintain communication";
-		return currentScreen.getText().contains(maintainComm);
-	}
+        void onCancelClick();
+    }
 }

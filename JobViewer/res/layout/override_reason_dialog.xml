@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dialog_width920"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialog_info"
@@ -18,22 +18,23 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_width920"
         android:background="@color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
-                    android:layout_marginTop="@dimen/actionbar_bottom_margin85" >
+                    android:layout_marginTop="@dimen/actionbar_bottom_margin85">
 
                     <ImageView
                         android:id="@+id/info_image"
@@ -42,6 +43,7 @@
                         android:layout_gravity="top|center"
                         android:layout_marginLeft="@dimen/white_lato_regular_small40"
                         android:layout_marginRight="@dimen/white_lato_regular_small40"
+                        android:contentDescription="@string/desc"
                         android:src="@drawable/big_error_icon" />
 
                     <TextView
@@ -67,12 +69,13 @@
                     android:textSize="@dimen/white_lato_regular_small40" />
 
                 <TextView
-                    android:id="@+id/timeStampValue" android:gravity="center_horizontal"
-                    android:layout_width="fill_parent" 
+                    android:id="@+id/timeStampValue"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
                     android:layout_marginLeft="@dimen/white_lato_regular_small40"
                     android:layout_marginRight="@dimen/white_lato_regular_small40"
+                    android:gravity="center_horizontal"
                     android:text="@string/newtimestamp"
                     android:textColor="@color/blackColor"
                     android:textSize="@dimen/dialog_black_lato_regular_small60" />
@@ -104,7 +107,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_button_height152"
-        android:layout_below="@id/dialog_info" >
+        android:layout_below="@id/dialog_info">
 
         <Button
             android:id="@+id/dialog_cancel"

@@ -1,9 +1,6 @@
 package com.lanesgroup.jobviewer.fragment;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -60,606 +57,610 @@ import com.raghu.WorkPhotoUpload;
 import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class WorkCompleteFragment extends Fragment implements OnClickListener,
-		ConfirmDialogCallback, TextWatcher {
+        ConfirmDialogCallback, TextWatcher {
 
-	private ProgressBar mProgress;
-	private TextView mProgressStep, mVistecNumber;
-	private ImageButton mAddInfo, mStop, mUser, mClickPhoto;
-	private Button mSave, mLeaveSite;
-	private LinearLayout mCaptureCallingCard, mTapToCallDa;
-	private View mRootView;
-	private RelativeLayout mSpinnerLayout, mSpinnerLayoutFlooding;
-	private TextView mSpinnerSelectedText, mSpinnerSelectedFloodedText;
-	private EditText mPipeDiameterEditText, mPipeLengthEditText;
-	private RadioButton radioOne, radioTwo;
-	private RadioGroup radioGroup;
-	static File file;
-	private String mPipeDiameter, mPipeLength;
-	private String selectedActivityText = "";
-	private String daCallStatus = ActivityConstants.DA_NO_CALL_MADE;
+    static File file;
+    private ProgressBar mProgress;
+    private TextView mProgressStep, mVistecNumber;
+    private ImageButton mAddInfo, mStop, mUser, mClickPhoto;
+    private Button mSave, mLeaveSite;
+    private LinearLayout mCaptureCallingCard, mTapToCallDa;
+    private View mRootView;
+    private RelativeLayout mSpinnerLayout, mSpinnerLayoutFlooding;
+    private TextView mSpinnerSelectedText, mSpinnerSelectedFloodedText;
+    private EditText mPipeDiameterEditText, mPipeLengthEditText;
+    private RadioButton radioOne, radioTwo;
+    private RadioGroup radioGroup;
+    private String mPipeDiameter, mPipeLength;
+    private String selectedActivityText = "";
+    private String daCallStatus = ActivityConstants.DA_NO_CALL_MADE;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		getActivity().getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		mRootView = inflater.inflate(R.layout.work_complete_screen, container,
-				false);
-		Utils.workEndTimeSheetRequest = new TimeSheetRequest();
-		return mRootView;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        mRootView = inflater.inflate(R.layout.work_complete_screen, container,
+                false);
+        Utils.workEndTimeSheetRequest = new TimeSheetRequest();
+        return mRootView;
+    }
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		initUI();
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initUI();
+    }
 
-	private void radioButtonChangedListeners() {
-		radioGroup
-				.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+    private void radioButtonChangedListeners() {
+        radioGroup
+                .setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
-					@Override
-					public void onCheckedChanged(RadioGroup group, int checkedId) {
-						Utils.work_is_redline_captured = R.id.radio1 != checkedId;
-						if (validateUserInputs()) {
-							enableNextButton(true);
-						} else {
-							enableNextButton(false);
-						}
-					}
-				});
-	}
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        Utils.work_is_redline_captured = R.id.radio1 != checkedId;
+                        if (validateUserInputs()) {
+                            enableNextButton(true);
+                        } else {
+                            enableNextButton(false);
+                        }
+                    }
+                });
+    }
 
-	private void initUI() {
-		mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
-		mProgressStep = (TextView) mRootView
-				.findViewById(R.id.progress_step_text);
-		mVistecNumber = (TextView) mRootView
-				.findViewById(R.id.vistec_number_text);
-		if (Utils.checkOutObject == null) {
-			Utils.checkOutObject = JobViewerDBHandler
-					.getCheckOutRemember(getActivity());
-		}
-		mPipeDiameterEditText = (EditText) mRootView
-				.findViewById(R.id.enter_pipe_edittext);
-		mPipeLengthEditText = (EditText) mRootView
-				.findViewById(R.id.enter_length_edittext);
-		mPipeDiameterEditText.addTextChangedListener(this);
-		mPipeLengthEditText.addTextChangedListener(this);
-		mVistecNumber.setText(Utils.checkOutObject.getVistecId());
-		mAddInfo = (ImageButton) mRootView
-				.findViewById(R.id.detail_imageButton);
-		mStop = (ImageButton) mRootView.findViewById(R.id.video_imageButton);
-		mUser = (ImageButton) mRootView.findViewById(R.id.user_imageButton);
-		mSpinnerLayout = (RelativeLayout) mRootView
-				.findViewById(R.id.spinnerLayout);
-		mSpinnerLayoutFlooding = (RelativeLayout) mRootView
-				.findViewById(R.id.spinnerLayout_flood);
-		mSpinnerSelectedText = (TextView) mRootView
-				.findViewById(R.id.spinner_selected);
-		mSpinnerSelectedFloodedText = (TextView) mRootView
-				.findViewById(R.id.spinner_selected_flood);
+    private void initUI() {
+        mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
+        mProgressStep = (TextView) mRootView
+                .findViewById(R.id.progress_step_text);
+        mVistecNumber = (TextView) mRootView
+                .findViewById(R.id.vistec_number_text);
+        if (Utils.checkOutObject == null) {
+            Utils.checkOutObject = JobViewerDBHandler
+                    .getCheckOutRemember(getActivity());
+        }
+        mPipeDiameterEditText = (EditText) mRootView
+                .findViewById(R.id.enter_pipe_edittext);
+        mPipeLengthEditText = (EditText) mRootView
+                .findViewById(R.id.enter_length_edittext);
+        mPipeDiameterEditText.addTextChangedListener(this);
+        mPipeLengthEditText.addTextChangedListener(this);
+        mVistecNumber.setText(Utils.checkOutObject.getVistecId());
+        mAddInfo = (ImageButton) mRootView
+                .findViewById(R.id.detail_imageButton);
+        mStop = (ImageButton) mRootView.findViewById(R.id.video_imageButton);
+        mUser = (ImageButton) mRootView.findViewById(R.id.user_imageButton);
+        mSpinnerLayout = (RelativeLayout) mRootView
+                .findViewById(R.id.spinnerLayout);
+        mSpinnerLayoutFlooding = (RelativeLayout) mRootView
+                .findViewById(R.id.spinnerLayout_flood);
+        mSpinnerSelectedText = (TextView) mRootView
+                .findViewById(R.id.spinner_selected);
+        mSpinnerSelectedFloodedText = (TextView) mRootView
+                .findViewById(R.id.spinner_selected_flood);
 
-		mSpinnerLayout.setClickable(true);
-		mSpinnerLayout.setOnClickListener(this);
-		mSpinnerLayoutFlooding.setClickable(true);
-		mSpinnerLayoutFlooding.setOnClickListener(this);
-		mProgress.setMax(6);
-		mProgress.setProgress(5);
-		mProgressStep.setText("Step 5 of 6");
-		mCaptureCallingCard = (LinearLayout) mRootView
-				.findViewById(R.id.customer_calling_layout);
-		mTapToCallDa = (LinearLayout) mRootView
-				.findViewById(R.id.tap_to_call_layout);
-		mTapToCallDa.setOnClickListener(this);
-		mTapToCallDa.setBackgroundResource(R.drawable.red_background);
-		mCaptureCallingCard.setClickable(true);
-		mCaptureCallingCard.setOnClickListener(this);
-		mSave = (Button) mRootView.findViewById(R.id.button1);
-		mLeaveSite = (Button) mRootView.findViewById(R.id.button2);
+        mSpinnerLayout.setClickable(true);
+        mSpinnerLayout.setOnClickListener(this);
+        mSpinnerLayoutFlooding.setClickable(true);
+        mSpinnerLayoutFlooding.setOnClickListener(this);
+        mProgress.setMax(6);
+        mProgress.setProgress(5);
+        mProgressStep.setText("Step 4 of 5");
+        mCaptureCallingCard = (LinearLayout) mRootView
+                .findViewById(R.id.customer_calling_layout);
+        mTapToCallDa = (LinearLayout) mRootView
+                .findViewById(R.id.tap_to_call_layout);
+        mTapToCallDa.setOnClickListener(this);
+//		mTapToCallDa.setBackgroundResource(R.drawable.red_background);
+        mCaptureCallingCard.setClickable(true);
+        mCaptureCallingCard.setOnClickListener(this);
+        mSave = (Button) mRootView.findViewById(R.id.button1);
+        mLeaveSite = (Button) mRootView.findViewById(R.id.button2);
 
-		mLeaveSite.setOnClickListener(this);
-		radioGroup = (RadioGroup) mRootView.findViewById(R.id.radioGroup1);
-		radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        mLeaveSite.setOnClickListener(this);
+        radioGroup = (RadioGroup) mRootView.findViewById(R.id.radioGroup1);
+        radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			@Override
-			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				if (checkedId == R.id.radio1) {
-					Utils.work_is_redline_captured = false;
-				} else if (checkedId == R.id.radio2) {
-					Utils.work_is_redline_captured = true;
-				}
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radio1) {
+                    Utils.work_is_redline_captured = false;
+                } else if (checkedId == R.id.radio2) {
+                    Utils.work_is_redline_captured = true;
+                }
 
-			}
-		});
-		radioOne = (RadioButton) mRootView.findViewById(R.id.radio1);
-		radioTwo = (RadioButton) mRootView.findViewById(R.id.radio2);
+            }
+        });
+        radioOne = (RadioButton) mRootView.findViewById(R.id.radio1);
+        radioTwo = (RadioButton) mRootView.findViewById(R.id.radio2);
 
-		CheckOutObject checkOutObject = JobViewerDBHandler
-				.getCheckOutRemember(getActivity());
-		if (checkOutObject.getIsPollutionSelected().equalsIgnoreCase(
-				ActivityConstants.TRUE)) {
-			mSpinnerSelectedText.setText(getActivity().getResources()
-					.getString(R.string.activityTypePollution));
-			mSpinnerLayout.setClickable(false);
-			selectedActivityText = "Pollution";
-		}
+        CheckOutObject checkOutObject = JobViewerDBHandler
+                .getCheckOutRemember(getActivity());
+        if (checkOutObject.getIsPollutionSelected().equalsIgnoreCase(
+                ActivityConstants.TRUE)) {
+            mSpinnerSelectedText.setText(getActivity().getResources()
+                    .getString(R.string.activityTypePollution));
+            mSpinnerLayout.setClickable(false);
+            selectedActivityText = "Pollution";
+        }
 
-		radioButtonChangedListeners();
-	}
+        radioButtonChangedListeners();
+    }
 
-	@Override
-	public void onClick(View view) {
-		checkAndEnableNextButton();
-		if (view == mSave) {
-			CheckOutObject checkOutRemember = JobViewerDBHandler
-					.getCheckOutRemember(getActivity());
-			checkOutRemember.setIsSavedOnWorkCompleteScreen("true");
-			JobViewerDBHandler.saveCheckOutRemember(getActivity(),
-					checkOutRemember);
-		} else if (view == mLeaveSite) {
-			// Upload Photos here// if calling card available
-			selectedActivityText = mSpinnerSelectedText.getText().toString();
+    @Override
+    public void onClick(View view) {
+        checkAndEnableNextButton();
+        if (view == mSave) {
+            CheckOutObject checkOutRemember = JobViewerDBHandler
+                    .getCheckOutRemember(getActivity());
+            checkOutRemember.setIsSavedOnWorkCompleteScreen("true");
+            JobViewerDBHandler.saveCheckOutRemember(getActivity(),
+                    checkOutRemember);
+        } else if (view == mLeaveSite) {
+            // Upload Photos here// if calling card available
+            selectedActivityText = mSpinnerSelectedText.getText().toString();
 
-			sendWorkEndTimeSheetToServer();
-			// } else {
-			// prepareWorkCompletedRequest();
-			// storeWorkEndTimeSheetInBackLogDB();
-			// startWorkSuccessActivity();
-			// }
+            sendWorkEndTimeSheetToServer();
+            // } else {
+            // prepareWorkCompletedRequest();
+            // storeWorkEndTimeSheetInBackLogDB();
+            // startWorkSuccessActivity();
+            // }
 
-		} else if (view == mCaptureCallingCard) {
-			Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);
-			file = new File(Environment.getExternalStorageDirectory()
-					+ File.separator + "image.jpg");
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-			startActivityForResult(intent, Constants.RESULT_CODE);
-			Toast.makeText(
-					getActivity(),
-					this.getResources()
-							.getString(R.string.capture_calling_Card),
-					Toast.LENGTH_LONG).show();
-		} else if (view == mSpinnerLayout) {
-			String header = getResources().getString(R.string.activity_type);
-			mSpinnerSelectedText.addTextChangedListener(this);
-			Utils.dailogboxSelector(getActivity(), Utils.mActivityList,
-					R.layout.work_complete_dialog, mSpinnerSelectedText, header);
+        } else if (view == mCaptureCallingCard) {
+            Intent intent = new Intent(Constants.IMAGE_CAPTURE_ACTION);
+            file = new File(Environment.getExternalStorageDirectory()
+                    + File.separator + "image.jpg");
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+            startActivityForResult(intent, Constants.RESULT_CODE);
+            Toast.makeText(
+                    getActivity(),
+                    this.getResources()
+                            .getString(R.string.capture_calling_Card),
+                    Toast.LENGTH_LONG).show();
+        } else if (view == mSpinnerLayout) {
+            String header = getResources().getString(R.string.activity_type);
+            mSpinnerSelectedText.addTextChangedListener(this);
+            Utils.dailogboxSelector(getActivity(), Utils.mActivityList,
+                    R.layout.work_complete_dialog, mSpinnerSelectedText, header);
 
-		} else if (view == mSpinnerLayoutFlooding) {
-			String header = getResources().getString(R.string.activity_type);
-			Utils.dailogboxSelector(getActivity(), Utils.mFloodingList,
-					R.layout.work_complete_dialog, mSpinnerSelectedFloodedText,
-					header);
-		} else if (view == mTapToCallDa) {
-			Intent phoneIntent = new Intent(Intent.ACTION_CALL,
-					Uri.parse("tel:"
-							+ getResources().getString(
-									R.string.callDAMobileNumber)));
-			startActivityForResult(phoneIntent,
-					Constants.TAP_DA_PHONE_CALL_REQUEST_CODE);
-		}
-		checkAndEnableNextButton();
-	}
+        } else if (view == mSpinnerLayoutFlooding) {
+            String header = getResources().getString(R.string.flooding_status);
+            Utils.dailogboxSelector(getActivity(), Utils.mFloodingList,
+                    R.layout.work_complete_dialog, mSpinnerSelectedFloodedText,
+                    header);
+        } else if (view == mTapToCallDa) {
+            Intent phoneIntent = new Intent(Intent.ACTION_CALL,
+                    Uri.parse("tel:"
+                            + getResources().getString(
+                            R.string.callDAMobileNumber)));
+            startActivityForResult(phoneIntent,
+                    Constants.TAP_DA_PHONE_CALL_REQUEST_CODE);
+        }
+        checkAndEnableNextButton();
+    }
 
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == 500 && resultCode == getActivity().RESULT_OK) {
-			String imageString = null;
-			Bitmap photo = Utils.decodeSampledBitmapFromFile(
-					file.getAbsolutePath(), 1000, 700);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 500 && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = Utils.decodeSampledBitmapFromFile(
+                    file.getAbsolutePath(), 1000, 700);
 
-			Bitmap rotateBitmap = Utils.rotateBitmap(file.getAbsolutePath(),
-					photo);
-			String currentImageFile = Utils.getRealPathFromURI(
-					Uri.fromFile(file), getActivity());
-			String formatDate = "";
-			String geoLocation = "";
-			GPSTracker tracker = new GPSTracker(getActivity());
+            Bitmap rotateBitmap = Utils.rotateBitmap(file.getAbsolutePath(),
+                    photo);
+            String currentImageFile = Utils.getRealPathFromURI(
+                    Uri.fromFile(file), getActivity());
+            String formatDate = "";
+            String geoLocation = "";
+            GPSTracker tracker = new GPSTracker(getActivity());
 
-			try {
-				ExifInterface exif = new ExifInterface(currentImageFile);
-				String picDateTime = exif
-						.getAttribute(ExifInterface.TAG_DATETIME);
-				formatDate = Utils.formatDate(picDateTime);
-				GeoLocationCamera geoLocationCamera = new GeoLocationCamera(
-						exif);
-				geoLocation = geoLocationCamera.toString();
+            try {
+                ExifInterface exif = new ExifInterface(currentImageFile);
+                String picDateTime = exif
+                        .getAttribute(ExifInterface.TAG_DATETIME);
+                formatDate = Utils.formatDate(picDateTime);
+                GeoLocationCamera geoLocationCamera = new GeoLocationCamera(
+                        exif);
+                geoLocation = geoLocationCamera.toString();
 
-				Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
-				Log.i("Android", "geoLocation   :" + geoLocation);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			geoLocation = formatDate + tracker.getLatitude() + ";"
-					+ tracker.getLongitude();
-			String image_exif = formatDate + "," + geoLocation;
-			ImageObject imageObject = new ImageObject();
-			String generateUniqueID = Utils.generateUniqueID(getActivity());
-			imageObject.setImageId(generateUniqueID);
-			imageObject.setCategory("work");
-			imageObject.setImage_exif(image_exif);
-			imageObject.setImage_string(Utils
-					.bitmapToBase64String(rotateBitmap));
-			Log.i("Android", "Image 13 :"
-					+ imageObject.getImage_string().substring(0, 50));
-			JobViewerDBHandler.saveImage(getActivity(), imageObject);
+                Log.i("Android", "formatDateFromOnetoAnother   :" + formatDate);
+                Log.i("Android", "geoLocation   :" + geoLocation);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            geoLocation = formatDate + tracker.getLatitude() + ";"
+                    + tracker.getLongitude();
+            String image_exif = formatDate + "," + geoLocation;
+            ImageObject imageObject = new ImageObject();
+            String generateUniqueID = Utils.generateUniqueID(getActivity());
+            imageObject.setImageId(generateUniqueID);
+            imageObject.setCategory("work");
+            imageObject.setImage_exif(image_exif);
+            imageObject.setImage_string(Utils
+                    .bitmapToBase64String(rotateBitmap));
+            Log.i("Android", "Image 13 :"
+                    + imageObject.getImage_string().substring(0, 50));
+            JobViewerDBHandler.saveImage(getActivity(), imageObject);
 
-		}
-		if (requestCode == Constants.TAP_DA_PHONE_CALL_REQUEST_CODE) {
-			ConfirmDialog confirmDialog = new ConfirmDialog(getActivity(),
-					this, Constants.TAP_DA_PHONE_CALL);
-			confirmDialog.show();
+        }
+        if (requestCode == Constants.TAP_DA_PHONE_CALL_REQUEST_CODE) {
+            ConfirmDialog confirmDialog = new ConfirmDialog(getActivity(),
+                    this, Constants.TAP_DA_PHONE_CALL);
+            confirmDialog.show();
 
-		}
+        }
 
-		checkAndEnableNextButton();
-	}
+        checkAndEnableNextButton();
+    }
 
-	public void openDialog() {
-		String header = getResources().getString(R.string.activity_type);
-		Utils.dailogboxSelector(getActivity(), Utils.mActivityList,
-				R.layout.work_complete_dialog, mSpinnerSelectedText, header);
-	}
+    public void openDialog() {
+        String header = getResources().getString(R.string.activity_type);
+        Utils.dailogboxSelector(getActivity(), Utils.mActivityList,
+                R.layout.work_complete_dialog, mSpinnerSelectedText, header);
+    }
 
-	public void enableNextButton(boolean isEnable) {
-		if (isEnable) {
-			mLeaveSite.setEnabled(true);
-			mLeaveSite.setBackgroundResource(R.drawable.red_background);
-		} else {
-			mLeaveSite.setEnabled(false);
-			mLeaveSite.setBackgroundResource(R.drawable.dark_grey_background);
-		}
+    public void enableNextButton(boolean isEnable) {
+        if (isEnable) {
+            mLeaveSite.setEnabled(true);
+            mLeaveSite.setBackgroundResource(R.drawable.red_background);
+        } else {
+            mLeaveSite.setEnabled(false);
+            mLeaveSite.setBackgroundResource(R.drawable.dark_grey_background);
+        }
 
-	}
+    }
 
-	private WorkRequest prepareWorkCompletedRequest() {
-		CheckOutObject checkOutRemember = JobViewerDBHandler
-				.getCheckOutRemember(getActivity());
-		User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
-		WorkRequest workRequest = new WorkRequest();
-		insertWorkEndTimeIntoHoursCalculator();
-		workRequest.setStarted_at(Utils.lastest_work_started_at);
-		if (checkOutRemember.getVistecId() != null) {
-			workRequest.setReference_id(checkOutRemember.getVistecId());
-		} else {
-			workRequest.setReference_id("");
-		}
-		workRequest.setEngineer_id(Utils.work_engineer_id);
-		workRequest.setStatus(Utils.work_status_completed);
-		workRequest.setCompleted_at(Utils.getCurrentDateAndTime());
-		workRequest.setActivity_type(selectedActivityText);
-		workRequest.setFlooding_status(Utils.work_flooding_status);
-		if (Utils.isNullOrEmpty(Utils.work_DA_call_out)) {
-			workRequest.setDA_call_out(ActivityConstants.DA_NO_CALL_MADE);
-		} else
-			workRequest.setDA_call_out(Utils.work_DA_call_out);
-		workRequest.setIs_redline_captured(Utils.work_is_redline_captured);
-		GPSTracker tracker = new GPSTracker(getActivity());
-		workRequest.setLocation_latitude("" + tracker.getLatitude());
-		workRequest.setLocation_longitude("" + tracker.getLongitude());
-		workRequest.setCreated_by(userProfile.getEmail());
-		BackLogRequest backLogRequest = new BackLogRequest();
-		Utils.work_id = checkOutRemember.getWorkId();
-		backLogRequest.setRequestApi(CommsConstant.HOST + "/"
-				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id);
-		backLogRequest.setRequestClassName("WorkRequest");
-		backLogRequest.setRequestJson(GsonConverter.getInstance()
-				.encodeToJsonString(workRequest));
-		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
-		JobViewerDBHandler.saveBackLog(getActivity(), backLogRequest);
-		return workRequest;
-	}
+    private WorkRequest prepareWorkCompletedRequest() {
+        CheckOutObject checkOutRemember = JobViewerDBHandler
+                .getCheckOutRemember(getActivity());
+        User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
+        WorkRequest workRequest = new WorkRequest();
+        insertWorkEndTimeIntoHoursCalculator();
+        workRequest.setStarted_at(Utils.lastest_work_started_at);
+        if (checkOutRemember.getVistecId() != null) {
+            workRequest.setReference_id(checkOutRemember.getVistecId());
+        } else {
+            workRequest.setReference_id("");
+        }
+        workRequest.setEngineer_id(Utils.work_engineer_id);
+        workRequest.setStatus(Utils.work_status_completed);
+        workRequest.setCompleted_at(Utils.getCurrentDateAndTime());
+        workRequest.setActivity_type(selectedActivityText);
+        workRequest.setFlooding_status(Utils.work_flooding_status);
+        if (Utils.isNullOrEmpty(Utils.work_DA_call_out)) {
+            workRequest.setDA_call_out(ActivityConstants.DA_NO_CALL_MADE);
+        } else
+            workRequest.setDA_call_out(Utils.work_DA_call_out);
+        workRequest.setIs_redline_captured(Utils.work_is_redline_captured);
+        GPSTracker tracker = new GPSTracker(getActivity());
+        workRequest.setLocation_latitude("" + tracker.getLatitude());
+        workRequest.setLocation_longitude("" + tracker.getLongitude());
+        workRequest.setCreated_by(userProfile.getEmail());
+        BackLogRequest backLogRequest = new BackLogRequest();
+        Utils.work_id = checkOutRemember.getWorkId();
+        backLogRequest.setRequestApi(CommsConstant.HOST + "/"
+                + CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id);
+        backLogRequest.setRequestClassName("WorkRequest");
+        backLogRequest.setRequestJson(GsonConverter.getInstance()
+                .encodeToJsonString(workRequest));
+        backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
+        JobViewerDBHandler.saveBackLog(getActivity(), backLogRequest);
+        return workRequest;
+    }
 
-	private void sendWorkEndTimeSheetToServer() {
-		ContentValues data = new ContentValues();
-		CheckOutObject checkOutRemember = JobViewerDBHandler
-				.getCheckOutRemember(getActivity());
-		User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
-		Utils.workEndTimeSheetRequest.setRecord_for(userProfile.getEmail());
+    private void sendWorkEndTimeSheetToServer() {
+        ContentValues data = new ContentValues();
+        CheckOutObject checkOutRemember = JobViewerDBHandler
+                .getCheckOutRemember(getActivity());
+        User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
+        Utils.workEndTimeSheetRequest.setRecord_for(userProfile.getEmail());
 
-		Utils.workEndTimeSheetRequest.setIs_inactive("false");
-		Utils.workEndTimeSheetRequest.setOverride_reason("");
-		Utils.workEndTimeSheetRequest.setOverride_comment("");
-		Utils.workEndTimeSheetRequest.setOverride_timestamp(Utils
-				.getCurrentDateAndTime());
-		Utils.workEndTimeSheetRequest.setReference_id(checkOutRemember
-				.getVistecId());
-		Utils.workEndTimeSheetRequest.setUser_id(userProfile.getEmail());
-		CheckOutObject checkOutRemember2 = JobViewerDBHandler
-				.getCheckOutRemember(getActivity());
-		String jobStartedTime = checkOutRemember2.getJobStartedTime();
-		if (Utils.isNullOrEmpty(jobStartedTime)) {
-			jobStartedTime = Utils.getCurrentDateAndTime();
-		}
+        Utils.workEndTimeSheetRequest.setIs_inactive("false");
+        Utils.workEndTimeSheetRequest.setOverride_reason("");
+        Utils.workEndTimeSheetRequest.setOverride_comment("");
+        Utils.workEndTimeSheetRequest.setOverride_timestamp(Utils
+                .getCurrentDateAndTime());
+        Utils.workEndTimeSheetRequest.setReference_id(checkOutRemember
+                .getVistecId());
+        Utils.workEndTimeSheetRequest.setUser_id(userProfile.getEmail());
+        CheckOutObject checkOutRemember2 = JobViewerDBHandler
+                .getCheckOutRemember(getActivity());
+        String jobStartedTime = checkOutRemember2.getJobStartedTime();
+        if (Utils.isNullOrEmpty(jobStartedTime)) {
+            jobStartedTime = Utils.getCurrentDateAndTime();
+        }
 
-		Utils.workEndTimeSheetRequest.setStarted_at(jobStartedTime);
-		data.put("started_at", jobStartedTime);
-		data.put("record_for", userProfile.getEmail());
-		data.put("is_inactive", "false");
+        Utils.workEndTimeSheetRequest.setStarted_at(jobStartedTime);
+        data.put("started_at", jobStartedTime);
+        data.put("record_for", userProfile.getEmail());
+        data.put("is_inactive", "false");
 
-		if (Utils.isNullOrEmpty(Utils.workEndTimeSheetRequest
-				.getOverride_reason())) {
-			data.put("override_reason", "");
-		} else {
-			data.put("override_reason",
-					Utils.workEndTimeSheetRequest.getOverride_reason());
-		}
-		if (Utils.isNullOrEmpty(Utils.workEndTimeSheetRequest
-				.getOverride_comment())) {
-			data.put("override_comment", "");
-		} else {
-			data.put("override_comment",
-					Utils.workEndTimeSheetRequest.getOverride_comment());
-		}
+        if (Utils.isNullOrEmpty(Utils.workEndTimeSheetRequest
+                .getOverride_reason())) {
+            data.put("override_reason", "");
+        } else {
+            data.put("override_reason",
+                    Utils.workEndTimeSheetRequest.getOverride_reason());
+        }
+        if (Utils.isNullOrEmpty(Utils.workEndTimeSheetRequest
+                .getOverride_comment())) {
+            data.put("override_comment", "");
+        } else {
+            data.put("override_comment",
+                    Utils.workEndTimeSheetRequest.getOverride_comment());
+        }
 
-		data.put("override_timestamp",
-				Utils.workEndTimeSheetRequest.getOverride_timestamp());
-		data.put("reference_id", checkOutRemember.getVistecId());
-		data.put("user_id", userProfile.getEmail());
-		Utils.startProgress(getActivity());
-		if (Utils.isInternetAvailable(getActivity())) {
-			Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-					+ CommsConstant.END_WORK_API, data,
-					getWorkTimeSheetSubmitHandler());
-		} else {
-			prepareWorkCompletedRequest();
-			storeWorkEndTimeSheetInBackLogDB();
-			startWorkSuccessActivity();
-		}
-	}
+        data.put("override_timestamp",
+                Utils.workEndTimeSheetRequest.getOverride_timestamp());
+        data.put("reference_id", checkOutRemember.getVistecId());
+        data.put("user_id", userProfile.getEmail());
+        Utils.startProgress(getActivity());
+        if (Utils.isInternetAvailable(getActivity())) {
+            Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
+                            + CommsConstant.END_WORK_API, data,
+                    getWorkTimeSheetSubmitHandler());
+        } else {
+            prepareWorkCompletedRequest();
+            storeWorkEndTimeSheetInBackLogDB();
+            startWorkSuccessActivity();
+        }
+    }
 
-	private void sendWorkCompletedToServer() {
-		ContentValues data = new ContentValues();
-		CheckOutObject checkOutRemember = JobViewerDBHandler
-				.getCheckOutRemember(getActivity());
-		User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
-		CheckOutObject checkOutRemember2 = JobViewerDBHandler
-				.getCheckOutRemember(getActivity());
-		insertWorkEndTimeIntoHoursCalculator();
-		data.put("started_at", checkOutRemember2.getJobStartedTime());
-		if (checkOutRemember.getVistecId() != null) {
-			data.put("reference_id", checkOutRemember.getVistecId());
-		} else {
-			data.put("reference_id", "");
-		}
-		data.put("engineer_id", Utils.work_engineer_id);
-		data.put("status", Utils.work_status_completed);
-		data.put("completed_at", Utils.getCurrentDateAndTime());
-		data.put("activity_type", selectedActivityText);
-		if (Utils.isNullOrEmpty(Utils.work_flooding_status)) {
-			data.put("flooding_status", "");
-		} else
-			data.put("flooding_status", Utils.work_flooding_status);
-		if (Utils.isNullOrEmpty(Utils.work_DA_call_out)) {
-			data.put("DA_call_out",ActivityConstants.DA_NO_CALL_MADE);
-		} else
-			data.put("DA_call_out",Utils.work_DA_call_out);
-		
-		data.put("is_redline_captured", Utils.work_is_redline_captured);
-		GPSTracker tracker = new GPSTracker(getActivity());
-		data.put("location_latitude", tracker.getLatitude());
-		data.put("location_longitude", tracker.getLongitude());
-		data.put("created_by", userProfile.getEmail());
-		Utils.startProgress(getActivity());
-		try {
-			Utils.work_id = checkOutRemember.getWorkId();
-		} catch (Exception e) {
-		}
-		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-				+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, data,
-				getWorkCompletedHandler());
-	}
+    private void sendWorkCompletedToServer() {
+        ContentValues data = new ContentValues();
+        CheckOutObject checkOutRemember = JobViewerDBHandler
+                .getCheckOutRemember(getActivity());
+        User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
+        CheckOutObject checkOutRemember2 = JobViewerDBHandler
+                .getCheckOutRemember(getActivity());
+        insertWorkEndTimeIntoHoursCalculator();
+        data.put("started_at", checkOutRemember2.getJobStartedTime());
+        if (checkOutRemember.getVistecId() != null) {
+            data.put("reference_id", checkOutRemember.getVistecId());
+        } else {
+            data.put("reference_id", "");
+        }
+        data.put("engineer_id", Utils.work_engineer_id);
+        data.put("status", Utils.work_status_completed);
+        data.put("completed_at", Utils.getCurrentDateAndTime());
+        data.put("activity_type", selectedActivityText);
+        if (Utils.isNullOrEmpty(Utils.work_flooding_status)) {
+            data.put("flooding_status", "");
+        } else
+            data.put("flooding_status", Utils.work_flooding_status);
+        if (Utils.isNullOrEmpty(Utils.work_DA_call_out)) {
+            data.put("DA_call_out", ActivityConstants.DA_NO_CALL_MADE);
+        } else
+            data.put("DA_call_out", Utils.work_DA_call_out);
 
-	private Handler getWorkCompletedHandler() {
+        data.put("is_redline_captured", Utils.work_is_redline_captured);
+        GPSTracker tracker = new GPSTracker(getActivity());
+        data.put("location_latitude", tracker.getLatitude());
+        data.put("location_longitude", tracker.getLongitude());
+        data.put("created_by", userProfile.getEmail());
+        Utils.startProgress(getActivity());
+        try {
+            Utils.work_id = checkOutRemember.getWorkId();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
+                        + CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, data,
+                getWorkCompletedHandler());
+    }
 
-		Handler handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case HttpConnection.DID_SUCCEED:
+    private Handler getWorkCompletedHandler() {
 
-					Utils.StopProgress();
-					startWorkSuccessActivity();
-					break;
-				case HttpConnection.DID_ERROR:
-					Utils.StopProgress();
-					String error = (String) msg.obj;
-					VehicleException exception = GsonConverter
-							.getInstance()
-							.decodeFromJsonString(error, VehicleException.class);
-					ExceptionHandler.showException(getActivity(), exception,
-							"Info");
-					prepareWorkCompletedRequest();
-					storeWorkEndTimeSheetInBackLogDB();
-					break;
-				default:
-					break;
-				}
-			}
+        Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case HttpConnection.DID_SUCCEED:
 
-		};
-		return handler;
-	}
+                        Utils.StopProgress();
+                        startWorkSuccessActivity();
+                        break;
+                    case HttpConnection.DID_ERROR:
+                        Utils.StopProgress();
+                        String error = (String) msg.obj;
+                        VehicleException exception = GsonConverter
+                                .getInstance()
+                                .decodeFromJsonString(error, VehicleException.class);
+                        ExceptionHandler.showException(getActivity(), exception,
+                                "Info");
+                        prepareWorkCompletedRequest();
+                        storeWorkEndTimeSheetInBackLogDB();
+                        break;
+                    default:
+                        break;
+                }
+            }
 
-	private Handler getWorkTimeSheetSubmitHandler() {
+        };
+        return handler;
+    }
 
-		Handler handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case HttpConnection.DID_SUCCEED:
+    private Handler getWorkTimeSheetSubmitHandler() {
 
-					if (Utils.isInternetAvailable(getActivity())) {
-						sendWorkCompletedToServer();
-					} else {
-						Utils.StopProgress();
-						prepareWorkCompletedRequest();
-					}
-					break;
-				case HttpConnection.DID_ERROR:
-					Utils.StopProgress();
-					String error = (String) msg.obj;
-					VehicleException exception = GsonConverter
-							.getInstance()
-							.decodeFromJsonString(error, VehicleException.class);
-					ExceptionHandler.showException(getActivity(), exception,
-							"Info");
-					prepareWorkCompletedRequest();
-					storeWorkEndTimeSheetInBackLogDB();
-					break;
-				default:
-					break;
-				}
-			}
+        Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case HttpConnection.DID_SUCCEED:
 
-		};
-		return handler;
-	}
+                        if (Utils.isInternetAvailable(getActivity())) {
+                            sendWorkCompletedToServer();
+                        } else {
+                            Utils.StopProgress();
+                            prepareWorkCompletedRequest();
+                        }
+                        break;
+                    case HttpConnection.DID_ERROR:
+                        Utils.StopProgress();
+                        String error = (String) msg.obj;
+                        VehicleException exception = GsonConverter
+                                .getInstance()
+                                .decodeFromJsonString(error, VehicleException.class);
+                        ExceptionHandler.showException(getActivity(), exception,
+                                "Info");
+                        prepareWorkCompletedRequest();
+                        storeWorkEndTimeSheetInBackLogDB();
+                        break;
+                    default:
+                        break;
+                }
+            }
 
-	protected void storeWorkEndTimeSheetInBackLogDB() {
+        };
+        return handler;
+    }
 
-		Utils.saveTimeSheetInBackLogTable(getActivity(),
-				Utils.workEndTimeSheetRequest, CommsConstant.END_WORK_API,
-				Utils.REQUEST_TYPE_TIMESHEET);
+    protected void storeWorkEndTimeSheetInBackLogDB() {
 
-	}
+        Utils.saveTimeSheetInBackLogTable(getActivity(),
+                Utils.workEndTimeSheetRequest, CommsConstant.END_WORK_API,
+                Utils.REQUEST_TYPE_TIMESHEET);
 
-	private void startWorkSuccessActivity() {
-		getActivity().finish();
-		AddPhotosActivity.arrayListOfWokImagesUpload = new ArrayList<WorkPhotoUpload>();
-		Intent workSuccessIntent = new Intent(getActivity(),
-				WorkSuccessActivity.class);
-		startActivity(workSuccessIntent);
-	}
+    }
 
-	private void insertWorkEndTimeIntoHoursCalculator() {
-		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler
-				.getBreakShiftTravelCall(getActivity());
-		breakShiftTravelCall.setWorkEndTime(String.valueOf(System
-				.currentTimeMillis()));
-		JobViewerDBHandler.saveBreakShiftTravelCall(getActivity(),
-				breakShiftTravelCall);
-	}
+    private void startWorkSuccessActivity() {
+        getActivity().finish();
+        AddPhotosActivity.arrayListOfWokImagesUpload = new ArrayList<WorkPhotoUpload>();
+        Intent workSuccessIntent = new Intent(getActivity(),
+                WorkSuccessActivity.class);
+        startActivity(workSuccessIntent);
+    }
 
-	@Override
-	public void onConfirmStartTraining() {
-		Utils.work_DA_call_out = ActivityConstants.DA_CALL_SUCCESSFUL;
-		mTapToCallDa.setVisibility(View.GONE);
-	}
+    private void insertWorkEndTimeIntoHoursCalculator() {
+        BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler
+                .getBreakShiftTravelCall(getActivity());
+        breakShiftTravelCall.setWorkEndTime(String.valueOf(System
+                .currentTimeMillis()));
+        JobViewerDBHandler.saveBreakShiftTravelCall(getActivity(),
+                breakShiftTravelCall);
+    }
 
-	@Override
-	public void onConfirmDismiss() {
-		Utils.work_DA_call_out = ActivityConstants.DA_CALL_UNSUCCESSFUL;
-	}
+    @Override
+    public void onConfirmStartTraining() {
+        Utils.work_DA_call_out = ActivityConstants.DA_CALL_SUCCESSFUL;
+        mTapToCallDa.setVisibility(View.GONE);
+    }
 
-	private boolean validateUserInputs() {
-		boolean validInputs = true;
-		if (mSpinnerSelectedText.getText().toString().contains("Select")) {
-			validInputs = false;
-		}
+    @Override
+    public void onConfirmDismiss() {
+        Utils.work_DA_call_out = ActivityConstants.DA_CALL_UNSUCCESSFUL;
+    }
 
-		if (mPipeDiameterEditText.getVisibility() == View.VISIBLE) {
-			mPipeDiameter = mPipeDiameterEditText.getText().toString();
-			if (Utils.isNullOrEmpty(mPipeDiameter)) {
-				mPipeDiameterEditText.setError(this.getResources().getString(
-						R.string.diameterRequired));
-				enableNextButton(false);
-				validInputs = false;
-			}
-		}
+    private boolean validateUserInputs() {
+        boolean validInputs = true;
+        if (mSpinnerSelectedText.getText().toString().contains("Select")) {
+            validInputs = false;
+        }
 
-		if (mPipeLengthEditText.getVisibility() == View.VISIBLE) {
-			mPipeLength = mPipeLengthEditText.getText().toString();
-			if (Utils.isNullOrEmpty(mPipeLength)) {
-				mPipeLengthEditText.setError(this.getResources().getString(
-						R.string.diameterRequired));
-				enableNextButton(false);
-				validInputs = false;
-			}
-		}
+        if (mPipeDiameterEditText.getVisibility() == View.VISIBLE) {
+            mPipeDiameter = mPipeDiameterEditText.getText().toString();
+            if (Utils.isNullOrEmpty(mPipeDiameter)) {
+                mPipeDiameterEditText.setError(this.getResources().getString(
+                        R.string.diameterRequired));
+                enableNextButton(false);
+                validInputs = false;
+            }
+        }
 
-		if (mSpinnerSelectedFloodedText.getText().toString().contains("Select")) {
-			validInputs = false;
-		} else {
-			Utils.work_flooding_status = mSpinnerSelectedFloodedText.getText()
-					.toString();
-		}
-		if (!(radioOne.isChecked() || radioTwo.isChecked())) {
-			validInputs = false;
-		}
-		return validInputs;
-	}
+        if (mPipeLengthEditText.getVisibility() == View.VISIBLE) {
+            mPipeLength = mPipeLengthEditText.getText().toString();
+            if (Utils.isNullOrEmpty(mPipeLength)) {
+                mPipeLengthEditText.setError(this.getResources().getString(
+                        R.string.diameterRequired));
+                enableNextButton(false);
+                validInputs = false;
+            }
+        }
 
-	@Override
-	public void afterTextChanged(Editable s) {
-		// makePipeDiameterAndLengthInvisible();
-		if (mSpinnerSelectedText.getText().toString()
-				.contains(this.getResources().getString(R.string.cctv))) {
-			updatePipeDiamterAndLength();
-		}
+        if (mSpinnerSelectedFloodedText.getText().toString().contains("Select")) {
+            validInputs = false;
+        } else {
+            Utils.work_flooding_status = mSpinnerSelectedFloodedText.getText()
+                    .toString();
+        }
+        if (!(radioOne.isChecked() || radioTwo.isChecked())) {
+            validInputs = false;
+        }
+        return validInputs;
+    }
 
-		if (mSpinnerSelectedText.getText().toString()
-				.contains(this.getResources().getString(R.string.line_clean))) {
-			updatePipeDiamterAndLength();
-		}
+    @Override
+    public void afterTextChanged(Editable s) {
+        // makePipeDiameterAndLengthInvisible();
+        if (mSpinnerSelectedText.getText().toString()
+                .contains(this.getResources().getString(R.string.cctv))) {
+            updatePipeDiamterAndLength();
+        }
 
-		if (!mSpinnerSelectedText.getText().toString()
-				.contains(this.getResources().getString(R.string.cctv))
-				&& !mSpinnerSelectedText
-						.getText()
-						.toString()
-						.contains(
-								this.getResources().getString(
-										R.string.line_clean))) {
-			makePipeDiameterAndLengthInvisible();
-		}
-	}
+        if (mSpinnerSelectedText.getText().toString()
+                .contains(this.getResources().getString(R.string.line_clean))) {
+            updatePipeDiamterAndLength();
+        }
 
-	private void makePipeDiameterAndLengthInvisible() {
-		mPipeDiameterEditText.setVisibility(View.GONE);
-		mPipeLengthEditText.setVisibility(View.GONE);
-		checkAndEnableNextButton();
-	}
+        if (!mSpinnerSelectedText.getText().toString()
+                .contains(this.getResources().getString(R.string.cctv))
+                && !mSpinnerSelectedText
+                .getText()
+                .toString()
+                .contains(
+                        this.getResources().getString(
+                                R.string.line_clean))) {
+            makePipeDiameterAndLengthInvisible();
+        }
+    }
 
-	private void checkAndEnableNextButton() {
-		if (validateUserInputs()) {
-			enableNextButton(true);
-		} else {
-			enableNextButton(false);
-		}
-	}
+    private void makePipeDiameterAndLengthInvisible() {
+        mPipeDiameterEditText.setVisibility(View.GONE);
+        mPipeLengthEditText.setVisibility(View.GONE);
+        checkAndEnableNextButton();
+    }
 
-	private void updatePipeDiamterAndLength() {
-		if (mPipeDiameterEditText.getVisibility() == View.VISIBLE) {
-			mPipeDiameter = mPipeDiameterEditText.getText().toString();
-		} else {
-			mPipeDiameterEditText.setVisibility(View.VISIBLE);
-		}
-		if (mPipeLengthEditText.getVisibility() == View.VISIBLE) {
-			mPipeLength = mPipeLengthEditText.getText().toString();
-		} else {
-			mPipeLengthEditText.setVisibility(View.VISIBLE);
-		}
-		checkAndEnableNextButton();
-	}
+    private void checkAndEnableNextButton() {
+        if (validateUserInputs()) {
+            enableNextButton(true);
+        } else {
+            enableNextButton(false);
+        }
+    }
 
-	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count,
-			int after) {
+    private void updatePipeDiamterAndLength() {
+        if (mPipeDiameterEditText.getVisibility() == View.VISIBLE) {
+            mPipeDiameter = mPipeDiameterEditText.getText().toString();
+        } else {
+            mPipeDiameterEditText.setVisibility(View.VISIBLE);
+        }
+        if (mPipeLengthEditText.getVisibility() == View.VISIBLE) {
+            mPipeLength = mPipeLengthEditText.getText().toString();
+        } else {
+            mPipeLengthEditText.setVisibility(View.VISIBLE);
+        }
+        checkAndEnableNextButton();
+    }
 
-	}
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count,
+                                  int after) {
 
-	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
 
-	}
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
 
 }

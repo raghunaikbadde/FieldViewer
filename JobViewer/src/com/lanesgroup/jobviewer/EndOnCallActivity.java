@@ -1,8 +1,5 @@
 package com.lanesgroup.jobviewer;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,6 +31,9 @@ import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 import com.vehicle.communicator.HttpConnection;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 
@@ -286,13 +286,13 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 			data.put("reference_id","");
 		}
 		data.put("user_id", Utils.callEndTimeRequest.getUser_id());
-		String time = "";
-		if (Utils.isNullOrEmpty(Utils.callEndTimeRequest
-				.getOverride_timestamp())) {
-			time = Utils.callEndTimeRequest.getOverride_timestamp();
-		} else {
-			time = Utils.callEndTimeRequest.getStarted_at();
-		}
+//		String time = "";
+//		if (Utils.isNullOrEmpty(Utils.callEndTimeRequest
+//				.getOverride_timestamp())) {
+//			time = Utils.callEndTimeRequest.getOverride_timestamp();
+//		} else {
+//			time = Utils.callEndTimeRequest.getStarted_at();
+//		}
 
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.END_ON_CALL_API, data, getEndCallOrShiftHandler());
@@ -325,13 +325,13 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 			data.put("reference_id","");
 		}
 		data.put("user_id", Utils.endShiftRequest.getUser_id());
-		String time = "";
-		if (Utils.isNullOrEmpty(Utils.endShiftRequest
-				.getOverride_timestamp())) {
-			time = Utils.endShiftRequest.getOverride_timestamp();
-		} else {
-			time = Utils.endShiftRequest.getStarted_at();
-		}
+//		String time = "";
+//		if (Utils.isNullOrEmpty(Utils.endShiftRequest
+//				.getOverride_timestamp())) {
+//			time = Utils.endShiftRequest.getOverride_timestamp();
+//		} else {
+//			time = Utils.endShiftRequest.getStarted_at();
+//		}
 
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.END_SHIFT_API, data, getEndCallOrShiftHandler());

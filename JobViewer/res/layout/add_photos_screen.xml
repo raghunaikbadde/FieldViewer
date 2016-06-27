@@ -94,6 +94,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/imagebutton"
+                    android:contentDescription="@string/desc"
                     android:src="@drawable/camera_info_icon" />
 
                 <ImageButton
@@ -103,6 +104,7 @@
                     android:layout_marginLeft="@dimen/imagebutton_spacing20"
                     android:layout_weight="1"
                     android:background="@drawable/imagebutton"
+                    android:contentDescription="@string/desc"
                     android:src="@drawable/road_block_icon" />
 
                 <ImageButton
@@ -112,6 +114,7 @@
                     android:layout_marginLeft="@dimen/imagebutton_spacing20"
                     android:layout_weight="1"
                     android:background="@drawable/imagebutton"
+                    android:contentDescription="@string/desc"
                     android:src="@drawable/user_with_tool_icon" />
             </LinearLayout>
 
@@ -131,6 +134,7 @@
                     android:id="@+id/camera_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/desc"
                     android:src="@drawable/camera_icon" />
 
                 <TextView
@@ -157,14 +161,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/white_lato_regular_big79"
-        android:layout_marginLeft="@dimen/white_lato_regular_big79"
-        android:layout_marginRight="@dimen/white_lato_regular_big79">
+        android:layout_margin="@dimen/white_lato_regular_big79">
 
         <Button
             android:id="@+id/button1"
             android:layout_width="0dp"
-            android:layout_height="@dimen/button_height150"
+            android:layout_height="@dimen/dialog_icon_image_163"
             android:layout_weight="20"
             android:background="@drawable/grey_background"
             android:text="@string/save_2"
@@ -182,7 +184,7 @@
         <Button
             android:id="@+id/button2"
             android:layout_width="0dp"
-            android:layout_height="@dimen/button_height150"
+            android:layout_height="@dimen/dialog_icon_image_163"
             android:layout_gravity="center_vertical"
             android:layout_weight="20"
             android:background="@drawable/dark_grey_background"

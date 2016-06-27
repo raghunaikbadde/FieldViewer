@@ -69,7 +69,7 @@ public class SelectActivityDialog extends Activity implements
         setContentView(R.layout.select_dialog);
         mContext = this;
         dialog_ok = (Button) findViewById(R.id.dialog_ok);
-        dialogBoxLayout = (LinearLayout)findViewById(R.id.select_dialog_layout);
+        dialogBoxLayout = (LinearLayout) findViewById(R.id.select_dialog_layout);
         HashMap<String, Object> map1 = new HashMap<String, Object>();
         map1.put("maintext", R.drawable.work_camera_icon);
         map1.put("subtext", "Work");
@@ -115,7 +115,7 @@ public class SelectActivityDialog extends Activity implements
                         // clean previous selected
                         m.put("checked", false);
 
-                    m_data.get(position).put("checked",true);
+                    m_data.get(position).put("checked", true);
                     adapter.notifyDataSetChanged();
                     updateOkButtonDrawable(true);
                 } else {
@@ -148,7 +148,6 @@ public class SelectActivityDialog extends Activity implements
                         break; // break, since it's a single choice list
                     }
                 }
-                String result = "";
                 if (selected == -1)
                     return;
                 else if (selected == 0) {
@@ -164,7 +163,7 @@ public class SelectActivityDialog extends Activity implements
                         intent.setClass(SelectActivityDialog.this,
                                 TravelToWorkSiteActivity.class);
                     }
-                    result = WORK;
+//                    result = WORK;
                     startActivity(intent);
                     finish();
 
@@ -172,15 +171,15 @@ public class SelectActivityDialog extends Activity implements
 
                     new ConfirmDialog(mContext, SelectActivityDialog.this,
                             Constants.WORK_NO_PHOTOS_CONFIRMATION, "").show();
-                    result = WORK_NO_PHOTOS;
+//                    result = WORK_NO_PHOTOS;
 
                     return;
                 } else if (selected == 2) {
-                	 	
-                	dialogBoxLayout.setVisibility(View.INVISIBLE);
+
+                    dialogBoxLayout.setVisibility(View.INVISIBLE);
                     new ConfirmDialog(mContext, SelectActivityDialog.this,
                             Constants.START_TRAINING).show();
-                    result = TRAINING;
+//                    result = TRAINING;
 
                     return;
                 }
@@ -319,13 +318,13 @@ public class SelectActivityDialog extends Activity implements
 
     @Override
     public void onConfirmDismiss() {
-    	dialogBoxLayout.setVisibility(View.VISIBLE);
+        dialogBoxLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onConfirmStartWithNoPhotos() {
         int selected = -1;
-        
+
         Intent workWithNoPhotosintent = new Intent();
         for (int i = 0; i < m_data.size(); i++) // clean
         // previous
@@ -338,7 +337,7 @@ public class SelectActivityDialog extends Activity implements
                 break; // break, since it's a single choice list
             }
         }
-        String result = "";
+
         if (selected == -1)
             return;
         else if (selected == 0 || selected == 1) {
@@ -353,7 +352,7 @@ public class SelectActivityDialog extends Activity implements
                 workWithNoPhotosintent.setClass(SelectActivityDialog.this,
                         TravelToWorkSiteActivity.class);
             }
-            result = WORK_NO_PHOTOS;
+//            result = WORK_NO_PHOTOS;
             workWithNoPhotosintent.putExtra(Constants.WORK_NO_PHOTOS,
                     Constants.WORK_NO_PHOTOS);
             startActivity(workWithNoPhotosintent);
@@ -363,7 +362,7 @@ public class SelectActivityDialog extends Activity implements
 
     @Override
     public void onConfirmDismissWithNoPhotos() {
-    	 
+
     }
 
 

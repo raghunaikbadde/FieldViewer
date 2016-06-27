@@ -131,9 +131,8 @@
                     android:layout_height="@dimen/welcome_bottom_margin113"
                     android:layout_below="@+id/timer_text"
                     android:layout_centerHorizontal="true"
+                    android:layout_margin="@dimen/dialog_detail_top_margin80"
                     android:layout_marginBottom="@dimen/white_lato_regular_small40"
-                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:background="@drawable/grey_stroke_back"
                     android:gravity="center_vertical|center_horizontal"
                     android:orientation="horizontal">
@@ -163,6 +162,7 @@
                         android:id="@+id/camera_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/desc"
                         android:src="@drawable/camera_icon" />
 
                     <TextView
@@ -182,7 +182,7 @@
                     android:layout_below="@+id/capture_imageButton"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dialog_detail_top_margin80"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
@@ -192,14 +192,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/white_lato_regular_big79"
-        android:layout_marginLeft="@dimen/white_lato_regular_big79"
-        android:layout_marginRight="@dimen/white_lato_regular_big79">
+        android:layout_margin="@dimen/dialog_detail_top_margin80">
 
         <Button
             android:id="@+id/saveBtn"
             android:layout_width="0dp"
-            android:layout_height="@dimen/button_height150"
+            android:layout_height="@dimen/dialog_icon_full_space163"
             android:layout_weight="20"
             android:background="@drawable/grey_background"
             android:text="@string/save"
@@ -217,7 +215,7 @@
         <Button
             android:id="@+id/nextBtn"
             android:layout_width="0dp"
-            android:layout_height="@dimen/button_height150"
+            android:layout_height="@dimen/dialog_icon_full_space163"
             android:layout_gravity="center_vertical"
             android:layout_weight="20"
             android:background="@drawable/dark_grey_background"

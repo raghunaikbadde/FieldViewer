@@ -43,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/stop_work_icon_height350"
                 android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/desc"
                 android:src="@drawable/stop_work_image" />
 
             <TextView

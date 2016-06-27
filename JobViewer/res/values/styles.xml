@@ -15,10 +15,10 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/headerBackColor</item>
-        <item name="android:colorPrimary">@color/headerBackColor</item>
+        <!--<item name="android:colorPrimary">@color/headerBackColor</item>-->
         <!-- Override the color of UI controls -->
         <item name="android:windowNoTitle">true</item>
-        <item name="android:colorAccent">@color/headerBackColor</item>
+        <!--<item name="android:colorAccent">@color/headerBackColor</item>-->
         <item name="android:windowContentOverlay">@null</item>
         <item name="colorAccent">@color/headerBackColor</item>
         <item name="alertDialogTheme">@style/AppCompatDialogStyle</item>
@@ -30,7 +30,7 @@
         <item name="android:background">@color/whiteColor</item>
         <item name="android:windowNoTitle">true</item>
     </style>
-    
-    <style name="dialogMultipleTheme" parent="@android:style/Theme.DeviceDefault.Light.Dialog"></style>
+
+    <style name="dialogMultipleTheme" parent="@android:style/Theme.DeviceDefault.Light.Dialog" />
 
 </resources>

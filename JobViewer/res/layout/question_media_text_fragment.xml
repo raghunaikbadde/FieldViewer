@@ -116,7 +116,7 @@
                     android:singleLine="true"
                     android:textColor="@color/blackColor"
                     android:textColorHint="@color/greyColor"
-                    android:textSize="@dimen/black_lato_regular_medium45"></EditText>
+                    android:textSize="@dimen/black_lato_regular_medium45" />
 
                 <LinearLayout
                     android:id="@+id/capture_layout"
@@ -133,6 +133,7 @@
                         android:id="@+id/camera_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/desc"
                         android:src="@drawable/camera_icon" />
 
                     <TextView
@@ -152,7 +153,7 @@
                     android:layout_below="@+id/capture_layout"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dialog_detail_top_margin80"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

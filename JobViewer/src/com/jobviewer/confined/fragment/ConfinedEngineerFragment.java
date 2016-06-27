@@ -242,7 +242,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 						imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 					}
 				} catch (Exception e) {
-
+					e.printStackTrace();
 				}
 				ConfinedQuestionManager.getInstance()
 						.updateScreenOnQuestionMaster(currentScreen);
@@ -440,7 +440,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 				imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		saveGasLevels();
 		ConfinedQuestionManager.getInstance().updateScreenOnQuestionMaster(

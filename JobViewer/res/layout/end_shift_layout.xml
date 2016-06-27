@@ -74,7 +74,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/progress_layout"
-                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/white_lato_bold_small50"
                 android:layout_marginLeft="@dimen/white_lato_regular_big79"
                 android:layout_marginRight="@dimen/white_lato_regular_big79"
@@ -128,7 +127,7 @@
                 android:layout_below="@+id/vehicle_mileage_text"
                 android:layout_marginLeft="@dimen/white_lato_regular_big79"
                 android:layout_marginRight="@dimen/white_lato_regular_big79"
-                android:background="@drawable/grey_background"
+                android:background="@drawable/edit_text_background"
                 android:digits="0123456789"
                 android:hint="@string/enter_ending_mileage_str"
                 android:inputType="number|none"
@@ -138,9 +137,9 @@
                 android:paddingRight="@dimen/grey_lato_regular_small35"
                 android:paddingTop="@dimen/grey_lato_regular_small35"
                 android:singleLine="true"
-                android:textColor="@color/dark_grey"
+                android:textColor="@color/black"
                 android:textColorHint="@color/dark_grey"
-                android:textSize="@dimen/black_lato_regular_medium45"></EditText>
+                android:textSize="@dimen/black_lato_regular_medium45"/>
         </RelativeLayout>
     </ScrollView>
 

@@ -1,9 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"  >
+    android:orientation="vertical">
 
     <include layout="@layout/job_viewer_title_template" />
 
@@ -12,12 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:isScrollContainer="false" >
+        android:isScrollContainer="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/welcome_text"
@@ -58,6 +57,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/risk_ques_top_margin105"
                 android:layout_marginTop="@dimen/red_lato_bold_big90"
+                android:contentDescription="@string/desc"
                 android:src="@drawable/shout_out_small_icon" />
         </LinearLayout>
     </ScrollView>

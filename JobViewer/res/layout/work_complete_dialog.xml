@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dialog_width920"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialog_info"
@@ -18,6 +18,8 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" />
+        android:background="@color/white"
+        android:paddingBottom="@dimen/logo_top_margin63"
+        android:paddingTop="@dimen/logo_top_margin63" />
 
 </LinearLayout>

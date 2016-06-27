@@ -1,9 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"  >
+    android:orientation="vertical">
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -11,16 +10,16 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottombutton"
         android:layout_alignParentTop="true"
-        android:isScrollContainer="false" >
+        android:isScrollContainer="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/screenTitle"
@@ -52,25 +51,27 @@
                 <TextView
                     android:id="@+id/question"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:gravity="center"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/questionTitle"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/actionbar_bottom_margin85"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:gravity="center"
                     android:text="@string/shout_msg"
                     android:textColor="@color/black"
                     android:textSize="@dimen/white_lato_bold_small50" />
-                
+
                 <TextView
                     android:id="@+id/doneText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:gravity="center"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/question"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/actionbar_bottom_margin85"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:gravity="center"
                     android:text="@string/tap_done_to_continue_1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/white_lato_bold_small50" />
@@ -86,7 +87,7 @@
         android:layout_marginBottom="@dimen/white_lato_regular_big79"
         android:layout_marginLeft="@dimen/white_lato_regular_big79"
         android:layout_marginRight="@dimen/white_lato_regular_big79"
-        android:gravity="center_horizontal" >
+        android:gravity="center_horizontal">
 
         <Button
             android:id="@+id/doneButton"

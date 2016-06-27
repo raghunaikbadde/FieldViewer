@@ -26,143 +26,143 @@ import com.lanesgroup.jobviewer.R;
 
 public class CheckTypeFragment extends Fragment implements OnClickListener {
 
-	private ProgressBar mProgress;
-	private TextView mProgressStep, questionTitle, question, screenTitle;
-	private CheckBox radio_yes;
-	private Button mCancel, mNext;
-	private View mRootView;
-	private Screen currentScreen;
-	private CheckOutObject checkOutRemember;
+    private ProgressBar mProgress;
+    private TextView mProgressStep, questionTitle, question, screenTitle;
+    private CheckBox radio_yes;
+    private Button mCancel, mNext;
+    private View mRootView;
+    private Screen currentScreen;
+    private CheckOutObject checkOutRemember;
 
-	public interface onClicksEnterJobNumber {
-		void onNextClick();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-		void onCancelClick();
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        mRootView = inflater.inflate(R.layout.question_check_fragment,
+                container, false);
+        initUI();
+        updateData();
+        return mRootView;
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+    private void updateData() {
+        currentScreen = QuestionManager.getInstance().getCurrentScreen();
+        questionTitle.setText(currentScreen.getTitle());
+        question.setText(currentScreen.getText());
+        radio_yes.setText(currentScreen.getCheckbox().getLabel());
+        mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
+        mProgressStep.setText(currentScreen.get_progress() + "%");
+        checkOutRemember = JobViewerDBHandler
+                .getCheckOutRemember(getActivity());
+        if (ActivityConstants.EXCAVATION.equalsIgnoreCase(checkOutRemember
+                .getAssessmentSelected())) {
+            screenTitle.setText(getActivity().getResources().getString(
+                    R.string.excavation_risk_str));
+        } else {
+            screenTitle.setText(getActivity().getResources().getString(
+                    R.string.non_excavation_risk_assessment_str));
+        }
+        if (ActivityConstants.TRUE.equalsIgnoreCase(currentScreen.getCheckbox()
+                .getRequired())
+                && !ActivityConstants.SELECTED.equalsIgnoreCase(currentScreen
+                .getAnswer())) {
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		getActivity().getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		mRootView = inflater.inflate(R.layout.question_check_fragment,
-				container, false);
-		initUI();
-		updateData();
-		return mRootView;
-	}
+            enableNextButton(false);
+        } else {
+            enableNextButton(true);
+        }
 
-	private void updateData() {
-		currentScreen = QuestionManager.getInstance().getCurrentScreen();
-		questionTitle.setText(currentScreen.getTitle());
-		question.setText(currentScreen.getText());
-		radio_yes.setText(currentScreen.getCheckbox().getLabel());
-		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
-		mProgressStep.setText(currentScreen.get_progress() + "%");
-		checkOutRemember = JobViewerDBHandler
-				.getCheckOutRemember(getActivity());
-		if (ActivityConstants.EXCAVATION.equalsIgnoreCase(checkOutRemember
-				.getAssessmentSelected())) {
-			screenTitle.setText(getActivity().getResources().getString(
-					R.string.excavation_risk_str));
-		} else {
-			screenTitle.setText(getActivity().getResources().getString(
-					R.string.non_excavation_risk_assessment_str));
-		}
-		if (ActivityConstants.TRUE.equalsIgnoreCase(currentScreen.getCheckbox()
-				.getRequired())
-				&& !ActivityConstants.SELECTED.equalsIgnoreCase(currentScreen
-						.getAnswer())) {
+        if (ActivityConstants.SELECTED.equalsIgnoreCase(currentScreen
+                .getAnswer())) {
+            enableNextButton(true);
+            radio_yes.setChecked(true);
+        } else {
+            radio_yes.setChecked(false);
+        }
+        radio_yes.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			enableNextButton(false);
-		} else {
-			enableNextButton(true);
-		}
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if (isChecked) {
+                    enableNextButton(isChecked);
+                } else {
+                    enableNextButton(false);
+                }
 
-		if (ActivityConstants.SELECTED.equalsIgnoreCase(currentScreen
-				.getAnswer())) {
-			enableNextButton(true);
-			radio_yes.setChecked(true);
-		} else {
-			radio_yes.setChecked(false);
-		}
-		radio_yes.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            }
+        });
+        com.jobviewer.survey.object.Button[] buttons = currentScreen
+                .getButtons().getButton();
+        for (com.jobviewer.survey.object.Button button : buttons) {
+            if (ActivityConstants.TRUE
+                    .equalsIgnoreCase(button.getDisplay())
+                    && !"next".equalsIgnoreCase(button.getName())) {
+                mCancel.setText(getResources().getString(
+                        Utils.getButtonText(button.getName())));
+                break;
+            }
+        }
 
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if (isChecked) {
-					enableNextButton(isChecked);
-				} else {
-					enableNextButton(false);
-				}
+    }
 
-			}
-		});
-		com.jobviewer.survey.object.Button[] buttons = currentScreen
-				.getButtons().getButton();
+    public void enableNextButton(boolean isEnable) {
+        if (isEnable) {
+            mNext.setEnabled(true);
+            mNext.setBackgroundResource(R.drawable.red_background);
+        } else {
+            mNext.setEnabled(false);
+            mNext.setBackgroundResource(R.drawable.dark_grey_background);
+        }
 
-		for (int i = 0; i < buttons.length; i++) {
-			if (ActivityConstants.TRUE
-					.equalsIgnoreCase(buttons[i].getDisplay())
-					&& !"next".equalsIgnoreCase(buttons[i].getName())) {
-				mCancel.setText(getResources().getString(
-						Utils.getButtonText(buttons[i].getName())));
-				break;
-			}
-		}
-	}
+    }
 
-	public void enableNextButton(boolean isEnable) {
-		if (isEnable) {
-			mNext.setEnabled(true);
-			mNext.setBackgroundResource(R.drawable.red_background);
-		} else {
-			mNext.setEnabled(false);
-			mNext.setBackgroundResource(R.drawable.dark_grey_background);
-		}
+    private void initUI() {
+        mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
+        mProgressStep = (TextView) mRootView
+                .findViewById(R.id.progress_step_text);
+        mCancel = (Button) mRootView.findViewById(R.id.button1);
+        mNext = (Button) mRootView.findViewById(R.id.button2);
+        mNext.setOnClickListener(this);
+        mCancel.setOnClickListener(this);
+        questionTitle = (TextView) mRootView.findViewById(R.id.questionTitle);
+        question = (TextView) mRootView.findViewById(R.id.question);
+        radio_yes = (CheckBox) mRootView.findViewById(R.id.radio_yes);
+        screenTitle = (TextView) mRootView.findViewById(R.id.screenTitle);
+    }
 
-	}
+    @SuppressWarnings("static-access")
+    @Override
+    public void onClick(View view) {
+        if (view == mCancel) {
+            if ("save".equalsIgnoreCase(mCancel.getText().toString())) {
+                QuestionManager.getInstance().saveAssessment(
+                        checkOutRemember.getAssessmentSelected());
+                Intent intent = new Intent(view.getContext(),
+                        ActivityPageActivity.class);
+                intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        } else if (view == mNext) {
+            currentScreen.setAnswer(ActivityConstants.SELECTED);
+            QuestionManager.getInstance().updateScreenOnQuestionMaster(
+                    currentScreen);
+            QuestionManager.getInstance().loadNextFragment(
+                    currentScreen.getButtons().getButton()[2].getActions()
+                            .getClick().getOnClick());
 
-	private void initUI() {
-		mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
-		mProgressStep = (TextView) mRootView
-				.findViewById(R.id.progress_step_text);
-		mCancel = (Button) mRootView.findViewById(R.id.button1);
-		mNext = (Button) mRootView.findViewById(R.id.button2);
-		mNext.setOnClickListener(this);
-		mCancel.setOnClickListener(this);
-		questionTitle = (TextView) mRootView.findViewById(R.id.questionTitle);
-		question = (TextView) mRootView.findViewById(R.id.question);
-		radio_yes = (CheckBox) mRootView.findViewById(R.id.radio_yes);
-		screenTitle = (TextView) mRootView.findViewById(R.id.screenTitle);
-	}
+        }
+    }
 
-	@SuppressWarnings("static-access")
-	@Override
-	public void onClick(View view) {
-		if (view == mCancel) {
-			if ("save".equalsIgnoreCase(mCancel.getText().toString())) {
-				QuestionManager.getInstance().saveAssessment(
-						checkOutRemember.getAssessmentSelected());
-				Intent intent = new Intent(view.getContext(),
-						ActivityPageActivity.class);
-				intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
-			}
-		} else if (view == mNext) {
-			currentScreen.setAnswer(ActivityConstants.SELECTED);
-			QuestionManager.getInstance().updateScreenOnQuestionMaster(
-					currentScreen);
-			QuestionManager.getInstance().loadNextFragment(
-					currentScreen.getButtons().getButton()[2].getActions()
-							.getClick().getOnClick());
+    public interface onClicksEnterJobNumber {
+        void onNextClick();
 
-		}
-	}
+        void onCancelClick();
+    }
 }

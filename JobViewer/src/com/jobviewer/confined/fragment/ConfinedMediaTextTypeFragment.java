@@ -40,6 +40,7 @@ import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.ImageUploadResponse;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
@@ -108,12 +109,12 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
         com.jobviewer.survey.object.Button[] buttons = currentScreen
                 .getButtons().getButton();
 
-        for (int i = 0; i < buttons.length; i++) {
+        for (com.jobviewer.survey.object.Button button : buttons) {
             if (ActivityConstants.TRUE
-                    .equalsIgnoreCase(buttons[i].getDisplay())
-                    && !"next".equalsIgnoreCase(buttons[i].getName())) {
+                    .equalsIgnoreCase(button.getDisplay())
+                    && !"next".equalsIgnoreCase(button.getName())) {
                 mSave.setText(getResources().getString(
-                        Utils.getButtonText(buttons[i].getName())));
+                        Utils.getButtonText(button.getName())));
                 break;
             }
         }
@@ -147,7 +148,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
                 count++;
             }
         }
-        if (count!=0 && count >= Integer.parseInt(currentScreen.getRequired_images())) {
+        if (count != 0 && count >= Integer.parseInt(currentScreen.getRequired_images())) {
             enableNextButton(true);
         } else {
             enableNextButton(false);
@@ -171,13 +172,12 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
             if (!Utils.isNullOrEmpty(image_string)) {
                 ImageObject imageById = JobViewerDBHandler.getImageById(
                         getActivity(), image_string);
-                /*
-				 * Bitmap base64ToBitmap = Utils.base64ToBitmap(imageById
-				 * .getImage_string());
-				 */
+                String image = imageById.getImage_string();
+                if (image.contains(Constants.IMAGE_STRING_INITIAL)) {
+                    image = image.replace(Constants.IMAGE_STRING_INITIAL, "");
+                }
                 byte[] getbyteArrayFromBase64String = Utils
-                        .getbyteArrayFromBase64String(imageById
-                                .getImage_string());
+                        .getbyteArrayFromBase64String(image);
                 Log.i("Android", "Image 15 :"
                         + imageById.getImage_string().substring(0, 50));
                 loadImages(getbyteArrayFromBase64String);
@@ -189,9 +189,9 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
     private void loadImages(byte[] getbyteArrayFromBase64String) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 310, 220);
-        layoutParams.setMargins(0, 30, 0, 0);
+        layoutParams.setMargins(15, 15, 15, 15);
         mCapturedImage = new ImageView(getActivity());
-        Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
+        Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap().override(350, 420)
                 .into(mCapturedImage);
         linearLayout.addView(mCapturedImage, layoutParams);
     }
@@ -259,7 +259,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
         if (Utils.isInternetAvailable(getActivity())) {
             sendWorkImageToServer(imageObject);
         } /*
-		 * else { JobViewerDBHandler.saveImage(getActivity(), imageObject); //
+         * else { JobViewerDBHandler.saveImage(getActivity(), imageObject); //
 		 * loadNextFragement(); }
 		 */
 
@@ -329,6 +329,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
             for (int i = 0; i < currentScreen.getImages().length; i++) {
                 images[i] = currentScreen.getImages()[i];
             }
+
             images[currentScreen.getImages().length] = new Images();
             currentScreen.setImages(images);
             Log.i("Android", "");

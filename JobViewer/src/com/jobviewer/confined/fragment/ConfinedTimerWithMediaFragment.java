@@ -348,9 +348,9 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 	private void loadImages(byte[] getbyteArrayFromBase64String) {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				310, 220);
-		layoutParams.setMargins(0, 30, 0, 0);
+		layoutParams.setMargins(15, 15, 15, 15);
 		mCapturedImage = new ImageView(getActivity());
-		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
+		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap().override(350, 420)
 				.into(mCapturedImage);
 		linearLayout.addView(mCapturedImage, layoutParams);
 	}

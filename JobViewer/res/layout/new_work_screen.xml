@@ -113,7 +113,7 @@
                         android:layout_width="@dimen/edit_text_width270"
                         android:layout_height="@dimen/edit_text_height130"
                         android:layout_below="@+id/district_text"
-                        android:background="@drawable/grey_background"
+                        android:background="@drawable/edit_text_background"
                         android:focusable="false"
                         android:gravity="center_vertical|center_horizontal"
                         android:hint="@string/tmp_number"
@@ -122,7 +122,7 @@
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
-                        android:textSize="@dimen/black_lato_regular_big66"></EditText>
+                        android:textSize="@dimen/black_lato_regular_big66" />
 
                     <EditText
                         android:id="@+id/distric2_edittext"
@@ -130,7 +130,7 @@
                         android:layout_height="@dimen/edit_text_height130"
                         android:layout_below="@+id/district_text"
                         android:layout_marginLeft="@dimen/spinner_bottom_margin30"
-                        android:background="@drawable/grey_background"
+                        android:background="@drawable/edit_text_background"
                         android:gravity="center_vertical|center_horizontal"
                         android:hint="@string/tmp_number"
                         android:inputType="number"
@@ -138,7 +138,7 @@
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
-                        android:textSize="@dimen/black_lato_regular_big66"></EditText>
+                        android:textSize="@dimen/black_lato_regular_big66" />
                 </LinearLayout>
 
                 <TextView
@@ -170,7 +170,7 @@
                         android:layout_width="@dimen/edit_text_width270"
                         android:layout_height="@dimen/edit_text_height130"
                         android:layout_below="@+id/district_text"
-                        android:background="@drawable/grey_background"
+                        android:background="@drawable/edit_text_background"
                         android:gravity="center_vertical|center_horizontal"
                         android:hint="@string/tmp_number"
                         android:inputType="number"
@@ -178,7 +178,7 @@
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
-                        android:textSize="@dimen/black_lato_regular_big66"></EditText>
+                        android:textSize="@dimen/black_lato_regular_big66" />
 
                     <EditText
                         android:id="@+id/distric4_edittext"
@@ -186,7 +186,7 @@
                         android:layout_height="@dimen/edit_text_height130"
                         android:layout_below="@+id/district_text"
                         android:layout_marginLeft="@dimen/spinner_bottom_margin30"
-                        android:background="@drawable/grey_background"
+                        android:background="@drawable/edit_text_background"
                         android:gravity="center_vertical|center_horizontal"
                         android:hint="@string/district_four_tmp_number"
                         android:inputType="textCapCharacters"
@@ -195,25 +195,42 @@
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
-                        android:textSize="@dimen/black_lato_regular_big66"></EditText>
+                        android:textSize="@dimen/black_lato_regular_big66" />
                 </LinearLayout>
 
-                <CheckBox
-                    android:id="@+id/pollutionCheckBox"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/pollutionCheckParent"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/district2_layout"
-                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
-                    android:layout_marginRight="@dimen/white_lato_regular_big79"
-                    android:button="@drawable/checkbox_selector"
-                    android:checked="false"
-                    android:paddingLeft="@dimen/template_spacing27"
-                    android:text="@string/is_this_pollution_str"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/white_lato_bold_small50"
-                    android:visibility="gone" />
+                    android:layout_below="@+id/district2_layout">
 
+                    <CheckBox
+                        android:id="@+id/pollutionCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/white_lato_regular_big79"
+                        android:layout_marginRight="@dimen/white_lato_regular_big79"
+                        android:layout_toLeftOf="@+id/warningView"
+                        android:button="@drawable/checkbox_selector"
+                        android:checked="false"
+                        android:paddingLeft="@dimen/template_spacing27"
+                        android:text="@string/is_this_pollution_str"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/white_lato_bold_small50"
+                        android:visibility="visible" />
 
+                    <ImageView
+                        android:id="@+id/warningView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                        android:contentDescription="@string/desc"
+                        android:src="@drawable/alert_confirm_image" />
+                </RelativeLayout>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
@@ -222,10 +239,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pollutionCheckBox"
-        android:layout_marginBottom="@dimen/white_lato_regular_big79"
-        android:layout_marginLeft="@dimen/white_lato_regular_big79"
-        android:layout_marginRight="@dimen/white_lato_regular_big79"
-        android:layout_marginTop="@dimen/button_top_margin345">
+        android:layout_margin="@dimen/white_lato_regular_big79">
 
         <Button
             android:id="@+id/button1"
@@ -256,4 +270,5 @@
             android:textColor="@color/white"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
+
 </LinearLayout>

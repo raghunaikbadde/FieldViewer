@@ -146,7 +146,7 @@ public class AssessmentCompleteFragment extends Fragment implements
 		values.put("completed_at", Utils.getCurrentDateAndTime());
 
 		values.put("created_by", userProfile.getEmail());
-		GPSTracker gpsTracker = new GPSTracker(getActivity());
+//		GPSTracker gpsTracker = new GPSTracker(getActivity());
 		String encodeToJsonString = GsonConverter.getInstance()
 				.encodeToJsonString(
 						QuestionManager.getInstance().getQuestionMaster());

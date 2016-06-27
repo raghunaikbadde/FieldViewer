@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/grey_lato_regular_small26"
                     android:layout_marginRight="@dimen/grey_lato_regular_small26"
-                    android:layout_marginTop="@dimen/shift_complete_spacing12" >
+                    android:layout_marginTop="@dimen/shift_complete_spacing12">
 
                     <TextView
                         android:id="@+id/shift_hour_text"
@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/grey_lato_regular_small26"
                     android:layout_marginRight="@dimen/grey_lato_regular_small26"
-                    android:layout_marginTop="@dimen/shift_complete_spacing12" >
+                    android:layout_marginTop="@dimen/shift_complete_spacing12">
 
                     <TextView
                         android:id="@+id/break_taken_text"
@@ -105,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/grey_lato_regular_small26"
                     android:layout_marginRight="@dimen/grey_lato_regular_small26"
-                    android:layout_marginTop="@dimen/shift_complete_spacing12" >
+                    android:layout_marginTop="@dimen/shift_complete_spacing12">
 
                     <TextView
                         android:id="@+id/hours_worked"
@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/grey_lato_regular_small26"
                     android:layout_marginRight="@dimen/grey_lato_regular_small26"
-                    android:layout_marginTop="@dimen/shift_complete_spacing12" >
+                    android:layout_marginTop="@dimen/shift_complete_spacing12">
 
                     <TextView
                         android:id="@+id/work_completed"
@@ -173,7 +173,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/spinner_bottom_margin30"
                 android:layout_marginLeft="@dimen/white_lato_regular_big79"
-                android:layout_marginRight="@dimen/white_lato_regular_big79" >
+                android:layout_marginRight="@dimen/white_lato_regular_big79">
 
                 <Button
                     android:id="@+id/button1"
@@ -219,6 +219,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="@dimen/lanes_logo_bottom_margin23"
+                    android:contentDescription="@string/desc"
                     android:src="@drawable/correct_sign_icon" />
 
                 <TextView
@@ -233,9 +234,9 @@
     </ScrollView>
 
     <include
+        layout="@layout/copyright_bottom_template"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/white_lato_regular_small40"
-        layout="@layout/copyright_bottom_template" />
+        android:layout_marginTop="@dimen/white_lato_regular_small40" />
 
 </LinearLayout>

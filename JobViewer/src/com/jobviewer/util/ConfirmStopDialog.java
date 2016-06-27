@@ -45,6 +45,7 @@ public class ConfirmStopDialog extends Dialog implements OnClickListener {
     public ConfirmStopDialog(Context context, ConfirmStopWork callback,
                              String eventType) {
         super(context);
+        mContext=context;
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setBackgroundDrawable(
                 new ColorDrawable(android.graphics.Color.TRANSPARENT));

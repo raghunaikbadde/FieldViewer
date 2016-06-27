@@ -109,6 +109,7 @@ public class NoPhotosStopFragment extends Fragment implements OnClickListener {
 			try {
 				Utils.work_id = checkOutRemember.getWorkId();
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
 					+ CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, data,

@@ -1,16 +1,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"  >
+    android:orientation="vertical">
 
     <include
         android:id="@+id/header"
+        layout="@layout/job_viewer_title_template"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        layout="@layout/job_viewer_title_template" />
+        android:layout_alignParentTop="true" />
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -18,14 +17,14 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/footer"
         android:layout_below="@+id/header"
-        android:isScrollContainer="false" >
+        android:isScrollContainer="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:gravity="top"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/enroute_to_work_text"
@@ -82,9 +81,9 @@
 
     <include
         android:id="@+id/footer"
+        layout="@layout/copyright_bottom_template"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        layout="@layout/copyright_bottom_template" />
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

@@ -116,7 +116,7 @@
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textColorHint="@color/lighter_grey"
-                    android:textSize="@dimen/black_lato_regular_medium45"></EditText>
+                    android:textSize="@dimen/black_lato_regular_medium45" />
 
                 <LinearLayout
                     android:id="@+id/capture_layout"
@@ -133,6 +133,7 @@
                         android:id="@+id/camera_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/desc"
                         android:src="@drawable/ic_launcher" />
 
                     <TextView

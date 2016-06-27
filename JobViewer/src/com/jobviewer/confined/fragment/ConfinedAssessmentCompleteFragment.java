@@ -1,7 +1,5 @@
 package com.jobviewer.confined.fragment;
 
-import org.json.JSONObject;
-
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
@@ -35,6 +33,8 @@ import com.lanesgroup.jobviewer.AddPhotosActivity;
 import com.lanesgroup.jobviewer.R;
 import com.raghu.ShoutOutBackLogRequest;
 import com.vehicle.communicator.HttpConnection;
+
+import org.json.JSONObject;
 
 public class ConfinedAssessmentCompleteFragment extends Fragment implements
 		OnClickListener {
@@ -208,7 +208,7 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 			if(!Utils.isNullOrEmpty(checkOutRemember2.getJobStartedTime()))
 				return checkOutRemember2.getJobStartedTime();
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}
 		return Utils.getCurrentDateAndTime();
 	}
@@ -227,7 +227,7 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 			}
 			
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}
 	}
 }

@@ -120,12 +120,12 @@ public class ConfinedMediaTypeFragment extends Fragment implements
         com.jobviewer.survey.object.Button[] buttons = currentScreen
                 .getButtons().getButton();
 
-        for (int i = 0; i < buttons.length; i++) {
+        for (com.jobviewer.survey.object.Button button : buttons) {
             if (ActivityConstants.TRUE
-                    .equalsIgnoreCase(buttons[i].getDisplay())
-                    && !"next".equalsIgnoreCase(buttons[i].getName())) {
+                    .equalsIgnoreCase(button.getDisplay())
+                    && !"next".equalsIgnoreCase(button.getName())) {
                 mSave.setText(getResources().getString(
-                        Utils.getButtonText(buttons[i].getName())));
+                        Utils.getButtonText(button.getName())));
                 break;
             }
         }
@@ -138,9 +138,12 @@ public class ConfinedMediaTypeFragment extends Fragment implements
             if (!Utils.isNullOrEmpty(image_string)) {
                 ImageObject imageById = JobViewerDBHandler.getImageById(
                         getActivity(), image_string);
+                String image = imageById.getImage_string();
+                if (image.contains(Constants.IMAGE_STRING_INITIAL)) {
+                    image = image.replace(Constants.IMAGE_STRING_INITIAL, "");
+                }
                 byte[] getbyteArrayFromBase64String = Utils
-                        .getbyteArrayFromBase64String(imageById
-                                .getImage_string());
+                        .getbyteArrayFromBase64String(image);
                 Log.i("Android", "Image 17 :"
                         + imageById.getImage_string().substring(0, 50));
                 loadImages(getbyteArrayFromBase64String);
@@ -355,9 +358,9 @@ public class ConfinedMediaTypeFragment extends Fragment implements
     private void loadImages(byte[] getbyteArrayFromBase64String) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 310, 220);
-        layoutParams.setMargins(0, 30, 0, 0);
+        layoutParams.setMargins(15, 15, 15, 15);
         mCapturedImage = new ImageView(getActivity());
-        Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
+        Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap().override(350, 420)
                 .into(mCapturedImage);
         linearLayout.addView(mCapturedImage, layoutParams);
     }
@@ -398,12 +401,12 @@ public class ConfinedMediaTypeFragment extends Fragment implements
                 switch (msg.what) {
                     case HttpConnection.DID_SUCCEED:
                     /*
-					 * Intent intent = new Intent(getActivity(),
+                     * Intent intent = new Intent(getActivity(),
 					 * RiskAssessmentActivity.class); startActivity(intent);
 					 */
                         break;
                     case HttpConnection.DID_ERROR:
-					/*
+                    /*
 					 * String error = (String) msg.obj; VehicleException
 					 * exception = GsonConverter .getInstance()
 					 * .decodeFromJsonString(error, VehicleException.class);

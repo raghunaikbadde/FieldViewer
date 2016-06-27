@@ -36,7 +36,7 @@ public class AlertDialogActivity extends Activity {
 			if(shiftStartTime == 0)
 				shiftStartTime = Long.valueOf(breakShiftTravelCall.getCallStartTime());
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}
 		long presetnMillis = System.currentTimeMillis();
 		long seconds = (presetnMillis-shiftStartTime)/1000;
@@ -84,12 +84,12 @@ public class AlertDialogActivity extends Activity {
 			if(shiftStartTime == 0)
 				shiftStartTime = Long.valueOf(breakShiftTravelCall.getCallStartTime());
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}
 		
 		long seconds = (presetnMillis-shiftStartTime)/1000;
 		long minutes = seconds/60;
-		int hours = (int)(minutes/60);
+//		int hours = (int)(minutes/60);
 		int thresHold = (int)(Utils.OVETTIME_ALERT_TOGGLE/1000);
 		return seconds >= thresHold;
 	}
