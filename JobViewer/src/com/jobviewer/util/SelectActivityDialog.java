@@ -38,10 +38,13 @@ import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.NewWorkActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.TravelToWorkSiteActivity;
+import com.lanesgroup.jobviewer.TravelToWorkSiteOrArriveAtSiteActivity;
 import com.vehicle.communicator.HttpConnection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.json.JSONObject;
 
 public class SelectActivityDialog extends Activity implements
         ConfirmDialogCallback, ConfirmDialogCallbackForNoPhotos {
@@ -157,8 +160,13 @@ public class SelectActivityDialog extends Activity implements
                             && ActivityConstants.TRUE
                             .equalsIgnoreCase(checkOutRemember
                                     .getIsTravelEnd())) {
-                        intent.setClass(SelectActivityDialog.this,
+                    	if(shouldNewWorkTravelArrivedSite(mContext)){
+                    		intent.setClass(SelectActivityDialog.this,
+                                    TravelToWorkSiteOrArriveAtSiteActivity.class);
+                    	}else{
+                    		intent.setClass(SelectActivityDialog.this,
                                 NewWorkActivity.class);
+                    	}
                     } else {
                         intent.setClass(SelectActivityDialog.this,
                                 TravelToWorkSiteActivity.class);
@@ -375,5 +383,26 @@ public class SelectActivityDialog extends Activity implements
             dialog_ok.setBackground(mContext.getResources().getDrawable(R.drawable.dialog_dark_grey_button));
             dialog_ok.setEnabled(false);
         }
+    }
+    
+    private boolean shouldNewWorkTravelArrivedSite(Context mContext) {
+        String str = JobViewerDBHandler.getJSONFlagObject(mContext);
+        if (Utils.isNullOrEmpty(str)) {
+            str = "{}";
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            if (jsonObject.has(Constants.FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE)) {
+            	return jsonObject.getBoolean(Constants.FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE);
+            }
+
+            
+            String jsonString = jsonObject.toString();
+            JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(),
+                    jsonString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

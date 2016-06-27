@@ -167,6 +167,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
         if (view == mCancel) {
             finish();
             Intent intent = new Intent(view.getContext(), ActivityPageActivity.class);
+            setNewWorkTravelArrivedSite(view.getContext());
             startActivity(intent);
             //closeApplication();
         } else if (view == mNext) {
@@ -436,6 +437,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
                     case HttpConnection.DID_SUCCEED:
                         Utils.StopProgress();
                         //String result = (String) msg.obj;
+                        removeNewWorkTravelArrivedSite(NewWorkActivity.this);
                         startEndActvity();
                         break;
                     case HttpConnection.DID_ERROR:
@@ -454,5 +456,47 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
 
         };
         return handler;
+    }
+    
+    private void setNewWorkTravelArrivedSite(Context mContext) {
+        String str = JobViewerDBHandler.getJSONFlagObject(mContext);
+        if (Utils.isNullOrEmpty(str)) {
+            str = "{}";
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            if (jsonObject.has(Constants.FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE)) {
+                jsonObject
+                        .remove(Constants.FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE);
+            }
+
+            jsonObject.put(Constants.FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE,
+                    true);
+            String jsonString = jsonObject.toString();
+            JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(),
+                    jsonString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void removeNewWorkTravelArrivedSite(Context mContext) {
+        String str = JobViewerDBHandler.getJSONFlagObject(mContext);
+        if (Utils.isNullOrEmpty(str)) {
+            str = "{}";
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            if (jsonObject.has(Constants.FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE)) {
+                jsonObject
+                        .remove(Constants.FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE);
+            }
+            
+            String jsonString = jsonObject.toString();
+            JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(),
+                    jsonString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -402,5 +402,8 @@
     <string name="alertOverTimeHeader">Stay Safe</string>
     <string name="alertOverTimeMsgOne">You have worked over</string>
     <string name="alertOverTimeMsgTwo">hours. If you feel unable to carry on please contact your field manager.</string>
+    
+    <string name="arrivedOnSite">Arrived on-site</string>
+    <string name="tapOnArrivedOnSite">Or Tap \'Arrived on-site\' if you are on-site after already recodring travel to this work location.</string>
 
 </resources>
