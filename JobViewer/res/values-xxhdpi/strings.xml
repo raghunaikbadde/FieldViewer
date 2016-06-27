@@ -208,6 +208,7 @@
     <string name="assessmentCompleteMsg">You may now continue with the necessary work, remember to capture images as you go!</string>
     <string name="pollutionScreenTitle">Pollution Report</string>
     <string name="pollution_progress">Step 4 of 6</string>
+    <string name="add_photo_with_out_pollution_progress">Step 4 of 5</string>
     <string name="pollution_to_land">Pollution to land</string>
     <string name="extentOfLandPollution">Extent of land pollution</string>
     <string name="landAffected">Land affected</string>

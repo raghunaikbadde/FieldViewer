@@ -159,7 +159,7 @@
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textColorHint="@color/dark_grey"
-                    android:textSize="@dimen/black_lato_regular_medium45"
+                    android:textSize="@dimen/black_lato_regular_small55"
                     android:visibility="gone" />
 
                 <EditText
@@ -178,7 +178,7 @@
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textColorHint="@color/dark_grey"
-                    android:textSize="@dimen/black_lato_regular_medium45"
+                    android:textSize="@dimen/black_lato_regular_small55"
                     android:visibility="gone" />
 
                 <TextView

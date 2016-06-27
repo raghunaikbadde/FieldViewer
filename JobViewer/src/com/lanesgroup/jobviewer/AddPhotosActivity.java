@@ -1,5 +1,14 @@
 package com.lanesgroup.jobviewer;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -42,20 +51,11 @@ import com.lanesgroup.jobviewer.fragment.WorkCompleteFragment;
 import com.raghu.WorkPhotoUpload;
 import com.vehicle.communicator.HttpConnection;
 
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
     public static ArrayList<WorkPhotoUpload> arrayListOfWokImagesUpload = new ArrayList<WorkPhotoUpload>();
     private static File file;
-    private TextView mVistecNumber;
+    private TextView mVistecNumber,progress_step_text;
     private ImageButton mCaptureCallingCard, mUpdateRiskActivity,
             mConfinedSpaceRiskActivity;
     private LinearLayout capture_layout;
@@ -81,11 +81,17 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
         imageObjects = new ArrayList<ImageObject>();
 
         mListView = (ListView) findViewById(R.id.listview);
+        progress_step_text=(TextView) findViewById(R.id.progress_step_text);
 
         mCaptureCallingCard = (ImageButton) findViewById(R.id.detail_imageButton);
         mVistecNumber = (TextView) findViewById(R.id.vistec_number_text);
         CheckOutObject checkOutObject = JobViewerDBHandler
                 .getCheckOutRemember(AddPhotosActivity.this);
+        if (Utils.isNullOrEmpty(checkOutObject.getIsPollutionSelected())) {
+			progress_step_text.setText(getResources().getString(R.string.add_photo_with_out_pollution_progress));
+		}else{
+			progress_step_text.setText(getResources().getString(R.string.pollution_progress));
+		}
         String visTecId = checkOutObject.getVistecId();
         mVistecNumber.setText(visTecId);
 
