@@ -112,6 +112,9 @@ public class RiskAssessmentActivity extends BaseActivity implements
             }
             JobViewerDBHandler.saveCheckOutRemember(view.getContext(),
                     checkOutRemember);
+            mExcavation.setChecked(false);
+            mNonExcavation.setChecked(false);
+            mRememberSelection.setChecked(false);
             startActivity(intent);
         }
     }

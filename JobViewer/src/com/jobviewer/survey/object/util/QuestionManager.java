@@ -87,6 +87,10 @@ public class QuestionManager {
         addToBackStack(questionMaster.getScreens().getScreen()[0].get_number());
         return questionMaster.getScreens().getScreen()[0];
     }
+    
+    public boolean isFirstScreen(Screen screen) {
+        return questionMaster.getScreens().getScreen()[0].equals(screen);
+    }
 
     public QuestionMaster getQuestionMaster() {
         return questionMaster;

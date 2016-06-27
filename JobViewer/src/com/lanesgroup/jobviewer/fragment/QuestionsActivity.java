@@ -39,6 +39,10 @@ public class QuestionsActivity extends Activity implements
         mFragmentManager.beginTransaction().add(R.id.container, fragment)
                 .commit();
     }
+    
+    public void loadPreviousFragment() {
+        manager.loadPreviousFragment();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

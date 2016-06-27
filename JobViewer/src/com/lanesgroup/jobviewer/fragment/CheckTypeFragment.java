@@ -110,6 +110,9 @@ public class CheckTypeFragment extends Fragment implements OnClickListener {
             }
         }
 
+        if(QuestionManager.getInstance().isFirstScreen(currentScreen)){
+        	mCancel.setText(getResources().getString(R.string.cancel));
+        }
     }
 
     public void enableNextButton(boolean isEnable) {
@@ -148,6 +151,10 @@ public class CheckTypeFragment extends Fragment implements OnClickListener {
                         ActivityPageActivity.class);
                 intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+            }if (view.getContext().getResources().getString(R.string.cancel).equalsIgnoreCase(mCancel.getText().toString())) {
+            	if(getActivity() instanceof QuestionsActivity){
+            		((QuestionsActivity)getActivity()).onBackPressed();
+            	}
             }
         } else if (view == mNext) {
             currentScreen.setAnswer(ActivityConstants.SELECTED);
