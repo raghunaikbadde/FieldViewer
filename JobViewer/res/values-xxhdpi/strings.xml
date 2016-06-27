@@ -407,4 +407,9 @@
     <string name="arrivedOnSite">Arrived on-site</string>
     <string name="tapOnArrivedOnSite">Or Tap \'Arrived on-site\' if you are on-site after already recodring travel to this work location.</string>
 
+    <string name="riskAsessment">Risk Assessment</string>
+    <string name="unableToContinue">Unable to continue</string>
+    <string name="riskAsessmentDesc1">You have started work continue at this site because the customer is not present.</string>    
+   <string name="riskAsessmentDesc2">Tap \'Stop\' if you are sure work needs to stop- the office will be confined immediately.</string>
+   <string name="riskAsessmentDesc3">Otherwise tap \'Resume\' to continue the job and go back to the customer question to change your response.</string>
 </resources>

@@ -10,6 +10,7 @@ import com.jobviewer.confined.fragment.ConfinedEngineerFragment;
 import com.jobviewer.confined.fragment.ConfinedInformationTypeFragment;
 import com.jobviewer.confined.fragment.ConfinedMediaTextTypeFragment;
 import com.jobviewer.confined.fragment.ConfinedMediaTypeFragment;
+import com.jobviewer.confined.fragment.ConfinedNoCustomerStopFragment;
 import com.jobviewer.confined.fragment.ConfinedStopFragment;
 import com.jobviewer.confined.fragment.ConfinedTimerFragment;
 import com.jobviewer.confined.fragment.ConfinedTimerWithMediaFragment;
@@ -24,6 +25,7 @@ import com.lanesgroup.jobviewer.fragment.InformationTypeFragment;
 import com.lanesgroup.jobviewer.fragment.MediaTextTypeFragment;
 import com.lanesgroup.jobviewer.fragment.MediaTypeFragment;
 import com.lanesgroup.jobviewer.fragment.StopFragment;
+import com.lanesgroup.jobviewer.fragment.StopNoCustomerFragment;
 import com.lanesgroup.jobviewer.fragment.YesNoTypeFragment;
 
 import java.io.IOException;
@@ -95,7 +97,7 @@ public class SurveyUtil {
             case 6:
                 return new StopFragment();
             case 7:
-                return new StopFragment();
+                return new StopNoCustomerFragment();
             case 8:
                 return new AssessmentCompleteFragment();
             default:
@@ -118,7 +120,7 @@ public class SurveyUtil {
             case 6:
                 return new ConfinedStopFragment();
             case 7:
-                return new ConfinedStopFragment();
+                return new ConfinedNoCustomerStopFragment();
             case 8:
                 return new ConfinedAssessmentCompleteFragment();
             case 9:
