@@ -58,12 +58,21 @@ public class AlertDialogActivity extends Activity {
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								dialog.cancel();
+								Utils.overTimeAlerts = null;
 								finish();
 							}
 						});
-		AlertDialog alert = builder.create();
+		if(Utils.overTimeAlerts == null){
+			Utils.overTimeAlerts = builder.create();
+		}
 		if(checkWhetherToShowAlert()){
-			alert.show();	
+			if(!Utils.overTimeAlerts.isShowing()){
+				Utils.overTimeAlerts.show();	
+			} else{
+				Utils.overTimeAlerts.dismiss();
+				Utils.overTimeAlerts = builder.create();
+				Utils.overTimeAlerts.show();
+			}
 		} else{
 			finish();
 		}

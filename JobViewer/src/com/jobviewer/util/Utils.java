@@ -5,6 +5,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -62,6 +63,7 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.ImageUploadResponse;
 import com.jobviwer.service.AppKillService;
+import com.jobviwer.service.OverTimeAlertService;
 import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.LauncherActivity;
 import com.lanesgroup.jobviewer.PollutionActivity;
@@ -119,6 +121,7 @@ public class Utils {
     public static TimeSheetRequest endShiftRequest = null;
     public static TimeSheetRequest workStartTimeSheetRequest = null;
     public static TimeSheetRequest workEndTimeSheetRequest = null;
+    public static AlertDialog overTimeAlerts;
     public static String lastest_work_started_at = "";
     public static String lastest_call_started_at = "";
     public static String lastest_shift_started_at = "";
@@ -147,8 +150,8 @@ public class Utils {
     public static TimeSheetRequest callEndTimeRequest = null;
     public static boolean isExitApplication = false;
     public static Location locationOfUser = null;
-    public static long OVETTIME_ALERT_TOGGLE = 12 * 60 * 60 * 1000; // 12 HOUR
-    public static long OVETTIME_ALERT_INTERVAL = 60 * 60 * 1000; // 1HOUR
+    public static long OVETTIME_ALERT_TOGGLE = 12* 60 * 60 * 1000; // 12 HOUR
+    public static long OVETTIME_ALERT_INTERVAL = 1 * 60* 60 * 1000; // 1HOUR
     static Dialog progressDialog;
     static int notificationId = 1000;
     private static NotificationManager myNotificationManager;
@@ -852,5 +855,11 @@ public class Utils {
             isStartedFromAddPhotos = false;
         }
         return isStartedFromAddPhotos;
+    }
+    public static AlertDialog getOVerTimeAlertInstance(){
+    	return overTimeAlerts;    	
+    }
+    public static void setOVerTimeAlertInstance(AlertDialog alert){
+    	overTimeAlerts =  alert;	
     }
 }

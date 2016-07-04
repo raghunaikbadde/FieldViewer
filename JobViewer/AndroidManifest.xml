@@ -75,6 +75,7 @@
             android:name="com.raghu.AlertDialogActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.lanesgroup.jobviewer.ClockInConfirmationActivity"
