@@ -10,17 +10,63 @@
         android:layout_height="match_parent"
         class="com.google.android.gms.maps.SupportMapFragment" />
 
-    <Button
+    <LinearLayout
+        android:id="@+id/lineMarkerButtonParent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/dialog_edit_top_margin35"
+        android:layout_marginRight="@dimen/dialog_edit_top_margin35"
+        android:layout_marginTop="@dimen/dialog_edit_top_margin35"
+        android:gravity="right"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/lineMarkerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/map_lineoff" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/MarkerButtonParent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lineMarkerButtonParent"
+        android:layout_marginLeft="@dimen/dialog_edit_top_margin35"
+        android:layout_marginRight="@dimen/dialog_edit_top_margin35"
+        android:layout_marginTop="@dimen/dialog_edit_top_margin35"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/mapOptionSelectorButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:src="@drawable/map_lay" />
+
+        <ImageButton
+            android:id="@+id/polygonMarkerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:src="@drawable/map_polyoff" />
+    </RelativeLayout>
+
+    <ImageButton
         android:id="@+id/doneButton"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/button_height150"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/white_lato_regular_big79"
-        android:background="@drawable/red_background"
-        android:text="@string/add_map_annotation"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/dialog_black_lato_regular_small60" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/dialog_edit_top_margin35"
+        android:layout_marginLeft="@dimen/dialog_edit_top_margin35"
+        android:background="@null"
+        android:src="@drawable/map_tick" />
 
 </RelativeLayout>

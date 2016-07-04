@@ -689,14 +689,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/desc"
-            android:src="@drawable/camera_icon" />
+            android:src="@drawable/icon_map_annotation" />
 
         <TextView
             android:id="@+id/map_image_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/spinner_bottom_margin30"
-            android:text="@string/capture_image_str"
+            android:text="@string/add_map_annotation"
             android:textColor="@color/white"
             android:textSize="@dimen/progressbar_top_margin58" />
     </LinearLayout>

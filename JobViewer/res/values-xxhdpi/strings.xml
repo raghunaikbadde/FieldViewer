@@ -431,4 +431,5 @@
     <string name="alertUpdateRiskAssementMsg1">Your last risk assessment was completed over"</string>
     <string name="alertUpdateRiskAssementMsg2">hours ago. Has the situation changed? Tap \'Update\' if you need to update your previous risk assessment.</string>
     <string name="alertUpdateRiskAssementHeader">Update Risk Assessment</string>
+    <string name="select_map_type">Select Map Type</string>
 </resources>
