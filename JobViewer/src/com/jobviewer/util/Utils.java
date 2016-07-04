@@ -17,6 +17,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -34,6 +35,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -107,8 +109,7 @@ public class Utils {
     public static String work_flooding_status = null;
     public static String work_DA_call_out = "No Call Made";
     public static boolean work_is_redline_captured = false;
-    public static String work_id = "";
-    public static String UPDATE_RISK_ASSESSMENT_ACTIVITY = "UPDATE_RISK_ASSESSMENT_ACTIVITY";
+     public static String UPDATE_RISK_ASSESSMENT_ACTIVITY = "UPDATE_RISK_ASSESSMENT_ACTIVITY";
     public static CheckOutObject checkOutObject;
     public static TimeSheetRequest timeSheetRequest = null;
     public static TimeSheetRequest endTimeRequest = null;
@@ -126,6 +127,8 @@ public class Utils {
             "Cover", "Dig down", "Make safe", "Lining", "Well clean"};
     public static String[] mFloodingList = {"No flooding", "Internal",
             "External", "Internal and external"};
+    public static String[] mWorkOptions = {"Start confirmed space entry", "Leave work",
+            "Back"};
     public static String[] mLandPollutionList = {"Less than 25m/sq",
             "20-50m/sq", "50-100m/sq", "Greater than 100m/sq"};
     public static String[] mLandAffectedList = {"Park", "Gardens",
@@ -529,7 +532,7 @@ public class Utils {
 
         BackLogRequest backLogRequest = new BackLogRequest();
         backLogRequest.setRequestApi(CommsConstant.HOST
-                + CommsConstant.WORK_PHOTO_UPLOAD + "/" + Utils.work_id);
+                + CommsConstant.WORK_PHOTO_UPLOAD + "/" + new JobViewerSharedPref().getSharedPref(mContext).getString(JobViewerSharedPref.KEY_WORK_ID, ""));
         backLogRequest.setRequestClassName("WorkPhotoUpload");
         backLogRequest.setRequestJson(GsonConverter.getInstance()
                 .encodeToJsonString(workPhotoUpload));
@@ -624,7 +627,14 @@ public class Utils {
 
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(
+                new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setContentView(view);
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        ((Activity) activity).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int width = (int) ((int) displaymetrics.widthPixels * 0.9);
+        dialog.getWindow().setLayout(width, LinearLayout.LayoutParams.WRAP_CONTENT);
         dialog.show();
         dialog.setCancelable(false);
 
@@ -658,7 +668,13 @@ public class Utils {
         listView.setAdapter(adapter);
         final Dialog dialog = new Dialog(context, R.style.dialogMultipleTheme);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(
+                new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setContentView(view);
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int width = (int) ((int) displaymetrics.widthPixels * 0.9);
+        dialog.getWindow().setLayout(width, LinearLayout.LayoutParams.WRAP_CONTENT);
         dialog.show();
         dialog.setCancelable(false);
 

@@ -174,7 +174,7 @@ public class ConfinedMediaTypeFragment extends Fragment implements
         questionTitle = (TextView) mRootView.findViewById(R.id.questionTitle);
         question = (TextView) mRootView.findViewById(R.id.question);
         mLinearLayout = (LinearLayout) mRootView
-                .findViewById(R.id.capture_layout);
+                .findViewById(R.id.camera_layout);
         linearLayout = (LinearLayout) mRootView.findViewById(R.id.imageslinear);
         mLinearLayout.setOnClickListener(this);
 

@@ -116,11 +116,21 @@
                     android:background="@drawable/imagebutton"
                     android:contentDescription="@string/desc"
                     android:src="@drawable/user_with_tool_icon" />
+
+                <ImageButton
+                    android:id="@+id/ib_pollution"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/imagebutton_spacing20"
+                    android:layout_weight="1"
+                    android:background="@drawable/imagebutton"
+                    android:contentDescription="@string/desc"
+                    android:src="@drawable/ico_fish" />
             </LinearLayout>
 
 
             <LinearLayout
-                android:id="@+id/capture_layout"
+                android:id="@+id/camera_layout"
                 android:layout_width="@dimen/capture_button_width840"
                 android:layout_height="@dimen/capture_button_height220"
                 android:layout_below="@+id/imagebutton_layout"
@@ -151,7 +161,7 @@
                 android:id="@+id/listview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/capture_layout" />
+                android:layout_below="@+id/camera_layout" />
         </RelativeLayout>
     </LinearLayout>
     <!-- </ScrollView> -->

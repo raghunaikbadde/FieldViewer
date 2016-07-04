@@ -23,6 +23,7 @@
     <dimen name="lanes_logo_bottom_margin23">7.66dp</dimen>
     <dimen name="copyright_right_margin212">70.66dp</dimen>
     <dimen name="welcomeTextSize">40dp</dimen>
+    <dimen name="caution_dialog_width">380dp</dimen>
 
     <!-- Font size Home screen1 -->
     <dimen name="white_lato_bold_small50">16.66dp</dimen>

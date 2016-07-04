@@ -139,34 +139,7 @@
                         android:textSize="@dimen/progressbar_top_margin58" />
                 </RadioGroup>
 
-                <LinearLayout
-                    android:id="@+id/errorView"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/radioGroup1"
-                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
 
-                    <ImageView
-                        android:id="@+id/imageError"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/redColor"
-                        android:contentDescription="@string/desc"
-                        android:padding="@dimen/title_bottom_margin27"
-                        android:src="@android:drawable/ic_dialog_alert" />
-
-                    <TextView
-                        android:id="@+id/errorMessage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/subtitle_bottom_margin48"
-                        android:text="ABC"
-                        android:textColor="@color/blackColor" />
-                </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
@@ -176,36 +149,71 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/white_lato_regular_big79">
+        android:layout_margin="@dimen/white_lato_regular_big79"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_height150"
-            android:layout_weight="20"
-            android:background="@drawable/grey_background"
-            android:text="@string/cancel"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dialog_black_lato_regular_small60" />
-
-        <Button
-            android:id="@+id/space"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/errorView"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:visibility="invisible" />
+            android:layout_below="@+id/radioGroup1"
+            android:background="@color/dGrey"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_height150"
-            android:layout_weight="20"
-            android:background="@drawable/dark_grey_background"
-            android:text="@string/next"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+            <ImageView
+                android:id="@+id/imageError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/redColor"
+                android:contentDescription="@string/desc"
+                android:padding="@dimen/title_bottom_margin27"
+                android:src="@android:drawable/ic_dialog_alert" />
+
+            <TextView
+                android:id="@+id/errorMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/subtitle_bottom_margin48"
+                android:text="ABC"
+                android:textColor="@color/blackColor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/white_lato_regular_big79">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height150"
+                android:layout_weight="20"
+                android:background="@drawable/grey_background"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+            <Button
+                android:id="@+id/space"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height150"
+                android:layout_weight="20"
+                android:background="@drawable/dark_grey_background"
+                android:text="@string/next"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dialog_black_lato_regular_small60" />
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

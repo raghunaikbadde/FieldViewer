@@ -18,102 +18,102 @@ import com.lanesgroup.jobviewer.R;
 
 public class ShoutOutActivity extends BaseActivity {
 
-	private static FragmentManager mFragmentManager;
-	private static QuestionMaster questionMaster;
-	private static String option;
-	private static String startedAt;
+    private static FragmentManager mFragmentManager;
+    private static QuestionMaster questionMaster;
+    private static String option;
+    private static String startedAt;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		setContentView(R.layout.questions_flow_screen);
-		if (ActivityConstants.TRUE.equalsIgnoreCase(getIntent().getExtras()
-				.get(ActivityConstants.IS_SHOUT_SAVED).toString())) {
-			ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
-					.getShoutAboutSafety(this);
-			setQuestionMaster(GsonConverter.getInstance().decodeFromJsonString(
-					shoutAboutSafety.getQuestionSet(), QuestionMaster.class));
-			option = shoutAboutSafety.getOptionSelected();
-			startedAt = shoutAboutSafety.getStartedAt();
-		} else {
+    public static void loadNextFragment(Fragment fragment) {
+        mFragmentManager.popBackStack();
+        mFragmentManager.beginTransaction().add(R.id.container, fragment)
+                .commit();
+    }
 
-			option = getIntent().getExtras()
-					.get(ActivityConstants.SHOUT_OPTION).toString();
-			startedAt = getIntent().getExtras()
-					.get(ActivityConstants.STARTED_AT).toString();
-			if (option.equalsIgnoreCase(ActivityConstants.HAZARD)) {
-				setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
-						"shout_about_safety_hazard.json"));
-			} else if (option.equalsIgnoreCase(ActivityConstants.IDEA)) {
-				setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
-						"shout_about_safety_idea.json"));
-			} else if (option.equalsIgnoreCase(ActivityConstants.SAFETY)) {
-				setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
-						"shout_about_good_safety.json"));
-			}
-		}
-		mFragmentManager = getFragmentManager();
+    public static String getOptionSelected() {
+        return option;
+    }
 
-		loadFragment(new ShoutOutMediaTextTypeFragment());
-	}
+    public static String getStartedAt() {
+        return startedAt;
+    }
 
-	private void loadFragment(Fragment fragment) {
-		Fragment attachedFragment = mFragmentManager
-				.findFragmentById(R.id.container);
-		Fragment fragmentToBeAttached = mFragmentManager
-				.findFragmentByTag(fragment.getTag());
-		if (fragmentToBeAttached == null) {
-			fragmentToBeAttached = fragment;
-		}
+    public static QuestionMaster getQuestionMaster() {
+        return questionMaster;
+    }
 
-		FragmentTransaction fragmentTx = mFragmentManager.beginTransaction();
-		if (attachedFragment != null) {
-			fragmentTx.detach(attachedFragment);
-		}
+    public void setQuestionMaster(QuestionMaster questionMaster) {
+        ShoutOutActivity.questionMaster = questionMaster;
+    }
 
-		if (!fragmentToBeAttached.isAdded()) {
-			fragmentTx.add(R.id.container, fragmentToBeAttached,
-					fragment.getTag());
-		}
-		if (fragmentToBeAttached.isDetached()) {
-			fragmentTx.attach(fragmentToBeAttached);
-		}
-		if (!(fragmentToBeAttached instanceof CheckTypeFragment)) {
-			fragmentTx.addToBackStack(fragment.getTag());
-		}
-		fragmentTx.commit();
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        setContentView(R.layout.questions_flow_screen);
+        if (ActivityConstants.TRUE.equalsIgnoreCase(getIntent().getExtras()
+                .get(ActivityConstants.IS_SHOUT_SAVED).toString())) {
+            ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
+                    .getShoutAboutSafety(this);
+            setQuestionMaster(GsonConverter.getInstance().decodeFromJsonString(
+                    shoutAboutSafety.getQuestionSet(), QuestionMaster.class));
+            option = shoutAboutSafety.getOptionSelected();
+            startedAt = shoutAboutSafety.getStartedAt();
+        } else {
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			finish();
-			return true;
-		} else
-			return super.onKeyDown(keyCode, event);
-	}
+            option = getIntent().getExtras()
+                    .get(ActivityConstants.SHOUT_OPTION).toString();
+            startedAt = getIntent().getExtras()
+                    .get(ActivityConstants.STARTED_AT).toString();
+            if (option.equalsIgnoreCase(ActivityConstants.HAZARD)) {
+                setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
+                        "shout_about_safety_hazard.json"));
+            } else if (option.equalsIgnoreCase(ActivityConstants.IDEA)) {
+                setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
+                        "shout_about_safety_near_miss.json"));
+            } else if (option.equalsIgnoreCase(ActivityConstants.SAFETY)) {
+                setQuestionMaster(SurveyUtil.loadJsonFromAssets(this,
+                        "shout_about_good_safety.json"));
+            }
+        }
+        mFragmentManager = getFragmentManager();
 
-	public static void loadNextFragment(Fragment fragment) {
-		mFragmentManager.popBackStack();
-		mFragmentManager.beginTransaction().add(R.id.container, fragment)
-				.commit();
-	}
+        loadFragment(new ShoutOutMediaTextTypeFragment());
+    }
 
-	public static String getOptionSelected() {
-		return option;
-	}
+    private void loadFragment(Fragment fragment) {
+        Fragment attachedFragment = mFragmentManager
+                .findFragmentById(R.id.container);
+        Fragment fragmentToBeAttached = mFragmentManager
+                .findFragmentByTag(fragment.getTag());
+        if (fragmentToBeAttached == null) {
+            fragmentToBeAttached = fragment;
+        }
 
-	public static String getStartedAt() {
-		return startedAt;
-	}
+        FragmentTransaction fragmentTx = mFragmentManager.beginTransaction();
+        if (attachedFragment != null) {
+            fragmentTx.detach(attachedFragment);
+        }
 
-	public static QuestionMaster getQuestionMaster() {
-		return questionMaster;
-	}
+        if (!fragmentToBeAttached.isAdded()) {
+            fragmentTx.add(R.id.container, fragmentToBeAttached,
+                    fragment.getTag());
+        }
+        if (fragmentToBeAttached.isDetached()) {
+            fragmentTx.attach(fragmentToBeAttached);
+        }
+        if (!(fragmentToBeAttached instanceof CheckTypeFragment)) {
+            fragmentTx.addToBackStack(fragment.getTag());
+        }
+        fragmentTx.commit();
+    }
 
-	public void setQuestionMaster(QuestionMaster questionMaster) {
-		ShoutOutActivity.questionMaster = questionMaster;
-	}
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            return true;
+        } else
+            return super.onKeyDown(keyCode, event);
+    }
 }

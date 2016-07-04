@@ -11,6 +11,7 @@ import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
+import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.Data;
 import com.jobviwer.request.object.SyncRequest;
@@ -27,10 +28,12 @@ public class SyncAllData {
     private List<BackLogRequest> allBackLog;
     private Context context;
     private boolean isStartUpResponseArrived = true;
+    private JobViewerSharedPref mSharedPref;
 
     public void sendAllData(Context context) {
         this.context = context;
         allBackLog = JobViewerDBHandler.getAllBackLog(context);
+        mSharedPref = new JobViewerSharedPref();
         createAndSendRequestToServer();
     }
 
@@ -178,7 +181,7 @@ public class SyncAllData {
                         checkOutRemember.setWorkId(String.valueOf(id));
                         JobViewerDBHandler.saveCheckOutRemember(context,
                                 checkOutRemember);
-                        Utils.work_id = String.valueOf(id);
+                        mSharedPref.saveWorkId(context, id + "");
                         Log.i("Android", result);
                         break;
                     case HttpConnection.DID_ERROR:
@@ -238,7 +241,7 @@ public class SyncAllData {
         String encodeToJsonString = GsonConverter.getInstance()
                 .encodeToJsonString(request.getData());
         try {
-            JSONObject jsonObject = new JSONObject(encodeToJsonString);
+            JSONArray jsonObject = new JSONArray(encodeToJsonString);
             // jsonObject.put("data", jsonObject.toString());
             encodeToJsonString = GsonConverter.getInstance()
                     .encodeToJsonString(jsonObject);
@@ -302,7 +305,7 @@ public class SyncAllData {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        Utils.work_id = String.valueOf(id);
+                        mSharedPref.saveWorkId(context, id + "");
 
                         try {
                             JSONObject jsonObject = new JSONObject(result);

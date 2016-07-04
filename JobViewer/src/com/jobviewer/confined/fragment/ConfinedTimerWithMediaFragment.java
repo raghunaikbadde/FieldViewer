@@ -153,7 +153,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 		timer_text = (TextView) mRootView.findViewById(R.id.timer_text);
 		skip_timer = (LinearLayout) mRootView.findViewById(R.id.skip_timer);
 		capture_layout = (LinearLayout) mRootView
-				.findViewById(R.id.capture_layout);
+				.findViewById(R.id.camera_layout);
 		capture_layout.setOnClickListener(this);
 		saveBtn = (Button) mRootView.findViewById(R.id.saveBtn);
 		saveBtn.setOnClickListener(this);
@@ -261,7 +261,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 				enableNextButton(true);
 			}
 			break;
-		case R.id.capture_layout:
+		case R.id.camera_layout:
 			addPicObjectInScreenIfRequired();
 			file = new File(Environment.getExternalStorageDirectory()
 					+ File.separator + "image.jpg");

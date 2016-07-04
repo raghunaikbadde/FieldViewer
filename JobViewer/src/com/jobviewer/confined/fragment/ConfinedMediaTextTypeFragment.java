@@ -132,7 +132,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
         mDescribe = (EditText) mRootView.findViewById(R.id.describe_edittext);
         linearLayout = (LinearLayout) mRootView.findViewById(R.id.imageslinear);
         mLinearLayout = (LinearLayout) mRootView
-                .findViewById(R.id.capture_layout);
+                .findViewById(R.id.camera_layout);
         mLinearLayout.setOnClickListener(this);
 
         mSave = (Button) mRootView.findViewById(R.id.button1);

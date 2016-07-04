@@ -15,12 +15,13 @@
     <string name="working_with_thames">Working with Thames Water</string>
     <string name="copyright2015">Copyright 2016 Lanes Group Plc. All rights reserved</string>
     <string name="welcome">Welcome</string>
-    <string name="please_clock_in_to_begin">Please clock-in to begin</string>
+    <string name="please_clock_in_to_begin">Please \'Clock-in\' to begin</string>
     <string name="shout_about_safety_h">shout about safety</string>
     <string name="travel_started">Travel started: </string>
     <string name="clock_in_str">Clock-in</string>
     <string name="start_shift">Start Shift</string>
     <string name="start_on_call">Start On-Call</string>
+    <string name="start_on_call_btn">Start on-call</string>
     <string name="start_shift_1">Start shift</string>
     <string name="tmp_date_time">11/06/2015 12:12PM</string>
     <string name="tmp_email_address">tarun@yopmail.com</string>
@@ -32,15 +33,18 @@
     <string name="end_button">End</string>
     <string name="shift_complete">Shift complete</string>
     <string name="shift_summary">Shift summary</string>
-    <string name="shift_hours">Shift hours</string>
+    <string name="shift_hours">Shift hours:</string>
     <string name="tmp_shift_time">0h 13m</string>
-    <string name="break_taken">Break taken</string>
+    <string name="break_taken">Breaks taken:</string>
     <string name="tmp_break_taken">0</string>
-    <string name="hours_worked">Hours worked</string>
-    <string name="work_completed">Work completed</string>
+    <string name="hours_worked">Hours worked:</string>
+    <string name="work_completed">Work completed:</string>
     <string name="please_leave_your_phone">Please leave your phone switched on and connected to the\nInternet for at least one hour to help make sure all data is\nautomatically sent to the office</string>
     <string name="shift_complete_thank_you">Shift complete - thank you</string>
     <string name="risk_assessment">Risk Assessment</string>
+    <string name="water_abstraction">Water Abstraction</string>
+    <string name="do_you_need_toabstract_water">Do you need to abstract water?</string>
+    <string name="water_abstraction_desc">(Water abstraction is the process of taking \nwater from any ground source, surface water or \ntidal water)</string>
     <string name="stop_work">Stop Work</string>
     <string name="you_response_indicates">Your response indicates it may not be\nsafe to continue work at this site.\nPlease contact your field manager to\ndiscuss available options as soon as possible.</string>
     <string name="after_contacting">After contacting your field manager, tap \'Stop\' to close or \'Resume\' to continue from the previous question.</string>
@@ -51,7 +55,7 @@
     <string name="tap_done_to_continue">Tap \'Done\' to continue to the main\nscreen</string>
     <string name="done">Done</string>
     <string name="update_previous">Update Previous\nRisk</string>
-    <string name="review_your_risk">Review your last risk assessment\nbelow. Select a question to continue a\nnew risk assessment from that point.</string>
+    <string name="review_your_risk">Review your last risk assessment below. Select a question to continue a new risk assessment from that point.</string>
     <string name="set_up_your">Set up your basic cones and signs at the front and rear of the vehicle as required</string>
     <string name="cones_signs">Cones/signs set-up</string>
     <string name="capture_the_setup">Capture the set-up in front of, are behind, the vehicle. At least two</string>
@@ -75,6 +79,7 @@
     <string name="tap_confirm_to_close">Tap Confirm to close the job. You will no longer be able to edit data for this record.</string>
     <string name="confirm">Confirm</string>
     <string name="confirm_work_stop">Confirm Work Stop</string>
+    <string name="confirm_work_stop_d">Confirm Work Stop</string>
     <string name="break_start">Start break</string>
     <string name="your_break_start_time">Your break start time will be logged as:</string>
     <string name="your_break_end_time">Your break end time will be logged as:</string>
@@ -135,6 +140,7 @@
     <string name="error_msg_str">Ensure that your vehicle is a safe height to continue. If in doubt contact your field manager.</string>
     <string name="pollution_confirmation">Pollution Confirmation</string>
     <string name="pollution_cofirmation_msg">You have marked this job as a pollution, is this correct?</string>
+    <string name="final_Confirmation_that_work_must_be_stopped">Please provide final confirmation that work must be stopped.</string>
     <string name="da_confirmation">DA Call Confirmation</string>
     <string name="da_cofirmation_msg">Did you get through to DA?</string>
     <string name="new_work_str">New Work</string>
@@ -175,6 +181,7 @@
     <string name="capture_calling_str">Capture calling card (if required):</string>
     <string name="have_you_captured_str">Have you captured a redline?</string>
     <string name="tap_to_call_str">Tap to call DA line</string>
+    <string name="call_tw_tech_Spec">Call TW Tech Spec (DA)</string>
     <string name="customer_calling_card_str">Customer calling card</string>
     <string name="submit">Submit</string>
     <string name="enter_pipe_diameter">Enter Pipe diameter (mm)</string>
@@ -225,15 +232,19 @@
     <string name="noPreviousQuestionMessage">There are no previous questions. Tap \'Save\' or to cancel, press the phone menu button and tap cancel.</string>
     <string name="returnVehicleMsg">Enter details for the vehicle you are returning</string>
     <string name="i_want_to_str">I want to...</string>
-    <string name="report_hazard">Report a hazard or near miss</string>
-    <string name="suggest_idea">Suggest an idea</string>
-    <string name="about_safety">Shout about good safety</string>
+    <string name="report_hazard">Report a hazard</string>
+    <string name="suggest_idea">Report a near miss</string>
+    <string name="about_safety">Shout about good safety / suggest an idea</string>
+    <string name="describe_the_hazard">Describe the hazard</string>
+    <string name="describe_the_near_miss">Describe the near miss</string>
+    <string name="describe_the_example_of_good_safety_or_your_idea">Describe the example of good safety or your idea </string>
     <string name="shout_about_safety">Shout About Safety</string>
     <string name="survey_complete">Survey Complete</string>
-    <string name="shout_msg">Thank you for helping to make our workplace safer</string>
+    <string name="shout_msg">Thank you for helping to make our workplace safer!</string>
     <string name="tap_done_to_continue_1">Tap \'done\' to continue</string>
     <string name="site_photo">Site Photo</string>
     <string name="pollution_detail">Provide all details below</string>
+    <string name="caution">Caution</string>
 
     <string-array name="override_reason_comment">
         <item>Forgot to clock in/out on time</item>
@@ -370,7 +381,7 @@
     <string name="persoal_risk_assement_complete_str">Perosnal Risk Assessment Complete</string>
     <string name="persoal_riskassement_continue_str">You may now continue with the required work</string>
     <string name="tap_done_str">Tap \'Done\' to continue</string>
-    <string name="work_in_progree_str">Work In Progress...</string>
+    <string name="work_in_progree_str">Work in progress</string>
     <string name="context_work_options">Work Options</string>
     <string name="context_menu_start_confined_space_entry">Start Confined Space Entry</string>
     <string name="context_menu_leave_work">Leave Work</string>
@@ -383,6 +394,7 @@
     <string name="workEndConfirmation">Work Confirmation</string>
     <string name="workEndConfirmationMsg">Are you ready to end work with reference</string>
     <string name="callDAMobileNumber">1234567890</string>
+    <string name="call_csc_phone_number">03333445610</string>
     <string name="DACallConfirmation">DA Call Confirmation</string>
     <string name="DACallConfimrationMsg">Did you get through to DA?</string>
     <string name="callingCardToastMessage">Capture an image of the Calling Card</string>
@@ -390,7 +402,7 @@
     <string name="length">Length required</string>
     <string name="traningendmsg">Training complete.</string>
     <string name="endTrainingWarningMsg">Please end training before ending your shift</string>
-    <string name="startedTrainingMsg">Training Started</string>
+    <string name="startedTrainingMsg">Training started</string>
     <string name="personalRiskAssesmentHeading">Personal Risk Assessment</string>
     <string name="lelStr">%LEL</string>
     <string name="PercentageStr">%</string>
@@ -403,13 +415,18 @@
     <string name="alertOverTimeHeader">Stay Safe</string>
     <string name="alertOverTimeMsgOne">You have worked over</string>
     <string name="alertOverTimeMsgTwo">hours. If you feel unable to carry on please contact your field manager.</string>
-    
     <string name="arrivedOnSite">Arrived on-site</string>
     <string name="tapOnArrivedOnSite">Or Tap \'Arrived on-site\' if you are on-site after already recodring travel to this work location.</string>
-
     <string name="riskAsessment">Risk Assessment</string>
     <string name="unableToContinue">Unable to continue</string>
-    <string name="riskAsessmentDesc1">You have started work continue at this site because the customer is not present.</string>    
-   <string name="riskAsessmentDesc2">Tap \'Stop\' if you are sure work needs to stop- the office will be confined immediately.</string>
-   <string name="riskAsessmentDesc3">Otherwise tap \'Resume\' to continue the job and go back to the customer question to change your response.</string>
+    <string name="riskAsessmentDesc1">You have stated work cannot continue at this site because the customer is not present.</string>
+    <string name="riskAsessmentDesc2">Tap \'Stop\' if you are sure work needs to stop - the office will be notified immediately.</string>
+    <string name="riskAsessmentDesc3">Otherwise tap \'Resume\' to continue the job and go back to the customer question to change your response.</string>
+    <string name="ensure_you_only_use_an_approved_washout">Ensure you only use an approved washout.</string>
+    <string name="make_sure_you_use_the_correct_standpipe">Make sure you use the correct standpipe.</string>
+    <string name="photo_your_abstraction_process">Photo your abstraction process.</string>
+    <string name="remember_to_disinfect_before_abstraction">Remember to disinfect before abstraction.</string>
+    <string name="it_is_a_criminal_offence_to_abstract">It is a criminal offence to \nabstract water from a fire hydrant.</string>
+    <string name="add_map_annotation">Add map annotation</string>
+
 </resources>

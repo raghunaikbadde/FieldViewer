@@ -31,11 +31,16 @@ public class TravelToWorkSiteActivity extends BaseActivity implements
 
     private Button mStartTravel, mCancel;
     private Context mContext;
+    private String abstractionValue = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(Constants.KEY_ABSTRACTION_VALUE)) {
+            abstractionValue = intent.getStringExtra(Constants.KEY_ABSTRACTION_VALUE);
+        }
         Utils.startTravelTimeRequest = new TimeSheetRequest();
         setContentView(R.layout.travel_to_work_site_screen);
         mStartTravel = (Button) findViewById(R.id.start);

@@ -1,14 +1,5 @@
 package com.lanesgroup.jobviewer;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.json.JSONObject;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -46,18 +37,29 @@ import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
+import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.fragment.WorkCompleteFragment;
 import com.raghu.WorkPhotoUpload;
 import com.vehicle.communicator.HttpConnection;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
     public static ArrayList<WorkPhotoUpload> arrayListOfWokImagesUpload = new ArrayList<WorkPhotoUpload>();
     private static File file;
-    private TextView mVistecNumber,progress_step_text;
+    private TextView mVistecNumber, progress_step_text;
     private ImageButton mCaptureCallingCard, mUpdateRiskActivity,
             mConfinedSpaceRiskActivity;
+    private ImageButton ib_pollution;
     private LinearLayout capture_layout;
     private Button mSave, mLeaveSite;
     private ListView mListView;
@@ -67,11 +69,17 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
     private ArrayList<ImageObject> imageObjects;
     private AddPhotosAdapter mAdapter;
     private Context mContext;
+    private String visTecId = "";
+    private boolean isPollutionReport = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_photos_screen);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.containsKey(Constants.KEY_IS_FROM_POLLUTION)) {
+            isPollutionReport = extras.getBoolean(Constants.KEY_IS_FROM_POLLUTION);
+        }
         initUI();
     }
 
@@ -81,32 +89,39 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
         imageObjects = new ArrayList<ImageObject>();
 
         mListView = (ListView) findViewById(R.id.listview);
-        progress_step_text=(TextView) findViewById(R.id.progress_step_text);
+        progress_step_text = (TextView) findViewById(R.id.progress_step_text);
 
         mCaptureCallingCard = (ImageButton) findViewById(R.id.detail_imageButton);
         mVistecNumber = (TextView) findViewById(R.id.vistec_number_text);
         CheckOutObject checkOutObject = JobViewerDBHandler
                 .getCheckOutRemember(AddPhotosActivity.this);
         if (Utils.isNullOrEmpty(checkOutObject.getIsPollutionSelected())) {
-			progress_step_text.setText(getResources().getString(R.string.add_photo_with_out_pollution_progress));
-		}else{
-			progress_step_text.setText(getResources().getString(R.string.pollution_progress));
-		}
-        String visTecId = checkOutObject.getVistecId();
+            progress_step_text.setText(getResources().getString(R.string.add_photo_with_out_pollution_progress));
+        } else {
+            progress_step_text.setText(getResources().getString(R.string.pollution_progress));
+        }
+        visTecId = checkOutObject.getVistecId();
         mVistecNumber.setText(visTecId);
 
         mUpdateRiskActivity = (ImageButton) findViewById(R.id.video_imageButton);
+        ib_pollution = (ImageButton) findViewById(R.id.ib_pollution);
         mUpdateRiskActivity.setOnClickListener(this);
-        capture_layout = (LinearLayout) findViewById(R.id.capture_layout);
+        capture_layout = (LinearLayout) findViewById(R.id.camera_layout);
         mConfinedSpaceRiskActivity = (ImageButton) findViewById(R.id.user_imageButton);
         mConfinedSpaceRiskActivity.setOnClickListener(this);
         capture_layout.setOnClickListener(this);
+        ib_pollution.setOnClickListener(this);
         mSave = (Button) findViewById(R.id.button1);
         mLeaveSite = (Button) findViewById(R.id.button2);
         mLeaveSite.setOnClickListener(this);
         mSave.setOnClickListener(this);
         mCaptureCallingCard.setOnClickListener(this);
 
+        if (isPollutionReport) {
+            ib_pollution.setVisibility(View.VISIBLE);
+        } else {
+            ib_pollution.setVisibility(View.GONE);
+        }
         List<ImageObject> imageObjects = JobViewerDBHandler
                 .getAllAddCardSavedImages(mContext);
         for (ImageObject imageObject : imageObjects) {
@@ -193,6 +208,11 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
             confinedWorkintent.putExtra(Constants.CALLING_ACTIVITY,
                     AddPhotosActivity.this.getClass().getSimpleName());
             startActivity(confinedWorkintent);
+        } else if (view == ib_pollution) {
+            Intent pollutionActivity = new Intent(mContext, PollutionActivity.class);
+            pollutionActivity.putExtra(Utils.CALLING_ACTIVITY, ActivityConstants.ADD_PHOTOS_ACTIVITY);
+            startActivity(pollutionActivity);
+            finish();
         }
     }
 
@@ -208,9 +228,13 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
     }
 
     private void showWorkCompleteFragemnt() {
-
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.KEY_VISTECID, visTecId);
+        //set Fragmentclass Arguments
+        WorkCompleteFragment fragobj = new WorkCompleteFragment();
+        fragobj.setArguments(bundle);
         getFragmentManager().beginTransaction()
-                .add(android.R.id.content, new WorkCompleteFragment()).commit();
+                .add(android.R.id.content, fragobj).commit();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -321,7 +345,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
                 + imageObject.getImageId());
 
         Utils.SendHTTPRequest(AddPhotosActivity.this, CommsConstant.HOST
-                        + CommsConstant.WORK_PHOTO_UPLOAD + "/" + Utils.work_id, data,
+                        + CommsConstant.WORK_PHOTO_UPLOAD + "/" + new JobViewerSharedPref().getSharedPref(context).getString(JobViewerSharedPref.KEY_WORK_ID, ""), data,
                 getSendWorkImageHandler(imageId, imageObject));
 
     }
@@ -477,7 +501,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
                 Glide.with(mContext).load(photosArrays.get(position))
                         .asBitmap().override(350, 420).into(vh.imageView);
                 /*
-				 * vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
+                 * vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
 				 * .get(position).get("photo"));
 				 */
                 convertView.setTag(vh);
@@ -487,8 +511,8 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
                 vh.dateTime.setText(time);
                 Glide.with(mContext).load(photosArrays.get(position))
                         .asBitmap().override(350, 420).into(vh.imageView);
-				/*
-				 * vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
+                /*
+                 * vh.imageView.setImageBitmap((Bitmap) hashMapOfCapturedIamges
 				 * .get(position).get("photo"));
 				 */
                 convertView.setTag(vh);

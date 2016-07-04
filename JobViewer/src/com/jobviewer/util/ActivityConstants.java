@@ -16,13 +16,13 @@ public class ActivityConstants {
 	public static final String END_BREAK="End Break";
 	public static final String ADD_PHOTOS_ACTIVITY="AddPhotosActitivy";
 	public static final String ACTIVITY_PAGE_ACTIVITY="ActivityPageActivity";
-	public static final String POLLUTION_ACTIVITY="PollutionActitivy";
+ 	public static final String POLLUTION_ACTIVITY="PollutionActitivy";
 	public static final String SHOUT_OPTION = "ShoutOption";
 	public static final String IS_SHOUT_SAVED = "isSaved";
 	public static final String STARTED_AT = "startedAt";
 	public static final String HAZARD = "Hazard";
 	public static final String IDEA = "Idea";
-	public static final String SAFETY = "Safety";
+ 	public static final String SAFETY = "Safety";
 	public static final String LEAVE_WORK_CONFIMRATION="LEAVE_WORK_CONFIMRATION";
 		
 	public static final String VEHICLE_REGISTRATION_NUMBER = "VEHICLE_REGISTRATION_NUMBER";

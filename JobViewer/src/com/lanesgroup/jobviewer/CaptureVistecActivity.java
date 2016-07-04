@@ -26,6 +26,7 @@ import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.Constants;
+import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
 import com.vehicle.communicator.HttpConnection;
 
@@ -166,7 +167,7 @@ public class CaptureVistecActivity extends BaseActivity implements
         data.put("temp_id", imageObject.getImageId());
 
         Utils.SendHTTPRequest(this, CommsConstant.HOST
-                + CommsConstant.WORK_PHOTO_UPLOAD + "/" + Utils.work_id, data, getSendVisecImageHandler(imageObject));
+                + CommsConstant.WORK_PHOTO_UPLOAD + "/" +     new JobViewerSharedPref().getSharedPref(context).getString(JobViewerSharedPref.KEY_WORK_ID, ""), data, getSendVisecImageHandler(imageObject));
     }
 
 

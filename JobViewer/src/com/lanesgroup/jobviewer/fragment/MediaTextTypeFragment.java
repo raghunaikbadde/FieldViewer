@@ -125,7 +125,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
         mDescribe = (EditText) mRootView.findViewById(R.id.describe_edittext);
         linearLayout = (LinearLayout) mRootView.findViewById(R.id.imageslinear);
         mLinearLayout = (LinearLayout) mRootView
-                .findViewById(R.id.capture_layout);
+                .findViewById(R.id.camera_layout);
         mLinearLayout.setOnClickListener(this);
         mDescribe.addTextChangedListener(new TextWatcher() {
 

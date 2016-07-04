@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.res.ResourcesCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -34,6 +35,7 @@ import com.jobviewer.util.Constants;
 import com.jobviewer.util.EditTextFocusListener;
 import com.jobviewer.util.EditTextWatcher;
 import com.jobviewer.util.GPSTracker;
+import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.JVResponse;
@@ -58,6 +60,9 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
     private CheckBox mPollutionCheckBox;
     private Button mCancel;
     //private Location mLocation;
+    private String currentTimeStamp = "";
+    private String abstractionValue = "";
+    private JobViewerSharedPref mJVSharedPref;
 
     public static void enableNextButton() {
         int mDistrict2Text = mDistrict2.getText().toString().length();
@@ -103,6 +108,14 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_work_screen);
         context = this;
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(Constants.KEY_ABSTRACTION_VALUE)) {
+            abstractionValue = intent.getStringExtra(Constants.KEY_ABSTRACTION_VALUE);
+        }
+        mJVSharedPref = new JobViewerSharedPref();
+        if (abstractionValue.equals("")) {
+            abstractionValue = mJVSharedPref.getSharedPref(context).getString(JobViewerSharedPref.WATER_ABSTRACTION_VALUE, "");
+        }
         initUI();
     }
 
@@ -172,6 +185,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
             //closeApplication();
         } else if (view == mNext) {
             boolean isValidUserInput = isValidUserInput();
+            currentTimeStamp = Utils.getCurrentDateAndTime();
             if (isValidUserInput) {
                 if (mPollutionCheckBox.isChecked()) {
                     ConfirmDialog confirmDialog = new ConfirmDialog(context, this, Constants.POLLUTION_CONFIRMATION);
@@ -211,7 +225,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
         /*Utils.workStartTimeSheetRequest = new TimeSheetRequest();*/
         User userProfile = JobViewerDBHandler.getUserProfile(this);
         CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(this);
-        workStartTimeRequest.setStarted_at(Utils.getCurrentDateAndTime());
+        workStartTimeRequest.setStarted_at(currentTimeStamp);
         workStartTimeRequest.setRecord_for(userProfile.getEmail());
         workStartTimeRequest.setUser_id(userProfile.getEmail());
         workStartTimeRequest.setReference_id(checkOutObject.getVistecId());
@@ -241,7 +255,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
         User userProfile = JobViewerDBHandler
                 .getUserProfile(NewWorkActivity.this);
         insertWorkStartTimeIntoHoursCalculator();
-        data.put("started_at", Utils.getCurrentDateAndTime());
+        data.put("started_at", currentTimeStamp);
         if (checkOutRemember.getVistecId() != null) {
             data.put("reference_id", checkOutRemember.getVistecId());
         } else {
@@ -265,6 +279,14 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
         data.put("location_latitude", tracker.getLatitude());
         data.put("location_longitude", tracker.getLongitude());
         data.put("created_by", userProfile.getEmail());
+        if (mJVSharedPref.getSharedPref(context).getBoolean(JobViewerSharedPref.KEY_FROM_WORK, false)) {
+            if (abstractionValue.equalsIgnoreCase("YES"))
+                data.put("abstract_water", "Yes");
+            else
+                data.put("abstract_water", "No");
+        }
+        Log.d("TAG", "abstractionValue" + abstractionValue);
+
         Utils.startProgress(this);
         Utils.SendHTTPRequest(this, CommsConstant.HOST
                 + CommsConstant.WORK_CREATE_API, data, getWorkCreateHandler());
@@ -289,7 +311,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
                         checkOutRemember.setWorkId(decodeFromJsonString.getId());
                         JobViewerDBHandler.saveCheckOutRemember(context,
                                 checkOutRemember);
-                        Utils.work_id = decodeFromJsonString.getId();
+                        new JobViewerSharedPref().saveWorkId(context, decodeFromJsonString.getId());
                         sendWorkStartTimeRequest();
                         break;
                     case HttpConnection.DID_ERROR:
@@ -318,7 +340,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
             try {
 
                 JSONObject jsonObject = new JSONObject(jsonStr);
-                jsonObject.put(Constants.WorkWithNoPhotosStartedAt, Utils.getCurrentDateAndTime());
+                jsonObject.put(Constants.WorkWithNoPhotosStartedAt, currentTimeStamp);
                 JobViewerDBHandler.saveFlaginJSONObject(NewWorkActivity.this, jsonObject.toString());
             } catch (JSONException jse) {
                 jse.printStackTrace();
@@ -345,8 +367,8 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
         User userProfile = JobViewerDBHandler
                 .getUserProfile(NewWorkActivity.this);
         WorkRequest workRequest = new WorkRequest();
-        workRequest.setStarted_at(Utils.getCurrentDateAndTime());
-        Utils.lastest_work_started_at = Utils.getCurrentDateAndTime();
+        workRequest.setStarted_at(currentTimeStamp);
+        Utils.lastest_work_started_at = currentTimeStamp;
         if (checkOutRemember.getVistecId() != null) {
             workRequest.setReference_id(checkOutRemember.getVistecId());
         } else {
@@ -367,6 +389,14 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
         workRequest.setLocation_latitude("" + tracker.getLatitude());
         workRequest.setLocation_longitude("" + tracker.getLongitude());
         workRequest.setCreated_by(userProfile.getEmail());
+        if (mJVSharedPref.getSharedPref(context).getBoolean(JobViewerSharedPref.KEY_FROM_WORK, false)) {
+            if (abstractionValue.equalsIgnoreCase("YES"))
+                workRequest.setAbstract_water("Yes");
+            else
+                workRequest.setAbstract_water("No");
+        }
+
+        Log.d("TAG", "abstractionValue" + abstractionValue);
         BackLogRequest backLogRequest = new BackLogRequest();
         backLogRequest.setRequestApi(CommsConstant.WORK_CREATE_API);
         backLogRequest.setRequestClassName("WorkRequest");
@@ -403,10 +433,10 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
     private void sendWorkStartTimeRequest() {
 
         TimeSheetRequest workStartTimeRequest = new TimeSheetRequest();
-		/*Utils.workStartTimeSheetRequest = new TimeSheetRequest();*/
+        /*Utils.workStartTimeSheetRequest = new TimeSheetRequest();*/
         User userProfile = JobViewerDBHandler.getUserProfile(this);
         CheckOutObject checkOutObject = JobViewerDBHandler.getCheckOutRemember(this);
-        workStartTimeRequest.setStarted_at(Utils.getCurrentDateAndTime());
+        workStartTimeRequest.setStarted_at(currentTimeStamp);
         workStartTimeRequest.setRecord_for(userProfile.getEmail());
         workStartTimeRequest.setUser_id(userProfile.getEmail());
         workStartTimeRequest.setReference_id(checkOutObject.getVistecId());
@@ -457,7 +487,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
         };
         return handler;
     }
-    
+
     private void setNewWorkTravelArrivedSite(Context mContext) {
         String str = JobViewerDBHandler.getJSONFlagObject(mContext);
         if (Utils.isNullOrEmpty(str)) {
@@ -479,7 +509,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
             e.printStackTrace();
         }
     }
-    
+
     private void removeNewWorkTravelArrivedSite(Context mContext) {
         String str = JobViewerDBHandler.getJSONFlagObject(mContext);
         if (Utils.isNullOrEmpty(str)) {
@@ -491,7 +521,7 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener, Co
                 jsonObject
                         .remove(Constants.FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE);
             }
-            
+
             String jsonString = jsonObject.toString();
             JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(),
                     jsonString);

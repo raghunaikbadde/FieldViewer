@@ -28,6 +28,7 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
+import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
@@ -44,6 +45,7 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener {
     private View mRootView;
     private Button mStopButton;
     private Button mResumeButton;
+    private JobViewerSharedPref mSharedPref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         mRootView = inflater.inflate(R.layout.stop_work_screen, container,
                 false);
+        mSharedPref = new JobViewerSharedPref();
         removePhoneKeypad();
         mStopButton = (Button) mRootView.findViewById(R.id.button1);
         mResumeButton = (Button) mRootView.findViewById(R.id.button2);
@@ -124,12 +127,12 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener {
             data.put("created_by", userProfile.getEmail());
             Utils.startProgress(getActivity());
             try {
-                Utils.work_id = checkOutRemember.getWorkId();
+                mSharedPref.saveWorkId(getActivity(), checkOutRemember.getWorkId());
             } catch (Exception e) {
                 e.printStackTrace();
             }
             Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-                            + CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, data,
+                            + CommsConstant.WORK_UPDATE_API + "/" + mSharedPref.getSharedPref(getActivity()).getString(JobViewerSharedPref.KEY_WORK_ID, ""), data,
                     getWorkCompletedHandler());
         } else {
             Utils.startProgress(getActivity());
@@ -169,7 +172,7 @@ public class ConfinedStopFragment extends Fragment implements OnClickListener {
         workRequest.setCreated_by(userProfile.getEmail());
         BackLogRequest backLogRequest = new BackLogRequest();
         backLogRequest.setRequestApi(CommsConstant.HOST
-                + CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id);
+                + CommsConstant.WORK_UPDATE_API + "/" + mSharedPref.getSharedPref(getActivity()).getString(JobViewerSharedPref.KEY_WORK_ID, ""));
         backLogRequest.setRequestClassName("WorkRequest");
         backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(workRequest));
         backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);

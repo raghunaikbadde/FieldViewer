@@ -47,6 +47,7 @@ import com.jobviewer.util.ConfirmDialog;
 import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallback;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
+import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
@@ -79,6 +80,8 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
     private String mPipeDiameter, mPipeLength;
     private String selectedActivityText = "";
     private String daCallStatus = ActivityConstants.DA_NO_CALL_MADE;
+    private JobViewerSharedPref mSharedPref;
+    private String visTecId = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,8 +93,12 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
                              Bundle savedInstanceState) {
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        visTecId = getArguments().getString(Constants.KEY_VISTECID);
+
         mRootView = inflater.inflate(R.layout.work_complete_screen, container,
                 false);
+        mSharedPref = new JobViewerSharedPref();
+
         Utils.workEndTimeSheetRequest = new TimeSheetRequest();
         return mRootView;
     }
@@ -134,7 +141,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
                 .findViewById(R.id.enter_length_edittext);
         mPipeDiameterEditText.addTextChangedListener(this);
         mPipeLengthEditText.addTextChangedListener(this);
-        mVistecNumber.setText(Utils.checkOutObject.getVistecId());
+        mVistecNumber.setText(visTecId);
         mAddInfo = (ImageButton) mRootView
                 .findViewById(R.id.detail_imageButton);
         mStop = (ImageButton) mRootView.findViewById(R.id.video_imageButton);
@@ -242,7 +249,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
             Intent phoneIntent = new Intent(Intent.ACTION_CALL,
                     Uri.parse("tel:"
                             + getResources().getString(
-                            R.string.callDAMobileNumber)));
+                            R.string.call_csc_phone_number)));
             startActivityForResult(phoneIntent,
                     Constants.TAP_DA_PHONE_CALL_REQUEST_CODE);
         }
@@ -347,9 +354,10 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
         workRequest.setLocation_longitude("" + tracker.getLongitude());
         workRequest.setCreated_by(userProfile.getEmail());
         BackLogRequest backLogRequest = new BackLogRequest();
-        Utils.work_id = checkOutRemember.getWorkId();
+        mSharedPref.saveWorkId(getActivity(), checkOutRemember.getWorkId());
         backLogRequest.setRequestApi(CommsConstant.HOST + "/"
-                + CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id);
+                + CommsConstant.WORK_UPDATE_API + "/" + mSharedPref.getSharedPref(getActivity()).getString(JobViewerSharedPref.KEY_WORK_ID, "")
+        );
         backLogRequest.setRequestClassName("WorkRequest");
         backLogRequest.setRequestJson(GsonConverter.getInstance()
                 .encodeToJsonString(workRequest));
@@ -450,12 +458,13 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
         data.put("created_by", userProfile.getEmail());
         Utils.startProgress(getActivity());
         try {
-            Utils.work_id = checkOutRemember.getWorkId();
+            mSharedPref.saveWorkId(getActivity(), checkOutRemember.getWorkId());
         } catch (Exception e) {
             e.printStackTrace();
         }
         Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-                        + CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, data,
+                        + CommsConstant.WORK_UPDATE_API + "/" + mSharedPref.getSharedPref(getActivity()).getString(JobViewerSharedPref.KEY_WORK_ID, "")
+                , data,
                 getWorkCompletedHandler());
     }
 

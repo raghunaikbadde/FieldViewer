@@ -103,7 +103,7 @@
                     android:textSize="@dimen/black_lato_regular_small55" />
 
                 <LinearLayout
-                    android:id="@+id/capture_layout"
+                    android:id="@+id/camera_layout"
                     android:layout_width="@dimen/capture_button_width840"
                     android:layout_height="@dimen/capture_button_height220"
                     android:layout_below="@+id/question"
@@ -133,7 +133,7 @@
                     android:id="@+id/imageslinear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/capture_layout"
+                    android:layout_below="@+id/camera_layout"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dialog_detail_top_margin80"
                     android:orientation="vertical" />

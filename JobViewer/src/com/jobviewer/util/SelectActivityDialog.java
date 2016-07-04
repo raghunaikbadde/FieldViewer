@@ -38,13 +38,13 @@ import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.NewWorkActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.TravelToWorkSiteActivity;
-import com.lanesgroup.jobviewer.TravelToWorkSiteOrArriveAtSiteActivity;
+import com.lanesgroup.jobviewer.WaterAbstractionActivity;
 import com.vehicle.communicator.HttpConnection;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import org.json.JSONObject;
 
 public class SelectActivityDialog extends Activity implements
         ConfirmDialogCallback, ConfirmDialogCallbackForNoPhotos {
@@ -55,6 +55,8 @@ public class SelectActivityDialog extends Activity implements
     private final ArrayList<HashMap<String, Object>> m_data = new ArrayList<HashMap<String, Object>>();
     private Button dialog_ok;
     private LinearLayout dialogBoxLayout;
+    private JobViewerSharedPref jobViewerSharedPref;
+
     /*
      * private CheckBox mWork, mWorkNoPhotos, mTraining; private String
      * selected; private OnCheckedChangeListener checkChangedListner; private
@@ -71,6 +73,7 @@ public class SelectActivityDialog extends Activity implements
                 new ColorDrawable(android.graphics.Color.TRANSPARENT));
         setContentView(R.layout.select_dialog);
         mContext = this;
+        jobViewerSharedPref = new JobViewerSharedPref();
         dialog_ok = (Button) findViewById(R.id.dialog_ok);
         dialogBoxLayout = (LinearLayout) findViewById(R.id.select_dialog_layout);
         HashMap<String, Object> map1 = new HashMap<String, Object>();
@@ -154,36 +157,17 @@ public class SelectActivityDialog extends Activity implements
                 if (selected == -1)
                     return;
                 else if (selected == 0) {
-                    CheckOutObject checkOutRemember = JobViewerDBHandler
-                            .getCheckOutRemember(v.getContext());
-                    if (checkOutRemember != null
-                            && ActivityConstants.TRUE
-                            .equalsIgnoreCase(checkOutRemember
-                                    .getIsTravelEnd())) {
-                    	if(shouldNewWorkTravelArrivedSite(mContext)){
-                    		intent.setClass(SelectActivityDialog.this,
-                                    TravelToWorkSiteOrArriveAtSiteActivity.class);
-                    	}else{
-                    		intent.setClass(SelectActivityDialog.this,
-                                NewWorkActivity.class);
-                    	}
-                    } else {
-                        intent.setClass(SelectActivityDialog.this,
-                                TravelToWorkSiteActivity.class);
-                    }
-//                    result = WORK;
-                    startActivity(intent);
-                    finish();
-
+                    Intent waterAbstractionActivity = new Intent(mContext, WaterAbstractionActivity.class);
+                    startActivity(waterAbstractionActivity);
                 } else if (selected == 1) {
-
+                    jobViewerSharedPref.saveFromWork(mContext, false);
                     new ConfirmDialog(mContext, SelectActivityDialog.this,
                             Constants.WORK_NO_PHOTOS_CONFIRMATION, "").show();
 //                    result = WORK_NO_PHOTOS;
 
                     return;
                 } else if (selected == 2) {
-
+                    jobViewerSharedPref.saveFromWork(mContext, false);
                     dialogBoxLayout.setVisibility(View.INVISIBLE);
                     new ConfirmDialog(mContext, SelectActivityDialog.this,
                             Constants.START_TRAINING).show();
@@ -384,7 +368,7 @@ public class SelectActivityDialog extends Activity implements
             dialog_ok.setEnabled(false);
         }
     }
-    
+
     private boolean shouldNewWorkTravelArrivedSite(Context mContext) {
         String str = JobViewerDBHandler.getJSONFlagObject(mContext);
         if (Utils.isNullOrEmpty(str)) {
@@ -393,10 +377,10 @@ public class SelectActivityDialog extends Activity implements
         try {
             JSONObject jsonObject = new JSONObject(str);
             if (jsonObject.has(Constants.FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE)) {
-            	return jsonObject.getBoolean(Constants.FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE);
+                return jsonObject.getBoolean(Constants.FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE);
             }
 
-            
+
             String jsonString = jsonObject.toString();
             JobViewerDBHandler.saveFlaginJSONObject(getApplicationContext(),
                     jsonString);

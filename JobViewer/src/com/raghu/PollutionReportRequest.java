@@ -20,6 +20,7 @@ public class PollutionReportRequest {
 	private String indicative_cause = "";
 	private String failed_asset = "";
 	private String equipment_deployed = "";
+	private String mapImageId="";
 	
 	public String getLand_polluted() {
 		return land_polluted;
@@ -122,5 +123,11 @@ public class PollutionReportRequest {
 	}
 	public void setEquipment_deployed(String equipment_deployed) {
 		this.equipment_deployed = equipment_deployed;
+	}
+	public String getMapImageId() {
+		return mapImageId;
+	}
+	public void setMapImageId(String mapImageId) {
+		this.mapImageId = mapImageId;
 	}
 }

@@ -15,6 +15,7 @@ import com.jobviewer.db.objects.StartTrainingObject;
 import com.jobviewer.db.objects.SurveyJson;
 import com.jobviewer.db.objects.TimeSheet;
 import com.jobviewer.util.Constants;
+import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
@@ -175,10 +176,12 @@ public class JobViewerDBHandler {
         ContentValues values = new ContentValues();
         values.put(JobViewerProviderContract.Image.IMAGE_ID, image.getImageId());
         String imagestring = image.getImage_string();
-        if (imagestring.indexOf(Constants.IMAGE_STRING_INITIAL) >= 0) {
+        if (imagestring != null) {
+            if (imagestring.indexOf(Constants.IMAGE_STRING_INITIAL) >= 0) {
 
-        } else {
-            imagestring = Constants.IMAGE_STRING_INITIAL + imagestring;
+            } else {
+                imagestring = Constants.IMAGE_STRING_INITIAL + imagestring;
+            }
         }
         values.put(JobViewerProviderContract.Image.IMAGE_STRING, imagestring);
         Log.i("Android", "Image 22 :" + imagestring);
@@ -540,10 +543,10 @@ public class JobViewerDBHandler {
         if (!Utils.isNullOrEmpty(str)) {
             try {
                 JSONObject jsonObject = new JSONObject(str);
-                if (Utils.isNullOrEmpty(Utils.work_id))
+                if (Utils.isNullOrEmpty(new JobViewerSharedPref().getSharedPref(context).getString(JobViewerSharedPref.KEY_WORK_ID, "")))
                     jsonObject.put("id", "");
                 else
-                    jsonObject.put("id", Utils.work_id);
+                    jsonObject.put("id", new JobViewerSharedPref().getSharedPref(context).getString(JobViewerSharedPref.KEY_WORK_ID, ""));
                 str = jsonObject.toString();
             } catch (JSONException jse) {
                 jse.printStackTrace();

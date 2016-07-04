@@ -91,11 +91,16 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 				.getScreen()[0];
 		checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getActivity());
-		if (currentScreen.getTitle().equals("Report a hazard or near miss")) {
+		if (currentScreen.getTitle().equals("Report a hazard")) {
 			mProgressStep
 					.setText(getString(R.string.progress_step_end_on_call));
-		} else {
+			mDescribe.setHint(getString(R.string.describe_the_hazard));
+		} else if (currentScreen.getTitle().equals("Report a near miss")){
 			mProgressStep.setText(currentScreen.get_progress() + "%");
+			mDescribe.setHint(getString(R.string.describe_the_near_miss));
+		}else{
+			mProgressStep.setText(currentScreen.get_progress() + "%");
+			mDescribe.setHint(getString(R.string.describe_the_example_of_good_safety_or_your_idea));
 		}
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());
@@ -158,7 +163,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		mDescribe = (EditText) mRootView.findViewById(R.id.describe_edittext);
 		linearLayout = (LinearLayout) mRootView.findViewById(R.id.imageslinear);
 		mLinearLayout = (LinearLayout) mRootView
-				.findViewById(R.id.capture_layout);
+				.findViewById(R.id.camera_layout);
 		mLinearLayout.setOnClickListener(this);
 
 		mSave = (Button) mRootView.findViewById(R.id.button1);

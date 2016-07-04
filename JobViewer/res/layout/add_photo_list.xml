@@ -11,6 +11,7 @@
         android:id="@+id/captured_image1"
         android:layout_width="@dimen/captured_image_widtht420"
         android:layout_height="@dimen/captured_image_height300"
+        android:layout_margin="@dimen/actionbar_bottom_margin85"
         android:contentDescription="@string/desc"
         android:src="@drawable/ic_launcher" />
 

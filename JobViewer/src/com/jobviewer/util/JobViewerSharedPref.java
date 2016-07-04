@@ -10,6 +10,9 @@ public class JobViewerSharedPref {
     public static final String PREF_NAME = "JobViewerPref";
     public static final String LONGITUDE = "longitude";
     public static final String LATITUDE = "latitude";
+    public static final String WATER_ABSTRACTION_VALUE = "water_abstraction_value";
+    public static final String KEY_FROM_WORK = "key_from_work";
+    public static final String KEY_WORK_ID = "key_work_id";
 
     public JobViewerSharedPref() {
         super();
@@ -24,6 +27,37 @@ public class JobViewerSharedPref {
         editor = pref.edit();
         editor.putString(LATITUDE, latitude);
         editor.putString(LONGITUDE, longitude);
+        editor.commit();
+    }
+
+    public void saveAbstractionValue(Context context, String abstraction) {
+        clearSharedPreference(context);
+        SharedPreferences pref;
+        Editor editor;
+
+        pref = getSharedPref(context);
+        editor = pref.edit();
+        editor.putString(WATER_ABSTRACTION_VALUE, abstraction);
+        editor.commit();
+    }
+
+    public void saveFromWork(Context context, boolean fromWork) {
+        clearSharedPreference(context);
+        SharedPreferences pref;
+        Editor editor;
+        pref = getSharedPref(context);
+        editor = pref.edit();
+        editor.putBoolean(KEY_FROM_WORK, fromWork);
+        editor.commit();
+    }
+
+    public void saveWorkId(Context context, String workId) {
+        clearSharedPreference(context);
+        SharedPreferences pref;
+        Editor editor;
+        pref = getSharedPref(context);
+        editor = pref.edit();
+        editor.putString(KEY_WORK_ID, workId);
         editor.commit();
     }
 

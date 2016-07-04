@@ -354,7 +354,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/actionbar_bottom_margin85"
-                android:text="@string/tap_to_call_str"
+                android:text="@string/call_tw_tech_Spec"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/grey_lato_regular_small36" />
         </LinearLayout>

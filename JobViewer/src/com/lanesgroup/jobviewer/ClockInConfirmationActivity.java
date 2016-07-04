@@ -146,7 +146,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					ActivityConstants.JOB_SELECTED_ON_CALL)) {
 				clockin_text.setText(context.getString(R.string.start_on_call));
 				shift_start_time_text.setText(context.getString(R.string.on_call_start_time));
-				mClockIn.setText(context.getString(R.string.start_on_call));
+				mClockIn.setText(context.getString(R.string.start_on_call_btn));
 			}
 		}
 	}

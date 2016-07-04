@@ -127,7 +127,7 @@ public class EndOnCallActivity extends BaseActivity implements OnClickListener{
 		mUserEmail.setText(email);
 		mVehicleUsed.setText(vehicleRegistrationNumber +" (mileage "+mileage+" )");
 		mMileage.setText(mileage);
-		mEndTime.setText(Utils.getCurrentDateAndTime());
+		mEndTime.setText(Utils.getCurrentDateAndTime() +" (System)");
 		
 		if(bundle != null && bundle.containsKey(Utils.CALLING_ACTIVITY)){
 			if(bundle.getString(Utils.CALLING_ACTIVITY).contains("EndShiftReturnVehicleActivity")){

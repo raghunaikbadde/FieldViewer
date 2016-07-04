@@ -1,8 +1,5 @@
 package com.jobviewer.confined.fragment;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,9 +10,9 @@ import android.os.IBinder;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
@@ -31,19 +28,25 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
+import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
+import com.lanesgroup.jobviewer.ConfirmWorkStopDialog;
 import com.lanesgroup.jobviewer.R;
 import com.raghu.ShoutOutBackLogRequest;
 import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 
-public class ConfinedNoCustomerStopFragment  extends Fragment implements OnClickListener {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class ConfinedNoCustomerStopFragment extends Fragment implements OnClickListener {
 
     private View mRootView;
     private Button mStopButton;
     private Button mResumeButton;
+    private JobViewerSharedPref mSharedPref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,7 @@ public class ConfinedNoCustomerStopFragment  extends Fragment implements OnClick
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         mRootView = inflater.inflate(R.layout.risk_assessment_stop_screen, container,
                 false);
+        mSharedPref = new JobViewerSharedPref();
         removePhoneKeypad();
         mStopButton = (Button) mRootView.findViewById(R.id.button1);
         mResumeButton = (Button) mRootView.findViewById(R.id.button2);
@@ -80,8 +84,20 @@ public class ConfinedNoCustomerStopFragment  extends Fragment implements OnClick
             // Popup dialog to report to field manager
             sendWorkCompletedToServer();
         } else if (v.getId() == mResumeButton.getId()) {
-            ConfinedQuestionManager.getInstance()
-                    .loadPreviousFragmentOnResume();
+
+            ConfirmWorkStopDialog mDialog = new ConfirmWorkStopDialog(getActivity(), new ConfirmWorkStopDialog.ConfirmWorkStopDialogCallback() {
+                @Override
+                public void onConfirmButtonPressed() {
+                    ConfinedQuestionManager.getInstance()
+                            .loadPreviousFragmentOnResume();
+                }
+
+                @Override
+                public void onConfirmDismiss() {
+
+                }
+            });
+            mDialog.show();
 
         }
     }
@@ -124,12 +140,12 @@ public class ConfinedNoCustomerStopFragment  extends Fragment implements OnClick
             data.put("created_by", userProfile.getEmail());
             Utils.startProgress(getActivity());
             try {
-                Utils.work_id = checkOutRemember.getWorkId();
+                mSharedPref.saveWorkId(getActivity(), checkOutRemember.getWorkId());
             } catch (Exception e) {
                 e.printStackTrace();
             }
             Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-                            + CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id, data,
+                            + CommsConstant.WORK_UPDATE_API + "/" + mSharedPref.getSharedPref(getActivity()).getString(JobViewerSharedPref.KEY_WORK_ID, ""), data,
                     getWorkCompletedHandler());
         } else {
             Utils.startProgress(getActivity());
@@ -169,7 +185,7 @@ public class ConfinedNoCustomerStopFragment  extends Fragment implements OnClick
         workRequest.setCreated_by(userProfile.getEmail());
         BackLogRequest backLogRequest = new BackLogRequest();
         backLogRequest.setRequestApi(CommsConstant.HOST
-                + CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id);
+                + CommsConstant.WORK_UPDATE_API + "/" + mSharedPref.getSharedPref(getActivity()).getString(JobViewerSharedPref.KEY_WORK_ID, ""));
         backLogRequest.setRequestClassName("WorkRequest");
         backLogRequest.setRequestJson(GsonConverter.getInstance().encodeToJsonString(workRequest));
         backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);

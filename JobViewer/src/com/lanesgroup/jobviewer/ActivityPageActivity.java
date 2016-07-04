@@ -1,21 +1,25 @@
 package com.lanesgroup.jobviewer;
 
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +41,7 @@ import com.jobviewer.util.ConfirmDialog;
 import com.jobviewer.util.ConfirmDialog.ConfirmDialogCallback;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
+import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.OverrideReasoneDialog;
 import com.jobviewer.util.SelectActivityDialog;
 import com.jobviewer.util.Utils;
@@ -54,6 +59,9 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static android.graphics.Color.BLACK;
+import static android.graphics.Color.TRANSPARENT;
+
 public class ActivityPageActivity extends BaseActivity implements
         View.OnClickListener, DialogCallback, ConfirmDialogCallback {
     private TextView user_email_text, date_time_text,
@@ -66,6 +74,7 @@ public class ActivityPageActivity extends BaseActivity implements
     private Context mContext;
     private Bundle bundle;
     private String vehicleRegNo = "";
+    private JobViewerSharedPref mSharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +93,7 @@ public class ActivityPageActivity extends BaseActivity implements
     }
 
     private void updateDetailsOnUI() {
-        this.unregisterForContextMenu(mStart);
+//        this.unregisterForContextMenu(mStart);
         mShoutAbout = (ImageView) findViewById(R.id.shout_about_image);
         mShoutAbout.setOnClickListener(this);
 
@@ -97,14 +106,22 @@ public class ActivityPageActivity extends BaseActivity implements
             }
         }
         BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(this);
-        String numberOfBreaks = String.valueOf(breakShiftTravelCall.getNoOfBreaks());
+        String numberOfBreaks = "";
+        if (breakShiftTravelCall != null) {
+            numberOfBreaks = String.valueOf(breakShiftTravelCall.getNoOfBreaks());
+        }
+
         if (Utils.isNullOrEmpty(numberOfBreaks)) {
             numberOfBreaks = "None taken";
         }
         if (numberOfBreaks.equalsIgnoreCase("0")) {
             numberOfBreaks = "None taken";
         }
-        String totalBreakTime = breakShiftTravelCall.getTotalBreakTime();
+        String totalBreakTime = "";
+        if (breakShiftTravelCall != null && breakShiftTravelCall.getTotalBreakTime() != null) {
+            totalBreakTime = breakShiftTravelCall.getTotalBreakTime();
+        }
+
         long minutes = 0L;
         if (!Utils.isNullOrEmpty(totalBreakTime)) {
             long millis = Long.valueOf(totalBreakTime);
@@ -211,6 +228,7 @@ public class ActivityPageActivity extends BaseActivity implements
     }
 
     private void initUI() {
+        mSharedPref = new JobViewerSharedPref();
 
         Utils.checkOutObject = JobViewerDBHandler.getCheckOutRemember(mContext);
         vehicleRegNo = Utils.checkOutObject.getVehicleRegistration();
@@ -349,7 +367,13 @@ public class ActivityPageActivity extends BaseActivity implements
                 }
             } else if ((getResources().getString(R.string.work_in_progree_str) + Constants.WORK_NO_PHOTOS_HOME)
                     .equalsIgnoreCase(tag)) {
-                openContextMenu(mStart);
+//                openContextMenu(mStart);
+
+                // show default dialog here in place of context menu
+//                ***************
+
+                openWorkOptionsDialog();
+
             } else if (Constants.END_TRAINING.equalsIgnoreCase(tag)) {
                 executeEndTraining();
 
@@ -766,10 +790,12 @@ public class ActivityPageActivity extends BaseActivity implements
             values.put("is_redline_captured", "false");
             values.put("location_latitude", gpsTracker.getLatitude());
             values.put("location_longitude", gpsTracker.getLongitude());
-            Utils.work_id = JobViewerDBHandler.getCheckOutRemember(mContext)
-                    .getWorkId();
+
+            mSharedPref.saveWorkId(mContext, JobViewerDBHandler.getCheckOutRemember(mContext)
+                    .getWorkId());
+
             Utils.SendHTTPRequest(mContext, CommsConstant.HOST
-                            + CommsConstant.WORK_UPDATE_API + "/" + Utils.work_id,
+                            + CommsConstant.WORK_UPDATE_API + "/" + mSharedPref.getSharedPref(mContext).getString(JobViewerSharedPref.KEY_WORK_ID, ""),
                     values, getLeaveWorkHandler());
         } else {
             saveUpdateWorkInBackLogDb();
@@ -842,7 +868,7 @@ public class ActivityPageActivity extends BaseActivity implements
         workRequest.setCreated_by(userProfile.getEmail());
         BackLogRequest backLogRequest = new BackLogRequest();
         backLogRequest.setRequestApi(CommsConstant.WORK_UPDATE_API + "/"
-                + Utils.work_id);
+                + mSharedPref.getSharedPref(mContext).getString(JobViewerSharedPref.KEY_WORK_ID, ""));
         backLogRequest.setRequestClassName("WorkRequest");
         backLogRequest.setRequestJson(GsonConverter.getInstance()
                 .encodeToJsonString(workRequest));
@@ -1008,51 +1034,6 @@ public class ActivityPageActivity extends BaseActivity implements
         return handler;
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenuInfo menuInfo) {
-        menu.setHeaderTitle(getResources().getString(
-                R.string.context_work_options));
-        if (v == mStart) {
-            menu.add(
-                    0,
-                    1,
-                    0,
-                    getResources().getString(
-                            R.string.context_menu_start_confined_space_entry));
-            menu.add(0, 2, 0,
-                    getResources().getString(R.string.context_menu_leave_work));
-            menu.add(0, 3, 0,
-                    getResources().getString(R.string.context_menu_back));
-        }
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case 1:
-                Intent confinedWorkintent = new Intent(ActivityPageActivity.this,
-                        ConfinedAssessmentQuestionsActivity.class);
-                insertConfinedSpaceEntryStartedTime();
-                confinedWorkintent.putExtra(Constants.CALLING_ACTIVITY,
-                        ActivityPageActivity.this.getClass().getSimpleName());
-                startActivity(confinedWorkintent);
-                return true;
-            case 2:
-                ConfirmDialog confirmDialog = new ConfirmDialog(mContext, this,
-                        ActivityConstants.LEAVE_WORK_CONFIMRATION);
-                confirmDialog.show();
-
-                return true;
-            case 3:
-                mStart.getRootView().dispatchKeyEvent(
-                        new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     private void insertStartTravelTimeRequestInDB() {
         String timeToStore = Utils
                 .getMillisFromFormattedDate(Utils.startTravelTimeRequest
@@ -1109,4 +1090,62 @@ public class ActivityPageActivity extends BaseActivity implements
             e.printStackTrace();
         }
     }
+
+    public void openWorkOptionsDialog() {
+
+
+        View view = ActivityPageActivity.this.getLayoutInflater().inflate(R.layout.work_options_dialog, null);
+
+
+        ListView listView = (ListView) view.findViewById(R.id.list);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_list_item_1, Utils.mWorkOptions) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(BLACK);
+                return view;
+            }
+        };
+        listView.setAdapter(adapter);
+
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(
+                new ColorDrawable(TRANSPARENT));
+        dialog.setContentView(view);
+        dialog.show();
+        dialog.setCancelable(false);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                switch (position) {
+                    case 0:
+                        Intent confinedWorkintent = new Intent(ActivityPageActivity.this,
+                                ConfinedAssessmentQuestionsActivity.class);
+                        insertConfinedSpaceEntryStartedTime();
+                        confinedWorkintent.putExtra(Constants.CALLING_ACTIVITY,
+                                ActivityPageActivity.this.getClass().getSimpleName());
+                        startActivity(confinedWorkintent);
+                        break;
+                    case 1:
+                        ConfirmDialog confirmDialog = new ConfirmDialog(context, ActivityPageActivity.this,
+                                ActivityConstants.LEAVE_WORK_CONFIMRATION);
+                        confirmDialog.show();
+                        break;
+                    case 2:
+                        mStart.getRootView().dispatchKeyEvent(
+                                new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
+                        break;
+
+                }
+                dialog.dismiss();
+            }
+        });
+    }
+
 }
