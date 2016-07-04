@@ -25,6 +25,8 @@ package com.jobviewer.db.objects;
 	private String workStartTime;
 	private String workEndTime;
 	
+	private String riskAssessmentEndTime;
+	
 	public String isBreakStarted() {
 		return isBreakStarted;
 	}
@@ -121,5 +123,11 @@ package com.jobviewer.db.objects;
 	}
 	public void setWorkEndTime(String workEndTime) {
 		this.workEndTime = workEndTime;
+	}
+	public String getRiskAssessmentEndTime() {
+		return riskAssessmentEndTime;
+	}
+	public void setRiskAssessmentEndTime(String riskAssessmentEndTime) {
+		this.riskAssessmentEndTime = riskAssessmentEndTime;
 	}
 }

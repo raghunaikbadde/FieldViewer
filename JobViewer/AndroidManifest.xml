@@ -78,6 +78,13 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
+            android:name="com.raghu.UpdateRiskOverTimeAlertDialog"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="adjustPan" />
+        
+        <activity
             android:name="com.lanesgroup.jobviewer.ClockInConfirmationActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
@@ -239,6 +246,11 @@
             android:name="com.jobviwer.service.OverTimeAlertService"
             android:label="OverTimeAlertService">
         </receiver>
+        <receiver
+            android:name="com.jobviwer.service.RiskAssementOverTimeService"
+            android:label="OverTimeAlertService">
+        </receiver>
+        
         <provider
             android:name="com.jobviewer.provider.JobViewerProvider"
             android:authorities="com.jobviewer.contentprovider"

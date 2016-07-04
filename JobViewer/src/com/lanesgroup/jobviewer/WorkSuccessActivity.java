@@ -39,6 +39,8 @@ public class WorkSuccessActivity extends BaseActivity implements
 		if (v.getId() == mDoneButton.getId()) {
 			Intent appPageActivityIntent = new Intent(WorkSuccessActivity.this,
 					ActivityPageActivity.class);
+			ClockInConfirmationActivity.initiateAlarm();
+			ClockInConfirmationActivity.setAlarmForOverTime();
 			JobViewerDBHandler.deleteQuestionSet(WorkSuccessActivity.this);
 			finish();
 			startActivity(appPageActivityIntent);
@@ -48,7 +50,9 @@ public class WorkSuccessActivity extends BaseActivity implements
 	@Override
 	public void onBackPressed() {
 		Intent appPageActivityIntent = new Intent(WorkSuccessActivity.this,
-				ActivityPageActivity.class);
+				ActivityPageActivity.class);		
+		ClockInConfirmationActivity.initiateAlarm();
+		ClockInConfirmationActivity.setAlarmForOverTime();
 		JobViewerDBHandler.deleteQuestionSet(WorkSuccessActivity.this);
 		finish();
 		startActivity(appPageActivityIntent);

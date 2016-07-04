@@ -428,5 +428,7 @@
     <string name="remember_to_disinfect_before_abstraction">Remember to disinfect before abstraction.</string>
     <string name="it_is_a_criminal_offence_to_abstract">It is a criminal offence to \nabstract water from a fire hydrant.</string>
     <string name="add_map_annotation">Add map annotation</string>
-    <string name="alertUpdateRiskAssementMsg">Your last risk assessment was completed over 3 hours ago. Has the situation changed? Tap \'Update\' if you need to update your previous risk assessment.</string>
+    <string name="alertUpdateRiskAssementMsg1">Your last risk assessment was completed over"</string>
+    <string name="alertUpdateRiskAssementMsg2">hours ago. Has the situation changed? Tap \'Update\' if you need to update your previous risk assessment.</string>
+    <string name="alertUpdateRiskAssementHeader">Update Risk Assessment</string>
 </resources>

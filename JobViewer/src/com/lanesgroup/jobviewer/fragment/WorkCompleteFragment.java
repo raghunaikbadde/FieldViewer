@@ -543,6 +543,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
     }
 
     private void startWorkSuccessActivity() {
+    	AssessmentCompleteFragment.cancelAlarm();
         getActivity().finish();
         AddPhotosActivity.arrayListOfWokImagesUpload = new ArrayList<WorkPhotoUpload>();
         Intent workSuccessIntent = new Intent(getActivity(),

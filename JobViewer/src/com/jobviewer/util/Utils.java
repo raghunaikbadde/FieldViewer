@@ -63,7 +63,6 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.ImageUploadResponse;
 import com.jobviwer.service.AppKillService;
-import com.jobviwer.service.OverTimeAlertService;
 import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.LauncherActivity;
 import com.lanesgroup.jobviewer.PollutionActivity;
@@ -103,6 +102,7 @@ public class Utils {
     public static final String REQUEST_TYPE_POLLUTION = "POLLUTION";
     public static final String LOG_TAG = "JV";
     public static AlarmManager alarmMgr;
+    public static AlarmManager updateRiskAssessmentOverTimeAlarmMgr;
     public static String work_completed_at = "";
     public static String work_engineer_id = "123322";
     public static String work_status = "New";
@@ -122,6 +122,7 @@ public class Utils {
     public static TimeSheetRequest workStartTimeSheetRequest = null;
     public static TimeSheetRequest workEndTimeSheetRequest = null;
     public static AlertDialog overTimeAlerts;
+    public static AlertDialog updateRiskAssementOverTimeAlerts;
     public static String lastest_work_started_at = "";
     public static String lastest_call_started_at = "";
     public static String lastest_shift_started_at = "";
@@ -150,8 +151,11 @@ public class Utils {
     public static TimeSheetRequest callEndTimeRequest = null;
     public static boolean isExitApplication = false;
     public static Location locationOfUser = null;
-    public static long OVETTIME_ALERT_TOGGLE = 12* 60 * 60 * 1000; // 12 HOUR
+    public static long OVETTIME_ALERT_TOGGLE = 12 * 60 * 60 * 1000; // 12 HOUR
     public static long OVETTIME_ALERT_INTERVAL = 1 * 60* 60 * 1000; // 1HOUR
+    
+    public static long RISK_ASSMENET_OVETTIME_ALERT_TOGGLE = 3 * 60 *60 * 1000; // 12 HOUR
+    public static long RISK_ASSMENET_OVETTIME_ALERT_INTERVAL = 3* 60 *60 * 1000; // 1HOUR
     static Dialog progressDialog;
     static int notificationId = 1000;
     private static NotificationManager myNotificationManager;

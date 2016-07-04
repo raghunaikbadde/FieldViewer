@@ -1,7 +1,12 @@
 package com.lanesgroup.jobviewer.fragment;
 
+import java.util.Date;
+
+import android.app.AlarmManager;
 import android.app.Fragment;
+import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,17 +22,22 @@ import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.db.objects.BackLogRequest;
+import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.provider.JobViewerProviderContract.FlagJSON;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
+import com.jobviwer.service.OverTimeAlertService;
+import com.jobviwer.service.RiskAssementOverTimeService;
 import com.lanesgroup.jobviewer.AddPhotosActivity;
+import com.lanesgroup.jobviewer.ClockInConfirmationActivity;
 import com.lanesgroup.jobviewer.PollutionActivity;
 import com.lanesgroup.jobviewer.R;
 import com.raghu.ShoutOutBackLogRequest;
@@ -37,7 +47,7 @@ public class AssessmentCompleteFragment extends Fragment implements
 		OnClickListener {
 	private View mRootView;
 	private Button doneButton;
-
+	public static PendingIntent asessmentAlarmIntent;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -75,6 +85,10 @@ public class AssessmentCompleteFragment extends Fragment implements
 			executeSendDataToServer();
 		} else {
 			saveInBackLogDB();
+			initiateAlarm();
+			setAlarmForOverTime();
+			saveRiskAssesmentEndTime();
+			
 			if (ActivityConstants.TRUE.equalsIgnoreCase(checkOutRemember
 					.getIsPollutionSelected())) {
 				Intent pollutionIntent = new Intent(getActivity(),
@@ -86,6 +100,13 @@ public class AssessmentCompleteFragment extends Fragment implements
 				startActivity(pollutionIntent);
 			}
 		}
+	}
+
+	private void saveRiskAssesmentEndTime() {
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(getActivity());
+		String riskAssessmentEndTime = String.valueOf(System.currentTimeMillis());
+		breakShiftTravelCall.setRiskAssessmentEndTime(riskAssessmentEndTime);
+		JobViewerDBHandler.saveBreakShiftTravelCall(getActivity(), breakShiftTravelCall);
 	}
 
 	private void saveInBackLogDB() {
@@ -163,7 +184,7 @@ public class AssessmentCompleteFragment extends Fragment implements
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-
+					
 					String result = (String) msg.obj;
 					Log.i("Android", result);
 					CheckOutObject checkOutRemember = JobViewerDBHandler
@@ -180,6 +201,9 @@ public class AssessmentCompleteFragment extends Fragment implements
 								AddPhotosActivity.class);
 						startActivity(pollutionIntent);
 					}
+					saveRiskAssesmentEndTime();
+					initiateAlarm();
+					setAlarmForOverTime();
 					getActivity().finish();
 					Utils.StopProgress();
 					break;
@@ -200,5 +224,25 @@ public class AssessmentCompleteFragment extends Fragment implements
 		};
 		return handler;
 
+	}
+	
+	private void initiateAlarm() {
+		Utils.updateRiskAssessmentOverTimeAlarmMgr = (AlarmManager) getActivity()
+				.getSystemService(Context.ALARM_SERVICE);
+		Intent intent = new Intent(getActivity(), RiskAssementOverTimeService.class);
+		asessmentAlarmIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
+	}
+	
+	private void setAlarmForOverTime() {
+		Utils.updateRiskAssessmentOverTimeAlarmMgr.setInexactRepeating(
+				AlarmManager.ELAPSED_REALTIME_WAKEUP,
+				Utils.RISK_ASSMENET_OVETTIME_ALERT_TOGGLE, Utils.RISK_ASSMENET_OVETTIME_ALERT_INTERVAL,
+				asessmentAlarmIntent);
+	}
+	
+	public static void cancelAlarm() {
+		if (Utils.updateRiskAssessmentOverTimeAlarmMgr != null) {			
+			Utils.updateRiskAssessmentOverTimeAlarmMgr.cancel(AssessmentCompleteFragment.asessmentAlarmIntent);
+		}
 	}
 }

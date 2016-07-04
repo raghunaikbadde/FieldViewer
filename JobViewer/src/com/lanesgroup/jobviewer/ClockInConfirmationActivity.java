@@ -2,6 +2,7 @@ package com.lanesgroup.jobviewer;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlarmManager.AlarmClockInfo;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings.System;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.View;
@@ -719,21 +721,21 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 
 	}
 
-	private void initiateAlarm() {
+	public static void initiateAlarm() {
 		Utils.alarmMgr = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		Intent intent = new Intent(context, OverTimeAlertService.class);
 		alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 	}
 
-	private void setAlarmForOverTime() {
+	public static void setAlarmForOverTime() {
 		Utils.alarmMgr.setInexactRepeating(
 				AlarmManager.ELAPSED_REALTIME_WAKEUP,
 				Utils.OVETTIME_ALERT_TOGGLE, Utils.OVETTIME_ALERT_INTERVAL,
-				alarmIntent);
+				alarmIntent);		
 	}
 
-	private void cancelAlarm() {
+	public static void cancelAlarm() {
 		if (Utils.alarmMgr != null) {
 			Utils.alarmMgr.cancel(ClockInConfirmationActivity.alarmIntent);
 		}

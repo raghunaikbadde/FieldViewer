@@ -211,7 +211,9 @@ public interface JobViewerSchema {
 			+ " text,"
 			+ BreakTravelShiftCallTable.WORK_START_TIME
 			+ " text,"
-			+ BreakTravelShiftCallTable.WORK_END_TIME + " text);";
+			+ BreakTravelShiftCallTable.WORK_END_TIME
+			+ " text,"
+			+ BreakTravelShiftCallTable.RISK_ASSESSMENT_END_TIME + " text);";
 
 	String CREATE_TABLE_FLAG_JSON = "create table "
 			+ TABLE_FLAG_JSON + "(" + FlagJSON._ID

@@ -87,6 +87,7 @@ public class StopFragment extends Fragment implements OnClickListener,
         if (questionSet != null && !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
             JobViewerDBHandler.deleteQuestionSet(getActivity());
         }
+        AssessmentCompleteFragment.cancelAlarm();
         Intent appPageActivityIntent = new Intent(getActivity(),
                 ActivityPageActivity.class);
         appPageActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
