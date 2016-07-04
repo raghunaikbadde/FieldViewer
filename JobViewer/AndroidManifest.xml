@@ -234,7 +234,10 @@
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
-
+		<receiver
+            android:name="com.jobviwer.service.OverTimeAlertService"
+            android:label="OverTimeAlertService">
+        </receiver>
         <provider
             android:name="com.jobviewer.provider.JobViewerProvider"
             android:authorities="com.jobviewer.contentprovider"
