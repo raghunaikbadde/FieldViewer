@@ -18,11 +18,17 @@ import android.util.Log;
 
 public class RiskAssementOverTimeService extends BroadcastReceiver{
 
+	public static boolean isAppOnForgeground = false;
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.d(Utils.LOG_TAG,"RiskAssementOverTimeService onReceive time = "+Utils.getCurrentDateAndTime());
 		
 		try{
+			if(Utils.isMyApplicationRunningInForeGround(context)){
+				isAppOnForgeground = true;
+			}else{
+				isAppOnForgeground = false;
+			}
 			String flagJSON = JobViewerDBHandler.getJSONFlagObject(context);
 			JSONObject flagJsonObject = new JSONObject(flagJSON);
 			

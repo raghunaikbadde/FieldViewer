@@ -3,17 +3,21 @@ package com.raghu;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 
 import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
+import com.jobviwer.service.RiskAssementOverTimeService;
+import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.ClockInConfirmationActivity;
 import com.lanesgroup.jobviewer.R;
 
-public class UpdateRiskOverTimeAlertDialog  extends Activity {
+public class UpdateRiskOverTimeAlertDialog extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +56,19 @@ public class UpdateRiskOverTimeAlertDialog  extends Activity {
 				.setNegativeButton("Update",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
+								
 								dialog.cancel();
 								Utils.updateRiskAssementOverTimeAlerts = null;
+								
 								finish();
+								
+								if(!RiskAssementOverTimeService.isAppOnForgeground){
+									Log.d(Utils.LOG_TAG,"applciation runnig in background");
+									Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.lanesgroup.jobviewer");
+									startActivity(launchIntent);
+								}else{
+									Log.d(Utils.LOG_TAG,"applciation runnig in foreground");
+								}
 							}
 						});;
 		if(Utils.updateRiskAssementOverTimeAlerts == null){

@@ -14,12 +14,15 @@ import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -102,7 +105,7 @@ public class Utils {
 	public static final String REQUEST_TYPE_POLLUTION = "POLLUTION";
 	public static final String LOG_TAG = "JV";
 	public static AlarmManager alarmMgr;
-    public static AlarmManager updateRiskAssessmentOverTimeAlarmMgr;
+	public static AlarmManager updateRiskAssessmentOverTimeAlarmMgr;
 	public static String work_completed_at = "";
 	public static String work_engineer_id = "123322";
 	public static String work_status = "New";
@@ -121,8 +124,8 @@ public class Utils {
 	public static TimeSheetRequest endShiftRequest = null;
 	public static TimeSheetRequest workStartTimeSheetRequest = null;
 	public static TimeSheetRequest workEndTimeSheetRequest = null;
-    public static AlertDialog overTimeAlerts;
-    public static AlertDialog updateRiskAssementOverTimeAlerts;
+	public static AlertDialog overTimeAlerts;
+	public static AlertDialog updateRiskAssementOverTimeAlerts;
 	public static String lastest_work_started_at = "";
 	public static String lastest_call_started_at = "";
 	public static String lastest_shift_started_at = "";
@@ -131,8 +134,8 @@ public class Utils {
 			"Cover", "Dig down", "Make safe", "Lining", "Well clean" };
 	public static String[] mFloodingList = { "No flooding", "Internal",
 			"External", "Internal and external" };
-    public static String[] mWorkOptions = {"Start confirmed space entry", "Leave work",
-            "Back"};
+	public static String[] mWorkOptions = { "Start confirmed space entry",
+			"Leave work", "Back" };
 	public static String[] mLandPollutionList = { "Less than 25m/sq",
 			"20-50m/sq", "50-100m/sq", "Greater than 100m/sq" };
 	public static String[] mLandAffectedList = { "Park", "Gardens",
@@ -154,10 +157,11 @@ public class Utils {
 	public static boolean isExitApplication = false;
 	public static Location locationOfUser = null;
 	public static long OVETTIME_ALERT_TOGGLE = 12 * 60 * 60 * 1000; // 12 HOUR
-    public static long OVETTIME_ALERT_INTERVAL = 1 * 60* 60 * 1000; // 1HOUR
-    
-    public static long RISK_ASSMENET_OVETTIME_ALERT_TOGGLE = 3 * 60 *60 * 1000; // 12 HOUR
-    public static long RISK_ASSMENET_OVETTIME_ALERT_INTERVAL = 3* 60 *60 * 1000; // 1HOUR
+	public static long OVETTIME_ALERT_INTERVAL = 1 * 60 * 60 * 1000; // 1HOUR
+
+	public static long RISK_ASSMENET_OVETTIME_ALERT_TOGGLE = 3 * 60 * 60 * 1000; // 12
+																			// HOUR
+	public static long RISK_ASSMENET_OVETTIME_ALERT_INTERVAL = 3 * 60 * 60 * 1000; // 1HOUR
 	static Dialog progressDialog;
 	static int notificationId = 1000;
 	private static NotificationManager myNotificationManager;
@@ -541,7 +545,10 @@ public class Utils {
 
 		BackLogRequest backLogRequest = new BackLogRequest();
 		backLogRequest.setRequestApi(CommsConstant.HOST
-                + CommsConstant.WORK_PHOTO_UPLOAD + "/" + new JobViewerSharedPref().getSharedPref(mContext).getString(JobViewerSharedPref.KEY_WORK_ID, ""));
+				+ CommsConstant.WORK_PHOTO_UPLOAD
+				+ "/"
+				+ new JobViewerSharedPref().getSharedPref(mContext).getString(
+						JobViewerSharedPref.KEY_WORK_ID, ""));
 		backLogRequest.setRequestClassName("WorkPhotoUpload");
 		backLogRequest.setRequestJson(GsonConverter.getInstance()
 				.encodeToJsonString(workPhotoUpload));
@@ -555,13 +562,18 @@ public class Utils {
 		LocationManager locationManager = (LocationManager) context
 				.getSystemService(context.LOCATION_SERVICE);
 
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+		if (ActivityCompat.checkSelfPermission(context,
+				Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+				&& ActivityCompat.checkSelfPermission(context,
+						Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 			// TODO: Consider calling
 			// ActivityCompat#requestPermissions
 			// here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+			// public void onRequestPermissionsResult(int requestCode, String[]
+			// permissions,
 			// int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
+			// to handle the case where the user grants the permission. See the
+			// documentation
 			// for ActivityCompat#requestPermissions for more details.
 			return null;
 		}
@@ -611,7 +623,8 @@ public class Utils {
 		try {
 			if (dfDate.parse(startDate).before(dfDate.parse(endDate))) {
 				b = true; // If start date is before end date.
-            } else // If two dates are equal.
+			} else
+				// If two dates are equal.
 				// If start date is after the end date.
 				b = dfDate.parse(startDate).equals(dfDate.parse(endDate));
 		} catch (ParseException e) {
@@ -641,9 +654,11 @@ public class Utils {
 		dialog.setContentView(view);
 
 		DisplayMetrics displaymetrics = new DisplayMetrics();
-        ((Activity) activity).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		((Activity) activity).getWindowManager().getDefaultDisplay()
+				.getMetrics(displaymetrics);
 		int width = (int) ((int) displaymetrics.widthPixels * 0.9);
-        dialog.getWindow().setLayout(width, LinearLayout.LayoutParams.WRAP_CONTENT);
+		dialog.getWindow().setLayout(width,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
 		dialog.show();
 		dialog.setCancelable(false);
 
@@ -681,9 +696,11 @@ public class Utils {
 				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		dialog.setContentView(view);
 		DisplayMetrics displaymetrics = new DisplayMetrics();
-        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		((Activity) context).getWindowManager().getDefaultDisplay()
+				.getMetrics(displaymetrics);
 		int width = (int) ((int) displaymetrics.widthPixels * 0.9);
-        dialog.getWindow().setLayout(width, LinearLayout.LayoutParams.WRAP_CONTENT);
+		dialog.getWindow().setLayout(width,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
 		dialog.show();
 		dialog.setCancelable(false);
 
@@ -862,10 +879,54 @@ public class Utils {
 		}
 		return isStartedFromAddPhotos;
 	}
-    public static AlertDialog getOVerTimeAlertInstance(){
-    	return overTimeAlerts;    	
-    }
-    public static void setOVerTimeAlertInstance(AlertDialog alert){
-    	overTimeAlerts =  alert;	
-    }
+
+	public static AlertDialog getOVerTimeAlertInstance() {
+		return overTimeAlerts;
+	}
+
+	public static void setOVerTimeAlertInstance(AlertDialog alert) {
+		overTimeAlerts = alert;
+	}
+
+	public static boolean isMyApplicationRunningInForeGround(Context context) {
+		try {
+			ActivityManager am = (ActivityManager) context
+					.getSystemService(context.ACTIVITY_SERVICE);
+			List<ActivityManager.RunningTaskInfo> taskInfo = am
+					.getRunningTasks(1);
+			Log.d(Utils.LOG_TAG, "CURRENT Activity ::"
+					+ taskInfo.get(0).topActivity.getClassName());
+			ComponentName componentInfo = taskInfo.get(0).topActivity;
+			String packageName = componentInfo.getPackageName();
+			Log.d(Utils.LOG_TAG, "packageName ::" + packageName);
+			if ("com.lanesgroup.jobviewer".equalsIgnoreCase(packageName)) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public static boolean isAppOnForeground(Context context) {
+
+		ActivityManager activityManager = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		List<RunningAppProcessInfo> appProcesses = activityManager
+				.getRunningAppProcesses();
+		if (appProcesses == null) {
+			return false;
+		}
+
+		final String packageName = context.getPackageName();
+		for (RunningAppProcessInfo appProcess : appProcesses) {
+			if (appProcess.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+					&& appProcess.processName.equals(packageName)) {
+				return true;
+			}
+		}
+		return false;
+
+	}
 }

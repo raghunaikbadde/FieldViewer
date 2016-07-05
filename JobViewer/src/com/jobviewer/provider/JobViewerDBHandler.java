@@ -803,7 +803,7 @@ public class JobViewerDBHandler {
                 JobViewerProviderContract.BreakTravelShiftCallTable.WORK_END_TIME,
                 breakShiftTravelCall.getWorkEndTime());
         values.put(
-                JobViewerProviderContract.BreakTravelShiftCallTable.WORK_END_TIME,
+                JobViewerProviderContract.BreakTravelShiftCallTable.RISK_ASSESSMENT_END_TIME,
                 breakShiftTravelCall.getRiskAssessmentEndTime());
         context.getContentResolver()
                 .insert(JobViewerProviderContract.BreakTravelShiftCallTable.CONTENT_URI,

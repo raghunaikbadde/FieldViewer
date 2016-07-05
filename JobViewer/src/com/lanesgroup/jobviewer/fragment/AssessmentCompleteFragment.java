@@ -1,5 +1,7 @@
 package com.lanesgroup.jobviewer.fragment;
 
+import java.util.Date;
+
 import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.PendingIntent;
@@ -99,7 +101,9 @@ public class AssessmentCompleteFragment extends Fragment implements
 
 	private void saveRiskAssesmentEndTime() {
 		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(getActivity());
-		String riskAssessmentEndTime = String.valueOf(System.currentTimeMillis());
+		Date date = new Date();
+		long millis = date.getTime();
+		String riskAssessmentEndTime = String.valueOf(millis);
 		breakShiftTravelCall.setRiskAssessmentEndTime(riskAssessmentEndTime);
 		JobViewerDBHandler.saveBreakShiftTravelCall(getActivity(), breakShiftTravelCall);
 	}
