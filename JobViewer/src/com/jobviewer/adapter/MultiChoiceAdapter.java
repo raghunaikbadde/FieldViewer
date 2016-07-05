@@ -17,7 +17,6 @@ public class MultiChoiceAdapter extends ArrayAdapter<MultiChoiceItem> {
 	
 	private List<MultiChoiceItem> list;
 	private LayoutInflater inflator;
-
 	public MultiChoiceAdapter(Context context, List<MultiChoiceItem> list) {
 		super(context, R.layout.multichoice_row, list);
 		this.setList(list);

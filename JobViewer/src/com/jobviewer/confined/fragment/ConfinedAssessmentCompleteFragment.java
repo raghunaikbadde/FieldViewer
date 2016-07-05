@@ -1,5 +1,7 @@
 package com.jobviewer.confined.fragment;
 
+import org.json.JSONObject;
+
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
@@ -33,8 +35,6 @@ import com.lanesgroup.jobviewer.AddPhotosActivity;
 import com.lanesgroup.jobviewer.R;
 import com.raghu.ShoutOutBackLogRequest;
 import com.vehicle.communicator.HttpConnection;
-
-import org.json.JSONObject;
 
 public class ConfinedAssessmentCompleteFragment extends Fragment implements
 		OnClickListener {

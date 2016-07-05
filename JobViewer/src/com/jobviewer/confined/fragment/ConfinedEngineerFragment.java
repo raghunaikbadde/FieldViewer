@@ -137,7 +137,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 			bottom_man1_edittext.addTextChangedListener(this);
 			bottom_man2_edittext.addTextChangedListener(this);
 			bottom_man3_edittext.addTextChangedListener(this);
-			//enableNextButton(true);
+			// enableNextButton(true);
 		}
 		setDataInEditText();
 	}
@@ -303,12 +303,12 @@ public class ConfinedEngineerFragment extends Fragment implements
 				if (currentScreen.getInputs()[0].getRequired()
 						&& Utils.isNullOrEmpty(top_man_edittext.getText()
 								.toString())) {
-//					top_man_edittext.setError(currentScreen.getInputs()[0]
-//							.getLabel()
-//							+ " "
-//							+ getResources().getString(
-//									R.string.topManEditTextError));
-//					top_man_edittext.requestFocus();
+					// top_man_edittext.setError(currentScreen.getInputs()[0]
+					// .getLabel()
+					// + " "
+					// + getResources().getString(
+					// R.string.topManEditTextError));
+					// top_man_edittext.requestFocus();
 					isValid = false;
 					break;
 				} else {
@@ -322,12 +322,12 @@ public class ConfinedEngineerFragment extends Fragment implements
 				if (currentScreen.getInputs()[1].getRequired()
 						&& Utils.isNullOrEmpty(bottom_man1_edittext.getText()
 								.toString())) {
-//					bottom_man1_edittext.setError(currentScreen.getInputs()[1]
-//							.getLabel()
-//							+ " "
-//							+ getResources().getString(
-//									R.string.topManEditTextError));
-//					bottom_man1_edittext.requestFocus();
+					// bottom_man1_edittext.setError(currentScreen.getInputs()[1]
+					// .getLabel()
+					// + " "
+					// + getResources().getString(
+					// R.string.topManEditTextError));
+					// bottom_man1_edittext.requestFocus();
 					isValid = false;
 					break;
 				} else {
@@ -341,12 +341,12 @@ public class ConfinedEngineerFragment extends Fragment implements
 				if (currentScreen.getInputs()[2].getRequired()
 						&& Utils.isNullOrEmpty(bottom_man2_edittext.getText()
 								.toString())) {
-//					bottom_man2_edittext.setError(currentScreen.getInputs()[2]
-//							.getLabel()
-//							+ " "
-//							+ getResources().getString(
-//									R.string.topManEditTextError));
-//					bottom_man2_edittext.requestFocus();
+					// bottom_man2_edittext.setError(currentScreen.getInputs()[2]
+					// .getLabel()
+					// + " "
+					// + getResources().getString(
+					// R.string.topManEditTextError));
+					// bottom_man2_edittext.requestFocus();
 					isValid = false;
 					break;
 				} else {
@@ -360,11 +360,11 @@ public class ConfinedEngineerFragment extends Fragment implements
 				if (currentScreen.getInputs()[3].getRequired()
 						&& Utils.isNullOrEmpty(bottom_man3_edittext.getText()
 								.toString())) {
-//					bottom_man3_edittext.setError(currentScreen.getInputs()[3]
-//							.getLabel()
-//							+ " "
-//							+ getResources().getString(
-//									R.string.topManEditTextError));
+					// bottom_man3_edittext.setError(currentScreen.getInputs()[3]
+					// .getLabel()
+					// + " "
+					// + getResources().getString(
+					// R.string.topManEditTextError));
 					bottom_man3_edittext.requestFocus();
 					isValid = false;
 				}
@@ -421,7 +421,7 @@ public class ConfinedEngineerFragment extends Fragment implements
 			if (ch4Level <= 4.9) {
 				return true;
 			} else {
-//				 bottom_man3_edittext.setError("H2S should be 4.9 or below.");
+				bottom_man3_edittext.setError("H2S should be 4.9 or below.");
 				callStopFragment();
 				return false;
 			}
@@ -467,9 +467,12 @@ public class ConfinedEngineerFragment extends Fragment implements
 			}
 		} else {
 			if (!Utils.isNullOrEmpty(top_man_edittext.getText().toString())
-					&& !Utils.isNullOrEmpty(bottom_man1_edittext.getText().toString())
-					&&!Utils.isNullOrEmpty(bottom_man2_edittext.getText().toString())
-					&&!Utils.isNullOrEmpty(bottom_man3_edittext.getText().toString())) {
+					&& !Utils.isNullOrEmpty(bottom_man1_edittext.getText()
+							.toString())
+					&& !Utils.isNullOrEmpty(bottom_man2_edittext.getText()
+							.toString())
+					&& !Utils.isNullOrEmpty(bottom_man3_edittext.getText()
+							.toString())) {
 				enableNextButton(true);
 			} else {
 				enableNextButton(false);

@@ -74,10 +74,14 @@ public class ClockInActivity extends BaseActivity implements OnClickListener {
 					@Override
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
-						if (isChecked) {
-							Utils.checkOutObject.setIsChecekOutSelected("True");
-						} else {
-							Utils.checkOutObject.setIsChecekOutSelected("");
+
+						if (Utils.checkOutObject != null) {
+							if (isChecked) {
+								Utils.checkOutObject
+										.setIsChecekOutSelected("True");
+							} else {
+								Utils.checkOutObject.setIsChecekOutSelected("");
+							}
 						}
 
 					}

@@ -1,5 +1,11 @@
 package com.jobviewer.confined.fragment;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
@@ -41,12 +47,6 @@ import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.R;
 import com.vehicle.communicator.HttpConnection;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class ConfinedTimerWithMediaFragment extends Fragment implements
 		OnClickListener {
 	private View mRootView;
@@ -61,11 +61,12 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 	private String time;
 	private static CountdownTimer timer;
 	private LinearLayout linearLayout;
- 	private LinearLayout capture_layout;
+	private LinearLayout capture_layout;
 	private static File file;
 	public static final int RESULT_OK = -1;
 	private ImageView mCapturedImage;
 	private int imageCount = 0;
+	private Button updateGasLevels;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -158,7 +159,12 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 		saveBtn = (Button) mRootView.findViewById(R.id.saveBtn);
 		saveBtn.setOnClickListener(this);
 		nextBtn = (Button) mRootView.findViewById(R.id.nextBtn);
+		updateGasLevels = (Button) mRootView.findViewById(R.id.updateGasLevels);
 		nextBtn.setOnClickListener(this);
+		updateGasLevels.setOnClickListener(this);
+		updateGasLevels.setVisibility(View.GONE);
+		skip_timer.setVisibility(View.VISIBLE);
+
 	}
 
 	private void sendDetailsOrSaveCapturedImageInBacklogDb(
@@ -254,9 +260,14 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 			getActivity().finish();
 			break;
 		case R.id.skip_timer:
+			currentScreen.setTimer_skipped(true);
+			updateGasLevels.setVisibility(View.VISIBLE);
+			skip_timer.setVisibility(View.GONE);
+		  
+			break;
+		case R.id.updateGasLevels:
 			if (currentScreen.isAllow_skip()) {
-				currentScreen.setTimer_skipped(true);
-				// timer.cancel();
+ 				// timer.cancel();
 				showMultipleTypeScreen();
 				enableNextButton(true);
 			}
@@ -350,15 +361,16 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 				310, 220);
 		layoutParams.setMargins(15, 15, 15, 15);
 		mCapturedImage = new ImageView(getActivity());
-		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap().override(350, 420)
-				.into(mCapturedImage);
+		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
+				.override(350, 420).into(mCapturedImage);
 		linearLayout.addView(mCapturedImage, layoutParams);
 	}
 
 	private void addPicObjectInScreenIfRequired() {
 		boolean isAllImagedAdded = false;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			isAllImagedAdded = !Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id());
+			isAllImagedAdded = !Utils
+					.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id());
 		}
 
 		if (isAllImagedAdded) {

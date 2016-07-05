@@ -1,5 +1,10 @@
 package com.jobviewer.confined.fragment;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
@@ -42,11 +47,6 @@ import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 import com.vehicle.communicator.HttpConnection;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class ConfinedMediaTypeFragment extends Fragment implements
         OnClickListener {

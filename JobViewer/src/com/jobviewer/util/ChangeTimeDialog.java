@@ -1,5 +1,12 @@
 package com.jobviewer.util;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,13 +26,6 @@ import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.lanesgroup.jobviewer.R;
-
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class ChangeTimeDialog extends Activity implements OnClickListener {
 

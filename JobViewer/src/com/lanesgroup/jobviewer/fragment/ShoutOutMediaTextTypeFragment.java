@@ -1,5 +1,8 @@
 package com.lanesgroup.jobviewer.fragment;
 
+import java.io.File;
+import java.io.IOException;
+
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -48,9 +51,6 @@ import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.raghu.ShoutOutBackLogRequest;
 import com.vehicle.communicator.HttpConnection;
-
-import java.io.File;
-import java.io.IOException;
 
 public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		OnClickListener {
@@ -279,11 +279,11 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 			CheckOutObject checkOutRemember2 = JobViewerDBHandler
 					.getCheckOutRemember(getActivity());
 			User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
-			if (checkOutRemember2 == null
-					|| Utils.isNullOrEmpty(checkOutRemember2.getWorkId())) {
-				values.put("work_id", "");
-			} else
-				values.put("work_id", checkOutRemember2.getWorkId());
+//			if (checkOutRemember2 == null
+//					|| Utils.isNullOrEmpty(checkOutRemember2.getWorkId())) {
+//				values.put("work_id", "");
+//			} else
+//				values.put("work_id", checkOutRemember2.getWorkId());
 			values.put("survey_type", getWorkType(obj.getOptionSelected()));
 			values.put("related_type", "Work");
 			if (checkOutRemember2 == null
@@ -375,11 +375,11 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 
 	private String getWorkType(String option) {
 		if (option.equalsIgnoreCase(ActivityConstants.HAZARD)) {
-			return "Shout About Safety Near Miss";
+			return "Shout About Safety - Hazard";
 		} else if (option.equalsIgnoreCase(ActivityConstants.IDEA)) {
-			return "Shout About Safety Idea";
+			return "Shout About Safety - Near Miss";
 		} else {
-			return "Shout About Safety Good Safety";
+			return "Shout About Safety - Good Safety/Idea";
 		}
 	}
 

@@ -1,7 +1,5 @@
 package com.lanesgroup.jobviewer.fragment;
 
-import java.util.Date;
-
 import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.PendingIntent;
@@ -27,17 +25,14 @@ import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
-import com.jobviewer.provider.JobViewerProviderContract.FlagJSON;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
-import com.jobviwer.service.OverTimeAlertService;
 import com.jobviwer.service.RiskAssementOverTimeService;
 import com.lanesgroup.jobviewer.AddPhotosActivity;
-import com.lanesgroup.jobviewer.ClockInConfirmationActivity;
 import com.lanesgroup.jobviewer.PollutionActivity;
 import com.lanesgroup.jobviewer.R;
 import com.raghu.ShoutOutBackLogRequest;
@@ -184,7 +179,7 @@ public class AssessmentCompleteFragment extends Fragment implements
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
-					
+
 					String result = (String) msg.obj;
 					Log.i("Android", result);
 					CheckOutObject checkOutRemember = JobViewerDBHandler

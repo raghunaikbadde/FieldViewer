@@ -56,7 +56,7 @@ public class CheckInActivity extends BaseActivity implements
 		vehicle_registration_text_value.setText(checkOutRemember
 				.getVehicleRegistration());
 		progressBar.setProgress(50);
-		enableNextButton(false);
+		enableNextButton(true);
 		enter_mileage_edittext.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -75,11 +75,11 @@ public class CheckInActivity extends BaseActivity implements
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (s.toString().length() > 1) {
-					enableNextButton(true);
-				} else {
-					enableNextButton(false);
-				}
+//				if (s.toString().length() > 1) {
+//					enableNextButton(true);
+//				} else {
+//					enableNextButton(false);
+//				}
 
 			}
 		});

@@ -1,5 +1,15 @@
 package com.jobviewer.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.json.JSONObject;
+
 import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -71,16 +81,6 @@ import com.lanesgroup.jobviewer.WelcomeActivity;
 import com.raghu.TimeSheetServiceRequests;
 import com.raghu.WorkPhotoUpload;
 import com.vehicle.communicator.HttpConnection;
-
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 public class Utils {
 	public static final String PROGRESS_1_TO_3 = "Step 1 of 3";

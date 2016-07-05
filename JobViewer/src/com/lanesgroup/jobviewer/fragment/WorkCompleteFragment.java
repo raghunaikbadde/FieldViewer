@@ -1,5 +1,9 @@
 package com.lanesgroup.jobviewer.fragment;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentValues;
@@ -57,10 +61,6 @@ import com.lanesgroup.jobviewer.WorkSuccessActivity;
 import com.raghu.WorkPhotoUpload;
 import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class WorkCompleteFragment extends Fragment implements OnClickListener,
         ConfirmDialogCallback, TextWatcher {

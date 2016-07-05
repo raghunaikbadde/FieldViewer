@@ -67,7 +67,7 @@ public class Constants {
     public static final String CONFINED_ENTRY_ENTRY_STARTED_TIME = "CONFINED_ENTRY_ENTRY_STARTED_TIME";
 
     public static final String FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE = "FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE";
-    
+
     public static final String FLAG_OVERTIME_UPDATE_RISK = "OVERTIME_UPDATE_RISK";
 
 }

@@ -1,5 +1,8 @@
 package com.jobviewer.confined.fragment;
 
+import java.io.File;
+import java.io.IOException;
+
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
@@ -46,9 +49,6 @@ import com.jobviwer.response.object.ImageUploadResponse;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 import com.vehicle.communicator.HttpConnection;
-
-import java.io.File;
-import java.io.IOException;
 
 public class ConfinedMediaTextTypeFragment extends Fragment implements
         OnClickListener {

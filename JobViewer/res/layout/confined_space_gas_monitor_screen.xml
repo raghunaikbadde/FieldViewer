@@ -118,7 +118,7 @@
                         android:layout_weight="18"
                         android:text="@string/ch4_str"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/black_lato_regular_small55" />
+                        android:textSize="@dimen/white_lato_bold_small50" />
 
                     <EditText
                         android:id="@+id/ch4_edittext"
@@ -148,7 +148,7 @@
                         android:layout_weight="18"
                         android:text="@string/level_str"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/black_lato_regular_small55" />
+                        android:textSize="@dimen/white_lato_bold_small50" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -168,7 +168,7 @@
                         android:layout_weight="18"
                         android:text="@string/o2_str"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/black_lato_regular_small55" />
+                        android:textSize="@dimen/white_lato_bold_small50" />
 
                     <EditText
                         android:id="@+id/o2_edittext"
@@ -198,7 +198,7 @@
                         android:layout_weight="18"
                         android:text="@string/percentage"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/black_lato_regular_small55" />
+                        android:textSize="@dimen/white_lato_bold_small50" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -218,7 +218,7 @@
                         android:layout_weight="18"
                         android:text="@string/co_str"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/black_lato_regular_small55" />
+                        android:textSize="@dimen/white_lato_bold_small50" />
 
                     <EditText
                         android:id="@+id/co_edittext"
@@ -248,7 +248,7 @@
                         android:layout_weight="18"
                         android:text="@string/ppm_str"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/black_lato_regular_small55" />
+                        android:textSize="@dimen/white_lato_bold_small50" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -267,7 +267,7 @@
                         android:layout_weight="18"
                         android:text="@string/h2s_str"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/black_lato_regular_small55" />
+                        android:textSize="@dimen/white_lato_bold_small50" />
 
                     <EditText
                         android:id="@+id/h2s_edittext"
@@ -297,7 +297,7 @@
                         android:layout_weight="18"
                         android:text="@string/ppm_str"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/black_lato_regular_small55" />
+                        android:textSize="@dimen/white_lato_bold_small50" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

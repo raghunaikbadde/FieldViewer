@@ -1,5 +1,8 @@
 package com.jobviewer.confined.fragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
@@ -36,9 +39,6 @@ import com.lanesgroup.jobviewer.R;
 import com.raghu.ShoutOutBackLogRequest;
 import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ConfinedStopFragment extends Fragment implements OnClickListener {
 

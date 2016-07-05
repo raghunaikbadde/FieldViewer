@@ -2,34 +2,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <include
         android:id="@+id/header"
-        layout="@layout/job_viewer_title_template"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        layout="@layout/job_viewer_title_template" />
 
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/footer"
-        android:layout_below="@+id/header">
+        android:layout_below="@+id/header" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:gravity="top"
-            android:orientation="vertical">
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/red_lato_bold_big90"
+                android:text="@string/on_break"
+                android:textColor="@color/red"
+                android:textSize="@dimen/title_text_size70" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dialog_detail_top_margin80"
                 android:text="@string/break_start_time_text"
                 android:textColor="@color/black"
                 android:textSize="@dimen/black_lato_regular_small55" />
@@ -67,9 +76,9 @@
 
     <include
         android:id="@+id/footer"
-        layout="@layout/copyright_bottom_template"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        layout="@layout/copyright_bottom_template" />
 
 </RelativeLayout>

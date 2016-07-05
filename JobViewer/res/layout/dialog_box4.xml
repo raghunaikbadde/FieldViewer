@@ -12,7 +12,7 @@
         android:gravity="center_vertical|center_horizontal"
         android:paddingLeft="@dimen/black_lato_regular_small55"
         android:paddingRight="@dimen/black_lato_regular_small55"
-        android:text="@string/break_start"
+        android:text="@string/start_break"
         android:textColor="@color/white"
         android:textSize="@dimen/dialog_detail_top_margin80" />
 
