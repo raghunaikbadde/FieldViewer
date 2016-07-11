@@ -1,8 +1,10 @@
 package com.lanesgroup.jobviewer;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.AlarmManager.AlarmClockInfo;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,7 +12,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings.System;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.View;
@@ -40,9 +41,6 @@ import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
 import com.jobviwer.service.OverTimeAlertService;
 import com.vehicle.communicator.HttpConnection;
-
-import java.text.NumberFormat;
-import java.util.Locale;
 
 public class ClockInConfirmationActivity extends BaseActivity implements
 		OnClickListener, DialogCallback {
@@ -92,6 +90,20 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		mDivider = (TextView) findViewById(R.id.stroke_text2);
 		mVehicleUsed = (TextView) findViewById(R.id.vehicle_used_text);
 		mMileage = (TextView) findViewById(R.id.mileage_text);
+		mCheckBox = (CheckBox) findViewById(R.id.confirm_checkbox);
+		mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				Log.e("TAG", "Check change listener" + isChecked);
+				updatesOnChecked(isChecked);
+			}
+		});
+		mBack = (Button) findViewById(R.id.back);
+		mBack.setOnClickListener(this);
+		mClockIn = (Button) findViewById(R.id.clockin);
+		mClockIn.setOnClickListener(this);
+
 		mProgress.setMax(8);
 		mProgress.setProgress(7);
 		mShiftStartTime.setText(Utils.getCurrentDateAndTime() + " (System)");
@@ -122,24 +134,19 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				mileage = numberFormat.format(Double.valueOf(mileage));
 				mMileage.setText(extras
 						.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER)
-						+ " (mileage " + mileage + ")");
+						+ " ( mileage " + mileage + " )");
+				if(Utils.isNullOrEmpty( mileage)){
+					mMileage.setText(getResources().getString(R.string.noVechicleChecked));
+				}
 			} else {
 				mMileage.setText(Utils.checkOutObject.getVehicleRegistration()
-						+ " (mileage " + Utils.checkOutObject.getMilage() + ")");
+						+ " ( mileage " + Utils.checkOutObject.getMilage() + " )");
+				if(Utils.isNullOrEmpty( Utils.checkOutObject.getMilage())){
+					mMileage.setText(getResources().getString(R.string.noVechicleChecked));
+				}
 				mDivider.setVisibility(View.VISIBLE);
 			}
 		}
-		mCheckBox = (CheckBox) findViewById(R.id.confirm_checkbox);
-		mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				updatesOnChecked(isChecked);
-			}
-		});
-		mBack = (Button) findViewById(R.id.back);
-		mBack.setOnClickListener(this);
-		mClockIn = (Button) findViewById(R.id.clockin);
 
 		if (Utils.checkOutObject != null
 				&& Utils.checkOutObject.getJobSelected() != null
@@ -147,7 +154,8 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 			if (Utils.checkOutObject.getJobSelected().equals(
 					ActivityConstants.JOB_SELECTED_ON_CALL)) {
 				clockin_text.setText(context.getString(R.string.start_on_call));
-				shift_start_time_text.setText(context.getString(R.string.on_call_start_time));
+				shift_start_time_text.setText(context
+						.getString(R.string.on_call_start_time));
 				mClockIn.setText(context.getString(R.string.start_on_call_btn));
 			}
 		}
@@ -157,12 +165,12 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		if (isChecked) {
 			mClockIn.setBackgroundDrawable(ResourcesCompat.getDrawable(
 					getResources(), R.drawable.red_background, null));
-			mClockIn.setOnClickListener(this);
+			mClockIn.setEnabled(true);
 			mProgress.setProgress(8);
 		} else {
 			mClockIn.setBackgroundDrawable(ResourcesCompat.getDrawable(
 					getResources(), R.drawable.dark_grey_background, null));
-			mClockIn.setOnClickListener(null);
+			mClockIn.setEnabled(false);
 			mProgress.setProgress(7);
 		}
 	}
@@ -174,11 +182,11 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		} else if (view == mClockIn) {
 			JobViewerDBHandler.saveCheckOutRemember(this, Utils.checkOutObject);
 			Bundle bundle = getIntent().getExtras();
-//			BackLogRequest backLogRequest = new BackLogRequest();
+			// BackLogRequest backLogRequest = new BackLogRequest();
 			User userProfile = JobViewerDBHandler.getUserProfile(view
 					.getContext());
 			if (!Utils.isInternetAvailable(ClockInConfirmationActivity.this)) {
-				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity")) {
+				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity") || mCallingActivity.equalsIgnoreCase("ShiftOrCallEndActivity")) {
 					if (bundle != null && bundle.containsKey(Utils.CALL_START)) {
 						Utils.callStartTimeRequest.setUser_id(userProfile
 								.getEmail());
@@ -278,7 +286,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					startActivity(intent);
 				}
 			} else {
-				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity")) {
+				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity") || mCallingActivity.equalsIgnoreCase("ShiftOrCallEndActivity")) {
 					if (bundle != null && bundle.containsKey(Utils.CALL_START)) {
 						executeOnCallStartService();
 					} else if (bundle != null
@@ -429,18 +437,21 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 			if (Utils.SHIFT_START.equalsIgnoreCase(eventType1)) {
 				mOverrideStartTime.setText(Utils.startShiftTimeRequest
 						.getOverride_timestamp() + " (User)");
-				mShiftStartTime.setTextColor(this.getResources().getColor(R.color.grey));
+				mShiftStartTime.setTextColor(this.getResources().getColor(
+						R.color.grey));
 			} else {
 				mOverrideStartTime.setText(Utils.callStartTimeRequest
 						.getOverride_timestamp() + " (User)");
-				mShiftStartTime.setTextColor(this.getResources().getColor(R.color.grey));
+				mShiftStartTime.setTextColor(this.getResources().getColor(
+						R.color.grey));
 			}
 
 		} else if (requestCode == Constants.RESULT_CODE_CLOCK_IN
 				&& resultCode == RESULT_OK) {
 			String time = data.getExtras().get(Constants.TIME).toString();
 			mOverrideStartTime.setVisibility(View.VISIBLE);
-			mShiftStartTime.setTextColor(this.getResources().getColor(R.color.grey));
+			mShiftStartTime.setTextColor(this.getResources().getColor(
+					R.color.grey));
 			mOverrideStartTime.setText(time + " (User)");
 		}
 	}
@@ -486,13 +497,13 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				Utils.startShiftTimeRequest.getOverride_timestamp());
 		data.put("reference_id", Utils.startShiftTimeRequest.getReference_id());
 		data.put("user_id", Utils.startShiftTimeRequest.getUser_id());
-//		String time = "";
-//		if (Utils.isNullOrEmpty(Utils.startShiftTimeRequest
-//				.getOverride_timestamp())) {
-//			time = Utils.startShiftTimeRequest.getOverride_timestamp();
-//		} else {
-//			time = Utils.startShiftTimeRequest.getStarted_at();
-//		}
+		// String time = "";
+		// if (Utils.isNullOrEmpty(Utils.startShiftTimeRequest
+		// .getOverride_timestamp())) {
+		// time = Utils.startShiftTimeRequest.getOverride_timestamp();
+		// } else {
+		// time = Utils.startShiftTimeRequest.getStarted_at();
+		// }
 
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.START_SHIFT_API, data, getStartShiftHandler());
@@ -520,13 +531,13 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				Utils.callStartTimeRequest.getOverride_timestamp());
 		data.put("reference_id", Utils.callStartTimeRequest.getReference_id());
 		data.put("user_id", Utils.callStartTimeRequest.getUser_id());
-//		String time = "";
-//		if (Utils.isNullOrEmpty(Utils.callStartTimeRequest
-//				.getOverride_timestamp())) {
-//			time = Utils.callStartTimeRequest.getOverride_timestamp();
-//		} else {
-//			time = Utils.callStartTimeRequest.getStarted_at();
-//		}
+		// String time = "";
+		// if (Utils.isNullOrEmpty(Utils.callStartTimeRequest
+		// .getOverride_timestamp())) {
+		// time = Utils.callStartTimeRequest.getOverride_timestamp();
+		// } else {
+		// time = Utils.callStartTimeRequest.getStarted_at();
+		// }
 
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.START_ON_CALL_API, data, getStartShiftHandler());
@@ -553,13 +564,13 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				Utils.callEndTimeRequest.getOverride_timestamp());
 		data.put("reference_id", Utils.callEndTimeRequest.getReference_id());
 		data.put("user_id", Utils.callEndTimeRequest.getUser_id());
-//		String time = "";
-//		if (Utils.isNullOrEmpty(Utils.callEndTimeRequest
-//				.getOverride_timestamp())) {
-//			time = Utils.callEndTimeRequest.getOverride_timestamp();
-//		} else {
-//			time = Utils.callEndTimeRequest.getStarted_at();
-//		}
+		// String time = "";
+		// if (Utils.isNullOrEmpty(Utils.callEndTimeRequest
+		// .getOverride_timestamp())) {
+		// time = Utils.callEndTimeRequest.getOverride_timestamp();
+		// } else {
+		// time = Utils.callEndTimeRequest.getStarted_at();
+		// }
 
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.END_ON_CALL_API, data,
@@ -586,12 +597,14 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				Utils.endShiftRequest.getOverride_timestamp());
 		data.put("reference_id", Utils.endShiftRequest.getReference_id());
 		data.put("user_id", Utils.endShiftRequest.getUser_id());
-//		String time = "";
-//		if (Utils.isNullOrEmpty(Utils.endShiftRequest.getOverride_timestamp())) {
-//			time = Utils.endShiftRequest.getOverride_timestamp();
-//		} else {
-//			time = Utils.endShiftRequest.getStarted_at();
-//		}
+		// String time = "";
+		// if
+		// (Utils.isNullOrEmpty(Utils.endShiftRequest.getOverride_timestamp()))
+		// {
+		// time = Utils.endShiftRequest.getOverride_timestamp();
+		// } else {
+		// time = Utils.endShiftRequest.getStarted_at();
+		// }
 
 		Utils.SendHTTPRequest(this, CommsConstant.HOST
 				+ CommsConstant.END_SHIFT_API, data, getEndCallOrShiftHandler());
@@ -732,7 +745,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 		Utils.alarmMgr.setInexactRepeating(
 				AlarmManager.ELAPSED_REALTIME_WAKEUP,
 				Utils.OVETTIME_ALERT_TOGGLE, Utils.OVETTIME_ALERT_INTERVAL,
-				alarmIntent);		
+				alarmIntent);
 	}
 
 	public static void cancelAlarm() {

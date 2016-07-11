@@ -37,6 +37,7 @@ import com.bumptech.glide.Glide;
 import com.jobviewer.comms.CommsConstant;
 import com.jobviewer.confined.ConfinedQuestionManager;
 import com.jobviewer.confined.CountdownTimer;
+import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.Images;
@@ -67,6 +68,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 	private ImageView mCapturedImage;
 	private int imageCount = 0;
 	private Button updateGasLevels;
+	private CheckOutObject checkOutRemember;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -142,6 +144,8 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 	}
 
 	private void initUI() {
+		checkOutRemember = JobViewerDBHandler
+				.getCheckOutRemember(getActivity());
 		screenTitle = (TextView) mRootView.findViewById(R.id.risk_assess_text);
 		progressBar = (ProgressBar) mRootView.findViewById(R.id.progressBar);
 		progress_step_text = (TextView) mRootView
@@ -191,7 +195,9 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 		Log.i("Android", "Image 19 :"
 				+ imageObject.getImage_string().substring(0, 50));
 		data.put("image_exif", imageObject.getImage_exif());
-
+		data.put("email", imageObject.getEmail());
+		data.put("reference_id", imageObject.getReference_id());
+		data.put("stage", imageObject.getStage());
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
 				+ CommsConstant.SURVEY_PHOTO_UPLOAD, data,
 				getSendWorkImageHandler(imageObject));
@@ -255,19 +261,22 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 							.getClick().getOnClick());
 			break;
 		case R.id.saveBtn:
+
 			timer.cancel();
 			ConfinedQuestionManager.getInstance().saveAssessment("Confined");
 			getActivity().finish();
 			break;
 		case R.id.skip_timer:
 			currentScreen.setTimer_skipped(true);
+			timer.cancel();
 			updateGasLevels.setVisibility(View.VISIBLE);
 			skip_timer.setVisibility(View.GONE);
-		  
+			timer_text.setVisibility(View.GONE);
+			next_update_text.setVisibility(View.GONE);
 			break;
 		case R.id.updateGasLevels:
 			if (currentScreen.isAllow_skip()) {
- 				// timer.cancel();
+				// timer.cancel();
 				showMultipleTypeScreen();
 				enableNextButton(true);
 			}
@@ -339,6 +348,10 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 						base64 = Base64.encodeToString(b, Base64.DEFAULT);
 					}
 					imageObject.setImage_string(base64);
+					imageObject.setReference_id(checkOutRemember.getVistecId());
+					imageObject.setEmail(JobViewerDBHandler.getUserProfile(
+							getActivity()).getEmail());
+					imageObject.setStage(currentScreen.getTitle());
 					Log.i("Android", "Image 3 :"
 							+ imageObject.getImage_string().substring(0, 50));
 					imageString = base64;

@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -10,24 +10,24 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottombutton"
         android:layout_alignParentTop="true"
-        android:isScrollContainer="false">
+        android:isScrollContainer="false" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent" >
 
                 <TextView
                     android:id="@+id/screenTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                    android:layout_marginRight="@dimen/white_lato_regular_small40"
                     android:layout_marginTop="@dimen/white_lato_bold_small50"
                     android:drawableLeft="@drawable/logo_top"
                     android:drawablePadding="5dp"
@@ -54,7 +54,7 @@
                     android:layout_below="@+id/line1"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal" >
 
                     <TextView
                         android:id="@+id/progress_step_text"
@@ -63,8 +63,7 @@
                         android:gravity="center"
                         android:text="@string/tmp_progress_step"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/white_lato_bold_small50"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/white_lato_bold_small50" />
 
                     <ProgressBar
                         android:id="@+id/progressBar"
@@ -127,7 +126,7 @@
                     android:layout_marginTop="@dimen/actionbar_bottom_margin85"
                     android:background="@drawable/red_background"
                     android:gravity="center_vertical|center_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal" >
 
                     <ImageView
                         android:id="@+id/camera_image"
@@ -163,36 +162,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/white_lato_regular_big79">
+        android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_height150"
-            android:layout_weight="20"
-            android:background="@drawable/grey_background"
-            android:text="@string/save"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dialog_black_lato_regular_small60" />
-
-        <Button
-            android:id="@+id/space"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:visibility="invisible" />
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/white_lato_regular_big79" >
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_height150"
-            android:layout_weight="20"
-            android:background="@drawable/dark_grey_background"
-            android:text="@string/next"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height150"
+                android:layout_weight="20"
+                android:background="@drawable/dialog_grey_button"
+                android:text="@string/save"
+                android:textAllCaps="false"
+                android:textColor="@color/lighter_grey"
+                android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+            <Button
+                android:id="@+id/space"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height150"
+                android:layout_weight="20"
+                android:background="@drawable/dark_grey_background"
+                android:text="@string/next"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dialog_black_lato_regular_small60" />
+        </LinearLayout>
+
+        <include layout="@layout/copyright_bottom_template" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,5 +1,8 @@
 package com.lanesgroup.jobviewer;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -25,9 +28,6 @@ import com.jobviewer.util.showTimeDialog;
 import com.jobviewer.util.showTimeDialog.DialogCallback;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.vehicle.communicator.HttpConnection;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class EndBreakActivity extends BaseActivity implements OnClickListener,
         DialogCallback {

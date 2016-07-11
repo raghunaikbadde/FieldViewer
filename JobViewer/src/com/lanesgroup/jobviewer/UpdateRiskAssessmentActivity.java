@@ -1,5 +1,10 @@
 package com.lanesgroup.jobviewer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,11 +28,6 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public class UpdateRiskAssessmentActivity extends BaseActivity implements
         OnClickListener {

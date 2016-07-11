@@ -1,5 +1,11 @@
 package com.jobviewer.network;
 
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Handler;
@@ -17,12 +23,6 @@ import com.jobviwer.request.object.Data;
 import com.jobviwer.request.object.SyncRequest;
 import com.jobviwer.response.object.StartUpResponse;
 import com.vehicle.communicator.HttpConnection;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.List;
 
 public class SyncAllData {
     private List<BackLogRequest> allBackLog;

@@ -1,5 +1,9 @@
 package com.jobviewer.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -15,10 +19,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.lanesgroup.jobviewer.R;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class OverrideReasoneDialog extends Activity implements OnClickListener,
         OnItemSelectedListener {

@@ -85,7 +85,8 @@ public class PollutionActivity extends BaseActivity implements
 	private JobViewerSharedPref mSharedPref;
 	LinearLayout map_layout;
 	static Context context;
-	static String mapImageId;
+	static String mapImageId = "";
+	private static CheckOutObject checkOutRemember;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,16 +110,15 @@ public class PollutionActivity extends BaseActivity implements
 
 	private void updateData() {
 		pollutionReportRequest = new PollutionReportRequest();
-		CheckOutObject checkOutRemember = JobViewerDBHandler
-				.getCheckOutRemember(this);
-		if (ActivityConstants.EXCAVATION.equalsIgnoreCase(checkOutRemember
-				.getAssessmentSelected())) {
-			title_text.setText(getResources().getString(
-					R.string.excavation_risk_str));
-		} else {
-			title_text.setText(getResources().getString(
-					R.string.non_excavation_risk_str));
-		}
+		checkOutRemember = JobViewerDBHandler.getCheckOutRemember(this);
+		// if (ActivityConstants.EXCAVATION.equalsIgnoreCase(checkOutRemember
+		// .getAssessmentSelected())) {
+		// title_text.setText(getResources().getString(
+		// R.string.excavation_risk_str));
+		// } else {
+		// title_text.setText(getResources().getString(
+		// R.string.non_excavation_risk_str));
+		// }
 		number_text.setText(checkOutRemember.getVistecId());
 
 		progress_step_text.setText(getResources().getString(
@@ -253,7 +253,10 @@ public class PollutionActivity extends BaseActivity implements
 		imageObject.setImageId(mapImageId);
 		imageObject.setImage_exif(Utils.getCurrentDateAndTime() + ","
 				+ Utils.getGeoLocationString(context));
-
+		imageObject.setEmail(JobViewerDBHandler.getUserProfile(context)
+				.getEmail());
+		imageObject.setReference_id(checkOutRemember.getVistecId());
+		imageObject.setStage("Map annotation");
 		if (Utils.isInternetAvailable(context)) {
 			ContentValues data = new ContentValues();
 			data.put("temp_id", imageObject.getImageId());
@@ -267,6 +270,9 @@ public class PollutionActivity extends BaseActivity implements
 						+ imageObject.getImage_string());
 			}
 			data.put("image_exif", imageObject.getImage_exif());
+			data.put("email", imageObject.getEmail());
+			data.put("reference_id", imageObject.getReference_id());
+			data.put("stage", imageObject.getStage());
 			Utils.SendHTTPRequest(context, CommsConstant.HOST
 					+ CommsConstant.SURVEY_PHOTO_UPLOAD, data,
 					getMapImageHandler(imageObject));
@@ -282,12 +288,12 @@ public class PollutionActivity extends BaseActivity implements
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
 					Log.d(Utils.LOG_TAG,
-							" pollutiion activity getSendWorkUpImageHandler handleMessage DID_SUCCEED");
+							" pollutiion activity getMapImageHandler handleMessage DID_SUCCEED");
 					break;
 				case HttpConnection.DID_ERROR:
 					String error = (String) msg.obj;
 					Log.d(Utils.LOG_TAG,
-							" pollutiion activity getSendWorkUpImageHandler handleMessage DID_ERROR "
+							" pollutiion activity getMapImageHandler handleMessage DID_ERROR "
 									+ error);
 					break;
 				default:
@@ -732,7 +738,7 @@ public class PollutionActivity extends BaseActivity implements
 				&& resultCode == RESULT_OK) {
 			upStreamImageObject = new ImageObject();
 			upStreamImageObject = prepareImageObject(upStreamImageObject);
-
+			upStreamImageObject.setStage("Site of upstream DO% reading");
 			mTakePicUpStream.setText(null);
 			mTakePicUpStream
 					.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -746,6 +752,8 @@ public class PollutionActivity extends BaseActivity implements
 				&& resultCode == RESULT_OK) {
 			downSteamIamgeObject = new ImageObject();
 			downSteamIamgeObject = prepareImageObject(downSteamIamgeObject);
+			downSteamIamgeObject.setStage("Site of downstream DO% reading");
+
 			mTakePicDownStream.setText(null);
 			mTakePicDownStream
 					.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -771,7 +779,10 @@ public class PollutionActivity extends BaseActivity implements
 
 		imageObject.setImageId(generateUniqueID);
 		imageObject.setCategory("pollution");
-
+		imageObject.setEmail(JobViewerDBHandler.getUserProfile(context)
+				.getEmail());
+		imageObject.setReference_id(checkOutRemember.getVistecId());
+	 
 		Bitmap photo = Utils.decodeSampledBitmapFromFile(
 				file.getAbsolutePath(), 1000, 700);
 
@@ -975,6 +986,9 @@ public class PollutionActivity extends BaseActivity implements
 			data.put("image_string", Constants.IMAGE_STRING_INITIAL
 					+ imageObject.getImage_string());
 			data.put("image_exif", imageObject.getImage_exif());
+			data.put("email", imageObject.getEmail());
+			data.put("reference_id", imageObject.getReference_id());
+			data.put("stage", imageObject.getStage());
 			Log.d(Utils.LOG_TAG,
 					" pollutiion activity sendUpStreamWorkImageToServer");
 			Utils.SendHTTPRequest(this, CommsConstant.HOST
@@ -995,6 +1009,9 @@ public class PollutionActivity extends BaseActivity implements
 			data.put("image_string", Constants.IMAGE_STRING_INITIAL
 					+ imageObject.getImage_string());
 			data.put("image_exif", imageObject.getImage_exif());
+			data.put("email", imageObject.getEmail());
+			data.put("reference_id", imageObject.getReference_id());
+			data.put("stage", imageObject.getStage());
 			Log.d(Utils.LOG_TAG,
 					" pollutiion activity sendDownStreamWorkImageToServer");
 			Utils.SendHTTPRequest(this, CommsConstant.HOST

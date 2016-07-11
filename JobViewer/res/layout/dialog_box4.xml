@@ -24,7 +24,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" 
             android:layout_marginBottom="@dimen/dialog_detail_bottom_margin95"
             android:layout_marginTop="@dimen/dialog_edit_bottom_margin90">
 
@@ -36,7 +36,7 @@
                 android:layout_marginRight="@dimen/white_lato_regular_small40"
                 android:contentDescription="@string/desc"
                 android:gravity="center_vertical"
-                android:src="@drawable/info_image_rubine_red" />
+                android:background="@drawable/info_image_rubine_red" />
 
             <TextView
                 android:id="@+id/your_break_text"

@@ -22,6 +22,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                android:layout_marginRight="@dimen/white_lato_regular_small40"
                 android:layout_marginTop="@dimen/white_lato_bold_small50"
                 android:drawableLeft="@drawable/logo_top"
                 android:drawablePadding="5dp"
@@ -57,8 +59,7 @@
                     android:gravity="center"
                     android:text="@string/progress_step_return_vehicle"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/white_lato_bold_small50"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/white_lato_bold_small50" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -133,10 +134,7 @@
                 android:hint="@string/enter_mileage"
                 android:inputType="number|none"
                 android:maxLength="@integer/max_vehicle_mileage_length"
-                android:paddingBottom="@dimen/grey_lato_regular_small35"
-                android:paddingLeft="@dimen/grey_lato_regular_small35"
-                android:paddingRight="@dimen/grey_lato_regular_small35"
-                android:paddingTop="@dimen/grey_lato_regular_small35"
+                android:padding="@dimen/grey_lato_regular_small35"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textColorHint="@color/dark_grey"
@@ -148,7 +146,7 @@
         android:id="@+id/buttonParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/footerView"
         android:layout_margin="@dimen/white_lato_regular_big79" >
 
         <Button
@@ -180,5 +178,12 @@
             android:textColor="@color/white"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
+
+    <include
+        android:id="@+id/footerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/copyright_bottom_template" />
 
 </RelativeLayout>

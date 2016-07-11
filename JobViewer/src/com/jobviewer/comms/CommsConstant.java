@@ -20,6 +20,7 @@ public class CommsConstant {
 
     public static final String CHECKIN_VEHICLE = "api/v1/vehicles/checkin";
     public static final String CHECKOUT_VEHICLE = "api/v1/vehicles/checkout";
+    public static final String VEHICLE_REGISTRATIONS  = "api/v1/vehicles/registrations";
 
     public static final String WORK_PHOTO_UPLOAD = "api/v1/works/upload";// {work_id};
     public static final String WORK_CREATE_API = "api/v1/works/store";

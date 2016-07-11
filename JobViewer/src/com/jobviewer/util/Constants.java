@@ -29,6 +29,7 @@ public class Constants {
     public static final String WORK_NO_PHOTOS_CONFIRMATION = "WORK_NO_PHOTOS_CONFIRMATION";
     public static final String WORK_NO_PHOTOS = "WORK_NO_PHOTOS";
     public static final String CAPTURE_VISTEC_SCREEN = "CAPTURE_VISTEC_SCREEN";
+    public static final String RISK_ASSESMENT_SCREEN = "RISK_ASSESMENT_SCREEN";
     public static final String SAVED_POLLUTION_DATA = "SAVED_POLLUTION_DATA";
     public static final String UPSTREAM_IMAGE_OBJECT = "UPSTREAM_IMAGE_OBJECT";
     public static final String DOWNSTREAM_IMAGE_OBJECT = "DOWNSTREAM_IMAGE_OBJECT";

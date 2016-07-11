@@ -26,7 +26,7 @@
                 android:layout_marginBottom="@dimen/spinner_bottom_margin30"
                 android:layout_marginTop="@dimen/title_number_spacing65"
                 android:text="@string/shift_complete"
-                android:textColor="@color/black"
+                android:textColor="@color/red"
                 android:textSize="@dimen/title_text_size70" />
 
             <LinearLayout
@@ -178,7 +178,7 @@
                 <Button
                     android:id="@+id/button1"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/start_break_button_height168"
+                    android:layout_height="@dimen/button_height150"
                     android:layout_weight="20"
                     android:background="@drawable/dark_grey_background"
                     android:text="@string/close_app_1"
@@ -195,7 +195,7 @@
                 <Button
                     android:id="@+id/button2"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/start_break_button_height168"
+                    android:layout_height="@dimen/button_height150"
                     android:layout_weight="20"
                     android:background="@drawable/red_background"
                     android:text="@string/go_on_call_1"

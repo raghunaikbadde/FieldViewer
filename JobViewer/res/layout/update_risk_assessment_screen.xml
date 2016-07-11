@@ -2,17 +2,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" >
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/bottom_buttons"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <ScrollView
                 android:id="@+id/scrollView1"
@@ -20,12 +20,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/white_lato_regular_big79"
                 android:layout_marginRight="@dimen/white_lato_regular_big79"
-                android:isScrollContainer="false">
+                android:isScrollContainer="false" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical" >
 
                     <TextView
                         android:id="@+id/update_previous_text"
@@ -62,37 +62,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/white_lato_regular_big79">
+            android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_height150"
-                android:layout_weight="20"
-                android:background="@drawable/grey_background"
-                android:text="@string/cancel"
-                android:textAllCaps="false"
-                android:textColor="@color/dark_grey"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
-
-            <Button
-                android:id="@+id/space"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:visibility="invisible" />
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/white_lato_regular_big79" >
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_height150"
-                android:layout_weight="20"
-                android:background="@drawable/dark_grey_background"
-                android:enabled="false"
-                android:text="@string/next"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/button_height150"
+                    android:layout_weight="20"
+                    android:background="@drawable/dialog_grey_button"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/lighter_grey"
+                    android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+                <Button
+                    android:id="@+id/space"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/button_height150"
+                    android:layout_weight="20"
+                    android:background="@drawable/dark_grey_background"
+                    android:enabled="false"
+                    android:text="@string/next"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dialog_black_lato_regular_small60" />
+            </LinearLayout>
+
+            <include layout="@layout/copyright_bottom_template" />
         </LinearLayout>
     </RelativeLayout>
 

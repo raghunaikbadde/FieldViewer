@@ -104,7 +104,10 @@ public class Utils {
 	public static final String REQUEST_TYPE_TIMESHEET = "TIMESHEET";
 	public static final String REQUEST_TYPE_POLLUTION = "POLLUTION";
 	public static final String LOG_TAG = "JV";
-	public static AlarmManager alarmMgr;
+	public static final String EXCAVATION_CHECK_BOX = "excavation_check_box";
+	public static final String NON_EXCAVATION_CHECK_BOX = "non_excavation_check_box";
+
+ 	public static AlarmManager alarmMgr;
 	public static AlarmManager updateRiskAssessmentOverTimeAlarmMgr;
 	public static String work_completed_at = "";
 	public static String work_engineer_id = "123322";
@@ -160,7 +163,7 @@ public class Utils {
 	public static long OVETTIME_ALERT_INTERVAL = 1 * 60 * 60 * 1000; // 1HOUR
 
 	public static long RISK_ASSMENET_OVETTIME_ALERT_TOGGLE = 3 * 60 * 60 * 1000; // 12
-																			// HOUR
+	// HOUR
 	public static long RISK_ASSMENET_OVETTIME_ALERT_INTERVAL = 3 * 60 * 60 * 1000; // 1HOUR
 	static Dialog progressDialog;
 	static int notificationId = 1000;
@@ -190,7 +193,8 @@ public class Utils {
 	}
 
 	public static boolean isNullOrEmpty(String string) {
-		return string == null || string.equalsIgnoreCase("");
+		return string == null || string.equalsIgnoreCase("")
+				|| string.equalsIgnoreCase("null");
 	}
 
 	public static String getMailId(Context context) {
@@ -803,6 +807,9 @@ public class Utils {
 		Log.i("Android", "Image 23 :"
 				+ imageObject.getImage_string().substring(0, 50));
 		values.put("image_exif", imageObject.getImage_exif());
+		values.put("email", imageObject.getEmail());
+		values.put("reference_id", imageObject.getReference_id());
+		values.put("stage", imageObject.getStage());
 		Utils.SendHTTPRequest(BaseActivity.context, CommsConstant.HOST
 				+ CommsConstant.SURVEY_PHOTO_UPLOAD, values,
 				getSaveImageHandler(imageObject));

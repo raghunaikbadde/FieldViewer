@@ -1,5 +1,9 @@
 package com.jobviewer.survey.object.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import android.widget.Toast;
 
 import com.jobviewer.db.objects.SurveyJson;
@@ -10,10 +14,6 @@ import com.jobviewer.util.ActivityConstants;
 import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class QuestionManager {
 

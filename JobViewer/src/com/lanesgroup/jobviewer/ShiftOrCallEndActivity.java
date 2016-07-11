@@ -2,6 +2,7 @@ package com.lanesgroup.jobviewer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -43,6 +44,7 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 
 		mHoursCalculationLayout = (LinearLayout) findViewById(R.id.shiftHoursSummary);
 		mShiftCompleteThankYouLayout = (LinearLayout) findViewById(R.id.shiftCompleteThankYouLayout);
+		
 		mCloseButton.setOnClickListener(this);
 		mGoOnCallButton.setOnClickListener(this);
 	}
@@ -53,7 +55,7 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 		if (!checkOutRemember.getJobSelected().contains("shift")) {
 			mHoursCalculationLayout.setVisibility(View.GONE);
 			mHeading.setText(getResources().getString(
-					R.string.call_complete_str));
+					R.string.call_complete_title));
 			mShiftCompleteThankYouLayout.setVisibility(View.GONE);
 		}
 
@@ -80,11 +82,18 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 							.getTimeInHHMMFromNumberOfMillis(numberOFMillisecondsShift);
 					mShiftHours.setText(shiftHours);
 				}
+				long workStartTime = 0;
+				if (breakShiftTravelCall.getWorkStartTime() != null) {
+					workStartTime = Long.valueOf(breakShiftTravelCall
+							.getWorkStartTime());
+				}
 
-				long workStartTime = Long.valueOf(breakShiftTravelCall
-						.getWorkStartTime());
-				long workEndTime = Long.valueOf(breakShiftTravelCall
-						.getWorkEndTime());
+				long workEndTime = 0;
+				if (breakShiftTravelCall.getWorkEndTime() != null) {
+					workEndTime = Long.valueOf(breakShiftTravelCall
+							.getWorkEndTime());
+				}
+				
 				long numberOfWorkHoursinMillis = workEndTime - workStartTime;
 				if (numberOfWorkHoursinMillis > 0) {
 					String workHours = Utils
@@ -92,7 +101,7 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 					mWorkHours.setText(workHours);
 				}
 
-				mNumberOfWork.setText("1");
+				mNumberOfWork.setText(getNumberOfWorksCompleted());
 			} catch (Exception e) {
 				mWorkHours.setText("0h 0m");
 				mNumberOfWork.setText("0");
@@ -125,11 +134,11 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 					ClockInConfirmationActivity.class);
 			Utils.callStartTimeRequest = new TimeSheetRequest();
 			intent.putExtra(Utils.CALLING_ACTIVITY, ShiftOrCallEndActivity.this
-					.getClass().getSimpleName());
+					.getClass().getSimpleName());			
 			Utils.checkOutObject
 					.setJobSelected(ActivityConstants.JOB_SELECTED_ON_CALL);
-			JobViewerDBHandler.saveCheckOutRemember(ShiftOrCallEndActivity.this,
-					Utils.checkOutObject);
+			JobViewerDBHandler.saveCheckOutRemember(
+					ShiftOrCallEndActivity.this, Utils.checkOutObject);
 			intent.putExtra(Utils.CALL_START, Utils.CALL_START);
 			startActivity(intent);
 		}
@@ -148,6 +157,20 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 		JobViewerDBHandler.saveCheckOutRemember(this, checkOutRemember);
 		JobViewerDBHandler.deleteBreakTravelShiftCallTable(this);
 		closeApplication();
+	}
+	
+	private String getNumberOfWorksCompleted(){
+		
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(this);
+		String noOfWorksCompleted = breakShiftTravelCall.getNoOfWorksCompleted();
+		int counterForNoOfWorks = 0;
+		try{
+			counterForNoOfWorks = Integer.valueOf(noOfWorksCompleted);
+		}catch(NumberFormatException nfe){
+			counterForNoOfWorks = 0;
+			Log.d(Utils.LOG_TAG,"Numbre format Exception while converting the db numberOfWorks message"+nfe.toString());
+		}
+		return String.valueOf(counterForNoOfWorks);
 	}
 
 }

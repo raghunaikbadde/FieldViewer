@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -10,22 +10,24 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottombutton"
         android:layout_alignParentTop="true"
-        android:isScrollContainer="false">
+        android:isScrollContainer="false" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" >
 
                 <TextView
                     android:id="@+id/clockin_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                    android:layout_marginRight="@dimen/white_lato_regular_small40"
                     android:layout_marginTop="@dimen/white_lato_bold_small50"
                     android:drawableLeft="@drawable/logo_top"
                     android:drawablePadding="5dp"
@@ -52,7 +54,7 @@
                     android:layout_below="@+id/line1"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal" >
 
                     <TextView
                         android:id="@+id/progress_step_text"
@@ -61,8 +63,7 @@
                         android:gravity="center"
                         android:text="@string/progress_step_end_on_call"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/white_lato_bold_small50"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/white_lato_bold_small50" />
 
                     <ProgressBar
                         android:id="@+id/progressBar"
@@ -117,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/overrided_date_time_text"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal" >
 
                     <TextView
                         android:id="@+id/date_time_text"
@@ -241,54 +242,68 @@
         android:id="@+id/bottombutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/white_lato_regular_big79">
-
-        <CheckBox
-            android:id="@+id/confirm_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/checkbox_selector"
-            android:paddingLeft="@dimen/template_spacing27"
-            android:text="@string/i_confirm_the_info_str"
-            android:textColor="@color/black"
-            android:textSize="@dimen/black_lato_regular_small55" />
+        android:layout_alignParentBottom="true" >
 
         <LinearLayout
+            android:id="@+id/ll_bottomView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/confirm_checkbox"
-            android:layout_marginTop="@dimen/white_lato_regular_big79">
+            android:layout_margin="@dimen/white_lato_regular_big79"
+            android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/cancel"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_height150"
-                android:layout_weight="20"
-                android:background="@drawable/grey_background"
-                android:text="@string/cancel"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
-
-            <Button
-                android:id="@+id/space"
-                android:layout_width="0dp"
+            <CheckBox
+                android:id="@+id/confirm_checkbox"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:visibility="invisible" />
+                android:button="@drawable/checkbox_selector"
+                android:paddingLeft="@dimen/template_spacing27"
+                android:text="@string/i_confirm_the_info_str"
+                android:textColor="@color/black"
+                android:textSize="@dimen/black_lato_regular_small55" />
 
-            <Button
-                android:id="@+id/endoncall"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_height150"
-                android:layout_weight="20"
-                android:background="@drawable/dark_grey_background"
-                android:text="@string/end_on_call_str_1"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
+            <LinearLayout
+                android:id="@+id/ll_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/confirm_checkbox"
+                android:layout_marginTop="@dimen/white_lato_regular_big79" >
+
+                <Button
+                    android:id="@+id/cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/button_height150"
+                    android:layout_weight="20"
+                    android:background="@drawable/dialog_grey_button"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/lighter_grey"
+                    android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+                <Button
+                    android:id="@+id/space"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/endoncall"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/button_height150"
+                    android:layout_weight="20"
+                    android:background="@drawable/dark_grey_background"
+                    android:text="@string/end_on_call_str_1"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dialog_black_lato_regular_small60" />
+            </LinearLayout>
         </LinearLayout>
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_bottomView"
+            layout="@layout/copyright_bottom_template" />
     </RelativeLayout>
 
 </RelativeLayout>

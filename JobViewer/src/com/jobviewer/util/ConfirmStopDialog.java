@@ -81,7 +81,7 @@ public class ConfirmStopDialog extends Dialog implements OnClickListener {
             mWorkStop.setEnabled(true);
         } else {
             mWorkStop.setBackground(mContext.getResources().getDrawable(R.drawable.dialog_dark_grey_button));
-            mWorkStop.setEnabled(true);
+            mWorkStop.setEnabled(false);
         }
     }
 

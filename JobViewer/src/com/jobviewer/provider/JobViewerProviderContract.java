@@ -74,7 +74,9 @@ public class JobViewerProviderContract {
 		public static final String IMAGE_URL = "image_url";
 		public static final String IMAGE_CATEGORY = "category";
 		public static final String IMAGE_EXIF = "image_exif";
-
+		public static final String EMAIL = "email";
+		public static final String REFERENCE_ID = "reference_id";
+		public static final String STAGE = "stage";
 	}
 
 	public static final class CheckOutRemember implements BaseColumns {
@@ -188,6 +190,9 @@ public class JobViewerProviderContract {
 		public static final String IMAGE_URL = "image_url";
 		public static final String IMAGE_CATEGORY = "category";
 		public static final String IMAGE_EXIF = "image_exif";
+		public static final String EMAIL = "email";
+		public static final String REFERENCE_ID = "reference_id";
+		public static final String STAGE = "stage";
 	}
 
 	public static final class ShoutAboutSafetyTable implements BaseColumns {
@@ -266,10 +271,11 @@ public class JobViewerProviderContract {
 
 		public static final String WORK_START_TIME = "workStartedTime";
 		public static final String WORK_END_TIME = "workEndTime";
-		
+
 		public static final String RISK_ASSESSMENT_END_TIME = "riskAssessmentEndTime";
 		
-		
+		public static final String NO_OF_WORKS_COMPLETED = "noOfWorksCompleted"; // Counter for number of times work completed in a shift or call
+
 	}
 
 	public static final class FlagJSON implements BaseColumns {

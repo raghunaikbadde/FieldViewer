@@ -10,10 +10,8 @@ import android.view.Window;
 
 import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.provider.JobViewerDBHandler;
-import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
 import com.jobviwer.service.RiskAssementOverTimeService;
-import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.ClockInConfirmationActivity;
 import com.lanesgroup.jobviewer.R;
 

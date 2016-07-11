@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/checkbox_detail_height325"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -11,9 +10,9 @@
         android:layout_marginBottom="@dimen/dialog_edit_top_margin35"
         android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
         android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-        android:background="@color/grey"
+        android:background="@drawable/edit_text_background"
         android:orientation="vertical"
-        android:padding="@dimen/spinner_bottom_margin30">
+        android:padding="@dimen/spinner_bottom_margin30" >
 
         <RadioButton
             android:id="@+id/radioButton1"
@@ -37,4 +36,5 @@
             android:textColor="@color/red"
             android:textSize="@dimen/black_lato_regular_medium45" />
     </RelativeLayout>
+
 </RelativeLayout>

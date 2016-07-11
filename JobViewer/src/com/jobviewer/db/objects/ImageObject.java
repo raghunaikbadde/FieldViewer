@@ -6,6 +6,9 @@ public class ImageObject {
 	private String image_url;
 	private String category;
 	private String image_exif;
+	private String email;
+	private String reference_id;
+	private String stage;
 
 	public String getImage_string() {
 		return image_string;
@@ -45,6 +48,30 @@ public class ImageObject {
 
 	public void setImage_exif(String image_exif) {
 		this.image_exif = image_exif;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getReference_id() {
+		return reference_id;
+	}
+
+	public void setReference_id(String reference_id) {
+		this.reference_id = reference_id;
+	}
+
+	public String getStage() {
+		return stage;
+	}
+
+	public void setStage(String stage) {
+		this.stage = stage;
 	}
 
 }

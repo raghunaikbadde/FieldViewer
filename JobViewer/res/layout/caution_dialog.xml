@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/logo_top_margin63">
+                android:paddingBottom="@dimen/grey_lato_regular_small26">
 
                 <LinearLayout
                     android:layout_width="match_parent"

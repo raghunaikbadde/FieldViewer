@@ -2,19 +2,15 @@ package com.jobviwer.service;
 
 import org.json.JSONObject;
 
-import com.google.android.gms.nearby.bootstrap.request.StartScanRequest;
-import com.google.android.gms.nearby.connection.Connections.StartAdvertisingResult;
-import com.jobviewer.provider.JobViewerDBHandler;
-import com.jobviewer.provider.JobViewerProviderContract.FlagJSON;
-import com.jobviewer.util.Constants;
-import com.jobviewer.util.Utils;
-import com.raghu.AlertDialogActivity;
-import com.raghu.UpdateRiskOverTimeAlertDialog;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
+import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.util.Constants;
+import com.jobviewer.util.Utils;
+import com.raghu.UpdateRiskOverTimeAlertDialog;
 
 public class RiskAssementOverTimeService extends BroadcastReceiver{
 

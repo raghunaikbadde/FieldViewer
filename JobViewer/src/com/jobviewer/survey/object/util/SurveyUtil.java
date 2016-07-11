@@ -1,5 +1,8 @@
 package com.jobviewer.survey.object.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import android.app.Fragment;
 import android.content.Context;
 import android.util.Log;
@@ -27,9 +30,6 @@ import com.lanesgroup.jobviewer.fragment.MediaTypeFragment;
 import com.lanesgroup.jobviewer.fragment.StopFragment;
 import com.lanesgroup.jobviewer.fragment.StopNoCustomerFragment;
 import com.lanesgroup.jobviewer.fragment.YesNoTypeFragment;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 public class SurveyUtil {
 

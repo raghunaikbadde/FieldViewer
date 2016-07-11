@@ -8,11 +8,13 @@ import android.os.IBinder;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -96,10 +98,40 @@ public class ConfinedEngineerFragment extends Fragment implements
 		progress_step_text.setText(currentScreen.get_progress() + "%");
 		overhead_text.setText(currentScreen.getTitle());
 		question_text.setText(currentScreen.getText());
+		top_man_edittext.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+		bottom_man1_edittext.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+		top_man_edittext
+				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_NEXT) {
+							bottom_man1_edittext.requestFocus();
+							return true;
+						}
+						return false;
+					}
+				});
+
+		bottom_man1_edittext
+				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_NEXT) {
+							bottom_man2_edittext.requestFocus();
+							return true;
+						}
+						return false;
+					}
+				});
 
 		if (currentScreen.getInputs().length < 4) {
 			bottom_man3_text.setVisibility(View.GONE);
 			bottom_man3_edittext.setVisibility(View.GONE);
+
+			bottom_man2_edittext.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
 			if (engineerName1 != null && engineerName2 != null
 					&& engineerName3 != null) {
 				top_man_edittext.setText(engineerName1);
@@ -118,6 +150,22 @@ public class ConfinedEngineerFragment extends Fragment implements
 		} else {
 			bottom_man3_text.setVisibility(View.VISIBLE);
 			bottom_man3_edittext.setVisibility(View.VISIBLE);
+
+			bottom_man2_edittext.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+			bottom_man3_edittext.setImeOptions(EditorInfo.IME_ACTION_DONE);
+			bottom_man2_edittext
+					.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+						@Override
+						public boolean onEditorAction(TextView v, int actionId,
+								KeyEvent event) {
+							if (actionId == EditorInfo.IME_ACTION_NEXT) {
+								bottom_man3_edittext.requestFocus();
+								return true;
+							}
+							return false;
+						}
+					});
+
 			if (!currentScreen.getText().contains(
 					"Enter final gas monitor readings")) {
 				if (gasLevel1 != null) {

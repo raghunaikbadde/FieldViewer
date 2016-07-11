@@ -122,7 +122,7 @@ public class ConfinedQuestionManager {
         this.nextScreenId = nextScreenId;
     }
 
-    public void loadNextFragment(String screenId) {
+	public void loadNextFragment(String screenId) {
         if (screenId.equalsIgnoreCase(ActivityConstants.STOP_SCREEN)) {
             int questionType = SurveyUtil.getQuestionType(screenId);
             ConfinedAssessmentQuestionsActivity.loadNextFragment(SurveyUtil

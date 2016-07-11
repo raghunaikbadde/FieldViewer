@@ -1,5 +1,8 @@
 package com.jobviwer.service;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,9 +11,6 @@ import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
 import com.raghu.AlertDialogActivity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class OverTimeAlertService extends BroadcastReceiver {
 

@@ -19,6 +19,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.ScrollView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 	private String eventType;
 	private String eventTypeValue;
 	private String errorMsg;
+	private ScrollView sv_mainScrollView;
 	private boolean mIsChecked;
 
 	@Override
@@ -46,6 +48,7 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 		this.getWindow().setBackgroundDrawable(
 				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		setContentView(R.layout.timestamp_dialog);
+		sv_mainScrollView = (ScrollView) findViewById(R.id.sv_mainScrollView);
 		mCancel = (Button) findViewById(R.id.dialog_cancel);
 		mCancel.setOnClickListener(this);
 		mContinue = (Button) findViewById(R.id.dialog_ok);
@@ -61,6 +64,7 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 		mDatePicker.init(year, month, day, null);
 		mTimePicker.setCurrentHour(c.get(Calendar.HOUR_OF_DAY));
 		mTimePicker.setCurrentMinute(c.get(Calendar.MINUTE));
+		sv_mainScrollView.smoothScrollTo(0, 0);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -206,7 +210,7 @@ public class ChangeTimeDialog extends Activity implements OnClickListener {
 			CheckOutObject checkOutRemember = JobViewerDBHandler
 					.getCheckOutRemember(context);
 
-//			String shiftStartTime = checkOutRemember.getJobStartedTime();
+			// String shiftStartTime = checkOutRemember.getJobStartedTime();
 			String presentTime = Utils.getCurrentDateAndTime();
 			if (!Utils.checkIfStartDateIsGreater(
 					checkOutRemember.getJobStartedTime(), time)) {

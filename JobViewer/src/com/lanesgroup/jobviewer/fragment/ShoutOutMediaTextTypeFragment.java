@@ -91,11 +91,11 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 				.getScreen()[0];
 		checkOutRemember = JobViewerDBHandler
 				.getCheckOutRemember(getActivity());
-		if (currentScreen.getTitle().equals("Report a hazard")) {
+		if (currentScreen.getTitle().equalsIgnoreCase("Report a Hazard")) {
 			mProgressStep
 					.setText(getString(R.string.progress_step_end_on_call));
 			mDescribe.setHint(getString(R.string.describe_the_hazard));
-		} else if (currentScreen.getTitle().equals("Report a near miss")){
+		} else if (currentScreen.getTitle().equalsIgnoreCase("Report a near miss")){
 			mProgressStep.setText(currentScreen.get_progress() + "%");
 			mDescribe.setHint(getString(R.string.describe_the_near_miss));
 		}else{
@@ -446,6 +446,10 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 					imageString = Utils.bitmapToBase64String(rotateBitmap);
 					imageObject.setImage_string(Constants.IMAGE_STRING_INITIAL
 							+ imageString);
+					imageObject.setEmail(JobViewerDBHandler.getUserProfile(getActivity())
+							.getEmail());
+					imageObject.setReference_id(checkOutRemember.getVistecId());
+					imageObject.setStage(currentScreen.getTitle());
 					Log.i("Android", "Image 12 :"
 							+ imageObject.getImage_string().substring(0, 50));
 					currentScreen.getImages()[i].setTemp_id(generateUniqueID);

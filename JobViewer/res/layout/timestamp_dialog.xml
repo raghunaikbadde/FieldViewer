@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dialog_width920"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/dialog_info"
@@ -18,23 +18,24 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_width920"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical" >
 
         <ScrollView
+            android:id="@+id/sv_mainScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:isScrollContainer="false">
+            android:fillViewport="true" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
-                    android:layout_marginTop="@dimen/actionbar_bottom_margin85">
+                    android:layout_marginTop="@dimen/actionbar_bottom_margin85" >
 
                     <ImageView
                         android:id="@+id/info_image"
@@ -52,6 +53,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|top"
                         android:layout_marginRight="@dimen/white_lato_regular_small40"
+                        android:padding="-2dp"
                         android:text="@string/you_should_only"
                         android:textColor="@color/black"
                         android:textSize="@dimen/black_lato_regular_medium45" />
@@ -114,7 +116,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_button_height152"
-        android:layout_below="@id/dialog_info">
+        android:layout_below="@id/dialog_info" >
 
         <Button
             android:id="@+id/dialog_cancel"

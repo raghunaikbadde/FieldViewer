@@ -72,7 +72,7 @@
                         android:shadowRadius="1.6"
                         android:singleLine="true"
                         android:text="@string/tmp_date_time"
-                        android:textColor="@color/lighter_grey"
+                        android:textColor="@color/dGrey"
                         android:textSize="@dimen/white_lato_bold_small50" />
                 </LinearLayout>
             </LinearLayout>

@@ -26,8 +26,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
-                    android:layout_marginRight="@dimen/white_lato_regular_big79"
+                    android:layout_marginLeft="@dimen/white_lato_regular_small40"
+                    android:layout_marginRight="@dimen/white_lato_regular_small40"
                     android:layout_marginTop="@dimen/white_lato_bold_small50"
                     android:drawableLeft="@drawable/logo_top"
                     android:drawablePadding="5dp"
@@ -63,8 +63,7 @@
                         android:gravity="center"
                         android:text="@string/tmp_progress_step"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/white_lato_bold_small50"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/white_lato_bold_small50" />
 
                     <ProgressBar
                         android:id="@+id/progressBar"
@@ -82,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/progress_layout"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/dialog_button_top_margin70"
+                    android:layout_marginBottom="@dimen/dialog_edit_top_margin35"
                     android:layout_marginTop="@dimen/dialog_button_top_margin70"
                     android:text="@string/gas_level_updates"
                     android:textColor="@color/red"
@@ -106,8 +105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/question_text"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/title_text_size70"
-                    android:layout_marginTop="@dimen/title_text_size70"
+                    android:layout_marginBottom="@dimen/title_bottom_margin27"
                     android:text="@string/next_update_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/white_lato_regular_small40" />
@@ -147,7 +145,7 @@
                             android:id="@+id/tap_to_call_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/actionbar_bottom_margin85"
+                            android:gravity="center"
                             android:text="@string/skip_timer_str"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/grey_lato_regular_small36" />
@@ -214,37 +212,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/dialog_detail_top_margin80" >
+        android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/saveBtn"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dialog_icon_full_space163"
-            android:layout_weight="20"
-            android:background="@drawable/grey_background"
-            android:text="@string/save"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="@dimen/progressbar_top_margin58" />
-
-        <Button
-            android:id="@+id/space"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:visibility="invisible" />
+            android:layout_margin="@dimen/dialog_detail_top_margin80" >
 
-        <Button
-            android:id="@+id/nextBtn"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dialog_icon_full_space163"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="20"
-            android:background="@drawable/dark_grey_background"
-            android:text="@string/entry_complete"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/progressbar_top_margin58" />
+            <Button
+                android:id="@+id/saveBtn"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dialog_icon_full_space163"
+                android:layout_weight="20"
+                android:background="@drawable/dialog_grey_button"
+                android:text="@string/save"
+                android:textAllCaps="false"
+                android:textColor="@color/lighter_grey"
+                android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+            <Button
+                android:id="@+id/space"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/nextBtn"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dialog_icon_full_space163"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="20"
+                android:background="@drawable/dark_grey_background"
+                android:text="@string/entry_complete"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/progressbar_top_margin58" />
+        </LinearLayout>
+
+        <include layout="@layout/copyright_bottom_template" />
     </LinearLayout>
 
 </RelativeLayout>

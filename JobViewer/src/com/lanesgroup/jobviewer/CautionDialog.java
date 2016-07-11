@@ -1,5 +1,7 @@
 package com.lanesgroup.jobviewer;
 
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +17,6 @@ import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
-
-import org.json.JSONObject;
 
 /**
  * Created by system-local on 29-06-2016.

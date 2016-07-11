@@ -1,5 +1,8 @@
 package com.jobviewer.network;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -16,9 +19,6 @@ import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.ImageUploadResponse;
 import com.vehicle.communicator.HttpConnection;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SendImagesOnBackground {
     private static int index = 0;
@@ -60,6 +60,9 @@ public class SendImagesOnBackground {
             values.put("image_string", str);
             Log.i("Android", "Image 20 :" + str);
             values.put("image_exif", imageObject.getImage_exif());
+            values.put("email", imageObject.getEmail());
+            values.put("reference_id", imageObject.getReference_id());
+            values.put("stage", imageObject.getStage());
             Utils.SendHTTPRequest(context, CommsConstant.HOST
                             + CommsConstant.SURVEY_PHOTO_UPLOAD, values,
                     getSaveImageHandler());

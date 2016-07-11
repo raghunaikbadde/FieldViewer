@@ -1,5 +1,9 @@
 package com.jobviewer.nophotos;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import android.widget.Toast;
 
 import com.jobviewer.db.objects.SurveyJson;
@@ -11,10 +15,6 @@ import com.jobviewer.survey.object.util.SurveyUtil;
 import com.jobviewer.util.ActivityConstants;
 import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class WorkWithNoPhotosQuestionManager {
 

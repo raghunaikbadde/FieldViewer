@@ -1,5 +1,8 @@
 package com.jobviewer.nophotos.fragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -32,9 +35,6 @@ import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 import com.raghu.ShoutOutBackLogRequest;
 import com.vehicle.communicator.HttpConnection;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class NoPhotosAssessmentCompleteFragment extends Fragment implements
 		OnClickListener {

@@ -1,5 +1,9 @@
 package com.lanesgroup.jobviewer.fragment;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -38,10 +42,6 @@ import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.R;
 import com.vehicle.communicator.HttpConnection;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 
 public class MediaTypeFragment extends Fragment implements OnClickListener {
 
@@ -353,6 +353,10 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
                             + imageObject.getImage_string().substring(0, 50));
                     imageString = base64;
                     currentScreen.getImages()[i].setTemp_id(generateUniqueID);
+                    imageObject.setEmail(JobViewerDBHandler.getUserProfile(getActivity())
+							.getEmail());
+					imageObject.setReference_id(checkOutRemember.getVistecId());
+					imageObject.setStage(currentScreen.getTitle());
                     JobViewerDBHandler.saveImage(getActivity(), imageObject);
                     break;
                 }
@@ -367,12 +371,13 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
 
     private void loadImages(byte[] getbyteArrayFromBase64String) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                310, 220);
+        		350, 420);
         layoutParams.setMargins(15, 15, 15, 15);
         mCapturedImage = new ImageView(getActivity());
         Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
                 .override(350, 420).into(mCapturedImage);
         linearLayout.addView(mCapturedImage, layoutParams);
+    
     }
 
     private void sendDetailsOrSaveCapturedImageInBacklogDb(
@@ -397,7 +402,11 @@ public class MediaTypeFragment extends Fragment implements OnClickListener {
                     + imageObject.getImage_string());
         }
         data.put("image_exif", imageObject.getImage_exif());
-
+        data.put("email", JobViewerDBHandler.getUserProfile(getActivity())
+				.getEmail());
+        data.put("reference_id", checkOutRemember.getVistecId());
+        data.put("stage", currentScreen.getTitle());
+        
         Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
                         + CommsConstant.SURVEY_PHOTO_UPLOAD, data,
                 getSendWorkImageHandler(imageObject));

@@ -16,54 +16,58 @@ import com.lanesgroup.jobviewer.R;
 
 public class RiskAssessmentFragment extends Fragment implements OnClickListener {
 
-    private ProgressBar mProgress;
-    private TextView mProgressStep;
-    private CheckBox mRememberSelection, mExcavation, mNonExcavation;
-    private Button mSave, mNext;
-    private View mRootView;
+	private ProgressBar mProgress;
+	private TextView mProgressStep;
+	private CheckBox mRememberSelection, mExcavation, mNonExcavation;
+	private Button mSave, mNext;
+	private View mRootView;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        getActivity().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        mRootView = inflater.inflate(R.layout.risk_assessment_screen, container,
-                false);
-        initUI();
-        return mRootView;
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		getActivity().getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		mRootView = inflater.inflate(R.layout.risk_assessment_screen,
+				container, false);
+		initUI();
 
-    private void initUI() {
-        mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
-        mProgressStep = (TextView) mRootView.findViewById(R.id.progress_step_text);
-        mRememberSelection = (CheckBox) mRootView.findViewById(R.id.confirm_checkbox);
-        mExcavation = (CheckBox) mRootView.findViewById(R.id.checkBox1);
-        mNonExcavation = (CheckBox) mRootView.findViewById(R.id.checkBox2);
-        mSave = (Button) mRootView.findViewById(R.id.button1);
-        mSave.setOnClickListener(this);
-        mNext = (Button) mRootView.findViewById(R.id.button2);
-        mNext.setOnClickListener(this);
-    }
+		return mRootView;
+	}
 
-    @Override
-    public void onClick(View view) {
-        if (view == mNext) {
-            getFragmentManager().popBackStack();
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new CheckTypeFragment()).commit();
+	private void initUI() {
+		mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
+		mProgressStep = (TextView) mRootView
+				.findViewById(R.id.progress_step_text);
+		mRememberSelection = (CheckBox) mRootView
+				.findViewById(R.id.confirm_checkbox);
+		mExcavation = (CheckBox) mRootView.findViewById(R.id.checkBox1);
+		mNonExcavation = (CheckBox) mRootView.findViewById(R.id.checkBox2);
+		mSave = (Button) mRootView.findViewById(R.id.button1);
+		mSave.setOnClickListener(this);
+		mNext = (Button) mRootView.findViewById(R.id.button2);
+		mNext.setOnClickListener(this);
 
-        }
+	}
 
-    }
+	@Override
+	public void onClick(View view) {
+		if (view == mNext) {
+			getFragmentManager().popBackStack();
+			getFragmentManager().beginTransaction()
+					.add(R.id.container, new CheckTypeFragment()).commit();
 
-    public interface onClicksRiskAssessment {
-        void onNextClick();
+		}
 
-        void onCancelClick();
-    }
-}	
+	}
+
+	public interface onClicksRiskAssessment {
+		void onNextClick();
+
+		void onCancelClick();
+	}
+}

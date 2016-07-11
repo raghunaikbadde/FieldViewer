@@ -15,6 +15,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -61,6 +62,7 @@ public class JobViewerMapActivity extends FragmentActivity implements
 	Context context = JobViewerMapActivity.this;
 	boolean isPolyDrawStarted = false;
 	boolean isLineDrawStarted = false;
+	boolean isTerrainMapType = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class JobViewerMapActivity extends FragmentActivity implements
 			finish();
 		}
 		setContentView(R.layout.map_screen);
+		isTerrainMapType = false;
 		SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.googleMap);
 		initMap(supportMapFragment);
@@ -79,6 +82,8 @@ public class JobViewerMapActivity extends FragmentActivity implements
 		mapOptionSelectorButton.setOnClickListener(this);
 		polygonMarkerButton = (ImageButton) findViewById(R.id.polygonMarkerButton);
 		polygonMarkerButton.setOnClickListener(this);
+		ImageButton snapShotButton = (ImageButton) findViewById(R.id.doneButton);
+		snapShotButton.setOnClickListener(this);
 	}
 
 	private void initMap(SupportMapFragment supportMapFragment) {
@@ -88,8 +93,14 @@ public class JobViewerMapActivity extends FragmentActivity implements
 		googleMap.getUiSettings().setMapToolbarEnabled(true);
 		googleMap.getUiSettings().setMyLocationButtonEnabled(false);
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(
-				LocationManager.NETWORK_PROVIDER, 0, 0, this);
+		Criteria criteria = new Criteria();
+		String bestProvider = locationManager.getBestProvider(criteria, true);
+		Location location = locationManager.getLastKnownLocation(bestProvider);
+		if (location != null) {
+			onLocationChanged(location);
+		}
+		locationManager.requestLocationUpdates(bestProvider, 20000, 0, this);
+
 		googleMap.setOnMapClickListener(this);
 	}
 
@@ -132,8 +143,6 @@ public class JobViewerMapActivity extends FragmentActivity implements
 	@Override
 	public void onLocationChanged(Location location) {
 		googleMap.clear();
-		ImageButton snapShotButton = (ImageButton) findViewById(R.id.doneButton);
-		snapShotButton.setOnClickListener(this);
 		double latitude = location.getLatitude();
 		double longitude = location.getLongitude();
 		LatLng latLng = new LatLng(latitude, longitude);
@@ -174,7 +183,14 @@ public class JobViewerMapActivity extends FragmentActivity implements
 			captureMapScreen();
 			break;
 		case R.id.mapOptionSelectorButton:
-			openMapOptionsDialog();
+			// openMapOptionsDialog();
+			if (isTerrainMapType) {
+				googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+				isTerrainMapType = false;
+			} else {
+				googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+				isTerrainMapType = true;
+			}
 			break;
 		case R.id.polygonMarkerButton:
 			if (!isPolyDrawStarted) {
@@ -289,7 +305,7 @@ public class JobViewerMapActivity extends FragmentActivity implements
 		if (isPolyDrawStarted) {
 			drawPointAndLine(latlan);
 
-			if (latLang.size() == 5) {
+			if (latLang.size() == 3) {
 				Draw_Map();
 				isGeometryClosed = true;
 				isStartGeometry = false;

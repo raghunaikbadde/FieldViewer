@@ -1,5 +1,8 @@
 package com.jobviewer.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -19,9 +22,6 @@ import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.R;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class showTimeDialog extends Dialog implements OnClickListener {
 
@@ -56,13 +56,13 @@ public class showTimeDialog extends Dialog implements OnClickListener {
             Utils.timeSheetRequest.setStarted_at(mCurrentTime);
         } else if ("travel".equalsIgnoreCase(eventType)) {
             mTitle.setText(mContext.getResources().getString(
-                    R.string.start_travel));
+                    R.string.start_travel_title));
             mDesc.setText(mContext.getResources().getString(
                     R.string.your_travel_start_time));
             Utils.startTravelTimeRequest.setStarted_at(mCurrentTime);
         } else if ("End Travel".equalsIgnoreCase(eventType)) {
             mTitle.setText(mContext.getResources().getString(
-                    R.string.end_travel_str));
+                    R.string.end_travel_title));
             mDesc.setText(mContext.getResources().getString(
                     R.string.your_travel_end_time));
             Utils.endTravelTimeRequest.setStarted_at(mCurrentTime);
@@ -74,7 +74,7 @@ public class showTimeDialog extends Dialog implements OnClickListener {
             Utils.startShiftTimeRequest.setStarted_at(mCurrentTime);
         } else {
             mTitle.setText(mContext.getResources().getString(
-                    R.string.end_break_str));
+                    R.string.end_break_title));
             mDesc.setText(mContext.getResources().getString(
                     R.string.your_break_end_time));
             Utils.endTimeRequest.setStarted_at(mCurrentTime);

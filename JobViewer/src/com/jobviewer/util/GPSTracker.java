@@ -1,5 +1,9 @@
 package com.jobviewer.util;
 
+import java.util.HashMap;
+
+import org.json.JSONObject;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Service;
@@ -17,10 +21,6 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.jobviewer.provider.JobViewerDBHandler;
-
-import org.json.JSONObject;
-
-import java.util.HashMap;
 
 public class GPSTracker extends Service implements LocationListener {
     // The minimum distance to change Updates in meters
