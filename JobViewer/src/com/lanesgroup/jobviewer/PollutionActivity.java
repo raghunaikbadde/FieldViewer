@@ -85,7 +85,7 @@ public class PollutionActivity extends BaseActivity implements
 	private JobViewerSharedPref mSharedPref;
 	LinearLayout map_layout;
 	static Context context;
-	static String mapImageId;
+	static String mapImageId = "";
 	private static CheckOutObject checkOutRemember;
 
 	@Override
