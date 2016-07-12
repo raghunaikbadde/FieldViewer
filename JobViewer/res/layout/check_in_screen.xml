@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/progress_step_return_vehicle"
+                    android:text="@string/check_in_screen_return_vehicle"
                     android:textColor="@color/black"
                     android:textSize="@dimen/white_lato_bold_small50" />
 

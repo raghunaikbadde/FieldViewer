@@ -146,6 +146,7 @@
     <string name="new_work_str">New Work</string>
     <string name="enter_the_vistec_str">Enter the Vistec job number</string>
     <string name="progress_step_return_vehicle">Step 1 of 2</string>
+    <string name="check_in_screen_return_vehicle">Step 1 of 1</string>
     <string name="checkinVehicleProcess">Step 1 of 1</string>
     <string name="checkOutVehicleProcess">Step 1 of 1</string>
     <string name="progress_step">Step 1 of 5</string>
