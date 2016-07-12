@@ -135,15 +135,9 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				mMileage.setText(extras
 						.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER)
 						+ " ( mileage " + mileage + " )");
-				if(Utils.isNullOrEmpty( mileage)){
-					mMileage.setText(getResources().getString(R.string.noVechicleChecked));
-				}
 			} else {
 				mMileage.setText(Utils.checkOutObject.getVehicleRegistration()
 						+ " ( mileage " + Utils.checkOutObject.getMilage() + " )");
-				if(Utils.isNullOrEmpty( Utils.checkOutObject.getMilage())){
-					mMileage.setText(getResources().getString(R.string.noVechicleChecked));
-				}
 				mDivider.setVisibility(View.VISIBLE);
 			}
 		}
@@ -186,7 +180,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 			User userProfile = JobViewerDBHandler.getUserProfile(view
 					.getContext());
 			if (!Utils.isInternetAvailable(ClockInConfirmationActivity.this)) {
-				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity") || mCallingActivity.equalsIgnoreCase("ShiftOrCallEndActivity")) {
+				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity")) {
 					if (bundle != null && bundle.containsKey(Utils.CALL_START)) {
 						Utils.callStartTimeRequest.setUser_id(userProfile
 								.getEmail());
@@ -286,7 +280,7 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 					startActivity(intent);
 				}
 			} else {
-				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity") || mCallingActivity.equalsIgnoreCase("ShiftOrCallEndActivity")) {
+				if (mCallingActivity.equalsIgnoreCase("WelcomeActivity")) {
 					if (bundle != null && bundle.containsKey(Utils.CALL_START)) {
 						executeOnCallStartService();
 					} else if (bundle != null

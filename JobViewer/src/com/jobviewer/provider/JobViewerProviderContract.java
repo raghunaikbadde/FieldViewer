@@ -273,8 +273,6 @@ public class JobViewerProviderContract {
 		public static final String WORK_END_TIME = "workEndTime";
 
 		public static final String RISK_ASSESSMENT_END_TIME = "riskAssessmentEndTime";
-		
-		public static final String NO_OF_WORKS_COMPLETED = "noOfWorksCompleted"; // Counter for number of times work completed in a shift or call
 
 	}
 

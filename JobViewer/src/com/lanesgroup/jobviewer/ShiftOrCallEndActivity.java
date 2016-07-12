@@ -2,7 +2,6 @@ package com.lanesgroup.jobviewer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -44,7 +43,6 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 
 		mHoursCalculationLayout = (LinearLayout) findViewById(R.id.shiftHoursSummary);
 		mShiftCompleteThankYouLayout = (LinearLayout) findViewById(R.id.shiftCompleteThankYouLayout);
-		
 		mCloseButton.setOnClickListener(this);
 		mGoOnCallButton.setOnClickListener(this);
 	}
@@ -101,7 +99,7 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 					mWorkHours.setText(workHours);
 				}
 
-				mNumberOfWork.setText(getNumberOfWorksCompleted());
+//				mNumberOfWork.setText("1");
 			} catch (Exception e) {
 				mWorkHours.setText("0h 0m");
 				mNumberOfWork.setText("0");
@@ -134,7 +132,7 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 					ClockInConfirmationActivity.class);
 			Utils.callStartTimeRequest = new TimeSheetRequest();
 			intent.putExtra(Utils.CALLING_ACTIVITY, ShiftOrCallEndActivity.this
-					.getClass().getSimpleName());			
+					.getClass().getSimpleName());
 			Utils.checkOutObject
 					.setJobSelected(ActivityConstants.JOB_SELECTED_ON_CALL);
 			JobViewerDBHandler.saveCheckOutRemember(
@@ -157,20 +155,6 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 		JobViewerDBHandler.saveCheckOutRemember(this, checkOutRemember);
 		JobViewerDBHandler.deleteBreakTravelShiftCallTable(this);
 		closeApplication();
-	}
-	
-	private String getNumberOfWorksCompleted(){
-		
-		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(this);
-		String noOfWorksCompleted = breakShiftTravelCall.getNoOfWorksCompleted();
-		int counterForNoOfWorks = 0;
-		try{
-			counterForNoOfWorks = Integer.valueOf(noOfWorksCompleted);
-		}catch(NumberFormatException nfe){
-			counterForNoOfWorks = 0;
-			Log.d(Utils.LOG_TAG,"Numbre format Exception while converting the db numberOfWorks message"+nfe.toString());
-		}
-		return String.valueOf(counterForNoOfWorks);
 	}
 
 }

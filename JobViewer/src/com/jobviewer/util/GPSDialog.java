@@ -18,8 +18,8 @@ public class GPSDialog extends Dialog implements
 
 	private TextView mHeaderTxt;
 	private TextView mMessageTxt;
-	private Button mExitButton;
-	private Button mSettingsButton;
+	private TextView mExitButton;
+	private TextView mSettingsButton;
 	private Context mContext;
 
 	public GPSDialog(Context context) {
@@ -37,8 +37,8 @@ public class GPSDialog extends Dialog implements
 
 		mHeaderTxt = (TextView) findViewById(R.id.dialog_header);
 		mMessageTxt = (TextView) findViewById(R.id.cofirmation_msg_text);
-		mExitButton = (Button) findViewById(R.id.dialog_ok);
-		mSettingsButton = (Button) findViewById(R.id.dialog_cancel);
+		mExitButton = (TextView) findViewById(R.id.dialog_ok);
+		mSettingsButton = (TextView) findViewById(R.id.dialog_cancel);
 	}
 
 	private void updateDetailsOnUI(Context context) {

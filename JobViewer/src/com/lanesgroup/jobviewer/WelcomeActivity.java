@@ -77,35 +77,6 @@ public class WelcomeActivity extends BaseActivity {
 							Constants.RESULT_CODE_WELCOME);
 				}
 			});
-			if (Utils.isInternetAvailable(context) && !Utils.isExitApplication) {
-				executeStartUpApi();
-			} else {
-				if (!Utils.isNullOrEmpty(Utils.getMailId(context))) {
-					User user = new User();
-					user.setEmail(Utils.getMailId(context));
-					JobViewerDBHandler.saveUserDetail(context, user);
-					saveStartUpObjectInBackLogDb();
-				} else {
-					VehicleException ex = new VehicleException();
-					ex.setMessage("Lanes group email id is not found in this device. Please configure in device settings.");
-					IDialogListener listener = new IDialogListener() {
-
-						@Override
-						public void onPositiveButtonClick(AlertDialog dialog) {
-							closeApplication();
-
-						}
-
-						@Override
-						public void onNegativeButtonClick(AlertDialog dialog) {
-							// TODO Auto-generated method stub
-
-						}
-					};
-					ExceptionHandler.showException(context, ex, "Info",
-							listener);
-				}
-			}
 
 			Utils.startNotification(this);
 		}
@@ -149,36 +120,7 @@ public class WelcomeActivity extends BaseActivity {
 		}
 	}
 
-	private void executeStartUpApi() {
-
-		if (!Utils.isNullOrEmpty(Utils.getMailId(context))) {
-			ContentValues data = new ContentValues();
-			data.put("imei", Utils.getIMEI(context));
-			data.put("email", Utils.getMailId(context));
-			Utils.startProgress(WelcomeActivity.this);
-			Utils.SendHTTPRequest(WelcomeActivity.this, CommsConstant.HOST
-					+ CommsConstant.STARTUP_API, data, getHandler());
-		} else {
-			VehicleException ex = new VehicleException();
-			ex.setMessage("Lanes group email id is not found in this device. Please configure in device settings.");
-			IDialogListener listener = new IDialogListener() {
-
-				@Override
-				public void onPositiveButtonClick(AlertDialog dialog) {
-					closeApplication();
-
-				}
-
-				@Override
-				public void onNegativeButtonClick(AlertDialog dialog) {
-					// TODO Auto-generated method stub
-
-				}
-			};
-			ExceptionHandler.showException(context, ex, "Info", listener);
-		}
-
-	}
+	
 
 	private void launchShoutAboutSafetyScreen(View v) {
 		ShoutAboutSafetyObject shoutAboutSafety = JobViewerDBHandler
@@ -196,51 +138,6 @@ public class WelcomeActivity extends BaseActivity {
 			intent.setClass(v.getContext(), ShoutOptionsActivity.class);
 			startActivity(intent);
 		}
-	}
-
-	public Handler getHandler() {
-		Handler handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case HttpConnection.DID_SUCCEED:
-					Utils.StopProgress();
-					String result = (String) msg.obj;
-					StartUpResponse decodeFromJsonString = GsonConverter
-							.getInstance().decodeFromJsonString(result,
-									StartUpResponse.class);
-					JobViewerDBHandler.saveUserDetail(context,
-							decodeFromJsonString.getData().getUser());
-					break;
-				case HttpConnection.DID_ERROR:
-					Utils.StopProgress();
-					String error = (String) msg.obj;
-					VehicleException exception = GsonConverter
-							.getInstance()
-							.decodeFromJsonString(error, VehicleException.class);
-					ExceptionHandler.showException(context, exception, "Info");
-					break;
-				default:
-					break;
-				}
-			}
-		};
-		return handler;
-	}
-
-	private void saveStartUpObjectInBackLogDb() {
-		StartUpRequest startUpRequest = new StartUpRequest();
-		startUpRequest.setImei(Utils.getIMEI(WelcomeActivity.this));
-		startUpRequest.setEmail(Utils.getMailId(WelcomeActivity.this));
-		BackLogRequest backLogRequest = new BackLogRequest();
-		backLogRequest.setRequestApi(CommsConstant.HOST
-				+ CommsConstant.STARTUP_API);
-		backLogRequest.setRequestJson(GsonConverter.getInstance()
-				.encodeToJsonString(startUpRequest));
-		// GsonConverter.getInstance().encodeToJsonString(startUpRequest);
-		backLogRequest.setRequestClassName("StartrUpRequest");
-		backLogRequest.setRequestType(Utils.REQUEST_TYPE_WORK);
-		JobViewerDBHandler.saveBackLog(getApplicationContext(), backLogRequest);
 	}
 
 	@Override

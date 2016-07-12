@@ -141,7 +141,7 @@
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:layout_marginTop="@dimen/template_spacing15"
-                            android:background="@drawable/edit_text_mandatory_background" >
+                            android:background="@drawable/edit_text_background" >
 
                             <TextView
                                 android:id="@+id/landPollution"
@@ -181,7 +181,7 @@
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:layout_marginTop="@dimen/template_spacing15"
-                            android:background="@drawable/edit_text_mandatory_background" >
+                            android:background="@drawable/edit_text_background" >
 
                             <TextView
                                 android:id="@+id/landAffected"
@@ -220,7 +220,7 @@
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:layout_marginTop="@dimen/template_spacing15"
-                            android:background="@drawable/edit_text_mandatory_background" >
+                            android:background="@drawable/edit_text_background" >
 
                             <TextView
                                 android:id="@+id/landPollutantsText"
@@ -289,7 +289,7 @@
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:layout_marginTop="@dimen/template_spacing15"
-                            android:background="@drawable/edit_text_mandatory_background" >
+                            android:background="@drawable/edit_text_background" >
 
                             <TextView
                                 android:id="@+id/extentOfWater"
@@ -329,7 +329,7 @@
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:layout_marginTop="@dimen/template_spacing15"
-                            android:background="@drawable/edit_text_mandatory_background" >
+                            android:background="@drawable/edit_text_background" >
 
                             <TextView
                                 android:id="@+id/waterBody"
@@ -369,7 +369,7 @@
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:layout_marginTop="@dimen/template_spacing15"
-                            android:background="@drawable/edit_text_mandatory_background" >
+                            android:background="@drawable/edit_text_background" >
 
                             <TextView
                                 android:id="@+id/waterPollutantsTextView"
@@ -511,7 +511,7 @@
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:layout_marginTop="@dimen/template_spacing15"
-                            android:background="@drawable/edit_text_mandatory_background" >
+                            android:background="@drawable/edit_text_background" >
 
                             <TextView
                                 android:id="@+id/ammonia"
@@ -553,7 +553,7 @@
                             android:layout_marginLeft="@dimen/white_lato_regular_small40"
                             android:layout_marginRight="@dimen/white_lato_regular_small40"
                             android:layout_marginTop="@dimen/template_spacing15"
-                            android:background="@drawable/edit_text_mandatory_background" >
+                            android:background="@drawable/edit_text_background" >
 
                             <TextView
                                 android:id="@+id/fishKill"
@@ -605,7 +605,7 @@
                         android:layout_marginLeft="@dimen/white_lato_regular_small40"
                         android:layout_marginRight="@dimen/white_lato_regular_small40"
                         android:layout_marginTop="@dimen/template_spacing15"
-                        android:background="@drawable/edit_text_mandatory_background" >
+                        android:background="@drawable/edit_text_background" >
 
                         <TextView
                             android:id="@+id/indicativeCause"

@@ -85,7 +85,7 @@ public class PollutionActivity extends BaseActivity implements
 	private JobViewerSharedPref mSharedPref;
 	LinearLayout map_layout;
 	static Context context;
-	static String mapImageId = "";
+	static String mapImageId;
 	private static CheckOutObject checkOutRemember;
 
 	@Override
@@ -288,12 +288,12 @@ public class PollutionActivity extends BaseActivity implements
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
 					Log.d(Utils.LOG_TAG,
-							" pollutiion activity getMapImageHandler handleMessage DID_SUCCEED");
+							" pollutiion activity getSendWorkUpImageHandler handleMessage DID_SUCCEED");
 					break;
 				case HttpConnection.DID_ERROR:
 					String error = (String) msg.obj;
 					Log.d(Utils.LOG_TAG,
-							" pollutiion activity getMapImageHandler handleMessage DID_ERROR "
+							" pollutiion activity getSendWorkUpImageHandler handleMessage DID_ERROR "
 									+ error);
 					break;
 				default:

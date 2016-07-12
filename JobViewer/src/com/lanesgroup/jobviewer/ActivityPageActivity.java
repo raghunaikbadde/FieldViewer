@@ -334,7 +334,6 @@ public class ActivityPageActivity extends BaseActivity implements
 					addPhotoScreenIntentBundle.putString(
 							Utils.CALLING_ACTIVITY,
 							ActivityConstants.ACTIVITY_PAGE_ACTIVITY);
-					sendPollutionImageIdentifier(addPhotoScreenIntent);
 					startActivity(addPhotoScreenIntent);
 				} else if (bundle != null
 						&& bundle.containsKey(Utils.CALLING_ACTIVITY)
@@ -343,7 +342,6 @@ public class ActivityPageActivity extends BaseActivity implements
 										ActivityConstants.ADD_PHOTOS_ACTIVITY)) {
 					Intent addPhotoScreenIntent = new Intent(mContext,
 							AddPhotosActivity.class);
-					sendPollutionImageIdentifier(addPhotoScreenIntent);
 					Bundle addPhotoScreenIntentBundle = new Bundle();
 					addPhotoScreenIntentBundle.putString(
 							Utils.CALLING_ACTIVITY,
@@ -454,16 +452,6 @@ public class ActivityPageActivity extends BaseActivity implements
 						ShoutOptionsActivity.class);
 				startActivity(intent);
 			}
-		}
-	}
-
-	private void sendPollutionImageIdentifier(Intent addPhotoScreenIntent) {
-		try{
-			if(getIntent().getExtras().containsKey(Constants.KEY_IS_FROM_POLLUTION)){
-				addPhotoScreenIntent.putExtra(Constants.KEY_IS_FROM_POLLUTION, getIntent().getExtras().getBoolean(Constants.KEY_IS_FROM_POLLUTION));
-			}
-		}catch(Exception e){
-			
 		}
 	}
 

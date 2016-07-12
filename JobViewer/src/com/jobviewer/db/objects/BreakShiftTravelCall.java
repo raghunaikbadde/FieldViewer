@@ -27,8 +27,6 @@ package com.jobviewer.db.objects;
 	
 	private String riskAssessmentEndTime;
 	
-	private String noOfWorksCompleted;
-	
 	public String isBreakStarted() {
 		return isBreakStarted;
 	}
@@ -131,11 +129,5 @@ package com.jobviewer.db.objects;
 	}
 	public void setRiskAssessmentEndTime(String riskAssessmentEndTime) {
 		this.riskAssessmentEndTime = riskAssessmentEndTime;
-	}
-	public String getNoOfWorksCompleted() {
-		return noOfWorksCompleted;
-	}
-	public void setNoOfWorksCompleted(String noOfWorksCompleted) {
-		this.noOfWorksCompleted = noOfWorksCompleted;
 	}
 }

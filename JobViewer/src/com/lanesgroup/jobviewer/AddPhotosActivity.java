@@ -165,9 +165,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			intent.putExtra(Utils.CALLING_ACTIVITY,
 					ActivityConstants.ADD_PHOTOS_ACTIVITY);
 			CheckOutObject checkOutRemember = JobViewerDBHandler
-					.getCheckOutRemember(mContext);			
-			intent.putExtra(Constants.KEY_IS_FROM_POLLUTION,
-					isPollutionReport);
+					.getCheckOutRemember(mContext);
 			checkOutRemember.setIsSavedOnAddPhotoScreen("true");
 			JobViewerDBHandler.saveCheckOutRemember(mContext, checkOutRemember);
 			startActivity(intent);
