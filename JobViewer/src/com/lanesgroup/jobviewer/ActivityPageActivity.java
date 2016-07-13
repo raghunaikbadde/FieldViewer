@@ -368,8 +368,7 @@ public class ActivityPageActivity extends BaseActivity implements
 							ActivityConstants.ACTIVITY_PAGE_ACTIVITY);
 					addPhotoScreenIntent.putExtras(addPhotoScreenIntentBundle);
 					startActivity(addPhotoScreenIntent);
-				} else if(bundle != null
-						&& bundle.containsKey(Constants.SAVED_FROM_WORK_COMPLETE)){
+				} else if(isSaveButtonClickedFromWorkComplete(view.getContext())){
 					Intent riskAssIntent = new Intent(mContext,
 							AddPhotosActivity.class);
 					riskAssIntent.putExtra(Constants.SAVED_FROM_WORK_COMPLETE, true);
@@ -1187,6 +1186,25 @@ public class ActivityPageActivity extends BaseActivity implements
 				dialog.dismiss();
 			}
 		});
+	}
+	
+	private boolean isSaveButtonClickedFromWorkComplete(Context mContext) {
+		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
+		if (Utils.isNullOrEmpty(str)) {
+			str = "{}";
+		}
+		try {
+			JSONObject jsonObject = new JSONObject(str);
+			if (jsonObject.has(Constants.SAVED_FROM_WORK_COMPLETE)) {
+				return jsonObject.getBoolean(Constants.SAVED_FROM_WORK_COMPLETE);
+			} else{
+				return false;
+			}
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

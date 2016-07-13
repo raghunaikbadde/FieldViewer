@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ExifInterface;
@@ -44,6 +47,7 @@ import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
+import com.jobviewer.provider.JobViewerProviderContract.FlagJSON;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
@@ -223,6 +227,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 			  intent.putExtra(Constants.SAVED_FROM_WORK_COMPLETE, true);
 			  intent.putExtra(Constants.UPDATE_PREV_RISK_ASMT_FLAG_POLLUTION_SKIP, true);
               intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+              setSaveButtonFlagInDB(view.getContext());
               startActivity(intent);
 		} else if (view == mLeaveSite) {
 			// Upload Photos here// if calling card available
@@ -569,6 +574,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 		AssessmentCompleteFragment.cancelAlarm();
 		getActivity().finish();
 		AddPhotosActivity.arrayListOfWokImagesUpload = new ArrayList<WorkPhotoUpload>();
+		removeNewWorkTravelArrivedSite(getActivity());
 		Intent workSuccessIntent = new Intent(getActivity(),
 				WorkSuccessActivity.class);
 		startActivity(workSuccessIntent);
@@ -697,5 +703,44 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 	}
+	
+	private void setSaveButtonFlagInDB(Context mContext) {
+		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
+		if (Utils.isNullOrEmpty(str)) {
+			str = "{}";
+		}
+		try {
+			JSONObject jsonObject = new JSONObject(str);
+			if (jsonObject.has(Constants.SAVED_FROM_WORK_COMPLETE)) {
+				jsonObject.remove(Constants.SAVED_FROM_WORK_COMPLETE);
+			}
 
+			jsonObject.put(Constants.SAVED_FROM_WORK_COMPLETE, true);
+			String jsonString = jsonObject.toString();
+			JobViewerDBHandler.saveFlaginJSONObject(getActivity(),
+					jsonString);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void removeNewWorkTravelArrivedSite(Context mContext) {
+		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
+		if (Utils.isNullOrEmpty(str)) {
+			str = "{}";
+		}
+		try {
+			JSONObject jsonObject = new JSONObject(str);
+			if (jsonObject.has(Constants.SAVED_FROM_WORK_COMPLETE)) {
+				jsonObject.remove(Constants.SAVED_FROM_WORK_COMPLETE);
+			}
+
+			String jsonString = jsonObject.toString();
+			JobViewerDBHandler.saveFlaginJSONObject(getActivity(),
+					jsonString);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
