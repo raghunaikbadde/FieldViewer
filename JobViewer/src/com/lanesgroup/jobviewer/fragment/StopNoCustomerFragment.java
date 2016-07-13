@@ -71,13 +71,7 @@ public class StopNoCustomerFragment extends Fragment implements
     @Override
     public void onClick(View v) {
         if (v.getId() == mStopButton.getId()) {
-            // Popup dialog to report to field manager
-            //
-            mConfirmStopDialog = new ConfirmStopDialog(v.getContext(),
-                    StopNoCustomerFragment.this, Constants.END_TRAINING);
-            mConfirmStopDialog.show();
-
-        } else if (v.getId() == mResumeButton.getId()) {
+        	
             ConfirmWorkStopDialog mDialog = new ConfirmWorkStopDialog(getActivity(), new ConfirmWorkStopDialog.ConfirmWorkStopDialogCallback() {
                 @Override
                 public void onConfirmButtonPressed() {
@@ -87,10 +81,14 @@ public class StopNoCustomerFragment extends Fragment implements
 
                 @Override
                 public void onConfirmDismiss() {
-
+                	
                 }
             });
             mDialog.show();
+
+
+        } else if (v.getId() == mResumeButton.getId()) {
+        	QuestionManager.getInstance().loadPreviousFragmentOnResume();
 
         }
     }
