@@ -70,5 +70,6 @@ public class Constants {
     public static final String FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE = "FLAG_NEW_WORK_TRAVEL_ARRIVED_SITE";
 
     public static final String FLAG_OVERTIME_UPDATE_RISK = "OVERTIME_UPDATE_RISK";
+    public static final String UPDATE_PREV_RISK_ASMT_FLAG_POLLUTION_SKIP = "UPDATE_PREV_RISK_ASMT_FLAG_POLLUTION_SKIP";
 
 }

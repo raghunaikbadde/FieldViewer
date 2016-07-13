@@ -26,6 +26,7 @@ import com.jobviewer.survey.object.QuestionMaster;
 import com.jobviewer.survey.object.Screen;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
 import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
 
@@ -138,6 +139,8 @@ public class UpdateRiskAssessmentActivity extends BaseActivity implements
             Intent intent = new Intent(v.getContext(), QuestionsActivity.class);
             intent.putExtra(Utils.UPDATE_RISK_ASSESSMENT_ACTIVITY,
                     selectedScreenId);
+            intent.putExtra(Constants.UPDATE_PREV_RISK_ASMT_FLAG_POLLUTION_SKIP,
+                    true);
             deleteAnsweredQuestionsFromQuestionSet(selectedScreenId);
             startActivity(intent);
         }

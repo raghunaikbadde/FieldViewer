@@ -30,10 +30,12 @@ import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ActivityConstants;
+import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.response.object.User;
 import com.jobviwer.service.RiskAssementOverTimeService;
+import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.AddPhotosActivity;
 import com.lanesgroup.jobviewer.PollutionActivity;
 import com.lanesgroup.jobviewer.R;
@@ -45,6 +47,7 @@ public class AssessmentCompleteFragment extends Fragment implements
 	private View mRootView;
 	private Button doneButton;
 	public static PendingIntent asessmentAlarmIntent;
+	private boolean shouldPollutionSkip = false;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -66,6 +69,12 @@ public class AssessmentCompleteFragment extends Fragment implements
 		}
 		doneButton = (Button) mRootView.findViewById(R.id.doneButton);
 		doneButton.setOnClickListener(this);
+		Bundle bundle = getActivity().getIntent().getExtras();
+		if(bundle != null && bundle.containsKey(Constants.UPDATE_PREV_RISK_ASMT_FLAG_POLLUTION_SKIP)){
+			if(bundle.getBoolean(Constants.UPDATE_PREV_RISK_ASMT_FLAG_POLLUTION_SKIP)){
+				shouldPollutionSkip = true;
+			}
+		}
 		return mRootView;
 	}
 
@@ -90,6 +99,11 @@ public class AssessmentCompleteFragment extends Fragment implements
 					.getIsPollutionSelected())) {
 				Intent pollutionIntent = new Intent(getActivity(),
 						PollutionActivity.class);
+				
+				if(shouldPollutionSkip){
+					pollutionIntent = new Intent(getActivity(),
+							AddPhotosActivity.class);
+				}
 				startActivity(pollutionIntent);
 			} else {
 				Intent pollutionIntent = new Intent(getActivity(),
@@ -194,6 +208,10 @@ public class AssessmentCompleteFragment extends Fragment implements
 									.getIsPollutionSelected())) {						
 						Intent pollutionIntent = new Intent(getActivity(),
 								PollutionActivity.class);
+						if(shouldPollutionSkip){
+							pollutionIntent = new Intent(getActivity(),
+									AddPhotosActivity.class);
+						}
 						startActivity(pollutionIntent);
 					} else {
 						Intent pollutionIntent = new Intent(getActivity(),

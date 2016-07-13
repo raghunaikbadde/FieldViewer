@@ -68,7 +68,7 @@ public class AlertDialogActivity extends Activity {
 		if(checkWhetherToShowAlert()){
 			if(!Utils.overTimeAlerts.isShowing()){
 				Utils.overTimeAlerts.show();	
-			} else{
+			} else {
 				Utils.overTimeAlerts.dismiss();
 				Utils.overTimeAlerts = builder.create();
 				Utils.overTimeAlerts.show();

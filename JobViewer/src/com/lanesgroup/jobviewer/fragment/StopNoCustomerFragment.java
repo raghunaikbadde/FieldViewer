@@ -81,7 +81,8 @@ public class StopNoCustomerFragment extends Fragment implements
             ConfirmWorkStopDialog mDialog = new ConfirmWorkStopDialog(getActivity(), new ConfirmWorkStopDialog.ConfirmWorkStopDialogCallback() {
                 @Override
                 public void onConfirmButtonPressed() {
-                    QuestionManager.getInstance().loadPreviousFragmentOnResume();
+                    Intent intent = new Intent(getActivity(),ActivityPageActivity.class);
+                    startActivity(intent);
                 }
 
                 @Override

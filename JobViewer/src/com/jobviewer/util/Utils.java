@@ -159,10 +159,10 @@ public class Utils {
 	public static TimeSheetRequest callEndTimeRequest = null;
 	public static boolean isExitApplication = false;
 	public static Location locationOfUser = null;
-	public static long OVETTIME_ALERT_TOGGLE = 12 * 60 * 60 * 1000; // 12 HOUR
-	public static long OVETTIME_ALERT_INTERVAL = 1 * 60 * 60 * 1000; // 1HOUR
+	public static long OVETTIME_ALERT_TOGGLE = 12* 60 * 1000; // 12 HOUR 1 hour = 1*60*60*1000;
+	public static long OVETTIME_ALERT_INTERVAL = 1 * 60 * 1000; // 1HOUR 1 hour = 1*60*60*1000;
 
-	public static long RISK_ASSMENET_OVETTIME_ALERT_TOGGLE = 3 * 60 * 60 * 1000; // 12
+	public static long RISK_ASSMENET_OVETTIME_ALERT_TOGGLE = 3 * 60 * 60 * 1000; //   
 	// HOUR
 	public static long RISK_ASSMENET_OVETTIME_ALERT_INTERVAL = 3 * 60 * 60 * 1000; // 1HOUR
 	static Dialog progressDialog;
