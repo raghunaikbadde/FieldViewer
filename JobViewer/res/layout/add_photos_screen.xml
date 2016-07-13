@@ -62,7 +62,7 @@
                 android:layout_marginBottom="@dimen/white_lato_bold_small50"
                 android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                 android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                android:layout_marginTop="@dimen/white_lato_bold_small50"
+                android:layout_marginTop="@dimen/black_lato_regular_medium45"
                 android:text="@string/add_photos_str"
                 android:textColor="@color/black"
                 android:textSize="@dimen/black_lato_regular_small55" />
@@ -130,10 +130,10 @@
             <LinearLayout
                 android:id="@+id/camera_layout"
                 android:layout_width="@dimen/capture_button_width840"
-                android:layout_height="@dimen/capture_button_height220"
+                android:layout_height="@dimen/call_customer_button_height180"
                 android:layout_below="@+id/imagebutton_layout"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/dialog_detail_top_margin80"
+                android:layout_margin="@dimen/progressbar_top_margin58"
                 android:background="@drawable/red_background"
                 android:gravity="center_vertical|center_horizontal"
                 android:orientation="horizontal" >
@@ -159,7 +159,8 @@
                 android:id="@+id/listview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/camera_layout" />
+                android:layout_below="@+id/camera_layout"
+                android:layout_marginBottom="@dimen/black_lato_regular_medium45" />
         </RelativeLayout>
     </LinearLayout>
     <!-- </ScrollView> -->
@@ -168,8 +169,10 @@
         android:id="@+id/bottombutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/footerView"
-        android:layout_margin="@dimen/white_lato_regular_big79" >
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/white_lato_regular_big79"
+        android:layout_marginLeft="@dimen/white_lato_regular_big79"
+        android:layout_marginRight="@dimen/white_lato_regular_big79" >
 
         <Button
             android:id="@+id/button1"
@@ -201,12 +204,5 @@
             android:textColor="@color/white"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
-
-    <include
-        android:id="@+id/footerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        layout="@layout/copyright_bottom_template" />
 
 </RelativeLayout>

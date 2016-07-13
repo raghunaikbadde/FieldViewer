@@ -21,9 +21,9 @@ import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSDialog;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
+import com.jobviwer.request.object.StartUpRequest;
 import com.jobviwer.response.object.StartUpResponse;
 import com.jobviwer.response.object.User;
-import com.raghu.StartUpRequest;
 import com.vehicle.communicator.HttpConnection;
 
 public class LauncherActivity extends BaseActivity {
@@ -241,7 +241,7 @@ public class LauncherActivity extends BaseActivity {
 	private void saveStartUpObjectInBackLogDb() {
 		StartUpRequest startUpRequest = new StartUpRequest();
 		startUpRequest.setImei(Utils.getIMEI(LauncherActivity.this));
-		startUpRequest.setEmail(Utils.getMailId(LauncherActivity.this));
+		startUpRequest.setEmailId(Utils.getMailId(LauncherActivity.this));
 		BackLogRequest backLogRequest = new BackLogRequest();
 		backLogRequest.setRequestApi(CommsConstant.HOST
 				+ CommsConstant.STARTUP_API);

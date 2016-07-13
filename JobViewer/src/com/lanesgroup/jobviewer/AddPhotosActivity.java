@@ -48,8 +48,8 @@ import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
+import com.jobviwer.request.object.WorkPhotoUpload;
 import com.lanesgroup.jobviewer.fragment.WorkCompleteFragment;
-import com.raghu.WorkPhotoUpload;
 import com.vehicle.communicator.HttpConnection;
 
 public class AddPhotosActivity extends BaseActivity implements OnClickListener {

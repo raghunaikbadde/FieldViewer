@@ -37,10 +37,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@+id/screenTitle"
-                android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="@dimen/white_lato_bold_small50"
+                android:layout_marginTop="@dimen/grey_lato_regular_small35"
                 android:background="#CCCCCC" />
 
             <TextView
@@ -55,8 +55,10 @@
             <ImageView
                 android:id="@+id/stop_image"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/stop_work_icon_height350"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/grey_lato_regular_small35"
+                android:layout_marginTop="@dimen/grey_lato_regular_small35"
                 android:contentDescription="@string/desc"
                 android:src="@drawable/big_error_icon" />
 
@@ -77,7 +79,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/white_lato_regular_big79"
                 android:layout_marginRight="@dimen/white_lato_regular_big79"
-                android:layout_marginTop="@dimen/black_lato_regular_medium45"
+                android:layout_marginTop="@dimen/grey_lato_regular_small35"
                 android:text="@string/riskAsessmentDesc2"
                 android:textColor="@color/black"
                 android:textSize="@dimen/white_lato_bold_small50" />
@@ -86,10 +88,9 @@
                 android:id="@+id/after_contacting2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/text_label_vertical_spacing100"
                 android:layout_marginLeft="@dimen/white_lato_regular_big79"
                 android:layout_marginRight="@dimen/white_lato_regular_big79"
-                android:layout_marginTop="@dimen/black_lato_regular_medium45"
+                android:layout_marginTop="@dimen/grey_lato_regular_small35"
                 android:text="@string/riskAsessmentDesc3"
                 android:textColor="@color/black"
                 android:textSize="@dimen/white_lato_bold_small50" />
@@ -109,7 +110,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/white_lato_regular_big79" >
+            android:layout_marginBottom="@dimen/white_lato_regular_big79"
+            android:layout_marginLeft="@dimen/white_lato_regular_big79"
+            android:layout_marginRight="@dimen/white_lato_regular_big79"
+            android:layout_marginTop="@dimen/grey_lato_regular_small35" >
 
             <Button
                 android:id="@+id/button1"
@@ -140,8 +144,6 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/dialog_black_lato_regular_small60" />
         </LinearLayout>
-
-        <include layout="@layout/copyright_bottom_template" />
     </LinearLayout>
 
 </RelativeLayout>

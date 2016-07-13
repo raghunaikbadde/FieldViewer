@@ -38,8 +38,8 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
+import com.jobviwer.request.object.VehicleCheckInOut;
 import com.jobviwer.response.object.User;
-import com.raghu.VehicleCheckInOut;
 import com.vehicle.communicator.HttpConnection;
 
 public class CheckoutVehicleActivity extends BaseActivity implements
@@ -54,6 +54,7 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 	private String callingFrom = "";
 	private JobViewerSharedPref mSharedPref;
 	private AutoCompleteTextView autocompleteRegistrationEditTextView;
+	private TextView enter_details_text;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 		mSharedPref = new JobViewerSharedPref();
 		autocompleteRegistrationEditTextView = (AutoCompleteTextView) findViewById(R.id.autocompleteRegistrationEditTextView);
 		mProgressSteps = (TextView) findViewById(R.id.progress_step_text);
+		enter_details_text = (TextView) findViewById(R.id.enter_details_text);
 		mProgressSteps.setText(Utils.PROGRESS_2_TO_3);
 		mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 		mProgressBar.setMax(3);
@@ -81,6 +83,11 @@ public class CheckoutVehicleActivity extends BaseActivity implements
 		}
 		if (callingFrom.contains("ActivityPageActivity")) {
 			mProgressSteps.setText(Utils.PROGRESS_1_TO_1);
+		}
+		if (ActivityConstants.JOB_SELECTED_ON_CALL
+				.equalsIgnoreCase(Utils.checkOutObject.getJobSelected())) {
+			enter_details_text.setText(getResources().getString(
+					R.string.enter_vehicle_detail_on_call));
 		}
 		autocompleteRegistrationEditTextView
 				.addTextChangedListener(new TextWatcher() {

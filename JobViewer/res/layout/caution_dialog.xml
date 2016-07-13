@@ -149,8 +149,7 @@
                     android:layout_below="@+id/screenTitle"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/detail_bottom_margin70"
-                    android:gravity="center"
+                     android:gravity="center"
                     android:text="@string/it_is_a_criminal_offence_to_abstract"
                     android:textColor="@color/red"
                     android:textSize="@dimen/user_icon_left_padding46" />

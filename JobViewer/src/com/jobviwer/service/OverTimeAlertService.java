@@ -11,7 +11,7 @@ import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
-import com.raghu.AlertDialogActivity;
+import com.lanesgroup.jobviewer.AlertDialogActivity;
 
 public class OverTimeAlertService extends BroadcastReceiver {
 

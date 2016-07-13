@@ -41,10 +41,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/risk_assessment_text"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                    android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:background="#CCCCCC" />
 
                 <LinearLayout
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/progress_layout"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/red_lato_bold_big90"
+                    android:layout_marginTop="@dimen/black_lato_regular_medium45"
                     android:text="@string/tmp_user_email_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/title_text_size70" />
@@ -156,7 +156,7 @@
         android:id="@+id/bottombutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/footerView"
+        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/white_lato_regular_big79" >
 
         <CheckBox
@@ -164,6 +164,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/checkbox_selector"
+            android:gravity="center"
             android:paddingLeft="@dimen/template_spacing27"
             android:text="@string/remember_my_selection"
             android:textColor="@color/black"
@@ -173,7 +174,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/checkBox3"
-            android:layout_marginTop="@dimen/white_lato_regular_big79" >
+            android:layout_marginTop="@dimen/black_lato_regular_medium45" >
 
             <Button
                 android:id="@+id/back"
@@ -205,12 +206,5 @@
                 android:textSize="@dimen/dialog_black_lato_regular_small60" />
         </LinearLayout>
     </RelativeLayout>
-
-    <include
-        android:id="@+id/footerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        layout="@layout/copyright_bottom_template" />
 
 </RelativeLayout>

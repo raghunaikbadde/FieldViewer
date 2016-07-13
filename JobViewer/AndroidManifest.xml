@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lanesgroup.jobviewer"
     android:versionCode="1"
-    android:versionName="1.0">
+    android:versionName="1.0" android:installLocation="auto">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -72,13 +72,13 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name="com.raghu.AlertDialogActivity"
+            android:name="com.lanesgroup.jobviewer.AlertDialogActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.raghu.UpdateRiskOverTimeAlertDialog"
+           android:name="com.lanesgroup.jobviewer.UpdateRiskOverTimeAlertDialog"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

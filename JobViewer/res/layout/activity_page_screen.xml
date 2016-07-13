@@ -23,7 +23,7 @@
                 android:layout_height="@dimen/copyright_right_margin212"
                 android:layout_marginLeft="@dimen/user_detail_left_spacing140"
                 android:layout_marginRight="@dimen/user_detail_left_spacing140"
-                android:layout_marginTop="@dimen/dialog_detail_top_margin80"
+                android:layout_marginTop="@dimen/progressbar_top_margin58"
                 android:background="@drawable/dark_grey_background">
 
                 <ImageView
@@ -80,7 +80,7 @@
             <Button
                 android:id="@+id/start"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/copyright_right_margin212"
+                android:layout_height="@dimen/call_customer_button_height180"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/user_detail_left_spacing140"
                 android:layout_marginRight="@dimen/user_detail_left_spacing140"
@@ -95,7 +95,7 @@
             <Button
                 android:id="@+id/check_out_vehicle"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/user_detail_height223"
+                android:layout_height="@dimen/call_customer_button_height180"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/user_detail_left_spacing140"
                 android:layout_marginRight="@dimen/user_detail_left_spacing140"
@@ -109,7 +109,7 @@
             <LinearLayout
                 android:id="@+id/checked_out_layout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/user_detail_height223"
+                android:layout_height="@dimen/call_customer_button_height180"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/user_detail_left_spacing140"
                 android:layout_marginRight="@dimen/user_detail_left_spacing140"

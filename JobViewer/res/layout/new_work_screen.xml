@@ -40,10 +40,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/check_out_text"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                    android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:background="#CCCCCC" />
 
                 <LinearLayout
@@ -79,10 +79,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/progress_layout"
-                    android:layout_marginBottom="@dimen/text_label_vertical_spacing100"
+                    android:layout_marginBottom="@dimen/progressbar_top_margin58"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginTop="@dimen/red_lato_bold_big90"
+                    android:layout_marginTop="@dimen/black_lato_regular_medium45"
                     android:text="@string/enter_the_vistec_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
@@ -106,15 +106,15 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/district_text"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/edit_text_bottom_margin87"
+                    android:layout_marginBottom="@dimen/progressbar_top_margin58"
                     android:orientation="horizontal" >
 
-                    <EditText
+                    <com.lanesgroup.ui.InputEditText
                         android:id="@+id/distric1_edittext"
                         android:layout_width="@dimen/edit_text_width270"
                         android:layout_height="@dimen/edit_text_height130"
                         android:layout_below="@+id/district_text"
-                        android:background="@drawable/edit_text_background"
+                        android:background="@drawable/edittext_bg_selector"
                         android:focusable="false"
                         android:gravity="center_vertical|center_horizontal"
                         android:hint="@string/tmp_number"
@@ -125,13 +125,13 @@
                         android:textColorHint="@color/black"
                         android:textSize="@dimen/black_lato_regular_big66" />
 
-                    <EditText
+                    <com.lanesgroup.ui.InputEditText
                         android:id="@+id/distric2_edittext"
                         android:layout_width="@dimen/edit_text_width270"
                         android:layout_height="@dimen/edit_text_height130"
                         android:layout_below="@+id/district_text"
                         android:layout_marginLeft="@dimen/spinner_bottom_margin30"
-                        android:background="@drawable/edit_text_background"
+                        android:background="@drawable/edittext_bg_selector"
                         android:gravity="center_vertical|center_horizontal"
                         android:hint="@string/tmp_number"
                         android:inputType="number"
@@ -161,17 +161,17 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/task_number_text"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/edit_text_checkbox_spacing106"
+                    android:layout_marginBottom="@dimen/progressbar_top_margin58"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
                     android:orientation="horizontal" >
 
-                    <EditText
+                    <com.lanesgroup.ui.InputEditText
                         android:id="@+id/distric3_edittext"
                         android:layout_width="@dimen/edit_text_width270"
                         android:layout_height="@dimen/edit_text_height130"
                         android:layout_below="@+id/district_text"
-                        android:background="@drawable/edit_text_background"
+                        android:background="@drawable/edittext_bg_selector"
                         android:gravity="center_vertical|center_horizontal"
                         android:hint="@string/tmp_number"
                         android:inputType="number"
@@ -181,13 +181,13 @@
                         android:textColorHint="@color/black"
                         android:textSize="@dimen/black_lato_regular_big66" />
 
-                    <EditText
+                    <com.lanesgroup.ui.InputEditText
                         android:id="@+id/distric4_edittext"
                         android:layout_width="fill_parent"
                         android:layout_height="@dimen/edit_text_height130"
                         android:layout_below="@+id/district_text"
                         android:layout_marginLeft="@dimen/spinner_bottom_margin30"
-                        android:background="@drawable/edit_text_background"
+                        android:background="@drawable/edittext_bg_selector"
                         android:gravity="center_vertical|center_horizontal"
                         android:hint="@string/district_four_tmp_number"
                         android:inputType="textCapCharacters"
@@ -240,44 +240,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pollutionCheckBox"
-        android:orientation="vertical" >
+        android:layout_margin="@dimen/white_lato_regular_big79"
+        android:orientation="horizontal" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height150"
+            android:layout_weight="20"
+            android:background="@drawable/dialog_grey_button"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/lighter_grey"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+        <Button
+            android:id="@+id/space"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/white_lato_regular_big79" >
+            android:layout_weight="4"
+            android:visibility="invisible" />
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_height150"
-                android:layout_weight="20"
-                android:background="@drawable/dialog_grey_button"
-                android:text="@string/cancel"
-                android:textAllCaps="false"
-                android:textColor="@color/lighter_grey"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
-
-            <Button
-                android:id="@+id/space"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_height150"
-                android:layout_weight="20"
-                android:background="@drawable/dark_grey_background"
-                android:text="@string/next"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
-        </LinearLayout>
-
-        <include layout="@layout/copyright_bottom_template" />
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height150"
+            android:layout_weight="20"
+            android:background="@drawable/dark_grey_background"
+            android:text="@string/next"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 
 </LinearLayout>

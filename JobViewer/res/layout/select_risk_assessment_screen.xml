@@ -40,10 +40,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/risk_assess_text"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                    android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:background="#CCCCCC" />
 
                 <TextView
@@ -90,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/progress_layout"
-                    android:layout_marginBottom="@dimen/dialog_detail_bottom_margin95"
+                    android:layout_marginBottom="@dimen/progressbar_top_margin58"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:layout_marginTop="@dimen/edit_text_bottom_margin87"
@@ -147,7 +147,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/user_email_text" >
+        android:layout_below="@+id/user_email_text"
+        android:layout_marginBottom="@dimen/white_lato_regular_big79" >
 
         <CheckBox
             android:id="@+id/checkBox3"
@@ -156,6 +157,7 @@
             android:layout_marginLeft="@dimen/white_lato_regular_big79"
             android:layout_marginRight="@dimen/white_lato_regular_big79"
             android:button="@drawable/checkbox_selector"
+            android:gravity="center"
             android:paddingLeft="@dimen/template_spacing27"
             android:text="@string/remember_my_selection"
             android:textColor="@color/black"
@@ -166,7 +168,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/checkBox3"
-            android:layout_margin="@dimen/white_lato_regular_big79" >
+            android:layout_marginLeft="@dimen/white_lato_regular_big79"
+            android:layout_marginRight="@dimen/white_lato_regular_big79"
+            android:layout_marginTop="@dimen/black_lato_regular_medium45" >
 
             <Button
                 android:id="@+id/button1"
@@ -197,12 +201,6 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/dialog_black_lato_regular_small60" />
         </LinearLayout>
-
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_button"
-            layout="@layout/copyright_bottom_template" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -41,10 +41,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/risk_assess_text"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                    android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:background="#CCCCCC" />
 
                 <LinearLayout
@@ -81,8 +81,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/progress_layout"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/dialog_button_top_margin70"
-                    android:layout_marginTop="@dimen/dialog_button_top_margin70"
+                    android:layout_marginBottom="@dimen/margin_11_dp"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:text="@string/overhead_cables_str"
                     android:textColor="@color/red"
                     android:textSize="@dimen/title_text_size70" />
@@ -145,13 +147,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/scrollView1"
-            android:layout_marginBottom="@dimen/white_lato_bold_small50"
+            android:layout_marginBottom="@dimen/black_lato_regular_medium45"
             android:layout_marginLeft="@dimen/white_lato_regular_big79"
             android:layout_marginRight="@dimen/white_lato_regular_big79"
             android:layout_marginTop="@dimen/white_lato_bold_small50"
             android:background="@drawable/edit_text_background"
             android:gravity="left"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:visibility="gone" >
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -176,7 +179,9 @@
             android:id="@+id/bottombutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/white_lato_regular_big79" >
+            android:layout_marginBottom="@dimen/white_lato_regular_big79"
+            android:layout_marginLeft="@dimen/white_lato_regular_big79"
+            android:layout_marginRight="@dimen/white_lato_regular_big79" >
 
             <Button
                 android:id="@+id/button1"
@@ -207,8 +212,6 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/dialog_black_lato_regular_small60" />
         </LinearLayout>
-
-        <include layout="@layout/copyright_bottom_template" />
     </LinearLayout>
 
 </RelativeLayout>

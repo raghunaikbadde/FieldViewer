@@ -21,8 +21,8 @@ import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.Utils;
+import com.jobviwer.request.object.VehicleCheckInOut;
 import com.jobviwer.response.object.User;
-import com.raghu.VehicleCheckInOut;
 import com.vehicle.communicator.HttpConnection;
 
 public class EndShiftReturnVehicleActivity extends BaseActivity implements

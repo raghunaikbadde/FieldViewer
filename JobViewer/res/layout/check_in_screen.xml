@@ -37,10 +37,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@+id/check_out_text"
-                android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="@dimen/white_lato_bold_small50"
+                android:layout_marginTop="@dimen/grey_lato_regular_small35"
                 android:background="#CCCCCC" />
 
             <LinearLayout
@@ -79,7 +79,7 @@
                 android:layout_marginBottom="@dimen/white_lato_bold_small50"
                 android:layout_marginLeft="@dimen/white_lato_regular_big79"
                 android:layout_marginRight="@dimen/white_lato_regular_big79"
-                android:layout_marginTop="@dimen/red_lato_bold_big90"
+                android:layout_marginTop="@dimen/black_lato_regular_medium45"
                 android:text="@string/returnVehicleMsg"
                 android:textColor="@color/black"
                 android:textSize="@dimen/white_lato_bold_small50" />
@@ -146,7 +146,7 @@
         android:id="@+id/buttonParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/footerView"
+        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/white_lato_regular_big79" >
 
         <Button
@@ -178,12 +178,5 @@
             android:textColor="@color/white"
             android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
-
-    <include
-        android:id="@+id/footerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        layout="@layout/copyright_bottom_template" />
 
 </RelativeLayout>

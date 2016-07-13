@@ -943,7 +943,7 @@ public class JobViewerDBHandler {
 			breakShiftTravelCall
 					.setRiskAssessmentEndTime(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.RISK_ASSESSMENT_END_TIME)));
-			
+
 			breakShiftTravelCall
 					.setNoOfWorksCompleted(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.NO_OF_WORKS_COMPLETED)));

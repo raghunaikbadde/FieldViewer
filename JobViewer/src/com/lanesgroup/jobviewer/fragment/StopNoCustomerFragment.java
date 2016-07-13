@@ -26,16 +26,15 @@ import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.survey.object.util.QuestionManager;
 import com.jobviewer.util.ConfirmStopDialog;
 import com.jobviewer.util.ConfirmStopDialog.ConfirmStopWork;
-import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
+import com.jobviwer.request.object.ShoutOutBackLogRequest;
+import com.jobviwer.request.object.WorkRequest;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.ConfirmWorkStopDialog;
 import com.lanesgroup.jobviewer.R;
-import com.raghu.ShoutOutBackLogRequest;
-import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 
 public class StopNoCustomerFragment extends Fragment implements

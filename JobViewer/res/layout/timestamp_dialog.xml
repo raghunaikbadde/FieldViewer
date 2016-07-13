@@ -27,12 +27,12 @@
             android:fillViewport="true" >
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
                     android:layout_marginTop="@dimen/actionbar_bottom_margin85" >
@@ -53,7 +53,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|top"
                         android:layout_marginRight="@dimen/white_lato_regular_small40"
-                        android:padding="-2dp"
                         android:text="@string/you_should_only"
                         android:textColor="@color/black"
                         android:textSize="@dimen/black_lato_regular_medium45" />

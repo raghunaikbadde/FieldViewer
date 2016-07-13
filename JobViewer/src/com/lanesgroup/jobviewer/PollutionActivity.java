@@ -53,7 +53,7 @@ import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
-import com.raghu.PollutionReportRequest;
+import com.jobviwer.request.object.PollutionReportRequest;
 import com.vehicle.communicator.HttpConnection;
 
 public class PollutionActivity extends BaseActivity implements
@@ -83,7 +83,7 @@ public class PollutionActivity extends BaseActivity implements
 	private String[] landPollutantSelectedText = null;
 	private String[] waterPollutantSelectedText = null;
 	private JobViewerSharedPref mSharedPref;
-	LinearLayout map_layout;
+	private LinearLayout map_layout;
 	static Context context;
 	static String mapImageId = "";
 	private static CheckOutObject checkOutRemember;
@@ -740,13 +740,15 @@ public class PollutionActivity extends BaseActivity implements
 			upStreamImageObject = prepareImageObject(upStreamImageObject);
 			upStreamImageObject.setStage("Site of upstream DO% reading");
 			mTakePicUpStream.setText(null);
-			mTakePicUpStream
-					.setCompoundDrawablesWithIntrinsicBounds(null,
-							ResourcesCompat.getDrawable(getResources(),
-									R.drawable.pollution_camera_icon, null),
-							null, null);
-			mTakePicUpStream.setBackgroundColor(ContextCompat.getColor(context,
-					R.color.red));
+			// mTakePicUpStream
+			// .setCompoundDrawablesWithIntrinsicBounds(null,
+			// ResourcesCompat.getDrawable(getResources(),
+			// R.drawable.pollution_camera_icon, null),
+			// null, null);
+			// mTakePicUpStream.setBackgroundColor(ContextCompat.getColor(context,
+			// R.color.red));
+			mTakePicUpStream.setBackground(getResources().getDrawable(
+					R.drawable.icon_camera_image));
 
 		} else if (requestCode == com.jobviewer.util.Constants.DOWNSTREAM_RESULT_CODE
 				&& resultCode == RESULT_OK) {
@@ -755,13 +757,16 @@ public class PollutionActivity extends BaseActivity implements
 			downSteamIamgeObject.setStage("Site of downstream DO% reading");
 
 			mTakePicDownStream.setText(null);
-			mTakePicDownStream
-					.setCompoundDrawablesWithIntrinsicBounds(null,
-							ResourcesCompat.getDrawable(getResources(),
-									R.drawable.pollution_camera_icon, null),
-							null, null);
-			mTakePicDownStream.setBackgroundColor(ContextCompat.getColor(
-					context, R.color.red));
+			// mTakePicDownStream
+			// .setCompoundDrawablesWithIntrinsicBounds(null,
+			// ResourcesCompat.getDrawable(getResources(),
+			// R.drawable.pollution_camera_icon, null),
+			// null, null);
+			// mTakePicDownStream.setBackgroundColor(ContextCompat.getColor(
+			// context, R.color.red));
+			mTakePicDownStream.setBackground(getResources().getDrawable(
+					R.drawable.icon_camera_image));
+
 		}
 	}
 
@@ -782,7 +787,7 @@ public class PollutionActivity extends BaseActivity implements
 		imageObject.setEmail(JobViewerDBHandler.getUserProfile(context)
 				.getEmail());
 		imageObject.setReference_id(checkOutRemember.getVistecId());
-	 
+
 		Bitmap photo = Utils.decodeSampledBitmapFromFile(
 				file.getAbsolutePath(), 1000, 700);
 
@@ -860,7 +865,6 @@ public class PollutionActivity extends BaseActivity implements
 				if (!extentOfWaterPollution.contains("Select")
 						&& !waterBoddyEffected.contains("Select")
 						&& waterPollutants.length != 0
-						&& !ammoniaStr.contains("Select")
 						&& !fishKillStr.contains("Select")) {
 					Log.d(Utils.LOG_TAG, "WaterPollutionPassed");
 					if (!indicativeCasueStr.contains("Select")) {
@@ -936,6 +940,7 @@ public class PollutionActivity extends BaseActivity implements
 				if (!extentOfWaterPollution.contains("Select")
 						&& !waterBoddyEffected.contains("Select")
 						&& waterPollutants.length != 0
+						// && !ammoniaStr.contains("Select")
 						&& !fishKillStr.contains("Select")) {
 					if (!indicativeCasueStr.contains("Select")) {
 						enableNextButton(true);
@@ -1321,4 +1326,5 @@ public class PollutionActivity extends BaseActivity implements
 			}
 		}
 	}
+
 }

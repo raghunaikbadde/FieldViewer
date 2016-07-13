@@ -41,10 +41,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/risk_assess_text"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                    android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:background="#CCCCCC" />
 
                 <LinearLayout
@@ -81,8 +81,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/progress_layout"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/dialog_button_top_margin70"
-                    android:layout_marginTop="@dimen/dialog_button_top_margin70"
+                    android:layout_marginBottom="@dimen/margin_11_dp"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:text="@string/engineers_name"
                     android:textColor="@color/red"
                     android:textSize="@dimen/title_text_size70" />
@@ -99,30 +101,29 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
 
-                <TextView
-                    android:id="@+id/top_man_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/question_text"
-                    android:layout_marginBottom="@dimen/edit_error_stroke10"
-                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
-                    android:layout_marginRight="@dimen/white_lato_regular_big79"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/white_lato_bold_small50" />
-
                 <LinearLayout
                     android:id="@+id/topManEditTextLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/top_man_text"
+                    android:layout_below="@+id/question_text"
+                    android:layout_marginBottom="@dimen/black_lato_regular_medium45"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79" >
+
+                    <TextView
+                        android:id="@+id/top_man_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/question_text"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/white_lato_bold_small50" />
 
                     <EditText
                         android:id="@+id/top_man_edittext"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/checkout_edit_height160"
-                        android:layout_weight="8"
+                        android:layout_weight="5"
                         android:background="@drawable/edit_text_background"
                         android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
                         android:padding="@dimen/grey_lato_regular_small26"
@@ -135,39 +136,36 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="2"
+                        android:layout_weight="1"
                         android:paddingLeft="5dp"
                         android:text="@string/lelStr"
                         android:textColor="@color/blackColor"
                         android:textSize="@dimen/black_lato_regular_medium45" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/bottom_man1_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/topManEditTextLayout"
-                    android:layout_marginBottom="@dimen/edit_error_stroke10"
-                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
-                    android:layout_marginRight="@dimen/white_lato_regular_big79"
-                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/white_lato_bold_small50" />
-
                 <LinearLayout
                     android:id="@+id/bottomManEditTextLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/bottom_man1_text"
+                    android:layout_below="@+id/topManEditTextLayout"
+                    android:layout_marginBottom="@dimen/black_lato_regular_medium45"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/bottom_man1_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/white_lato_bold_small50" />
 
                     <EditText
                         android:id="@+id/bottom_man1_edittext"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/checkout_edit_height160"
-                        android:layout_weight="8"
+                        android:layout_weight="5"
                         android:background="@drawable/edit_text_background"
                         android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
                         android:padding="@dimen/grey_lato_regular_small26"
@@ -180,40 +178,37 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="2"
+                        android:layout_weight="1"
                         android:paddingLeft="5dp"
                         android:text="@string/PercentageStr"
                         android:textColor="@color/blackColor"
                         android:textSize="@dimen/black_lato_regular_medium45" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/bottom_man2_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/bottomManEditTextLayout"
-                    android:layout_marginBottom="@dimen/edit_error_stroke10"
-                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
-                    android:layout_marginRight="@dimen/white_lato_regular_big79"
-                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/white_lato_bold_small50" />
-
                 <LinearLayout
                     android:id="@+id/bottomManTwoEditTextLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/bottom_man2_text"
+                    android:layout_below="@+id/bottomManEditTextLayout"
+                    android:layout_marginBottom="@dimen/black_lato_regular_medium45"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/bottom_man2_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/white_lato_bold_small50" />
 
                     <EditText
                         android:id="@+id/bottom_man2_edittext"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/checkout_edit_height160"
                         android:layout_below="@+id/bottom_man2_text"
-                        android:layout_weight="8"
+                        android:layout_weight="5"
                         android:background="@drawable/edit_text_background"
                         android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
                         android:padding="@dimen/grey_lato_regular_small26"
@@ -226,40 +221,36 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="2"
+                        android:layout_weight="1"
                         android:paddingLeft="5dp"
                         android:text="@string/ppmStr"
                         android:textColor="@color/blackColor"
                         android:textSize="@dimen/black_lato_regular_medium45" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/bottom_man3_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/bottomManTwoEditTextLayout"
-                    android:layout_marginBottom="@dimen/edit_error_stroke10"
-                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
-                    android:layout_marginRight="@dimen/white_lato_regular_big79"
-                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/white_lato_bold_small50" />
-
                 <LinearLayout
                     android:id="@+id/bottomManThreeEditTextLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/bottom_man3_text"
+                    android:layout_below="@+id/bottomManTwoEditTextLayout"
+                    android:layout_marginBottom="@dimen/black_lato_regular_medium45"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/bottom_man3_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/white_lato_bold_small50" />
 
                     <EditText
                         android:id="@+id/bottom_man3_edittext"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/checkout_edit_height160"
-                        android:layout_below="@+id/bottom_man3_text"
-                        android:layout_weight="8"
+                        android:layout_weight="5"
                         android:background="@drawable/edit_text_background"
                         android:maxLength="@integer/max_vehicle_reg_no_characetrs_length"
                         android:padding="@dimen/grey_lato_regular_small26"
@@ -272,7 +263,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="2"
+                        android:layout_weight="1"
                         android:paddingLeft="5dp"
                         android:text="@string/ppmStr"
                         android:textColor="@color/blackColor"
@@ -287,45 +278,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical" >
+        android:layout_margin="@dimen/white_lato_regular_big79"
+        android:orientation="horizontal" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height150"
+            android:layout_weight="20"
+            android:background="@drawable/dialog_grey_button"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textColor="@color/lighter_grey"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+        <Button
+            android:id="@+id/space"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/white_lato_regular_big79" >
+            android:layout_weight="4"
+            android:visibility="invisible" />
 
-            <Button
-                android:id="@+id/saveBtn"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_height150"
-                android:layout_weight="20"
-                android:background="@drawable/dialog_grey_button"
-                android:text="@string/save"
-                android:textAllCaps="false"
-                android:textColor="@color/lighter_grey"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
-
-            <Button
-                android:id="@+id/space"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/nextBtn"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_height150"
-                android:layout_weight="20"
-                android:background="@drawable/dark_grey_background"
-                android:text="@string/next"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
-        </LinearLayout>
-
-        <include layout="@layout/copyright_bottom_template" />
+        <Button
+            android:id="@+id/nextBtn"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height150"
+            android:layout_weight="20"
+            android:background="@drawable/dark_grey_background"
+            android:text="@string/next"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 
 </RelativeLayout>

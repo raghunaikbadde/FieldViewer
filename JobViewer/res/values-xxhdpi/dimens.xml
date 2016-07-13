@@ -29,6 +29,7 @@
     <dimen name="white_lato_bold_small50">16.66dp</dimen>
     <dimen name="white_lato_regular_small40">13.33dp</dimen>
     <dimen name="red_lato_bold_big90">30dp</dimen>
+    <dimen name="margin_14">14dp</dimen>
     <dimen name="black_lato_regular_small55">18.33dp</dimen>
     <dimen name="white_lato_regular_big79">26.33dp</dimen>
     <dimen name="grey_lato_regular_small26">8.66dp</dimen>
@@ -44,6 +45,7 @@
 
     <!-- spacing dialog 2 -->
     <dimen name="dialog_width920">306.66dp</dimen>
+    <dimen name="spinner_drop_down_width">250dp</dimen>
     <dimen name="dialog_header_height242">80.66dp</dimen>
     <dimen name="dialog_icon_full_space163">54.33dp</dimen>
     <dimen name="dialog_clock_icon_left_right_margin40">13.33dp</dimen>
@@ -86,7 +88,7 @@
     <dimen name="captured_image_width310">103.33dp</dimen>
     <dimen name="captured_image_height300">100dp</dimen>
     <dimen name="captured_image_widtht420">140dp</dimen>
- <!-- Seems to be an error in specification -->
+    <!-- Seems to be an error in specification -->
     <dimen name="success_bottom_margin135">45dp</dimen>
     <dimen name="done_button_left_right_margin225">75dp</dimen>
     <dimen name="shift_complete_detail_height410">136.66dp</dimen>
@@ -107,6 +109,7 @@
     <dimen name="template_spacing15">5dp</dimen>
     <dimen name="email_top_margin21">7dp</dimen>
     <dimen name="template_spacing27">9dp</dimen>
+    <dimen name="margin_11_dp">11dp</dimen>
     <dimen name="shift_complete_spacing12">4dp</dimen>
     <dimen name="dialog_text_width510">170dp</dimen>
     <dimen name="button_top_margin345">115dp</dimen>

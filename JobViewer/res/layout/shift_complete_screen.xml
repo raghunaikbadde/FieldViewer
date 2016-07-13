@@ -23,8 +23,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/spinner_bottom_margin30"
-                android:layout_marginTop="@dimen/title_number_spacing65"
+                android:layout_marginBottom="@dimen/grey_lato_regular_medium47"
+                android:layout_marginTop="@dimen/grey_lato_regular_medium47"
                 android:text="@string/shift_complete"
                 android:textColor="@color/red"
                 android:textSize="@dimen/title_text_size70" />
@@ -33,8 +33,8 @@
                 android:id="@+id/shiftHoursSummary"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/shout_logo_right_margin388"
-                android:layout_marginLeft="@dimen/white_lato_regular_big79"
-                android:layout_marginRight="@dimen/white_lato_regular_big79"
+                android:layout_marginLeft="@dimen/grey_lato_regular_medium57"
+                android:layout_marginRight="@dimen/grey_lato_regular_medium57"
                 android:background="@drawable/light_gray_background"
                 android:orientation="vertical">
 

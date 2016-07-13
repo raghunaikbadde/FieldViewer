@@ -41,10 +41,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/risk_assess_text"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                    android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:background="#CCCCCC" />
 
                 <LinearLayout
@@ -81,8 +81,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/progress_layout"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/dialog_button_top_margin70"
-                    android:layout_marginTop="@dimen/dialog_button_top_margin70"
+                    android:layout_marginBottom="@dimen/margin_11_dp"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:text="@string/gas_level_updates"
                     android:textColor="@color/red"
                     android:textSize="@dimen/title_text_size70" />
@@ -92,7 +94,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/overhead_text"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
                     android:layout_marginLeft="@dimen/white_lato_regular_big79"
                     android:layout_marginRight="@dimen/white_lato_regular_big79"
                     android:text="@string/gas_level_updates_str"
@@ -105,8 +106,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/question_text"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/title_text_size70"
-                    android:layout_marginTop="@dimen/title_text_size70"
+                    android:layout_marginBottom="@dimen/title_bottom_margin27"
+                    android:layout_marginTop="@dimen/title_bottom_margin27"
                     android:text="@string/next_update_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/white_lato_regular_small40" />
@@ -155,45 +156,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical" >
+        android:layout_margin="@dimen/white_lato_regular_big79"
+        android:orientation="horizontal" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dialog_icon_image_163"
+            android:layout_weight="20"
+            android:background="@drawable/dialog_grey_button"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textColor="@color/lighter_grey"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+        <Button
+            android:id="@+id/space"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/white_lato_regular_big79" >
+            android:layout_weight="4"
+            android:visibility="invisible" />
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dialog_icon_image_163"
-                android:layout_weight="20"
-                android:background="@drawable/dialog_grey_button"
-                android:text="@string/save"
-                android:textAllCaps="false"
-                android:textColor="@color/lighter_grey"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
-
-            <Button
-                android:id="@+id/space"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dialog_icon_image_163"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="20"
-                android:background="@drawable/dark_grey_background"
-                android:text="@string/entry_complete"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/progressbar_top_margin58" />
-        </LinearLayout>
-
-        <include layout="@layout/copyright_bottom_template" />
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dialog_icon_image_163"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="20"
+            android:background="@drawable/dark_grey_background"
+            android:text="@string/entry_complete"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/progressbar_top_margin58" />
     </LinearLayout>
 
 </RelativeLayout>

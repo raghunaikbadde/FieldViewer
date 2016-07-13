@@ -56,10 +56,10 @@ import com.jobviewer.util.Utils;
 import com.jobviewer.util.showTimeDialog;
 import com.jobviewer.util.showTimeDialog.DialogCallback;
 import com.jobviwer.request.object.TimeSheetRequest;
+import com.jobviwer.request.object.WorkRequest;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.fragment.QuestionsActivity;
 import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
-import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 
 public class ActivityPageActivity extends BaseActivity implements
@@ -264,6 +264,8 @@ public class ActivityPageActivity extends BaseActivity implements
 				public void onClick(View v) {
 					Intent checkinIntent = new Intent(v.getContext(),
 							CheckInActivity.class);
+					checkinIntent.putExtra(Utils.CALLING_ACTIVITY, ActivityPageActivity.this
+							.getClass().getSimpleName());
 					startActivity(checkinIntent);
 
 				}

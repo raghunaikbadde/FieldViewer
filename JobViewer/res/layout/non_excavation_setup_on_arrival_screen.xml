@@ -8,7 +8,6 @@
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:fillViewport="true"
         android:isScrollContainer="false" >
 
@@ -41,10 +40,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/non_excavation_text"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                    android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:background="#CCCCCC" />
 
                 <LinearLayout
@@ -81,10 +80,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/progress_layout"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/red_lato_bold_big90"
+                    android:layout_marginBottom="@dimen/margin_11_dp"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginTop="@dimen/red_lato_bold_big90"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:text="@string/set_up_on_arrival_str"
                     android:textColor="@color/red"
                     android:textSize="@dimen/title_text_size70" />
@@ -104,7 +103,7 @@
                 <LinearLayout
                     android:id="@+id/camera_layout"
                     android:layout_width="@dimen/capture_button_width840"
-                    android:layout_height="@dimen/capture_button_height220"
+                    android:layout_height="@dimen/call_customer_button_height180"
                     android:layout_below="@+id/district_text"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/red_background"
@@ -132,16 +131,17 @@
                     android:id="@+id/captured_image"
                     android:layout_width="@dimen/captured_image_width310"
                     android:layout_height="@dimen/capture_button_height220"
+                    android:layout_above="@+id/ll_bottomView"
                     android:layout_below="@+id/camera_layout"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dialog_detail_top_margin80"
                     android:contentDescription="@string/desc" />
 
                 <LinearLayout
+                    android:id="@+id/ll_bottomView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_below="@+id/captured_image"
                     android:layout_margin="@dimen/white_lato_regular_big79" >
 
                     <Button
@@ -176,7 +176,5 @@
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
-
-    <include layout="@layout/copyright_bottom_template" />
 
 </LinearLayout>

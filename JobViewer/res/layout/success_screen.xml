@@ -53,8 +53,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="@dimen/progressbar_top_margin58"
-                        android:layout_marginTop="@dimen/progressbar_top_margin58"
+                        android:layout_marginBottom="@dimen/dialog_edit_top_margin35"
+                        android:layout_marginTop="@dimen/dialog_edit_top_margin35"
                         android:gravity="center_horizontal"
                         android:text="@string/vistec_number"
                         android:textColor="@color/black"
@@ -70,7 +70,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/work_and_photos"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/black_lato_regular_medium45" />
+                        android:textSize="@dimen/margin_14" />
 
                     <TextView
                         android:id="@+id/tap_done_text"
@@ -79,11 +79,11 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="@dimen/white_lato_regular_big79"
                         android:layout_marginRight="@dimen/white_lato_regular_big79"
-                        android:layout_marginTop="@dimen/progressbar_top_margin58"
+                        android:layout_marginTop="@dimen/user_icon_left_padding46"
                         android:gravity="center_horizontal"
                         android:text="@string/tap_done_to_continue"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/black_lato_regular_small55" />
+                        android:textSize="@dimen/margin_14" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
@@ -94,28 +94,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/white_lato_regular_big79"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/white_lato_regular_big79"
-            android:gravity="center_horizontal" >
-
-            <Button
-                android:id="@+id/done_button"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/button_height150"
-                android:background="@drawable/red_background"
-                android:text="@string/done"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
-        </LinearLayout>
-
-        <include layout="@layout/copyright_bottom_template" />
+        <Button
+            android:id="@+id/done_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_height150"
+            android:background="@drawable/red_background"
+            android:text="@string/done"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 
 </RelativeLayout>

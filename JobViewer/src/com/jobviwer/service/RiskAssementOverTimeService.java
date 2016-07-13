@@ -11,7 +11,7 @@ import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
-import com.raghu.UpdateRiskOverTimeAlertDialog;
+import com.lanesgroup.jobviewer.UpdateRiskOverTimeAlertDialog;
 
 public class RiskAssementOverTimeService extends BroadcastReceiver{
 

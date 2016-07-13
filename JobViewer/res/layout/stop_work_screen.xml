@@ -36,10 +36,10 @@
                 android:id="@+id/line1"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="@dimen/white_lato_bold_small50"
+                android:layout_marginTop="@dimen/grey_lato_regular_small35"
                 android:background="#CCCCCC" />
 
             <TextView
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                android:layout_marginBottom="@dimen/title_bottom_margin27"
                 android:text="@string/stop_work"
                 android:textColor="@color/saffron"
                 android:textSize="@dimen/title_text_size70" />
@@ -55,7 +55,7 @@
             <ImageView
                 android:id="@+id/stop_image"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/stop_work_icon_height350"
+                android:layout_height="@dimen/checkbox_detail_height325"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/desc"
                 android:src="@drawable/stop_work_image" />
@@ -65,26 +65,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/dialog_edit_bottom_margin90"
-                android:layout_marginTop="@dimen/dialog_edit_bottom_margin90"
+                android:layout_marginBottom="@dimen/title_bottom_margin27"
+                android:layout_marginTop="@dimen/title_bottom_margin27"
                 android:gravity="center_horizontal"
                 android:text="@string/you_response_indicates"
                 android:textColor="@color/black"
-                android:textSize="@dimen/black_lato_regular_small55" />
+                android:textSize="@dimen/white_lato_bold_small50" />
 
             <TextView
                 android:id="@+id/after_contacting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/text_label_vertical_spacing100"
-                android:layout_marginLeft="@dimen/white_lato_regular_big79"
-                android:layout_marginRight="@dimen/white_lato_regular_big79"
-                android:layout_marginTop="@dimen/black_lato_regular_medium45"
+                android:layout_marginLeft="@dimen/title_bottom_margin27"
+                android:layout_marginRight="@dimen/title_bottom_margin27"
                 android:gravity="center_horizontal"
                 android:text="@string/after_contacting"
                 android:textColor="@color/black"
-                android:textSize="@dimen/black_lato_regular_medium45" />
+                android:textSize="@dimen/white_lato_bold_small50" />
         </LinearLayout>
     </ScrollView>
 
@@ -101,7 +99,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/white_lato_regular_big79" >
+            android:layout_marginBottom="@dimen/white_lato_regular_big79"
+            android:layout_marginLeft="@dimen/white_lato_regular_big79"
+            android:layout_marginRight="@dimen/white_lato_regular_big79"
+            android:layout_marginTop="@dimen/grey_lato_regular_small35" >
 
             <Button
                 android:id="@+id/button1"
@@ -132,8 +133,6 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/dialog_black_lato_regular_small60" />
         </LinearLayout>
-
-        <include layout="@layout/copyright_bottom_template" />
     </LinearLayout>
 
 </RelativeLayout>

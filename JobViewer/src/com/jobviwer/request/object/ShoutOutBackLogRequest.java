@@ -1,4 +1,4 @@
-package com.raghu;
+package com.jobviwer.request.object;
 
 public class ShoutOutBackLogRequest {
 	private String work_id;

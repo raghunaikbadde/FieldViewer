@@ -37,10 +37,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@+id/check_out_text"
-                android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="@dimen/white_lato_bold_small50"
+                android:layout_marginTop="@dimen/grey_lato_regular_small35"
                 android:background="#CCCCCC" />
 
             <LinearLayout
@@ -75,10 +75,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/progress_layout"
-                android:layout_marginBottom="@dimen/white_lato_bold_small50"
-                android:layout_marginLeft="@dimen/white_lato_regular_big79"
-                android:layout_marginRight="@dimen/white_lato_regular_big79"
-                android:layout_marginTop="@dimen/red_lato_bold_big90"
+                android:layout_marginBottom="@dimen/margin_11_dp"
+                android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                android:layout_marginTop="@dimen/black_lato_regular_medium45"
                 android:text="@string/enter_mileage_for_vehicle"
                 android:textColor="@color/black"
                 android:textSize="@dimen/white_lato_bold_small50" />
@@ -150,45 +150,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical" >
+        android:layout_margin="@dimen/white_lato_regular_big79"
+        android:orientation="horizontal" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height150"
+            android:layout_weight="20"
+            android:background="@drawable/dialog_grey_button"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/lighter_grey"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+        <Button
+            android:id="@+id/space"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/white_lato_regular_big79" >
+            android:layout_weight="4"
+            android:visibility="invisible" />
 
-            <Button
-                android:id="@+id/cancel_button"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_height150"
-                android:layout_weight="20"
-                android:background="@drawable/dialog_grey_button"
-                android:text="@string/cancel"
-                android:textAllCaps="false"
-                android:textColor="@color/lighter_grey"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
-
-            <Button
-                android:id="@+id/space"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/next_button"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_height150"
-                android:layout_weight="20"
-                android:background="@drawable/dark_grey_background"
-                android:text="@string/next"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
-        </LinearLayout>
-
-        <include layout="@layout/copyright_bottom_template" />
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height150"
+            android:layout_weight="20"
+            android:background="@drawable/dark_grey_background"
+            android:text="@string/next"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 
 </RelativeLayout>

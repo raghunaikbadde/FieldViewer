@@ -35,7 +35,7 @@ public class EndTravelActivity extends BaseActivity implements
     private TextView mTravelTime, mTitleText, mOverrideText;
     private String TRAVEL_STARTED = "Travel started: ";
     // private String ON_BREAK = "On Break";
-    private String ENROUTE = "Enroute to work";
+    private String ENROUTE = "Enroute to Work";
     // private String BREAK_TIME = "Break started: ";
     // private String END_BREAK = "End Break";
     private String END_TRAVEL = "End travel";

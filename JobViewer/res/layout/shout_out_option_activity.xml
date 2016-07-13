@@ -41,10 +41,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/screenTitle"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                    android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:background="#CCCCCC" />
 
                 <LinearLayout
@@ -84,7 +84,7 @@
                     android:layout_marginBottom="@dimen/actionbar_bottom_margin85"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginTop="@dimen/user_detail_icon_spacing215"
+                    android:layout_marginTop="@dimen/start_break_button_height168"
                     android:text="@string/i_want_to_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
@@ -218,8 +218,6 @@
                     android:textSize="@dimen/dialog_black_lato_regular_small60" />
             </LinearLayout>
         </LinearLayout>
-
-        <include layout="@layout/copyright_bottom_template" />
     </LinearLayout>
 
 </RelativeLayout>

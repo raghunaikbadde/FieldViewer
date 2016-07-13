@@ -74,6 +74,8 @@ import com.jobviewer.network.SendImagesOnBackground;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviwer.request.object.TimeSheetRequest;
+import com.jobviwer.request.object.TimeSheetServiceRequests;
+import com.jobviwer.request.object.WorkPhotoUpload;
 import com.jobviwer.response.object.ImageUploadResponse;
 import com.jobviwer.service.AppKillService;
 import com.lanesgroup.jobviewer.BaseActivity;
@@ -81,8 +83,6 @@ import com.lanesgroup.jobviewer.LauncherActivity;
 import com.lanesgroup.jobviewer.PollutionActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.WelcomeActivity;
-import com.raghu.TimeSheetServiceRequests;
-import com.raghu.WorkPhotoUpload;
 import com.vehicle.communicator.HttpConnection;
 
 public class Utils {
@@ -777,7 +777,7 @@ public class Utils {
 	public static String getTimeInHHMMFromNumberOfMillis(long milliseconds) {
 		String HHMMString = "";
 		if (milliseconds >= 1000) {
-			int seconds = (int) (milliseconds / 1000) % 60;
+			//int seconds = (int) (milliseconds / 1000) % 60;
 			int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
 			int hours = (int) ((milliseconds / (1000 * 60 * 60)));
 			HHMMString = hours + "h " + minutes + "m";
@@ -895,10 +895,11 @@ public class Utils {
 		overTimeAlerts = alert;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static boolean isMyApplicationRunningInForeGround(Context context) {
 		try {
 			ActivityManager am = (ActivityManager) context
-					.getSystemService(context.ACTIVITY_SERVICE);
+					.getSystemService(Context.ACTIVITY_SERVICE);
 			List<ActivityManager.RunningTaskInfo> taskInfo = am
 					.getRunningTasks(1);
 			Log.d(Utils.LOG_TAG, "CURRENT Activity ::"

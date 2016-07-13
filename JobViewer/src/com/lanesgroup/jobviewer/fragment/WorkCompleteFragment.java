@@ -54,14 +54,14 @@ import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
+import com.jobviwer.request.object.WorkPhotoUpload;
+import com.jobviwer.request.object.WorkRequest;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.AddPhotosActivity;
 import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.WorkSuccessActivity;
-import com.raghu.WorkPhotoUpload;
-import com.raghu.WorkRequest;
 import com.vehicle.communicator.HttpConnection;
 
 public class WorkCompleteFragment extends Fragment implements OnClickListener,

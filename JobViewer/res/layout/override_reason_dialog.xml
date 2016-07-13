@@ -97,6 +97,8 @@
                     android:layout_marginBottom="@dimen/dialog_black_lato_regular_small60"
                     android:layout_marginLeft="@dimen/white_lato_regular_small40"
                     android:layout_marginRight="@dimen/white_lato_regular_small40"
+                    android:dropDownWidth="@dimen/spinner_drop_down_width"
+                    android:spinnerMode="dropdown"
                     android:text="@string/newtimestamp"
                     android:textColor="@color/blackColor"
                     android:textSize="@dimen/white_lato_regular_small40" />

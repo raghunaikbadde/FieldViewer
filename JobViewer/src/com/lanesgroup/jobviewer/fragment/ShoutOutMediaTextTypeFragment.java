@@ -46,10 +46,10 @@ import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
+import com.jobviwer.request.object.ShoutOutBackLogRequest;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
-import com.raghu.ShoutOutBackLogRequest;
 import com.vehicle.communicator.HttpConnection;
 
 public class ShoutOutMediaTextTypeFragment extends Fragment implements
@@ -62,7 +62,6 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	private LinearLayout mLinearLayout;
 	private View mRootView;
 	private ImageView mCapturedImage;
-	private int imageCount = 0;
 	public static final int RESULT_OK = -1;
 	private Screen currentScreen;
 	private static File file;
@@ -458,7 +457,6 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 				}
 			}
 			loadImages(Utils.getbyteArrayFromBase64String(imageString));
-			imageCount++;
 			checkAndEnableNextButton();
 
 		}

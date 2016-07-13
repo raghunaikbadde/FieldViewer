@@ -29,10 +29,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginBottom="@dimen/white_lato_bold_small50"
+            android:layout_marginBottom="@dimen/grey_lato_regular_small35"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="@dimen/white_lato_bold_small50"
+            android:layout_marginTop="@dimen/grey_lato_regular_small35"
             android:background="#CCCCCC" />
 
         <TextView
@@ -77,10 +77,10 @@
             android:id="@+id/enter_details_info_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/progressbar_top_margin58"
+            android:layout_marginBottom="@dimen/margin_11_dp"
             android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
             android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-            android:layout_marginTop="@dimen/dialog_detail_top_margin80"
+            android:layout_marginTop="@dimen/black_lato_regular_medium45"
             android:text="@string/enter_detail_str"
             android:textColor="@color/black"
             android:textSize="@dimen/black_lato_regular_small55" />
@@ -335,7 +335,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/white_lato_regular_big79"
+            android:layout_marginLeft="@dimen/white_lato_regular_big79"
+            android:layout_marginRight="@dimen/white_lato_regular_big79"
+            android:layout_marginTop="@dimen/white_lato_regular_big79"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -372,6 +374,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/white_lato_regular_big79"
                 android:layout_marginTop="@dimen/white_lato_regular_big79" >
 
                 <Button
@@ -405,8 +408,6 @@
                     android:textSize="@dimen/dialog_black_lato_regular_small60" />
             </LinearLayout>
         </LinearLayout>
-
-        <include layout="@layout/copyright_bottom_template" />
     </LinearLayout>
 
 </RelativeLayout>

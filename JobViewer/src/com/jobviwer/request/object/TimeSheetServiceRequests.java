@@ -1,4 +1,4 @@
-package com.raghu;
+package com.jobviwer.request.object;
 
 import org.json.JSONException;
 import org.json.JSONObject;

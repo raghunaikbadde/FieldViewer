@@ -41,10 +41,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/title_text"
-                    android:layout_marginBottom="@dimen/progressbar_top_margin58"
+                    android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="@dimen/progressbar_top_margin58"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:background="#CCCCCC" />
 
                 <TextView
@@ -91,10 +91,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/progress_layout"
-                    android:layout_marginBottom="@dimen/red_lato_bold_big90"
+                    android:layout_marginBottom="@dimen/margin_11_dp"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginTop="@dimen/red_lato_bold_big90"
+                    android:layout_marginTop="@dimen/black_lato_regular_medium45"
                     android:text="@string/take_a_picture"
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
@@ -102,12 +102,11 @@
                 <Button
                     android:id="@+id/capture_vistec"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/copyright_right_margin212"
+                    android:layout_height="@dimen/call_customer_button_height180"
                     android:layout_below="@+id/take_a_pic_text"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="@dimen/user_detail_left_spacing140"
                     android:layout_marginRight="@dimen/user_detail_left_spacing140"
-                    android:layout_marginTop="@dimen/dialog_edit_top_margin35"
                     android:background="@drawable/red_background"
                     android:text="@string/capture_vistec_screen"
                     android:textAllCaps="false"
@@ -122,45 +121,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical" >
+        android:layout_margin="@dimen/white_lato_regular_big79"
+        android:orientation="horizontal" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height150"
+            android:layout_weight="20"
+            android:background="@drawable/dialog_grey_button"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textColor="@color/lighter_grey"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
+
+        <Button
+            android:id="@+id/space"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/white_lato_regular_big79" >
+            android:layout_weight="4"
+            android:visibility="invisible" />
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_height150"
-                android:layout_weight="20"
-                android:background="@drawable/dialog_grey_button"
-                android:text="@string/save"
-                android:textAllCaps="false"
-                android:textColor="@color/lighter_grey"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
-
-            <Button
-                android:id="@+id/space"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_height150"
-                android:layout_weight="20"
-                android:background="@drawable/red_background"
-                android:text="@string/next"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/dialog_black_lato_regular_small60" />
-        </LinearLayout>
-
-        <include layout="@layout/copyright_bottom_template" />
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height150"
+            android:layout_weight="20"
+            android:background="@drawable/red_background"
+            android:text="@string/next"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dialog_black_lato_regular_small60" />
     </LinearLayout>
 
 </RelativeLayout>

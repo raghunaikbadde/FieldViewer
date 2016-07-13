@@ -42,9 +42,10 @@ import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
+import com.jobviwer.request.object.WorkRequest;
 import com.jobviwer.response.object.JVResponse;
 import com.jobviwer.response.object.User;
-import com.raghu.WorkRequest;
+import com.lanesgroup.ui.InputEditText;
 import com.vehicle.communicator.HttpConnection;
 
 public class NewWorkActivity extends BaseActivity implements OnClickListener,
@@ -53,9 +54,9 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,
 	static Context context;
 	static int progress = 100 / 5;
 	// private EditText mDistrict1;
-	private static EditText mDistrict2;
-	private static EditText mTaskNumber1;
-	private static EditText mTaskNumber2;
+	private static InputEditText mDistrict2;
+	private static InputEditText mTaskNumber1;
+	private static InputEditText mTaskNumber2;
 	private static Button mNext;
 	private ProgressBar mProgress;
 	private TextView mProgressStep;
@@ -89,15 +90,21 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,
 		int top = 0;
 		int right = error_indicator.getIntrinsicHeight();
 		int bottom = error_indicator.getIntrinsicWidth();
+		editText.setCompoundDrawablePadding(5);
 		error_indicator.setBounds(new Rect(left, top, right, bottom));
+
 		switch (editText.getId()) {
 		case R.id.distric2_edittext:
+
 			mDistrict2.setError("Enter 2 digits", error_indicator);
+
 			break;
 		case R.id.distric3_edittext:
+
 			mTaskNumber1.setError("Enter 2 digits", error_indicator);
 			break;
 		case R.id.distric4_edittext:
+
 			mTaskNumber2.setError("Enter 4 letters or digits", error_indicator);
 			break;
 
@@ -132,9 +139,9 @@ public class NewWorkActivity extends BaseActivity implements OnClickListener,
 		mProgressStep = (TextView) findViewById(R.id.progress_step_text);
 		mPollutionCheckBox = (CheckBox) findViewById(R.id.pollutionCheckBox);
 		// mDistrict1 = (EditText) findViewById(R.id.distric1_edittext);
-		mDistrict2 = (EditText) findViewById(R.id.distric2_edittext);
-		mTaskNumber1 = (EditText) findViewById(R.id.distric3_edittext);
-		mTaskNumber2 = (EditText) findViewById(R.id.distric4_edittext);
+		mDistrict2 = (InputEditText) findViewById(R.id.distric2_edittext);
+		mTaskNumber1 = (InputEditText) findViewById(R.id.distric3_edittext);
+		mTaskNumber2 = (InputEditText) findViewById(R.id.distric4_edittext);
 		mCancel = (Button) findViewById(R.id.button1);
 		mCancel.setOnClickListener(this);
 		mNext = (Button) findViewById(R.id.button2);

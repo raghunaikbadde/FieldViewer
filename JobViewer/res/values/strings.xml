@@ -217,7 +217,7 @@
     <string name="override_reason_d">Override reason:</string>
     <string name="assessmentCompleteTitle">Risk Assessment Complete</string>
     <string name="assessmentCompleteMsg">You may now continue with the necessary work, remember to capture images as you go!</string>
-    <string name="remember_to_capture_images">Remember to capture images as you go!</string>
+    <string name="remember_to_capture_images">Remember to capture images as \nyou go!</string>
     <string name="pollutionScreenTitle">Pollution Report</string>
     <string name="pollution_progress">Step 4 of 6</string>
     <string name="add_photo_with_out_pollution_progress">Step 4 of 5</string>
@@ -246,13 +246,14 @@
     <string name="describe_the_example_of_good_safety_or_your_idea">Describe good safety or your idea</string>
     <string name="shout_about_safety">Shout About Safety</string>
     <string name="survey_complete">Survey Complete</string>
-    <string name="on_break">On break</string>
+    <string name="on_break">On Break</string>
     <string name="shout_msg">Thank you for helping to make our workplace safer!</string>
     <string name="tap_done_to_continue_1">Tap \'Done\' to continue</string>
     <string name="site_photo">Site Photo</string>
     <string name="pollution_detail">Provide all details below</string>
     <string name="caution">Caution</string>
     <string name="update_gas_levels">Update gas levels</string>
+    <string name="enter_vehicle_detail_on_call">Enter details for the vehicle you will be using whilst on-call</string>
 
     <string-array name="override_reason_comment">
         <item>Forgot to clock in/out on time</item>
@@ -443,5 +444,7 @@
     <string name="alertUpdateRiskAssementHeader">Update Risk Assessment</string>
     <string name="select_map_type">Select Map Type</string>
     <string name="noVechicleChecked">No vehicle checked-out</string>
+    <string name="check_in_screen_return_vehicle">Step 1 of 1</string>
     <string name="resumeConifinedActivity">Resume confirmed space entry</string>
+
 </resources>

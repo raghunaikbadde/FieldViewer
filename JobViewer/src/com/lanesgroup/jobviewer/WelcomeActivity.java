@@ -1,44 +1,26 @@
 package com.lanesgroup.jobviewer;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 
 import com.jobviewer.comms.CommsConstant;
-import com.jobviewer.db.objects.BackLogRequest;
 import com.jobviewer.db.objects.CheckOutObject;
 import com.jobviewer.db.objects.ShoutAboutSafetyObject;
-import com.jobviewer.exception.ExceptionHandler;
-import com.jobviewer.exception.IDialogListener;
-import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
-import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
-import com.jobviwer.response.object.StartUpResponse;
-import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.fragment.ShoutOutActivity;
-import com.raghu.StartUpRequest;
-import com.vehicle.communicator.HttpConnection;
 
 public class WelcomeActivity extends BaseActivity {
-	private CheckBox shift, onCall;
 	private String selected;
-	private Button cancel, start;
-	private OnCheckedChangeListener checkChangedListner;
 	private Context context;
 	private ImageView shout_about_image;
 

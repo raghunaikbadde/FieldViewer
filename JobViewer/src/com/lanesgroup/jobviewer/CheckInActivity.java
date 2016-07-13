@@ -23,8 +23,8 @@ import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.Utils;
+import com.jobviwer.request.object.VehicleCheckInOut;
 import com.jobviwer.response.object.User;
-import com.raghu.VehicleCheckInOut;
 import com.vehicle.communicator.HttpConnection;
 
 public class CheckInActivity extends BaseActivity implements
@@ -34,6 +34,8 @@ public class CheckInActivity extends BaseActivity implements
 	private EditText enter_mileage_edittext;
 	private Button cancel_button, next_button;
 	private CheckOutObject checkOutRemember;
+	private String callingFrom = "";
+	private TextView progress_step_text;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,15 @@ public class CheckInActivity extends BaseActivity implements
 		cancel_button = (Button) findViewById(R.id.cancel_button);
 		next_button = (Button) findViewById(R.id.next_button);
 		cancel_button.setOnClickListener(this);
+		progress_step_text = (TextView) findViewById(R.id.progress_step_text);
+		Bundle bundle = getIntent().getExtras();
+		if (bundle != null && bundle.containsKey(Utils.CALLING_ACTIVITY)) {
+			callingFrom = bundle.getString(Utils.CALLING_ACTIVITY);
+		}
+		if (callingFrom.contains("ActivityPageActivity")) {
+			progress_step_text.setText(Utils.PROGRESS_1_TO_1);
+		}
+
 		updateData();
 	}
 
@@ -75,11 +86,11 @@ public class CheckInActivity extends BaseActivity implements
 
 			@Override
 			public void afterTextChanged(Editable s) {
-//				if (s.toString().length() > 1) {
-//					enableNextButton(true);
-//				} else {
-//					enableNextButton(false);
-//				}
+				// if (s.toString().length() > 1) {
+				// enableNextButton(true);
+				// } else {
+				// enableNextButton(false);
+				// }
 
 			}
 		});

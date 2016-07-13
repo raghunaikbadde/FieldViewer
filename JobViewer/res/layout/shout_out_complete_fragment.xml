@@ -104,8 +104,6 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/dialog_black_lato_regular_small60" />
         </LinearLayout>
-
-        <include layout="@layout/copyright_bottom_template" />
     </LinearLayout>
 
 </RelativeLayout>

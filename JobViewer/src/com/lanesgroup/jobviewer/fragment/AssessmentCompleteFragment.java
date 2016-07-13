@@ -33,13 +33,12 @@ import com.jobviewer.util.ActivityConstants;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.Utils;
+import com.jobviwer.request.object.ShoutOutBackLogRequest;
 import com.jobviwer.response.object.User;
 import com.jobviwer.service.RiskAssementOverTimeService;
-import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.AddPhotosActivity;
 import com.lanesgroup.jobviewer.PollutionActivity;
 import com.lanesgroup.jobviewer.R;
-import com.raghu.ShoutOutBackLogRequest;
 import com.vehicle.communicator.HttpConnection;
 
 public class AssessmentCompleteFragment extends Fragment implements

@@ -41,10 +41,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/clockin_text"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
+                    android:layout_marginBottom="@dimen/grey_lato_regular_small35"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="@dimen/white_lato_bold_small50"
+                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
                     android:background="#CCCCCC" />
 
                 <LinearLayout
@@ -80,10 +80,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/progress_layout"
-                    android:layout_marginBottom="@dimen/white_lato_bold_small50"
-                    android:layout_marginLeft="@dimen/white_lato_regular_big79"
-                    android:layout_marginRight="@dimen/white_lato_regular_big79"
-                    android:layout_marginTop="@dimen/red_lato_bold_big90"
+                    android:layout_marginBottom="@dimen/margin_11_dp"
+                    android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginRight="@dimen/dialog_detail_top_margin80"
+                    android:layout_marginTop="@dimen/black_lato_regular_medium45"
                     android:text="@string/confirm_the_info_str"
                     android:textColor="@color/black"
                     android:textSize="@dimen/black_lato_regular_small55" />
@@ -190,7 +190,7 @@
         android:id="@+id/bottombutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/footerView"
+        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/white_lato_regular_big79" >
 
         <CheckBox
@@ -207,7 +207,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/confirm_checkbox"
-            android:layout_marginTop="@dimen/white_lato_regular_big79" >
+            android:layout_marginTop="@dimen/grey_lato_regular_small35" >
 
             <Button
                 android:id="@+id/back"
@@ -239,12 +239,5 @@
                 android:textSize="@dimen/dialog_black_lato_regular_small60" />
         </LinearLayout>
     </RelativeLayout>
-
-    <include
-        android:id="@+id/footerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        layout="@layout/copyright_bottom_template" />
 
 </RelativeLayout>

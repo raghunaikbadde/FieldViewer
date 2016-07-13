@@ -41,7 +41,7 @@
             <Button
                 android:id="@+id/clock_in"
                 android:layout_width="@dimen/clock_in_button_width628"
-                android:layout_height="@dimen/user_detail_height223"
+                android:layout_height="@dimen/call_customer_button_height180"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/black_lato_regular_big66"
                 android:background="@drawable/red_background"
