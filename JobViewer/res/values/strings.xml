@@ -442,5 +442,6 @@
     <string name="alertUpdateRiskAssementMsg2">hours ago. Has the situation changed? Tap \'Update\' if you need to update your previous risk assessment.</string>
     <string name="alertUpdateRiskAssementHeader">Update Risk Assessment</string>
     <string name="select_map_type">Select Map Type</string>
-
+    <string name="noVechicleChecked">No vehicle checked-out</string>
+    <string name="resumeConifinedActivity">Resume confirmed space entry</string>
 </resources>
