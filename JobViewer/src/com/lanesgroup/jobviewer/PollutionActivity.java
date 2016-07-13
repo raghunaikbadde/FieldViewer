@@ -936,7 +936,6 @@ public class PollutionActivity extends BaseActivity implements
 				if (!extentOfWaterPollution.contains("Select")
 						&& !waterBoddyEffected.contains("Select")
 						&& waterPollutants.length != 0
-						&& !ammoniaStr.contains("Select")
 						&& !fishKillStr.contains("Select")) {
 					if (!indicativeCasueStr.contains("Select")) {
 						enableNextButton(true);

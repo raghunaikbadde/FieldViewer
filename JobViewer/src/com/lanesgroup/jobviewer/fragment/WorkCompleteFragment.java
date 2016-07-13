@@ -101,6 +101,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 		mSharedPref = new JobViewerSharedPref();
 
 		Utils.workEndTimeSheetRequest = new TimeSheetRequest();
+		
 		return mRootView;
 	}
 
@@ -153,6 +154,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 				.findViewById(R.id.spinnerLayout_flood);
 		mSpinnerSelectedText = (TextView) mRootView
 				.findViewById(R.id.spinner_selected);
+		mSpinnerSelectedText.addTextChangedListener(this);
 		mSpinnerSelectedFloodedText = (TextView) mRootView
 				.findViewById(R.id.spinner_selected_flood);
 
@@ -172,6 +174,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 		mCaptureCallingCard.setClickable(true);
 		mCaptureCallingCard.setOnClickListener(this);
 		mSave = (Button) mRootView.findViewById(R.id.button1);
+		mSave.setOnClickListener(this);
 		mLeaveSite = (Button) mRootView.findViewById(R.id.button2);
 
 		mLeaveSite.setOnClickListener(this);
@@ -662,11 +665,13 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 
 	private void updatePipeDiamterAndLength() {
 		if (mPipeDiameterEditText.getVisibility() == View.VISIBLE) {
+
 			mPipeDiameter = mPipeDiameterEditText.getText().toString();
 		} else {
 			mPipeDiameterEditText.setVisibility(View.VISIBLE);
 		}
 		if (mPipeLengthEditText.getVisibility() == View.VISIBLE) {
+
 			mPipeLength = mPipeLengthEditText.getText().toString();
 		} else {
 			mPipeLengthEditText.setVisibility(View.VISIBLE);
