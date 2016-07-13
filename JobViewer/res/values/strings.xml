@@ -96,7 +96,7 @@
     <string name="flooding_status">Flooding Status</string>
     <string name="blockage">Blockage</string>
     <string name="cctv">CCTV</string>
-    <string name="line_clean">Line Clean</string>
+    <string name="line_clean">Line clean</string>
     <string name="pump_down">Pump Down</string>
     <string name="sfoc">SFOC</string>
     <string name="clean_up">Clean Up</string>
