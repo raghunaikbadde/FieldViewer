@@ -330,6 +330,9 @@ public class ActivityPageActivity extends BaseActivity implements
 						.getIsSavedOnAddPhotoScreen())) {
 					Intent addPhotoScreenIntent = new Intent(mContext,
 							AddPhotosActivity.class);
+					Bundle bundle = getIntent().getExtras();
+					if(bundle != null && bundle.containsKey(Constants.KEY_IS_FROM_POLLUTION) )					
+						addPhotoScreenIntent.putExtra(Constants.KEY_IS_FROM_POLLUTION, true);
 					Bundle addPhotoScreenIntentBundle = new Bundle();
 					addPhotoScreenIntentBundle.putString(
 							Utils.CALLING_ACTIVITY,
@@ -342,6 +345,9 @@ public class ActivityPageActivity extends BaseActivity implements
 										ActivityConstants.ADD_PHOTOS_ACTIVITY)) {
 					Intent addPhotoScreenIntent = new Intent(mContext,
 							AddPhotosActivity.class);
+					Bundle bundle = getIntent().getExtras();
+					if(bundle != null && bundle.containsKey(Constants.KEY_IS_FROM_POLLUTION) )					
+						addPhotoScreenIntent.putExtra(Constants.KEY_IS_FROM_POLLUTION, true);
 					Bundle addPhotoScreenIntentBundle = new Bundle();
 					addPhotoScreenIntentBundle.putString(
 							Utils.CALLING_ACTIVITY,
@@ -1115,7 +1121,11 @@ public class ActivityPageActivity extends BaseActivity implements
 				R.layout.work_options_dialog, null);
 
 		ListView listView = (ListView) view.findViewById(R.id.list);
-
+		SurveyJson ConfinedQuestionSet = JobViewerDBHandler
+				.getConfinedQuestionSet(this);
+		if(ConfinedQuestionSet!=null&& !Utils.isNullOrEmpty(ConfinedQuestionSet.getQuestionJson())) {
+			Utils.mWorkOptions[0] = getResources().getString(R.string.resumeConifinedActivity);
+		}
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 				getApplicationContext(), android.R.layout.simple_list_item_1,
 				Utils.mWorkOptions) {

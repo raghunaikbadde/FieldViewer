@@ -72,17 +72,13 @@ public class UpdateRiskOverTimeAlertDialog extends Activity {
 		if(Utils.updateRiskAssementOverTimeAlerts == null){
 			Utils.updateRiskAssementOverTimeAlerts = builder.create();
 		}
-		if(checkWhetherToShowAlert()){
-			cancelTwelveHourOverTimeAlerts();
-			if(!Utils.updateRiskAssementOverTimeAlerts.isShowing()){
-				Utils.updateRiskAssementOverTimeAlerts.show();	
-			} else{
-				Utils.updateRiskAssementOverTimeAlerts.dismiss();
-				Utils.updateRiskAssementOverTimeAlerts = builder.create();
-				Utils.updateRiskAssementOverTimeAlerts.show();
-			}
+		cancelTwelveHourOverTimeAlerts();
+		if(!Utils.updateRiskAssementOverTimeAlerts.isShowing()){
+			Utils.updateRiskAssementOverTimeAlerts.show();	
 		} else{
-			finish();
+			Utils.updateRiskAssementOverTimeAlerts.dismiss();
+			Utils.updateRiskAssementOverTimeAlerts = builder.create();
+			Utils.updateRiskAssementOverTimeAlerts.show();
 		}
 		
 	}
@@ -98,22 +94,5 @@ public class UpdateRiskOverTimeAlertDialog extends Activity {
 			
 		}
 	}
-	private boolean checkWhetherToShowAlert(){
-		long presetnMillis = System.currentTimeMillis();
-		long riskAssessmentEndTime = 0;
-		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(this);
-		try{
-			
-			riskAssessmentEndTime = Long.valueOf(breakShiftTravelCall.getRiskAssessmentEndTime());
-		}catch(Exception e){
-			riskAssessmentEndTime = 0;
-		}
-		
-		
-		long seconds = (presetnMillis-riskAssessmentEndTime)/1000;
-		long minutes = seconds/60;
-//		int hours = (int)(minutes/60);
-		int thresHold = (int)(Utils.RISK_ASSMENET_OVETTIME_ALERT_TOGGLE/1000);
-		return seconds >= thresHold;
-	}
+
 }

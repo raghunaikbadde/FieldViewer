@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.jobviewer.db.objects.BreakShiftTravelCall;
 import com.jobviewer.provider.JobViewerDBHandler;
 import com.jobviewer.util.Constants;
 import com.jobviewer.util.Utils;
@@ -43,12 +44,36 @@ public class OverTimeAlertService extends BroadcastReceiver {
             i.putExtra(Constants.ALARM_OVERTIME_NUMBER_OF_HOURS,
                     repeating_alram_count);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
+            if(checkWhetherToShowAlert(context))
+            	context.startActivity(i);
         } catch (JSONException JSOE) {
             JSOE.printStackTrace();
         }
 
     }
-
+    private boolean checkWhetherToShowAlert(Context context){
+		long presetnMillis = System.currentTimeMillis();
+		long shiftStartTime = 0;
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(context);
+		try{
+			
+			shiftStartTime = Long.valueOf(breakShiftTravelCall.getShiftStartTime());
+		}catch(Exception e){
+			shiftStartTime = 0;
+		}
+		
+		try{
+			if(shiftStartTime == 0)
+				shiftStartTime = Long.valueOf(breakShiftTravelCall.getCallStartTime());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		long seconds = (presetnMillis-shiftStartTime)/1000;
+		long minutes = seconds/60;
+//		int hours = (int)(minutes/60);
+		int thresHold = (int)(Utils.OVETTIME_ALERT_TOGGLE/1000);
+		return seconds >= thresHold;
+	}
 
 }

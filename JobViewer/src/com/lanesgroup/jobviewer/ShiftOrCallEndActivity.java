@@ -2,6 +2,7 @@ package com.lanesgroup.jobviewer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -98,8 +99,8 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 							.getTimeInHHMMFromNumberOfMillis(numberOfWorkHoursinMillis);
 					mWorkHours.setText(workHours);
 				}
-
-//				mNumberOfWork.setText("1");
+				
+				mNumberOfWork.setText(getNumberOfWorksCompleted());
 			} catch (Exception e) {
 				mWorkHours.setText("0h 0m");
 				mNumberOfWork.setText("0");
@@ -156,5 +157,17 @@ public class ShiftOrCallEndActivity extends BaseActivity implements
 		JobViewerDBHandler.deleteBreakTravelShiftCallTable(this);
 		closeApplication();
 	}
-
+	private String getNumberOfWorksCompleted(){
+		
+		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(this);
+		String noOfWorksCompleted = breakShiftTravelCall.getNoOfWorksCompleted();
+		int counterForNoOfWorks = 0;
+		try{
+			counterForNoOfWorks = Integer.valueOf(noOfWorksCompleted);
+		}catch(NumberFormatException nfe){
+			counterForNoOfWorks = 0;
+			Log.d(Utils.LOG_TAG,"Numbre format Exception while converting the db numberOfWorks message"+nfe.toString());
+		}
+		return String.valueOf(counterForNoOfWorks);
+	}
 }

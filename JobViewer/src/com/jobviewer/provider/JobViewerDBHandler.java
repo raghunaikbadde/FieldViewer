@@ -863,6 +863,10 @@ public class JobViewerDBHandler {
 		values.put(
 				JobViewerProviderContract.BreakTravelShiftCallTable.RISK_ASSESSMENT_END_TIME,
 				breakShiftTravelCall.getRiskAssessmentEndTime());
+		values.put(
+				JobViewerProviderContract.BreakTravelShiftCallTable.NO_OF_WORKS_COMPLETED,
+				breakShiftTravelCall.getNoOfWorksCompleted());
+		
 		context.getContentResolver()
 				.insert(JobViewerProviderContract.BreakTravelShiftCallTable.CONTENT_URI,
 						values);
@@ -939,6 +943,10 @@ public class JobViewerDBHandler {
 			breakShiftTravelCall
 					.setRiskAssessmentEndTime(cursor.getString(cursor
 							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.RISK_ASSESSMENT_END_TIME)));
+			
+			breakShiftTravelCall
+					.setNoOfWorksCompleted(cursor.getString(cursor
+							.getColumnIndex(JobViewerProviderContract.BreakTravelShiftCallTable.NO_OF_WORKS_COMPLETED)));
 
 		}
 		cursor.close();

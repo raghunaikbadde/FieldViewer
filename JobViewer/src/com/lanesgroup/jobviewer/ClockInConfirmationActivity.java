@@ -135,9 +135,15 @@ public class ClockInConfirmationActivity extends BaseActivity implements
 				mMileage.setText(extras
 						.getString(ActivityConstants.VEHICLE_REGISTRATION_NUMBER)
 						+ " ( mileage " + mileage + " )");
+				if(Utils.isNullOrEmpty( mileage)){
+					mMileage.setText(getResources().getString(R.string.noVechicleChecked));
+				}
 			} else {
 				mMileage.setText(Utils.checkOutObject.getVehicleRegistration()
 						+ " ( mileage " + Utils.checkOutObject.getMilage() + " )");
+				if(Utils.isNullOrEmpty( Utils.checkOutObject.getMilage())){
+					mMileage.setText(getResources().getString(R.string.noVechicleChecked));
+				}
 				mDivider.setVisibility(View.VISIBLE);
 			}
 		}

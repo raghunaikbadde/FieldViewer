@@ -55,7 +55,9 @@ import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.response.object.User;
+import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.AddPhotosActivity;
+import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.WorkSuccessActivity;
 import com.raghu.WorkPhotoUpload;
@@ -216,6 +218,10 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 			checkOutRemember.setIsSavedOnWorkCompleteScreen("true");
 			JobViewerDBHandler.saveCheckOutRemember(getActivity(),
 					checkOutRemember);
+			  Intent intent = new Intent(view.getContext(),
+                      ActivityPageActivity.class);
+              intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+              startActivity(intent);
 		} else if (view == mLeaveSite) {
 			// Upload Photos here// if calling card available
 			selectedActivityText = mSpinnerSelectedText.getText().toString();

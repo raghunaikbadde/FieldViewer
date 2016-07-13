@@ -65,41 +65,13 @@ public class AlertDialogActivity extends Activity {
 		if(Utils.overTimeAlerts == null){
 			Utils.overTimeAlerts = builder.create();
 		}
-		if(checkWhetherToShowAlert()){
-			if(!Utils.overTimeAlerts.isShowing()){
-				Utils.overTimeAlerts.show();	
-			} else {
-				Utils.overTimeAlerts.dismiss();
-				Utils.overTimeAlerts = builder.create();
-				Utils.overTimeAlerts.show();
-			}
-		} else{
-			finish();
+		if(!Utils.overTimeAlerts.isShowing()){
+			Utils.overTimeAlerts.show();	
+		} else {
+			Utils.overTimeAlerts.dismiss();
+			Utils.overTimeAlerts = builder.create();
+			Utils.overTimeAlerts.show();
 		}
 		
-	}
-	private boolean checkWhetherToShowAlert(){
-		long presetnMillis = System.currentTimeMillis();
-		long shiftStartTime = 0;
-		BreakShiftTravelCall breakShiftTravelCall = JobViewerDBHandler.getBreakShiftTravelCall(this);
-		try{
-			
-			shiftStartTime = Long.valueOf(breakShiftTravelCall.getShiftStartTime());
-		}catch(Exception e){
-			shiftStartTime = 0;
-		}
-		
-		try{
-			if(shiftStartTime == 0)
-				shiftStartTime = Long.valueOf(breakShiftTravelCall.getCallStartTime());
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		long seconds = (presetnMillis-shiftStartTime)/1000;
-		long minutes = seconds/60;
-//		int hours = (int)(minutes/60);
-		int thresHold = (int)(Utils.OVETTIME_ALERT_TOGGLE/1000);
-		return seconds >= thresHold;
 	}
 }
