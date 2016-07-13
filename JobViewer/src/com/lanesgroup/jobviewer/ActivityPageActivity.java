@@ -378,6 +378,11 @@ public class ActivityPageActivity extends BaseActivity implements
 					Intent vistecIntent = new Intent(this,
 							CaptureVistecActivity.class);
 					startActivity(vistecIntent);
+				} else if(bundle != null
+						&& bundle.containsKey(Constants.SAVED_FROM_WORK_COMPLETE)){
+					Intent riskAssIntent = new Intent(mContext,
+							AddPhotosActivity.class);
+					startActivity(riskAssIntent);
 				} else if (!Utils.isNullOrEmpty(checkOutRemember
 						.getAssessmentSelected())) {
 					Intent riskAssIntent = new Intent(mContext,

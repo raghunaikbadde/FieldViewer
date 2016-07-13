@@ -71,5 +71,6 @@ public class Constants {
 
     public static final String FLAG_OVERTIME_UPDATE_RISK = "OVERTIME_UPDATE_RISK";
     public static final String UPDATE_PREV_RISK_ASMT_FLAG_POLLUTION_SKIP = "UPDATE_PREV_RISK_ASMT_FLAG_POLLUTION_SKIP";
+    public static final String SAVED_FROM_WORK_COMPLETE = "SAVED_FROM_WORK_COMPLETE";
 
 }
