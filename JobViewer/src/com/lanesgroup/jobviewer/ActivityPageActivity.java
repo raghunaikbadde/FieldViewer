@@ -368,6 +368,12 @@ public class ActivityPageActivity extends BaseActivity implements
 							ActivityConstants.ACTIVITY_PAGE_ACTIVITY);
 					addPhotoScreenIntent.putExtras(addPhotoScreenIntentBundle);
 					startActivity(addPhotoScreenIntent);
+				} else if(bundle != null
+						&& bundle.containsKey(Constants.SAVED_FROM_WORK_COMPLETE)){
+					Intent riskAssIntent = new Intent(mContext,
+							AddPhotosActivity.class);
+					riskAssIntent.putExtra(Constants.SAVED_FROM_WORK_COMPLETE, true);
+					startActivity(riskAssIntent);
 				} else if (questionSet != null
 						&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
 					Intent riskAssIntent = new Intent(mContext,
@@ -378,12 +384,7 @@ public class ActivityPageActivity extends BaseActivity implements
 					Intent vistecIntent = new Intent(this,
 							CaptureVistecActivity.class);
 					startActivity(vistecIntent);
-				} else if(bundle != null
-						&& bundle.containsKey(Constants.SAVED_FROM_WORK_COMPLETE)){
-					Intent riskAssIntent = new Intent(mContext,
-							AddPhotosActivity.class);
-					startActivity(riskAssIntent);
-				} else if (!Utils.isNullOrEmpty(checkOutRemember
+				}  else if (!Utils.isNullOrEmpty(checkOutRemember
 						.getAssessmentSelected())) {
 					Intent riskAssIntent = new Intent(mContext,
 							RiskAssessmentActivity.class);

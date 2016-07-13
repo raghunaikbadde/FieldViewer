@@ -221,6 +221,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 			  Intent intent = new Intent(view.getContext(),
                       ActivityPageActivity.class);
 			  intent.putExtra(Constants.SAVED_FROM_WORK_COMPLETE, true);
+			  intent.putExtra(Constants.UPDATE_PREV_RISK_ASMT_FLAG_POLLUTION_SKIP, true);
               intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
               startActivity(intent);
 		} else if (view == mLeaveSite) {

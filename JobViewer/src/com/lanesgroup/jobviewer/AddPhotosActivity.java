@@ -83,6 +83,10 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			isPollutionReport = extras
 					.getBoolean(Constants.KEY_IS_FROM_POLLUTION);
 		}
+		if (extras != null
+				&& extras.containsKey(Constants.SAVED_FROM_WORK_COMPLETE)) {
+			showWorkCompleteFragemnt();
+		}
 		initUI();
 	}
 
@@ -144,6 +148,7 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		} else {
 			enableLeaveSiteButton(false);
 		}
+		
 	}
 
 	@Override
