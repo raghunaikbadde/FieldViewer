@@ -87,7 +87,7 @@ public class StopNoCustomerFragment extends Fragment implements
 
 
         } else if (v.getId() == mResumeButton.getId()) {
-        	QuestionManager.getInstance().loadPreviousFragmentOnResume();
+        	QuestionManager.getInstance().loadCustomerPresentFragment();
 
         }
     }

@@ -219,4 +219,8 @@ public class QuestionManager {
         }
 
     }
+    public void loadCustomerPresentFragment(){
+        isBackPressed = true;
+        loadNextFragment("3");
+    }
 }
