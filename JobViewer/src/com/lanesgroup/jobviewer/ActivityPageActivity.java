@@ -328,6 +328,8 @@ public class ActivityPageActivity extends BaseActivity implements
 						.getCheckOutRemember(mContext);
 				SurveyJson questionSet = JobViewerDBHandler
 						.getQuestionSet(mContext);
+				SurveyJson confinedQuestionSet = JobViewerDBHandler
+						.getConfinedQuestionSet(mContext);
 				if ("true".equalsIgnoreCase(checkOutRemember
 						.getIsSavedOnAddPhotoScreen())) {
 					Intent addPhotoScreenIntent = new Intent(mContext,
@@ -373,6 +375,9 @@ public class ActivityPageActivity extends BaseActivity implements
 							AddPhotosActivity.class);
 					riskAssIntent.putExtra(Constants.SAVED_FROM_WORK_COMPLETE, true);
 					startActivity(riskAssIntent);
+				} else if (confinedQuestionSet != null
+						&& !Utils.isNullOrEmpty(confinedQuestionSet.getQuestionJson())) {
+					startConfinedActivity();
 				} else if (questionSet != null
 						&& !Utils.isNullOrEmpty(questionSet.getQuestionJson())) {
 					Intent riskAssIntent = new Intent(mContext,
@@ -1161,14 +1166,7 @@ public class ActivityPageActivity extends BaseActivity implements
 					int position, long arg3) {
 				switch (position) {
 				case 0:
-					Intent confinedWorkintent = new Intent(
-							ActivityPageActivity.this,
-							ConfinedAssessmentQuestionsActivity.class);
-					insertConfinedSpaceEntryStartedTime();
-					confinedWorkintent.putExtra(Constants.CALLING_ACTIVITY,
-							ActivityPageActivity.this.getClass()
-									.getSimpleName());
-					startActivity(confinedWorkintent);
+					startConfinedActivity();
 					break;
 				case 1:
 					ConfirmDialog confirmDialog = new ConfirmDialog(context,
@@ -1185,9 +1183,19 @@ public class ActivityPageActivity extends BaseActivity implements
 				}
 				dialog.dismiss();
 			}
+
 		});
 	}
-	
+	private void startConfinedActivity() {
+		Intent confinedWorkintent = new Intent(
+				ActivityPageActivity.this,
+				ConfinedAssessmentQuestionsActivity.class);
+		insertConfinedSpaceEntryStartedTime();
+		confinedWorkintent.putExtra(Constants.CALLING_ACTIVITY,
+				ActivityPageActivity.this.getClass()
+						.getSimpleName());
+		startActivity(confinedWorkintent);
+	}
 	private boolean isSaveButtonClickedFromWorkComplete(Context mContext) {
 		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
 		if (Utils.isNullOrEmpty(str)) {
