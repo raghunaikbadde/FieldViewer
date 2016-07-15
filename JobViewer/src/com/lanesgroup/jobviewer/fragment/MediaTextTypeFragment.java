@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -63,6 +64,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 	private Screen currentScreen;
 	private CheckOutObject checkOutRemember;
 	private LinearLayout linearLayout;
+	private ScrollView scrollView1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -115,6 +117,7 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 	}
 
 	private void initUI() {
+		scrollView1 = (ScrollView) mRootView.findViewById(R.id.scrollView1);
 		mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
 		mProgressStep = (TextView) mRootView
 				.findViewById(R.id.progress_step_text);
@@ -208,11 +211,14 @@ public class MediaTextTypeFragment extends Fragment implements OnClickListener {
 	private void loadImages(byte[] getbyteArrayFromBase64String) {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				310, 220);
-		layoutParams.setMargins(15, 15, 15, 15);
+		layoutParams.setMargins(15, 8, 15, 8);
 		mCapturedImage = new ImageView(getActivity());
 		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
 				.override(350, 420).into(mCapturedImage);
 		linearLayout.addView(mCapturedImage, layoutParams);
+		scrollView1.setScrollbarFadingEnabled(false);
+		scrollView1.setScrollBarFadeDuration(0);
+
 	}
 
 	@SuppressWarnings("static-access")

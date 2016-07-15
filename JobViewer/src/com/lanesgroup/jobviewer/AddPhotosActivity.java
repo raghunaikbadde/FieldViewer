@@ -143,12 +143,14 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 		mAdapter = new AddPhotosAdapter(mContext, photosArrays, photosTimeStamp);
 		mListView.setAdapter(mAdapter);
 		mListView.setScrollbarFadingEnabled(false);
+		mListView.setScrollBarFadeDuration(0);
+
 		if (photosArrays.size() >= 4) {
 			enableLeaveSiteButton(true);
 		} else {
 			enableLeaveSiteButton(false);
 		}
-		
+
 	}
 
 	@Override
@@ -169,8 +171,8 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 			intent.putExtra(Utils.SHOULD_SHOW_WORK_IN_PROGRESS, true);
 			intent.putExtra(Utils.CALLING_ACTIVITY,
 					ActivityConstants.ADD_PHOTOS_ACTIVITY);
-			if(isPollutionReport)
-				intent.putExtra(Constants.KEY_IS_FROM_POLLUTION,true);					
+			if (isPollutionReport)
+				intent.putExtra(Constants.KEY_IS_FROM_POLLUTION, true);
 			CheckOutObject checkOutRemember = JobViewerDBHandler
 					.getCheckOutRemember(mContext);
 			checkOutRemember.setIsSavedOnAddPhotoScreen("true");
@@ -413,10 +415,10 @@ public class AddPhotosActivity extends BaseActivity implements OnClickListener {
 
 		Intent intent = new Intent(this, ActivityPageActivity.class);
 		intent.putExtra(Utils.SHOULD_SHOW_WORK_IN_PROGRESS, true);
-		intent.putExtra(Utils.CALLING_ACTIVITY,				
+		intent.putExtra(Utils.CALLING_ACTIVITY,
 				ActivityConstants.ADD_PHOTOS_ACTIVITY);
-		if(isPollutionReport)
-			intent.putExtra(Constants.KEY_IS_FROM_POLLUTION,true);	
+		if (isPollutionReport)
+			intent.putExtra(Constants.KEY_IS_FROM_POLLUTION, true);
 		Utils.StopProgress();
 		startActivity(intent);
 	}

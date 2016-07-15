@@ -31,6 +31,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -67,6 +68,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 	public static final int RESULT_OK = -1;
 	private ImageView mCapturedImage;
 	private int imageCount = 0;
+	private ScrollView scrollView1;
 	private Button updateGasLevels;
 	private CheckOutObject checkOutRemember;
 
@@ -150,6 +152,7 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 		progressBar = (ProgressBar) mRootView.findViewById(R.id.progressBar);
 		progress_step_text = (TextView) mRootView
 				.findViewById(R.id.progress_step_text);
+		scrollView1 = (ScrollView) mRootView.findViewById(R.id.scrollView1);
 		linearLayout = (LinearLayout) mRootView.findViewById(R.id.imageslinear);
 		overhead_text = (TextView) mRootView.findViewById(R.id.overhead_text);
 		question_text = (TextView) mRootView.findViewById(R.id.question_text);
@@ -372,11 +375,13 @@ public class ConfinedTimerWithMediaFragment extends Fragment implements
 	private void loadImages(byte[] getbyteArrayFromBase64String) {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				310, 220);
-		layoutParams.setMargins(15, 15, 15, 15);
+		layoutParams.setMargins(15, 8, 15, 8);
 		mCapturedImage = new ImageView(getActivity());
 		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
 				.override(350, 420).into(mCapturedImage);
 		linearLayout.addView(mCapturedImage, layoutParams);
+		scrollView1.setScrollbarFadingEnabled(false);
+		scrollView1.setScrollBarFadeDuration(0);
 	}
 
 	private void addPicObjectInScreenIfRequired() {

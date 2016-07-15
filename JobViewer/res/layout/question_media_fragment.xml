@@ -9,9 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottombutton"
-        android:layout_alignParentTop="true"
-        android:fadeScrollbars="false"
-        android:isScrollContainer="false" >
+        android:layout_alignParentTop="true" >
 
         <LinearLayout
             android:layout_width="match_parent"

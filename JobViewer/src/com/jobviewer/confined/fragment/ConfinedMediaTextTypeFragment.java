@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -66,6 +67,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
 	private Screen currentScreen;
 	private CheckOutObject checkOutRemember;
 	private LinearLayout linearLayout;
+	private ScrollView scrollView1;
 
 	// private String geoLocationOfUser;
 	@Override
@@ -140,6 +142,7 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
 		mSave.setOnClickListener(this);
 		mNext = (Button) mRootView.findViewById(R.id.button2);
 		mNext.setOnClickListener(this);
+		scrollView1 = (ScrollView) mRootView.findViewById(R.id.scrollView1);
 	}
 
 	private void checkAndEnableNextButton() {
@@ -192,11 +195,13 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
 	private void loadImages(byte[] getbyteArrayFromBase64String) {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				310, 220);
-		layoutParams.setMargins(15, 15, 15, 15);
+		layoutParams.setMargins(15, 8, 15, 8);
 		mCapturedImage = new ImageView(getActivity());
 		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
 				.override(350, 420).into(mCapturedImage);
 		linearLayout.addView(mCapturedImage, layoutParams);
+		scrollView1.setScrollbarFadingEnabled(false);
+		scrollView1.setScrollBarFadeDuration(0);
 	}
 
 	@SuppressWarnings("static-access")
@@ -390,7 +395,6 @@ public class ConfinedMediaTextTypeFragment extends Fragment implements
 					imageObject.setImage_string(Utils
 							.bitmapToBase64String(rotateBitmap));
 
-					 
 					imageObject.setReference_id(checkOutRemember.getVistecId());
 					imageObject.setEmail(JobViewerDBHandler.getUserProfile(
 							getActivity()).getEmail());

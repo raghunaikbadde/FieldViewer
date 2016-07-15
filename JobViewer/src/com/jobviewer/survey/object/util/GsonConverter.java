@@ -10,7 +10,8 @@ public class GsonConverter {
 	private static GsonConverter gsonConverter = null;
 
 	public GsonConverter() {
-		gson = new GsonBuilder().create();
+		gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
+				.serializeNulls().create();
 	}
 
 	public <T> T decodeFromJsonString(String jsonString, Class<T> targetClass) {

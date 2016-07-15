@@ -84,7 +84,7 @@
                     android:layout_marginBottom="@dimen/margin_11_dp"
                     android:layout_marginLeft="@dimen/dialog_detail_top_margin80"
                     android:layout_marginRight="@dimen/dialog_detail_top_margin80"
-                    android:layout_marginTop="@dimen/grey_lato_regular_small35"
+                    android:layout_marginTop="@dimen/black_lato_regular_medium45"
                     android:text="@string/set_up_on_arrival_str"
                     android:textColor="@color/red"
                     android:textSize="@dimen/title_text_size70" />

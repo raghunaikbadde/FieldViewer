@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.jobviewer.comms.CommsConstant;
@@ -45,6 +46,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 	private String mImage_exif_string = "";
 	private String mImageBase64 = "";
 	private CheckOutObject checkOutRemember;
+	private ScrollView scrollView1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,7 @@ public class CaptureVistecActivity extends BaseActivity implements
 		mProgressStep = (TextView) findViewById(R.id.progress_step_text);
 		number_text = (TextView) findViewById(R.id.number_text);
 		mCaptureVistec = (Button) findViewById(R.id.capture_vistec);
+		scrollView1 = (ScrollView) findViewById(R.id.scrollView1);
 		mCaptureVistec.setOnClickListener(this);
 		mSave = (Button) findViewById(R.id.button1);
 		mSave.setOnClickListener(this);
@@ -264,27 +267,6 @@ public class CaptureVistecActivity extends BaseActivity implements
 				switch (msg.what) {
 				case HttpConnection.DID_SUCCEED:
 					sendWorkImageToServer(imageObject);
-					/*
-					 * try{ Utils.StopProgress(); }catch (Exception e) {
-					 * 
-					 * } String str =
-					 * JobViewerDBHandler.getJSONFlagObject(getApplicationContext
-					 * ()); if(Utils.isNullOrEmpty(str)){ str = "{}"; } try{
-					 * JSONObject jsonObject = new JSONObject(str);
-					 * if(jsonObject.has(Constants.CAPTURE_VISTEC_SCREEN)){
-					 * jsonObject.remove(Constants.CAPTURE_VISTEC_SCREEN); }
-					 * 
-					 * jsonObject.put(Constants.CAPTURE_VISTEC_SCREEN, false);
-					 * String jsonString = jsonObject.toString();
-					 * JobViewerDBHandler
-					 * .saveFlaginJSONObject(getApplicationContext(),
-					 * jsonString); }catch(Exception e){
-					 * 
-					 * } JobViewerDBHandler.saveAddPhotoImage(
-					 * CaptureVistecActivity.this, imageObject); Intent intent =
-					 * new Intent(CaptureVistecActivity.this,
-					 * RiskAssessmentActivity.class); startActivity(intent);
-					 */
 					break;
 				case HttpConnection.DID_ERROR:
 					Utils.StopProgress();

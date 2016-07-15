@@ -244,7 +244,7 @@ public class SyncAllData {
             JSONArray jsonObject = new JSONArray(encodeToJsonString);
             // jsonObject.put("data", jsonObject.toString());
             encodeToJsonString = GsonConverter.getInstance()
-                    .encodeToJsonString(jsonObject);
+                    .encodeToJsonString(jsonObject.toString());
         } catch (JSONException jsoe) {
             jsoe.printStackTrace();
         }

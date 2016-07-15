@@ -129,7 +129,7 @@
 
             <LinearLayout
                 android:id="@+id/camera_layout"
-                android:layout_width="@dimen/capture_button_width840"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/call_customer_button_height180"
                 android:layout_below="@+id/imagebutton_layout"
                 android:layout_centerHorizontal="true"
@@ -160,7 +160,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/camera_layout"
-                android:layout_marginBottom="@dimen/black_lato_regular_medium45" />
+                android:layout_marginBottom="@dimen/black_lato_regular_medium45"
+                android:layout_marginLeft="@dimen/progressbar_top_margin58"
+                android:layout_marginRight="@dimen/progressbar_top_margin58" />
         </RelativeLayout>
     </LinearLayout>
     <!-- </ScrollView> -->

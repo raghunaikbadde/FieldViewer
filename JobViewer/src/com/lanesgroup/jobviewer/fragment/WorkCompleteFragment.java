@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -29,7 +30,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -47,7 +47,6 @@ import com.jobviewer.db.objects.ImageObject;
 import com.jobviewer.exception.ExceptionHandler;
 import com.jobviewer.exception.VehicleException;
 import com.jobviewer.provider.JobViewerDBHandler;
-import com.jobviewer.provider.JobViewerProviderContract.FlagJSON;
 import com.jobviewer.survey.object.util.GeoLocationCamera;
 import com.jobviewer.survey.object.util.GsonConverter;
 import com.jobviewer.util.ActivityConstants;
@@ -57,13 +56,13 @@ import com.jobviewer.util.Constants;
 import com.jobviewer.util.GPSTracker;
 import com.jobviewer.util.JobViewerSharedPref;
 import com.jobviewer.util.Utils;
+import com.jobviwer.request.object.ActivityTypeDetailsModel;
 import com.jobviwer.request.object.TimeSheetRequest;
 import com.jobviwer.request.object.WorkPhotoUpload;
 import com.jobviwer.request.object.WorkRequest;
 import com.jobviwer.response.object.User;
 import com.lanesgroup.jobviewer.ActivityPageActivity;
 import com.lanesgroup.jobviewer.AddPhotosActivity;
-import com.lanesgroup.jobviewer.BaseActivity;
 import com.lanesgroup.jobviewer.R;
 import com.lanesgroup.jobviewer.WorkSuccessActivity;
 import com.vehicle.communicator.HttpConnection;
@@ -74,7 +73,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 	static File file;
 	private ProgressBar mProgress;
 	private TextView mProgressStep, mVistecNumber;
-	private ImageButton mAddInfo, mStop, mUser, mClickPhoto;
+	//private ImageButton mAddInfo, mStop, mUser, mClickPhoto;
 	private Button mSave, mLeaveSite;
 	private LinearLayout mCaptureCallingCard, mTapToCallDa;
 	private View mRootView;
@@ -85,7 +84,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 	private RadioGroup radioGroup;
 	private String mPipeDiameter, mPipeLength;
 	private String selectedActivityText = "";
-	private String daCallStatus = ActivityConstants.DA_NO_CALL_MADE;
+	//private String daCallStatus = ActivityConstants.DA_NO_CALL_MADE;
 	private JobViewerSharedPref mSharedPref;
 	private String visTecId = "";
 	private CheckOutObject checkOutRemember;
@@ -150,10 +149,10 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 		mPipeDiameterEditText.addTextChangedListener(this);
 		mPipeLengthEditText.addTextChangedListener(this);
 		mVistecNumber.setText(visTecId);
-		mAddInfo = (ImageButton) mRootView
+		/*mAddInfo = (ImageButton) mRootView
 				.findViewById(R.id.detail_imageButton);
 		mStop = (ImageButton) mRootView.findViewById(R.id.video_imageButton);
-		mUser = (ImageButton) mRootView.findViewById(R.id.user_imageButton);
+		mUser = (ImageButton) mRootView.findViewById(R.id.user_imageButton);*/
 		mSpinnerLayout = (RelativeLayout) mRootView
 				.findViewById(R.id.spinnerLayout);
 		mSpinnerLayoutFlooding = (RelativeLayout) mRootView
@@ -226,7 +225,7 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
                       ActivityPageActivity.class);
 			  intent.putExtra(Constants.SAVED_FROM_WORK_COMPLETE, true);
 			  intent.putExtra(Constants.UPDATE_PREV_RISK_ASMT_FLAG_POLLUTION_SKIP, true);
-              intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+              intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
               setSaveButtonFlagInDB(view.getContext());
               startActivity(intent);
 		} else if (view == mLeaveSite) {
@@ -364,6 +363,41 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 		workRequest.setStatus(Utils.work_status_completed);
 		workRequest.setCompleted_at(Utils.getCurrentDateAndTime());
 		workRequest.setActivity_type(selectedActivityText);
+
+		if (mSpinnerSelectedText.getText().toString()
+				.equalsIgnoreCase(this.getResources().getString(R.string.cctv))
+				&& mSpinnerSelectedText
+						.getText()
+						.toString()
+						.equalsIgnoreCase(
+								this.getResources().getString(
+										R.string.line_clean))) {
+			ArrayList<ActivityTypeDetailsModel> activity_type_details = new ArrayList<ActivityTypeDetailsModel>();
+			ActivityTypeDetailsModel pipeDiameterModel = new ActivityTypeDetailsModel();
+			try {
+				pipeDiameterModel.setLabel("Pipe diameter (mm)");
+				pipeDiameterModel.setValue(mPipeDiameterEditText.getText()
+						.toString().trim());
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			ActivityTypeDetailsModel lengthModel = new ActivityTypeDetailsModel();
+			try {
+				lengthModel.setLabel("Length (m)");
+				lengthModel.setValue(mPipeLengthEditText.getText().toString()
+						.trim());
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			activity_type_details.add(pipeDiameterModel);
+			activity_type_details.add(lengthModel);
+			workRequest.setActivity_type_details(activity_type_details);
+		}
+
 		workRequest.setFlooding_status(Utils.work_flooding_status);
 		if (Utils.isNullOrEmpty(Utils.work_DA_call_out)) {
 			workRequest.setDA_call_out(ActivityConstants.DA_NO_CALL_MADE);
@@ -466,6 +500,41 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 		data.put("status", Utils.work_status_completed);
 		data.put("completed_at", Utils.getCurrentDateAndTime());
 		data.put("activity_type", selectedActivityText);
+		if (mSpinnerSelectedText.getText().toString()
+				.equalsIgnoreCase(this.getResources().getString(R.string.cctv))
+				|| mSpinnerSelectedText
+						.getText()
+						.toString()
+						.equalsIgnoreCase(
+								this.getResources().getString(
+										R.string.line_clean))) {
+			JSONArray activitTypeDetailsJsonArray = new JSONArray();
+			JSONObject pipeDiameterJson = new JSONObject();
+			try {
+				pipeDiameterJson.put("label", "Pipe diameter (mm)");
+				pipeDiameterJson.put("value", mPipeDiameterEditText.getText()
+						.toString().trim());
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			JSONObject lengthJson = new JSONObject();
+			try {
+				lengthJson.put("label", "Length (m)");
+				lengthJson.put("value", mPipeLengthEditText.getText()
+						.toString().trim());
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			activitTypeDetailsJsonArray.put(pipeDiameterJson);
+			activitTypeDetailsJsonArray.put(lengthJson);
+			data.put("activity_type_details",
+					activitTypeDetailsJsonArray.toString());
+		}
+
 		if (Utils.isNullOrEmpty(Utils.work_flooding_status)) {
 			data.put("flooding_status", "");
 		} else
@@ -642,21 +711,24 @@ public class WorkCompleteFragment extends Fragment implements OnClickListener,
 	public void afterTextChanged(Editable s) {
 		// makePipeDiameterAndLengthInvisible();
 		if (mSpinnerSelectedText.getText().toString()
-				.contains(this.getResources().getString(R.string.cctv))) {
+				.equalsIgnoreCase(this.getResources().getString(R.string.cctv))) {
 			updatePipeDiamterAndLength();
 		}
 
-		if (mSpinnerSelectedText.getText().toString()
-				.contains(this.getResources().getString(R.string.line_clean))) {
+		if (mSpinnerSelectedText
+				.getText()
+				.toString()
+				.equalsIgnoreCase(
+						this.getResources().getString(R.string.line_clean))) {
 			updatePipeDiamterAndLength();
 		}
 
 		if (!mSpinnerSelectedText.getText().toString()
-				.contains(this.getResources().getString(R.string.cctv))
+				.equalsIgnoreCase(this.getResources().getString(R.string.cctv))
 				&& !mSpinnerSelectedText
 						.getText()
 						.toString()
-						.contains(
+						.equalsIgnoreCase(
 								this.getResources().getString(
 										R.string.line_clean))) {
 			makePipeDiameterAndLengthInvisible();

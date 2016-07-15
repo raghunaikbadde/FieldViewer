@@ -1183,7 +1183,6 @@ public class ActivityPageActivity extends BaseActivity implements
 				}
 				dialog.dismiss();
 			}
-
 		});
 	}
 	private void startConfinedActivity() {

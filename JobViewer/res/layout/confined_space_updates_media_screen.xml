@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottombutton"
-        android:layout_alignParentTop="true"
-        android:isScrollContainer="false" >
+        android:layout_alignParentTop="true" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -141,6 +140,7 @@
                         android:id="@+id/skip_timer"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/welcome_bottom_margin113"
+                        android:layout_marginBottom="@dimen/dialog_edit_top_margin35"
                         android:background="@drawable/grey_stroke_back"
                         android:gravity="center_vertical|center_horizontal"
                         android:orientation="horizontal" >

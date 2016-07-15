@@ -15,6 +15,9 @@
         <item name="android:spinnerStyle">@style/SpinnerTheme</item>
         <item name="android:dropDownSpinnerStyle">@style/SpinnerTheme.DropDown</item>
         <item name="android:spinnerDropDownItemStyle">@style/DropDownItemSpinnerTheme</item>
+        <item name="android:fadeScrollbars">false</item>
+        <item name="android:scrollbarSize">4dp</item>
+        <item name="android:scrollbarThumbVertical">@color/greyColor</item>
     </style>
 
     <style name="CustomCheckBox" parent="android:style/Widget.CompoundButton.CheckBox">

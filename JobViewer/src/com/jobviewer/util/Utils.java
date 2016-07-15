@@ -31,6 +31,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -51,9 +52,12 @@ import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -107,7 +111,7 @@ public class Utils {
 	public static final String EXCAVATION_CHECK_BOX = "excavation_check_box";
 	public static final String NON_EXCAVATION_CHECK_BOX = "non_excavation_check_box";
 
- 	public static AlarmManager alarmMgr;
+	public static AlarmManager alarmMgr;
 	public static AlarmManager updateRiskAssessmentOverTimeAlarmMgr;
 	public static String work_completed_at = "";
 	public static String work_engineer_id = "123322";
@@ -159,10 +163,15 @@ public class Utils {
 	public static TimeSheetRequest callEndTimeRequest = null;
 	public static boolean isExitApplication = false;
 	public static Location locationOfUser = null;
-	public static long OVETTIME_ALERT_TOGGLE = 12* 60* 60 * 1000; // 12 HOUR. 1 hour = 1*60*60*1000;
-	public static long OVETTIME_ALERT_INTERVAL = 1 *60*60 * 1000; // 1HOUR. 1 hour = 1*60*60*1000;
+	public static long OVETTIME_ALERT_TOGGLE = 12 * 60 * 60 * 1000; // 12 HOUR.
+																	// 1 hour =
+																	// 1*60*60*1000;
+	public static long OVETTIME_ALERT_INTERVAL = 1 * 60 * 60 * 1000; // 1HOUR. 1
+																		// hour
+																		// =
+																		// 1*60*60*1000;
 
-	public static long RISK_ASSMENET_OVETTIME_ALERT_TOGGLE = 3 * 60 * 60 * 1000; //   
+	public static long RISK_ASSMENET_OVETTIME_ALERT_TOGGLE = 3 * 60 * 60 * 1000; //
 	// HOUR
 	public static long RISK_ASSMENET_OVETTIME_ALERT_INTERVAL = 3 * 60 * 60 * 1000; // 1HOUR
 	static Dialog progressDialog;
@@ -657,12 +666,28 @@ public class Utils {
 				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		dialog.setContentView(view);
 
-		DisplayMetrics displaymetrics = new DisplayMetrics();
-		((Activity) activity).getWindowManager().getDefaultDisplay()
-				.getMetrics(displaymetrics);
-		int width = (int) ((int) displaymetrics.widthPixels * 0.9);
-		dialog.getWindow().setLayout(width,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
+		// DisplayMetrics displaymetrics = new DisplayMetrics();
+		// ((Activity) activity).getWindowManager().getDefaultDisplay()
+		// .getMetrics(displaymetrics);
+		// int width = (int) ((int) displaymetrics.widthPixels * 0.9);
+		// dialog.getWindow().setLayout(width,
+		// LinearLayout.LayoutParams.WRAP_CONTENT);
+
+		Window window = dialog.getWindow();
+		Point size = new Point();
+
+		Display display = window.getWindowManager().getDefaultDisplay();
+		display.getSize(size);
+
+		int width = size.x;
+		int height = size.y;
+
+		window.setLayout((int) (width * 0.8), (int) (height * 0.8));
+		window.setGravity(Gravity.CENTER);
+		WindowManager.LayoutParams WMLP = window.getAttributes();
+		WMLP.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
+		dialog.getWindow().setAttributes(WMLP);
+
 		dialog.show();
 		dialog.setCancelable(false);
 
@@ -777,7 +802,7 @@ public class Utils {
 	public static String getTimeInHHMMFromNumberOfMillis(long milliseconds) {
 		String HHMMString = "";
 		if (milliseconds >= 1000) {
-			//int seconds = (int) (milliseconds / 1000) % 60;
+			// int seconds = (int) (milliseconds / 1000) % 60;
 			int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
 			int hours = (int) ((milliseconds / (1000 * 60 * 60)));
 			HHMMString = hours + "h " + minutes + "m";

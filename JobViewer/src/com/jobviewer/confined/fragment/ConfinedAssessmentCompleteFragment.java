@@ -48,8 +48,10 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		mRootView = inflater.inflate(R.layout.assessment_complete_fragment,
 				container, false);
-		TextView screenTitle=(TextView) mRootView.findViewById(R.id.screenTitle);
-		screenTitle.setText(getResources().getString(R.string.confined_space_str));
+		TextView screenTitle = (TextView) mRootView
+				.findViewById(R.id.screenTitle);
+		screenTitle.setText(getResources().getString(
+				R.string.confined_space_str));
 		doneButton = (Button) mRootView.findViewById(R.id.doneButton);
 		doneButton.setOnClickListener(this);
 		return mRootView;
@@ -81,7 +83,8 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 		shoutOutBackLogRequest.setRelated_type("Work");
 		shoutOutBackLogRequest.setRelated_type_reference(checkOutRemember2
 				.getVistecId());
-		shoutOutBackLogRequest.setStarted_at(getConfinedSpaceAsessementStartedTime(getActivity()));
+		shoutOutBackLogRequest
+				.setStarted_at(getConfinedSpaceAsessementStartedTime(getActivity()));
 		shoutOutBackLogRequest.setCompleted_at(Utils.getCurrentDateAndTime());
 		String encodeToJsonString = GsonConverter.getInstance()
 				.encodeToJsonString(
@@ -108,7 +111,8 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 		JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(getActivity());
 		Utils.StopProgress();
 		getActivity().finish();
-		Intent intent = new Intent(mRootView.getContext(),ActivityPageActivity.class);
+		Intent intent = new Intent(mRootView.getContext(),
+				ActivityPageActivity.class);
 		startActivity(intent);
 
 	}
@@ -129,19 +133,21 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 		} else
 			values.put("related_type_reference",
 					checkOutRemember2.getVistecId());
-		values.put("started_at", getConfinedSpaceAsessementStartedTime(getActivity()));
+		values.put("started_at",
+				getConfinedSpaceAsessementStartedTime(getActivity()));
 		values.put("completed_at", Utils.getCurrentDateAndTime());
 		values.put("created_by", userProfile.getEmail());
-		
-		//GPSTracker gpsTracker = new GPSTracker(getActivity());
-		
+
+		// GPSTracker gpsTracker = new GPSTracker(getActivity());
+
 		String encodeToJsonString = GsonConverter.getInstance()
 				.encodeToJsonString(
 						ConfinedQuestionManager.getInstance()
 								.getQuestionMaster());
 		values.put("survey_json", encodeToJsonString);
 		Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
-				+ CommsConstant.SURVEY_STORE_API, values, getSendSurveyHandler());
+				+ CommsConstant.SURVEY_STORE_API, values,
+				getSendSurveyHandler());
 
 	}
 
@@ -162,13 +168,16 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 					ConfinedEngineerFragment.gasLevel3 = null;
 					ConfinedEngineerFragment.gasLevel4 = null;
 					JobViewerDBHandler.deleteConfinedQuestionSet(getActivity());
-					JobViewerDBHandler.deleteWorkWithNoPhotosQuestionSet(getActivity());
+					JobViewerDBHandler
+							.deleteWorkWithNoPhotosQuestionSet(getActivity());
 					getActivity().finish();
-					if(Utils.isConfinedStartedFromAddPhoto(getActivity())){
-						Intent addPhotosIntent = new Intent(mRootView.getContext(),AddPhotosActivity.class);
+					if (Utils.isConfinedStartedFromAddPhoto(getActivity())) {
+						Intent addPhotosIntent = new Intent(
+								mRootView.getContext(), AddPhotosActivity.class);
 						startActivity(addPhotosIntent);
-					}else{
-						Intent intent = new Intent(mRootView.getContext(),ActivityPageActivity.class);
+					} else {
+						Intent intent = new Intent(mRootView.getContext(),
+								ActivityPageActivity.class);
 						startActivity(intent);
 					}
 					removeConfinedSpaceAsessementStartedTime(getActivity());
@@ -192,41 +201,43 @@ public class ConfinedAssessmentCompleteFragment extends Fragment implements
 		return handler;
 
 	}
-	
-	private String getConfinedSpaceAsessementStartedTime(Context mContext){
+
+	private String getConfinedSpaceAsessementStartedTime(Context mContext) {
 		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
-		if(Utils.isNullOrEmpty(str)){
+		if (Utils.isNullOrEmpty(str)) {
 			str = "{}";
 		}
-		try{
+		try {
 			JSONObject jsonObject = new JSONObject(str);
-			if(jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)){				
-				return  jsonObject.getString(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME);
+			if (jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)) {
+				return jsonObject
+						.getString(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME);
 			}
 			CheckOutObject checkOutRemember2 = JobViewerDBHandler
 					.getCheckOutRemember(getActivity());
-			if(!Utils.isNullOrEmpty(checkOutRemember2.getJobStartedTime()))
+			if (!Utils.isNullOrEmpty(checkOutRemember2.getJobStartedTime()))
 				return checkOutRemember2.getJobStartedTime();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return Utils.getCurrentDateAndTime();
 	}
-	
-	private void removeConfinedSpaceAsessementStartedTime(Context mContext){
+
+	private void removeConfinedSpaceAsessementStartedTime(Context mContext) {
 		String str = JobViewerDBHandler.getJSONFlagObject(mContext);
-		if(Utils.isNullOrEmpty(str)){
+		if (Utils.isNullOrEmpty(str)) {
 			str = "{}";
 		}
-		try{
+		try {
 			JSONObject jsonObject = new JSONObject(str);
-			if(jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)){
+			if (jsonObject.has(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME)) {
 				jsonObject.remove(Constants.CONFINED_ENTRY_ENTRY_STARTED_TIME);
 				String jsonString = jsonObject.toString();
-				JobViewerDBHandler.saveFlaginJSONObject(getActivity(), jsonString);
+				JobViewerDBHandler.saveFlaginJSONObject(getActivity(),
+						jsonString);
 			}
-			
-		}catch(Exception e){
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

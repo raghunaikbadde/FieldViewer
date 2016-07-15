@@ -15,13 +15,16 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/headerBackColor</item>
-        <!--<item name="android:colorPrimary">@color/headerBackColor</item>-->
+        <!-- <item name="android:colorPrimary">@color/headerBackColor</item> -->
         <!-- Override the color of UI controls -->
         <item name="android:windowNoTitle">true</item>
-        <!--<item name="android:colorAccent">@color/headerBackColor</item>-->
+        <!-- <item name="android:colorAccent">@color/headerBackColor</item> -->
         <item name="android:windowContentOverlay">@null</item>
         <item name="colorAccent">@color/headerBackColor</item>
         <item name="alertDialogTheme">@style/AppCompatDialogStyle</item>
+        <item name="android:fadeScrollbars">false</item>
+        <item name="android:scrollbarSize">4dp</item>
+        <item name="android:scrollbarThumbVertical">@color/greyColor</item>
     </style>
 
     <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">

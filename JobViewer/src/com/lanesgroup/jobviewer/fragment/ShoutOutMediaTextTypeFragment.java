@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -67,6 +68,7 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	private static File file;
 	private CheckOutObject checkOutRemember;
 	private LinearLayout linearLayout;
+	private ScrollView scrollView1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -94,12 +96,14 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 			mProgressStep
 					.setText(getString(R.string.progress_step_end_on_call));
 			mDescribe.setHint(getString(R.string.describe_the_hazard));
-		} else if (currentScreen.getTitle().equalsIgnoreCase("Report a near miss")){
+		} else if (currentScreen.getTitle().equalsIgnoreCase(
+				"Report a near miss")) {
 			mProgressStep.setText(currentScreen.get_progress() + "%");
 			mDescribe.setHint(getString(R.string.describe_the_near_miss));
-		}else{
+		} else {
 			mProgressStep.setText(currentScreen.get_progress() + "%");
-			mDescribe.setHint(getString(R.string.describe_the_example_of_good_safety_or_your_idea));
+			mDescribe
+					.setHint(getString(R.string.describe_the_example_of_good_safety_or_your_idea));
 		}
 		mProgress.setProgress(Integer.parseInt(currentScreen.get_progress()));
 		questionTitle.setText(currentScreen.getTitle());
@@ -113,9 +117,8 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 		com.jobviewer.survey.object.Button[] buttons = currentScreen
 				.getButtons().getButton();
 
-		for (com.jobviewer.survey.object.Button button: buttons) {
-			if (ActivityConstants.TRUE
-					.equalsIgnoreCase(button.getDisplay())
+		for (com.jobviewer.survey.object.Button button : buttons) {
+			if (ActivityConstants.TRUE.equalsIgnoreCase(button.getDisplay())
 					&& !"next".equalsIgnoreCase(button.getName())) {
 				mSave.setText(getResources().getString(
 						Utils.getButtonText(button.getName())));
@@ -145,14 +148,18 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	private void loadImages(byte[] getbyteArrayFromBase64String) {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				500, 420);
-		layoutParams.setMargins(15, 15, 15, 15);
+		layoutParams.setMargins(15, 8, 15, 8);
 		mCapturedImage = new ImageView(getActivity());
-		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap().override(350, 420)
-				.into(mCapturedImage);
+		Glide.with(getActivity()).load(getbyteArrayFromBase64String).asBitmap()
+				.override(350, 420).into(mCapturedImage);
 		linearLayout.addView(mCapturedImage, layoutParams);
+		scrollView1.setScrollbarFadingEnabled(false);
+		scrollView1.setScrollBarFadeDuration(0);
+
 	}
 
 	private void initUI() {
+		scrollView1 = (ScrollView) mRootView.findViewById(R.id.scrollView1);
 		mProgress = (ProgressBar) mRootView.findViewById(R.id.progressBar);
 		mProgressStep = (TextView) mRootView
 				.findViewById(R.id.progress_step_text);
@@ -278,11 +285,11 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 			CheckOutObject checkOutRemember2 = JobViewerDBHandler
 					.getCheckOutRemember(getActivity());
 			User userProfile = JobViewerDBHandler.getUserProfile(getActivity());
-//			if (checkOutRemember2 == null
-//					|| Utils.isNullOrEmpty(checkOutRemember2.getWorkId())) {
-//				values.put("work_id", "");
-//			} else
-//				values.put("work_id", checkOutRemember2.getWorkId());
+			// if (checkOutRemember2 == null
+			// || Utils.isNullOrEmpty(checkOutRemember2.getWorkId())) {
+			// values.put("work_id", "");
+			// } else
+			// values.put("work_id", checkOutRemember2.getWorkId());
 			values.put("survey_type", getWorkType(obj.getOptionSelected()));
 			values.put("related_type", "Work");
 			if (checkOutRemember2 == null
@@ -295,7 +302,6 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 			values.put("completed_at", Utils.getCurrentDateAndTime());
 
 			values.put("created_by", userProfile.getEmail());
-
 
 			values.put("survey_json", obj.getQuestionSet());
 			Utils.SendHTTPRequest(getActivity(), CommsConstant.HOST
@@ -385,7 +391,8 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 	private void addPicObjectInScreenIfRequired() {
 		boolean isAllImagedAdded = false;
 		for (int i = 0; i < currentScreen.getImages().length; i++) {
-			isAllImagedAdded = !Utils.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id());
+			isAllImagedAdded = !Utils
+					.isNullOrEmpty(currentScreen.getImages()[i].getTemp_id());
 		}
 
 		if (isAllImagedAdded) {
@@ -445,8 +452,8 @@ public class ShoutOutMediaTextTypeFragment extends Fragment implements
 					imageString = Utils.bitmapToBase64String(rotateBitmap);
 					imageObject.setImage_string(Constants.IMAGE_STRING_INITIAL
 							+ imageString);
-					imageObject.setEmail(JobViewerDBHandler.getUserProfile(getActivity())
-							.getEmail());
+					imageObject.setEmail(JobViewerDBHandler.getUserProfile(
+							getActivity()).getEmail());
 					imageObject.setReference_id(checkOutRemember.getVistecId());
 					imageObject.setStage(currentScreen.getTitle());
 					Log.i("Android", "Image 12 :"

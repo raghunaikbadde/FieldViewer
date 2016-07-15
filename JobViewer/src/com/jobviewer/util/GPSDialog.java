@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.provider.Settings;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.lanesgroup.jobviewer.BaseActivity;
